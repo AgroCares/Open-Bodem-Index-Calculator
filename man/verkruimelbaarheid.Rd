@@ -12,6 +12,8 @@ verkruimelbaarheid(lutum, leem, os, ph)
 \item{leem}{(numeric) Het percentage leem aanwezig in de bodem}
 
 \item{os}{(numeric) Het percentage organisch stofgehalte in de bodem}
+
+\item{ph}{(numeric) Het pH-gehalte van de bodem}
 }
 \description{
 Met deze functie wordt de verkruimelbaarheid van de bodem gewaardeerd
