@@ -1,3 +1,4 @@
 # Open Bodem Index Calculator (OBIC)
 
-Deze repository bevat de rekenregels voor de Open Bodem Index (OBI).
+This package contains the functions to calculate the indicators and evaluations used in Open Bodem Index (OBI).
+The Open Bodem Index is a tool to evaluate the soil of agricultural fields based on various criteria.
