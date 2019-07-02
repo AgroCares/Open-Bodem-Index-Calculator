@@ -19,6 +19,7 @@ calc_crumbleability <- function(lutum, om, ph) {
   checkmate::assert_numeric(ph, lower = 0, upper = 14, any.missing = FALSE, min.len = 1)
 
   # Setup a table with all the information
+  cor.om = cor.ph = value = value.lutum = NULL
   dt <- data.table(
     lutum = lutum,
     om = om, 
@@ -72,13 +73,52 @@ calc_crumbleability <- function(lutum, om, ph) {
 #' @param value.crumbleability (numeric) The value of crumbleability calculated by \code{\link{calc_crumbleability}}
 #' @param crop (numeric) The crop code (gewascode) from the BRP
 #' 
+#' @import data.table
+#' 
 #' @export
 eval_crumbleability <- function(value.crumbleability, crop) {
   
   # Load in the crops dataset
-  
-  
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  setkey(crops.obic, crop_code)
+
   # Check input
   checkmate::assert_numeric(value.crumbleability, lower = 0, upper = 10, any.missing = FALSE, min.len = 1)
-  checkmate::assert_numeric(crop, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
+  checkmate::assert_numeric(crop, any.missing = FALSE, min.len = 1)
+  checkmate::assert_subset(crop, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+
+  # Combine information into a table
+  crop_code = crop_group = crumbleability = NULL
+  dt <- data.table(
+    eval.crumbleability = NA_real_,
+    value.crumbleability = value.crumbleability,
+    crop = crop
+  )
+  setkey(dt, crop)
+  dt <- crops.obic[dt]
+  
+  # Evaluate the crumbleability using the function
+  eval.crumbleability <- dt[, lapply(.SD, function(x, value.crumbleability, crumbleability.group) {
+      # Load in the coefficients for the evaluation
+      dt.eval.crumb <- as.data.table(OBIC::eval.crumbleability)
+      
+      # Select the coefficients
+      this.eval.crumb <- dt.eval.crumb[crop_group == crumbleability.group]
+      
+      # Create the function to evaluate crumbleability
+      fun.eval.crumbleability <- approxfun(this.eval.crumb$value.crumbleability, this.eval.crumb$eval.crumbleabilty, rule = 2)
+      
+      # Evaluate the crumbleability
+      eval.crumbleability <- fun.eval.crumbleability(value.crumbleability)
+      
+      return(eval.crumbleability)
+    },  value.crumbleability, crumbleability), .SDcols = "eval.crumbleability"][, eval.crumbleability]
+  
+  return(eval.crumbleability)
 }
+
+#' Coefficient table for evaluating crumbleability
+#' 
+#' This table contains the coefficients for evaluating the crumbleability. This table is used internally in \code{\link{eval_crumbleability}}
+#' 
+"eval.crumbleability"
