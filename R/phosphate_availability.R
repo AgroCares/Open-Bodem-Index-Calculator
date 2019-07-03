@@ -12,7 +12,7 @@
 calc_phosphate_availability <- function(p_al, p_cacl2, crop) {
   
   # Load in the crops dataset
-  crop_code = phosphate_availability = NULL
+  crop_code = crop_phosphate = id = NULL
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
   
@@ -25,6 +25,7 @@ calc_phosphate_availability <- function(p_al, p_cacl2, crop) {
   
   # Collect the data into a table
   dt <- data.table(
+    id = 1:arg.length,
     p_al = p_al,
     p_cacl2 = p_cacl2,
     crop = crop,
@@ -32,10 +33,11 @@ calc_phosphate_availability <- function(p_al, p_cacl2, crop) {
   )
   setkey(dt, crop)
   dt <- crops.obic[dt]
+  setorder(dt, id)
   
   # Calculate the phosphate availability (PBI)
-  dt[phosphate_availability == "gras", value := 2 + 2.5 * log(p_cacl2) + 0.036 * p_al / p_cacl2]
-  dt[phosphate_availability == "mais", value := p_cacl2 + 0.05 * (p_al / p_cacl2)]
+  dt[crop_phosphate == "gras", value := 2 + 2.5 * log(p_cacl2) + 0.036 * p_al / p_cacl2]
+  dt[crop_phosphate == "mais", value := p_cacl2 + 0.05 * (p_al / p_cacl2)]
   value <- dt[, value]
   
   return(value)
@@ -55,7 +57,7 @@ eval_phosphate_availability <- function(value.phosphate.availability) {
   checkmate::assert_numeric(value.phosphate.availability, lower = 0, upper = 7, any.missing = FALSE)
   
   # Evaluate the phosphate availability
-  eval.phosphate.availability <- OBIC::evaluate_logistic(dt$value.phosphate.availability, b = 1.3, x0 = 1.3, v = 0.35)
+  eval.phosphate.availability <- OBIC::evaluate_logistic(value.phosphate.availability, b = 1.3, x0 = 1.3, v = 0.35)
   
   return(eval.phosphate.availability)
 }

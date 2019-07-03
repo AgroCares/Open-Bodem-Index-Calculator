@@ -88,7 +88,7 @@ eval_crumbleability <- function(value.crumbleability, crop) {
   checkmate::assert_subset(crop, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
 
   # Combine information into a table
-  crop_code = crop_group = crumbleability = NULL
+  crop_code = crop_group = crop_crumbleability = NULL
   dt <- data.table(
     eval.crumbleability = NA_real_,
     value.crumbleability = value.crumbleability,
@@ -98,12 +98,12 @@ eval_crumbleability <- function(value.crumbleability, crop) {
   dt <- crops.obic[dt]
   
   # Evaluate the crumbleability using the function
-  eval.crumbleability <- dt[, lapply(.SD, function(x, value.crumbleability, crumbleability.group) {
+  eval.crumbleability <- dt[, lapply(.SD, function(x, value.crumbleability, crop_crumbleability) {
       # Load in the coefficients for the evaluation
       dt.eval.crumb <- as.data.table(OBIC::eval.crumbleability)
       
       # Select the coefficients
-      this.eval.crumb <- dt.eval.crumb[crop_group == crumbleability.group]
+      this.eval.crumb <- dt.eval.crumb[crop_group == crop_crumbleability]
       
       # Create the function to evaluate crumbleability
       fun.eval.crumbleability <- approxfun(this.eval.crumb$value.crumbleability, this.eval.crumb$eval.crumbleabilty, rule = 2)
@@ -112,7 +112,7 @@ eval_crumbleability <- function(value.crumbleability, crop) {
       eval.crumbleability <- fun.eval.crumbleability(value.crumbleability)
       
       return(eval.crumbleability)
-    },  value.crumbleability, crumbleability), .SDcols = "eval.crumbleability"][, eval.crumbleability]
+    },  value.crumbleability, crop_crumbleability), .SDcols = "eval.crumbleability"][, eval.crumbleability]
   
   return(eval.crumbleability)
 }
