@@ -11,7 +11,7 @@ evaluate_logistic(x, b, x0, v)
 
 \item{b}{(numeric) The growth rate}
 
-\item{x0}{(nummeric) The offset of the x-axis}
+\item{x0}{(numeric) The offset of the x-axis}
 
 \item{v}{(numeric) Affects the growth rate near the maximum}
 }

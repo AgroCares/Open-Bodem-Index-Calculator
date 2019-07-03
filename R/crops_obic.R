@@ -6,6 +6,8 @@
 #' \describe{
 #'   \item{crop_name}{The name of the crop}
 #'   \item{crop_code}{The BRP gewascode of the crop}
-#'   \item{crumbleability}{The category for this crop in crumbleablity}
+#'   \item{crop_crumbleability}{The category for this crop at crumbleablity}
+#'   \item{crop_phosphate}{The category for this crop at phosphate availability}
+#'   \item{crop_sealing}{The category for this crop at soil sealing}
 #' }
 "crops.obic"
