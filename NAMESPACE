@@ -2,7 +2,10 @@
 
 export(calc_crumbleability)
 export(calc_phosphate_availability)
+export(calc_sealing)
 export(eval_crumbleability)
 export(eval_phosphate_availability)
+export(eval_sealing)
+export(evaluate_logistic)
 import(data.table)
 importFrom(stats,approxfun)

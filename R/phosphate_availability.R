@@ -54,18 +54,8 @@ eval_phosphate_availability <- function(value.phosphate.availability) {
   # Check inputs
   checkmate::assert_numeric(value.phosphate.availability, lower = 0, upper = 7, any.missing = FALSE)
   
-  # Collect the data into a table
-  dt <- data.table(
-    value.phosphate.availability = value.phosphate.availability,
-    eval.phosphate.availability = NA_real_
-  )
-  
   # Evaluate the phosphate availability
-  dt[value.phosphate.availability < 1.5, eval.phosphate.availability := 0.33]
-  dt[value.phosphate.availability >= 1.5 & value.phosphate.availability < 2.5, eval.phosphate.availability := 0.66]
-  dt[value.phosphate.availability >= 2.5, eval.phosphate.availability := 1]
-  
-  eval.phosphate.availability <- dt[, eval.phosphate.availability]
+  eval.phosphate.availability <- OBIC::evaluate_logistic(dt$value.phosphate.availability, b = 1.3, x0 = 1.3, v = 0.35)
   
   return(eval.phosphate.availability)
 }
