@@ -17,7 +17,7 @@ evaluate_logistic <- function(x, b, x0, v) {
   K <- 1 # Upper asympote
   C <- 1
   
-  # General logisitc function
+  # General logistic function
   y <- A + ((K - A) / (C + exp(-b * (x - x0)))^(1 / v))
   
   return(y)
