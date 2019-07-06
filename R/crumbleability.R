@@ -34,7 +34,13 @@ calc_crumbleability <- function(lutum, om, ph) {
   dt[lutum < 4, value := 10]
   dt[lutum > 40, value := 1]
   
+  # this discrete classes: why not using the logistic function fitted to these classes?
+  # we might also add the evaluation plot into the documentation?
+  # another thing: is this "verkruimelbaarheid" not already the "evaluation" and not an index?
+  
   # Calculate value.lutum
+  # is loam not included?
+  # question: are peat soils included orshould that be done seperately?
   df.lutum <- data.frame(
     lutum = c(4, 10, 17, 24, 30, 40, 100),
     value.lutum = c(10, 9, 8, 6.5, 5, 3.5, 1)
@@ -43,6 +49,7 @@ calc_crumbleability <- function(lutum, om, ph) {
   dt[is.na(value), value.lutum := fun.lutum(lutum)]
     
   # Create organic matter correction function and calculate correction for om
+  # not better to include the om correction as well as the ph correction in the df.lutum table?
   df.cor.om <- data.frame(
     value.lutum = c(10, 9, 8, 6.5, 5, 3.5, 1),
     cor.om = c(0, 0.06, 0.09, 0.12, 0.25, 0.35, 0.46)
