@@ -85,6 +85,9 @@ calc_crumbleability <- function(lutum, om, ph) {
 #' @export
 eval_crumbleability <- function(value.crumbleability, crop) {
   
+  # do you need both crops.obic and eval.crumbleability (design not consistent??)
+  # table contains NA, be aware that the group_desc contains spaces and lower upper cases not consistent
+  
   # Load in the crops dataset
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
