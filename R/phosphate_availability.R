@@ -35,9 +35,13 @@ calc_phosphate_availability <- function(p_al, p_cacl2, crop) {
   dt <- crops.obic[dt]
   setorder(dt, id)
   
-  # Calculate the phosphate availability (PBI)
+  # Calculate the phosphate availability (PBI, unit?)
   dt[crop_phosphate == "gras", value := 2 + 2.5 * log(p_cacl2) + 0.036 * p_al / p_cacl2]
   dt[crop_phosphate == "mais", value := p_cacl2 + 0.05 * (p_al / p_cacl2)]
+  
+  # how to deal with other crops?? should also have a pbi?
+  # debby has made similar functions for potato?
+  
   value <- dt[, value]
   
   return(value)
@@ -59,5 +63,8 @@ eval_phosphate_availability <- function(value.phosphate.availability) {
   # Evaluate the phosphate availability
   eval.phosphate.availability <- OBIC::evaluate_logistic(value.phosphate.availability, b = 1.3, x0 = 1.3, v = 0.35)
   
+  # GR: the evaluation should be crop dependent, given crop types in P-fertilizer recommendation 
+  
+  # return output
   return(eval.phosphate.availability)
 }
