@@ -7,6 +7,7 @@
 #' @export
 eval_resistance <- function(om) {
   
+  # need some explanation: what kind of resistance???
   # Check inputs
   checkmate::assert_numeric(om, lower = 0, upper = 100, any.missing = FALSE)
   

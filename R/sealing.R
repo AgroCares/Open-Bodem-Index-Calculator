@@ -2,7 +2,7 @@
 #' 
 #' This function calculates the risks of soil sealing.  This value can be evaluated by \code{\link{eval_sealing}}
 #' 
-#' @param lutum (numeric) The percentage lutum available of the soil
+#' @param lutum (numeric) The percentage lutum present in the soil
 #' @param om (numeric) The organic matter content of soil in percentage
 #' 
 #' @import data.table
@@ -36,6 +36,8 @@ calc_sealing <- function(lutum, om) {
   dt[is.na(value), value.lutum := fun.lutum(lutum)]
   
   # Create organic matter correction function and calculate correction for om
+  # for simplicity reasons, i would make one table rather than two (df.lutum, df.cor.om)
+  # now the output of one filter is also used for the second...better relate to real input data
   df.cor.om <- data.frame(
     value.lutum = c(7, 6, 3, 2, 4, 8, 9, 10),
     cor.om = c(0.4, 0.6, 0.8, 1, 0.7, 0.4, 0.3, 0)
@@ -84,11 +86,12 @@ eval_sealing <- function(value.sealing, crop) {
   dt <- crops.obic[dt]
   setorder(dt, id)
 
-  # Evaluate the sealing
+  # Evaluate the sealing for grassland and all other crops
   dt[crop_sealing == "overig", eval.sealing := OBIC::evaluate_logistic(x = value.sealing, b = 1.5, x0 = 0.3, v = 0.35)]
   dt[crop_sealing == "gras", eval.sealing := 1]
   
   eval.sealing <- dt[, eval.sealing]
 
+  # return output
   return(eval.sealing)
 }
