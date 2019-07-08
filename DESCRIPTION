@@ -12,7 +12,7 @@ Description: This package contains the functions to calculate the indicators and
 Imports: 
     checkmate,
     data.table
-License: file LICENSE
+License: GPL-3 | file LICENSE
 URL: https://github.com/springgbv/Open-Bodem-Index-Calculator
 BugReports: https://github.com/springgbv/Open-Bodem-Index-Calculator/issues
 Encoding: UTF-8
