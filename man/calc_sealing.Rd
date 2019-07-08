@@ -7,7 +7,7 @@
 calc_sealing(lutum, om)
 }
 \arguments{
-\item{lutum}{(numeric) The percentage lutum available of the soil}
+\item{lutum}{(numeric) The percentage lutum present in the soil}
 
 \item{om}{(numeric) The organic matter content of soil in percentage}
 }

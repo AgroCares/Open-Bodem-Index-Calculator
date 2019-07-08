@@ -40,10 +40,6 @@ calc_crumbleability <- function(lutum, om, ph) {
   dt[lutum < 4, value := 10]
   dt[lutum > 40, value := 1]
   
-  # this discrete classes: why not using the logistic function fitted to these classes?
-  # we might also add the evaluation plot into the documentation?
-  # another thing: is this "verkruimelbaarheid" not already the "evaluation" and not an index?
-  
   # Calculate value.lutum
   fun.lutum <- approxfun(x = df.lookup$lutum, y = df.lookup$value.lutum, rule = 2)
   dt[is.na(value), value.lutum := fun.lutum(lutum)]
@@ -75,9 +71,6 @@ calc_crumbleability <- function(lutum, om, ph) {
 #' 
 #' @export
 eval_crumbleability <- function(value.crumbleability, crop) {
-  
-  # do you need both crops.obic and eval.crumbleability (design not consistent??)
-  # table contains NA, be aware that the group_desc contains spaces and lower upper cases not consistent
   
   # Load in the crops dataset
   crops.obic <- as.data.table(OBIC::crops.obic)

@@ -1,13 +1,12 @@
 #' Evaluate the soil resistance
 #'
-#' This function evaluates the resistance of the soil
+#' This function evaluates the resistance of the soil against diseases and is inidcatd by the amount of soil life.
 #' 
 #' @param om (numeric) The organic matter content of the soil in percentage
 #' 
 #' @export
 eval_resistance <- function(om) {
   
-  # need some explanation: what kind of resistance???
   # Check inputs
   checkmate::assert_numeric(om, lower = 0, upper = 100, any.missing = FALSE)
   

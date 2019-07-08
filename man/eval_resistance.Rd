@@ -10,5 +10,5 @@ eval_resistance(om)
 \item{om}{(numeric) The organic matter content of the soil in percentage}
 }
 \description{
-This function evaluates the resistance of the soil
+This function evaluates the resistance of the soil against diseases and is inidcatd by the amount of soil life.
 }

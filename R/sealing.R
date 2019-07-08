@@ -26,23 +26,18 @@ calc_sealing <- function(lutum, om) {
     cor.om = NA_real_,
     value = NA_real_
   )
-  
-  # Calculate value.lutum
-  df.lutum <- data.frame(
+  df.lookup <- data.frame(
     lutum = c(4, 6, 9, 10, 17, 25, 30, 100),
-    value.lutum = c(7, 6, 3, 2, 4, 8, 9, 10)
-  )
-  fun.lutum <- approxfun(x = df.lutum$lutum, y = df.lutum$value.lutum, rule = 2)
-  dt[is.na(value), value.lutum := fun.lutum(lutum)]
-  
-  # Create organic matter correction function and calculate correction for om
-  # for simplicity reasons, i would make one table rather than two (df.lutum, df.cor.om)
-  # now the output of one filter is also used for the second...better relate to real input data
-  df.cor.om <- data.frame(
     value.lutum = c(7, 6, 3, 2, 4, 8, 9, 10),
     cor.om = c(0.4, 0.6, 0.8, 1, 0.7, 0.4, 0.3, 0)
   )
-  fun.cor.om <- approxfun(x = df.cor.om$value.lutum, y = df.cor.om$cor.om, rule = 2)
+  
+  # Calculate value.lutum
+  fun.lutum <- approxfun(x = df.lookup$lutum, y = df.lookup$value.lutum, rule = 2)
+  dt[is.na(value), value.lutum := fun.lutum(lutum)]
+  
+  # Create organic matter correction function and calculate correction for om
+  fun.cor.om <- approxfun(x = df.lookup$value.lutum, y = df.lookup$cor.om, rule = 2)
   dt[is.na(value), cor.om := fun.cor.om(value.lutum)]
   
   # Calculate the value
