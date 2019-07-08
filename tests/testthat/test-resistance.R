@@ -1,4 +1,4 @@
-test_that("eval_phosphate_availability works", {
+test_that("eval_resistance works", {
   expect_equal(
     eval_resistance(
       om = 2
