@@ -29,6 +29,12 @@ calc_crumbleability <- function(lutum, om, ph) {
     cor.ph = NA_real_,
     value = NA_real_
   )
+  df.lookup <- data.frame(
+    lutum = c(4, 10, 17, 24, 30, 40, 100),
+    value.lutum = c(10, 9, 8, 6.5, 5, 3.5, 1),
+    cor.om = c(0, 0.06, 0.09, 0.12, 0.25, 0.35, 0.46),
+    cor.ph = c(0, 0, 0.15, 0.3, 0.7, 1, 1.5)
+  )
   
   # If lutum is outside range give a min/max value
   dt[lutum < 4, value := 10]
@@ -39,31 +45,16 @@ calc_crumbleability <- function(lutum, om, ph) {
   # another thing: is this "verkruimelbaarheid" not already the "evaluation" and not an index?
   
   # Calculate value.lutum
-  # is loam not included?
-  # question: are peat soils included orshould that be done seperately?
-  df.lutum <- data.frame(
-    lutum = c(4, 10, 17, 24, 30, 40, 100),
-    value.lutum = c(10, 9, 8, 6.5, 5, 3.5, 1)
-  )
-  fun.lutum <- approxfun(x = df.lutum$lutum, y = df.lutum$value.lutum, rule = 2)
+  fun.lutum <- approxfun(x = df.lookup$lutum, y = df.lookup$value.lutum, rule = 2)
   dt[is.na(value), value.lutum := fun.lutum(lutum)]
     
   # Create organic matter correction function and calculate correction for om
-  # not better to include the om correction as well as the ph correction in the df.lutum table?
-  df.cor.om <- data.frame(
-    value.lutum = c(10, 9, 8, 6.5, 5, 3.5, 1),
-    cor.om = c(0, 0.06, 0.09, 0.12, 0.25, 0.35, 0.46)
-  )
-  fun.cor.om <- approxfun(x = df.cor.om$value.lutum, y = df.cor.om$cor.om, rule = 2)
-  dt[is.na(value), cor.om := fun.cor.om(value.lutum)]
+  fun.cor.om <- approxfun(x = df.lookup$lutum, y = df.lookup$cor.om, rule = 2)
+  dt[is.na(value), cor.om := fun.cor.om(lutum)]
     
   # Create pH correction function and calculate correction for pH
-  df.cor.ph <- data.frame(
-    value.lutum = c(10, 9, 8, 6.5, 5, 3.5, 1),
-    cor.ph = c(0, 0, 0.15, 0.3, 0.7, 1, 1.5)
-  )
-  fun.cor.ph <- approxfun(x = df.cor.ph$value.lutum, y = df.cor.ph$cor.ph, rule = 2)
-  dt[is.na(value) & ph < 7, cor.ph := fun.cor.ph(value.lutum)]
+  fun.cor.ph <- approxfun(x = df.lookup$lutum, y = df.lookup$cor.ph, rule = 2)
+  dt[is.na(value) & ph < 7, cor.ph := fun.cor.ph(lutum)]
   dt[is.na(value) & ph >= 7, cor.ph := 0]
 
   # Calculate the value
