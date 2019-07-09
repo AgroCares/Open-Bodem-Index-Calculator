@@ -6,15 +6,21 @@
 #' @param b (numeric) The growth rate
 #' @param x0 (numeric) The offset of the x-axis
 #' @param v (numeric) Affects the growth rate near the maximum
+#' @param increasing (boolean) Should the evaluation increase (\code{TRUE}) with x or decrease (\code{FALSE})?
 #' 
 #' @references \url{https://en.wikipedia.org/wiki/Generalised_logistic_function}
 #' 
 #' @export
-evaluate_logistic <- function(x, b, x0, v) {
+evaluate_logistic <- function(x, b, x0, v, increasing = TRUE) {
   
   # Settings
-  A <- 0 # Lower asympote
-  K <- 1 # Upper asympote
+  if (increasing) {
+    A <- 0 # Lower asympote
+    K <- 1 # Upper asympote
+  } else {
+    A <- 1 # Lower asympote
+    K <- 0 # Upper asympote
+  }
   C <- 1
   
   # General logistic function

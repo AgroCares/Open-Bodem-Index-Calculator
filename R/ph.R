@@ -70,7 +70,7 @@ calc_ph_delta <- function(ph.cacl2, soiltype, om, lutum, cp.starch, cp.potato, c
   
   dt[, cp.potato := cp.starch + cp.potato]
   
-  # Join the tables with optimum pH to data
+  # Join conditionally the tables with optimum pH to data
   dt.53 <- dt[table == "5.3"]
   dt.53 <- dt.ph.delta[dt.53, on=list(table == table, lutum.low <= lutum, lutum.high > lutum, om.low <= om, om.high > om)]
   dt.512 <- dt[table %in% c("5.1", "5.2")]
@@ -86,6 +86,25 @@ calc_ph_delta <- function(ph.cacl2, soiltype, om, lutum, cp.starch, cp.potato, c
   ph.delta <- dt[, ph.delta]
   
   return(ph.delta)
+  
+}
+
+#' Evaluate the difference between de optimum pH and ph of the soil
+#' 
+#' This function evaluates the pH of the soil by the difference with the optimum pH. This is calculated in \code{\link{calc_ph_delta}}.
+#' 
+#' @param value.ph.delta (numeric) The pH difference with the optimal pH.
+#' 
+#' @export
+eval_ph <- function(value.ph.delta) {
+  
+  # Check inputs
+  checkmate::assert_numeric(value.ph.delta, lower = 0, upper = 5, any.missing = FALSE)
+  
+  # Evaluate the pH
+  eval.ph <- OBIC::evaluate_logistic(x = value.ph.delta, b = 9, x0 = 0.3, v = 0.4, increasing = TRUE)
+  
+  return(eval.ph)
   
 }
 
