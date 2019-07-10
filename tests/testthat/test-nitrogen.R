@@ -26,3 +26,20 @@ test_that("calc_nlv works", {
     tolerance = 0.001
   )
 })
+
+test_that("eval_nitrogen works", {
+  expect_equal(
+    eval_nitrogen(
+      value.nlv = 120
+    ),
+    expected = 1,
+    tolerance = 0.001
+  )
+  expect_equal(
+    eval_nitrogen(
+      value.nlv = seq(from = -30, to = 250, by = 50)
+    ),
+    expected = c(0, 0.3055556, 0.8263889, 1, 1, 1),
+    tolerance = 0.001
+  )
+})

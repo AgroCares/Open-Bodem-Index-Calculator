@@ -86,3 +86,22 @@ calc_nlv <- function(n.org, c.org, crop, soiltype, bulk_density, cn_ratio, grass
   
   return(value.nlv)
 }
+
+#' Evaluate nitrogen
+#' 
+#' This function evaluates the nitrogen content of the soil by using the NLV calculated by \code{\link{calc_nlv}}
+#' 
+#' @param value.nlv (numeric) The value of NLV  calculated by \code{\link{calc_nlv}}
+#' 
+#' @export
+eval_nitrogen <- function(value.nlv) {
+  
+  # Check inputs
+  checkmate::assert_numeric(value.nlv, lower = -30, upper = 250, any.missing = FALSE)
+  
+  # Evaluate the nitrogen
+  eval.nitrogen <- OBIC::evaluate_parabolic(value.nlv, x.top = 120)
+  
+  # return output
+  return(eval.nitrogen)
+}
