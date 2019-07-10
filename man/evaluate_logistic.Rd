@@ -4,7 +4,7 @@
 \alias{evaluate_logistic}
 \title{Evaluate using the general logistice function}
 \usage{
-evaluate_logistic(x, b, x0, v)
+evaluate_logistic(x, b, x0, v, increasing = TRUE)
 }
 \arguments{
 \item{x}{(numeric) The values of a calc function to be converted to an evaluation}
@@ -14,6 +14,8 @@ evaluate_logistic(x, b, x0, v)
 \item{x0}{(numeric) The offset of the x-axis}
 
 \item{v}{(numeric) Affects the growth rate near the maximum}
+
+\item{increasing}{(boolean) Should the evaluation increase (\code{TRUE}) with x or decrease (\code{FALSE})?}
 }
 \description{
 This function evaluates the calculated values from an indicator using a general logistic function

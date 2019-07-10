@@ -11,3 +11,14 @@
 #'   \item{crop_sealing}{The category for this crop at soil sealing}
 #' }
 "crops.obic"
+
+#' Linking table between soils and different functions in OBIC
+#' 
+#' This table helps to link the different crops in the OBIC functions with the crops selected by the user
+#' 
+#' @format A data.frame with 7 rows and 2 columns:
+#' \describe{
+#'   \item{soiltype}{The name of the soil type}
+#'   \item{soiltype.ph}{The category for this soil at pH}
+#' }
+"soils.obic"
