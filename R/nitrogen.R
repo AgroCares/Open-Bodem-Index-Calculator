@@ -69,6 +69,8 @@ calc_nlv <- function(n.org, c.org, crop, soiltype, bulk_density, cn_ratio, grass
   
   dt.grass[soiltype.n == "zand", value.nlv := 78 + a * n.org ^ 1.0046]
   dt.grass[soiltype.n == "klei", value.nlv := 31.7 + a * n.org ^ 1.0046]
+  dt.grass[soiltype.n == "zand" & value.nlv > 200, value.nlv := 200]
+  dt.grass[soiltype.n == "klei" & value.nlv > 250, value.nlv := 250]
   dt.grass[soiltype.n == "veen", value.nlv := 250]
   
   # Calculate the NLV for arable land
