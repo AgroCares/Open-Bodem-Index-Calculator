@@ -6,9 +6,10 @@ test_that("calc_nlv works", {
       crop = 265,
       soiltype = "klei",
       bulk_density = 1300, 
+      cn_ratio = 4,
       grass.age = 2
     ),
-    expected = 0.3,
+    expected = 204.22254,
     tolerance = 0.001
   )
   expect_equal(
@@ -18,9 +19,10 @@ test_that("calc_nlv works", {
       crop = c(265, 265, 235, 235),
       soiltype = c("klei", "veen", "veen", "zavel"),
       bulk_density = c(1300, 800, 850, 1100), 
+      cn_ratio = c(4, 4, 4, 4),
       grass.age = c(2, 8, 0, 0)
     ),
-    expected = c(0.3, 0, 0, 0),
+    expected = c(204.22254, 250, 209.43603,  52.31861),
     tolerance = 0.001
   )
 })

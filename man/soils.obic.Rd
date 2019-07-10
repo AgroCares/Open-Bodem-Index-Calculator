@@ -8,6 +8,7 @@
 \describe{
   \item{soiltype}{The name of the soil type}
   \item{soiltype.ph}{The category for this soil at pH}
+  \item{soiltype.n}{The category for this soil at nitrogen}
 }}
 \usage{
 soils.obic

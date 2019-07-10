@@ -11,6 +11,7 @@
   \item{crop_crumbleability}{The category for this crop at crumbleablity}
   \item{crop_phosphate}{The category for this crop at phosphate availability}
   \item{crop_sealing}{The category for this crop at soil sealing}
+  \item{crop_n}{The category for this crop at nitrogen}
 }}
 \usage{
 crops.obic
