@@ -43,7 +43,7 @@ calc_ph_delta <- function(ph.cacl2, soiltype, om, lutum, cp.starch, cp.potato, c
   }
   
   # Collect information in table
-  soil.ph = lutum.low = lutum.high = om.low = om.high = potato.low = potato.high = sugarbeet.low = sugarbeet.high = ph.optimum = id = NULL
+  soiltype.ph = lutum.low = lutum.high = om.low = om.high = potato.low = potato.high = sugarbeet.low = sugarbeet.high = ph.optimum = id = NULL
   dt <- data.table(
     id = 1:arg.length,
     ph.cacl2 = ph.cacl2,
@@ -63,8 +63,8 @@ calc_ph_delta <- function(ph.cacl2, soiltype, om, lutum, cp.starch, cp.potato, c
   dt <- merge(dt, soils.obic, by = "soiltype")
   
   # Define which table to be used
-  dt[soil.ph == 1, table := "5.1"]
-  dt[soil.ph == 2, table := "5.3"]
+  dt[soiltype.ph == 1, table := "5.1"]
+  dt[soiltype.ph == 2, table := "5.3"]
   dt[cp.starch > 0.1, table := "5.2"]
   dt[cp.grass + cp.mais >= 0.5, table := "5.3"]
   

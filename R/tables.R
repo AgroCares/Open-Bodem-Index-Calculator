@@ -9,6 +9,7 @@
 #'   \item{crop_crumbleability}{The category for this crop at crumbleablity}
 #'   \item{crop_phosphate}{The category for this crop at phosphate availability}
 #'   \item{crop_sealing}{The category for this crop at soil sealing}
+#'   \item{crop_n}{The category for this crop at nitrogen}
 #' }
 "crops.obic"
 
@@ -20,5 +21,6 @@
 #' \describe{
 #'   \item{soiltype}{The name of the soil type}
 #'   \item{soiltype.ph}{The category for this soil at pH}
+#'   \item{soiltype.n}{The category for this soil at nitrogen}
 #' }
 "soils.obic"

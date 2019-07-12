@@ -29,3 +29,28 @@ evaluate_logistic <- function(x, b, x0, v, increasing = TRUE) {
   return(y)
   
 }
+
+#' Evaluate using parabolic function with 
+#' 
+#' This function evaluates the calculated values from an indicator using a parabolic function. After the optimum is reached the it stays at its plateau.
+#' 
+#' @param x (numeric) The values of a calc function to be converted to an evaluation
+#' @param x.top (numeric) The value at which x reaches the plateau
+#' 
+#' @export
+evaluate_parabolic <- function(x, x.top) {
+  
+  # Setting
+  a <- 1 / x.top^2
+  b <- x.top
+  
+  # Calcute the values
+  y <- 1 - a * (x - b) ^2
+  
+  # Set plateaus
+  y <- ifelse(x >= x.top, 1, y)
+  y <- ifelse(y < 0, 0, y)
+  
+  return(y)
+  
+}
