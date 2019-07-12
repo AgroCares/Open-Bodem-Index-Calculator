@@ -14,3 +14,7 @@ OBIC can be installed from GitHub using `devtools`. This will install the curren
 devtools::install_github("springgbv/Open-Bodem-Index-Calculator")
 library("OBIC")
 ```
+
+## More informantion
+
+More information about the Open Bodem Index can be found at www.openbodemindex.nl
