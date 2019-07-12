@@ -6,3 +6,11 @@
 
 This package contains the functions to calculate the indicators and evaluations used in Open Bodem Index (OBI).
 The Open Bodem Index is a tool to evaluate the soil of agricultural fields based on various criteria.
+
+## Installation
+
+OBIC can be installed from GitHub using `devtools`. This will install the current developement version from master branch. Stable versions can found at `releases`.
+```
+devtools::install_github("springgbv/Open-Bodem-Index-Calculator")
+library("OBIC")
+```
