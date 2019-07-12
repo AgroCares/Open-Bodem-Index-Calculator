@@ -23,14 +23,14 @@ calc_nlv <- function(n.org, c.org, crop, soiltype, bulk_density, cn_ratio, grass
   
   # Check input
   arg.length <- max(length(n.org), length(c.org), length(crop), length(soiltype), length(bulk_density), length(grass.age))
-  checkmate::assert_numeric(n.org, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(c.org, lower = 0, upper = 500, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(n.org, lower = 0, upper = 30, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(c.org, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(crop, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(crop, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(soiltype, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(soiltype, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_numeric(bulk_density, lower = 0, upper = 1500, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(cn_ratio, lower = 0, upper = 10, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(cn_ratio, lower = 0, upper = 20, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(grass.age, lower = 0, upper = 99, len = arg.length)
   
   # Settings
