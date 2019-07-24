@@ -1,18 +1,19 @@
-#' Preprocess for the OBI
+#' Calculate the indicators for the OBI
 #' 
-#' This wrapper function contains the functions to evaluate the indicators of agricultural fields.
+#' This wrapper function contains the functions to calculate the indicators of agricultural fields.
 #' 
 #' @param dt.ppr (data.table) The table containg the data needed for OBI
 #' 
 #' @import data.table
 #' 
 #' @export
-obic_evaluations <- function(dt.ppr) {
+obic_indicators<- function(dt.ppr) {
   
   # Check inputs
   checkmate::assert_data_table(dt.ppr)
   
-  I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = NULL
+  I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
+  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = NULL
 
   # Evaluate nutrients ------------------------------------------------------
   

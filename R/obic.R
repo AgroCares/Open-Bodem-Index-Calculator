@@ -27,15 +27,15 @@ obic <- function(dt) {
   # Run the preprocessing
   dt.ppr <- OBIC::obic_preprocessing(dt)
   
-  # Run the evaluations
-  dt.eval <- OBIC::obic_evaluations(dt.ppr)
+  # Calculate the indicators
+  dt.ind <- OBIC::obic_evaluations(dt.ppr)
   
   # Run the weighing
-  dt.weight <- OBIC::obic_weigthing(dt.eval)
+  dt.score <- OBIC::obic_score(dt.ind)
   
   # Run the managment measures
-  dt.manag <- OBIC::obic_managment(dt.weight)
+  dt.recom <- OBIC::obic_recommendations(dt.score)
   
-  return(dt.manag)
+  return(dt.recom)
   
 }
