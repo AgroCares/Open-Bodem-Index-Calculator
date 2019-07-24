@@ -28,7 +28,7 @@ obic <- function(dt) {
   dt.ppr <- OBIC::obic_preprocessing(dt)
   
   # Calculate the indicators
-  dt.ind <- OBIC::obic_evaluations(dt.ppr)
+  dt.ind <- OBIC::obic_indicators(dt.ppr)
   
   # Run the weighing
   dt.score <- OBIC::obic_score(dt.ind)

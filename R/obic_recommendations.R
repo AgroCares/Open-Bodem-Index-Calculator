@@ -11,6 +11,8 @@ obic_recommendations <- function(dt.score) {
   
   # Check inputs
   checkmate::assert_data_table(dt.score)
+  
+  RM_C_1 = RM_C_2 = RM_C_3 = RM_P_1 = RM_P_2 =RM_P_3 = RM_B_1 = RM_B_2 = RM_B_3 = NULL
 
   # Chemical recommondations ------------------------------------------------
   dt.score[, RM_C_1 := -999]

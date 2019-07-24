@@ -2,12 +2,12 @@
 #' 
 #' This wrapper function contains the functions to weight the evaluations.
 #' 
-#' @param dt (data.table) The table containg the data needed for OBI
+#' @param dt.ind (data.table) The table containg the data needed for OBI
 #' 
 #' @import data.table
 #' 
 #' @export
-obic_scoring <- function(dt.ind) {
+obic_score <- function(dt.ind) {
   
   # Check inputs
   checkmate::assert_data_table(dt.ind)
