@@ -12,7 +12,7 @@ obic_score <- function(dt.ind) {
   # Check inputs
   checkmate::assert_data_table(dt.ind)
   
-  S_C = S_P = S_B = S_T = NULL
+  S_C = S_P = S_B = S_M = S_T = NULL
   
   # Score the chemical indicators
   dt.ind[, S_C := -999]
@@ -22,6 +22,9 @@ obic_score <- function(dt.ind) {
   
   # Score the biology
   dt.ind[, S_B := -999]
+  
+  # Score the management
+  dt.ind[, S_M := -999]
   
   # Calculate the total score
   dt.ind[, S_T := -999]
