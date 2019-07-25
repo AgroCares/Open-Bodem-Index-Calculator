@@ -14,7 +14,7 @@ obic_preprocessing <- function(dt) {
   
   A_CLAY_MI = A_OS_GV = A_PH_CC = NULL
   B_BT_AK = B_LU_BRP = NULL
-  D_SE = D_CR = D_BDS = D_DE = NULL
+  D_SE = D_CR = D_BDS = D_RD = D_OC = NULL
 
   # Calculate soil sealing risk
   dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]
@@ -25,8 +25,12 @@ obic_preprocessing <- function(dt) {
   # Calculate bulk density
   dt[, D_BDS := calc_bulk_density(A_OS_GV, B_BT_AK)]
   
-  # Determine the depth of the soil
-  dt[, D_DE := calc_depth(B_LU_BRP)]
+  # Determine the root depth of the soil
+  dt[, D_RD := calc_root_depth(B_LU_BRP)]
+  
+  # Calculate the amount of total organic carbon
+  dt[, D_OC := calc_organic_carbon(A_OS_GV, D_BDS, D_RD)]
+
   
   return(dt)
 }
