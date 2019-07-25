@@ -2,6 +2,7 @@
 
 export(calc_bulk_density)
 export(calc_crumbleability)
+export(calc_depth)
 export(calc_nlv)
 export(calc_ph_delta)
 export(calc_phosphate_availability)

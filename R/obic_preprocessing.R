@@ -13,8 +13,8 @@ obic_preprocessing <- function(dt) {
   checkmate::assert_data_table(dt)
   
   A_CLAY_MI = A_OS_GV = A_PH_CC = NULL
-  B_BT_AK = NULL
-  D_SE = D_CR = NULL
+  B_BT_AK = B_LU_BRP = NULL
+  D_SE = D_CR = D_BDS = D_DE = NULL
 
   # Calculate soil sealing risk
   dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]
@@ -24,6 +24,9 @@ obic_preprocessing <- function(dt) {
   
   # Calculate bulk density
   dt[, D_BDS := calc_bulk_density(A_OS_GV, B_BT_AK)]
+  
+  # Determine the depth of the soil
+  dt[, D_DE := calc_depth(B_LU_BRP)]
   
   return(dt)
 }
