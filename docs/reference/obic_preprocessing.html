@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate using the general logistice function — evaluate_logistic • OBIC</title>
+<title>Preprocess for the OBI — obic_preprocessing • OBIC</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="Evaluate using the general logistice function — evaluate_logistic" />
+<meta property="og:title" content="Preprocess for the OBI — obic_preprocessing" />
 
-<meta property="og:description" content="This function evaluates the calculated values from an indicator using a general logistic function" />
+<meta property="og:description" content="This wrapper function contains the functions to preprocess the data of agricultural fields." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,47 +118,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate using the general logistice function</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/evaluate.R'><code>R/evaluate.R</code></a></small>
-    <div class="hidden name"><code>evaluate_logistic.Rd</code></div>
+    <h1>Preprocess for the OBI</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/obic_preprocessing.R'><code>R/obic_preprocessing.R</code></a></small>
+    <div class="hidden name"><code>obic_preprocessing.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function evaluates the calculated values from an indicator using a general logistic function</p>
+    <p>This wrapper function contains the functions to preprocess the data of agricultural fields.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>evaluate_logistic</span>(<span class='no'>x</span>, <span class='no'>b</span>, <span class='no'>x0</span>, <span class='no'>v</span>, <span class='kw'>increasing</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>obic_preprocessing</span>(<span class='no'>dt</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>(numeric) The values of a calc function to be converted to an evaluation</p></td>
-    </tr>
-    <tr>
-      <th>b</th>
-      <td><p>(numeric) The growth rate</p></td>
-    </tr>
-    <tr>
-      <th>x0</th>
-      <td><p>(numeric) The offset of the x-axis</p></td>
-    </tr>
-    <tr>
-      <th>v</th>
-      <td><p>(numeric) Affects the growth rate near the maximum</p></td>
-    </tr>
-    <tr>
-      <th>increasing</th>
-      <td><p>(boolean) Should the evaluation increase (<code>TRUE</code>) with x or decrease (<code>FALSE</code>)?</p></td>
+      <th>dt</th>
+      <td><p>(data.table) The table containg the data needed for OBI</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://en.wikipedia.org/wiki/Generalised_logistic_function'>https://en.wikipedia.org/wiki/Generalised_logistic_function</a></p>
     
 
   </div>
@@ -166,9 +146,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#references">References</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>
