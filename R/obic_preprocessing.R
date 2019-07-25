@@ -12,9 +12,10 @@ obic_preprocessing <- function(dt) {
   # Check inputs
   checkmate::assert_data_table(dt)
   
+  ID = NULL
   A_CLAY_MI = A_OS_GV = A_PH_CC = NULL
   B_BT_AK = B_LU_BRP = NULL
-  D_SE = D_CR = D_BDS = D_RD = D_OC = NULL
+  D_SE = D_CR = D_BDS = D_RD = D_OC = D_GA = NULL
 
   # Calculate soil sealing risk
   dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]
@@ -30,7 +31,9 @@ obic_preprocessing <- function(dt) {
   
   # Calculate the amount of total organic carbon
   dt[, D_OC := calc_organic_carbon(A_OS_GV, D_BDS, D_RD)]
-
+  
+  # Calculate the grass age
+  dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
   
   return(dt)
 }

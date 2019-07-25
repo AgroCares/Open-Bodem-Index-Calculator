@@ -2,6 +2,7 @@
 
 export(calc_bulk_density)
 export(calc_crumbleability)
+export(calc_grass_age)
 export(calc_nlv)
 export(calc_organic_carbon)
 export(calc_ph_delta)
