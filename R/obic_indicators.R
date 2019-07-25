@@ -14,8 +14,9 @@ obic_indicators<- function(dt.ppr) {
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = NULL
-  D_SE = B_LU_BRP = NULL
-
+  B_LU_BRP = NULL
+  D_SE = D_CR = NULL
+  
   # Evaluate nutrients ------------------------------------------------------
   
   # Nitrogen
@@ -49,7 +50,7 @@ obic_indicators<- function(dt.ppr) {
   # Evaluate physical -------------------------------------------------------
   
   # Crumbleability
-  dt.ppr[, I_P_CR := -999]
+  dt.ppr[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
   
   # Sealing
   dt.ppr[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]

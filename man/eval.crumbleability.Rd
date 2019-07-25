@@ -9,6 +9,6 @@
 eval.crumbleability
 }
 \description{
-This table contains the coefficients for evaluating the crumbleability. This table is used internally in \code{\link{eval_crumbleability}}
+This table contains the coefficients for evaluating the crumbleability. This table is used internally in \code{\link{ind_crumbleability}}
 }
 \keyword{datasets}

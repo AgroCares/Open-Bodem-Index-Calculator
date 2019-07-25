@@ -2,7 +2,7 @@
 #' 
 #' This function combines the evalutions for the subject of soil structre and gives an evaluation for it
 #' 
-#' @param eval.crumbleability (numeric) The evaluation value of crumbleability by \code{\link{eval_crumbleability}}
+#' @param eval.crumbleability (numeric) The evaluation value of crumbleability by \code{\link{ind_crumbleability}}
 #' @param eval.sealing (numeric) the evaluation value of sealing by \code{\link{ind_sealing}}
 #' 
 #' @export

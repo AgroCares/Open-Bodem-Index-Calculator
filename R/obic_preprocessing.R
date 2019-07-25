@@ -12,11 +12,14 @@ obic_preprocessing <- function(dt) {
   # Check inputs
   checkmate::assert_data_table(dt)
   
-  D_SE = A_CLAY_MI = A_OS_GV = NULL
+  A_CLAY_MI = A_OS_GV = A_PH_CC = NULL
+  D_SE = D_CR = NULL
 
   # Calculate soil sealing risk
   dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]
   
+  # Calculate the crumbleability of the soil
+  dt[, D_CR := calc_crumbleability(A_CLAY_MI, A_OS_GV, A_PH_CC)]
   
   return(dt)
 }
