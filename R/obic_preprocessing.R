@@ -13,6 +13,7 @@ obic_preprocessing <- function(dt) {
   checkmate::assert_data_table(dt)
   
   A_CLAY_MI = A_OS_GV = A_PH_CC = NULL
+  B_BT_AK = NULL
   D_SE = D_CR = NULL
 
   # Calculate soil sealing risk
@@ -20,6 +21,9 @@ obic_preprocessing <- function(dt) {
   
   # Calculate the crumbleability of the soil
   dt[, D_CR := calc_crumbleability(A_CLAY_MI, A_OS_GV, A_PH_CC)]
+  
+  # Calculate bulk density
+  dt[, D_BDS := calc_bulk_density(A_OS_GV, B_BT_AK)]
   
   return(dt)
 }
