@@ -7,10 +7,10 @@
 \format{A data.frame with 84 rows and 10 columns:
 \describe{
   \item{table}{The original table from Hanboek Bodem en Bemesting}
-  \item{clay.low}{Lower value for A_CLAY_MI}
-  \item{clay.high}{Upper value for A_CLAY_MI}
-  \item{A_OS_GV.low}{Lower value for organic matter}
-  \item{A_OS_GV.high}{Upper value for organic matter}
+  \item{lutum.low}{Lower value for A_CLAY_MI}
+  \item{lutum.high}{Upper value for A_CLAY_MI}
+  \item{om.low}{Lower value for organic matter}
+  \item{om.high}{Upper value for organic matter}
   \item{potato.low}{Lower value for fraction potatoes in crop plan}
   \item{potato.high}{Upper value for fraction potatoes in crop plan}
   \item{sugarbeet.low}{Lower value for fraction potatoes in crop plan}
