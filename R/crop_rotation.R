@@ -1,0 +1,41 @@
+#' Calculates the fraction in the crop rotation
+#' 
+#' This function calculates the fraction present in the crop rotation
+#' 
+#' @param ID (numeric) The ID of the field
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param crop (character) The crop to check for
+#' 
+#' @import data.table
+#' 
+#' @export
+calc_rotation_fraction <- function(ID, B_LU_BRP, crop) {
+  
+  crop_code = crop_rotation = this_id = this_frc = sel = NULL
+  
+  # Load data
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  
+  # Check inputs
+  arg.length = max(length(ID), length(B_LU_BRP))
+  checkmate::assert_numeric(ID, len = arg.length)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_choice(crop, choices = c("starch", "potato", "sugarbeet", "grass", "mais", "other"))
+  
+  # Collect the data in a table
+  dt <- data.table(
+    this_id = 1:arg.length,
+    ID = ID,
+    B_LU_BRP = B_LU_BRP
+  )
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_rotation)], by.x = "B_LU_BRP", by.y = "crop_code")
+  setorder(dt, this_id)
+  
+  # Calculate the fraction for this crop
+  dt[, sel := ifelse(crop_rotation == crop, 1, 0)]
+  dt[, this_frc := sum(sel) / .N, by = ID]
+  
+  value <- dt[, this_frc]
+  return(value)
+}
