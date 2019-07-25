@@ -16,7 +16,7 @@ obic_indicators<- function(dt.ppr) {
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = NULL
   B_LU_BRP = NULL
-  D_SE = D_CR = D_NLV = NULL
+  D_SE = D_CR = D_NLV = D_PBI = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -24,7 +24,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_C_N := ind_nitrogen(D_NLV)]
   
   # Phosphorus
-  dt.ppr[, I_C_P := -999]
+  dt.ppr[, I_C_P := ind_phosphate_availability(D_PBI)]
   
   # Potassium
   dt.ppr[, I_C_K := -999]

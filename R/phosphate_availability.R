@@ -1,15 +1,15 @@
 #' Calculate the phosphate availability (PBI)
 #' 
-#' This function calculates the phosphate availability. This value can be evaluated by \code{\link{eval_phosphate_availability}}
+#' This function calculates the phosphate availability. This value can be evaluated by \code{\link{ind_phosphate_availability}}
 #' 
-#' @param p_al (numeric) The P-AL content of the soil
-#' @param p_cacl2 (numeric) The P-CaCl2 content of the soil
-#' @param crop (numeric) The crop code (gewascode) from the BRP
+#' @param A_P_PAL (numeric) The P-AL content of the soil
+#' @param A_P_PAE (numeric) The P-CaCl2 content of the soil
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_phosphate_availability <- function(p_al, p_cacl2, crop) {
+calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, B_LU_BRP) {
   
   # Load in the crops dataset
   crop_code = crop_phosphate = id = NULL
@@ -17,27 +17,27 @@ calc_phosphate_availability <- function(p_al, p_cacl2, crop) {
   setkey(crops.obic, crop_code)
   
   # Check input
-  arg.length <- max(length(p_al), length(p_cacl2), length(crop))
-  checkmate::assert_numeric(p_al, lower = 8, upper = 70, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(p_cacl2, lower = 0.3, upper = 5, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(crop, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(crop, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  arg.length <- max(length(A_P_PAL), length(A_P_PAE), length(B_LU_BRP))
+  checkmate::assert_numeric(A_P_PAL, lower = 8, upper = 70, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_P_PAE, lower = 0.3, upper = 5, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
   # Collect the data into a table
   dt <- data.table(
     id = 1:arg.length,
-    p_al = p_al,
-    p_cacl2 = p_cacl2,
-    crop = crop,
+    A_P_PAL = A_P_PAL,
+    A_P_PAE = A_P_PAE,
+    B_LU_BRP = B_LU_BRP,
     value = NA_real_
   )
-  setkey(dt, crop)
+  setkey(dt, B_LU_BRP)
   dt <- crops.obic[dt]
   setorder(dt, id)
   
   # Calculate the phosphate availability (PBI, unit?)
-  dt[crop_phosphate == "gras", value := 2 + 2.5 * log(p_cacl2) + 0.036 * p_al / p_cacl2]
-  dt[crop_phosphate == "mais", value := p_cacl2 + 0.05 * (p_al / p_cacl2)]
+  dt[crop_phosphate == "gras", value := 2 + 2.5 * log(A_P_PAE) + 0.036 * A_P_PAL / A_P_PAE]
+  dt[crop_phosphate == "mais", value := A_P_PAE + 0.05 * (A_P_PAL / A_P_PAE)]
   
   value <- dt[, value]
   
@@ -45,21 +45,21 @@ calc_phosphate_availability <- function(p_al, p_cacl2, crop) {
 
 }
 
-#' Evaluate the phosphate availability
+#' Calculate the indicator for the the phosphate availability
 #' 
-#' This function evaluates the phosphate availability calculated by \code{\link{calc_phosphate_availability}}
+#' This function calculates the indicator for the phosphate availability calculated by \code{\link{calc_phosphate_availability}}
 #' 
-#' @param value.phosphate.availability (numeric) The value of phosphate availability calculated by \code{\link{calc_phosphate_availability}}
+#' @param D_PBI (numeric) The value of phosphate availability calculated by \code{\link{calc_phosphate_availability}}
 #' 
 #' @export
-eval_phosphate_availability <- function(value.phosphate.availability) {
+ind_phosphate_availability <- function(D_PBI) {
   
   # Check inputs
-  checkmate::assert_numeric(value.phosphate.availability, lower = 0, upper = 7, any.missing = FALSE)
+  checkmate::assert_numeric(D_PBI, lower = 0, upper = 7, any.missing = FALSE)
   
   # Evaluate the phosphate availability
-  eval.phosphate.availability <- OBIC::evaluate_logistic(value.phosphate.availability, b = 1.3, x0 = 1.3, v = 0.35)
+  value <- OBIC::evaluate_logistic(D_PBI, b = 1.3, x0 = 1.3, v = 0.35)
   
   # return output
-  return(eval.phosphate.availability)
+  return(value)
 }
