@@ -26,7 +26,7 @@ calc_nlv <- function(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA) {
   # Check input
   arg.length <- max(length(A_N_TOT), length(D_OC), length(B_LU_BRP), length(B_BT_AK), length(D_BDS), length(D_GA))
   checkmate::assert_numeric(A_N_TOT, lower = 0, upper = 30, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(D_OC, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_OC, lower = 0, upper = 1000000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -76,7 +76,7 @@ calc_nlv <- function(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA) {
   
   # Calculate the NLV for arable land
   dt.arable <- dt[crop_n == "akkerbouw"]
-  dt.arable[, c.diss := D_OC * exp(4.7 * ((param.a + param.b * param.t)^-0.6)) - param.a^-0.6]
+  dt.arable[, c.diss := D_OC * (1 - exp(4.7 * ((param.a + param.b * param.t)^-0.6 - param.a^-0.6)))]
   dt.arable[, c.ass := c.diss / param.diss.micro]
   dt.arable[, value := ((c.diss + c.ass) / A_CN_RAT) - (c.ass / param.cn.micro)]
   
