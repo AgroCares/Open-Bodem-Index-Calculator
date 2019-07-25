@@ -4,6 +4,9 @@
 ### Added
 * Adds aggregation of fields to single value per indicator and score
 
+### Changed
+* The column name `brp` is changed to `B_LU_BRP`
+
 ## Version 0.3.0 2019-07-24
 ### Added
 * Adds main function that wraps all the functions needed to calculated the OBI score and recommendations

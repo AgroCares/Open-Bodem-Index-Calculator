@@ -12,8 +12,11 @@ obic_preprocessing <- function(dt) {
   # Check inputs
   checkmate::assert_data_table(dt)
   
-  # Calculations
-  # TO DO
+  D_SE = A_CLAY_MI = A_OS_GV = NULL
+
+  # Calculate soil sealing risk
+  dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]
+  
   
   return(dt)
 }
