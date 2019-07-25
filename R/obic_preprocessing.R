@@ -13,9 +13,9 @@ obic_preprocessing <- function(dt) {
   checkmate::assert_data_table(dt)
   
   ID = NULL
-  A_CLAY_MI = A_OS_GV = A_PH_CC = NULL
+  A_CLAY_MI = A_OS_GV = A_PH_CC = A_CN_RAT = A_N_TOT = NULL
   B_BT_AK = B_LU_BRP = NULL
-  D_SE = D_CR = D_BDS = D_RD = D_OC = D_GA = NULL
+  D_SE = D_CR = D_BDS = D_RD = D_OC = D_GA = D_NLV = NULL
 
   # Calculate soil sealing risk
   dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]
@@ -34,6 +34,9 @@ obic_preprocessing <- function(dt) {
   
   # Calculate the grass age
   dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
+  
+  # Calculate the NLV
+  dt[, D_NLV := calc_nlv(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA)]
   
   return(dt)
 }
