@@ -23,13 +23,13 @@ obic_score <- function(dt.ind) {
   dt.ind[, S_P :=  0*I_P_CR + 1*I_P_SE + 0*I_P_MS + 0*I_P_BC + 0*I_P_DU + 0*I_P_CO]
   
   # Score the biology
-  dt.ind[, S_B := 0*I_B_DI + 0*I_B_OM + 0*I_B_SF + 0*I_B_SB]
+  dt.ind[, S_B := 1*I_B_DI + 0*I_B_OM + 0*I_B_SF + 0*I_B_SB]
   
   # Score the management
   dt.ind[, S_M := -999]
   
   # Calculate the total score
-  dt.ind[, S_T := 0*S_C + 1*S_P + 0*S_B + 0*S_M]
+  dt.ind[, S_T := 0*S_C + 0.5*S_P + 0.5*S_B + 0*S_M]
   
   # Aggregate per field
   col.sel <- colnames(dt.ind)[grepl("ID|^I_|^S_", colnames(dt.ind))]
