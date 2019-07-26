@@ -1,35 +1,35 @@
 test_that("calc_sealing works", {
   expect_equal(
-    calc_sealing(
-      lutum = 20, 
-      om = 5
+    calc_sealing_risk(
+      A_CLAY_MI = 20, 
+      A_OS_GV = 5
     ),
     expected = 8.625,
     tolerance = 0.001
   )
   expect_equal(
-    calc_sealing(
-      lutum = c(25, 20),
-      om = c(1.5, 8)
+    calc_sealing_risk(
+      A_CLAY_MI = c(25, 20),
+      A_OS_GV = c(1.5, 8)
     ),
     expected = c(8.6, 10.5),
     tolerance = 0.001
   )
 })
 
-test_that("eval_sealing works", {
+test_that("ind_sealing works", {
   expect_equal(
-    eval_sealing(
-      value.sealing = 8.6, 
-      crop = 2014
+    ind_sealing(
+      D_SE = 8.6, 
+      B_LU_BRP = 2014
     ),
     expected = 0.9999,
     tolerance = 0.001
   )
   expect_equal(
-    eval_sealing(
-      value.sealing = c(8.6, 2),
-      crop = c(2014, 265)
+    ind_sealing(
+      D_SE = c(8.6, 2),
+      B_LU_BRP = c(2014, 265)
     ),
     expected = c(0.9999, 1),
     tolerance = 0.001

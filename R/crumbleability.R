@@ -1,98 +1,99 @@
 #' Calculate the crumbleability
 #'
-#' This function calculates the crumbleability. This value can be evaluated by \code{\link{eval_crumbleability}}
+#' This function calculates the crumbleability. This value can be evaluated by \code{\link{ind_crumbleability}}
 #' 
-#' @param lutum (numeric) The percentage lutum available of the soil
-#' @param om (numeric) The organic matter content of soil in percentage
-#' @param ph (numeric) The pH of the soil
+#' @param A_CLAY_MI (numeric) The percentage A_CLAY_MI available of the soil
+#' @param A_OS_GV (numeric) The organic matter content of soil in percentage
+#' @param A_PH_CC (numeric) The pH of the soil
 #' 
 #' @import data.table
 #' 
 #' @importFrom stats approxfun
 #'
 #' @export
-calc_crumbleability <- function(lutum, om, ph) {
+calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
   
   # Check input
-  checkmate::assert_numeric(lutum, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
-  checkmate::assert_numeric(om, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
-  checkmate::assert_numeric(ph, lower = 0, upper = 14, any.missing = FALSE, min.len = 1)
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
+  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
+  checkmate::assert_numeric(A_PH_CC, lower = 0, upper = 14, any.missing = FALSE, min.len = 1)
 
   # Setup a table with all the information
-  cor.om = cor.ph = value = value.lutum = NULL
+  cor.A_OS_GV = cor.A_PH_CC = value = value.A_CLAY_MI = NULL
   dt <- data.table(
-    lutum = lutum,
-    om = om, 
-    ph = ph,
-    value.lutum = NA_real_,
-    cor.om = NA_real_,
-    cor.ph = NA_real_,
+    A_CLAY_MI = A_CLAY_MI,
+    A_OS_GV = A_OS_GV, 
+    A_PH_CC = A_PH_CC,
+    value.A_CLAY_MI = NA_real_,
+    cor.A_OS_GV = NA_real_,
+    cor.A_PH_CC = NA_real_,
     value = NA_real_
   )
   df.lookup <- data.frame(
-    lutum = c(4, 10, 17, 24, 30, 40, 100),
-    value.lutum = c(10, 9, 8, 6.5, 5, 3.5, 1),
-    cor.om = c(0, 0.06, 0.09, 0.12, 0.25, 0.35, 0.46),
-    cor.ph = c(0, 0, 0.15, 0.3, 0.7, 1, 1.5)
+    A_CLAY_MI = c(4, 10, 17, 24, 30, 40, 100),
+    value.A_CLAY_MI = c(10, 9, 8, 6.5, 5, 3.5, 1),
+    cor.A_OS_GV = c(0, 0.06, 0.09, 0.12, 0.25, 0.35, 0.46),
+    cor.A_PH_CC = c(0, 0, 0.15, 0.3, 0.7, 1, 1.5)
   )
   
-  # If lutum is outside range give a min/max value
-  dt[lutum < 4, value := 10]
-  dt[lutum > 40, value := 1]
+  # If A_CLAY_MI is outside range give a min/max value
+  dt[A_CLAY_MI < 4, value := 10]
+  dt[A_CLAY_MI > 40, value := 1]
   
-  # Calculate value.lutum
-  fun.lutum <- approxfun(x = df.lookup$lutum, y = df.lookup$value.lutum, rule = 2)
-  dt[is.na(value), value.lutum := fun.lutum(lutum)]
+  # Calculate value.A_CLAY_MI
+  fun.A_CLAY_MI <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$value.A_CLAY_MI, rule = 2)
+  dt[is.na(value), value.A_CLAY_MI := fun.A_CLAY_MI(A_CLAY_MI)]
     
-  # Create organic matter correction function and calculate correction for om
-  fun.cor.om <- approxfun(x = df.lookup$lutum, y = df.lookup$cor.om, rule = 2)
-  dt[is.na(value), cor.om := fun.cor.om(lutum)]
+  # Create organic matter correction function and calculate correction for A_OS_GV
+  fun.cor.A_OS_GV <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_OS_GV, rule = 2)
+  dt[is.na(value), cor.A_OS_GV := fun.cor.A_OS_GV(A_CLAY_MI)]
     
   # Create pH correction function and calculate correction for pH
-  fun.cor.ph <- approxfun(x = df.lookup$lutum, y = df.lookup$cor.ph, rule = 2)
-  dt[is.na(value) & ph < 7, cor.ph := fun.cor.ph(lutum)]
-  dt[is.na(value) & ph >= 7, cor.ph := 0]
+  fun.cor.A_PH_CC <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_PH_CC, rule = 2)
+  dt[is.na(value) & A_PH_CC < 7, cor.A_PH_CC := fun.cor.A_PH_CC(A_CLAY_MI)]
+  dt[is.na(value) & A_PH_CC >= 7, cor.A_PH_CC := 0]
 
   # Calculate the value
-  dt[is.na(value), value := value.lutum + cor.om * om - cor.ph]
+  dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV - cor.A_PH_CC]
   value <- dt[, value]
   
   return(value)
 }
 
-#' Evaluate the crumbleability
+#' Calculate the indicator for crumbleability
 #' 
-#' This function evaluates the crumbleability calculated by \code{\link{calc_crumbleability}}
+#' This function calculates the indicator for crumbleability. The crumbleability is calculated by \code{\link{calc_crumbleability}}
 #' 
-#' @param value.crumbleability (numeric) The value of crumbleability calculated by \code{\link{calc_crumbleability}}
-#' @param crop (numeric) The crop code (gewascode) from the BRP
+#' @param D_CR (numeric) The value of crumbleability calculated by \code{\link{calc_crumbleability}}
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
 #' @import data.table
 #' 
 #' @export
-eval_crumbleability <- function(value.crumbleability, crop) {
+ind_crumbleability <- function(D_CR, B_LU_BRP) {
   
   # Load in the crops dataset
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
 
   # Check input
-  checkmate::assert_numeric(value.crumbleability, lower = 0, upper = 10, any.missing = FALSE, min.len = 1)
-  checkmate::assert_numeric(crop, any.missing = FALSE, min.len = 1)
-  checkmate::assert_subset(crop, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  arg.length = max(length(D_CR), length(B_LU_BRP))
+  checkmate::assert_numeric(D_CR, lower = 0, upper = 20, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
 
   # Combine information into a table
   crop_code = crop_group = crop_crumbleability = NULL
   dt <- data.table(
-    eval.crumbleability = NA_real_,
-    value.crumbleability = value.crumbleability,
-    crop = crop
+    value = NA_real_,
+    D_CR = D_CR,
+    B_LU_BRP = B_LU_BRP
   )
-  setkey(dt, crop)
+  setkey(dt, B_LU_BRP)
   dt <- crops.obic[dt]
   
   # Evaluate the crumbleability using the function
-  eval.crumbleability <- dt[, lapply(.SD, function(x, value.crumbleability, crop_crumbleability) {
+  value <- dt[, lapply(.SD, function(x, D_CR, crop_crumbleability) {
       # Load in the coefficients for the evaluation
       dt.eval.crumb <- as.data.table(OBIC::eval.crumbleability)
       
@@ -100,19 +101,19 @@ eval_crumbleability <- function(value.crumbleability, crop) {
       this.eval.crumb <- dt.eval.crumb[crop_group == crop_crumbleability]
       
       # Create the function to evaluate crumbleability
-      fun.eval.crumbleability <- approxfun(this.eval.crumb$value.crumbleability, this.eval.crumb$eval.crumbleabilty, rule = 2)
+      fun.eval.crumbleability <- approxfun(this.eval.crumb$D_CR, this.eval.crumb$eval.crumbleabilty, rule = 2)
       
       # Evaluate the crumbleability
-      eval.crumbleability <- fun.eval.crumbleability(value.crumbleability)
+      eval.crumbleability <- fun.eval.crumbleability(D_CR)
       
       return(eval.crumbleability)
-    },  value.crumbleability, crop_crumbleability), .SDcols = "eval.crumbleability"][, eval.crumbleability]
+    },  D_CR, crop_crumbleability), .SDcols = "value"][, value]
   
-  return(eval.crumbleability)
+  return(value)
 }
 
 #' Coefficient table for evaluating crumbleability
 #' 
-#' This table contains the coefficients for evaluating the crumbleability. This table is used internally in \code{\link{eval_crumbleability}}
+#' This table contains the coefficients for evaluating the crumbleability. This table is used internally in \code{\link{ind_crumbleability}}
 #' 
 "eval.crumbleability"

@@ -1,8 +1,11 @@
 # Changelog OBIC
 
-## UNRELEASED
+## Version 0.4.0 2019-07-26
 ### Added
-* Adds aggregation of fields to single value per indicator and score
+* The existing functions for pH, P, N, crumbleability, sealing and resistance are intergrated into `obic()`
+
+### Changed
+* The column name `brp` is changed to `B_LU_BRP`
 
 ## Version 0.3.0 2019-07-24
 ### Added

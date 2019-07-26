@@ -1,63 +1,63 @@
-#' Calculate soil sealing
+#' Calculate soil sealing risk
 #' 
-#' This function calculates the risks of soil sealing.  This value can be evaluated by \code{\link{eval_sealing}}
+#' This function calculates the risks of soil sealing.  This value can be evaluated by \code{\link{ind_sealing}}
 #' 
-#' @param lutum (numeric) The percentage lutum present in the soil
-#' @param om (numeric) The organic matter content of soil in percentage
+#' @param A_CLAY_MI (numeric) The percentage A_CLAY_MI present in the soil
+#' @param A_OS_GV (numeric) The organic matter content of soil in percentage
 #' 
 #' @import data.table
 #' 
 #' @importFrom stats approxfun
 #' 
 #' @export
-calc_sealing <- function(lutum, om) {
+calc_sealing_risk <- function(A_CLAY_MI, A_OS_GV) {
   
   # Check input
-  arg.length <- max(length(lutum), length(om))
-  checkmate::assert_numeric(lutum, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_numeric(om, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
+  arg.length <- max(length(A_CLAY_MI), length(A_OS_GV))
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
   
   # Setup a table with all the information
-  cor.om = value = value.lutum = NULL
+  value.A_CLAY_MI = cor.A_OS_GV = value.A_CLAY_MI = NULL
   dt <- data.table(
-    lutum = lutum,
-    om = om, 
-    value.lutum = NA_real_,
-    cor.om = NA_real_,
+    A_CLAY_MI = A_CLAY_MI,
+    A_OS_GV = A_OS_GV, 
+    value.A_CLAY_MI = NA_real_,
+    cor.A_OS_GV = NA_real_,
     value = NA_real_
   )
   df.lookup <- data.frame(
-    lutum = c(4, 6, 9, 10, 17, 25, 30, 100),
-    value.lutum = c(7, 6, 3, 2, 4, 8, 9, 10),
-    cor.om = c(0.4, 0.6, 0.8, 1, 0.7, 0.4, 0.3, 0)
+    A_CLAY_MI = c(4, 6, 9, 10, 17, 25, 30, 100),
+    value.A_CLAY_MI = c(7, 6, 3, 2, 4, 8, 9, 10),
+    cor.A_OS_GV = c(0.4, 0.6, 0.8, 1, 0.7, 0.4, 0.3, 0)
   )
   
-  # Calculate value.lutum
-  fun.lutum <- approxfun(x = df.lookup$lutum, y = df.lookup$value.lutum, rule = 2)
-  dt[is.na(value), value.lutum := fun.lutum(lutum)]
+  # Calculate value.A_CLAY_MI
+  fun.A_CLAY_MI <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$value.A_CLAY_MI, rule = 2)
+  dt[is.na(value), value.A_CLAY_MI := fun.A_CLAY_MI(A_CLAY_MI)]
   
-  # Create organic matter correction function and calculate correction for om
-  fun.cor.om <- approxfun(x = df.lookup$value.lutum, y = df.lookup$cor.om, rule = 2)
-  dt[is.na(value), cor.om := fun.cor.om(value.lutum)]
+  # Create organic matter correction function and calculate correction for A_OS_GV
+  fun.cor.A_OS_GV <- approxfun(x = df.lookup$value.A_CLAY_MI, y = df.lookup$cor.A_OS_GV, rule = 2)
+  dt[is.na(value), cor.A_OS_GV := fun.cor.A_OS_GV(value.A_CLAY_MI)]
   
   # Calculate the value
-  dt[is.na(value), value := value.lutum + cor.om * om]
+  dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV]
   value <- dt[, value]
     
   return(value)
 }
 
-#' Evaluate the soil sealing
+#' Calculate the soil sealing indicator
 #' 
-#' This function evaluates the soil sealing calculated by \code{\link{calc_sealing}}
+#' This function calculates the indicator for the soil sealing calculated by \code{\link{calc_sealing_risk}}
 #' 
-#' @param value.sealing (numeric) The value of soil sealing calculated by \code{\link{calc_sealing}}
-#' @param crop (numeric) The crop code (gewascode) from the BRP
+#' @param D_SE (numeric) The value of soil sealing calculated by \code{\link{calc_sealing_risk}}
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
 #' @import data.table
 #' 
 #' @export
-eval_sealing <- function(value.sealing, crop) {
+ind_sealing <- function(D_SE, B_LU_BRP) {
   
   # Load in the crops dataset
   crop_code = crop_sealing = id = NULL
@@ -65,28 +65,28 @@ eval_sealing <- function(value.sealing, crop) {
   setkey(crops.obic, crop_code)
   
   # Check inputs
-  arg.length <- max(length(value.sealing), length(crop))
-  checkmate::assert_numeric(value.sealing, lower = 0, upper = 10, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(crop, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(crop, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  arg.length <- max(length(D_SE), length(B_LU_BRP))
+  checkmate::assert_numeric(D_SE, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
   # Collect data into a table
   dt <- data.table(
     id = 1:arg.length,
-    value.sealing = value.sealing,
-    crop = crop,
-    eval.sealing = NA_real_
+    D_SE = D_SE,
+    B_LU_BRP = B_LU_BRP,
+    value = NA_real_
   )
-  setkey(dt, crop)
+  setkey(dt, B_LU_BRP)
   dt <- crops.obic[dt]
   setorder(dt, id)
 
   # Evaluate the sealing for grassland and all other crops
-  dt[crop_sealing == "overig", eval.sealing := OBIC::evaluate_logistic(x = value.sealing, b = 1.5, x0 = 0.3, v = 0.35)]
-  dt[crop_sealing == "gras", eval.sealing := 1]
+  dt[crop_sealing == "overig", value := OBIC::evaluate_logistic(x = D_SE, b = 1.5, x0 = 0.3, v = 0.35)]
+  dt[crop_sealing == "gras", value := 1]
   
-  eval.sealing <- dt[, eval.sealing]
+  value <- dt[, value]
 
   # return output
-  return(eval.sealing)
+  return(value)
 }

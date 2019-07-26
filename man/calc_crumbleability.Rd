@@ -4,15 +4,15 @@
 \alias{calc_crumbleability}
 \title{Calculate the crumbleability}
 \usage{
-calc_crumbleability(lutum, om, ph)
+calc_crumbleability(A_CLAY_MI, A_OS_GV, A_PH_CC)
 }
 \arguments{
-\item{lutum}{(numeric) The percentage lutum available of the soil}
+\item{A_CLAY_MI}{(numeric) The percentage A_CLAY_MI available of the soil}
 
-\item{om}{(numeric) The organic matter content of soil in percentage}
+\item{A_OS_GV}{(numeric) The organic matter content of soil in percentage}
 
-\item{ph}{(numeric) The pH of the soil}
+\item{A_PH_CC}{(numeric) The pH of the soil}
 }
 \description{
-This function calculates the crumbleability. This value can be evaluated by \code{\link{eval_crumbleability}}
+This function calculates the crumbleability. This value can be evaluated by \code{\link{ind_crumbleability}}
 }

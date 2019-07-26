@@ -4,29 +4,29 @@
 \alias{calc_ph_delta}
 \title{Calculate the difference between pH and optimum}
 \usage{
-calc_ph_delta(ph.cacl2, soiltype, om, lutum, cp.starch, cp.potato,
-  cp.sugarbeet, cp.grass, cp.mais, cp.other)
+calc_ph_delta(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH,
+  D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)
 }
 \arguments{
-\item{ph.cacl2}{(numeric) The pH-CaCl2 of the soil}
+\item{A_PH_CC}{(numeric) The pH-CaCl2 of the soil}
 
-\item{soiltype}{(character) The type of soil}
+\item{B_BT_AK}{(character) The type of soil}
 
-\item{om}{(numeric) The organic matter content of soil in percentage}
+\item{A_CLAY_MI}{(numeric) The percentage A_CLAY_MI present in the soil}
 
-\item{lutum}{(numeric) The percentage lutum present in the soil}
+\item{A_OS_GV}{(numeric) The organic matter content of soil in percentage}
 
-\item{cp.starch}{(numeric) The fraction of starch potatoes in the crop plan}
+\item{D_CP_STARCH}{(numeric) The fraction of starch potatoes in the crop plan}
 
-\item{cp.potato}{(numeric) The fraction of potatoes (excluding starch potatoes) in the crop plan}
+\item{D_CP_POTATO}{(numeric) The fraction of potatoes (excluding starch potatoes) in the crop plan}
 
-\item{cp.sugarbeet}{(numeric) The fraction of sugar beets in the crop plan}
+\item{D_CP_SUGARBEET}{(numeric) The fraction of sugar beets in the crop plan}
 
-\item{cp.grass}{(numeric) The fracgtion of grass in the crop plan}
+\item{D_CP_GRASS}{(numeric) The fracgtion of grass in the crop plan}
 
-\item{cp.mais}{(numeric) The fraction of mais in the crop plan}
+\item{D_CP_MAIS}{(numeric) The fraction of mais in the crop plan}
 
-\item{cp.other}{(numeric) The fraction of other crops in the crop plan}
+\item{D_CP_OTHER}{(numeric) The fraction of other crops in the crop plan}
 }
 \description{
 This functions calculates the difference between the measured pH and the optimal pH according to the Bemestingsadvies

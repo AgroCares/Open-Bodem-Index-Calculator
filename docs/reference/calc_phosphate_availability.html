@@ -34,7 +34,7 @@
 
 <meta property="og:title" content="Calculate the phosphate availability (PBI) — calc_phosphate_availability" />
 
-<meta property="og:description" content="This function calculates the phosphate availability. This value can be evaluated by eval_phosphate_availability" />
+<meta property="og:description" content="This function calculates the phosphate availability. This value can be evaluated by ind_phosphate_availability" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -125,25 +125,25 @@
 
     <div class="ref-description">
     
-    <p>This function calculates the phosphate availability. This value can be evaluated by <code><a href='eval_phosphate_availability.html'>eval_phosphate_availability</a></code></p>
+    <p>This function calculates the phosphate availability. This value can be evaluated by <code><a href='ind_phosphate_availability.html'>ind_phosphate_availability</a></code></p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>calc_phosphate_availability</span>(<span class='no'>p_al</span>, <span class='no'>p_cacl2</span>, <span class='no'>crop</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_phosphate_availability</span>(<span class='no'>A_P_PAL</span>, <span class='no'>A_P_PAE</span>, <span class='no'>B_LU_BRP</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>p_al</th>
+      <th>A_P_PAL</th>
       <td><p>(numeric) The P-AL content of the soil</p></td>
     </tr>
     <tr>
-      <th>p_cacl2</th>
+      <th>A_P_PAE</th>
       <td><p>(numeric) The P-CaCl2 content of the soil</p></td>
     </tr>
     <tr>
-      <th>crop</th>
+      <th>B_LU_BRP</th>
       <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
     </tr>
     </table>
