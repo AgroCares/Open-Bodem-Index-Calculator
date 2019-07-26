@@ -17,7 +17,7 @@ obic_score <- function(dt.ind) {
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = NULL
   
   # Score the chemical indicators
-  dt.ind[, S_C := 0*I_C_N + 0*I_C_P + 0*I_C_K + 0*I_C_MG + 0*I_C_S + 0*I_C_PH + 0*I_C_CEC + 0*I_C_CU + 0*I_C_ZN ]
+  dt.ind[, S_C := 0.333*I_C_N + 0.333*I_C_P + 0*I_C_K + 0*I_C_MG + 0*I_C_S + 0.333*I_C_PH + 0*I_C_CEC + 0*I_C_CU + 0*I_C_ZN ]
   
   # Score the physical inidcators
   dt.ind[, S_P :=  0*I_P_CR + 1*I_P_SE + 0*I_P_MS + 0*I_P_BC + 0*I_P_DU + 0*I_P_CO]
@@ -29,7 +29,7 @@ obic_score <- function(dt.ind) {
   dt.ind[, S_M := -999]
   
   # Calculate the total score
-  dt.ind[, S_T := 0*S_C + 0.5*S_P + 0.5*S_B + 0*S_M]
+  dt.ind[, S_T := 0.333*S_C + 0.333*S_P + 0.333*S_B + 0*S_M]
   
   # Aggregate per field
   col.sel <- colnames(dt.ind)[grepl("ID|^I_|^S_", colnames(dt.ind))]
