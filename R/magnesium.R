@@ -130,3 +130,59 @@ calc_magnesium_availability <- function(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO,A_K_CEC
   # return value: be aware, index is different for different land use and soil combinations
   return(value)
 }
+
+
+
+#' Calculate the indicator for Magnesium
+#' 
+#' This function calculates the indicator for the the Magnesium content of the soil by using the Mg-availability calculated by \code{\link{calc_magnesium_availability}}
+#' 
+#' @param D_MG (numeric) The value of Mg calculated by \code{\link{calc_magnesium_availability}}
+#' 
+#' @export
+ind_magnesium <- function(D_MG,B_LU_BRP) {
+  
+  # Load in the datasets for soil and crop types
+  # sven: add gras-maize-arable crop group to crops.obic???
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  setkey(crops.obic, crop_code)
+  
+  # Check inputs
+  checkmate::assert_numeric(D_MG, lower = -1, upper = 1, any.missing = FALSE)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  
+  # make data.table to save scores
+  dt = data.table(
+    D_MG = D_MG,
+    B_LU_BRP = B_LU_BRP,
+    value = NA_real_
+  )
+  
+  # add crop names
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_n)], by.x = "B_LU_BRP", by.y = "crop_code")
+  
+  # Evaluate Mg availability for arable land -----
+  dt.arable <- dt[crop_n == "akkerbouw"]
+  dt.arable[,value := evaluate_logistic(D_MG, b = 0.18, x0 = 60, v = 5)]
+  
+  # Evaluate Mg availability for maize land -----
+  dt.maize <- dt[crop_n == "mais"]
+  dt.maize[,value := evaluate_logistic(D_MG, b = 0.30, x0 = 50, v = 6)]
+  
+  # Evaluate Mg availability for grassland on sandy and loamy soils -----
+  dt.grass.sand <- dt[crop_n == "gras" & grepl('zand|loess|dalgrond',soiltype.n)]
+  dt.grass.sand[,value := evaluate_logistic(D_MG, b = 0.35, x0 = 55, v = 8)]
+  
+  # Evaluate Mg availability for grassland on clay and peat soils ----- 
+  dt.grass.other <- dt[crop_n == "gras" & grepl('klei|veen',soiltype.n)]
+  dt.grass.other[,value := evaluate_logistic(D_MG, b = 35, x0 = 0.2, v = 9)]
+  
+  # Combine both tables and extract values
+  dt <- rbindlist(list(dt.grass.sand,dt.grass.other, dt.arable,dt.maize), fill = TRUE)
+  setorder(dt, id)
+  value <- dt[, value]
+  
+  # return output
+  return(value)
+}
