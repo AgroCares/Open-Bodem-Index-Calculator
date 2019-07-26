@@ -78,7 +78,7 @@ ind_crumbleability <- function(D_CR, B_LU_BRP) {
 
   # Check input
   arg.length = max(length(D_CR), length(B_LU_BRP))
-  checkmate::assert_numeric(D_CR, lower = 0, upper = 10, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_CR, lower = 0, upper = 20, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
 

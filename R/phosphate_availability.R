@@ -18,8 +18,8 @@ calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, B_LU_BRP) {
   
   # Check input
   arg.length <- max(length(A_P_PAL), length(A_P_PAE), length(B_LU_BRP))
-  checkmate::assert_numeric(A_P_PAL, lower = 8, upper = 70, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_P_PAE, lower = 0.3, upper = 5, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_P_PAL, lower = 8, upper = 200, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_P_PAE, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
@@ -55,7 +55,7 @@ calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, B_LU_BRP) {
 ind_phosphate_availability <- function(D_PBI) {
   
   # Check inputs
-  checkmate::assert_numeric(D_PBI, lower = 0, upper = 7, any.missing = FALSE)
+  checkmate::assert_numeric(D_PBI, lower = 0, upper = 40, any.missing = FALSE)
   
   # Evaluate the phosphate availability
   value <- OBIC::evaluate_logistic(D_PBI, b = 1.3, x0 = 1.3, v = 0.35)

@@ -51,7 +51,8 @@ obic_indicators<- function(dt.ppr) {
   # Evaluate physical -------------------------------------------------------
   
   # Crumbleability
-  dt.ppr[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
+  dt.ppr[, I_P_CR := -999] # Crops need to be categorised
+  # dt.ppr[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
   
   # Sealing
   dt.ppr[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]

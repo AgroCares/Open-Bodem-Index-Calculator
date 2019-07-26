@@ -17,7 +17,8 @@ calc_organic_carbon <- function(A_OS_GV, D_BDS, D_RD) {
   
   # Calculate the value
   ha <- 100 * 100
-  value <- 0.58 * A_OS_GV * ha *  D_RD * D_BDS
+  A_OS_FR <- A_OS_GV / 100
+  value <- 0.58 * A_OS_FR * ha *  D_RD * D_BDS
   
   return(value)
 }

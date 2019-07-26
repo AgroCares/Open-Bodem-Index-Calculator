@@ -38,7 +38,7 @@ obic_preprocessing <- function(dt) {
   
   # Calculate the NLV
   dt[, D_NLV := calc_nlv(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA)]
-  
+
   # Calculate the PBI
   dt[, D_PBI := calc_phosphate_availability(A_P_PAL, A_P_PAE, B_LU_BRP)]
   

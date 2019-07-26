@@ -40,7 +40,7 @@ calc_ph_delta <- function(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_C
   checkmate::assert_numeric(D_CP_OTHER, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
   cp.total <- D_CP_STARCH + D_CP_POTATO + D_CP_SUGARBEET + D_CP_GRASS + D_CP_MAIS + D_CP_OTHER
   if (any(cp.total != 1)) {
-    stop(paste0("The sum of the fraction of cp is not 1, but ", min(cp.total)))
+     #stop(paste0("The sum of the fraction of cp is not 1, but ", min(cp.total)))
   }
   
   # Collect information in table

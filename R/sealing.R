@@ -66,7 +66,7 @@ ind_sealing <- function(D_SE, B_LU_BRP) {
   
   # Check inputs
   arg.length <- max(length(D_SE), length(B_LU_BRP))
-  checkmate::assert_numeric(D_SE, lower = 0, upper = 10, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_SE, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
