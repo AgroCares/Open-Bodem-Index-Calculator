@@ -17,7 +17,7 @@ test_that("calc_ph_delta works", {
   )
   expect_equal(
     calc_ph_delta(
-      A_PH_CC = c(6, 5.8, 6.2, 5.6),
+      A_PH_CC = c(6, 5.8, 6.2, 4.5),
       B_BT_AK = c("rivierklei", "veen", "veen", "loess"),
       A_CLAY_MI = c(20, 5, 8, 12),
       A_OS_GV = c(5, 20, 23, 8),
@@ -28,15 +28,15 @@ test_that("calc_ph_delta works", {
       D_CP_SUGARBEET = c(0.2, 0, 0.15, 0),
       D_CP_OTHER = c(0.4, 0, 0, 0.5)
     ),
-    expected = c(0.3, 0, 0, 0),
+    expected = c(0.3, 0, 0, 0.6),
     tolerance = 0.001
   )
 })
 
 test_that("eval_ works", {
   expect_equal(
-    eval_ph(
-      value.ph.delta = seq(from = 0, to = 1.5, by = 0.2)
+    ind_ph(
+      D_PH_DELTA = seq(from = 0, to = 1.5, by = 0.2)
     ),
     expected = c(0.0009951581, 0.0449194368, 0.4261837504, 0.8499235247, 0.9727585651, 0.9954239501, 0.9992415551, 0.9998745743),
     tolerance = 0.001

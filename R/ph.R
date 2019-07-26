@@ -60,7 +60,7 @@ calc_ph_delta <- function(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_C
   )
   
   # Join soil type used for this function
-  dt <- merge(dt, soils.obic, by.x = "B_BT_AK", by.y = "soiltype.n")
+  dt <- merge(dt, soils.obic, by.x = "B_BT_AK", by.y = "soiltype")
   
   # Define which table to be used
   dt[soiltype.ph == 1, table := "5.1"]
