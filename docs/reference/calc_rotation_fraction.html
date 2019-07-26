@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the crumbleability — calc_crumbleability • OBIC</title>
+<title>Calculates the fraction in the crop rotation — calc_rotation_fraction • OBIC</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="Calculate the crumbleability — calc_crumbleability" />
+<meta property="og:title" content="Calculates the fraction in the crop rotation — calc_rotation_fraction" />
 
-<meta property="og:description" content="This function calculates the crumbleability. This value can be evaluated by ind_crumbleability" />
+<meta property="og:description" content="This function calculates the fraction present in the crop rotation" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,33 +118,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the crumbleability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/crumbleability.R'><code>R/crumbleability.R</code></a></small>
-    <div class="hidden name"><code>calc_crumbleability.Rd</code></div>
+    <h1>Calculates the fraction in the crop rotation</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/crop_rotation.R'><code>R/crop_rotation.R</code></a></small>
+    <div class="hidden name"><code>calc_rotation_fraction.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function calculates the crumbleability. This value can be evaluated by <code><a href='ind_crumbleability.html'>ind_crumbleability</a></code></p>
+    <p>This function calculates the fraction present in the crop rotation</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>calc_crumbleability</span>(<span class='no'>A_CLAY_MI</span>, <span class='no'>A_OS_GV</span>, <span class='no'>A_PH_CC</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_rotation_fraction</span>(<span class='no'>ID</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>crop</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A_CLAY_MI</th>
-      <td><p>(numeric) The percentage A_CLAY_MI available of the soil</p></td>
+      <th>ID</th>
+      <td><p>(numeric) The ID of the field</p></td>
     </tr>
     <tr>
-      <th>A_OS_GV</th>
-      <td><p>(numeric) The organic matter content of soil in percentage</p></td>
+      <th>B_LU_BRP</th>
+      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
     </tr>
     <tr>
-      <th>A_PH_CC</th>
-      <td><p>(numeric) The pH of the soil</p></td>
+      <th>crop</th>
+      <td><p>(character) The crop to check for</p></td>
     </tr>
     </table>
     
