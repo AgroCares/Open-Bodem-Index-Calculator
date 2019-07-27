@@ -142,7 +142,7 @@ calc_magnesium_availability <- function(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO,A_K_CEC
 #' @export
 ind_magnesium <- function(D_MG,B_LU_BRP) {
   
-  # Load in the datasets for soil and crop types
+  # Load in the datasets for crop types
   # sven: add gras-maize-arable crop group to crops.obic???
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
