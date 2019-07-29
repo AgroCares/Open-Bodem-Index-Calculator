@@ -10,7 +10,7 @@
 #' @param M_M6 (boolean) are catch crops (groenbemesters) frequently used: yes or no
 #' 
 #' @export
-cal_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, M_M3, M_M6) {
+calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, M_M3, M_M6) {
   
   c.diss = id = crop_code = crop_n = cropinput = mdose = compost = catchcrop = NULL
   
