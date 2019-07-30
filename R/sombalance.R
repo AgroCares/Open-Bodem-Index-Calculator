@@ -26,7 +26,7 @@ calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, M_M3, M_M6) {
   checkmate::assert_numeric(A_P_PAL, lower = 8, upper = 200, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_P_PW, lower = 0, upper = 200, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(M_M3, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  # add check for boolean M_M6
+  checkmate::assert_logical(M_M6,any.missing = FALSE, len = arg.length)
   
   # make data.table
   dt <- data.table(
