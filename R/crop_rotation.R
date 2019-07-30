@@ -21,7 +21,9 @@ calc_rotation_fraction <- function(ID, B_LU_BRP, crop) {
   checkmate::assert_numeric(ID, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_choice(crop, choices = c("starch", "potato", "sugarbeet", "grass", "mais", "other"))
+  checkmate::assert_choice(crop, choices = c("starch", "potato", "sugarbeet", "grass", "mais", 
+                                             "alfalfa","catchcrop","cereal","clover",'nature',
+                                             'rapeseed',"other","rustgewas","rustgewasdiep"))
   
   # Collect the data in a table
   dt <- data.table(
@@ -31,6 +33,14 @@ calc_rotation_fraction <- function(ID, B_LU_BRP, crop) {
   )
   dt <- merge(dt, crops.obic[, list(crop_code, crop_rotation)], by.x = "B_LU_BRP", by.y = "crop_code")
   setorder(dt, this_id)
+  
+  # do some clustering for group 'rustgewas' or 'deep rustgewas'
+  if(crop=='rustgewas'){
+    dt[crop_rotation %in% c('catchgrop','clover','grass','alfalfa','cereal','rapeseed'), crop_rotation := 'rustgewas']
+  }
+  if(crop=='rustgewasdiep'){
+    dt[crop_rotation %in% c('clover','alfalfa','rapeseed'), crop_rotation := 'rustgewasdiep']
+  }
   
   # Calculate the fraction for this crop
   dt[, sel := ifelse(crop_rotation == crop, 1, 0)]
