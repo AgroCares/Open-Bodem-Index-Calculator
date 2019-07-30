@@ -4,13 +4,14 @@
 #' 
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
+#' @param nutrient (character) The nutrient for wich crop classification is needed. Options include P, K and S.
 #' 
 #' @import data.table
 #' 
 #' @export
 calc_cropclass <- function(B_LU_BRP,B_BT_AK, nutrient = NULL) {
   
-  crop_category = crop_code = soiltype = id = NULL
+  crop_category = crop_code = crop_name = soiltype = id = soiltype.n = NULL
   
   # Load data
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -29,9 +30,10 @@ calc_cropclass <- function(B_LU_BRP,B_BT_AK, nutrient = NULL) {
   dt <- data.table(
     id = 1:length(B_LU_BRP),
     B_LU_BRP = B_LU_BRP,
-    value = NA_real_
+    B_BT_AK = B_BT_AK,
+    value = NA_character_
   )
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_name)], by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   setorder(dt, id)
   
@@ -40,9 +42,9 @@ calc_cropclass <- function(B_LU_BRP,B_BT_AK, nutrient = NULL) {
   
   # general selection strings for all nutrients
   nat = 'bos|rand|griend|natuur|houtwal|onbeteeld|onbekend|struweel|oever|riet|rietzoom|wandel|wilg|brandn|cultuur|poel|bomenrij'
-  bkw = 'bomen|peren|bloem|rozen|facelia|hop|lupine|kers|bramen|heesters|elzen|pruimen|zonne|conifer|kruid|vaste|heg|boom|wijn|bloemkwek|heesters|appelen|buxus|bes'
+  bkw = 'bomen|peren|bloem|rozen|facelia|hop|lupine|kers|bramen|heesters|elzen|pruimen|zonne|conifer|kruid|vaste|heg|boom|wijn|bloemkwek|heesters|^appelen|buxus|bes'
   grs = 'grasland|raaigras|rietzwenkgras|veldbeemdgras'
-  sms = 'mais|corncob|snijmai|maÃ¯s'
+  sms = 'mais|corncob|snijmai'
   
   # Determine crop classication for P ----
   if(nutrient == 'P') {
@@ -78,7 +80,7 @@ calc_cropclass <- function(B_LU_BRP,B_BT_AK, nutrient = NULL) {
     cr2 = 'aardappelen, poot|aardappelen, zetme|aardappelen, bestr|bloemkool'
     cr3 = 'bieten, voeder'
     cr1 = 'broccoli|cichorei|^sla|aardappelen, consumptie|bieten, suiker|rode bieten|klaver|wikke|luzerne|uien|spinazie|spruit|wortel|peen|prei|augurk|knols|schorse|aardbei|vlas|karwij|kool'  
-    cr4 = 'raapzaad|asperges|tagetes|granen|hennep|haver|sorghum|triticale|spelt|graszoden|tarwe|rogge|grasza|gerst|mais|corncob|snijmai|maÃ¯s|bonen|boon|erwt'
+    cr4 = 'raapzaad|asperges|tagetes|granen|hennep|haver|sorghum|triticale|spelt|graszoden|tarwe|rogge|grasza|gerst|mais|corncob|snijmai|bonen|boon|erwt'
    
     # distinghuish K sensitivity crop classes for grassland, nature and tree & bulbs
     dt[grepl(grs,crop_name), value := 'gras']
@@ -95,7 +97,7 @@ calc_cropclass <- function(B_LU_BRP,B_BT_AK, nutrient = NULL) {
     # crop name selection strings for potassium on loess soils
     cr1 = 'broccoli|bol|cichorei|^sla|bieten, voeder|aardappelen, consumptie|bieten, suiker|rode bieten|klaver|wikke|luzerne|uien|spinazie|spruit|wortel|peen|prei|augurk|knols|schorse|aardbei|vlas|karwij|kool'  
     cr2 = 'aardappelen, poot|aardappelen, zetme|aardappelen, bestr|bloemkool|erwt|boon|bonen|luzerne|witlof|spruitkool' 
-    cr3 = 'raapzaad|blauwmaan|asperges|tagetes|granen|hennep|haver|sorghum|triticale|spelt|graszoden|tarwe|rogge|grasza|gerst|mais|corncob|snijmai|maÃ¯s|zaad'
+    cr3 = 'raapzaad|blauwmaan|asperges|tagetes|granen|hennep|haver|sorghum|triticale|spelt|graszoden|tarwe|rogge|grasza|gerst|mais|corncob|snijmai|zaad'
     
     # distinghuish K sensitivity arable crop classes on loess soils
     dt[grepl(cr1,crop_name) & soiltype == 'loess',value := 'class1']
@@ -106,7 +108,7 @@ calc_cropclass <- function(B_LU_BRP,B_BT_AK, nutrient = NULL) {
     cr1 = 'witte kool|rodekool|aardappelen, consumptie|^ui|uien|peen|prei|knolsel|augurk|schorsen|aardbei'
     cr2 = 'bieten, suiker|rode bieten|^vlas|vezelvlas|karwij|asperge'
     cr3 = 'luzerne|aardappelen, poot|aardappelen, zetme|aardappelen, bestr|bieten, voeder|peters|erwt|bonen|boon|klaver|wikke|luzene|witlof|bloemkool|spruitkool|bol'
-    cr4 = 'raapzaad|blauwmaan|tagetes|granen|hennep|haver|sorghum|triticale|spelt|graszoden|tarwe|rogge|grasza|gerst|mais|corncob|snijmai|maÃ¯s|raapzaad|graszaad|koolzaad|kanarie|lijnzaad'
+    cr4 = 'raapzaad|blauwmaan|tagetes|granen|hennep|haver|sorghum|triticale|spelt|graszoden|tarwe|rogge|grasza|gerst|mais|corncob|snijmai|raapzaad|graszaad|koolzaad|kanarie|lijnzaad'
     cr5 = 'spinazie, productie'
     
     # distinghuish K sensitivity arable crop classes on clay soils
@@ -126,7 +128,7 @@ calc_cropclass <- function(B_LU_BRP,B_BT_AK, nutrient = NULL) {
     # crop name selection strings for sulphur
     cr1 ='spruitkool|sluitkool'
     cr2 = 'bloemkool|chinese kool|knolsel|koolz'
-    cr3 = 'peen|aardappelen, zetme|aardappelen, bestr|aardappelen, consumptie|boerenkool|broccoli|granen|hennep|haver|sorghum|triticale|spelt|graszoden|tarwe|rogge|grasza|gerst|mais|corncob|snijmai|maÃ¯s|prei|uien|^ui|zaaiui|erwt|boon|bonen'
+    cr3 = 'peen|aardappelen, zetme|aardappelen, bestr|aardappelen, consumptie|boerenkool|broccoli|granen|hennep|haver|sorghum|triticale|spelt|graszoden|tarwe|rogge|grasza|gerst|mais|corncob|snijmai|prei|uien|^ui|zaaiui|erwt|boon|bonen'
     cr4 = 'aardappelen, poot|^sla|bieten, suiker|vlas'
     
     # distinghuish K sensitivity crop classes for grassland, nature and tree & bulbs
