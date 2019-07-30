@@ -2,22 +2,22 @@
 #' 
 #' This function calculates a S-balance given the SLV (Sulpher supplying capacity) of a soil
 #' 
-#' @param A_S_TOT (numeric) The total Sulpher content of the soil in mg S / kg
-#' @param A_OS_GV (numeric) The organic matter content of the soil in %
+#' @param A_S_TOT (numeric) The total Sulpher content of the soil (in mg S per kg)
+#' @param A_OS_GV (numeric) The organic matter content of the soil (in procent)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
 #' @param B_LG_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
-#' @param D_BDS (numeric) The bulk density of the soil in kg / m3
+#' @param D_BDS (numeric) The bulk density of the soil (in kg per m3)
 #' 
 #' @import data.table
 #' 
 #' @export
 calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   
-  a = c.ass = c.diss = id = crop_code = soiltype = soiltype.n = crop_n = NULL
+  a = c.ass = c.diss = id = crop_code = soiltype = soiltype.n = crop_category = NULL
+  minip.a = D_OC = A_CS_RAT = NULL
   
   # Load in the datasets
-  # sven, check crop_code tabel, moet gras-mais-bouwland zijn
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
   soils.obic <- as.data.table(OBIC::soils.obic)
@@ -26,7 +26,14 @@ calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   # Check input
   arg.length <- max(length(A_S_TOT), length(A_OS_GV), length(B_LU_BRP), 
                     length(B_BT_AK), length(B_LG_CBS),length(D_BDS))
-  # add checks Sven
+  checkmate::assert_numeric(A_S_TOT, lower = 0, upper = 30000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_character(B_LG_CBS, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_numeric(D_BDS, lower = 0, upper = 1500, any.missing = FALSE, len = arg.length)
   
   # Settings
   param.b <- 2^((14.1 - 9)/ 9) # Temperature correction
@@ -44,28 +51,25 @@ calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
     D_BDS = D_BDS,
     value = NA_real_
   )
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_n)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   
-  # Calculate SLV for grass (sven: check units, deze formule: Stot = g/kg en dichtheid in g/cm3)
-  dt.grass <- dt[crop_n == "gras"]
-  dt.grass[, value := 17.8 * A_S_TOT * D_BDS]
+  # Calculate SLV for grass (deze formule: Stot = g/kg en dichtheid in g/cm3)
+  dt.grass <- dt[crop_category == "grasland"]
+  dt.grass[, value := 17.8 * A_S_TOT * 0.001 * D_BDS * 0.001]
   
-  # Calculate SLV for maize for 0-30 cm depth (sven: check units)
-  dt.maize <- dt[crop_n == "mais"]
-  dt.maize[, value := 41.2 * A_S_TOT * D_BDS * 3]
+  # Calculate SLV for maize for 0-30 cm depth
+  dt.maize <- dt[crop_category == "mais"]
+  dt.maize[, value := 41.2 * A_S_TOT * 0.001 * D_BDS * 3 * 0.001]
   
   # Calculate the SLV for arable land
-  dt.arable <- dt[crop_n == "akkerbouw"]
+  dt.arable <- dt[crop_category == "akkerbouw"]
   
     # set initial age of the organic matter
     dt.arable[, minip.a := 20]
-    dt.arable[grepl('duinzand',soiltype.n), minip.a := 14.5]
-    dt.arable[grepl('venigeklei',soiltype.nl), minip.a := 35]
+    dt.arable[grepl('duinzand',B_BT_AK), minip.a := 14.5]
+    dt.arable[grepl('moerige_klei',B_BT_AK), minip.a := 35]
   
-    # calculate density
-    dt.arable[,D_BDS := calc_bulk_density(A_OS_GV,B_BT_AK)]
-    
     # calculate C-stock (kg/ ha) and CS ratio (sven: check unit)
     dt.arable[,D_OC := A_OS_GV * 100 * 100 * 0.3 * D_BDS * 0.01]
     dt.arable[,A_CS_RAT := A_OS_GV * 10 / (A_S_TOT * 0.001)]
@@ -76,8 +80,12 @@ calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
     dt.arable[, value := ((c.diss + c.ass) / A_CS_RAT) - (c.ass / param.cs.micro)]
     dt.arable[value > 150, value := 150]
   
+  # Calculate the SLV for nature land
+  dt.nature <- dt[crop_category == "natuur"]
+  dt.nature[,value := 1.5 * A_S_TOT * D_BDS]
+      
   # Combine both tables and extract values
-  dt <- rbindlist(list(dt.grass, dt.maize,dt.arable), fill = TRUE)
+  dt <- rbindlist(list(dt.grass, dt.maize,dt.arable,dt.nature), fill = TRUE)
   setorder(dt, id)
   value <- dt[, value]
   
@@ -88,7 +96,6 @@ calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
 #' Calculate the indicator for delta S-balans arable
 #' 
 #' This function calculates the change in S-balans compared to averaged S-supply as given in fertilizer recommendation systems.
-#'  
 #' 
 #' @param D_SLV (numeric) The value of SLV  calculated by \code{\link{calc_slv}}
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
@@ -98,11 +105,10 @@ calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
 #' @export
 calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   
-  id = crop_code = soiltype = soiltype.n = crop_n = cropclass = NULL
+  id = crop_code = soiltype = soiltype.n = crop_category = cropclass = NULL
   clust = slv_av = sfert = sreq = NULL
   
   # Load in the datasets
-  # sven, check crop_code tabel, moet gras-mais-bouwland zijn
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
   soils.obic <- as.data.table(OBIC::soils.obic)
@@ -110,7 +116,12 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   
   # Check input
   arg.length <- max(length(D_SLV), length(B_LU_BRP), length(B_BT_AK), length(B_LG_CBS))
-  # add checks Sven for all inputs, gewas alleen bouwland gewas
+  checkmate::assert_numeric(D_SLV, lower = 0, upper = 150, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_character(B_LG_CBS, any.missing = FALSE, min.len = 1, len = arg.length)
   
   # Collect data in a table
   dt <- data.table(
@@ -120,7 +131,7 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
     B_BT_AK = B_BT_AK,
     value = NA_real_
   )
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_n)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   
   # add S supply from soil and fertilizer 
@@ -130,15 +141,15 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   dt[,B_LG_CBS := tolower(B_LG_CBS)]
   
   # add cluster variable to be used later (related to soil type and agronomic region)
-  dt[grepl('klei',soiltype.n) & grepl('bouwh|oldambt',B_LG_CBS), clust := 1]
-  dt[grepl('klei',soiltype.n) & grepl('rivier|zuidwestelijk',B_LG_CBS), clust := 2]
-  dt[grepl('klei',soiltype.n) & grepl('ijsselmeer',B_LG_CBS), clust := 3]
-  dt[grepl('klei',soiltype.n) & grepl('noord|westelijk holland',B_LG_CBS), clust := 4]
-  dt[grepl('klei',soiltype.n) & grepl('hollands/utrechts weidegebied|waterland',B_LG_CBS), clust := 5]
-  dt[soiltype.n=='veen', clust := 6]
-  dt[grepl('dal|zand|xxx',soiltype.n) & grepl('noord|oldambt',B_LG_CBS), clust := 7]
-  dt[grepl('dal|zand|xxx',soiltype.n) & grepl('oostelijk|centraal|zuidelijk|zuidwest-brabant',B_LG_CBS), clust := 8]
-  dt[soiltype.n=='loss',clust := 9] 
+  dt[grepl('klei',B_BT_AK) & grepl('bouwh|oldambt',B_LG_CBS), clust := 1]
+  dt[grepl('klei',B_BT_AK) & grepl('rivier|zuidwestelijk',B_LG_CBS), clust := 2]
+  dt[grepl('klei',B_BT_AK) & grepl('ijsselmeer',B_LG_CBS), clust := 3]
+  dt[grepl('klei',B_BT_AK) & grepl('noord|westelijk holland',B_LG_CBS), clust := 4]
+  dt[grepl('klei',B_BT_AK) & grepl('hollands/utrechts weidegebied|waterland',B_LG_CBS), clust := 5]
+  dt[B_BT_AK=='veen', clust := 6]
+  dt[grepl('dal|zand|xxx',B_BT_AK) & grepl('noord|oldambt',B_LG_CBS), clust := 7]
+  dt[grepl('dal|zand|xxx',B_BT_AK) & grepl('oostelijk|centraal|zuidelijk|zuidwest-brabant',B_LG_CBS), clust := 8]
+  dt[B_BT_AK=='loess',clust := 9] 
   
   # add crop S requirement classes  
   dt[,cropclass := calc_cropclass(B_LU_BRP,B_BT_AK,nutrient='S')]
@@ -172,8 +183,10 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   dt[,sreq := slv_av + sfert]
   
   # estimated SLV compared to total S requirement
-  dt[,value := slv - sreq]
+  dt[,value := D_SLV - sreq]
   
+  # extract value from dt 
+  setorder(dt, id)
   value <- dt[, value]
   
   # return value change in S-balance
@@ -184,10 +197,6 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
 #' 
 #' This function calculates the indicator for the the S-index by using the SLV calculated by \code{\link{calc_slv}}
 #' 
-#' Note1: Sven: parameters need still to be estimated on recomendation tables
-#' Note2: checks need to be included
-#' Note3: check crop_n in crop_code tabel, moet gras-mais-bouwland bevatten
-#' 
 #' @param D_SLV (numeric) The value of SLV  calculated by \code{\link{calc_slv}}
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
@@ -196,7 +205,7 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
 #' @export
 ind_sulpher <- function(D_SLV,B_LU_BRP, B_BT_AK, B_LG_CBS) {
   
-  id = crop_code = soiltype = soiltype.n = crop_n = sbal = NULL
+  id = crop_code = soiltype = soiltype.n = crop_category = sbal = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -207,10 +216,15 @@ ind_sulpher <- function(D_SLV,B_LU_BRP, B_BT_AK, B_LG_CBS) {
   # Check input
   arg.length <- max(length(D_SLV), length(B_LU_BRP), length(B_BT_AK), length(B_LG_CBS))
   checkmate::assert_numeric(D_SLV, lower = -30, upper = 250, any.missing = FALSE)
-  # add checks Sven for all inputs, gewas alleen bouwland gewas
+  checkmate::assert_character(B_BT_AK, len = arg.length)
+  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_character(B_LG_CBS, len = arg.length)
   
   # make data.table to save scores
   dt = data.table(
+    id = 1:arg.length,
     D_SLV = D_SLV,
     B_LU_BRP = B_LU_BRP,
     B_BT_AK = B_BT_AK,
@@ -219,24 +233,30 @@ ind_sulpher <- function(D_SLV,B_LU_BRP, B_BT_AK, B_LG_CBS) {
   )
   
   # add crop names
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_n)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   
   # Evaluate S availability for arable land  -----
-  dt.arable <- dt[crop_n == "akkerbouw"]
+  dt.arable <- dt[crop_category == "akkerbouw"]
+  if(nrow(dt.arable)>0){
   dt.arable[,sbal := calc_sbal_arable(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS)]
   dt.arable[,value := evaluate_parabolic(sbal, x.top = 0)]
+  }
   
   # Evaluate S availability for maize land -----
-  dt.maize <- dt[crop_n == "mais"]
+  dt.maize <- dt[crop_category == "mais"]
   dt.maize[,value := evaluate_logistic(D_SLV, b = 5, x0 = 5, v = 5)]
   
   # Evaluate S availability for grassland -----
-  dt.grass <- dt[crop_n == "gras"]
+  dt.grass <- dt[crop_category == "grasland"]
   dt.grass[,value := evaluate_logistic(D_SLV, b = 5, x0 = 5, v = 5)]
   
+  # EValuate S availability for nature ----
+  dt.nature <- dt[crop_category =='natuur']
+  dt.nature[,value := 1]
+  
   # Combine the tables and extract values
-  dt <- rbindlist(list(dt.grass, dt.arable,dt.maize), fill = TRUE)
+  dt <- rbindlist(list(dt.grass, dt.arable,dt.maize,dt.nature), fill = TRUE)
   setorder(dt, id)
   value <- dt[, value]
   
