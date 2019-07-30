@@ -1,12 +1,9 @@
 #' Calculate indicator for wind erodibility
 #'
-#' This function calculates the risk for wind erodibility of soils
-#' derived from Van Kerckhoven et al. (2009) and Ros & Bussink (2013)
+#' This function calculates the risk for wind erodibility of soils, derived from Van Kerckhoven et al. (2009) and Ros & Bussink (2013)
 #' 
-#' Note. Sven: test/add checks etc / check crop name filter (how for bollen/ boomteelt?)
-#' 
-#' @param A_CLAY_MI (numeric) The clay content of the soil (in %)
-#' @param A_SILT_MI (numeric) The silt content of the soil (in %)
+#' @param A_CLAY_MI (numeric) The clay content of the soil (in procent)
+#' @param A_SILT_MI (numeric) The silt content of the soil (in procent)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #'  
 #' @export
@@ -60,16 +57,16 @@ calc_winderodibility <- function(A_CLAY_MI,A_SILT_MI,B_LU_BRP) {
 #'
 #' This function calculats the indicator for the resistance of the soil against wind erosion.
 #'  
-#' @param I_P_DU (numeric) The value for wind erodibility factor (WEF) calculated by \code{\link{calc_winderodibility}}
+#' @param D_P_DU (numeric) The value for wind erodibility factor (WEF) as calculated by \code{\link{calc_winderodibility}}
 #' 
 #' @export
-ind_winderodibility <- function(I_P_DU) {
+ind_winderodibility <- function(D_P_DU) {
   
   # Check inputs
-  checkmate::assert_numeric(I_P_DU, lower = 0, upper = 1, any.missing = FALSE)
+  checkmate::assert_numeric(D_P_DU, lower = 0, upper = 1, any.missing = FALSE)
   
   # Evaluate the wind erodibility factor (WEF)
-  value <- (1 - I_P_DU)
+  value <- (1 - D_P_DU)
   
   # return value
   return(value)
