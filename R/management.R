@@ -42,7 +42,7 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,D_OS_BAL) {
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   
   # measure 80% green
-  
+  dt[M_M10, value := value + 1]
   
   # grasklaver used
   dt[grepl('klaver',crop_name), value := value + 1]
