@@ -1,18 +1,19 @@
 #' Calculate simple organic matter balance
 #'
-#' This function calculates a simple organic matter balance, as currently used in agricultural practice in the Netherlands.
-#' more details, see www.os-balans.nl
+#' This function calculates a simple organic matter balance, as currently used in agricultural practice in the Netherlands.For more details, see www.os-balans.nl
 #' 
-#' @param A_OS_GV (numeric) The organic matter content of the soil (%)
-#' @param A_P_PAL (numeric) The P-AL content of the soil (mg P2O5/ 100g)
-#' @param A_P_PW (numeric) The P-water content of the soil (mg P2O5 / Liter)
+#' @param A_OS_GV (numeric) The organic matter content of the soil (in procent)
+#' @param A_P_PAL (numeric) The P-AL content of the soil (in mg P2O5 per 100g)
+#' @param A_P_WA (numeric) The P-water content of the soil (inmg P2O5 per Liter)
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param M_M3 (numeric) The frequency that compost is applied (every x years)
 #' @param M_M6 (boolean) are catch crops (groenbemesters) frequently used: yes or no
 #' 
 #' @export
-calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, M_M3, M_M6) {
+calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, B_LU_BRP,M_M3, M_M6) {
   
-  c.diss = id = crop_code = crop_n = cropinput = mdose = compost = catchcrop = NULL
+  c.diss = id = crop_code = crop_name = crop_n = cropinput = mdose = compost = catchcrop = NULL
+  crop_eos = crop_eos_residue = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -24,7 +25,7 @@ calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, M_M3, M_M6) {
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_numeric(A_P_PAL, lower = 8, upper = 200, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_P_PW, lower = 0, upper = 200, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_P_WA, lower = 0, upper = 200, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(M_M3, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_M6,any.missing = FALSE, len = arg.length)
   
@@ -41,7 +42,7 @@ calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, M_M3, M_M6) {
   )
   
   # merge with crop table
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_n)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_n,crop_name,crop_eos, crop_eos_residue)], by.x = "B_LU_BRP", by.y = "crop_code")
   
   # ensure crop name is lower case
   dt[,crop_name := tolower(crop_name)]
@@ -58,20 +59,21 @@ calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, M_M3, M_M6) {
   
   # manure input in grassland systems, assuming 100% dairy slurry
   slurry_EOS_Pratio <- 50/1.5
-  dt[crops_n=='grass' & A_P_PAL <= 16,mdose := 120 * slurry_EOS_Pratio]
-  dt[crops_n=='grass' & A_P_PAL > 16 & A_P_PAL <= 27,mdose := 100 * slurry_EOS_Pratio]
-  dt[crops_n=='grass' & A_P_PAL > 27 & A_P_PAL < 50,mdose := 90 * slurry_EOS_Pratio]
-  dt[crops_n=='grass' & A_P_PAL > 50,mdose := 80 * slurry_EOS_Pratio]
+  dt[crop_n=='gras' & A_P_PAL <= 16,mdose := 120 * slurry_EOS_Pratio]
+  dt[crop_n=='gras' & A_P_PAL > 16 & A_P_PAL <= 27,mdose := 100 * slurry_EOS_Pratio]
+  dt[crop_n=='gras' & A_P_PAL > 27 & A_P_PAL < 50,mdose := 90 * slurry_EOS_Pratio]
+  dt[crop_n=='gras' & A_P_PAL > 50,mdose := 80 * slurry_EOS_Pratio]
   
   # manure input in arable systems, assuming 70% dairy slurry and 30% pig slurry, 85% organic
   slurry_EOS_Pratio <- (0.3 * 26 / 3.9 + 0.7 * 50 / 1.5)
-  dt[crops_n=='akkerbouw' & A_P_WA <= 25,mdose := 0.85 * 120 * slurry_EOS_Pratio]
-  dt[crops_n=='akkerbouw' & A_P_WA > 25 & A_P_WA <= 36,mdose := 0.85 * 75 * slurry_EOS_Pratio]
-  dt[crops_n=='akkerbouw' & A_P_WA > 36 & A_P_WA < 55,mdose := 0.85 * 60 * slurry_EOS_Pratio]
-  dt[crops_n=='akkerbouw' & A_P_WA > 55,mdose := 0.85 * 50 * slurry_EOS_Pratio]
+  dt[crop_n=='akkerbouw' & A_P_WA <= 25,mdose := 0.85 * 120 * slurry_EOS_Pratio]
+  dt[crop_n=='akkerbouw' & A_P_WA > 25 & A_P_WA <= 36,mdose := 0.85 * 75 * slurry_EOS_Pratio]
+  dt[crop_n=='akkerbouw' & A_P_WA > 36 & A_P_WA < 55,mdose := 0.85 * 60 * slurry_EOS_Pratio]
+  dt[crop_n=='akkerbouw' & A_P_WA > 55,mdose := 0.85 * 50 * slurry_EOS_Pratio]
   
   # EOS input via compost to arable soils
-  dt[crops_n == 'akkerbouw', compost := 15 * 218 / M_M3 ]
+  dt[crop_n == 'akkerbouw', compost := 15 * 218 / M_M3 ]
+  dt[crop_n != 'akkerbouw', compost := 0 ]
   
   # EOS input via catch crops (and mandatory crops)
   dt[,catchcrop := ifelse(M_M6,850,0)]
