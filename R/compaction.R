@@ -9,12 +9,14 @@
 #' @export
 ind_compaction <- function(B_OV_WENR) {
   
+  id = NULL
+  
   # Check inputs
-  checkmate::assert_character(B_OV_WENR, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_character(B_OV_WENR, any.missing = FALSE, min.len = 1)
   
   # make data.table
   dt <- data.table(
-    id = id = 1:length(B_OV_WENR),
+    id = 1:length(B_OV_WENR),
     B_OV_WENR = tolower(B_OV_WENR),
     value = NA_real_
   )
