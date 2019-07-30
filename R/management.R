@@ -7,13 +7,25 @@
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
 #' @param D_OS_BAL (numeric) The organic matter balance of the soil (in kg EOS / ha)
+#' @param D_CP_POTATO (numeric) The fraction potato crops in crop rotation (-)
+#' @param D_CP_RUST (numeric) The fraction rustgewassen in crop rotation (-)
+#' @param D_CP_RUSTDEEP (numeric) The fraction diepe rustgewassen in crop rotation (-)
+#' @param D_GA (numeric) The age of the grassland (years)
+#' @param M_M4 (boolean) measure 4. is the soil ploughed (yes / no)
+#' @param M_M6 (boolean) measure 6. are catchcrops sown after main crop (yes / no)
+#' @param M_M10 (boolean) measure 10. is parcel for 80% of the year cultivated and 'green' (yes / no)
+#' @param M_M11 (boolean) measure 11. use of early crop varieties to avoid late harvesting (yes / no)
+#' @param M_M12 (boolean) measure 12. is sleepslangbemester used for slurry application (yes / no)
+#' @param M_M13 (boolean) measure 13. are under water drains installed in peaty soils (yes / no)
+#' @param M_M14 (boolean) measure 14. are ditched maintained carefully and slib applied on the land (yes / no)
+#' @param M_M15 (boolean) measure 15. is grass used as second crop in between maize rows (yes / no)
 #' 
 #' @import data.table
 #' 
 #' @export
 calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,
                             D_OS_BAL,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
-                            M_M10, M_M11, M_M4, M_M15,M_M13) {
+                            M_M4, M_M6, M_M10, M_M11, M_M12, M_M13, M_M14, M_M15) {
   
   id = crop_code = soiltype = soiltype.n = crop_n = NULL
   
@@ -24,9 +36,22 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,
   setkey(soils.obic, soiltype)
   
   # Check input
-  arg.length <- max(length(A_OS_GV), length(B_LU_BRP), length(B_BT_AK), length(D_OS_BAL))
+  arg.length <- max(length(A_OS_GV), length(B_LU_BRP), length(B_BT_AK), length(D_OS_BAL),
+                    length(D_CP_POTATO), length(D_CP_RUST), length(D_CP_RUSTDEEP),length(D_GA),
+                    length(M_M4),length(M_M6), length(M_M10), length(M_M11),length(M_M12),length(M_M13),
+                    length(M_M14),length(M_M15))
   
   # add checks Sven
+  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_numeric(M_M3, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_M4,any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_M6,any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_M10,any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_M11,any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_M12,any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_M13,any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_M14,any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_M15,any.missing = FALSE, len = arg.length)
   
   # Settings if needed
   gt_wet <- c('GtI','GtII','GtIIb','GtIII','GtIIIb') # wet soils with undeep groundwater table
@@ -38,12 +63,22 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,
     B_LU_BRP = B_LU_BRP,
     B_BT_AK = B_BT_AK,
     D_OS_BAL = D_OS_BAL,
+    M_M4 = M_M4,
+    M_M6 = M_M6,
+    M_M10 = M_M10,
+    M_M11 = M_M11,
+    M_M12 = M_M12,
+    M_M13 = M_M13,
+    M_M14 = M_M14,
+    M_M15 = M_M15,
     value = 0
   )
+  
+  # merge with OBIC crop and soil table
   dt <- merge(dt, crops.obic[, list(crop_code, crop_n)], by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   
-  # ensure that crop name is in lower case
+  # ensure that crop name is in lower case (temporarily solution)
   dt[,crop_name := tolower(crop_name)]
   
   # evaluation of measures in an arable system -----
@@ -124,6 +159,7 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,
 #' 
 #' @param D_MAN (numeric) The value of Sustainable Management  calculated by \code{\link{calc_management}}
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param B_BT_AK (character) The type of soil
 #' 
 #' @export
 ind_management <- function(D_MAN,B_LU_BRP,B_BT_AK) {
@@ -131,7 +167,7 @@ ind_management <- function(D_MAN,B_LU_BRP,B_BT_AK) {
   id = crop_code = soiltype = soiltype.n = crop_n = NULL
   
   # Check inputs
-  arg.length <- max(length(D_MAN), length(B_LU_BRP), length(B_BT_AK), length(D_OS_BAL))
+  arg.length <- max(length(D_MAN), length(B_LU_BRP), length(B_BT_AK))
   checkmate::assert_numeric(D_MAN, lower = 0, upper = 15, any.missing = FALSE)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
@@ -159,6 +195,9 @@ ind_management <- function(D_MAN,B_LU_BRP,B_BT_AK) {
   
   # Ensure no vales above 1
   dt[value > 1, value := 1]
+  
+  # round valuu
+  dt[,value := round(value,2)]
   
   # prepare output
   setorder(dt, id)
