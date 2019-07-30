@@ -7,17 +7,14 @@
 #' @param A_OS_GV (numeric) The organic matter content of the soil in %
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
-#' @param A_P_PAL (numeric) The P-AL content of the soil (mg P2O5/ 100g)
-#' @param A_P_PW (numeric) The P-water content of the soil (mg P2O5 / Liter)
-#' @param M_M3 (numeric) The frequency that compost is applied (every x years)
-#' @param M_M6 (boolean) are catch crops (groenbemesters) frequently used: yes or no
+#' @param D_OS_BAL (numeric) The organic matter balance of the soil (in kg EOS / ha)
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,A_P_PAL, A_P_WA, M_M3, M_M6) {
+calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,D_OS_BAL) {
   
-  c.diss = id = crop_code = soiltype = soiltype.n = crop_n = NULL
+  id = crop_code = soiltype = soiltype.n = crop_n = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -26,7 +23,7 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,A_P_PAL, A_P_WA, M_M3, M_M
   setkey(soils.obic, soiltype)
   
   # Check input
-  arg.length <- max(length(A_OS_GV), length(B_LU_BRP), length(B_BT_AK))
+  arg.length <- max(length(A_OS_GV), length(B_LU_BRP), length(B_BT_AK), length(D_OS_BAL))
   
   # add checks Sven
   
@@ -38,6 +35,7 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,A_P_PAL, A_P_WA, M_M3, M_M
     A_OS_GV = A_OS_GV,
     B_LU_BRP = B_LU_BRP,
     B_BT_AK = B_BT_AK,
+    D_OS_BAL = D_OS_BAL,
     value = 0
   )
   dt <- merge(dt, crops.obic[, list(crop_code, crop_n)], by.x = "B_LU_BRP", by.y = "crop_code")
@@ -55,8 +53,7 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,A_P_PAL, A_P_WA, M_M3, M_M
   dt[D_CP_GRASS == 1 & !B_GT %in% c('I','II','III'), value := value + 2]
   
   # add organic matter balance (and when positive, add one point)
-  dt[,sombalance := calc_sombalance(A_OS_GV, A_P_PAL, A_P_WA, M_M3, M_M6)]
-  dt[sombalance > 0, value := value + 1]
+  dt[D_OS_BAL > 0, value := value + 1]
   
   # parcels that are not (or minimum) ploughed are positively evaluated (add one point)
   dt[M_M4==FALSE, value := value + 1]
@@ -68,7 +65,18 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,A_P_PAL, A_P_WA, M_M3, M_M
   dt[D_CP_RUST>0.4 & crops_n == 'akkerbouw',value := value + 1]
   dt[D_CP_RUST>0.4 & D_CP_RUSTDEEP >0.4 & crops_n == 'akkerbouw',value := value + 1]
   
-  # 
+  # use of early varieties to avoid harvesting after september (stimulating catch crop too)
+  dt[grepl('mais|aardappel',crop_name) & M_M11, value := value + 1]
+  
+  # maize crop in combination with grassland
+  dt[grepl('mais',crop_name) & M_M15, value := value + 1]
+  
+  # is heavy machinery avoided by slurry application
+  dt[soiltype.n !='veen' & M_M12, value := value + 1]
+  
+  # on peaty soils: make use of under water drains and ditches are frequently cleaned
+  dt[soiltype.n =='veen' & M_M13, value := value + 1]
+  dt[soiltype.n =='veen' & M_M14, value := value + 1]
   
   setorder(dt, id)
   value <- dt[, value]
