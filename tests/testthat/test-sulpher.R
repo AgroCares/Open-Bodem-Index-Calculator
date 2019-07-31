@@ -37,6 +37,7 @@ test_that("calc_slv works", {
     expected = c(11.74,7.89,11.69,10.42,5.65,44.9),
     tolerance = 0.1
   )
+})
   
 test_that("ind_sulpher works", {
   # aardappel op dekzand

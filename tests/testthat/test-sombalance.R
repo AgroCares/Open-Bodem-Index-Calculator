@@ -1,4 +1,3 @@
-require(data.table);require(testthat)
 test_that("calc_sombalance works", {
   expect_equal(
     # aardappel
@@ -13,7 +12,7 @@ test_that("calc_sombalance works", {
     expected = c(1117),
     tolerance = 0.1
   )
-  set.set(123)
+  set.seed(123)
   a= sample(24:100,10)
   expect_equal(
     calc_sombalance(
