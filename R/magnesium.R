@@ -39,7 +39,7 @@ calc_magnesium_availability <- function(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC
   checkmate::assert_numeric(A_PH_CC, lower = 3, upper = 10, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CEC_CO, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_K_CC, lower = 0, upper = 800, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_K_CEC, lower = 0, upper = 15, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_K_CEC, lower = 0, upper = 20, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
    
@@ -145,6 +145,7 @@ calc_magnesium_availability <- function(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC
   dt <- rbindlist(list(dt.grass.sand,dt.grass.other, dt.arable,dt.maize,dt.nature), fill = TRUE)
   setorder(dt, id)
   value <- dt[, value]
+  value <- ifelse(value < -1, -1, value)
   
   # return value: be aware, index is different for different land use and soil combinations
   return(value)

@@ -91,6 +91,7 @@ calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
       
   # Combine both tables and extract values
   dt <- rbindlist(list(dt.grass, dt.maize,dt.arable,dt.nature), fill = TRUE)
+  dt[value > 250, value := 250]
   setorder(dt, id)
   value <- dt[, value]
   

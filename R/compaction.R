@@ -9,10 +9,11 @@
 #' @export
 ind_compaction <- function(B_OV_WENR) {
   
-  id = NULL
-  
   # Check inputs
   checkmate::assert_character(B_OV_WENR, any.missing = FALSE, min.len = 1)
+  checkmate::assert_subset(B_OV_WENR, choices = c("Bebouwing en infrastructuur","Groot","Zeer groot","Matig","Water",
+                                                    "Glastuinbouw, niet beoordeeld","Beperkt door veenlagen","Van nature dicht" ,
+                                                    "Beperkt", "Zeer beperkt"), empty.ok = FALSE)
   
   # make data.table
   dt <- data.table(
