@@ -8,7 +8,7 @@ test_that("calc_slv works", {
       B_BT_AK ='dekzand', 
       B_LG_CBS = 'Oostelijk',
       D_BDS = 1285),
-    expected = 22.08,
+    expected = 24.22,
     tolerance = 0.01
   )
   expect_equal(
@@ -21,7 +21,7 @@ test_that("calc_slv works", {
     B_LG_CBS = c('Oostelijk','IJsselmeer','rivier','Oostelijk','loss','veen'),
     D_BDS = c(rep(1285,5),1100)
   ),
-  expected = c(22.1,17.85,27.57,19.4,9.89,101),
+  expected = c(24.22,20.2,33.11,20.61,9.45,150),
   tolerance = 0.1
   )
   expect_equal(

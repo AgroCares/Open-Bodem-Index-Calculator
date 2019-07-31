@@ -35,7 +35,7 @@ test_that("calc_sombalance works", {
       M_M3 = rep(3,10), 
       M_M6 = rep(TRUE,10)
     ),
-    expected = c(3385,2717,2391,2186,2047,1949,1880,1832,2134,2114),
+    expected = c(3718,2717,2391,2186,2047,2615,1880,1832,1800,1780),
     tolerance = 1
   )
 })
