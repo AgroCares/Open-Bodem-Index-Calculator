@@ -1,4 +1,3 @@
-require(data.table);require(testthat)
 test_that("calc_winderodibility works", {
   expect_equal(
     calc_winderodibility(

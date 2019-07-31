@@ -35,7 +35,7 @@ obic_preprocessing <- function(dt) {
   dt[, D_OC := calc_organic_carbon(A_OS_GV, D_BDS, D_RD)]
   
   # Calculate a simple organic matter balance
-  dt[,D_OS_BAL := calc_sombalance(A_OS_GV, A_P_PAL, A_P_WA, M_M3, M_M6)]
+  dt[,D_OS_BAL := calc_sombalance(A_OS_GV, A_P_PAL, A_P_WA, B_LU_BRP, M_M3, M_M6)]
   
   # Calculate the grass age
   dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]

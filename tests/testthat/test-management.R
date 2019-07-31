@@ -1,4 +1,3 @@
-require(data.table);require(testthat)
 test_that("calc_management works", {
   expect_equal(
     calc_management(

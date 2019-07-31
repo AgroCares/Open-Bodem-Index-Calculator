@@ -33,6 +33,11 @@ calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_character(B_LG_CBS, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LG_CBS, choices = c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
+                                                 'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
+                                                 'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
+                                                 'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
+                                                 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
   checkmate::assert_numeric(D_BDS, lower = 0, upper = 1500, any.missing = FALSE, len = arg.length)
   
   # Settings

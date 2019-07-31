@@ -1,4 +1,3 @@
-require(data.table);require(testthat)
 test_that("crop classification works", {
   expect_equal(
     calc_cropclass(
@@ -6,7 +5,7 @@ test_that("crop classification works", {
       B_BT_AK = 'dekzand', 
       nutrient = 'P'
       ),
-    expected = 'class4'
+    expected = 'class3'
   )
   # chinese kool (class 0), aardappel (class 1), suikerbiet (class 2), gerst (class 3), boerenkool (class 4)
   # faunarand gras (3720) en engels raai (3506)

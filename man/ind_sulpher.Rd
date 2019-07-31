@@ -18,8 +18,3 @@ ind_sulpher(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS)
 \description{
 This function calculates the indicator for the the S-index by using the SLV calculated by \code{\link{calc_slv}}
 }
-\details{
-Note1: Sven: parameters need still to be estimated on recomendation tables
-Note2: checks need to be included
-Note3: check crop_n in crop_code tabel, moet gras-mais-bouwland bevatten
-}

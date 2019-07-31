@@ -4,10 +4,10 @@
 \alias{ind_winderodibility}
 \title{Calculate indicator for wind erodibility}
 \usage{
-ind_winderodibility(I_P_DU)
+ind_winderodibility(D_P_DU)
 }
 \arguments{
-\item{I_P_DU}{(numeric) The value for wind erodibility factor (WEF) as calculated by \code{\link{calc_winderodibility}}}
+\item{D_P_DU}{(numeric) The value for wind erodibility factor (WEF) as calculated by \code{\link{calc_winderodibility}}}
 }
 \description{
 This function calculats the indicator for the resistance of the soil against wind erosion.

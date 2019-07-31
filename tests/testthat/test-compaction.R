@@ -1,4 +1,3 @@
-require(data.table);require(testthat)
 test_that("ind_compaction works", {
   expect_equal(
     ind_compaction(

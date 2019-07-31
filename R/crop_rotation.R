@@ -34,12 +34,16 @@ calc_rotation_fraction <- function(ID, B_LU_BRP, crop) {
   dt <- merge(dt, crops.obic[, list(crop_code, crop_rotation)], by.x = "B_LU_BRP", by.y = "crop_code")
   setorder(dt, this_id)
   
-  # do some clustering for group 'rustgewas' or 'deep rustgewas'
+  # do some clustering for group 'rustgewas' or 'deep rustgewas' as well ass reclassify for pH
   if(crop=='rustgewas'){
     dt[crop_rotation %in% c('catchgrop','clover','grass','alfalfa','cereal','rapeseed'), crop_rotation := 'rustgewas']
   }
   if(crop=='rustgewasdiep'){
     dt[crop_rotation %in% c('clover','alfalfa','rapeseed'), crop_rotation := 'rustgewasdiep']
+  }
+  if(!crop %in% c('rustgewasdiep','rustgewas')){
+    dt[crop_rotation %in% c("alfalfa","catchcrop","cereal","clover",'nature','rapeseed',
+                            "rustgewas","rustgewasdiep"), crop_rotation := 'other']
   }
   
   # Calculate the fraction for this crop

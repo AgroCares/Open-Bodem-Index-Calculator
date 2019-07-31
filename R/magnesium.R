@@ -29,10 +29,20 @@ calc_magnesium_availability <- function(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC
   setkey(soils.obic, soiltype)
   
   # Check inputs
-  arg.length <- max(length(A_MG_CC), length(A_PH_CC), length(A_OS_GV), length(A_CEC_CO), length(A_CEC_CO),
+  arg.length <- max(length(A_MG_CC), length(A_PH_CC), length(A_OS_GV), length(A_CEC_CO), 
                     length(A_K_CEC), length(A_CLAY_MI), length(B_BT_AK), length(B_LU_BRP))
-  # to be added: sven
-  
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_numeric(A_MG_CC, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_PH_CC, lower = 3, upper = 10, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_CEC_CO, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_K_CC, lower = 0, upper = 800, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_K_CEC, lower = 0, upper = 15, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+   
   # Settings
   param.re = 180 # protein content of first cut grassland in spring (g/kg)
   param.k = 33.9 # potassium content of first cut grass in spring (g/kg)
