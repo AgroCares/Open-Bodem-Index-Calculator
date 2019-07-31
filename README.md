@@ -16,5 +16,7 @@ library("OBIC")
 ```
 
 ## More informantion
+The [Open Bodem Index](https://www.openbodemindex.nl) (OBI) is a collaboration between Wageningen UR, NMI and FarmHack in collaboration with agricultural experts. 
+The Open Bodem Index Calculator is a tool used by the OBI and developed by [NMI](https://nmi-agro.nl/).
 
-More information about the Open Bodem Index can be found at www.openbodemindex.nl
+![Logo of NMI](https://media.licdn.com/dms/image/C560BAQEYGcm4HjNnxA/company-logo_200_200/0?e=2159024400&v=beta&t=u40rJ7bixPWB2SAqaj3KCKzJRoKcqf0wUXCdmsTDQvw)

@@ -2,83 +2,84 @@
 #' 
 #' This functions calculates the difference between the measured pH and the optimal pH according to the Bemestingsadvies
 #' 
-#' @param ph.cacl2 (numeric) The pH-CaCl2 of the soil
-#' @param soiltype (character) The type of soil
-#' @param lutum (numeric) The percentage lutum present in the soil
-#' @param om (numeric) The organic matter content of soil in percentage
-#' @param cp.starch (numeric) The fraction of starch potatoes in the crop plan
-#' @param cp.potato (numeric) The fraction of potatoes (excluding starch potatoes) in the crop plan
-#' @param cp.sugarbeet (numeric) The fraction of sugar beets in the crop plan
-#' @param cp.grass (numeric) The fracgtion of grass in the crop plan
-#' @param cp.mais (numeric) The fraction of mais in the crop plan
-#' @param cp.other (numeric) The fraction of other crops in the crop plan
+#' @param A_PH_CC (numeric) The pH-CaCl2 of the soil
+#' @param B_BT_AK (character) The type of soil
+#' @param A_CLAY_MI (numeric) The percentage A_CLAY_MI present in the soil
+#' @param A_OS_GV (numeric) The organic matter content of soil in percentage
+#' @param D_CP_STARCH (numeric) The fraction of starch potatoes in the crop plan
+#' @param D_CP_POTATO (numeric) The fraction of potatoes (excluding starch potatoes) in the crop plan
+#' @param D_CP_SUGARBEET (numeric) The fraction of sugar beets in the crop plan
+#' @param D_CP_GRASS (numeric) The fracgtion of grass in the crop plan
+#' @param D_CP_MAIS (numeric) The fraction of mais in the crop plan
+#' @param D_CP_OTHER (numeric) The fraction of other crops in the crop plan
 #' 
 #' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_ph_delta <- function(ph.cacl2, soiltype, om, lutum, cp.starch, cp.potato, cp.sugarbeet, cp.grass, cp.mais, cp.other) {
+calc_ph_delta <- function(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER) {
+  
+  lutum.low = lutum.high = om.low = om.high = potato.low = potato.high = sugarbeet.low = sugarbeet.high = ph.optimum = id = soiltype.ph = NULL
   
   # Load in the datasets
   soils.obic <- as.data.table(OBIC::soils.obic)
-  setkey(soils.obic, soiltype)
   dt.ph.delta <- as.data.table(OBIC::tbl.ph.delta)
   
   # Check inputs
-  arg.length <- max(length(ph.cacl2), length(soiltype), length(om), length(lutum), length(cp.starch), length(cp.potato), length(cp.sugarbeet), length(cp.grass), length(cp.mais), length(cp.other))
-  checkmate::assert_character(soiltype, any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(soiltype, choices = unique(soils.obic$soiltype))
-  checkmate::assert_numeric(om, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(lutum, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(cp.starch, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(cp.potato, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(cp.sugarbeet, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(cp.grass, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(cp.mais, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(cp.other, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
-  cp.total <- cp.starch + cp.potato + cp.sugarbeet + cp.grass + cp.mais + cp.other
+  arg.length <- max(length(A_PH_CC), length(B_BT_AK), length(A_OS_GV), length(A_CLAY_MI), length(D_CP_STARCH), length(D_CP_POTATO), length(D_CP_SUGARBEET), length(D_CP_GRASS), length(D_CP_MAIS), length(D_CP_OTHER))
+  checkmate::assert_numeric(A_PH_CC, lower = 2, upper = 10, any.missing = FALSE, len = arg.length)
+  checkmate::assert_character(B_BT_AK, any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype))
+  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_CP_STARCH, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_CP_POTATO, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_CP_SUGARBEET, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_CP_GRASS, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_CP_MAIS, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_CP_OTHER, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  cp.total <- D_CP_STARCH + D_CP_POTATO + D_CP_SUGARBEET + D_CP_GRASS + D_CP_MAIS + D_CP_OTHER
   if (any(cp.total != 1)) {
-    stop(paste0("The sum of the fraction of cp is not 1, but ", min(cp.total)))
+     #stop(paste0("The sum of the fraction of cp is not 1, but ", min(cp.total)))
   }
   
   # Collect information in table
-  soiltype.ph = lutum.low = lutum.high = om.low = om.high = potato.low = potato.high = sugarbeet.low = sugarbeet.high = ph.optimum = id = NULL
   dt <- data.table(
     id = 1:arg.length,
-    ph.cacl2 = ph.cacl2,
-    soiltype = soiltype,
-    om = om,
-    lutum = lutum,
-    cp.starch = cp.starch,
-    cp.potato = cp.potato,
-    cp.sugarbeet = cp.sugarbeet,
-    cp.grass = cp.grass,
-    cp.mais = cp.mais,
-    cp.other = cp.other,
+    A_PH_CC = A_PH_CC,
+    B_BT_AK = B_BT_AK,
+    A_OS_GV = A_OS_GV,
+    A_CLAY_MI = A_CLAY_MI,
+    D_CP_STARCH = D_CP_STARCH,
+    D_CP_POTATO = D_CP_POTATO,
+    D_CP_SUGARBEET = D_CP_SUGARBEET,
+    D_CP_GRASS = D_CP_GRASS,
+    D_CP_MAIS = D_CP_MAIS,
+    D_CP_OTHER = D_CP_OTHER,
     table = NA_character_
   )
   
   # Join soil type used for this function
-  dt <- merge(dt, soils.obic, by = "soiltype")
+  dt <- merge(dt, soils.obic, by.x = "B_BT_AK", by.y = "soiltype")
   
   # Define which table to be used
   dt[soiltype.ph == 1, table := "5.1"]
   dt[soiltype.ph == 2, table := "5.3"]
-  dt[cp.starch > 0.1, table := "5.2"]
-  dt[cp.grass + cp.mais >= 0.5, table := "5.3"]
+  dt[D_CP_STARCH > 0.1, table := "5.2"]
+  dt[D_CP_GRASS + D_CP_MAIS >= 0.5, table := "5.3"]
   
-  dt[, cp.potato := cp.starch + cp.potato]
+  dt[, D_CP_POTATO := D_CP_STARCH + D_CP_POTATO]
   
   # Join conditionally the tables with optimum pH to data
   dt.53 <- dt[table == "5.3"]
-  dt.53 <- dt.ph.delta[dt.53, on=list(table == table, lutum.low <= lutum, lutum.high > lutum, om.low <= om, om.high > om)]
+  dt.53 <- dt.ph.delta[dt.53, on=list(table == table, lutum.low <= A_CLAY_MI, lutum.high > A_CLAY_MI, om.low <= A_OS_GV, om.high > A_OS_GV)]
   dt.512 <- dt[table %in% c("5.1", "5.2")]
-  dt.512 <- dt.ph.delta[dt.512, on=list(table == table, potato.low <= cp.potato, potato.high > cp.potato, sugarbeet.low <= cp.sugarbeet, sugarbeet.high > cp.sugarbeet, om.low <= om, om.high > om)]
+  dt.512 <- dt.ph.delta[dt.512, on=list(table == table, potato.low <= D_CP_POTATO, potato.high > D_CP_POTATO, sugarbeet.low <= D_CP_SUGARBEET, sugarbeet.high > D_CP_SUGARBEET,om.low <= A_OS_GV, om.high > A_OS_GV)]
   dt <- rbindlist(list(dt.53, dt.512), fill = TRUE)
   
   # Calculate the difference between the measured pH and the optimum pH
-  dt[, ph.delta := ph.optimum - ph.cacl2]
+  dt[, ph.delta := ph.optimum - A_PH_CC]
   dt[ph.delta < 0, ph.delta := 0]
   
   # Extract the ph.delta
@@ -89,22 +90,22 @@ calc_ph_delta <- function(ph.cacl2, soiltype, om, lutum, cp.starch, cp.potato, c
   
 }
 
-#' Evaluate the difference between de optimum pH and ph of the soil
+#' Calculate the indicator for pH
 #' 
-#' This function evaluates the pH of the soil by the difference with the optimum pH. This is calculated in \code{\link{calc_ph_delta}}.
+#' This function calculates the indicator for the pH of the soil by the difference with the optimum pH. This is calculated in \code{\link{calc_ph_delta}}.
 #' 
-#' @param value.ph.delta (numeric) The pH difference with the optimal pH.
+#' @param D_PH_DELTA (numeric) The pH difference with the optimal pH.
 #' 
 #' @export
-eval_ph <- function(value.ph.delta) {
+ind_ph <- function(D_PH_DELTA) {
   
   # Check inputs
-  checkmate::assert_numeric(value.ph.delta, lower = 0, upper = 5, any.missing = FALSE)
+  checkmate::assert_numeric(D_PH_DELTA, lower = 0, upper = 5, any.missing = FALSE)
   
   # Evaluate the pH
-  eval.ph <- OBIC::evaluate_logistic(x = value.ph.delta, b = 9, x0 = 0.3, v = 0.4, increasing = TRUE)
+  value <- OBIC::evaluate_logistic(x = D_PH_DELTA, b = 9, x0 = 0.3, v = 0.4, increasing = TRUE)
   
-  return(eval.ph)
+  return(value)
   
 }
 
@@ -115,8 +116,8 @@ eval_ph <- function(value.ph.delta) {
 #' @format A data.frame with 84 rows and 10 columns:
 #' \describe{
 #'   \item{table}{The original table from Hanboek Bodem en Bemesting}
-#'   \item{lutum.low}{Lower value for lutum}
-#'   \item{lutum.high}{Upper value for lutum}
+#'   \item{lutum.low}{Lower value for A_CLAY_MI}
+#'   \item{lutum.high}{Upper value for A_CLAY_MI}
 #'   \item{om.low}{Lower value for organic matter}
 #'   \item{om.high}{Upper value for organic matter}
 #'   \item{potato.low}{Lower value for fraction potatoes in crop plan}

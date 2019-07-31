@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -129,50 +129,50 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>calc_ph_delta</span>(<span class='no'>ph.cacl2</span>, <span class='no'>soiltype</span>, <span class='no'>om</span>, <span class='no'>lutum</span>, <span class='no'>cp.starch</span>, <span class='no'>cp.potato</span>,
-  <span class='no'>cp.sugarbeet</span>, <span class='no'>cp.grass</span>, <span class='no'>cp.mais</span>, <span class='no'>cp.other</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_ph_delta</span>(<span class='no'>A_PH_CC</span>, <span class='no'>B_BT_AK</span>, <span class='no'>A_CLAY_MI</span>, <span class='no'>A_OS_GV</span>, <span class='no'>D_CP_STARCH</span>,
+  <span class='no'>D_CP_POTATO</span>, <span class='no'>D_CP_SUGARBEET</span>, <span class='no'>D_CP_GRASS</span>, <span class='no'>D_CP_MAIS</span>, <span class='no'>D_CP_OTHER</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ph.cacl2</th>
+      <th>A_PH_CC</th>
       <td><p>(numeric) The pH-CaCl2 of the soil</p></td>
     </tr>
     <tr>
-      <th>soiltype</th>
+      <th>B_BT_AK</th>
       <td><p>(character) The type of soil</p></td>
     </tr>
     <tr>
-      <th>om</th>
+      <th>A_CLAY_MI</th>
+      <td><p>(numeric) The percentage A_CLAY_MI present in the soil</p></td>
+    </tr>
+    <tr>
+      <th>A_OS_GV</th>
       <td><p>(numeric) The organic matter content of soil in percentage</p></td>
     </tr>
     <tr>
-      <th>lutum</th>
-      <td><p>(numeric) The percentage lutum present in the soil</p></td>
-    </tr>
-    <tr>
-      <th>cp.starch</th>
+      <th>D_CP_STARCH</th>
       <td><p>(numeric) The fraction of starch potatoes in the crop plan</p></td>
     </tr>
     <tr>
-      <th>cp.potato</th>
+      <th>D_CP_POTATO</th>
       <td><p>(numeric) The fraction of potatoes (excluding starch potatoes) in the crop plan</p></td>
     </tr>
     <tr>
-      <th>cp.sugarbeet</th>
+      <th>D_CP_SUGARBEET</th>
       <td><p>(numeric) The fraction of sugar beets in the crop plan</p></td>
     </tr>
     <tr>
-      <th>cp.grass</th>
+      <th>D_CP_GRASS</th>
       <td><p>(numeric) The fracgtion of grass in the crop plan</p></td>
     </tr>
     <tr>
-      <th>cp.mais</th>
+      <th>D_CP_MAIS</th>
       <td><p>(numeric) The fraction of mais in the crop plan</p></td>
     </tr>
     <tr>
-      <th>cp.other</th>
+      <th>D_CP_OTHER</th>
       <td><p>(numeric) The fraction of other crops in the crop plan</p></td>
     </tr>
     </table>

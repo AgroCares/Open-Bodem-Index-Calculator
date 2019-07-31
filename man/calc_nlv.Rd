@@ -4,22 +4,22 @@
 \alias{calc_nlv}
 \title{Calculate the NLV}
 \usage{
-calc_nlv(n.org, c.org, crop, soiltype, bulk_density, cn_ratio, grass.age)
+calc_nlv(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA)
 }
 \arguments{
-\item{n.org}{(numeric) The organic nitrogen content of the soil in g  N / kg}
+\item{A_N_TOT}{(numeric) The organic nitrogen content of the soil in g  N / kg}
 
-\item{c.org}{(numeric) The organic carbon content of the soil in kg C / ha}
+\item{D_OC}{(numeric) The organic carbon content of the soil in kg C / ha}
 
-\item{crop}{(numeric) The crop code (gewascode) from the BRP}
+\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 
-\item{soiltype}{(character) The type of soil}
+\item{B_BT_AK}{(character) The type of soil}
 
-\item{bulk_density}{(numeric) The bulk density of the soil in kg / m3}
+\item{D_BDS}{(numeric) The bulk density of the soil in kg / m3}
 
-\item{cn_ratio}{(numeric)}
+\item{A_CN_RAT}{(numeric)}
 
-\item{grass.age}{(numeric) The age of the grass if present}
+\item{D_GA}{(numeric) The age of the grass if present}
 }
 \description{
 This function calculates the NLV (nitrogen producing capacity) for the soil

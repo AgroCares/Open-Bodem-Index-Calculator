@@ -1,7 +1,26 @@
 # Changelog OBIC
 
-## UNRELEASED
+## Version 0.5.0 2019-07-31
 ### Added
+* Adds crop classification (sensitivity to P, K and S supply)
+* Adds soil organic matter balance (simple one)
+* Adds risk for soil compaction (following risk map Van den Akker, 2013)
+* Adds index and evaluation of Mg-availability
+* Adds index and evaluation of S-availability (evaluation function need still to be parameterized)
+* Adds index and evaluation of winderodibility
+* Adds index and evaluation of soil strategic management (following Label Duurzaam Bodembeheer)
+* Adds columns `crop_eos` and `crop_eos_residue` in `crops.obic`
+
+## Version 0.4.0 2019-07-26
+### Added
+* The existing functions for pH, P, N, crumbleability, sealing and resistance are intergrated into `obic()`
+
+### Changed
+* The column name `brp` is changed to `B_LU_BRP`
+
+## Version 0.3.0 2019-07-24
+### Added
+* Adds main function that wraps all the functions needed to calculated the OBI score and recommendations
 * Adds documentation website for package using `pkgdown` #3
 
 ## Version 0.2.0 2019-07-12

@@ -1,18 +1,18 @@
-#' Evaluate the soil resistance
+#' Calculate indicator for soil resistance
 #'
-#' This function evaluates the resistance of the soil against diseases and is inidcatd by the amount of soil life.
+#' This function calculats the indicator for the resistance of the soil against diseases and is inidcatd by the amount of soil life.
 #' 
-#' @param om (numeric) The organic matter content of the soil in percentage
+#' @param A_OS_GV (numeric) The organic matter content of the soil in percentage
 #' 
 #' @export
-eval_resistance <- function(om) {
+ind_resistance <- function(A_OS_GV) {
   
   # Check inputs
-  checkmate::assert_numeric(om, lower = 0, upper = 100, any.missing = FALSE)
+  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE)
   
   # Evaluate the soil resistance
-  eval.resistance <- OBIC::evaluate_logistic(om, b = 1.2, x0 = 1.7, v = 0.4)
+  value <- OBIC::evaluate_logistic(A_OS_GV, b = 1.2, x0 = 1.7, v = 0.4)
   
-  return(eval.resistance)
+  return(value)
   
 }
