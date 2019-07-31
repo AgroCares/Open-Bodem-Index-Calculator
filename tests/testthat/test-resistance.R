@@ -1,7 +1,14 @@
-test_that("eval_resistance works", {
+test_that("calc_k_availability works", {
   expect_equal(
-    eval_resistance(
-      om = 2
+    calc_k_availability(
+      A_PH_CC = 5.6,
+      A_OS_GV = 7.9,
+      A_CEC_CO = 122, 
+      A_K_CC = 95,
+      A_K_CEC = 1.56,
+      A_CLAY_MI = 1.73,
+      B_BT_AK = 'dekzand',
+      B_LU_BRP = 3732
     ),
     expected = 0.2662949,
     tolerance = 0.001
