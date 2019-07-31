@@ -14,9 +14,9 @@ obic_indicators<- function(dt.ppr) {
   
   A_OS_GV = NULL
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
-  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = NULL
-  B_LU_BRP = NULL
-  D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = NULL
+  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = I_M = NULL
+  B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
+  D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -30,10 +30,10 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_C_K := -999]
   
   # Magnesium
-  dt.ppr[, I_C_MG := -999]
+  dt.ppr[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_BT_AK)]
   
   # Sulphur
-  dt.ppr[, I_C_S := -999]
+  dt.ppr[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS)]
   
   # pH
   dt.ppr[, I_C_PH := ind_ph(D_PH_DELTA)]
@@ -64,10 +64,10 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_P_BC := -999]
   
   # Dustiness
-  dt.ppr[, I_P_DU := -999]
+  dt.ppr[, I_P_DU := ind_winderodibility(D_P_DU)]
   
   # Compaction
-  dt.ppr[, I_P_CO := -999]
+  dt.ppr[, I_P_CO := ind_compaction(B_OV_WENR)]
   
 
   # Evaluate biological -----------------------------------------------------
@@ -83,6 +83,10 @@ obic_indicators<- function(dt.ppr) {
   
   # Soil biodiversity
   dt.ppr[, I_B_SB := -999]
+  
+
+  # Evaluate managment ------------------------------------------------------
+  dt.ppr[, I_M := ind_management(D_MAN, B_LU_BRP, B_BT_AK)]
   
   
   return(dt.ppr)
