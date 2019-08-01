@@ -43,7 +43,7 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstres
   
   # merge with crop and waterstress tables
   dt <- merge(dt, crops.obic[, list(crop_code, crop_waterstress )], by.x = "B_LU_BRP", by.y = "crop_code")
-  dt <- merge(dt, waterstress.obic, 
+  dt <- merge(dt, waterstress.obic,
               by.x = c('B_HELP_WENR','crop_waterstress','B_GT'), 
               by.y = c('soilunit','cropname','gt'),
               all.x = TRUE)
@@ -79,7 +79,7 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstres
 ind_waterstressindex <- function(D_WSI) {
   
   # Check inputs
-  checkmate::assert_numeric(D_WSI, lower = 0, upper = 20, any.missing = FALSE)
+  checkmate::assert_numeric(D_WSI, lower = 0, upper = 100, any.missing = FALSE)
   
   # Evaluate the WSI
   value <- c(100 - D_WSI)/100
