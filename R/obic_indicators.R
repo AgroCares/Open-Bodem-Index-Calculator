@@ -16,7 +16,7 @@ obic_indicators<- function(dt.ppr) {
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = I_M = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
-  D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = NULL
+  D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_PMN = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -79,7 +79,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_B_OM := -999]
   
   # Soil life activity
-  dt.ppr[, I_B_SF := -999]
+  dt.ppr[, I_B_SF := ind_pmn(D_PMN)]
   
   # Soil biodiversity
   dt.ppr[, I_B_SB := -999]
