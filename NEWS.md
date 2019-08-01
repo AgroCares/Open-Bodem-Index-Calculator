@@ -1,5 +1,9 @@
 # Changelog OBIC
 
+## Version 0.6.0 2019-08-01
+### Added
+* Adds index and evaluation of K-availability
+
 ## Version 0.5.0 2019-07-31
 ### Added
 * Adds crop classification (sensitivity to P, K and S supply)
