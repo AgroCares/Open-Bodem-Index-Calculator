@@ -41,11 +41,11 @@ calc_copper_availability <- function(A_CU_CC, B_LU_BRP, B_BT_AK) {
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   
   # Calculate Cu-availability
-  dt[crop_category =='akkerbouw', value := 10^(0.948 + 0.188 * log10(A_CU_CC))]
-  dt[crop_category =='mais', value := 10^(0.948 + 0.188 * log10(A_CU_CC))]
+  dt[crop_category =='akkerbouw', value := 10^(0.948 + 0.188 * log10(A_CU_CC*0.001))]
+  dt[crop_category =='mais', value := 10^(0.948 + 0.188 * log10(A_CU_CC*0.001))]
   dt[crop_category =='natuur', value := 0]
   dt[crop_category =='grasland', value := A_CU_CC]
-  
+
   # Extract relevant variable and return
   setorder(dt, id)
   value <- dt[, value]
@@ -60,6 +60,7 @@ calc_copper_availability <- function(A_CU_CC, B_LU_BRP, B_BT_AK) {
 #' @param A_ZN_CC The plant available Zn content, extracted with 0.01M CaCl2 (mg / kg)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
+#' @param A_PH_CC (numeric) The acidity of the soil, determined in 0.01M CaCl2 (-)
 #' 
 #' @import data.table
 #' 
@@ -96,11 +97,11 @@ calc_zinc_availability <- function(A_ZN_CC, B_LU_BRP, B_BT_AK, A_PH_CC) {
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   
   # Calculate Cu-availability
-  dt[crop_category =='akkerbouw', value := 10^(0.88 + 0.56 * log10(A_ZN_CC) - 0.13 * A_PH_CC)]
-  dt[crop_category =='mais', value := 10^(0.88 + 0.56 * log10(A_ZN_CC) - 0.13 * A_PH_CC)]
+  dt[crop_category =='akkerbouw', value := 10^(0.88 + 0.56 * log10(A_ZN_CC*0.001) - 0.13 * A_PH_CC)]
+  dt[crop_category =='mais', value := 10^(0.88 + 0.56 * log10(A_ZN_CC*0.001) - 0.13 * A_PH_CC)]
   dt[crop_category =='natuur', value := 0]
-  dt[crop_category =='grasland', value := 10^(-1.04 + 0.67 * log10(A_ZN_CC) - 0.5 * A_PH_CC)]
-  
+  dt[crop_category =='grasland', value := 10^(-1.04 + 0.67 * log10(A_ZN_CC*0.001) + 0.5 * A_PH_CC)]
+
   # Extract relevant variable and return
   setorder(dt, id)
   value <- dt[, value]

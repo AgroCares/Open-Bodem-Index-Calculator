@@ -12,6 +12,8 @@ calc_zinc_availability(A_ZN_CC, B_LU_BRP, B_BT_AK, A_PH_CC)
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 
 \item{B_BT_AK}{(character) The type of soil}
+
+\item{A_PH_CC}{(numeric) The acidity of the soil, determined in 0.01M CaCl2 (-)}
 }
 \description{
 This function calculates the availability of Zn for plant uptake
