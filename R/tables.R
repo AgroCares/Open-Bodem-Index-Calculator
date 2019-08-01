@@ -31,9 +31,9 @@
 #' 
 #' @format A data.frame with x rows and y columns:
 #' \describe{
-#'   \item{croptype}{The name of the soil type}
+#'   \item{cropname}{The name of the crop}
 #'   \item{soilunit}{The category for this soil, derived from 1:50.000 soil map}
-#'   \item{groundwatertable}{The class describing mean highest and lowest groundwater table}
+#'   \item{gt}{The class describing mean highest and lowest groundwater table, derived from 1:50.000 soil map}
 #'   \item{droughtstress}{The mean yield reduction due to drought (in percentage)}
 #'   \item{wetnessstress}{The mean yield reduction due to watersurplus (in percentage)}
 #'   \item{waterstress}{The mean combined effect water stress (due to deficiency or excess of water)}
