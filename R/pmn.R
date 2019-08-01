@@ -9,7 +9,7 @@
 #' @import data.table
 #' 
 #' @export
-calc_pmn <- function(A_N_PMN) {
+calc_pmn <- function(A_N_PMN, B_LU_BRP, B_BT_AK) {
   
   # set variables to NULL
   id = cf = crop_code = crop_category = soiltype = soiltype.n = NULL
@@ -32,6 +32,8 @@ calc_pmn <- function(A_N_PMN) {
   dt <- data.table(
     id = 1:arg.length,
     A_N_PMN = A_N_PMN,
+    B_LU_BRP = B_LU_BRP,
+    B_BT_AK = B_BT_AK,
     cf = 1,
     value = NA_real_
   )
@@ -71,7 +73,7 @@ calc_pmn <- function(A_N_PMN) {
 ind_pmn <- function(D_PMN) {
   
   # Check inputs
-  icheckmate::assert_numeric(D_PMN, lower = 0, upper = 501, any.missing = FALSE)
+  checkmate::assert_numeric(D_PMN, lower = 0, upper = 501, any.missing = FALSE)
   
   # Evaluate the PMN index
   value <- evaluate_logistic(D_PMN, b = 0.2, x0 = 20, v = 1.2)
