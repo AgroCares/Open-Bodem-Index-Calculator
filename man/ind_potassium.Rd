@@ -7,14 +7,14 @@
 ind_potassium(D_K, B_LU_BRP, B_BT_AK, A_OS_GV)
 }
 \arguments{
-\item{D_K}{(numeric) The value of K-index calculated by \code{\link{calc_magnesium_availability}}}
+\item{D_K}{(numeric) The value of K-index calculated by \code{\link{calc_potassium_availability}}}
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 
 \item{B_BT_AK}{(character) The type of soil}
 
-\item{A_OS_GV}{(numeric) The organic matter content of the soil (in procent)}
+\item{A_OS_GV}{(numeric) The organic matter content of the soil (\%)}
 }
 \description{
-This function calculates the indicator for the the Potassium Availability of the soil by using the Mg-availability calculated by \code{\link{calc_potassium_availability}}
+This function calculates the indicator for the the Potassium Availability of the soil by using the K-availability calculated by \code{\link{calc_potassium_availability}}
 }

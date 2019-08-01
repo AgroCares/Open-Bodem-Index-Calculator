@@ -3,11 +3,11 @@
 #' This function calculates the K availability of a soil.
 #' 
 #' @param A_PH_CC (numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)
-#' @param A_OS_GV (numeric) The organic matter content of the soil (in procent)
-#' @param A_CEC_CO (numeric) The cation exchange capacity of the soil (mmol+ per kg), analysed via Cobalt-hexamine extraction
-#' @param A_K_CC (numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg per kg), 
-#' @param A_K_CEC (numeric) The occupation of the CEC with potassium (in procent)
-#' @param A_CLAY_MI (numeric) The clay content of the soil (in procent)
+#' @param A_OS_GV (numeric) The organic matter content of the soil (\%)
+#' @param A_CEC_CO (numeric) The cation exchange capacity of the soil (mmol+ / kg), analysed via Cobalt-hexamine extraction
+#' @param A_K_CC (numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg / kg), 
+#' @param A_K_CEC (numeric) The occupation of the CEC with potassium (\%)
+#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param B_BT_AK (character) The type of soil
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
@@ -125,12 +125,12 @@ calc_potassium_availability <- function(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_
 
 #' Calculate the indicator for Potassium Availability
 #' 
-#' This function calculates the indicator for the the Potassium Availability of the soil by using the Mg-availability calculated by \code{\link{calc_potassium_availability}}
+#' This function calculates the indicator for the the Potassium Availability of the soil by using the K-availability calculated by \code{\link{calc_potassium_availability}}
 #' 
-#' @param D_K (numeric) The value of K-index calculated by \code{\link{calc_magnesium_availability}}
+#' @param D_K (numeric) The value of K-index calculated by \code{\link{calc_potassium_availability}}
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
-#' @param A_OS_GV (numeric) The organic matter content of the soil (in procent)
+#' @param A_OS_GV (numeric) The organic matter content of the soil (\%)
 #'
 #' @export
 ind_potassium <- function(D_K,B_LU_BRP,B_BT_AK,A_OS_GV) {
