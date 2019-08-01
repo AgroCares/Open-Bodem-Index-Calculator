@@ -21,6 +21,7 @@ obic_preprocessing <- function(dt) {
   D_MAN = D_P_DU = D_SLV = D_MG = NULL
   A_OS_GV = A_P_PAL = A_P_WA = M_M3 = M_M6 = NULL
   M_M4 = M_M10 = M_M11 = M_M12 = M_M13 = M_M14 = M_M15 = NULL
+  D_WSI = D_K = NULL
   
   # Calculate soil sealing risk
   dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]
@@ -77,6 +78,11 @@ obic_preprocessing <- function(dt) {
   dt[, D_MG := calc_magnesium_availability(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC,
                                            A_K_CEC,A_CLAY_MI,B_BT_AK,B_LU_BRP)]
   
+  # Calculate the potassium index
+  # dt[,DK := calc_potassium_availability(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_GV, A_CLAY_MI, B_LU_BRP, B_BT_AK)]
+  
+  # Calculate Water Stress Risk
+  dt[,D_WSI := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstress')]
   
   
   return(dt)
