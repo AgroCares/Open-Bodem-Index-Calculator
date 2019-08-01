@@ -14,10 +14,12 @@ obic_preprocessing <- function(dt) {
   
   ID = NULL
   A_CLAY_MI = A_OS_GV = A_PH_CC = A_CN_RAT = A_N_TOT = A_P_PAL = A_P_PAE = A_SILT_MI = A_S_TOT = NULL
+  A_CA_CEC = A_MG_CEC = NULL
   A_MG_CC = A_CEC_CO = A_K_CC = A_K_CEC = NULL
   B_BT_AK = B_LU_BRP = B_GT = B_LG_CBS = NULL
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_GA = D_NLV = D_PBI = D_OS_BAL = NULL
   D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_RUST = D_CP_RUSTDEEP = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_PH_DELTA = NULL
+  D_P_CEC = D_C_CEC = NULL
   D_MAN = D_P_DU = D_SLV = D_MG = NULL
   A_OS_GV = A_P_PAL = A_P_WA = M_M3 = M_M6 = NULL
   M_M4 = M_M10 = M_M11 = M_M12 = M_M13 = M_M14 = M_M15 = NULL
@@ -77,7 +79,11 @@ obic_preprocessing <- function(dt) {
   dt[, D_MG := calc_magnesium_availability(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC,
                                            A_K_CEC,A_CLAY_MI,B_BT_AK,B_LU_BRP)]
   
+  # Calculate the CEC fertility index
+  dt[,D_C_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC)]
   
+  # Calculate the CEC index for soil structure
+  dt[,D_P_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,advice = 'structure_index')]
   
   return(dt)
 }
