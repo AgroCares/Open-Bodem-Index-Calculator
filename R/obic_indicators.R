@@ -15,8 +15,11 @@ obic_indicators<- function(dt.ppr) {
   A_OS_GV = NULL
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = I_M = NULL
+  I_P_CEC = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
-  D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_P_WRI = NULL
+  D_ZN = D_CU = NULL
+  D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_CEC = D_C_CEC = D_P_CEC = NULL
+  D_WSI = D_P_WRI = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -39,13 +42,13 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_C_PH := ind_ph(D_PH_DELTA)]
   
   # CEC
-  dt.ppr[, I_C_CEC := -999]
+  dt.ppr[, I_C_CEC := ind_cec(D_CEC = D_C_CEC)]
   
   # Copper
-  dt.ppr[, I_C_CU := -999]
+  dt.ppr[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
   
   # Zinc
-  dt.ppr[, I_C_ZN := -999]
+  dt.ppr[, I_C_ZN := -ind_zinc(D_ZN)]
   
 
   # Evaluate physical -------------------------------------------------------
@@ -58,7 +61,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
   
   # Moisture supply
-  dt.ppr[, I_P_MS := -999]
+  dt.ppr[, I_P_MS := ind_waterstressindex(D_WSI)]
   
   # Bearing capacity
   dt.ppr[, I_P_BC := -999]
@@ -71,6 +74,9 @@ obic_indicators<- function(dt.ppr) {
 
   # Water Retention Index 1. Plant available water in topsoil
   dt.ppr[, I_P_WRI := ind_waterretention(D_P_WRI)]
+  
+  # structure topsoil via CEC
+  dt.ppr[, I_P_CEC := ind_cec(D_CEC = D_P_CEC)]
 
   # Evaluate biological -----------------------------------------------------
   
@@ -81,7 +87,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_B_OM := -999]
   
   # Soil life activity
-  dt.ppr[, I_B_SF := -999]
+  dt.ppr[, I_B_SF := ind_pmn(D_PMN)]
   
   # Soil biodiversity
   dt.ppr[, I_B_SB := -999]
