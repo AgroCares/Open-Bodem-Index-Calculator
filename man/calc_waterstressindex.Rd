@@ -17,5 +17,7 @@ calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = "waterstress")
 }
 \description{
 This function calculates the Water Stress Index (estimating the yield depression as a function of water deficiency or surplus)
-source is the HELP-framework (STOWA, 2005)
+}
+\references{
+STOWA (2005) Uitbreiding en Actualisering van de HELP-tabellen ten behoeve van het Waternood instrumentarium
 }

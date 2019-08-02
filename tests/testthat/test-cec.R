@@ -4,7 +4,8 @@ test_that("calc_cec works", {
       A_CEC_CO = seq(10,500,length.out = 5),
       A_K_CEC = rep(5,5),
       A_MG_CEC = rep(2.8,5),
-      A_CA_CEC = seq(35,92,length.out = 5)
+      A_CA_CEC = seq(35,92,length.out = 5),
+      advice='fertility_index'
     ),
     expected = seq(10,500,length.out = 5),
     tolerance = 0
@@ -33,7 +34,8 @@ test_that("eval_cec works", {
   )
   expect_equal(
     ind_cec(
-      D_CEC = seq(10,500,50)
+      D_CEC = seq(10,500,50),
+      advice='fertility_index'
     ),
     expected = c(0.1,0.6,1,1,1,1,1,1,1,1),
     tolerance = 0.01

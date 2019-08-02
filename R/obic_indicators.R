@@ -19,7 +19,7 @@ obic_indicators<- function(dt.ppr) {
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
   D_ZN = D_CU = NULL
   D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_CEC = D_C_CEC = D_P_CEC = NULL
-  D_WSI = D_P_WRI = NULL
+  D_WSI = D_P_WRI = D_PMN = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   

@@ -4,8 +4,7 @@
 \alias{calc_cec}
 \title{Calculate the index for the CEC-occupation}
 \usage{
-calc_cec(A_CEC_CO, A_K_CEC, A_CA_CEC, A_MG_CEC,
-  advice = "fertility_index")
+calc_cec(A_CEC_CO, A_K_CEC, A_CA_CEC, A_MG_CEC, advice)
 }
 \arguments{
 \item{A_CEC_CO}{(numeric) The cation exchange capacity (mmol+ / kg)}
