@@ -13,10 +13,10 @@ obic_indicators<- function(dt.ppr) {
   checkmate::assert_data_table(dt.ppr)
   
   A_OS_GV = NULL
-  I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
+  I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = I_M = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
-  D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = NULL
+  D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_P_WRI = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -68,7 +68,9 @@ obic_indicators<- function(dt.ppr) {
   
   # Compaction
   dt.ppr[, I_P_CO := ind_compaction(B_OV_WENR)]
-  
+
+  # Water Retention Index 1. Plant available water in topsoil
+  dt.ppr[, I_P_WRI := ind_waterretention(D_P_WRI)]
 
   # Evaluate biological -----------------------------------------------------
   
