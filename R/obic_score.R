@@ -15,12 +15,14 @@ obic_score <- function(dt.ind) {
   S_C = S_P = S_B = S_M = S_T = ID =  NULL
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = I_M = NULL
+  I_P_CEC = NULL
   
   # Score the chemical indicators
-  dt.ind[, S_C := 0.2*I_C_N + 0.2*I_C_P + 0*I_C_K + 0.2*I_C_MG + 0.2*I_C_S + 0.2*I_C_PH + 0*I_C_CEC + 0*I_C_CU + 0*I_C_ZN ]
+  dt.ind[, S_C := 0.2*I_C_N + 0.2*I_C_P + 0*I_C_K + 0.1*I_C_MG + 0.2*I_C_S + 0.2*I_C_PH + 0.1*I_C_CEC + 0*I_C_CU + 0*I_C_ZN ]
   
-  # Score the physical inidcators
-  dt.ind[, S_P :=  0*I_P_CR + 0.2*I_P_SE + 0.2*I_P_MS + 0*I_P_BC + 0.2*I_P_DU + 0.2*I_P_CO]
+  # Score the physical indicators
+  dt.ind[, S_P :=  0*I_P_CR + 0.2*I_P_SE + 0*I_P_MS + 0*I_P_BC + 0.2*I_P_DU + 0.2*I_P_CO + 0.2 * I_P_CEC]
+
   
   # Score the biology
   dt.ind[, S_B := 1*I_B_DI + 0*I_B_OM + 0*I_B_SF + 0*I_B_SB]
