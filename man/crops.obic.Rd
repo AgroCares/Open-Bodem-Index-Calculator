@@ -4,7 +4,7 @@
 \name{crops.obic}
 \alias{crops.obic}
 \title{Linking table between crops and different functions in OBIC}
-\format{A data.frame with 371 rows and 5 columns:
+\format{A data.frame with 405 rows and 12 columns:
 \describe{
   \item{crop_name}{The name of the crop}
   \item{crop_code}{The BRP gewascode of the crop}
