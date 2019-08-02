@@ -1,5 +1,18 @@
 # Changelog OBIC
 
+## Version 0.7.0 2019-08-02
+### Added
+* Adds index and evaluation of waterretention paramaters
+* Adds index and evaluation of water related yield stress
+* Adds index and evaluation of metals (Zn and Cu)
+* Adds index and evaluation of microbial activity (PMN)
+* Adds index and evaluation of CEC for soil fertility and structure
+* Adds waterstress.obic table with information of HELP-tables
+
+### Changed
+* Change crops.obic with crop category related to water stress
+
+
 ## Version 0.6.0 2019-08-01
 ### Added
 * Adds index and evaluation of K-availability
