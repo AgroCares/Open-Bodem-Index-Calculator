@@ -17,6 +17,7 @@ obic_indicators<- function(dt.ppr) {
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = I_M = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
   D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = NULL
+  D_ZN = D_CU = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -42,10 +43,10 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_C_CEC := -999]
   
   # Copper
-  dt.ppr[, I_C_CU := -999]
+  dt.ppr[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
   
   # Zinc
-  dt.ppr[, I_C_ZN := -999]
+  dt.ppr[, I_C_ZN := -ind_zinc(D_ZN)]
   
 
   # Evaluate physical -------------------------------------------------------

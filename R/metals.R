@@ -26,7 +26,7 @@ calc_copper_availability <- function(A_CU_CC, A_OS_GV, A_MN_CC,A_CLAY_MI,A_K_CC,
                     length(A_CLAY_MI),length(A_K_CC), length(B_LU_BRP))
   checkmate::assert_numeric(A_CU_CC, lower = 0, upper = 500, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_MN_CC, lower = 0, upper = 10000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_MN_CC, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_K_CC, lower = 0, upper = 800, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -88,7 +88,7 @@ calc_zinc_availability <- function(A_ZN_CC, B_LU_BRP, B_BT_AK, A_PH_CC) {
   
   # Check input
   arg.length <- max(length(A_ZN_CC), length(B_LU_BRP), length(B_BT_AK))
-  checkmate::assert_numeric(A_ZN_CC, lower = 0, upper = 5000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_ZN_CC, lower = 0, upper = 10000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_PH_CC, lower = 3, upper = 10, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
@@ -113,6 +113,9 @@ calc_zinc_availability <- function(A_ZN_CC, B_LU_BRP, B_BT_AK, A_PH_CC) {
   dt[crop_category =='natuur', value := 0]
   dt[crop_category =='grasland', value := 10^(-1.04 + 0.67 * log10(A_ZN_CC*0.001) + 0.5 * A_PH_CC)]
 
+  # Too high values for Zn-availability are prevented
+  dt[value > 250, value := 250]
+  
   # Extract relevant variable and return
   setorder(dt, id)
   value <- dt[, value]
