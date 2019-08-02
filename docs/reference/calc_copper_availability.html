@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the K availability — calc_potassium_availability • OBIC</title>
+<title>Calculate the availability of the metal Cu — calc_copper_availability • OBIC</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Calculate the K availability — calc_potassium_availability" />
+<meta property="og:title" content="Calculate the availability of the metal Cu — calc_copper_availability" />
 
-<meta property="og:description" content="This function calculates the K availability of a soil." />
+<meta property="og:description" content="This function calculates the availability of Cu for plant uptake" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,54 +114,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the K availability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/potassium.R'><code>R/potassium.R</code></a></small>
-    <div class="hidden name"><code>calc_potassium_availability.Rd</code></div>
+    <h1>Calculate the availability of the metal Cu</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/metals.R'><code>R/metals.R</code></a></small>
+    <div class="hidden name"><code>calc_copper_availability.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function calculates the K availability of a soil.</p>
+    <p>This function calculates the availability of Cu for plant uptake</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>calc_potassium_availability</span>(<span class='no'>A_K_CC</span>, <span class='no'>A_K_CEC</span>, <span class='no'>A_CEC_CO</span>, <span class='no'>A_PH_CC</span>, <span class='no'>A_OS_GV</span>,
-  <span class='no'>A_CLAY_MI</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_BT_AK</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_copper_availability</span>(<span class='no'>A_CU_CC</span>, <span class='no'>A_OS_GV</span>, <span class='no'>A_MN_CC</span>, <span class='no'>A_CLAY_MI</span>, <span class='no'>A_K_CC</span>,
+  <span class='no'>B_LU_BRP</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A_K_CC</th>
-      <td><p>(numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg / kg),</p></td>
-    </tr>
-    <tr>
-      <th>A_K_CEC</th>
-      <td><p>(numeric) The occupation of the CEC with potassium (%)</p></td>
-    </tr>
-    <tr>
-      <th>A_CEC_CO</th>
-      <td><p>(numeric) The cation exchange capacity of the soil (mmol+ / kg), analysed via Cobalt-hexamine extraction</p></td>
-    </tr>
-    <tr>
-      <th>A_PH_CC</th>
-      <td><p>(numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)</p></td>
+      <th>A_CU_CC</th>
+      <td><p>(numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)</p></td>
     </tr>
     <tr>
       <th>A_OS_GV</th>
       <td><p>(numeric) The organic matter content of the soil (%)</p></td>
     </tr>
     <tr>
+      <th>A_MN_CC</th>
+      <td><p>(numeric) The plant available Mn content, extracted with 0.01M CaCl2 (ug / kg)</p></td>
+    </tr>
+    <tr>
       <th>A_CLAY_MI</th>
       <td><p>(numeric) The clay content of the soil (%)</p></td>
     </tr>
     <tr>
-      <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
+      <th>A_K_CC</th>
+      <td><p>(numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg / kg),</p></td>
     </tr>
     <tr>
-      <th>B_BT_AK</th>
-      <td><p>(character) The type of soil</p></td>
+      <th>B_LU_BRP</th>
+      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
     </tr>
     </table>
     
