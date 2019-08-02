@@ -8,7 +8,11 @@
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #' @param A_OS_GV (numeric) The organic matter content of the soil (\%)
 #' @param type (character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
-#'  
+#'
+#' @references Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulogic characteristics. Journal of Hydrology 251, 123-150.
+#'
+#' @include data.table  
+#'
 #' @export
 calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
                                 type = 'plant available water') {
