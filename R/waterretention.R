@@ -11,7 +11,7 @@
 #'
 #' @references Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulogic characteristics. Journal of Hydrology 251, 123-150.
 #'
-#' @include data.table  
+#' @import data.table  
 #'
 #' @export
 calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,

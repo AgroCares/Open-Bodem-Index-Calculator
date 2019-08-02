@@ -22,3 +22,6 @@ calc_waterretention(A_CLAY_MI, A_SAND_MI, A_SILT_MI, A_OS_GV,
 This function calculates different kind of Water Retention Indices given the continuous pedotransferfunctions of Wosten et al. (2001)
 These include : 'wilting point','field capacity','water holding capacity','plant available water' and 'Ksat'
 }
+\references{
+Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulogic characteristics. Journal of Hydrology 251, 123-150.
+}
