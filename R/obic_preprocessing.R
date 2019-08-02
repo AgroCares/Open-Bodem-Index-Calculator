@@ -78,9 +78,6 @@ obic_preprocessing <- function(dt) {
   dt[, D_MG := calc_magnesium_availability(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC,
                                            A_K_CEC,A_CLAY_MI,B_BT_AK,B_LU_BRP)]
   
-  # Calculate the potassium index
-  # dt[,DK := calc_potassium_availability(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_GV, A_CLAY_MI, B_LU_BRP, B_BT_AK)]
-  
   # Calculate Water Stress Risk
   dt[,D_WSI := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstress')]
   
