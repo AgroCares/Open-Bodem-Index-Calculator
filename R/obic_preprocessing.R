@@ -80,7 +80,7 @@ obic_preprocessing <- function(dt) {
                                            A_K_CEC,A_CLAY_MI,B_BT_AK,B_LU_BRP)]
   
   # Calculate the CEC fertility index
-  dt[,D_C_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC)]
+  dt[,D_C_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,advice = 'fertility_index')]
   
   # Calculate the CEC index for soil structure
   dt[,D_P_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,advice = 'structure_index')]
