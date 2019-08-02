@@ -1,12 +1,13 @@
 #' Calculate the Water Stress Index
 #' 
 #' This function calculates the Water Stress Index (estimating the yield depression as a function of water deficiency or surplus)
-#' source is the HELP-framework (STOWA, 2005)
 #' 
 #' @param B_HELP_WENR (character) The soil type abbreviation, derived from 1:50.000 soil map
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_GT (character) The groundwater table class
 #' @param WSI (character) The type of Water STress index is required. Options: drougthstress, wetnessstress and the (combined) waterstress
+#' 
+#' @references STOWA (2005) Uitbreiding en Actualisering van de HELP-tabellen ten behoeve van het Waternood instrumentarium
 #' 
 #' @import data.table
 #' 
