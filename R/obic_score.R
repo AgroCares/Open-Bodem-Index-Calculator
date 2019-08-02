@@ -22,6 +22,7 @@ obic_score <- function(dt.ind) {
   
   # Score the physical indicators
   dt.ind[, S_P :=  0*I_P_CR + 0.2*I_P_SE + 0*I_P_MS + 0*I_P_BC + 0.2*I_P_DU + 0.2*I_P_CO + 0.2 * I_P_CEC]
+
   
   # Score the biology
   dt.ind[, S_B := 1*I_B_DI + 0*I_B_OM + 0*I_B_SF + 0*I_B_SB]

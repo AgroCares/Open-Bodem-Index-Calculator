@@ -18,6 +18,8 @@ obic_indicators<- function(dt.ppr) {
   I_P_CEC = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
   D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_CEC = D_C_CEC = D_P_CEC = NULL
+  D_WSI = NULL
+
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -59,7 +61,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
   
   # Moisture supply
-  dt.ppr[, I_P_MS := -999]
+  dt.ppr[, I_P_MS := ind_waterstressindex(D_WSI)]
   
   # Bearing capacity
   dt.ppr[, I_P_BC := -999]
