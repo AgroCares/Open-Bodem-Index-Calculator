@@ -4,10 +4,12 @@
 \alias{ind_copper}
 \title{Calculate the indicator for Cu-availability}
 \usage{
-ind_copper(D_CU)
+ind_copper(D_CU, B_LU_BRP)
 }
 \arguments{
 \item{D_CU}{(numeric) The value of Cu-index  calculated by \code{\link{calc_copper_availability}}}
+
+\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 }
 \description{
 This function calculates the indicator for the the Cu availability in soil by using the Cu-index as calculated by \code{\link{calc_copper_availability}}

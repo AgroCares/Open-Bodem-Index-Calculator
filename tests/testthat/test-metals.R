@@ -1,20 +1,26 @@
 test_that("calc_cu works", {
   expect_equal(
     calc_copper_availability(
-      A_CU_CC = seq(1,50,length.out = 7),
-      B_LU_BRP = rep(3732,7),
-      B_BT_AK = rep('zeeklei',7)
+      A_CU_CC = seq(1,200,length.out = 7),
+      A_OS_GV = rep(4,7),
+      A_MN_CC = rep(1300,7),
+      A_CLAY_MI = rep(15,7),
+      A_K_CC = rep(85, 7),
+      B_LU_BRP = rep(3732,7)
       ),
-    expected = c(2.42,3.67,4.14,4.45,4.69,4.88,5.05),
+    expected = c(1.57,3.05,3.47,3.74,3.94,4.11,4.25),
     tolerance = 0.01
   )
   expect_equal(
     calc_copper_availability(
       A_CU_CC = seq(1,50,length.out = 7),
-      B_LU_BRP = rep(265,7),
-      B_BT_AK = rep('dekzand',7)
+      A_OS_GV = rep(4,7),
+      A_MN_CC = rep(1300,7),
+      A_CLAY_MI = rep(15,7),
+      A_K_CC = rep(85, 7),
+      B_LU_BRP = rep(265,7)
     ),
-    expected = c(1,9.17,17.33,25.5,33.66,41.83,50),
+    expected = c(1.97,4.10,5.06,5.75,6.31,6.78,7.2),
     tolerance = 0.01
   )
   
@@ -23,16 +29,18 @@ test_that("calc_cu works", {
 test_that("ind_copper works", {
   expect_equal(
     ind_copper(
-      D_CU = c(2.42,3.67,4.14,4.45,4.69,4.88,5.05)
+      D_CU = c(1.57,3.05,3.47,3.74,3.94,4.11,4.25),
+      B_LU_BRP = rep(3732,7)
     ),
-    expected = c(0.42,0.599,0.6566,0.692,0.718,0.738,0.755),
+    expected = c(0.29,0.52,0.57,0.61,0.63,0.65,0.67),
     tolerance = 0.99
   )
   expect_equal(
     ind_copper(
-      D_CU = c(1,9.17,17.33,25.5,33.66,41.83,50)
+      D_CU = c(1.97,4.10,5.06,5.75,6.31,6.78,7.2),
+      B_LU_BRP = rep(265,7)
     ),
-    expected = c(.19,0.99,1,1,1,1,1),
+    expected = c(0.13,0.37,0.52,0.63,0.72,0.78,0.82),
     tolerance = 0.99
   )
 })
@@ -45,7 +53,7 @@ test_that("calc_zn works", {
       B_LU_BRP = rep(3732,7),
       B_BT_AK = rep('zeeklei',7)
     ),
-    expected = c(0.54,1.88,2.68,3.33,3.89,4.396,4.858),
+    expected = c(8.04,27.79,39.70,49.28,57.57,62.02,71.85),
     tolerance = 0.01
   )
   expect_equal(
@@ -63,9 +71,9 @@ test_that("calc_zn works", {
 test_that("ind_zinc works", {
   expect_equal(
     ind_zinc(
-      D_ZN = c(0.54,1.88,2.68,3.33,3.89,4.396,4.858)
+      D_ZN = c(8.04,27.79,39.70,49.28,57.57,62.02,71.85)
     ),
-    expected = c(0.007,0.0249,0.0354,0.0439,0.0512,0.0577,0.064),
+    expected = c(0.10,0.34,0.46,0.55,0.62,0.66,0.73),
     tolerance = 0.01
   )
   expect_equal(

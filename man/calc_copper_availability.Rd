@@ -4,14 +4,21 @@
 \alias{calc_copper_availability}
 \title{Calculate the availability of the metal Cu}
 \usage{
-calc_copper_availability(A_CU_CC, B_LU_BRP, B_BT_AK)
+calc_copper_availability(A_CU_CC, A_OS_GV, A_MN_CC, A_CLAY_MI, A_K_CC,
+  B_LU_BRP)
 }
 \arguments{
-\item{A_CU_CC}{The plant available Cu content, extracted with 0.01M CaCl2 (mg / kg)}
+\item{A_CU_CC}{(numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)}
+
+\item{A_OS_GV}{(numeric) The organic matter content of the soil (\%)}
+
+\item{A_MN_CC}{(numeric) The plant available Mn content, extracted with 0.01M CaCl2 (ug / kg)}
+
+\item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
+
+\item{A_K_CC}{(numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg / kg),}
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
-
-\item{B_BT_AK}{(character) The type of soil}
 }
 \description{
 This function calculates the availability of Cu for plant uptake
