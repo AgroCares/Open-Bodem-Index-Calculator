@@ -16,6 +16,7 @@ obic <- function(dt) {
     empty.ok = FALSE,
     choices = 
       c("ID", "YEAR", "A_N_PMN", "A_CA_CEC", "A_CEC_CO", "A_CN_RAT", "A_K_CEC", "A_CLAY_MI", "A_K_CC", "A_KALK_MI",
+        "A_CU_CC","A_MN_CC",'A_ZN_CC',
         "A_MG_CEC", "A_MG_CC", "A_N_TOT", "A_OS_GV", "A_P_PAE", "A_P_PAL","A_PH_CC", "A_P_WA", "A_SILT_MI", "A_S_TOT",
         "A_SAND_MI", "B_GT", "B_BT_AK", "A_C_FR", "A_MB_PFLA", "A_SB_FR", "A_B_BC", "A_VO_BC", "A_RW_BC", "A_BS_BS",    
         "A_GV_BC", "A_PV_BC", "A_AS_BC", "A_SV_BC", 
