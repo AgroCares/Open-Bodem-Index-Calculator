@@ -6,6 +6,7 @@
 #' 
 #' 
 #' @param A_OS_GV (numeric) The organic matter content of the soil (\%)
+#' @param D_PH_DELTA (numeric) The pH difference with the optimal pH.
 #' @param A_RW_BC (numeric) The presence of earth worms (score 0-1-2)
 #' @param A_BS_BC (numeric) The presence of compaction of soil structure (score 0-1-2)
 #' @param A_GV_BC (numeric) The presence of waterlogged conditions (score 0-1-2)
@@ -22,10 +23,10 @@
 #' 
 #' @export
 calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_BC, A_SS_BC, A_CO_BC,
-                     A_OS_GV, A_PH_CC,
+                     A_OS_GV, D_PH_DELTA,
                      B_LU_BRP,B_BT_AK) {
   
-  id = crop_code = crop_n = NULL
+  id = crop_code = crop_n = crop_category = bcs_om = bcs_ph = soiltype = soiltype.n = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -36,12 +37,22 @@ calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_
   # Check input
   arg.length <- max(length(A_RW_BC), length(A_BS_BC), length(A_GV_BC), length(A_PV_BC),
                     length(A_AS_BC), length(A_SV_BC), length(A_RD_BC), length(A_SS_BC),
-                    length(A_CO_BS), length(B_LU_BRP))
+                    length(A_CO_BC), length(B_LU_BRP))
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_PH_DELTA, lower = 0, upper = 5, any.missing = FALSE)
+  checkmate::assert_numeric(A_RW_BC,lower = 0, upper = 2, any.missing = FALSE)
+  checkmate::assert_numeric(A_BS_BC,lower = 0, upper = 2, any.missing = FALSE)
+  checkmate::assert_numeric(A_GV_BC,lower = 0, upper = 2, any.missing = FALSE)
+  checkmate::assert_numeric(A_PV_BC,lower = 0, upper = 2, any.missing = FALSE)
+  checkmate::assert_numeric(A_AS_BC,lower = 0, upper = 2, any.missing = FALSE)
+  checkmate::assert_numeric(A_SV_BC,lower = 0, upper = 2, any.missing = FALSE)
+  checkmate::assert_numeric(A_RD_BC,lower = 0, upper = 2, any.missing = FALSE)
+  checkmate::assert_numeric(A_SS_BC,lower = 0, upper = 2, any.missing = FALSE)
+  checkmate::assert_numeric(A_CO_BC,lower = 0, upper = 2, any.missing = FALSE)
   
   # Collect data in a table
   dt <- data.table(
@@ -68,38 +79,41 @@ calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_
   dt[, bcs_ph := round(ind_ph(D_PH_DELTA) * 2)]
   
   # Calculate the score for organic matter 
-  dt[, bsc_om := 0]
+  dt[, bcs_om := 0]
   
   # organic matter class 'low' when the OM content is lower than 30% quantile
-  dt[category == 'akkerbouw' & soiltype.n == 'klei' & A_OS_GV < 2.2, bcs_om := 1]
-  dt[category == 'akkerbouw' & soiltype.n == 'zand' & A_OS_GV < 3.0, bcs_om := 1]
-  dt[category == 'akkerbouw' & soiltype.n == 'loess' & A_OS_GV < 2.4, bcs_om := 1]
-  dt[category == 'akkerbouw' & soiltype.n == 'veen' & A_OS_GV < 7.9, bcs_om := 1]
-  dt[category == 'grasland' & soiltype.n == 'klei' & A_OS_GV < 6.8, bcs_om := 1]
-  dt[category == 'grasland' & soiltype.n == 'zand' & A_OS_GV < 4.6, bcs_om := 1]
-  dt[category == 'grasland' & soiltype.n == 'loess' & A_OS_GV < 5.1, bcs_om := 1]
-  dt[category == 'grasland' & soiltype.n == 'veen' & A_OS_GV < 15.5, bcs_om := 1]
-  dt[category == 'mais' & soiltype.n == 'klei' & A_OS_GV < 3.4, bcs_om := 1]
-  dt[category == 'mais' & soiltype.n == 'zand' & A_OS_GV < 3.4, bcs_om := 1]
-  dt[category == 'mais' & soiltype.n == 'loess' & A_OS_GV < 2.6, bcs_om := 1]
-  dt[category == 'mais' & soiltype.n == 'veen' & A_OS_GV < 8.7, bcs_om := 1]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'klei' & A_OS_GV < 2.2, bcs_om := 1]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'zand' & A_OS_GV < 3.0, bcs_om := 1]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'loess' & A_OS_GV < 2.4, bcs_om := 1]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'veen' & A_OS_GV < 7.9, bcs_om := 1]
+  dt[crop_category == 'grasland' & soiltype.n == 'klei' & A_OS_GV < 6.8, bcs_om := 1]
+  dt[crop_category == 'grasland' & soiltype.n == 'zand' & A_OS_GV < 4.6, bcs_om := 1]
+  dt[crop_category == 'grasland' & soiltype.n == 'loess' & A_OS_GV < 5.1, bcs_om := 1]
+  dt[crop_category == 'grasland' & soiltype.n == 'veen' & A_OS_GV < 15.5, bcs_om := 1]
+  dt[crop_category == 'mais' & soiltype.n == 'klei' & A_OS_GV < 3.4, bcs_om := 1]
+  dt[crop_category == 'mais' & soiltype.n == 'zand' & A_OS_GV < 3.4, bcs_om := 1]
+  dt[crop_category == 'mais' & soiltype.n == 'loess' & A_OS_GV < 2.6, bcs_om := 1]
+  dt[crop_category == 'mais' & soiltype.n == 'veen' & A_OS_GV < 8.7, bcs_om := 1]
   
   # organic matter class 'high' when the OM content is higher than 70% quantile
-  dt[category == 'akkerbouw' & soiltype.n == 'klei' & A_OS_GV > 3.8, bcs_om := 2]
-  dt[category == 'akkerbouw' & soiltype.n == 'zand' & A_OS_GV > 4.8, bcs_om := 2]
-  dt[category == 'akkerbouw' & soiltype.n == 'loess' & A_OS_GV > 3.3, bcs_om := 2]
-  dt[category == 'akkerbouw' & soiltype.n == 'veen' & A_OS_GV > 14.6, bcs_om := 2]
-  dt[category == 'grasland' & soiltype.n == 'klei' & A_OS_GV > 12.9, bcs_om := 2]
-  dt[category == 'grasland' & soiltype.n == 'zand' & A_OS_GV > 6.6, bcs_om := 2]
-  dt[category == 'grasland' & soiltype.n == 'loess' & A_OS_GV > 7.7, bcs_om := 2]
-  dt[category == 'grasland' & soiltype.n == 'veen' & A_OS_GV > 28.6, bcs_om := 2]
-  dt[category == 'mais' & soiltype.n == 'klei' & A_OS_GV > 6.2, bcs_om := 2]
-  dt[category == 'mais' & soiltype.n == 'zand' & A_OS_GV > 4.8, bcs_om := 2]
-  dt[category == 'mais' & soiltype.n == 'loess' & A_OS_GV > 3.4, bcs_om := 2]
-  dt[category == 'mais' & soiltype.n == 'veen' & A_OS_GV > 20.1, bcs_om := 2]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'klei' & A_OS_GV > 3.8, bcs_om := 2]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'zand' & A_OS_GV > 4.8, bcs_om := 2]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'loess' & A_OS_GV > 3.3, bcs_om := 2]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'veen' & A_OS_GV > 14.6, bcs_om := 2]
+  dt[crop_category == 'grasland' & soiltype.n == 'klei' & A_OS_GV > 12.9, bcs_om := 2]
+  dt[crop_category == 'grasland' & soiltype.n == 'zand' & A_OS_GV > 6.6, bcs_om := 2]
+  dt[crop_category == 'grasland' & soiltype.n == 'loess' & A_OS_GV > 7.7, bcs_om := 2]
+  dt[crop_category == 'grasland' & soiltype.n == 'veen' & A_OS_GV > 28.6, bcs_om := 2]
+  dt[crop_category == 'mais' & soiltype.n == 'klei' & A_OS_GV > 6.2, bcs_om := 2]
+  dt[crop_category == 'mais' & soiltype.n == 'zand' & A_OS_GV > 4.8, bcs_om := 2]
+  dt[crop_category == 'mais' & soiltype.n == 'loess' & A_OS_GV > 3.4, bcs_om := 2]
+  dt[crop_category == 'mais' & soiltype.n == 'veen' & A_OS_GV > 20.1, bcs_om := 2]
+  
+  # evaluation for nature (not present yet)
+  dt[crop_category == 'natuur', bcs_om := 2]
   
   # Calculate final score
-  dt[,value := 2 * A_CO_C + 3 * A_RD_BC + 3 * A_BS_BC + 3 * A_RW_BC + 
+  dt[,value := 2 * A_CO_BC + 3 * A_RD_BC + 3 * A_BS_BC + 3 * A_RW_BC + 
                3 * A_SS_BC +3 * bcs_ph + 3 * bcs_om + 1 * A_GV_BC -
                2 * A_PV_BC - 1 * A_AS_BC - 1 * A_SV_BC]
 
