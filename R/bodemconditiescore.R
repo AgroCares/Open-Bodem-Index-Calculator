@@ -4,18 +4,26 @@
 #' The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
 #' More information on this test can be found here: http://mijnbodemconditie.nl/
 #' 
-#' @param A_RW_BC (numeric) The number of earth worms present
-#' @param A_BS_BC (numeric) The presence of compaction of soil structure
-#' @param A_GV_BC (numeric) The presence of waterlogged conditions
-#' @param A_PV_BC (numeric) The presence / occurence of water puddles on the land
-#' @param A_AS_BC (numeric) The presence of visible cracks in the top layer
-#' @param A_SV_BC (numeric) The presence of visible tracks on the land
+#' 
+#' @param A_OS_GV (numeric) The organic matter content of the soil (\%)
+#' @param A_RW_BC (numeric) The presence of earth worms (score 0-1-2)
+#' @param A_BS_BC (numeric) The presence of compaction of soil structure (score 0-1-2)
+#' @param A_GV_BC (numeric) The presence of waterlogged conditions (score 0-1-2)
+#' @param A_PV_BC (numeric) The presence / occurence of water puddles on the land (score 0-1-2)
+#' @param A_AS_BC (numeric) The presence of visible cracks in the top layer (score 0-1-2)
+#' @param A_SV_BC (numeric) The presence of visible tracks on the land (score 0-1-2)
+#' @param A_RD_BC (integer) The rooting depth (score 0-1-2)
+#' @param A_SS_BC (integer) The soil structure (score 0-1-2)
+#' @param A_CO_BC (integer) The crop density (score 0-1-2)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param B_BT_AK (character) The type of soil
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, B_LU_BRP) {
+calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_BC, A_SS_BC, A_CO_BC,
+                     A_OS_GV, A_PH_CC,
+                     B_LU_BRP,B_BT_AK) {
   
   id = crop_code = crop_n = NULL
   
@@ -26,11 +34,15 @@ calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, B_LU_
   setkey(soils.obic, soiltype)
   
   # Check input
-  arg.length <- max(length(A_N_TOT))
-  checkmate::assert_numeric(A_N_TOT, lower = 0, upper = 30000, any.missing = FALSE, len = arg.length)
+  arg.length <- max(length(A_RW_BC), length(A_BS_BC), length(A_GV_BC), length(A_PV_BC),
+                    length(A_AS_BC), length(A_SV_BC), length(A_RD_BC), length(A_SS_BC),
+                    length(A_CO_BS), length(B_LU_BRP))
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-
+  checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  
   # Collect data in a table
   dt <- data.table(
     id = 1:arg.length,
@@ -40,14 +52,57 @@ calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, B_LU_
     A_PV_BC = A_PV_BC, 
     A_AS_BC = A_AS_BC, 
     A_SV_BC = A_SV_BC, 
+    A_RD_BC = A_RD_BC,
+    A_SS_BC = A_RD_BC,
+    A_CO_BC = A_CO_BC,
     B_LU_BRP = B_LU_BRP,
+    B_BT_AK = B_BT_AK,
     value = NA_real_
   )
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_n)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   
-  # Calculate NLV for grass
+  # calculate the scores of the BodemConditieScore: these range from 0 (poor) to 2 (good)
   
+  # Calculate the score for pH
+  dt[, bcs_ph := round(ind_ph(D_PH_DELTA) * 2)]
   
+  # Calculate the score for organic matter 
+  dt[, bsc_om := 0]
+  
+  # organic matter class 'low' when the OM content is lower than 30% quantile
+  dt[category == 'akkerbouw' & soiltype.n == 'klei' & A_OS_GV < 2.2, bcs_om := 1]
+  dt[category == 'akkerbouw' & soiltype.n == 'zand' & A_OS_GV < 3.0, bcs_om := 1]
+  dt[category == 'akkerbouw' & soiltype.n == 'loess' & A_OS_GV < 2.4, bcs_om := 1]
+  dt[category == 'akkerbouw' & soiltype.n == 'veen' & A_OS_GV < 7.9, bcs_om := 1]
+  dt[category == 'grasland' & soiltype.n == 'klei' & A_OS_GV < 6.8, bcs_om := 1]
+  dt[category == 'grasland' & soiltype.n == 'zand' & A_OS_GV < 4.6, bcs_om := 1]
+  dt[category == 'grasland' & soiltype.n == 'loess' & A_OS_GV < 5.1, bcs_om := 1]
+  dt[category == 'grasland' & soiltype.n == 'veen' & A_OS_GV < 15.5, bcs_om := 1]
+  dt[category == 'mais' & soiltype.n == 'klei' & A_OS_GV < 3.4, bcs_om := 1]
+  dt[category == 'mais' & soiltype.n == 'zand' & A_OS_GV < 3.4, bcs_om := 1]
+  dt[category == 'mais' & soiltype.n == 'loess' & A_OS_GV < 2.6, bcs_om := 1]
+  dt[category == 'mais' & soiltype.n == 'veen' & A_OS_GV < 8.7, bcs_om := 1]
+  
+  # organic matter class 'high' when the OM content is higher than 70% quantile
+  dt[category == 'akkerbouw' & soiltype.n == 'klei' & A_OS_GV > 3.8, bcs_om := 2]
+  dt[category == 'akkerbouw' & soiltype.n == 'zand' & A_OS_GV > 4.8, bcs_om := 2]
+  dt[category == 'akkerbouw' & soiltype.n == 'loess' & A_OS_GV > 3.3, bcs_om := 2]
+  dt[category == 'akkerbouw' & soiltype.n == 'veen' & A_OS_GV > 14.6, bcs_om := 2]
+  dt[category == 'grasland' & soiltype.n == 'klei' & A_OS_GV > 12.9, bcs_om := 2]
+  dt[category == 'grasland' & soiltype.n == 'zand' & A_OS_GV > 6.6, bcs_om := 2]
+  dt[category == 'grasland' & soiltype.n == 'loess' & A_OS_GV > 7.7, bcs_om := 2]
+  dt[category == 'grasland' & soiltype.n == 'veen' & A_OS_GV > 28.6, bcs_om := 2]
+  dt[category == 'mais' & soiltype.n == 'klei' & A_OS_GV > 6.2, bcs_om := 2]
+  dt[category == 'mais' & soiltype.n == 'zand' & A_OS_GV > 4.8, bcs_om := 2]
+  dt[category == 'mais' & soiltype.n == 'loess' & A_OS_GV > 3.4, bcs_om := 2]
+  dt[category == 'mais' & soiltype.n == 'veen' & A_OS_GV > 20.1, bcs_om := 2]
+  
+  # Calculate final score
+  dt[,value := 2 * A_CO_C + 3 * A_RD_BC + 3 * A_BS_BC + 3 * A_RW_BC + 
+               3 * A_SS_BC +3 * bcs_ph + 3 * bcs_om + 1 * A_GV_BC -
+               2 * A_PV_BC - 1 * A_AS_BC - 1 * A_SV_BC]
+
   # Combine both tables and extract values
   setorder(dt, id)
   value <- dt[, value]
@@ -65,10 +120,10 @@ calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, B_LU_
 ind_bcs <- function(D_BCS) {
   
   # Check inputs
-  checkmate::assert_numeric(D_BCS, lower = 0, upper = 10, any.missing = FALSE)
+  checkmate::assert_numeric(D_BCS, lower = 0, upper = 40, any.missing = FALSE)
   
-  # Evaluate the nitrogen
-  value <- OBIC::evaluate_parabolic(D_BCS, x.top = 5)
+  # Evaluate the BodemConditieScore
+  value <- D_BCS / 40
   
   # return output
   return(value)
