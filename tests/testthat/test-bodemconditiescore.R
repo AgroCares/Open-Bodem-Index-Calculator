@@ -35,7 +35,7 @@ test_that("calc_bodemconditiescore works", {
       B_LU_BRP = rep(265,3),
       B_BT_AK = rep('dekzand',3)
     ),
-    expected = c(1, 23, 42),
+    expected = c(12, 23, 42),
     tolerance = 0.01
   )
   
