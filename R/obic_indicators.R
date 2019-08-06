@@ -13,13 +13,13 @@ obic_indicators<- function(dt.ppr) {
   checkmate::assert_data_table(dt.ppr)
   
   A_OS_GV = NULL
-  I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = NULL
+  I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = I_M = NULL
   I_P_CEC = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
   D_ZN = D_CU = NULL
   D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_CEC = D_C_CEC = D_P_CEC = NULL
-  D_WSI = D_P_WRI = D_PMN = NULL
+  D_WSI = D_P_WRI = D_PMN = D_BCS = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -96,6 +96,7 @@ obic_indicators<- function(dt.ppr) {
   # Evaluate managment ------------------------------------------------------
   dt.ppr[, I_M := ind_management(D_MAN, B_LU_BRP, B_BT_AK)]
   
+  dt.ppr[, I_BCS := ind_bcs(D_BCS)]
   
   return(dt.ppr)
 }
