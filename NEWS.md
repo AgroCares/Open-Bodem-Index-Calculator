@@ -1,8 +1,20 @@
 # Changelog OBIC
 
-## UNRELEASED
+## Version 0.8.0 2019-08-02
 ### Added
 * Adds index and evaluation of the BodemConditieScore
+* Adds potassium to main functions
+* Adds a random recommondation to the output
+
+### Changed
+* The upper limit for `A_MN_CC` is increased from 20000 to 30000
+* The upper limit for `A_CA_CEC` is increased from 100 to  400
+
+### Fixed
+* The indicator of pH had the wrong direction 
+* Removed the minus sign before `ind_zinc`
+* The function `calc_potassium_availability` containted a wrong column name for `A_PH_CC`
+* Some unknown situations at `calc_potassium_availability` have now the same values as comparable situations. This should be looked at later
 
 ## Version 0.7.0 2019-08-02
 ### Added
