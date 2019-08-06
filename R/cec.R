@@ -19,7 +19,7 @@ calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, advice) {
   arg.length <- max(length(A_CEC_CO), length(A_K_CEC), length(A_CA_CEC), length(A_MG_CEC))
   checkmate::assert_numeric(A_CEC_CO, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_K_CEC, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_CA_CEC, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_CA_CEC, lower = 0, upper = 400, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_MG_CEC, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
   checkmate::assert_character(advice, any.missing = FALSE, min.len = 1, len = 1)
   checkmate::assert_subset(advice, choices = c('fertility_index','structure_index'), empty.ok = FALSE)
