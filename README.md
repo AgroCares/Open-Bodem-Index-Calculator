@@ -4,8 +4,10 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-This package contains the functions to calculate the indicators and evaluations used in Open Bodem Index (OBI).
-The Open Bodem Index is a tool to evaluate the soil of agricultural fields based on various criteria.
+This R package can be used to calculate the Open Bodem Index (OBI). 
+The OBI is a tool that evalueate the soil of agricultural fields based on four main criteria: chemical, physical, biological and managment. 
+These four criteria consist of more than 15 indicators to get an comprehensive picture of the soil. 
+More information about the Open Bodem Index can be found at [Open Bodem Index](https://www.openbodemindex.nl).
 
 ## Installation
 
