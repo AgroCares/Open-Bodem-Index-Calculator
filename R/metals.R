@@ -26,7 +26,7 @@ calc_copper_availability <- function(A_CU_CC, A_OS_GV, A_MN_CC,A_CLAY_MI,A_K_CC,
                     length(A_CLAY_MI),length(A_K_CC), length(B_LU_BRP))
   checkmate::assert_numeric(A_CU_CC, lower = 0, upper = 500, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_MN_CC, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_MN_CC, lower = 0, upper = 30000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_K_CC, lower = 0, upper = 800, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
