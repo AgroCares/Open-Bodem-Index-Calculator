@@ -46,7 +46,7 @@ calc_potassium_availability <- function(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_
     A_K_CC = A_K_CC,
     A_CEC_CO = A_CEC_CO,
     A_K_CEC = A_K_CEC,
-    a_PH_CC = A_PH_CC,
+    A_PH_CC = A_PH_CC,
     A_OS_GV = A_OS_GV,
     A_CLAY_MI = A_CLAY_MI,
     B_LU_BRP = B_LU_BRP,
@@ -83,7 +83,7 @@ calc_potassium_availability <- function(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_
     
     # pH-KCl needed (not higher than pH is 7)
     dt.arable[,A_PH_KCL := pmin(7,(A_PH_CC - 0.5262)/0.9288)]
-    
+
     # correction factor for texture and OS (the so called F-factor)
     dt.arable[grepl('zand|dal|veen',B_BT_AK), cF := 20 / (10 + A_OS_GV)]
     dt.arable[grepl('duin|rivier|maas|klei|loess',B_BT_AK) & A_OS_GV <= 10, cF := b /(0.15 * A_PH_KCL-0.05)]
