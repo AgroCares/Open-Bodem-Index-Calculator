@@ -12,7 +12,7 @@ obic_preprocessing <- function(dt) {
   # Check inputs
   checkmate::assert_data_table(dt)
   
-  ID = type = NULL
+  ID = NULL
   A_CLAY_MI = A_OS_GV = A_PH_CC = A_CN_RAT = A_N_TOT = A_P_PAL = A_P_PAE = A_P_WA = A_SILT_MI = A_S_TOT = NULL
   A_MG_CC = A_CEC_CO = A_K_CC = A_K_CEC = A_CU_CC = A_MN_CC = A_ZN_CC = A_SAND_MI = NULL
   A_RW_BC = A_BS_BC = A_GV_BC = A_PV_BC = A_AS_BC = A_SV_BC = A_RD_BC = A_SS_BC = A_CO_BC = NULL
@@ -49,6 +49,9 @@ obic_preprocessing <- function(dt) {
   
   # Calculate the NLV
   dt[, D_NLV := calc_nlv(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA)]
+  
+  # Calculate the potassium availability
+  dt[, D_K := calc_potassium_availability(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_GV, A_CLAY_MI, B_LU_BRP, B_BT_AK)]
 
   # Calculate the PBI
   dt[, D_PBI := calc_phosphate_availability(A_P_PAL, A_P_PAE, B_LU_BRP)]
