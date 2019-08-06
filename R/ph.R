@@ -103,7 +103,7 @@ ind_ph <- function(D_PH_DELTA) {
   checkmate::assert_numeric(D_PH_DELTA, lower = 0, upper = 5, any.missing = FALSE)
   
   # Evaluate the pH
-  value <- OBIC::evaluate_logistic(x = D_PH_DELTA, b = 9, x0 = 0.3, v = 0.4, increasing = TRUE)
+  value <- 1 - OBIC::evaluate_logistic(x = D_PH_DELTA, b = 9, x0 = 0.3, v = 0.4, increasing = TRUE)
   
   return(value)
   
