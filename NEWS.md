@@ -1,5 +1,9 @@
 # Changelog OBIC
 
+## UNRELEASED
+### Added
+* Adds index and evaluation of the BodemConditieScore
+
 ## Version 0.7.0 2019-08-02
 ### Added
 * Adds index and evaluation of waterretention paramaters
