@@ -48,7 +48,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
   
   # Zinc
-  dt.ppr[, I_C_ZN := -ind_zinc(D_ZN)]
+  dt.ppr[, I_C_ZN := ind_zinc(D_ZN)]
   
 
   # Evaluate physical -------------------------------------------------------
