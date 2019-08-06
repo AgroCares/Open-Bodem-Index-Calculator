@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate indicator for wind erodibility — calc_winderodibility • OBIC</title>
+<title>Calculate the BodemConditieScore — calc_bcs • OBIC</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,11 @@
 
 
 
-<meta property="og:title" content="Calculate indicator for wind erodibility — calc_winderodibility" />
+<meta property="og:title" content="Calculate the BodemConditieScore — calc_bcs" />
 
-<meta property="og:description" content="This function calculates the risk for wind erodibility of soils, derived from Van Kerckhoven et al. (2009) and Ros &amp;amp; Bussink (2013)" />
+<meta property="og:description" content="This function calculates the BodemConditieScore given input from manual observations made in the field.
+The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
+More information on this test can be found here" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,35 +120,82 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate indicator for wind erodibility</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/winderodibility.R'><code>R/winderodibility.R</code></a></small>
-    <div class="hidden name"><code>calc_winderodibility.Rd</code></div>
+    <h1>Calculate the BodemConditieScore</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/bodemconditiescore.R'><code>R/bodemconditiescore.R</code></a></small>
+    <div class="hidden name"><code>calc_bcs.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function calculates the risk for wind erodibility of soils, derived from Van Kerckhoven et al. (2009) and Ros &amp; Bussink (2013)</p>
+    <p>This function calculates the BodemConditieScore given input from manual observations made in the field.
+The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
+More information on this test can be found <a href='http://mijnbodemconditie.nl/'>here</a></p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>calc_winderodibility</span>(<span class='no'>A_CLAY_MI</span>, <span class='no'>A_SILT_MI</span>, <span class='no'>B_LU_BRP</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_bcs</span>(<span class='no'>A_RW_BC</span>, <span class='no'>A_BS_BC</span>, <span class='no'>A_GV_BC</span>, <span class='no'>A_PV_BC</span>, <span class='no'>A_AS_BC</span>, <span class='no'>A_SV_BC</span>, <span class='no'>A_RD_BC</span>,
+  <span class='no'>A_SS_BC</span>, <span class='no'>A_CO_BC</span>, <span class='no'>A_OS_GV</span>, <span class='no'>D_PH_DELTA</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_BT_AK</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A_CLAY_MI</th>
-      <td><p>(numeric) The clay content of the soil (in procent)</p></td>
+      <th>A_RW_BC</th>
+      <td><p>(numeric) The presence of earth worms (score 0-1-2)</p></td>
     </tr>
     <tr>
-      <th>A_SILT_MI</th>
-      <td><p>(numeric) The silt content of the soil (in procent)</p></td>
+      <th>A_BS_BC</th>
+      <td><p>(numeric) The presence of compaction of soil structure (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_GV_BC</th>
+      <td><p>(numeric) The presence of waterlogged conditions (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_PV_BC</th>
+      <td><p>(numeric) The presence / occurence of water puddles on the land (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_AS_BC</th>
+      <td><p>(numeric) The presence of visible cracks in the top layer (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_SV_BC</th>
+      <td><p>(numeric) The presence of visible tracks on the land (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_RD_BC</th>
+      <td><p>(integer) The rooting depth (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_SS_BC</th>
+      <td><p>(integer) The soil structure (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_CO_BC</th>
+      <td><p>(integer) The crop density (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_OS_GV</th>
+      <td><p>(numeric) The organic matter content of the soil (%)</p></td>
+    </tr>
+    <tr>
+      <th>D_PH_DELTA</th>
+      <td><p>(numeric) The pH difference with the optimal pH.</p></td>
     </tr>
     <tr>
       <th>B_LU_BRP</th>
       <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
     </tr>
+    <tr>
+      <th>B_BT_AK</th>
+      <td><p>(character) The type of soil</p></td>
+    </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='http://mijnbodemconditie.nl/'>mijnbodemconditie.nl</a></p>
     
 
   </div>
@@ -154,7 +203,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#references">References</a></li>
+          </ul>
 
   </div>
 </div>
