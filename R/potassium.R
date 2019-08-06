@@ -76,8 +76,12 @@ calc_potassium_availability <- function(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_
     # derive b-factor, texture dependent correction
     dt.arable[grepl('duin|rivier|maas|klei',B_BT_AK) & A_OS_GV <= 10 & A_CLAY_MI <= 11, b := 1.513]
     dt.arable[grepl('duin|rivier|maas|klei',B_BT_AK) & A_OS_GV <= 10 & A_CLAY_MI > 11, b := 0.60226 + 1.27576 /(1 + 0.09891 * A_CLAY_MI)]
+    dt.arable[grepl('duin|rivier|maas|klei',B_BT_AK) & A_OS_GV > 10 & A_CLAY_MI <= 11, b := 1.513] # SHOULD BE CHANGED; UNKNOWN FROM FACTSHEETS
+    dt.arable[grepl('duin|rivier|maas|klei',B_BT_AK) & A_OS_GV > 10 & A_CLAY_MI > 11, b := 0.60226 + 1.27576 /(1 + 0.09891 * A_CLAY_MI)] # SHOULD BE CHANGED; UNKNOWN FROM FACTSHEETS
     dt.arable[grepl('zeeklei',B_BT_AK) & A_OS_GV > 10 & A_CLAY_MI <= 5, b := 1.513]
     dt.arable[grepl('zeeklei',B_BT_AK) & A_OS_GV > 10 & A_CLAY_MI > 5, b := 0.60226 + 1.27576 /(1 + 0.09891 * A_CLAY_MI)]
+    dt.arable[grepl('zeeklei',B_BT_AK) & A_OS_GV <= 10 & A_CLAY_MI <= 5, b := 1.513]  # SHOULD BE CHANGED; UNKNOWN FROM FACTSHEETS
+    dt.arable[grepl('zeeklei',B_BT_AK) & A_OS_GV <= 10 & A_CLAY_MI > 5, b := 0.60226 + 1.27576 /(1 + 0.09891 * A_CLAY_MI)]  # SHOULD BE CHANGED; UNKNOWN FROM FACTSHEETS
     dt.arable[grepl('loess',B_BT_AK) & A_CLAY_MI <= 11, b := 1.513]
     dt.arable[grepl('loess',B_BT_AK) & A_CLAY_MI > 11, b := 1.75 - 0.04 * 2 * A_CLAY_MI + 0.00068 * (2 * A_CLAY_MI)^2 - 0.0000041 * (2 * A_CLAY_MI)^3]
     
@@ -87,7 +91,9 @@ calc_potassium_availability <- function(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_
     # correction factor for texture and OS (the so called F-factor)
     dt.arable[grepl('zand|dal|veen',B_BT_AK), cF := 20 / (10 + A_OS_GV)]
     dt.arable[grepl('duin|rivier|maas|klei|loess',B_BT_AK) & A_OS_GV <= 10, cF := b /(0.15 * A_PH_KCL-0.05)]
+    dt.arable[grepl('duin|rivier|maas|klei|loess',B_BT_AK) & A_OS_GV > 10, cF := b /(0.15 * A_PH_KCL-0.05)] # SHOULD BE CHANGED; UNKNOWN FROM FACTSHEETS
     dt.arable[grepl('zeeklei',B_BT_AK) & A_OS_GV > 10, cF := b]
+    dt.arable[grepl('zeeklei',B_BT_AK) & A_OS_GV <= 10, cF := b] # SHOULD BE CHANGED; UNKNOWN FROM FACTSHEETS
     
     # calculate K-COHEX as mg K per kg soil
     dt.arable[,A_K_CO := A_K_CEC * A_CEC_CO * 0.01 * 39.098]
