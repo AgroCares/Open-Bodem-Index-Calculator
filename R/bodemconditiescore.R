@@ -2,7 +2,7 @@
 #' 
 #' This function calculates the BodemConditieScore given input from manual observations made in the field.
 #' The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
-#' More information on this test can be found here: http://mijnbodemconditie.nl/
+#' More information on this test can be found \href{http://mijnbodemconditie.nl/}{here}
 #' 
 #' 
 #' @param A_OS_GV (numeric) The organic matter content of the soil (\%)
@@ -18,6 +18,8 @@
 #' @param A_CO_BC (integer) The crop density (score 0-1-2)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
+#' 
+#' @references \href{http://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
 #' 
 #' @import data.table
 #' 

@@ -37,5 +37,8 @@ calc_bcs(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_BC,
 \description{
 This function calculates the BodemConditieScore given input from manual observations made in the field.
 The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
-More information on this test can be found here: http://mijnbodemconditie.nl/
+More information on this test can be found \href{http://mijnbodemconditie.nl/}{here}
+}
+\references{
+\href{http://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
 }
