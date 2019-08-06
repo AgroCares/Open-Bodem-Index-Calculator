@@ -18,7 +18,7 @@ obic_score <- function(dt.ind) {
   I_P_CEC = NULL
   
   # Score the chemical indicators
-  dt.ind[, S_C := 0.2*I_C_N + 0.2*I_C_P + 0*I_C_K + 0.1*I_C_MG + 0.2*I_C_S + 0.2*I_C_PH + 0.1*I_C_CEC + 0*I_C_CU + 0*I_C_ZN ]
+  dt.ind[, S_C := (1/9)*I_C_N + (1/9)*I_C_P + (1/9)*I_C_K + (1/9)*I_C_MG + (1/9)*I_C_S + (1/9)*I_C_PH + (1/9)*I_C_CEC + (1/9)*I_C_CU + (1/9)*I_C_ZN ]
   
   # Score the physical indicators
   dt.ind[, S_P :=  0*I_P_CR + 0.2*I_P_SE + 0*I_P_MS + 0*I_P_BC + 0.2*I_P_DU + 0.2*I_P_CO + 0.2 * I_P_CEC]

@@ -18,7 +18,7 @@ obic_indicators<- function(dt.ppr) {
   I_P_CEC = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
   D_ZN = D_CU = NULL
-  D_SE = D_CR = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_CEC = D_C_CEC = D_P_CEC = NULL
+  D_SE = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_C_CEC = D_P_CEC = D_K =  NULL
   D_WSI = D_P_WRI = D_PMN = D_BCS = NULL
   
   # Evaluate nutrients ------------------------------------------------------
@@ -30,7 +30,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_C_P := ind_phosphate_availability(D_PBI)]
   
   # Potassium
-  dt.ppr[, I_C_K := -999]
+  dt.ppr[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_BT_AK,A_OS_GV)]
   
   # Magnesium
   dt.ppr[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_BT_AK)]
