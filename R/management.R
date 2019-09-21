@@ -206,7 +206,7 @@ ind_management <- function(D_MAN,B_LU_BRP,B_BT_AK) {
   dt[crop_n == 'gras', value := D_MAN / 7]
   dt[crop_n == 'gras' & soiltype.n == 'veen', value := D_MAN / 14]
   dt[crop_n == 'akkerbouw', value := D_MAN / 14]
-  dt[grepl('maize',crop_name), value := D_MAN / 8]
+  dt[grepl('mais',crop_name), value := D_MAN / 8]
   
   # Ensure no vales above 1
   dt[value > 1, value := 1]
