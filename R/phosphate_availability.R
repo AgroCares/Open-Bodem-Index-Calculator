@@ -35,10 +35,17 @@ calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, B_LU_BRP) {
   dt <- crops.obic[dt]
   setorder(dt, id)
   
-  # Calculate the phosphate availability (PBI, unit?)
+  # Calculate the phosphate availability for grass and maize (PBI, unit?)
   dt[crop_phosphate == "gras", value := 2 + 2.5 * log(A_P_PAE) + 0.036 * A_P_PAL / A_P_PAE]
   dt[crop_phosphate == "mais", value := A_P_PAE + 0.05 * (A_P_PAL / A_P_PAE)]
   
+  # calculate the P-availability for arable systems, normalized to a scale with maximum around 6
+  dt[crop_phosphate == "arable", value := A_P_WA * 0.1]
+  
+  # nature 
+  dt[crop_phosphate == "nature", value := 0]
+  
+  # return value
   value <- dt[, value]
   
   return(value)
