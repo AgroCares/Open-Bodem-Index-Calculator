@@ -4,12 +4,13 @@
 #' 
 #' @param A_P_PAL (numeric) The P-AL content of the soil
 #' @param A_P_PAE (numeric) The P-CaCl2 content of the soil
+#' @param A_P_WA (numeric) The P-content of the soil extracted with water
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, B_LU_BRP) {
+calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, A_P_WA, B_LU_BRP) {
   
   # Load in the crops dataset
   crop_code = crop_phosphate = id = NULL
@@ -20,6 +21,7 @@ calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, B_LU_BRP) {
   arg.length <- max(length(A_P_PAL), length(A_P_PAE), length(B_LU_BRP))
   checkmate::assert_numeric(A_P_PAL, lower = 8, upper = 200, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_P_PAE, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_P_WA, lower = 0, upper = 200, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
@@ -28,6 +30,7 @@ calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, B_LU_BRP) {
     id = 1:arg.length,
     A_P_PAL = A_P_PAL,
     A_P_PAE = A_P_PAE,
+    A_P_WA = A_P_WA,
     B_LU_BRP = B_LU_BRP,
     value = NA_real_
   )
