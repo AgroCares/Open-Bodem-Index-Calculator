@@ -1,5 +1,10 @@
 # Changelog OBIC
 
+## UNRELEASED
+### Fixed
+* Fixed typo if mais in `ind_managment`
+* Fixed test for winderodibility
+
 ## Version 0.8.0 2019-08-02
 ### Added
 * Adds index and evaluation of the BodemConditieScore
