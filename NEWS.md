@@ -3,6 +3,7 @@
 ## UNRELEASED
 ### Changed
 * The uppper limit for `D_BCS` is increased from 40 to 50
+* Switch on crumbleability
 
 ### Fixed
 * Fixed typo if mais in `ind_managment`
