@@ -16,6 +16,8 @@ OBIC can be installed from GitHub using `remotes`. This will install the current
 remotes::install_github("springgbv/Open-Bodem-Index-Calculator")
 library("OBIC")
 ```
+## Documentation
+Documentation of the R functions in the OBIC package can be found [here](https://springgbv.github.io/Open-Bodem-Index-Calculator/)
 
 ## More informantion
 The [Open Bodem Index](https://www.openbodemindex.nl) (OBI) is a collaboration between Wageningen UR, NMI and FarmHack in collaboration with agricultural experts. 
