@@ -2,11 +2,6 @@
 #' 
 #' This function calculates the potential N leaching of a soil.
 #' 
-#' ## To BE FIXED:
-# 1) Not all B_GT types occured in the actual datasets are covered in ADI table.
-# -->"unknown" need to be handled somewhow. 
-# 2) Set a condition when NLV is negative
-
 #' @param B_BT_AK (character) The type of soil
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_GT (character) The groundwater table class
@@ -29,8 +24,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV){
   setkey(crops.obic, crop_code)
   
   ## Read ADI table
-  # (This need to be changed, so that RData is called from the package)
-  load('adi_table.RData')
+  adi_table <- as.data.table(OBIC::adi_table)
   
   # Check input
   arg.length <- max(length(B_BT_AK),length(B_LU_BRP), length(B_GT),
@@ -40,10 +34,8 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV){
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_GT,any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_GT, choices = unique(adi_table$Grondwatertrap))
-  checkmate::assert_numeric(D_NLV, lower = -30, upper = 250, len = arg.length)
-  # TO ADD:  a line to check if all B_GT categories occured in the dataset are included in the ADI table (column 'Grondwatertrap') 
-  
+  checkmate::assert_subset(B_GT, choices = c('unknown', unique(adi_table$Grondwatertrap)))
+  checkmate::assert_numeric(D_NLV, lower = -30, upper = 250, len = arg.length) 
   
   # Collect data in a table
   dt <- data.table(
@@ -67,13 +59,16 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV){
   adi_table[, cat_nleach := paste(Grondsoort, Grondgebruik, Grondwatertrap, sep = "_")]
   
   # merge ADI values into 'dt', based on soil type x crop type x grondwatertrap
-  dt <- merge(dt, subset(adi_table, select = c(cat_nleach, ADI)), by = 'cat_nleach', sort = F)
+  dt <- merge(dt, subset(adi_table, select = c(cat_nleach, ADI)), by = 'cat_nleach', sort = F, all.x = T)
   # To check: conditional joining in 'ph.R'is written as follows (this is probably more efficient way to join)
   # dt.53 <- dt.ph.delta[dt.53, on=list(table == table, lutum.low <= A_CLAY_MI, lutum.high > A_CLAY_MI, om.low <= A_OS_GV, om.high > A_OS_GV)]
   
   # compute (potential) N leaching D_NUIT (gN/ha/yr)
   dt[, value := D_NLV * (1. - ADI)]
-  
+  # when Groundwatertrap is unknown, set N leaching as 0 <-- to be checked if this is okay,
+  dt[is.na(ADI), value := 0.]
+  # When NLV is negative (= net immobilization), no leaching is assumed
+  dt[D_NLV < 0, value := 0.]
   
   # Extract relevant variable and return
   setorder(dt, id)
