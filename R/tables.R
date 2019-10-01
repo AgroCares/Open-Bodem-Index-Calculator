@@ -39,3 +39,14 @@
 #'   \item{waterstress}{The mean combined effect water stress (due to deficiency or excess of water)}
 #' }
 "waterstress.obic"
+
+#' Linking table between soil type, land use, groundwatertables and ADI (Actuele Denitrificatie Index) in OBIC
+#' 
+#' @format A data.frame with 72 rows and 4 columns:
+#' \describe{
+#'   \item{Grondsoort}{The type of soil (klei/veen/zand}
+#'   \item{Grondgebruik}{The category for land use (grasland/mais/ov.BL )}
+#'   \item{Grondwatertrap}{The class describing mean highest and lowest groundwater table, derived from 1:50.000 soil map}
+#'   \item{ADI}{Actuele Denitrificatie Index (fraction). Ref: Assinck FBT et al., 2006}
+#' }
+"adi_table"
