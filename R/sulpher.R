@@ -87,7 +87,7 @@ calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   
   # Calculate the SLV for nature land
   dt.nature <- dt[crop_category == "natuur"]
-  dt.nature[,value := 1.5 * A_S_TOT * D_BDS]
+  dt.nature[,value := 1.5 * A_S_TOT * 0.001 * D_BDS * 0.001]
       
   # Combine both tables and extract values
   dt <- rbindlist(list(dt.grass, dt.maize,dt.arable,dt.nature), fill = TRUE)
