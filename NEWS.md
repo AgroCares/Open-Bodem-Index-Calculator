@@ -1,5 +1,13 @@
 # Changelog OBIC
 
+## UNRELEASED
+### Changed
+* The uppper limit for `D_BCS` is increased from 40 to 50
+
+### Fixed
+* Fixed typo if mais in `ind_managment`
+* Fixed test for winderodibility
+
 ## Version 0.8.0 2019-08-02
 ### Added
 * Adds index and evaluation of the BodemConditieScore
