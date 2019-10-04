@@ -4,12 +4,14 @@
 \alias{calc_phosphate_availability}
 \title{Calculate the phosphate availability (PBI)}
 \usage{
-calc_phosphate_availability(A_P_PAL, A_P_PAE, B_LU_BRP)
+calc_phosphate_availability(A_P_PAL, A_P_PAE, A_P_WA, B_LU_BRP)
 }
 \arguments{
 \item{A_P_PAL}{(numeric) The P-AL content of the soil}
 
 \item{A_P_PAE}{(numeric) The P-CaCl2 content of the soil}
+
+\item{A_P_WA}{(numeric) The P-content of the soil extracted with water}
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 }
