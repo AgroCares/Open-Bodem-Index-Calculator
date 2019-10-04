@@ -13,7 +13,7 @@ Description: This package can be used to calculate the Open Bodem Index (OBI).
     These four criteria consist of more than 15 indicators to get an comprehensive picture of the soil. 
     More information about the Open Bodem Index can be found a https://www.openbodemindex.nl/.
 Depends:
-    R (>= 2.10)
+    R (>= 3.5.0)
 Imports: 
     checkmate,
     data.table
@@ -26,5 +26,6 @@ RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2
 VignetteBuilder: knitr

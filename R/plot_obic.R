@@ -6,10 +6,14 @@
 #' @param ind_fun (character) The name of the OBIC function that is visualised
 #' 
 #' @import data.table
-#' @import ggplot2
 #' 
 #' @export
 plot_eval <- function(D_SF,ind_fun) {
+  
+  # Check if ggplot2 is installed
+  if(!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Install the package `ggplot2` to use this function")
+  }
   
   # Check inputs
   checkmate::assert_numeric(D_SF, lower = 0 , upper = 10000, any.missing = FALSE)
