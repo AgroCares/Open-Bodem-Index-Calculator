@@ -136,10 +136,11 @@ calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_
 ind_bcs <- function(D_BCS) {
   
   # Check inputs
-  checkmate::assert_numeric(D_BCS, lower = 0, upper = 40, any.missing = FALSE)
+  checkmate::assert_numeric(D_BCS, lower = 0, upper = 50, any.missing = FALSE)
   
   # Evaluate the BodemConditieScore
-  value <- D_BCS / 40
+  # ensure that it does not exceed 1
+  value <- pmin(D_BCS / 40, 1)
   
   # return output
   return(value)
