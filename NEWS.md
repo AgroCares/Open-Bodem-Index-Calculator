@@ -4,6 +4,7 @@
 ### Changed
 * The uppper limit for `D_BCS` is increased from 40 to 50
 * Switch on crumbleability
+* For `calc_phosphate_availability` the category `arable` is added for the crop categories
 
 ### Fixed
 * Fixed typo if mais in `ind_managment`
