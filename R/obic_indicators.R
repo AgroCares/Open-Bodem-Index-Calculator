@@ -75,7 +75,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_P_WRI := ind_waterretention(D_P_WRI)]
   
   # structure topsoil via CEC
-  dt.ppr[, I_P_CEC := ind_cec(D_CEC = D_P_CEC)]
+  dt.ppr[, I_P_CEC := ind_cec(D_CEC = D_P_CEC, advice = "fertility_index")]
 
   # Evaluate biological -----------------------------------------------------
   
