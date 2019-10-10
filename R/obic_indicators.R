@@ -17,7 +17,7 @@ obic_indicators<- function(dt.ppr) {
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = I_M = NULL
   I_P_CEC = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
-  D_ZN = D_CU = NULL
+  D_ZN = D_CU = D_CR = NULL
   D_SE = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_C_CEC = D_P_CEC = D_K =  NULL
   D_WSI = D_P_WRI = D_PMN = D_BCS = NULL
   
@@ -54,8 +54,7 @@ obic_indicators<- function(dt.ppr) {
   # Evaluate physical -------------------------------------------------------
   
   # Crumbleability
-  dt.ppr[, I_P_CR := -999] # Crops need to be categorised
-  # dt.ppr[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
+  dt.ppr[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
   
   # Sealing
   dt.ppr[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
