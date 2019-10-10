@@ -9,6 +9,7 @@
 ### Fixed
 * Fixed typo if mais in `ind_managment`
 * Fixed test for winderodibility
+* Use the correct correction factor in `calc_sealing_risk` #19
 
 ## Version 0.8.0 2019-08-02
 ### Added
