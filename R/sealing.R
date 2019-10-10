@@ -37,12 +37,6 @@ calc_sealing_risk <- function(A_CLAY_MI, A_OS_GV) {
   dt[is.na(value), value.A_CLAY_MI := fun.A_CLAY_MI(A_CLAY_MI)]
   
   # Create organic matter correction function and calculate correction for A_OS_GV
-  #fun.cor.A_OS_GV <- approxfun(x = df.lookup$value.A_CLAY_MI, y = df.lookup$cor.A_OS_GV, rule = 2) 
-  #dt[is.na(value), cor.A_OS_GV := fun.cor.A_OS_GV(value.A_CLAY_MI)]
-  
-  # Change made by YF: correction factor is now calculated based on A_CLAY_MI (clay content), instead of value.A_CLAY_MI (basic point)
-  # because otherwise the resulting values of 'verslempingsgevoeligheid' begomes zig-zag.
-  # see Appendix II of factsheet
   fun.cor.A_OS_GV <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_OS_GV, rule = 2)
   dt[is.na(value), cor.A_OS_GV := fun.cor.A_OS_GV(A_CLAY_MI)]
   
