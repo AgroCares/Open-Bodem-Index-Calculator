@@ -1,0 +1,12 @@
+name: obic-demo
+title: obic-demo
+username:
+account: nmi-agro
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1327740
+bundleId: 2500029
+url: https://nmi-agro.shinyapps.io/OBIC-demo/
+when: 1571085235.77586
+asMultiple: FALSE
+asStatic: FALSE
