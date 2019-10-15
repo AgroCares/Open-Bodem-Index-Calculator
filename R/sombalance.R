@@ -72,7 +72,7 @@ calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, B_LU_BRP,M_M3, M_M6) {
   dt[crop_n=='akkerbouw' & A_P_WA > 55,mdose := 0.85 * 50 * slurry_EOS_Pratio]
   
   # EOS input via compost to arable soils
-  dt[crop_n == 'akkerbouw', compost := 15 * 218 / M_M3 ]
+  dt[crop_n == 'akkerbouw', compost := ifelse(M_M3 == 0, 0, 15 * 218 / M_M3) ]
   dt[crop_n != 'akkerbouw', compost := 0 ]
   
   # EOS input via catch crops (and mandatory crops)
