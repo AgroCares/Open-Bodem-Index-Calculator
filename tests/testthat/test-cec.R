@@ -26,7 +26,7 @@ test_that("calc_cec works", {
 test_that("eval_cec works", {
   expect_equal(
     ind_cec(
-      D_CEC = c(0.37,0.26,.16,0.09,0.13),
+      D_CEC = c(0.37,0.26,0.16,0.09,0.13),
       advice='structure_index'
     ),
     expected = c(0.63,0.74,0.84,0.91,0.87),
