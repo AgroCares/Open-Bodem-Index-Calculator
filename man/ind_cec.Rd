@@ -7,7 +7,7 @@
 ind_cec(D_CEC, advice = "fertility_index")
 }
 \arguments{
-\item{D_CEC}{(numeric) The value of NLV  calculated by \code{\link{calc_cec}}}
+\item{D_CEC}{(numeric) The value of CEC calculated by \code{\link{calc_cec}}}
 
 \item{advice}{(character) Optional parameter to select CEC index for soil structure or fertility. Options: fertility_index or structure_index}
 }
