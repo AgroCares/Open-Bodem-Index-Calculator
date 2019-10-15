@@ -147,6 +147,8 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   dt[,B_LG_CBS := tolower(B_LG_CBS)]
   
   # add cluster variable to be used later (related to soil type and agronomic region)
+  # Remark YF: Not all B_LG_CBS is covered, resulting in NAs for 'clust'.
+  # For example, dekzand soils in Rivierngebied miss a clust value.
   dt[grepl('klei',B_BT_AK) & grepl('bouwh|oldambt',B_LG_CBS), clust := 1]
   dt[grepl('klei',B_BT_AK) & grepl('rivier|zuidwestelijk',B_LG_CBS), clust := 2]
   dt[grepl('klei',B_BT_AK) & grepl('ijsselmeer',B_LG_CBS), clust := 3]
