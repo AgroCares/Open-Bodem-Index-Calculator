@@ -59,7 +59,7 @@ calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, advice) {
 ind_cec <- function(D_CEC,advice = 'fertility_index') {
   
   # Check inputs
-  if(advice == 'fertility_index'){checkmate::assert_numeric(D_CEC, lower = 0, upper = 100, any.missing = FALSE)} 
+  if(advice == 'fertility_index'){checkmate::assert_numeric(D_CEC, lower = 0, upper = 1000, any.missing = FALSE)} 
   if(advice == 'structure_index'){checkmate::assert_numeric(D_CEC, lower = 0, upper =  1, any.missing = FALSE)} 
   
   # Evaluate the CEC for agricultural production, given impact soil fertility (Goselink & Van Erp, 1999)
