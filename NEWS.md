@@ -9,6 +9,7 @@
 ### Fixed
 * Fixed typo if mais in `ind_managment`
 * Fixed test for winderodibility
+* Fix for calculating `I_P_CEC` #24
 
 ## Version 0.8.0 2019-08-02
 ### Added
