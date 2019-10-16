@@ -11,6 +11,7 @@
 * Fixed test for winderodibility
 * Use the correct correction factor in `calc_sealing_risk` #19
 * Fix for calculating `I_P_CEC` #24
+* Fix for calculating difficult values in `calc_sombalance` #25
 
 ## Version 0.8.0 2019-08-02
 ### Added

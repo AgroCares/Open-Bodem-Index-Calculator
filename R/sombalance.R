@@ -61,18 +61,18 @@ calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, B_LU_BRP,M_M3, M_M6) {
   slurry_EOS_Pratio <- 50/1.5
   dt[crop_n=='gras' & A_P_PAL <= 16,mdose := 120 * slurry_EOS_Pratio]
   dt[crop_n=='gras' & A_P_PAL > 16 & A_P_PAL <= 27,mdose := 100 * slurry_EOS_Pratio]
-  dt[crop_n=='gras' & A_P_PAL > 27 & A_P_PAL < 50,mdose := 90 * slurry_EOS_Pratio]
+  dt[crop_n=='gras' & A_P_PAL > 27 & A_P_PAL <= 50,mdose := 90 * slurry_EOS_Pratio]
   dt[crop_n=='gras' & A_P_PAL > 50,mdose := 80 * slurry_EOS_Pratio]
   
   # manure input in arable systems, assuming 70% dairy slurry and 30% pig slurry, 85% organic
   slurry_EOS_Pratio <- (0.3 * 26 / 3.9 + 0.7 * 50 / 1.5)
   dt[crop_n=='akkerbouw' & A_P_WA <= 25,mdose := 0.85 * 120 * slurry_EOS_Pratio]
   dt[crop_n=='akkerbouw' & A_P_WA > 25 & A_P_WA <= 36,mdose := 0.85 * 75 * slurry_EOS_Pratio]
-  dt[crop_n=='akkerbouw' & A_P_WA > 36 & A_P_WA < 55,mdose := 0.85 * 60 * slurry_EOS_Pratio]
+  dt[crop_n=='akkerbouw' & A_P_WA > 36 & A_P_WA <= 55,mdose := 0.85 * 60 * slurry_EOS_Pratio]
   dt[crop_n=='akkerbouw' & A_P_WA > 55,mdose := 0.85 * 50 * slurry_EOS_Pratio]
   
   # EOS input via compost to arable soils
-  dt[crop_n == 'akkerbouw', compost := 15 * 218 / M_M3 ]
+  dt[crop_n == 'akkerbouw', compost := ifelse(M_M3 == 0, 0, 15 * 218 / M_M3) ]
   dt[crop_n != 'akkerbouw', compost := 0 ]
   
   # EOS input via catch crops (and mandatory crops)
