@@ -54,7 +54,7 @@ obic_preprocessing <- function(dt) {
   dt[, D_K := calc_potassium_availability(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_GV, A_CLAY_MI, B_LU_BRP, B_BT_AK)]
 
   # Calculate the PBI
-  dt[, D_PBI := calc_phosphate_availability(A_P_PAL, A_P_PAE, B_LU_BRP)]
+  dt[, D_PBI := calc_phosphate_availability(A_P_PAL, A_P_PAE, A_P_WA,B_LU_BRP)]
   
   # Calculate the crop rotation fraction
   dt[, D_CP_STARCH := calc_rotation_fraction(ID, B_LU_BRP, crop = "starch")]

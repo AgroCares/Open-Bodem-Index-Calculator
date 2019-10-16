@@ -1,5 +1,18 @@
 # Changelog OBIC
 
+## UNRELEASED
+### Changed
+* The uppper limit for `D_BCS` is increased from 40 to 50
+* Switch on crumbleability
+* For `calc_phosphate_availability` the category `arable` is added for the crop categories
+
+### Fixed
+* Fixed typo if mais in `ind_managment`
+* Fixed test for winderodibility
+* Use the correct correction factor in `calc_sealing_risk` #19
+* Fix for calculating `I_P_CEC` #24
+* Fix for calculating difficult values in `calc_sombalance` #25
+
 ## Version 0.8.0 2019-08-02
 ### Added
 * Adds index and evaluation of the BodemConditieScore
