@@ -9,7 +9,7 @@
 #' @export
 obic_score <- function(dt.ind) {
   
-  ID = null
+  ID = NULL
   
   # Check inputs
   checkmate::assert_data_table(dt.ind)
@@ -62,6 +62,10 @@ score_absolute <- function(dt.ind) {
   # Calculate the total score
   dt.ind[, S_A_T := 0.333*S_A_C + 0.333*S_A_P + 0.333*S_A_B + 0.1*S_A_M]
   
+  # Select indicator and scoring columns
+  col.sel <- colnames(dt.ind)[grepl("ID|YEAR|^I_|^S_", colnames(dt.ind))]
+  dt.ind <- dt.ind[, ..col.sel]
+  
   return(dt.ind)
 }
 
@@ -76,10 +80,24 @@ score_absolute <- function(dt.ind) {
 #' @export
 score_relative <- function(dt.score.abs) {
   
+  # TESTING
+  load("../development/data/testing_score_relative.Rdata")
+  
   # Check inputs
   checkmate::assert_data_table(dt.score.abs)
   
+  # Create references per year
+  cols.score <- c("S_A_C", "S_A_B", "S_A_M")
+  dt.ref.mean <- dt.score.abs[, lapply(.SD, mean, na.rm = TRUE), .SDcols = cols.score, by = list(YEAR)]
+  dt.ref.sd <- dt.score.abs[, lapply(.SD, sd, na.rm = TRUE), .SDcols = cols.score, by = list(YEAR)]
+  setnames(dt.ref.mean, cols.score, paste0(cols.score, "_mean"))
+  setnames(dt.ref.sd, cols.score, paste0(cols.score, "_sd"))
   
+  dt.score <- copy(dt.score.abs)
+  dt.score <- merge(dt.score, dt.ref.mean, by = "YEAR", all.x = TRUE)
+  dt.score <- merge(dt.score, dt.ref.sd, by = "YEAR", all.x = TRUE)
+  
+  dt.score[, S_R_C := ]
   
   return(dt.score)
 }
