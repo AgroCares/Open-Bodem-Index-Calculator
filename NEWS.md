@@ -12,6 +12,7 @@
 * Use the correct correction factor in `calc_sealing_risk` #19
 * Fix for calculating `I_P_CEC` #24
 * Fix for calculating difficult values in `calc_sombalance` #25
+* Fix for `calc_sbal_arable` where combinations of soil type and region that do not exist in table 6.2 of Handboek Bodem & Bemesting gave a NA.
 
 ## Version 0.8.0 2019-08-02
 ### Added
