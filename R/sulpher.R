@@ -12,7 +12,7 @@
 #' @import data.table
 #' 
 #' @export
-calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
+calc_slv <- function(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   
   a = c.ass = c.diss = id = crop_code = soiltype = soiltype.n = crop_category = NULL
   minip.a = D_OC = A_CS_RAT = NULL
