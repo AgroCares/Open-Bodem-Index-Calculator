@@ -81,23 +81,30 @@ score_absolute <- function(dt.ind) {
 score_relative <- function(dt.score.abs) {
   
   # TESTING
-  load("../development/data/testing_score_relative.Rdata")
+  #load("../development/data/testing_score_relative.Rdata")
   
   # Check inputs
   checkmate::assert_data_table(dt.score.abs)
   
-  # Create references per year
-  cols.score <- c("S_A_C", "S_A_B", "S_A_M")
-  dt.ref.mean <- dt.score.abs[, lapply(.SD, mean, na.rm = TRUE), .SDcols = cols.score, by = list(YEAR)]
-  dt.ref.sd <- dt.score.abs[, lapply(.SD, sd, na.rm = TRUE), .SDcols = cols.score, by = list(YEAR)]
-  setnames(dt.ref.mean, cols.score, paste0(cols.score, "_mean"))
-  setnames(dt.ref.sd, cols.score, paste0(cols.score, "_sd"))
+  # Select columns to base the ranking on
+  grouping <- c("YEAR", "B_GT", "B_BT_AK")
+  groups <- dt.score.abs[, (count = .N), by = grouping]
+  groups[, group_id := 1:.N]
+  groups[V1 < 20, group_id := -1]
   
-  dt.score <- copy(dt.score.abs)
-  dt.score <- merge(dt.score, dt.ref.mean, by = "YEAR", all.x = TRUE)
-  dt.score <- merge(dt.score, dt.ref.sd, by = "YEAR", all.x = TRUE)
+  # Join the group_id to 
+  col.sel <- c(grouping, "group_id")
+  dt.score <- merge(dt.score.abs, groups[, ..col.sel], by = grouping, all.x = TRUE)
   
-  dt.score[, S_R_C := ]
-  
+  # Rank the absolute values and scale them between 1 and 0
+  dt.score[, S_R_C := frank(S_A_C), by = group_id]
+  dt.score[, S_R_C := 1 - ((S_R_C - min(S_R_C, na.rm = TRUE)) / (max(S_R_C, na.rm = TRUE) - min(S_R_C, na.rm = TRUE))), by = group_id]
+  dt.score[, S_R_P := frank(S_A_P), by = group_id]
+  dt.score[, S_R_P := 1 - ((S_R_P - min(S_R_C, na.rm = TRUE)) / (max(S_R_P, na.rm = TRUE) - min(S_R_P, na.rm = TRUE))), by = group_id]
+  dt.score[, S_R_B := frank(S_A_B), by = group_id]
+  dt.score[, S_R_B := 1 - ((S_R_B - min(S_R_B, na.rm = TRUE)) / (max(S_R_B, na.rm = TRUE) - min(S_R_B, na.rm = TRUE))), by = group_id]
+  dt.score[, S_R_T := frank(S_A_T), by = group_id]
+  dt.score[, S_R_T := 1 - ((S_R_T - min(S_R_T, na.rm = TRUE)) / (max(S_R_T, na.rm = TRUE) - min(S_R_T, na.rm = TRUE))), by = group_id]
+
   return(dt.score)
 }
