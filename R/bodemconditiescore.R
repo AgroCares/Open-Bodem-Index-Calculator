@@ -81,21 +81,21 @@ calc_bcs <- function(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_
   dt[, bcs_ph := round(ind_ph(D_PH_DELTA) * 2)]
   
   # Calculate the score for organic matter 
-  dt[, bcs_om := 0]
+  dt[, bcs_om := 1]
   
   # organic matter class 'low' when the OM content is lower than 30% quantile
-  dt[crop_category == 'akkerbouw' & soiltype.n == 'klei' & A_OS_GV < 2.2, bcs_om := 1]
-  dt[crop_category == 'akkerbouw' & soiltype.n == 'zand' & A_OS_GV < 3.0, bcs_om := 1]
-  dt[crop_category == 'akkerbouw' & soiltype.n == 'loess' & A_OS_GV < 2.4, bcs_om := 1]
-  dt[crop_category == 'akkerbouw' & soiltype.n == 'veen' & A_OS_GV < 7.9, bcs_om := 1]
-  dt[crop_category == 'grasland' & soiltype.n == 'klei' & A_OS_GV < 6.8, bcs_om := 1]
-  dt[crop_category == 'grasland' & soiltype.n == 'zand' & A_OS_GV < 4.6, bcs_om := 1]
-  dt[crop_category == 'grasland' & soiltype.n == 'loess' & A_OS_GV < 5.1, bcs_om := 1]
-  dt[crop_category == 'grasland' & soiltype.n == 'veen' & A_OS_GV < 15.5, bcs_om := 1]
-  dt[crop_category == 'mais' & soiltype.n == 'klei' & A_OS_GV < 3.4, bcs_om := 1]
-  dt[crop_category == 'mais' & soiltype.n == 'zand' & A_OS_GV < 3.4, bcs_om := 1]
-  dt[crop_category == 'mais' & soiltype.n == 'loess' & A_OS_GV < 2.6, bcs_om := 1]
-  dt[crop_category == 'mais' & soiltype.n == 'veen' & A_OS_GV < 8.7, bcs_om := 1]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'klei' & A_OS_GV < 2.2, bcs_om := 0]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'zand' & A_OS_GV < 3.0, bcs_om := 0]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'loess' & A_OS_GV < 2.4, bcs_om := 0]
+  dt[crop_category == 'akkerbouw' & soiltype.n == 'veen' & A_OS_GV < 7.9, bcs_om := 0]
+  dt[crop_category == 'grasland' & soiltype.n == 'klei' & A_OS_GV < 6.8, bcs_om := 0]
+  dt[crop_category == 'grasland' & soiltype.n == 'zand' & A_OS_GV < 4.6, bcs_om := 0]
+  dt[crop_category == 'grasland' & soiltype.n == 'loess' & A_OS_GV < 5.1, bcs_om := 0]
+  dt[crop_category == 'grasland' & soiltype.n == 'veen' & A_OS_GV < 15.5, bcs_om := 0]
+  dt[crop_category == 'mais' & soiltype.n == 'klei' & A_OS_GV < 3.4, bcs_om := 0]
+  dt[crop_category == 'mais' & soiltype.n == 'zand' & A_OS_GV < 3.4, bcs_om := 0]
+  dt[crop_category == 'mais' & soiltype.n == 'loess' & A_OS_GV < 2.6, bcs_om := 0]
+  dt[crop_category == 'mais' & soiltype.n == 'veen' & A_OS_GV < 8.7, bcs_om := 0]
   
   # organic matter class 'high' when the OM content is higher than 70% quantile
   dt[crop_category == 'akkerbouw' & soiltype.n == 'klei' & A_OS_GV > 3.8, bcs_om := 2]
