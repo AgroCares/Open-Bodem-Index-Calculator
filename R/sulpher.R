@@ -260,9 +260,9 @@ ind_sulpher <- function(D_SLV,B_LU_BRP, B_BT_AK, B_LG_CBS) {
   dt.arable <- dt[crop_category == "akkerbouw"]
   if(nrow(dt.arable)>0){
     dt.arable[,sbal := calc_sbal_arable(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS)]
-    dt.arable[,value := evaluate_parabolic(sbal, x.top = 0)]
+    dt.arable[,value := evaluate_logistic(sbal, b = 0.5, x0 = -6, 5)]
   }
-  
+
   # Evaluate S availability for maize land -----
   dt.maize <- dt[crop_category == "mais"]
   dt.maize[,value := evaluate_logistic(D_SLV, b = 5, x0 = 5, v = 5)]
