@@ -12,7 +12,7 @@
 #' @import data.table
 #' 
 #' @export
-calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
+calc_slv <- function(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   
   a = c.ass = c.diss = id = crop_code = soiltype = soiltype.n = crop_category = NULL
   minip.a = D_OC = A_CS_RAT = NULL
@@ -87,7 +87,7 @@ calc_slv <- function(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   
   # Calculate the SLV for nature land
   dt.nature <- dt[crop_category == "natuur"]
-  dt.nature[,value := 1.5 * A_S_TOT * D_BDS]
+  dt.nature[,value := 1.5 * A_S_TOT * 0.001 * D_BDS * 0.001]
       
   # Combine both tables and extract values
   dt <- rbindlist(list(dt.grass, dt.maize,dt.arable,dt.nature), fill = TRUE)
@@ -147,6 +147,8 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   dt[,B_LG_CBS := tolower(B_LG_CBS)]
   
   # add cluster variable to be used later (related to soil type and agronomic region)
+  # Remark YF: Not all B_LG_CBS is covered, resulting in NAs for 'clust'.
+  # For example, dekzand soils in Rivierngebied miss a clust value.
   dt[grepl('klei',B_BT_AK) & grepl('bouwh|oldambt',B_LG_CBS), clust := 1]
   dt[grepl('klei',B_BT_AK) & grepl('rivier|zuidwestelijk',B_LG_CBS), clust := 2]
   dt[grepl('klei',B_BT_AK) & grepl('ijsselmeer',B_LG_CBS), clust := 3]
@@ -155,7 +157,9 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   dt[B_BT_AK=='veen', clust := 6]
   dt[grepl('dal|zand|xxx',B_BT_AK) & grepl('noord|oldambt',B_LG_CBS), clust := 7]
   dt[grepl('dal|zand|xxx',B_BT_AK) & grepl('oostelijk|centraal|zuidelijk|zuidwest-brabant',B_LG_CBS), clust := 8]
-  dt[B_BT_AK=='loess',clust := 9] 
+  dt[B_BT_AK=='loess',clust := 9]
+  dt[grepl('klei',B_BT_AK) & is.na(clust), clust := 10]
+  dt[grepl('dal|zand|xxx',B_BT_AK) & is.na(clust), clust := 11]
   
   # add crop S requirement classes  
   dt[,cropclass := calc_cropclass(B_LU_BRP,B_BT_AK,nutrient='S')]
@@ -170,6 +174,9 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   dt[clust==7, slv_av := 10]
   dt[clust==8, slv_av := 10]
   dt[clust==9, slv_av := 16]
+  # For combinations that are outside table 6.2 of Handboek Bodem & Bemesting the average slv_av per soiltype is used
+  dt[clust==10, slv_av := mean(c(20, 21, 45, 32, 41))]
+  dt[clust==11, slv_av := mean(c(10, 10))]
   
   # estimate required fertilizer dose
   dt[, sfert := 0]
@@ -184,6 +191,13 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   dt[cropclass == 'class2' & clust == 9, sfert := 15]
   dt[cropclass == 'class2' & clust == 2, sfert := 10]
   dt[cropclass == 'class3' & clust %in% c(1,7,8,9), sfert := 10]
+  # For combinations that are outside table 6.2 of Handboek Bodem & Bemesting the average sfert per soiltype is used
+  dt[cropclass == 'class1' & clust == 10, sfert := mean(c(50, 25, 10, 15, 10, 0))]
+  dt[cropclass == 'class1' & clust == 11, sfert := mean(c(55, 50))]
+  dt[cropclass == 'class2' & clust == 10, sfert := mean(c(20, 0, 0, 0, 0, 0))]
+  dt[cropclass == 'class2' & clust == 11, sfert := mean(c(25, 20))]
+  dt[cropclass == 'class3' & clust == 10, sfert := mean(c(10, 0, 0, 0, 0, 0))]
+  dt[cropclass == 'class3' & clust == 11, sfert := mean(c(10, 10))]
   
   # total S requirement (kg S / ha)
   dt[,sreq := slv_av + sfert]
@@ -245,10 +259,10 @@ ind_sulpher <- function(D_SLV,B_LU_BRP, B_BT_AK, B_LG_CBS) {
   # Evaluate S availability for arable land  -----
   dt.arable <- dt[crop_category == "akkerbouw"]
   if(nrow(dt.arable)>0){
-  dt.arable[,sbal := calc_sbal_arable(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS)]
-  dt.arable[,value := evaluate_parabolic(sbal, x.top = 0)]
+    dt.arable[,sbal := calc_sbal_arable(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS)]
+    dt.arable[,value := evaluate_logistic(sbal, b = 0.5, x0 = -6, 5)]
   }
-  
+
   # Evaluate S availability for maize land -----
   dt.maize <- dt[crop_category == "mais"]
   dt.maize[,value := evaluate_logistic(D_SLV, b = 5, x0 = 5, v = 5)]
