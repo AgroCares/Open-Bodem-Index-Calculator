@@ -19,7 +19,7 @@ library("OBIC")
 ## Documentation
 Documentation of the R functions in the OBIC package can be found [here](https://springgbv.github.io/Open-Bodem-Index-Calculator/)
 
-## More informantion
+## More information
 The [Open Bodem Index](https://www.openbodemindex.nl) (OBI) is a collaboration between Wageningen UR, NMI and FarmHack in collaboration with agricultural experts. 
 The Open Bodem Index Calculator is a tool used by the OBI and developed by [NMI](https://nmi-agro.nl/).
 
