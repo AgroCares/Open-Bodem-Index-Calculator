@@ -1,6 +1,6 @@
 # Changelog OBIC
 
-## Version 0.9.0 2019-10-21
+## Version 0.9.0 2019-10-22
 ### Changed
 * The uppper limit for `D_BCS` is increased from 40 to 50
 * Switch on crumbleability
