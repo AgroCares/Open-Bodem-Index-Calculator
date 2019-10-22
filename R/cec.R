@@ -52,7 +52,7 @@ calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, advice) {
 #' 
 #' This function calculates the indicator for the the CEC  of the soil by using the CEC-index calculated by \code{\link{calc_cec}}
 #' 
-#' @param D_CEC (numeric) The value of NLV  calculated by \code{\link{calc_cec}}
+#' @param D_CEC (numeric) The value of CEC calculated by \code{\link{calc_cec}}
 #' @param advice (character) Optional parameter to select CEC index for soil structure or fertility. Options: fertility_index or structure_index
 #' 
 #' @export
@@ -60,7 +60,7 @@ ind_cec <- function(D_CEC,advice = 'fertility_index') {
   
   # Check inputs
   if(advice == 'fertility_index'){checkmate::assert_numeric(D_CEC, lower = 0, upper = 1000, any.missing = FALSE)} 
-  if(advice == 'structure_index'){checkmate::assert_numeric(D_CEC, lower = 0, upper =  5, any.missing = FALSE)} 
+  if(advice == 'structure_index'){checkmate::assert_numeric(D_CEC, lower = 0, upper =  1, any.missing = FALSE)} 
   
   # Evaluate the CEC for agricultural production, given impact soil fertility (Goselink & Van Erp, 1999)
   if(advice == 'fertility_index'){value <- pmin(D_CEC * 0.01, 1)}
