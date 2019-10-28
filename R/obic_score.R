@@ -99,15 +99,15 @@ score_relative <- function(dt.score.abs) {
   
   # Rank the absolute values and scale them between 1 and 0
   dt.score[, S_R_C := frank(S_A_C), by = group_id]
-  dt.score[, S_R_C := 1 - ((S_R_C - min(S_R_C, na.rm = TRUE)) / (max(S_R_C, na.rm = TRUE) - min(S_R_C, na.rm = TRUE))), by = group_id]
+  dt.score[, S_R_C := (S_R_C - min(S_R_C, na.rm = TRUE)) / (max(S_R_C, na.rm = TRUE) - min(S_R_C, na.rm = TRUE)), by = group_id]
   dt.score[, S_R_P := frank(S_A_P), by = group_id]
-  dt.score[, S_R_P := 1 - ((S_R_P - min(S_R_C, na.rm = TRUE)) / (max(S_R_P, na.rm = TRUE) - min(S_R_P, na.rm = TRUE))), by = group_id]
+  dt.score[, S_R_P := (S_R_P - min(S_R_C, na.rm = TRUE)) / (max(S_R_P, na.rm = TRUE) - min(S_R_P, na.rm = TRUE)), by = group_id]
   dt.score[, S_R_B := frank(S_A_B), by = group_id]
-  dt.score[, S_R_B := 1 - ((S_R_B - min(S_R_B, na.rm = TRUE)) / (max(S_R_B, na.rm = TRUE) - min(S_R_B, na.rm = TRUE))), by = group_id]
+  dt.score[, S_R_B := (S_R_B - min(S_R_B, na.rm = TRUE)) / (max(S_R_B, na.rm = TRUE) - min(S_R_B, na.rm = TRUE)), by = group_id]
   dt.score[, S_R_M := frank(S_A_M), by = group_id]
-  dt.score[, S_R_M := 1 - ((S_R_M - min(S_R_M, na.rm = TRUE)) / (max(S_R_M, na.rm = TRUE) - min(S_R_M, na.rm = TRUE))), by = group_id]
+  dt.score[, S_R_M := (S_R_M - min(S_R_M, na.rm = TRUE)) / (max(S_R_M, na.rm = TRUE) - min(S_R_M, na.rm = TRUE)), by = group_id]
   dt.score[, S_R_T := frank(S_A_T), by = group_id]
-  dt.score[, S_R_T := 1 - ((S_R_T - min(S_R_T, na.rm = TRUE)) / (max(S_R_T, na.rm = TRUE) - min(S_R_T, na.rm = TRUE))), by = group_id]
+  dt.score[, S_R_T := (S_R_T - min(S_R_T, na.rm = TRUE)) / (max(S_R_T, na.rm = TRUE) - min(S_R_T, na.rm = TRUE)), by = group_id]
 
   return(dt.score)
 }
@@ -130,39 +130,30 @@ score_visualize <- function(dt.score, id) {
   if(!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Install first the package `ggplot2` to use this function")
   }
-  if(!requireNamespace("gganimate", quietly = TRUE)) {
-    stop("Install first the package `gganimate` to use this function")
-  }
-  
   
   # TESTING!!!
   load("../development/data/testing_score_visualize.Rdata")
   id = 4613
   library(ggplot2)
-  library(gganimate)
-  library(gifski)
-  
 
-  dt.a <- melt(dt.score, id.vars = c("ID", "YEAR"), measure.vars = patterns("^S_A_"), variable.name = "type", value.name = "S_A")
+  dt.a <- melt(dt.score, id.vars = c("ID", "YEAR", "group_id"), measure.vars = patterns("^S_A_"), variable.name = "type", value.name = "S_A")
   dt.a$type <- gsub("S_A_", "", dt.a$type)
-  dt.r <- melt(dt.score, id.vars = c("ID", "YEAR"), measure.vars = patterns("^S_R_"), variable.name = "type", value.name = "S_R")
+  dt.r <- melt(dt.score, id.vars = c("ID", "YEAR", "group_id"), measure.vars = patterns("^S_R_"), variable.name = "type", value.name = "S_R")
   dt.r$type <- gsub("S_R_", "", dt.r$type)
-  dt.vis <- merge(dt.a, dt.r, by = c("ID", "YEAR", "type"))
+  dt.vis <- merge(dt.a, dt.r, by = c("ID", "YEAR", "type", "group_id"))
   dt.vis.sel <- dt.vis[ID == id]
-  dt.vis.not <- dt.vis[ID != id]
+  dt.vis.not <- dt.vis[ID != id & group_id %in% dt.vis.sel$group_id]
   
-  vis <- ggplot(data = dt.vis.not, aes = aes(x = S_A, y = S_R)) +
-    geom_point( col = "grey80", size = 0.1, alpha = 0.1) +
-    geom_point(data = dt.vis.sel, col = "red", size = 3) +
+  vis <- ggplot(data = dt.vis.not, aes(x = S_A, y = S_R)) +
+    geom_point(col = "grey", size = 1, alpha = 0.5) +
+    geom_point(data = dt.vis.sel, col = "blue", size = 3) +
     facet_wrap(.~type) +
     scale_x_continuous(breaks = c(0.5), limits = c(0, 1)) +
     scale_y_continuous(breaks = c(0.5), limits = c(0, 1)) +
-    transition_time(YEAR) +
-    ease_aes('linear') +
     labs(
       x = "Absoluut", 
       y= "Relatief",
-      title = 'Jaar: {frame_time}') +
+      title = '') +
     theme_bw()
   
   anim_save("obic_score.gif", animation = vis,  width = 1000, height = 750)
