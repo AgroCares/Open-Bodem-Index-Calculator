@@ -73,7 +73,7 @@ calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
 ind_crumbleability <- function(D_CR, B_LU_BRP) {
   
   # Load in the crops dataset
-  crop_code = crop_group = crop_crumbleability = NULL
+  crop_code = crop_group = crop_crumbleability = lower = upper = NULL
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
 
