@@ -78,7 +78,7 @@ obic_preprocessing <- function(dt) {
   dt[, D_P_DU := calc_winderodibility(A_CLAY_MI, A_SILT_MI, B_LU_BRP)]
   
   # Calculate the sulphur supply
-  dt[, D_SLV := calc_slv(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS)]
+  dt[, D_SLV := calc_slv(A_S_TOT,A_OS_GV,B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS)]
   
   # Calculate the magnesium index
   dt[, D_MG := calc_magnesium_availability(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC,

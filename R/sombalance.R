@@ -12,7 +12,7 @@
 #' @export
 calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, B_LU_BRP,M_M3, M_M6) {
   
-  c.diss = id = crop_code = crop_name = crop_n = cropinput = mdose = compost = catchcrop = NULL
+  c.diss = crop_code = crop_name = crop_n = cropinput = mdose = compost = catchcrop = NULL
   crop_eos = crop_eos_residue = NULL
   
   # Load in the datasets
@@ -72,12 +72,14 @@ calc_sombalance <- function(A_OS_GV, A_P_PAL, A_P_WA, B_LU_BRP,M_M3, M_M6) {
   dt[crop_n=='akkerbouw' & A_P_WA > 55,mdose := 0.85 * 50 * slurry_EOS_Pratio]
   
   # EOS input via compost to arable soils
-  dt[crop_n == 'akkerbouw', compost := ifelse(M_M3 == 0, 0, 15 * 218 / M_M3) ]
-  dt[crop_n != 'akkerbouw', compost := 0 ]
+  dt[crop_n == 'akkerbouw' & M_M3 == 0, compost := 0]
+  dt[crop_n == 'akkerbouw' & M_M3 != 0, compost :=  15 * 218 / M_M3]
+  dt[crop_n != 'akkerbouw', compost := 0]
   
   # EOS input via catch crops (and mandatory crops)
-  dt[,catchcrop := ifelse(M_M6,850,0)]
-  dt[grepl('mais|aardappel',crop_name),catchcrop := 850]
+  dt[M_M6 == TRUE, catchcrop := 850]
+  dt[M_M6 != TRUE, catchcrop := 0]
+  dt[grepl('mais|aardappel',crop_name), catchcrop := 850]
   
   # calculate simple eos balance (kg EOS / ha / yr)
   dt[,value := cropinput + mdose + compost + catchcrop - c.diss]
