@@ -134,6 +134,7 @@ score_visualize <- function(dt.score, id) {
   # TESTING!!!
   load("../development/data/testing_score_visualize.Rdata")
   id = 4613
+  year = 2015
   library(ggplot2)
 
   dt.a <- melt(dt.score, id.vars = c("ID", "YEAR", "group_id"), measure.vars = patterns("^S_A_"), variable.name = "type", value.name = "S_A")
@@ -141,22 +142,40 @@ score_visualize <- function(dt.score, id) {
   dt.r <- melt(dt.score, id.vars = c("ID", "YEAR", "group_id"), measure.vars = patterns("^S_R_"), variable.name = "type", value.name = "S_R")
   dt.r$type <- gsub("S_R_", "", dt.r$type)
   dt.vis <- merge(dt.a, dt.r, by = c("ID", "YEAR", "type", "group_id"))
-  dt.vis.sel <- dt.vis[ID == id]
-  dt.vis.not <- dt.vis[ID != id & group_id %in% dt.vis.sel$group_id]
+  dt.vis.sel <- dt.vis[ID == id & YEAR == year]
+  dt.vis.not <- dt.vis[ID != id & group_id %in% dt.vis.sel$group_id & YEAR == year]
   
-  vis <- ggplot(data = dt.vis.not, aes(x = S_A, y = S_R)) +
+  labels <- c(
+    "B" = "Biologisch", 
+    "C" = "Chemisch",
+    "M" = "Management", 
+    "P" = "Physisch",
+    "T" = "Totaal"
+  )
+  
+  vis1 <- ggplot(data = dt.vis.not, aes(x = S_A, y = S_R)) +
     geom_point(col = "grey", size = 1, alpha = 0.5) +
     geom_point(data = dt.vis.sel, col = "blue", size = 3) +
-    facet_wrap(.~type) +
-    scale_x_continuous(breaks = c(0.5), limits = c(0, 1)) +
-    scale_y_continuous(breaks = c(0.5), limits = c(0, 1)) +
+    facet_wrap(.~type, labeller = as_labeller(labels)) +
+    scale_x_continuous(breaks = c(0, 0.5, 1), limits = c(0, 1)) +
+    scale_y_continuous(breaks = c(0, 0.5, 1), limits = c(0, 1)) +
     labs(
       x = "Absoluut", 
       y= "Relatief",
-      title = '') +
+      title = 'OBI Score',
+      caption = paste0("Perceel: ", id ,"\nJaar: ", year, "\nGroep: ", unique(dt.vis.sel$group_id))) +
     theme_bw()
   
-  anim_save("obic_score.gif", animation = vis,  width = 1000, height = 750)
+  
+  dt.vis2 <- melt(dt.score, id.vars = c("ID", "YEAR", "group_id"), measure.vars = patterns("^S_"), variable.name = "type", value.name = "score", variable.factor = FALSE)
+  dt.vis2[grepl("^S_A_", type), method := "Absoluut"]
+  dt.vis2[grepl("^S_R_", type), method := "Relatief"]
+  dt.vis2[, type := gsub("^S_A_|^S_R_", "", type)]
+  dt.vis2.sel <- dt.vis2[ID == id & YEAR == year]
+  
+  vis2 <- ggplot(data = dt.vis2.sel, aes(x = type, y = score)) + 
+    geom_col() +
+    theme_bw()
   
   
 }
