@@ -174,8 +174,27 @@ score_visualize <- function(dt.score, id) {
   dt.vis2.sel <- dt.vis2[ID == id & YEAR == year]
   
   vis2 <- ggplot(data = dt.vis2.sel, aes(x = type, y = score)) + 
-    geom_col() +
-    theme_bw()
+    geom_col(position = "dodge", aes(fill = method), width = 0.7) +
+    coord_flip() +
+    labs(
+      x = "", 
+      y= "Score",
+      fill = "Methode",
+      title = 'OBI Score',
+      caption = paste0("Perceel: ", id ,"\nJaar: ", year, "\nGroep: ", unique(dt.vis.sel$group_id))) +
+    theme_bw() 
+  vis2
   
+  vis3 <- ggplot(data = dt.vis2.sel, aes(x = type, y = score)) + 
+    geom_point(aes(col = method), size = 5, alpha = 0.8) +
+    coord_flip() +
+    labs(
+      x = "", 
+      y= "Score",
+      fill = "Methode",
+      title = 'OBI Score',
+      caption = paste0("Perceel: ", id ,"\nJaar: ", year, "\nGroep: ", unique(dt.vis.sel$group_id))) +
+    theme_bw() 
+  vis3
   
 }
