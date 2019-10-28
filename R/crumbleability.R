@@ -94,7 +94,7 @@ ind_crumbleability <- function(D_CR, B_LU_BRP) {
   
   # combine with crumbleability range
   setkey(dt,crop_crumbleability)
-  dt.eval.crumb <- as.data.table(OBIC::dt.eval.crumb)
+  dt.eval.crumb <- as.data.table(OBIC::eval.crumbleability)
   setkey(dt.eval.crumb,crop_group)
   dt <- dt.eval.crumb[dt]
   
