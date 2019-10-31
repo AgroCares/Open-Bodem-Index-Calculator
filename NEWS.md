@@ -5,6 +5,7 @@
 * Update of crumbeability groups in `crops.obic`
 * Maximum value of A_MN_CC is increased from 30000 to 250000
 * The code for evaluating  in `ind_crumbeability` is simplified
+* M_M10 user input changed in D_CP_RUST input, plus comments added #29
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
