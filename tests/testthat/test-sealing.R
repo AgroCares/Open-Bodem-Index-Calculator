@@ -4,7 +4,7 @@ test_that("calc_sealing works", {
       A_CLAY_MI = 20, 
       A_OS_GV = 5
     ),
-    expected = 8.625,
+    expected = 8.4375,
     tolerance = 0.001
   )
   expect_equal(
@@ -12,7 +12,7 @@ test_that("calc_sealing works", {
       A_CLAY_MI = c(25, 20),
       A_OS_GV = c(1.5, 8)
     ),
-    expected = c(8.6, 10.5),
+    expected = c(8.6, 10.2),
     tolerance = 0.001
   )
 })

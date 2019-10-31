@@ -1,5 +1,30 @@
 # Changelog OBIC
 
+## UNRELEASED 
+### Changed
+* Update of crumbeability groups in `crops.obic`
+* Maximum value of A_MN_CC is increased from 30000 to 250000
+* The code for evaluating  in `ind_crumbeability` is simplified
+
+### Fixed
+* Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
+
+## Version 0.9.0 2019-10-22
+### Changed
+* The uppper limit for `D_BCS` is increased from 40 to 50
+* Switch on crumbleability
+* For `calc_phosphate_availability` the category `arable` is added for the crop categories
+* Changed evaluation of sulphur for arable fields #26
+
+### Fixed
+* Fixed typo if mais in `ind_managment`
+* Fixed test for winderodibility
+* Use the correct correction factor in `calc_sealing_risk` #19
+* Fix for calculating `I_P_CEC` #24
+* Fix for calculating difficult values in `calc_sombalance` #25
+* Fix for `calc_sbal_arable` where combinations of soil type and region that do not exist in table 6.2 of Handboek Bodem & Bemesting gave a NA #26
+* Fix for `calc_bcs` where a value of 1 is given instead of 0 for `bcs_om` #28
+
 ## Version 0.8.0 2019-08-02
 ### Added
 * Adds index and evaluation of the BodemConditieScore
