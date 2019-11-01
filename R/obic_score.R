@@ -20,10 +20,11 @@ obic_score <- function(dt.ind) {
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_CEC = I_P_WRI = NULL
+  rsid = NULL
   
   # Load in the datasets and reshape
   w <- as.data.table(OBIC::weight.obic)
-  w <- dcast(w,.~var,value.var = 'weight')[,.:=NULL]
+  w <- dcast(w,rsid~var,value.var = 'weight')
   
   # Score the chemical indicators
   dt.ind[, S_C := 	w$W_C_N * I_C_N + w$W_C_P * I_C_P + w$W_C_K * I_C_K + 
