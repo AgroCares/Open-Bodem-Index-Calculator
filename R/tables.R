@@ -49,4 +49,4 @@
 #'   \item{var}{The name of the weight}
 #'   \item{weight}{weighing factor}
 #' }
-"weight_obic"
+"weight.obic"

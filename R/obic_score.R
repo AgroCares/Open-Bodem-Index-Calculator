@@ -21,8 +21,9 @@ obic_score <- function(dt.ind) {
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_CEC = I_P_WRI = NULL
   
-  # Load in the datasets
+  # Load in the datasets and reshape
   w <- as.data.table(OBIC::weight.obic)
+  w <- dcast(w,.~var,value.var = 'weight')[,.:=NULL]
   
   # Score the chemical indicators
   dt.ind[, S_C := 	w$W_C_N * I_C_N + w$W_C_P * I_C_P + w$W_C_K * I_C_K + 
@@ -36,7 +37,6 @@ obic_score <- function(dt.ind) {
   
   # Score the biology
   dt.ind[, S_B := w$W_B_DI * I_B_DI + w$W_B_SF * I_B_SF + w$W_B_SB * I_B_SB]
-  
   
   # Score the management
   dt.ind[, S_M := I_M]
