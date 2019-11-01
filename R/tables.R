@@ -39,3 +39,14 @@
 #'   \item{waterstress}{The mean combined effect water stress (due to deficiency or excess of water)}
 #' }
 "waterstress.obic"
+
+#' Weight of indicators to calculate integrated scores
+#' 
+#' This table defines the weighting factors (ranging between 0 and 1) of indicator values to calculate integrated scores.
+#' 
+#' @format A data.frame with 20 rows and 2 columns:
+#' \describe{
+#'   \item{var}{The name of the weight}
+#'   \item{weight}{weighing factor}
+#' }
+"weight.obic"
