@@ -12,6 +12,10 @@ obic_preprocessing <- function(dt) {
   # Check inputs
   checkmate::assert_data_table(dt)
   
+  # make local copy
+  dt <- copy(dt)
+  
+  # define variables used within the function
   ID = NULL
   A_CLAY_MI = A_OS_GV = A_PH_CC = A_CN_RAT = A_N_TOT = A_P_PAL = A_P_PAE = A_P_WA = A_SILT_MI = A_S_TOT = NULL
   A_MG_CC = A_CEC_CO = A_K_CC = A_K_CEC = A_CU_CC = A_MN_CC = A_ZN_CC = A_SAND_MI = NULL

@@ -12,6 +12,10 @@ obic_indicators<- function(dt.ppr) {
   # Check inputs
   checkmate::assert_data_table(dt.ppr)
   
+  # make local copy
+  dt.ppr <- copy(dt.ppr)
+  
+  # define variables used within the function
   A_OS_GV = NULL
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
@@ -94,5 +98,6 @@ obic_indicators<- function(dt.ppr) {
   
   dt.ppr[, I_BCS := ind_bcs(D_BCS)]
   
+  # return the updated object
   return(dt.ppr)
 }

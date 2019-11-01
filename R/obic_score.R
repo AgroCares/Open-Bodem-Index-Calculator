@@ -12,6 +12,10 @@ obic_score <- function(dt.ind) {
   # Check inputs
   checkmate::assert_data_table(dt.ind)
   
+  # make local copy
+  dt.ind <- copy(dt.ind)
+  
+  # define variables used within the function
   S_C = S_P = S_B = S_M = S_T = ID =  NULL
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
@@ -43,11 +47,12 @@ obic_score <- function(dt.ind) {
   dt.ind[, S_M := I_M]
   
   # Calculate the total score
-  dt.ind[, S_T := 0.333*S_C + 0.333*S_P + 0.333*S_B + 0.1*S_M]
+  dt.ind[, S_T := 0.3*S_C + 0.3*S_P + 0.3*S_B + 0.1*S_M]
   
   # Aggregate per field
   col.sel <- colnames(dt.ind)[grepl("ID|^I_|^S_", colnames(dt.ind))]
   dt.ind <- dt.ind[, lapply(.SD, mean), by = ID, .SDcols = col.sel]
   
+  # return only the indices and the scores
   return(dt.ind)
 }
