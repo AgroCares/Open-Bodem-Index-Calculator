@@ -1,5 +1,17 @@
 # Changelog OBIC
 
+## UNRELEASED 
+### Changed
+* Update of crumbeability groups in `crops.obic`
+* Maximum value of A_MN_CC is increased from 30000 to 250000
+* The code for evaluating  in `ind_crumbeability` is simplified
+* M_M10 user input changed in D_CP_RUST input, plus comments added #29
+* new table with weighing factors included 'weight.obic' #32
+* weighing factors updated in obic_indicators.R #32
+
+### Fixed
+* Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
+
 ## Version 0.9.0 2019-10-22
 ### Changed
 * The uppper limit for `D_BCS` is increased from 40 to 50
