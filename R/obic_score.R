@@ -24,6 +24,7 @@ obic_score <- function(dt.ind) {
   
   # Load in the datasets and reshape
   w <- as.data.table(OBIC::weight.obic)
+  w$rsid <- 1
   w <- dcast(w,rsid~var,value.var = 'weight')
   
   # Score the chemical indicators
@@ -45,11 +46,20 @@ obic_score <- function(dt.ind) {
   # Calculate the total score
   dt.ind[, S_T := 0.3*S_C + 0.3*S_P + 0.3*S_B + 0.1*S_M]
   
-  # Aggregate per field over the last 10 years
+  # Add soil rype and crop type
+  setkeyv(dt.ind, c('ID','YEAR')) # order by ID and year
+  col.sel2 <- colnames(dt.ind)[grepl("B_LU_BRP|B_BT_AK", colnames(dt.ind))]
+  dt_soilcrop <- dt.ind[, .SD[.N], by = ID, .SDcols = col.sel2] # get the record of the latest year
+  
+  # Aggregate per field
   col.sel <- colnames(dt.ind)[grepl("ID|^I_|^S_", colnames(dt.ind))]
   dt.ind <- dt.ind[, lapply(.SD, mean), by = ID, .SDcols = col.sel]
   
-  # return only the indices and the scores
+  # merge soil and crop type
+  setkey(dt.ind, ID)
+  setkey(dt_soilcrop, ID)
+  dt.ind <- dt.ind[dt_soilcrop]
+
   return(dt.ind)
 }
 
