@@ -48,7 +48,7 @@ obic_score <- function(dt.ind) {
   
   # Add soil rype and crop type
   setkeyv(dt.ind, c('ID','YEAR')) # order by ID and year
-  col.sel2 <- colnames(dt.ind)[grepl("B_LU_BRP|B_BT_AK", colnames(dt.ind))]
+  col.sel2 <- colnames(dt.ind)[grepl("B_LU_BRP|B_BT_AK|D_CP_MAIS|D_CP_GRASS", colnames(dt.ind))]
   dt_soilcrop <- dt.ind[, .SD[.N], by = ID, .SDcols = col.sel2] # get the record of the latest year
   
   # Aggregate per field
