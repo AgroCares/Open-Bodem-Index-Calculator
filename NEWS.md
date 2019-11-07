@@ -11,6 +11,7 @@
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
+* Fixed the droughtstress, wetnessstress and waterstress values for GtI in `waterstress.obic`
 
 ## Version 0.9.0 2019-10-22
 ### Changed
