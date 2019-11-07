@@ -14,6 +14,11 @@ obic_score <- function(dt.ind) {
   # Check inputs
   checkmate::assert_data_table(dt.ind)
   
+  # make local copy
+  dt.ind <- copy(dt.ind)
+  
+  # define variables used within the function
+  S_C = S_P = S_B = S_M = S_T = ID =  NULL
   # Score on a absolute scale
   dt.score.abs <- score_absolute(dt.ind)
   
@@ -44,30 +49,47 @@ score_absolute <- function(dt.ind) {
   
   S_A_C = S_A_P = S_A_B = S_A_M = S_A_T =  NULL
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
-  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_OM = I_B_SF = I_B_SB = I_M = NULL
-  I_P_CEC = NULL
+  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
+  I_P_CEC = I_P_WRI = NULL
+  rsid = NULL
+  
+  # Load in the datasets and reshape
+  w <- as.data.table(OBIC::weight.obic)
+  w <- dcast(w,rsid~var,value.var = 'weight')
   
   # Score the chemical indicators
-  dt.ind[, S_A_C := (1/9)*I_C_N + (1/9)*I_C_P + (1/9)*I_C_K + (1/9)*I_C_MG + (1/9)*I_C_S + (1/9)*I_C_PH + (1/9)*I_C_CEC + (1/9)*I_C_CU + (1/9)*I_C_ZN ]
+  dt.ind[, S_C := 	w$W_C_N * I_C_N + w$W_C_P * I_C_P + w$W_C_K * I_C_K + 
+					w$W_C_MG * I_C_MG + w$W_C_S * I_C_S + w$W_C_PH * I_C_PH + 
+					w$W_C_CEC * I_C_CEC + w$W_C_CU * I_C_CU + w$W_C_ZN * I_C_ZN]
   
   # Score the physical indicators
-  dt.ind[, S_A_P :=  0.2*I_P_CR + 0.2*I_P_SE + 0*I_P_MS + 0*I_P_BC + 0.2*I_P_DU + 0.2*I_P_CO + 0.2 * I_P_CEC]
+   dt.ind[, S_P :=  w$W_P_CR * I_P_CR + w$W_P_SE * I_P_SE + w$W_P_MS * I_P_MS +  
+					w$W_P_BC * I_P_BC + w$W_P_DU * I_P_DU + w$W_P_CO * I_P_CO + 
+					w$W_P_CEC * I_P_CEC + w$W_P_WRI * I_P_WRI]
   
   # Score the biology
-  dt.ind[, S_A_B := 1*I_B_DI + 0*I_B_OM + 0*I_B_SF + 0*I_B_SB]
+  dt.ind[, S_B := w$W_B_DI * I_B_DI + w$W_B_SF * I_B_SF + w$W_B_SB * I_B_SB]
   
   # Score the management
   dt.ind[, S_A_M := I_M]
   
   # Calculate the total score
-  dt.ind[, S_A_T := 0.333*S_A_C + 0.333*S_A_P + 0.333*S_A_B + 0.1*S_A_M]
+  dt.ind[, S_T := 0.3*S_C + 0.3*S_P + 0.3*S_B + 0.1*S_M]
   
-  # Select indicator and scoring columns
-  col.sel <- colnames(dt.ind)[grepl("ID|YEAR|^I_|^S_", colnames(dt.ind))]
-  dt.ind <- dt.ind[, ..col.sel]
+  # Aggregate per field over the last 10 years
+  col.sel <- colnames(dt.ind)[grepl("ID|^I_|^S_", colnames(dt.ind))]
+  dt.ind <- dt.ind[, lapply(.SD, mean), by = ID, .SDcols = col.sel]
   
+  # return only the indices and the scores
   return(dt.ind)
 }
+
+#' Weight of indicators to calculate integrated scores
+#' 
+#' This table defines the weighting factors (ranging between 0 and 1) of indicator values to calculate integrated scores. 
+#' This table is used internally in \code{\link{obic_score}}
+#' 
+"weight.obic"
 
 #' Score the scoring for the OBI on a relative scale
 #' 

@@ -94,7 +94,8 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
   dt.arable = dt[crop_n == 'akkerbouw']
   
   # measure 1. is the parcel for 80% of the year grown by a crop (add 3 points)
-  dt.arable[M_M10==TRUE, value := value + 3]
+  # calculate from fraction rustgewassen (suggestion of Wim)
+  dt.arable[D_CP_RUST > 0.60, value := value + 3] 
   
   # measure 2. is minimal 40% of the deep rooting crops (add one point)
   dt.arable[D_CP_RUST > 0.4, value := value + 1]
@@ -102,6 +103,10 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
   
   # measure 3. crop rotation of potato is at minimum 1:4 (add two points)
   dt.arable[D_CP_POTATO > 0.15 & D_CP_POTATO <= 0.25, value := value + 2]
+  
+  # Here one measure is missing, compared to the table of Van der Wal et al.:
+  # Gebruik van technieken die hoeveelheid gewasbeschermingsmiddelen reduceren
+  # Do we need to include one more M_ variable for this measurement?
   
   # measure 4. use of early varieties in relevant cultures to avoid harvesting after september (stimulating catch crop too)
   dt.arable[grepl('mais|aardappel|bieten, suiker',crop_name) & M_M11==TRUE, value := value + 1]
@@ -120,6 +125,10 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
   
   # measure 9. is heavy machinery avoided by slurry application
   dt.arable[soiltype.n !='veen' & M_M12==TRUE, value := value + 1]
+  
+  # measure 6(?). are catchcrops sown after main crop 
+  # In Van der Wal et al 2016: Gebruik vanggewassen na maïsoogst (alleen klei, zand en löss al verplicht)
+  dt.arable[grepl('mais',crop_name) & soiltype.n =='klei' & M_M6 == TRUE, value := value + 1]
   
   # negative scores may not occur
   dt.arable[value < 0, value := 0]
