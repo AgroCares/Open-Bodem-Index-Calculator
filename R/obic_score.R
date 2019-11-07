@@ -8,9 +8,7 @@
 #' 
 #' @export
 obic_score <- function(dt.ind) {
-  
-  ID = NULL
-  
+
   # Check inputs
   checkmate::assert_data_table(dt.ind)
   
@@ -18,9 +16,13 @@ obic_score <- function(dt.ind) {
   dt.ind <- copy(dt.ind)
   
   # define variables used within the function
-  S_C = S_P = S_B = S_M = S_T = ID =  NULL
+  ID =  NULL
+  
   # Score on a absolute scale
   dt.score.abs <- score_absolute(dt.ind)
+  
+  ### TESTING ###
+  save(dt.score.abs, file = "../development/data/testing_score_relative.Rdata")
   
   # Score on a relative scale
   dt.score <- score_relative(dt.score.abs)
@@ -51,11 +53,11 @@ score_absolute <- function(dt.ind) {
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_CEC = I_P_WRI = NULL
-  ID = rsid = NULL
+  #ID = rsid = NULL
   
   # Load in the datasets and reshape
   w <- as.data.table(OBIC::weight.obic)
-  w <- dcast(w,rsid~var,value.var = 'weight')
+  w <- dcast(w, .~var, value.var = 'weight')
   
   # Score the chemical indicators
   dt.ind[, S_A_C := 	w$W_C_N * I_C_N + w$W_C_P * I_C_P + w$W_C_K * I_C_K + 
@@ -77,8 +79,8 @@ score_absolute <- function(dt.ind) {
   dt.ind[, S_A_T := 0.3*S_A_C + 0.3*S_A_P + 0.3*S_A_B + 0.1*S_A_M]
   
   # Aggregate per field over the last 10 years
-  col.sel <- colnames(dt.ind)[grepl("ID|^I_|^S_", colnames(dt.ind))]
-  dt.ind <- dt.ind[, lapply(.SD, mean), by = ID, .SDcols = col.sel]
+  # col.sel <- colnames(dt.ind)[grepl("ID|^I_|^S_", colnames(dt.ind))]
+  # dt.ind <- dt.ind[, lapply(.SD, mean), by = ID, .SDcols = col.sel]
   
   # return only the indices and the scores
   return(dt.ind)
@@ -109,15 +111,27 @@ score_relative <- function(dt.score.abs) {
   # Check inputs
   checkmate::assert_data_table(dt.score.abs)
   
+  # Join crop categories
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  col.sel <- c("crop_code", "crop_waterstress")
+  dt.score <- merge(dt.score.abs, crops.obic[, ..col.sel], by.x = "B_LU_BRP", by.y = "crop_code", all.x = TRUE)
+  
+  # Join the waterstress levels
+  waterstress.obic <- as.data.table(OBIC::waterstress.obic)
+  waterstress.obic[waterstress < 11, yield_depression := 1]
+  waterstress.obic[waterstress >= 11 & waterstress < 30, yield_depression := 2]
+  waterstress.obic[waterstress >= 30, yield_depression := 3]
+  dt.score <- merge(dt.score, waterstress.obic, by.x = c("crop_waterstress", "B_HELP_WENR", "B_GT"), by.y = c("cropname", "soilunit", "gt"))
+  
   # Select columns to base the ranking on
-  grouping <- c("YEAR", "B_GT", "B_BT_AK")
-  groups <- dt.score.abs[, (count = .N), by = grouping]
+  grouping <- c("YEAR", "yield_depression", "crop_waterstress", "B_BT_AK")
+  groups <- dt.score.rel2[, (count = .N), by = grouping]
   groups[, group_id := 1:.N]
-  groups[V1 < 20, group_id := -1]
+  groups[V1 < 10, group_id := -1]
   
   # Join the group_id to 
   col.sel <- c(grouping, "group_id")
-  dt.score <- merge(dt.score.abs, groups[, ..col.sel], by = grouping, all.x = TRUE)
+  dt.score <- merge(dt.score, groups[, ..col.sel], by = grouping, all.x = TRUE)
   
   # Rank the absolute values and scale them between 1 and 0
   dt.score[, S_R_C := frank(S_A_C), by = group_id]
