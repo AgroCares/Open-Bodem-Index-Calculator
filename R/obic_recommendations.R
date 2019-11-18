@@ -221,7 +221,7 @@ obic_evalmeasure <- function(dt.score) {
 #' This function gives recommendations better soil managament based on the OBI score
 #' 
 #' @param dt.recom (data.table) 
-#' @param extensive(Boolean) whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures
+#' @param extensive (boolean) whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures
 #' 
 #' @import data.table
 #' 
@@ -247,9 +247,9 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   dt.recom[, third_C_score := dt.recom[[third_C]][.I], by=third_C]
   
   # Get measure names to recommend (e.g. "M3")
-  dt.recom[, RM_C_1 := substr(first_C, 1, 2)]
-  dt.recom[, RM_C_2 := substr(second_C, 1, 2)]
-  dt.recom[, RM_C_3 := substr(third_C, 1, 2)]
+  dt.recom[, RM_C_1 := gsub("_S_C", "", first_C)]
+  dt.recom[, RM_C_2 := gsub("_S_C", "", second_C)]
+  dt.recom[, RM_C_3 := gsub("_S_C", "", third_C)]
   
   ## when the score of the selected measure is <=0, discard the advice 
   dt.recom[first_C_score <= 0, RM_C_1 := "no suitable advice"]
@@ -277,9 +277,9 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   dt.recom[, third_P_score := dt.recom[[third_P]][.I], by=third_P]
   
   # Get measure names to recommend (e.g. "M3")
-  dt.recom[, RM_P_1 := substr(first_P, 1, 2)]
-  dt.recom[, RM_P_2 := substr(second_P, 1, 2)]
-  dt.recom[, RM_P_3 := substr(third_P, 1, 2)]
+  dt.recom[, RM_P_1 := gsub("_S_P", "", first_P)]
+  dt.recom[, RM_P_2 := gsub("_S_P", "", second_P)]
+  dt.recom[, RM_P_3 := gsub("_S_P", "", third_P)]
   
   ## when the score of the selected measure is <=0, discard the advice 
   dt.recom[first_P_score <= 0, RM_P_1 := "no suitable advice"]
@@ -306,9 +306,9 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   dt.recom[, third_B_score := dt.recom[[third_B]][.I], by=third_B]
   
   # Get measure names to recommend (e.g. "M3")
-  dt.recom[, RM_B_1 := substr(first_B, 1, 2)]
-  dt.recom[, RM_B_2 := substr(second_B, 1, 2)]
-  dt.recom[, RM_B_3 := substr(third_B, 1, 2)]
+  dt.recom[, RM_B_1 := gsub("_S_B", "", first_B)]
+  dt.recom[, RM_B_2 := gsub("_S_B", "", second_B)]
+  dt.recom[, RM_B_3 := gsub("_S_B", "", third_B)]
   
   ## when the score of the selected measure is <=0, discard the advice 
   dt.recom[first_B_score <= 0, RM_B_1 := "no suitable advice"]

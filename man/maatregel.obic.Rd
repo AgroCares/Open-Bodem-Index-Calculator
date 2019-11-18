@@ -4,7 +4,7 @@
 \name{maatregel.obic}
 \alias{maatregel.obic}
 \title{Effects of measures on soil indicators}
-\format{A data.frame with 303 rows and 18 columns:
+\format{A data.frame with 303 rows and 16 columns:
 \describe{
   \item{maatregel_nr}{The ID number of measure}
   \item{omschrijving}{The description of measure}
