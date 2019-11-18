@@ -38,7 +38,7 @@ obic <- function(dt) {
   # evaluate measures
   dt.measure <- OBIC::obic_evalmeasure(dt.score)
   # make recommendations of top 3 measures
-  dt.recom <- OBIC::obic_recommendations(dt.measure    )
+  dt.recom <- OBIC::obic_recommendations(dt.measure, extensive = TRUE)
   
   return(dt.recom)
   

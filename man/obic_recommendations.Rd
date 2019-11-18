@@ -4,10 +4,12 @@
 \alias{obic_recommendations}
 \title{Recommend measurements for better soil managment}
 \usage{
-obic_recommendations(dt.recom)
+obic_recommendations(dt.recom, extensive = FALSE)
 }
 \arguments{
 \item{dt.recom}{(data.table)}
+
+\item{extensive(Boolean)}{whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures}
 }
 \description{
 This function gives recommendations better soil managament based on the OBI score

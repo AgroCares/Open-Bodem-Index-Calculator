@@ -55,7 +55,7 @@
 #' 
 #' This table defines the effects of 11 measures on soil indicators 
 #' 
-#' @format A data.frame with 303 rows and 18 columns:
+#' @format A data.frame with 303 rows and 16 columns:
 #' \describe{
 #'   \item{maatregel_nr}{The ID number of measure}
 #'   \item{omschrijving}{The description of measure}
