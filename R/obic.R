@@ -35,8 +35,10 @@ obic <- function(dt) {
   # Score the fields
   dt.score <- OBIC::obic_score(dt.ind)
   
-  # Run the managment measures
-  dt.recom <- OBIC::obic_recommendations(dt.score)
+  # evaluate measures
+  dt.measure <- OBIC::obic_evalmeasure(dt.score)
+  # make recommendations of top 3 measures
+  dt.recom <- OBIC::obic_recommendations(dt.measure    )
   
   return(dt.recom)
   

@@ -4,10 +4,10 @@
 \alias{obic_recommendations}
 \title{Recommend measurements for better soil managment}
 \usage{
-obic_recommendations(dt.score)
+obic_recommendations(dt.recom)
 }
 \arguments{
-\item{dt.score}{(data.table)}
+\item{dt.recom}{(data.table)}
 }
 \description{
 This function gives recommendations better soil managament based on the OBI score
