@@ -10,5 +10,5 @@ obic_score(dt.ind)
 \item{dt.ind}{(data.table) The table containg the data needed for OBI}
 }
 \description{
-This wrapper function contains the functions to weight the evaluations.
+This wrapper function contains the functions to perform the scoring
 }
