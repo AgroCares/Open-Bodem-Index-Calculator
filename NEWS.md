@@ -8,6 +8,7 @@
 * M_M10 user input changed in D_CP_RUST input, plus comments added #29
 * new table with weighing factors included 'weight.obic' #32
 * weighing factors updated in obic_indicators.R #32
+* Improved the zinc indicator function #39
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
