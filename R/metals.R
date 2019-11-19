@@ -183,8 +183,8 @@ ind_zinc <- function(D_ZN) {
   # Check inputs
   checkmate::assert_numeric(D_ZN, lower = 0 , upper = 250, any.missing = FALSE)
   
-  # Evaluate the nitrogen
-  value <- OBIC::evaluate_parabolic(D_ZN, x.top = 150)
+  # Evaluate the Zn
+  value <- OBIC::evaluate_parabolic(D_ZN, x.top = 100)
   
   # return output
   return(value)
