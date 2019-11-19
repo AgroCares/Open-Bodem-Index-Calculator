@@ -114,7 +114,7 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
   
   
   # evaluation of meaures in maize system -----
-  dt.maize = dt[crop_category == 'maize']
+  dt.maize = dt[crop_category == 'mais']
   
   # measure 8. maize crop in combination with grassland
   dt.maize[M_M15 == TRUE, value := value + 1]
@@ -223,7 +223,7 @@ ind_management <- function(D_MAN,B_LU_BRP,B_BT_AK) {
   dt[crop_n == 'gras', value := D_MAN / 7]
   dt[crop_n == 'gras' & soiltype.n == 'veen', value := D_MAN / 11]
   dt[crop_n == 'akkerbouw', value := D_MAN / 9]
-  dt[crop_category == 'maize', value := D_MAN / 7]
+  dt[crop_category == 'mais', value := D_MAN / 7]
   
   # Ensure no vales above 1
   dt[value > 1, value := 1]
