@@ -24,6 +24,7 @@ obic_score <- function(dt.ind) {
   
   # Load in the datasets and reshape
   w <- as.data.table(OBIC::weight.obic)
+  w[, rsid := 1]
   w <- dcast(w,rsid~var,value.var = 'weight')
   
   # Score the chemical indicators

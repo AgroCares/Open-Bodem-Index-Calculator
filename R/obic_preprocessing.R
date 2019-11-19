@@ -110,7 +110,7 @@ obic_preprocessing <- function(dt) {
   
   # Calculate water retention index 1. Plant Available Water
   dt[,D_P_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,type = 'plant available water')]
-
+  
   # Calculate Water Stress Risk
   dt[,D_WSI := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstress')]
 
