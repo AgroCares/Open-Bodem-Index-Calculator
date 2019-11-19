@@ -12,6 +12,25 @@ obic_evalmeasure <- function(dt.score) {
   # Check inputs
   checkmate::assert_data_table(dt.score)
   
+  
+  soiltype = soiltype.n = crop_waterstress = crop_maatregel = crop_code = ID = NULL
+  filter = Ef_M = Ef_M_v = maatregel_nr = OBICvariable = NULL
+  Dremp_B_DI = Dremp_B_SB = Dremp_B_SF = Dremp_C_CEC = Dremp_C_CU= NULL
+  Dremp_C_K = Dremp_C_MG = Dremp_C_N = Dremp_C_P = Dremp_C_PH = Dremp_C_S= NULL
+  Dremp_C_ZN = Dremp_P_BC = Dremp_P_CEC = Dremp_P_CO = Dremp_P_CR = Dremp_P_DU= NULL
+  Dremp_P_MS = Dremp_P_SE = Dremp_P_WRI= NULL
+  Rel_C_CEC = Rel_C_CU = Rel_C_K = Rel_C_MG= NULL
+  Rel_C_N = Rel_C_P = Rel_C_PH = Rel_C_S = Rel_C_ZN = Rel_P_BC = Rel_P_CEC = Rel_P_CO= NULL
+  Rel_P_CR = Rel_P_DU = Rel_P_MS = Rel_P_SE = Rel_P_WRI = Rel_B_DI = Rel_B_SF = Rel_B_SB = NULL
+  M1_S_C = M2_S_C = M3_S_C = M4_S_C = M5_S_C = M6_S_C = M7_S_C = M8_S_C = M9_S_C = M10_S_C = M11_S_C = NULL
+  M1_S_P = M2_S_P = M3_S_P = M4_S_P = M5_S_P = M6_S_P = M7_S_P = M8_S_P = M9_S_P = M10_S_P = M11_S_P = NULL
+  M1_S_B = M2_S_B = M3_S_B = M4_S_B = M5_S_B = M6_S_B = M7_S_B = M8_S_B = M9_S_B = M10_S_B = M11_S_B = NULL
+  M_C_N = M_C_P = M_C_K = M_C_MG = M_C_S = M_C_PH = M_C_CEC = M_C_CU = M_C_ZN = NULL
+  M_P_CR = M_P_SE = M_P_MS = M_P_BC = M_P_DU = M_P_CO = M_P_CEC = M_P_WRI = NULL
+  M_B_DI = M_B_SF = M_B_SB = NULL
+
+  # other (temporal) variables to be nullified:  Ec_nm], Es_nm], Rel_nm], M[m]_[nm]
+  
   ## Settings------------------------------------------------------------
   # Relative importance of 11 measures
   # (NOTE YF: these values can eventually be taken from the table)
@@ -70,7 +89,7 @@ obic_evalmeasure <- function(dt.score) {
   # remove unnecessary rows
   maatregel.obic <- maatregel.obic[filter == 1]
   
-  # convert '+' and '-' to points
+  # convert '=' and '-' to points
   # TO DO: check if there is no other symbols used for Ef_M
   maatregel.obic[Ef_M == "+++", Ef_M_v := 3]
   maatregel.obic[Ef_M == "++", Ef_M_v := 2]
@@ -105,8 +124,8 @@ obic_evalmeasure <- function(dt.score) {
     # If some of the prescribed indicators are missing, fill their effect as 0
     if(nrna > 0){
       # show message on screen
-      show(paste(nrna, "indicators are missing for measure", m, ':', paste(nmnr, collapse = ', ')))
-      show( 'Their effects are now assumed to be 0.')
+      print(paste(nrna, "indicators are missing for measure", m, ':', paste(nmnr, collapse = ', ')))
+      print( 'Their effects are now assumed to be 0.')
       # duplicate the first rows (initialization)
       maatregel_sel <- rbind(maatregel_sel, maatregel_sel[1:nrna, ])
       # fill NA first (except first 4 columns)
@@ -231,6 +250,9 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   # Check inputs
   checkmate::assert_data_table(dt.recom)
   
+  first_C = second_C = third_C = first_P = second_P = third_P = first_B = second_B = third_B = NULL
+  first_C_score = second_C_score = third_C_score = first_P_score = second_P_score = third_P_score = first_B_score = second_B_score = third_B_score = NULL
+  nr_blth_C = nr_blth_P = nr_blth_B = NULL
   RM_C_1 = RM_C_2 = RM_C_3 = RM_P_1 = RM_P_2 = RM_P_3 = RM_B_1 = RM_B_2 = RM_B_3 = NULL
   
   ## Chemical recommondations ------------------------------------------------  
