@@ -57,7 +57,8 @@ score_absolute <- function(dt.ind) {
   
   # Load in the datasets and reshape
   w <- as.data.table(OBIC::weight.obic)
-  w <- dcast(w, .~var, value.var = 'weight')
+  w[, rsid := 1]
+  w <- dcast(w,rsid~var,value.var = 'weight')
   
   # Score the chemical indicators
   dt.ind[, S_A_C := 	w$W_C_N * I_C_N + w$W_C_P * I_C_P + w$W_C_K * I_C_K + 
