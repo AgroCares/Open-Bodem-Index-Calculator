@@ -22,7 +22,7 @@ obic_score <- function(dt.ind) {
   dt.score <- score_absolute(dt.ind)
   
   # Score on a relative scale
-  # dt.score <- score_relative(dt.score) # SWTICHED OFF
+  dt.score <- score_relative(dt.score)
 
   # Aggregate per field
   col.sel <- colnames(dt.score)[grepl("ID|^I_|^S_", colnames(dt.score))]
@@ -45,6 +45,9 @@ score_absolute <- function(dt.ind) {
   
   # Check inputs
   checkmate::assert_data_table(dt.ind)
+  
+  # make local copy
+  dt.ind <- copy(dt.ind)
   
   S_C_A = S_P_A = S_B_A = S_M_A = S_T_A =  NULL
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
@@ -104,44 +107,47 @@ score_absolute <- function(dt.ind) {
 #' @export
 score_relative <- function(dt.score.abs) {
   
-  # # Check inputs
-  # checkmate::assert_data_table(dt.score.abs)
-  # 
-  # # Join crop categories
-  # crops.obic <- as.data.table(OBIC::crops.obic)
-  # col.sel <- c("crop_code", "crop_waterstress")
-  # dt.score <- merge(dt.score.abs, crops.obic[, ..col.sel], by.x = "B_LU_BRP", by.y = "crop_code", all.x = TRUE)
-  # 
-  # # Join the waterstress levels
-  # waterstress.obic <- as.data.table(OBIC::waterstress.obic)
-  # waterstress.obic[waterstress < 11, yield_depression := 1]
-  # waterstress.obic[waterstress >= 11 & waterstress < 30, yield_depression := 2]
-  # waterstress.obic[waterstress >= 30, yield_depression := 3]
-  # dt.score <- merge(dt.score, waterstress.obic, by.x = c("crop_waterstress", "B_HELP_WENR", "B_GT"), by.y = c("cropname", "soilunit", "gt"))
-  # 
-  # # Select columns to base the ranking on
-  # grouping <- c("YEAR", "yield_depression", "crop_waterstress", "B_BT_AK")
-  # groups <- dt.score.rel2[, (count = .N), by = grouping]
-  # groups[, group_id := 1:.N]
-  # groups[V1 < 10, group_id := -1]
-  # 
-  # # Join the group_id to 
-  # col.sel <- c(grouping, "group_id")
-  # dt.score <- merge(dt.score, groups[, ..col.sel], by = grouping, all.x = TRUE)
-  # 
-  # # Rank the absolute values and scale them between 1 and 0
-  # dt.score[, S_R_C := frank(S_A_C), by = group_id]
-  # dt.score[, S_R_C := (S_R_C - min(S_R_C, na.rm = TRUE)) / (max(S_R_C, na.rm = TRUE) - min(S_R_C, na.rm = TRUE)), by = group_id]
-  # dt.score[, S_R_P := frank(S_A_P), by = group_id]
-  # dt.score[, S_R_P := (S_R_P - min(S_R_C, na.rm = TRUE)) / (max(S_R_P, na.rm = TRUE) - min(S_R_P, na.rm = TRUE)), by = group_id]
-  # dt.score[, S_R_B := frank(S_A_B), by = group_id]
-  # dt.score[, S_R_B := (S_R_B - min(S_R_B, na.rm = TRUE)) / (max(S_R_B, na.rm = TRUE) - min(S_R_B, na.rm = TRUE)), by = group_id]
-  # dt.score[, S_R_M := frank(S_A_M), by = group_id]
-  # dt.score[, S_R_M := (S_R_M - min(S_R_M, na.rm = TRUE)) / (max(S_R_M, na.rm = TRUE) - min(S_R_M, na.rm = TRUE)), by = group_id]
-  # dt.score[, S_R_T := frank(S_A_T), by = group_id]
-  # dt.score[, S_R_T := (S_R_T - min(S_R_T, na.rm = TRUE)) / (max(S_R_T, na.rm = TRUE) - min(S_R_T, na.rm = TRUE)), by = group_id]
-  # 
-  # return(dt.score)
+  # Check inputs
+  checkmate::assert_data_table(dt.score.abs)
+  
+  # make local copy
+  dt.score.abs <- copy(dt.score.abs)
+
+  # Join crop categories
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  col.sel <- c("crop_code", "crop_waterstress")
+  dt.score <- merge(dt.score.abs, crops.obic[, ..col.sel], by.x = "B_LU_BRP", by.y = "crop_code", all.x = TRUE)
+
+  # Join the waterstress levels
+  waterstress.obic <- as.data.table(OBIC::waterstress.obic)
+  waterstress.obic[waterstress < 11, yield_depression := 1]
+  waterstress.obic[waterstress >= 11 & waterstress < 30, yield_depression := 2]
+  waterstress.obic[waterstress >= 30, yield_depression := 3]
+  dt.score <- merge(dt.score, waterstress.obic, by.x = c("crop_waterstress", "B_HELP_WENR", "B_GT"), by.y = c("cropname", "soilunit", "gt"))
+
+  # Select columns to base the ranking on
+  grouping <- c("YEAR", "yield_depression", "crop_waterstress", "B_BT_AK")
+  groups <- dt.score.rel2[, (count = .N), by = grouping]
+  groups[, group_id := 1:.N]
+  groups[V1 < 10, group_id := -1]
+
+  # Join the group_id to
+  col.sel <- c(grouping, "group_id")
+  dt.score <- merge(dt.score, groups[, ..col.sel], by = grouping, all.x = TRUE)
+
+  # Rank the absolute values and scale them between 1 and 0
+  dt.score[, S_C_R := frank(S_C_A), by = group_id]
+  dt.score[, S_C_R := (S_C_R - min(S_C_R, na.rm = TRUE)) / (max(S_C_R, na.rm = TRUE) - min(S_C_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_P_R := frank(S_P_A), by = group_id]
+  dt.score[, S_P_R := (S_P_R - min(S_P_R, na.rm = TRUE)) / (max(S_P_R, na.rm = TRUE) - min(S_P_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_B_R := frank(S_B_A), by = group_id]
+  dt.score[, S_B_R := (S_B_R - min(S_B_R, na.rm = TRUE)) / (max(S_B_R, na.rm = TRUE) - min(S_B_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_M_R := frank(S_M_A), by = group_id]
+  dt.score[, S_M_R := (S_M_R - min(S_M_R, na.rm = TRUE)) / (max(S_M_R, na.rm = TRUE) - min(S_M_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_T_R := frank(S_T_R), by = group_id]
+  dt.score[, S_T_R := (S_T_R - min(S_T_R, na.rm = TRUE)) / (max(S_T_R, na.rm = TRUE) - min(S_T_R, na.rm = TRUE)), by = group_id]
+
+  return(dt.score)
 }
 
 
