@@ -19,21 +19,30 @@ test_that("calc_crumbleability works", {
   )
 })
 
-# test_that("eval_crumbleability works", {
-#   expect_equal(
-#     eval_crumbleability(
-#       D_CR = 10, 
-#       B_LU_BRP = 2014
-#     ),
-#     expected = 9.3,
-#     tolerance = 0.001
-#   )
-#   expect_equal(
-#     eval_crumbleability(
-#       D_CR = c(1, 5, 10), 
-#       B_LU_BRP = c(2555, 2334)
-#     ), 
-#     expected = c(10, 1),
-#     tolerance = 0.001
-#   )
-# })
+test_that("eval_crumbleability works", {
+  expect_equal(
+    ind_crumbleability(
+      D_CR = 10,
+      B_LU_BRP = 2014
+    ),
+    expected = 1,
+    tolerance = 0.001
+  )
+  expect_equal(
+    ind_crumbleability(
+      D_CR = seq(5,15,1),
+      B_LU_BRP = rep(1042,11)
+    ),
+    expected = c(0,0,0,0,1,1,1,1,1,1,1),
+    tolerance = 0.1
+  )
+  expect_equal(
+    ind_crumbleability(
+      D_CR = seq(1,11,1),
+      B_LU_BRP = rep(233,11)
+    ),
+    expected = c(0.125,0.25,0.375,0.5,0.625,0.75,0.875,1,1,1,1),
+    tolerance = 0.1
+  )
+  
+})

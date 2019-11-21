@@ -92,8 +92,8 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
   dt.arable = dt[crop_n == 'akkerbouw']
   
   # measure 1. is the parcel for 80% of the year grown by a crop (add 3 points)
-  #dt.arable[M_M10==TRUE, value := value + 3]
-  dt.arable[D_CP_RUST > 0.60, value := value + 3] #Calculate from fraction rustgewassen (suggestion of Wim)
+  # calculate from fraction rustgewassen (suggestion of Wim)
+  dt.arable[D_CP_RUST > 0.60, value := value + 3] 
   
   # measure 2. is minimal 40% of the deep rooting crops (add one point)
   dt.arable[D_CP_RUST > 0.4, value := value + 1]
