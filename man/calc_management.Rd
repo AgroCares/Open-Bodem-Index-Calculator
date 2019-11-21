@@ -5,8 +5,8 @@
 \title{Calculate the 'performance' of sustainable soil management}
 \usage{
 calc_management(A_OS_GV, B_LU_BRP, B_BT_AK, B_GT, D_OS_BAL, D_CP_GRASS,
-  D_CP_POTATO, D_CP_RUST, D_CP_RUSTDEEP, D_GA, M_M4, M_M6, M_M10, M_M11,
-  M_M12, M_M13, M_M14, M_M15)
+  D_CP_POTATO, D_CP_RUST, D_CP_RUSTDEEP, D_GA, M_M6, M_M10, M_M11, M_M12,
+  M_M13, M_M14, M_M15)
 }
 \arguments{
 \item{A_OS_GV}{(numeric) The organic matter content of the soil (in procent)}
@@ -28,8 +28,6 @@ calc_management(A_OS_GV, B_LU_BRP, B_BT_AK, B_GT, D_OS_BAL, D_CP_GRASS,
 \item{D_CP_RUSTDEEP}{(numeric) The fraction diepe rustgewassen in crop rotation (-)}
 
 \item{D_GA}{(numeric) The age of the grassland (years)}
-
-\item{M_M4}{(boolean) measure 4. is the soil ploughed (option: yes or no)}
 
 \item{M_M6}{(boolean) measure 6. are catchcrops sown after main crop (option: yes or no)}
 
