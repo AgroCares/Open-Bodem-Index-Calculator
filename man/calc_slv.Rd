@@ -4,12 +4,12 @@
 \alias{calc_slv}
 \title{Calculate the SLV}
 \usage{
-calc_slv(A_OS_GV, A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS, D_BDS)
+calc_slv(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, B_LG_CBS, D_BDS)
 }
 \arguments{
-\item{A_OS_GV}{(numeric) The organic matter content of the soil (in procent)}
-
 \item{A_S_TOT}{(numeric) The total Sulpher content of the soil (in mg S per kg)}
+
+\item{A_OS_GV}{(numeric) The organic matter content of the soil (in procent)}
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 
