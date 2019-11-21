@@ -72,7 +72,7 @@ test_that("ind_sulpher works", {
       B_BT_AK = rep('zeeklei',10),
       B_LG_CBS = rep('IJsselmeerpolders',10)
     ),
-    expected = c(0.018,rep(1,9)),
+    expected = c(0.0408, 0.4102,rep(1,8)),
     tolerance = 0.001
   )
 })
