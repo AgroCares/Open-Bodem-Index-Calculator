@@ -8,9 +8,14 @@
 * M_M10 user input changed in D_CP_RUST input, plus comments added #29
 * new table with weighing factors included 'weight.obic' #32
 * weighing factors updated in obic_indicators.R #32
+* Improved the zinc indicator function #39
+* The evaluation function for sulphur on maize and grass is updated #40
+* The management function is improved, especially for maize #38
+* The maximum score of `ind_management` is adjusted #38
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
+* Fixed the droughtstress, wetnessstress and waterstress values for GtI in `waterstress.obic`
 
 ## Version 0.9.0 2019-10-22
 ### Changed

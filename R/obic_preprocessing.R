@@ -76,7 +76,7 @@ obic_preprocessing <- function(dt) {
   # Determine the managment
   dt[, D_MAN := calc_management(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
                                 D_OS_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
-                                M_M4, M_M6, M_M10, M_M11, M_M12, M_M13, M_M14, M_M15)]
+                                M_M6, M_M10, M_M11, M_M12, M_M13, M_M14, M_M15)]
   
   # Calculate the wind erodibility 
   dt[, D_P_DU := calc_winderodibility(A_CLAY_MI, A_SILT_MI, B_LU_BRP)]
@@ -110,7 +110,7 @@ obic_preprocessing <- function(dt) {
   
   # Calculate water retention index 1. Plant Available Water
   dt[,D_P_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,type = 'plant available water')]
-
+  
   # Calculate Water Stress Risk
   dt[,D_WSI := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstress')]
 
