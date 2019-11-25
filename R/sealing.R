@@ -37,8 +37,8 @@ calc_sealing_risk <- function(A_CLAY_MI, A_OS_GV) {
   dt[is.na(value), value.A_CLAY_MI := fun.A_CLAY_MI(A_CLAY_MI)]
   
   # Create organic matter correction function and calculate correction for A_OS_GV
-  fun.cor.A_OS_GV <- approxfun(x = df.lookup$value.A_CLAY_MI, y = df.lookup$cor.A_OS_GV, rule = 2)
-  dt[is.na(value), cor.A_OS_GV := fun.cor.A_OS_GV(value.A_CLAY_MI)]
+  fun.cor.A_OS_GV <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_OS_GV, rule = 2)
+  dt[is.na(value), cor.A_OS_GV := fun.cor.A_OS_GV(A_CLAY_MI)]
   
   # Calculate the value
   dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV]

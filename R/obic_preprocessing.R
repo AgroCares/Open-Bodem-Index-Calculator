@@ -12,6 +12,10 @@ obic_preprocessing <- function(dt) {
   # Check inputs
   checkmate::assert_data_table(dt)
   
+  # make local copy
+  dt <- copy(dt)
+  
+  # define variables used within the function
   ID = NULL
   A_CLAY_MI = A_OS_GV = A_PH_CC = A_CN_RAT = A_N_TOT = A_P_PAL = A_P_PAE = A_P_WA = A_SILT_MI = A_S_TOT = NULL
   A_MG_CC = A_CEC_CO = A_K_CC = A_K_CEC = A_CU_CC = A_MN_CC = A_ZN_CC = A_SAND_MI = NULL
@@ -54,7 +58,7 @@ obic_preprocessing <- function(dt) {
   dt[, D_K := calc_potassium_availability(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_GV, A_CLAY_MI, B_LU_BRP, B_BT_AK)]
 
   # Calculate the PBI
-  dt[, D_PBI := calc_phosphate_availability(A_P_PAL, A_P_PAE, B_LU_BRP)]
+  dt[, D_PBI := calc_phosphate_availability(A_P_PAL, A_P_PAE, A_P_WA,B_LU_BRP)]
   
   # Calculate the crop rotation fraction
   dt[, D_CP_STARCH := calc_rotation_fraction(ID, B_LU_BRP, crop = "starch")]
@@ -72,13 +76,13 @@ obic_preprocessing <- function(dt) {
   # Determine the managment
   dt[, D_MAN := calc_management(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
                                 D_OS_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
-                                M_M4, M_M6, M_M10, M_M11, M_M12, M_M13, M_M14, M_M15)]
+                                M_M6, M_M10, M_M11, M_M12, M_M13, M_M14, M_M15)]
   
   # Calculate the wind erodibility 
   dt[, D_P_DU := calc_winderodibility(A_CLAY_MI, A_SILT_MI, B_LU_BRP)]
   
   # Calculate the sulphur supply
-  dt[, D_SLV := calc_slv(A_OS_GV,A_S_TOT, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS)]
+  dt[, D_SLV := calc_slv(A_S_TOT,A_OS_GV,B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS)]
   
   # Calculate the magnesium index
   dt[, D_MG := calc_magnesium_availability(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC,
@@ -106,7 +110,7 @@ obic_preprocessing <- function(dt) {
   
   # Calculate water retention index 1. Plant Available Water
   dt[,D_P_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,type = 'plant available water')]
-
+  
   # Calculate Water Stress Risk
   dt[,D_WSI := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstress')]
   

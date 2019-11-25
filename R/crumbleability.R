@@ -73,6 +73,7 @@ calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
 ind_crumbleability <- function(D_CR, B_LU_BRP) {
   
   # Load in the crops dataset
+  crop_code = crop_group = crop_crumbleability = lower = upper = NULL
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
 
@@ -83,7 +84,6 @@ ind_crumbleability <- function(D_CR, B_LU_BRP) {
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
 
   # Combine information into a table
-  crop_code = crop_group = crop_crumbleability = NULL
   dt <- data.table(
     value = NA_real_,
     D_CR = D_CR,
@@ -92,23 +92,20 @@ ind_crumbleability <- function(D_CR, B_LU_BRP) {
   setkey(dt, B_LU_BRP)
   dt <- crops.obic[dt]
   
-  # Evaluate the crumbleability using the function
-  value <- dt[, lapply(.SD, function(x, D_CR, crop_crumbleability) {
-      # Load in the coefficients for the evaluation
-      dt.eval.crumb <- as.data.table(OBIC::eval.crumbleability)
-      
-      # Select the coefficients
-      this.eval.crumb <- dt.eval.crumb[crop_group == crop_crumbleability]
-      
-      # Create the function to evaluate crumbleability
-      fun.eval.crumbleability <- approxfun(this.eval.crumb$D_CR, this.eval.crumb$eval.crumbleabilty, rule = 2)
-      
-      # Evaluate the crumbleability
-      eval.crumbleability <- fun.eval.crumbleability(D_CR)
-      
-      return(eval.crumbleability)
-    },  D_CR, crop_crumbleability), .SDcols = "value"][, value]
+  # combine with crumbleability range
+  setkey(dt,crop_crumbleability)
+  dt.eval.crumb <- as.data.table(OBIC::eval.crumbleability)
+  setkey(dt.eval.crumb,crop_group)
+  dt <- dt.eval.crumb[dt]
   
+  # calculate a crop specific index
+  dt[,value := (D_CR - lower)/(upper - lower)]
+  dt[,value := pmin(1,pmax(0,value))]
+  
+  # retrieve value
+  value <- dt[, value]
+  
+  # return value
   return(value)
 }
 
