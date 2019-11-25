@@ -2,7 +2,7 @@
 #' 
 #' This function calculates the NLV (nitrogen producing capacity) for the soil
 #' 
-#' @param A_N_TOT (numeric) The organic nitrogen content of the soil in g  N / kg
+#' @param A_N_TOT (numeric) The organic nitrogen content of the soil in mg N / kg
 #' @param D_OC (numeric) The organic carbon content of the soil in kg C / ha
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
@@ -68,8 +68,8 @@ calc_nlv <- function(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA) {
   dt.grass[soiltype.n == "klei" & D_GA >= 7 & D_GA < 10, a := 30.90]
   dt.grass[soiltype.n == "klei" & D_GA >= 10, a := 29.56]
   
-  dt.grass[soiltype.n == "zand", value := 78 + a * A_N_TOT ^ 1.0046]
-  dt.grass[soiltype.n == "klei", value := 31.7 + a * A_N_TOT ^ 1.0046]
+  dt.grass[soiltype.n == "zand", value := 78 + a * (A_N_TOT/1000) ^ 1.0046]
+  dt.grass[soiltype.n == "klei", value := 31.7 + a * (A_N_TOT/1000) ^ 1.0046]
   dt.grass[soiltype.n == "zand" & value > 200, value := 200]
   dt.grass[soiltype.n == "klei" & value > 250, value := 250]
   dt.grass[soiltype.n == "veen", value := 250]
