@@ -28,7 +28,7 @@ obic_preprocessing <- function(dt) {
   D_P_CEC = D_C_CEC = D_P_WRI = NULL
   D_MAN = D_P_DU = D_SLV = D_MG = D_PMN = D_ZN = D_CU = D_PH_DELTA = D_BCS = NULL
   M_M3 = M_M6 = M_M4 = M_M10 = M_M11 = M_M12 = M_M13 = M_M14 = M_M15 = NULL
-  D_WSI = D_K = D_NUIT_OW = D_NUIT_OW = NULL
+  D_WSI = D_K = D_NUIT_GW = D_NUIT_OW = NULL
 
   # Calculate soil sealing risk
   dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]

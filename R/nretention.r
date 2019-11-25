@@ -25,12 +25,10 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, wtype){
   setkey(crops.obic, crop_code)
   
   # Read table of N leaching fraction to groundwater
-  #if(wtype == 'gw'){nleach_gw_table <- as.data.table(OBIC::nleach_gw_table)}
-  if(wtype == 'gw'){load("data/nleach_gw_table.RData")} #temp
+  if(wtype == 'gw'){nleach_gw_table <- as.data.table(OBIC::nleach_gw_table)}
   
   # Read table of N leaching fraction to surfacewater
-  #if(wtype == 'ow'){nleach_ow_table <- as.data.table(OBIC::nleach_ow_table)}
-  if(wtype == 'ow'){load("data/nleach_ow_table.RData")} #temp
+  if(wtype == 'ow'){nleach_ow_table <- as.data.table(OBIC::nleach_ow_table)}
   
   # Check input
   arg.length <- max(length(B_BT_AK),length(B_LU_BRP), length(B_GT),
@@ -118,7 +116,7 @@ ind_nretention_gw <- function(D_NUIT_GW){
 #' 
 #' This function calculates the indicator for the N retention of the soil by using the N run-off to surface water calculated by \code{\link{calc_nleach}}
 #' 
-#' @param D_NIT_OW (numeric) The value of N run-off calculated by \code{\link{calc_nleach}}
+#' @param D_NUIT_OW (numeric) The value of N run-off calculated by \code{\link{calc_nleach}}
 #'
 #' @export
 ind_nretention_ow <- function(D_NUIT_OW){

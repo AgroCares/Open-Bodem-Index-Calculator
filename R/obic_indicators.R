@@ -98,6 +98,12 @@ obic_indicators<- function(dt.ppr) {
   
   dt.ppr[, I_BCS := ind_bcs(D_BCS)]
   
+  # Evaluate Environmental ------------------------------------------------------
+  # N retention groundwater
+  dt.ppr[, I_R_NRET_GW := ind_nretention_gw(D_NUIT_GW)]
+  # N retention surfacewater
+  dt.ppr[, I_R_NRET_OW := ind_nretention_gw(D_NUIT_OW)]
+  
   # return the updated object
   return(dt.ppr)
 }

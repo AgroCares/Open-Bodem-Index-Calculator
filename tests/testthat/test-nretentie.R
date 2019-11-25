@@ -26,6 +26,7 @@ test_that("calc_nleach works", {
   )
 })
 
+
 test_that("ind_nretention_gw works", {
   expect_equal(
     ind_nretention_gw(
