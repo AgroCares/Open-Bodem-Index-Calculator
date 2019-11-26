@@ -1,7 +1,7 @@
 test_that("calc_nlv works", {
   expect_equal(
     calc_nlv(
-      A_N_TOT = 5,
+      A_N_TOT = 5000,
       D_OC = 86000,
       B_LU_BRP = 265,
       B_BT_AK = "rivierklei",
@@ -14,7 +14,7 @@ test_that("calc_nlv works", {
   )
   expect_equal(
     calc_nlv(
-      A_N_TOT = c(5, 10, 25, 8),
+      A_N_TOT = c(5000, 10000, 25000, 8000),
       D_OC = c(86000, 86000, 86000,86000),
       B_LU_BRP = c(265, 265, 235, 235),
       B_BT_AK = c("rivierklei", "veen", "veen", "dekzand"),

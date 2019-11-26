@@ -7,7 +7,7 @@
 calc_nlv(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA)
 }
 \arguments{
-\item{A_N_TOT}{(numeric) The organic nitrogen content of the soil in g  N / kg}
+\item{A_N_TOT}{(numeric) The organic nitrogen content of the soil in mg N / kg}
 
 \item{D_OC}{(numeric) The organic carbon content of the soil in kg C / ha}
 
