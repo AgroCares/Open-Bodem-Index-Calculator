@@ -10,25 +10,27 @@ test_that("calc_ph_delta works", {
       D_CP_GRASS = 0,
       D_CP_MAIS = 0.2,
       D_CP_SUGARBEET = 0.2,
-      D_CP_OTHER = 0.3
+      D_CP_OTHER = 0.3,
+      B_LU_BRP = 265
     ),
     expected = 0.3,
     tolerance = 0.001
   )
   expect_equal(
     calc_ph_delta(
-      A_PH_CC = c(6, 5.8, 6.2, 4.5),
-      B_BT_AK = c("rivierklei", "veen", "veen", "loess"),
-      A_CLAY_MI = c(20, 5, 8, 12),
-      A_OS_GV = c(5, 20, 23, 8),
-      D_CP_STARCH = c(0, 0.2, 0, 0.4),
-      D_CP_POTATO = c(0.3, 0.15, 0, 0),
-      D_CP_GRASS = c(0, 0.45, 0.7, 0),
-      D_CP_MAIS = c(0.1, 0.2, 0.15, 0.1),
-      D_CP_SUGARBEET = c(0.2, 0, 0.15, 0),
-      D_CP_OTHER = c(0.4, 0, 0, 0.5)
+      A_PH_CC = c(6, 4.0, 6.2, 4.5, 5.0),
+      B_BT_AK = c("rivierklei", "veen", "veen", "loess", "dekzand"),
+      A_CLAY_MI = c(20, 5, 8, 12, 5),
+      A_OS_GV = c(5, 20, 23, 8, 10),
+      D_CP_STARCH = c(0, 0.2, 0, 0.4, 0),
+      D_CP_POTATO = c(0.3, 0.15, 0, 0, 0),
+      D_CP_GRASS = c(0, 0.45, 0.7, 0, 0.5),
+      D_CP_MAIS = c(0.1, 0.2, 0.15, 0.1, 0.1),
+      D_CP_SUGARBEET = c(0.2, 0, 0.15, 0, 0),
+      D_CP_OTHER = c(0.4, 0, 0, 0.5, 0),
+      B_LU_BRP = c(265, 265, 265, 265, 800)
     ),
-    expected = c(0.3, 0, 0, 0.6),
+    expected = c(0.3, 0.7, 0, 0.6, 0.2),
     tolerance = 0.001
   )
 })

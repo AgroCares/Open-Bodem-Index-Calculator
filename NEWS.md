@@ -13,6 +13,7 @@
 * The management function is improved, especially for maize #38
 * The maximum score of `ind_management` is adjusted #38
 * The parameter values for sulphur on arable land is adjusted #41
+* The optimal pH for grassland depends now on organic matter content and presence of clover #42
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
