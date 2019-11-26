@@ -89,7 +89,7 @@ calc_management <- function(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
   # evaluation of measures in an arable system -----
   
   # subset data.table
-  dt.arable = dt[crop_n == 'akkerbouw']
+  dt.arable = dt[crop_n == 'akkerbouw' & crop_category != 'mais']
   
   # measure 1. is the parcel for 80% of the year grown by a crop (add 3 points)
   # calculate from fraction rustgewassen (suggestion of Wim)
