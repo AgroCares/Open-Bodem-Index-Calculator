@@ -12,22 +12,26 @@
 #' @param D_CP_GRASS (numeric) The fracgtion of grass in the crop plan
 #' @param D_CP_MAIS (numeric) The fraction of mais in the crop plan
 #' @param D_CP_OTHER (numeric) The fraction of other crops in the crop plan
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
 #' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_ph_delta <- function(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER) {
+calc_ph_delta <- function(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER, B_LU_BRP) {
   
-  lutum.low = lutum.high = om.low = om.high = potato.low = potato.high = sugarbeet.low = sugarbeet.high = ph.optimum = id = soiltype.ph = NULL
+  lutum.low = lutum.high = om.low = om.high = potato.low = potato.high = sugarbeet.low = sugarbeet.high = ph.optimum = NULL
+  id = soiltype.ph = crop_code = crop_name = NULL
   
   # Load in the datasets
   soils.obic <- as.data.table(OBIC::soils.obic)
+  crops.obic <- as.data.table(OBIC::crops.obic)
   dt.ph.delta <- as.data.table(OBIC::tbl.ph.delta)
   
   # Check inputs
-  arg.length <- max(length(A_PH_CC), length(B_BT_AK), length(A_OS_GV), length(A_CLAY_MI), length(D_CP_STARCH), length(D_CP_POTATO), length(D_CP_SUGARBEET), length(D_CP_GRASS), length(D_CP_MAIS), length(D_CP_OTHER))
+  arg.length <- max(length(A_PH_CC), length(B_BT_AK), length(A_OS_GV), length(A_CLAY_MI), length(D_CP_STARCH), length(D_CP_POTATO), 
+                    length(D_CP_SUGARBEET), length(D_CP_GRASS), length(D_CP_MAIS), length(D_CP_OTHER), length(B_LU_BRP))
   checkmate::assert_numeric(A_PH_CC, lower = 2, upper = 10, any.missing = FALSE, len = arg.length)
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype))
@@ -40,6 +44,7 @@ calc_ph_delta <- function(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_C
   checkmate::assert_numeric(D_CP_MAIS, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(D_CP_OTHER, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
   cp.total <- D_CP_STARCH + D_CP_POTATO + D_CP_SUGARBEET + D_CP_GRASS + D_CP_MAIS + D_CP_OTHER
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code))
   if (any(cp.total != 1)) {
      #stop(paste0("The sum of the fraction of cp is not 1, but ", min(cp.total)))
   }
@@ -57,17 +62,21 @@ calc_ph_delta <- function(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_C
     D_CP_GRASS = D_CP_GRASS,
     D_CP_MAIS = D_CP_MAIS,
     D_CP_OTHER = D_CP_OTHER,
+    B_LU_BRP = B_LU_BRP,
     table = NA_character_
   )
   
-  # Join soil type used for this function
+  # Join soil type used for this function and croptype 
   dt <- merge(dt, soils.obic, by.x = "B_BT_AK", by.y = "soiltype")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_name)], by.x = "B_LU_BRP", by.y = "crop_code")
+
   
   # Define which table to be used
   dt[soiltype.ph == 1, table := "5.1"]
-  dt[soiltype.ph == 2, table := "5.3"]
+  dt[soiltype.ph == 2, table := "5.3"] 
   dt[D_CP_STARCH > 0.1, table := "5.2"]
-  dt[D_CP_GRASS + D_CP_MAIS >= 0.5, table := "5.3"]
+  dt[D_CP_GRASS + D_CP_MAIS >= 0.5, table := "mh"] # grasland / melkveehouderij
+  dt[D_CP_GRASS + D_CP_MAIS >= 0.5 & grepl('klaver',crop_name), table := "mh_kl"] # grasland met klaver # this is now only for crop_code 800 (Rolklaver) and 2653 (Graszaad (inclusief klaverzaad))
   
   dt[, D_CP_POTATO := D_CP_STARCH + D_CP_POTATO]
   
@@ -76,7 +85,12 @@ calc_ph_delta <- function(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_C
   dt.53 <- dt.ph.delta[dt.53, on=list(table == table, lutum.low <= A_CLAY_MI, lutum.high > A_CLAY_MI, om.low <= A_OS_GV, om.high > A_OS_GV)]
   dt.512 <- dt[table %in% c("5.1", "5.2")]
   dt.512 <- dt.ph.delta[dt.512, on=list(table == table, potato.low <= D_CP_POTATO, potato.high > D_CP_POTATO, sugarbeet.low <= D_CP_SUGARBEET, sugarbeet.high > D_CP_SUGARBEET,om.low <= A_OS_GV, om.high > A_OS_GV)]
-  dt <- rbindlist(list(dt.53, dt.512), fill = TRUE)
+  dt.mh <- dt[table == "mh"]
+  dt.mh <- dt.ph.delta[dt.mh, on=list(table == table, om.low <= A_OS_GV, om.high > A_OS_GV)]
+  dt.mh_kl <- dt[table == "mh_kl"]
+  dt.mh_kl <- dt.ph.delta[dt.mh_kl, on=list(table == table, om.low <= A_OS_GV, om.high > A_OS_GV)]  
+  
+  dt <- rbindlist(list(dt.53, dt.512, dt.mh, dt.mh_kl), fill = TRUE)
   
   # Calculate the difference between the measured pH and the optimum pH
   dt[, ph.delta := ph.optimum - A_PH_CC]
@@ -113,7 +127,7 @@ ind_ph <- function(D_PH_DELTA) {
 #' 
 #' This table contains the optimal pH for different crop plans and soil types
 #' 
-#' @format A data.frame with 84 rows and 10 columns:
+#' @format A data.frame with 136 rows and 10 columns:
 #' \describe{
 #'   \item{table}{The original table from Hanboek Bodem en Bemesting}
 #'   \item{lutum.low}{Lower value for A_CLAY_MI}
