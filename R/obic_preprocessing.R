@@ -71,7 +71,7 @@ obic_preprocessing <- function(dt) {
   dt[, D_CP_RUSTDEEP := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewasdiep")]
   
   # Calculate the difference between the actual pH and optimum pH
-  dt[, D_PH_DELTA := calc_ph_delta(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)]
+  dt[, D_PH_DELTA := calc_ph_delta(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER, B_LU_BRP)]
   
   # Determine the managment
   dt[, D_MAN := calc_management(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
