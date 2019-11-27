@@ -7,16 +7,16 @@
 #' @param B_GT (character) The groundwater table class
 #' 
 #' @param D_NLV (numeric) The N-leverend vermogen (kg N ha-1 jr-1) calculated by \code{\link{calc_nlv}}
-#' @param wtype (character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")
+#' @param leaching_to (character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")
 #' 
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, wtype){
+calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   
   soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = cat_nleach = GT_Nleach = NULL
-  nleach_gw_table = nleach_ow_table = bodem = gewas = gt = filled = id = NULL
+  nleach_table = bodem = gewas = gt = filled = id = NULL
  
   # Load in the datasets
   soils.obic <- as.data.table(OBIC::soils.obic)
@@ -24,11 +24,14 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, wtype){
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
   
-  # Read table of N leaching fraction to groundwater
-  if(wtype == 'gw'){nleach_gw_table <- as.data.table(OBIC::nleach_gw_table)}
-  
-  # Read table of N leaching fraction to surfacewater
-  if(wtype == 'ow'){nleach_ow_table <- as.data.table(OBIC::nleach_ow_table)}
+  # Read table of N leaching fraction
+  if (leaching_to == 'gw') {
+    # Groundwater
+    nleach_table <- as.data.table(OBIC::nleach_gw_table)
+  } else if (leaching_to == 'ow') {
+    # Surface water
+    nleach_table <- as.data.table(OBIC::nleach_ow_table)
+  }
   
   # Check input
   arg.length <- max(length(B_BT_AK),length(B_LU_BRP), length(B_GT),
@@ -39,11 +42,8 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, wtype){
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_GT,any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(D_NLV, lower = -30, upper = 250, len = arg.length) 
-  checkmate::assert_character(wtype,any.missing = FALSE, min.len = 1, len = 1)
-  checkmate::assert_subset(wtype, choices = c("gw", "ow"), empty.ok = FALSE)
+  checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)
 
-  
-  
   # Collect data in a table
   dt <- data.table(
     id = 1:arg.length,
@@ -70,19 +70,17 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, wtype){
   
   # concatenate soil type ('soiltype.n'), crop type ('croptype.nleach'), and grondwatertrap ('GT_Nleach)
   dt[, cat_nleach := tolower(paste(soiltype.n, croptype.nleach, GT_Nleach, sep = "_"))]
-  if(wtype == 'gw'){nleach_gw_table[, cat_nleach := tolower(paste(bodem, gewas, gt, sep = "_"))]}
-  if(wtype == 'ow'){nleach_ow_table[, cat_nleach := tolower(paste(bodem, gewas, gt, sep = "_"))]}
+  nleach_table[, cat_nleach := tolower(paste(bodem, gewas, gt, sep = "_"))]
   
   # merge fraction of N leaching into 'dt', based on soil type x crop type x grondwatertrap
-  if(wtype == 'gw'){dt <- merge(dt, nleach_gw_table[, list(cat_nleach, filled)], by = 'cat_nleach', sort = F, all.x = T)}
-  if(wtype == 'ow'){dt <- merge(dt, nleach_ow_table[, list(cat_nleach, filled)], by = 'cat_nleach', sort = F, all.x = T)}
+  dt <- merge(dt, nleach_table[, list(cat_nleach, filled)], by = 'cat_nleach', sort = FALSE, all.x = TRUE)
   
-  # compute (potential) N leaching to groundwater D_NUIT_GW (mgNO3/L/) or D_NUIT_OW (kgN/ha/year)
+  # compute (potential) N leaching to groundwater D_NGW (mgNO3/L/) or D_NOW (kgN/ha/year)
   dt[, value := D_NLV * filled]
   # when Groundwatertrap is unknown, set N leaching as 0 <-- to be checked if this is okay,
-  dt[B_GT == 'unknown', value := 0.]
+  dt[B_GT == 'unknown', value := 0]
   # When NLV is negative (= net immobilization), no leaching is assumed
-  dt[D_NLV < 0, value := 0.]
+  dt[D_NLV < 0, value := 0]
   
   # Extract relevant variable and return
   setorder(dt, id)
@@ -92,41 +90,28 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, wtype){
 }
 
 
-
-
-#' Calculate the indicator for N retention for groundwater
+#' Calculate the indicator for N retention for groundwater or surface water
 #' 
-#' This function calculates the indicator for the N retention of the soil by using the N leaching to groundwater calculated by \code{\link{calc_nleach}}
+#' This function calculates the indicator for the N retention of the soil by using the N leaching to groundwater or surface water calculated by \code{\link{calc_nleach}}
 #' 
-#' @param D_NUIT_GW (numeric) The value of N leaching calculated by \code{\link{calc_nleach}}
+#' @param D_NW (numeric) The value of N leaching calculated by \code{\link{calc_nleach}}
+#' @param leaching_to (character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("ow")
 #'
 #' @export
-ind_nretention_gw <- function(D_NUIT_GW){
+ind_nretention <- function(D_NW, leaching_to){
   
   # Check inputs
-  checkmate::assert_numeric(D_NUIT_GW, lower = 0 , upper = 250, any.missing = FALSE)
+  checkmate::assert_numeric(D_NW, lower = 0 , upper = 250, any.missing = FALSE)
+  checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)
   
-  # Evaluate the N retention for groundwater
-  value <- OBIC::evaluate_logistic(x = D_NUIT_GW, b = 0.1, x0 = 20, v = 0.4, increasing = FALSE) # this makes ca. 0.1 when D_NUIT_GW = 50 
+  if (leaching_to == "gw") {
+    # Evaluate the N retention for groundwater
+    value <- OBIC::evaluate_logistic(x = D_NW, b = 0.1, x0 = 20, v = 0.4, increasing = FALSE) # this makes ca. 0.1 when D_NGW = 50 
+  } else if (leaching_to == "ow") {
+    # Evaluate the N retention for surfacewater
+    value <- OBIC::evaluate_logistic(x = D_NW, b = 0.15, x0 = 5, v = 0.3, increasing = FALSE) # this reaches almost 0 when D_NOW = 40 (emperical maximum)
+  }
 
-  return(value)
-}
-
-#' Calculate the indicator for N retention for surface water
-#' 
-#' This function calculates the indicator for the N retention of the soil by using the N run-off to surface water calculated by \code{\link{calc_nleach}}
-#' 
-#' @param D_NUIT_OW (numeric) The value of N run-off calculated by \code{\link{calc_nleach}}
-#'
-#' @export
-ind_nretention_ow <- function(D_NUIT_OW){
-  
-  # Check inputs
-  checkmate::assert_numeric(D_NUIT_OW, lower = 0 , upper = 250, any.missing = FALSE)
-  
-  # Evaluate the N retention for surfacewater
-  value <- OBIC::evaluate_logistic(x = D_NUIT_OW, b = 0.15, x0 = 5, v = 0.3, increasing = FALSE) # this reaches almost 0 when D_NUIT_GW = 40 (emperical maximum)
-  
   return(value)
 }
 
