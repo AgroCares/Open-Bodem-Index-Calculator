@@ -260,16 +260,16 @@ ind_sulpher <- function(D_SLV,B_LU_BRP, B_BT_AK, B_LG_CBS) {
   dt.arable <- dt[crop_category == "akkerbouw"]
   if(nrow(dt.arable)>0){
     dt.arable[,sbal := calc_sbal_arable(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS)]
-    dt.arable[,value := evaluate_logistic(sbal, b = 0.5, x0 = -6, 5)]
+    dt.arable[,value := evaluate_logistic(sbal, b = 0.5, x0 = -4, v = 3)]
   }
 
   # Evaluate S availability for maize land -----
   dt.maize <- dt[crop_category == "mais"]
-  dt.maize[,value := evaluate_logistic(D_SLV, b = 5, x0 = 5, v = 5)]
+  dt.maize[,value := evaluate_logistic(D_SLV, b = 1, x0 = 17, v = 5)]
   
   # Evaluate S availability for grassland -----
   dt.grass <- dt[crop_category == "grasland"]
-  dt.grass[,value := evaluate_logistic(D_SLV, b = 5, x0 = 5, v = 5)]
+  dt.grass[,value := evaluate_logistic(D_SLV, b = 1, x0 = 17, v = 5)]
   
   # EValuate S availability for nature ----
   dt.nature <- dt[crop_category =='natuur']

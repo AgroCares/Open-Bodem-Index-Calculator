@@ -71,12 +71,12 @@ obic_preprocessing <- function(dt) {
   dt[, D_CP_RUSTDEEP := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewasdiep")]
   
   # Calculate the difference between the actual pH and optimum pH
-  dt[, D_PH_DELTA := calc_ph_delta(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)]
+  dt[, D_PH_DELTA := calc_ph_delta(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER, B_LU_BRP)]
   
   # Determine the managment
   dt[, D_MAN := calc_management(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
                                 D_OS_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
-                                M_M4, M_M6, M_M10, M_M11, M_M12, M_M13, M_M14, M_M15)]
+                                M_M6, M_M10, M_M11, M_M12, M_M13, M_M14, M_M15)]
   
   # Calculate the wind erodibility 
   dt[, D_P_DU := calc_winderodibility(A_CLAY_MI, A_SILT_MI, B_LU_BRP)]
