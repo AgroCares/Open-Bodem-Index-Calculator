@@ -32,26 +32,13 @@ obic_evalmeasure <- function(dt.score) {
   # other (temporal) variables to be nullified:  Ec_nm], Es_nm], Rel_nm], M[m]_[nm]
   
   ## Settings------------------------------------------------------------
-  # Relative importance of 11 measures
-  # (NOTE YF: these values can eventually be taken from the table)
-  Prio_M <- rep(1, 11) # weight is 1 for all (= not priority)
-  names(Prio_M) <- paste0("M", 1:11)
-  
+
   # base of indicator variables
   nm <- c( "C_N","C_P","C_K","C_MG","C_S","C_PH","C_CEC","C_CU","C_ZN",
            "P_CR","P_SE","P_MS","P_BC","P_DU","P_CO","P_WRI","P_CEC",
            "B_DI","B_SF","B_SB")
   # name of indicator variables which are usred to calculate integrated scores (e.g. I_C_N)
   ind_nm <- paste0("I_", nm)
-  
-  # Threshold values of indicators (above which positive effects of measure is not considered)
-  # Ordered as in 'nm'
-  # (NOTE YF: these values can eventually be taken from the table)
-  Dremp_value_C <- 0.6 # threshold value for chemical indicators
-  Dremp_value_P <- 0.7 # threshold value for physical indicators
-  Dremp_value_B <- 0.7 # threshold value for biological indicators
-  Dremp_value <- c(rep(Dremp_value_C, 9), rep(Dremp_value_P, 8), rep(Dremp_value_B, 3))
-  names(Dremp_value) <- nm
   
   ## Load in the datasets ------------------------------------------------
   # weighing factor to calculate scores
@@ -61,7 +48,7 @@ obic_evalmeasure <- function(dt.score) {
   
   # effects of measures
   maatregel.obic <- as.data.table(OBIC::maatregel.obic)
-  #load('C:/yuki_NMI/Open-Bodem-Index-Calculator/data/maatregel_obic.RData')
+  #load('data/maatregel_obic.RData')
   
   # crop categories
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -88,6 +75,16 @@ obic_evalmeasure <- function(dt.score) {
   # Pre-processing of effect table -----------------------------------------
   # remove unnecessary rows
   maatregel.obic <- maatregel.obic[filter == 1]
+  
+  # Relative importance of 11 measures
+  #Prio_M <- rep(1, 11) # weight is 1 for all (= no priority)
+  Prio_M <- maatregel.obic$Prio_M[match(1:11, maatregel.obic[OBICvariable == ind_nm[1], maatregel_nr])]
+  names(Prio_M) <- paste0("M", 1:11)
+  
+  # Threshold values of indicators (above which positive effects of measure is not considered)
+  # Ordered as in 'ind_nm'
+  Dremp_value <- maatregel.obic$Dremp_S[match(ind_nm, maatregel.obic[maatregel_nr == 1, OBICvariable])]
+  names(Dremp_value) <- nm
   
   # convert '=' and '-' to points
   # TO DO: check if there is no other symbols used for Ef_M
