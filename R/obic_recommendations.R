@@ -14,7 +14,7 @@ obic_evalmeasure <- function(dt.score) {
   
   
   soiltype = soiltype.n = crop_waterstress = crop_maatregel = crop_code = ID = NULL
-  filter = Ef_M = Ef_M_v = maatregel_nr = OBICvariable = NULL
+ Ef_M = Ef_M_v = maatregel_nr = OBICvariable = Order = NULL
   Dremp_B_DI = Dremp_B_SB = Dremp_B_SF = Dremp_C_CEC = Dremp_C_CU= NULL
   Dremp_C_K = Dremp_C_MG = Dremp_C_N = Dremp_C_P = Dremp_C_PH = Dremp_C_S= NULL
   Dremp_C_ZN = Dremp_P_BC = Dremp_P_CEC = Dremp_P_CO = Dremp_P_CR = Dremp_P_DU= NULL
@@ -73,27 +73,20 @@ obic_evalmeasure <- function(dt.score) {
   setkey(dt.score, ID)
   
   # Pre-processing of effect table -----------------------------------------
-  # remove unnecessary rows
-  maatregel.obic <- maatregel.obic[filter == 1]
   
   # Relative importance of 11 measures
   #Prio_M <- rep(1, 11) # weight is 1 for all (= no priority)
-  Prio_M <- maatregel.obic$Prio_M[match(1:11, maatregel.obic[OBICvariable == ind_nm[1], maatregel_nr])]
+  Prio_M <- maatregel.obic[OBICvariable == ind_nm[1], Prio_M]
   names(Prio_M) <- paste0("M", 1:11)
+  
+  # Order of 11 measures (this matters when 2 measures get the same score (=tie))
+  order_M <- maatregel.obic[OBICvariable == ind_nm[1], Order]
+  names(order_M) <- paste0("M", 1:11)
   
   # Threshold values of indicators (above which positive effects of measure is not considered)
   # Ordered as in 'ind_nm'
   Dremp_value <- maatregel.obic$Dremp_S[match(ind_nm, maatregel.obic[maatregel_nr == 1, OBICvariable])]
   names(Dremp_value) <- nm
-  
-  # convert '=' and '-' to points
-  # TO DO: check if there is no other symbols used for Ef_M
-  maatregel.obic[Ef_M == "+++", Ef_M_v := 3]
-  maatregel.obic[Ef_M == "++", Ef_M_v := 2]
-  maatregel.obic[Ef_M == "+", Ef_M_v := 1]
-  maatregel.obic[Ef_M == "0", Ef_M_v := 0]
-  maatregel.obic[Ef_M == "nr", Ef_M_v := 0]
-  maatregel.obic[Ef_M == "-", Ef_M_v := -1]
   
   ## Calculation of scores of measures -----------------------------------------
   # Make a new datatable to store the effects of measures
@@ -108,17 +101,20 @@ obic_evalmeasure <- function(dt.score) {
     set(dt.recom, i = nr_blth, j = paste0("Dremp_", j), value = 1)
   }
   
-  
-  for (m in 1:length(unique(maatregel.obic$maatregel_nr))){ # for each measure m
+  # Calculate, for each measure m, the scores of 11 measures
+  # in the order as in "order_M" (the order matters when there are ties in the scores)
+  for (m in gsub('M', '', names(sort(order_M)))){ 
     # subset the effect table
     maatregel_sel <- subset(maatregel.obic,  maatregel_nr == m) 
     # drop the indicators which does not match the prescribed list 
     maatregel_sel<- maatregel_sel[grepl(paste0('^', ind_nm, '$', collapse = "|"), maatregel_sel$OBICvariable), ]
-    # check if all needed indicator variables are included. 
+    
+    ## check if there is missing data for any indicator (and if so, fill their effect as 0)
+    # (This part can be removed after checking that 'maatregel.obic' contains all combinations of 11 measures x indicators)
+    # check if all needed indicator variables are included.
     nmnr <- ind_nm[is.na(match(ind_nm, maatregel_sel$OBICvariable))] # name of missing indicators
     nrna <-  length(nmnr) # number of missings indicators
-    
-    # If some of the prescribed indicators are missing, fill their effect as 0
+    # fill their effect as 0
     if(nrna > 0){
       # show message on screen
       print(paste(nrna, "indicators are missing for measure", m, ':', paste(nmnr, collapse = ', ')))
@@ -254,7 +250,7 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   
   ## Chemical recommondations ------------------------------------------------  
   # Choose best 3 measures for chemical indicators
-  # In case of ties, the one with most left (i.e. smallest maatregel_nr) is taken first.
+  # In case of ties, the one with most left (i.e. smallest 'Order' value) is taken first.
   cols = colnames(dt.recom)[grepl("_S_C", colnames(dt.recom))]
   dt.recom[, first_C := colnames(.SD)[apply(.SD, 1, function(x) which(rank(x, ties.method = 'last') == length(cols)))], .SDcols = cols]
   dt.recom[, second_C := colnames(.SD)[apply(.SD, 1, function(x) which(rank(x, ties.method = 'last') == length(cols) - 1))], .SDcols = cols]
@@ -284,7 +280,7 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   
   ## Physical recommendations ------------------------------------------------
   # Choose best 3 measures for physical indicators
-  # In case of ties, the one with most left (i.e. smallest maatregel_nr) is taken first.
+  # In case of ties, the one with most left (i.e. smallest 'Order' value) is taken first.
   cols = colnames(dt.recom)[grepl("_S_P", colnames(dt.recom))]
   dt.recom[, first_P := colnames(.SD)[apply(.SD, 1, function(x) which(rank(x, ties.method = 'last') == length(cols)))], .SDcols = cols]
   dt.recom[, second_P := colnames(.SD)[apply(.SD, 1, function(x) which(rank(x, ties.method = 'last') == length(cols) - 1))], .SDcols = cols]
@@ -313,7 +309,7 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   
   ## Biological recommondations ----------------------------------------------
   # Choose best 3 measures for biological indicators
-  # In case of ties, the one with most left (i.e. smallest maatregel_nr) is taken first.
+  # In case of ties, the one with most left (i.e. smallest 'Order' value) is taken first.
   cols = colnames(dt.recom)[grepl("_S_B", colnames(dt.recom))]
   dt.recom[, first_B := colnames(.SD)[apply(.SD, 1, function(x) which(rank(x, ties.method = 'last') == length(cols)))], .SDcols = cols]
   dt.recom[, second_B := colnames(.SD)[apply(.SD, 1, function(x) which(rank(x, ties.method = 'last') == length(cols) - 1))], .SDcols = cols]

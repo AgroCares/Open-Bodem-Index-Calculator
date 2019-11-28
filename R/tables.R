@@ -55,15 +55,16 @@
 #' 
 #' This table defines the effects of 11 measures on soil indicators 
 #' 
-#' @format A data.frame with 303 rows and 16 columns:
+#' @format A data.frame with 254 rows and 20 columns:
 #' \describe{
 #'   \item{maatregel_nr}{The ID number of measure}
 #'   \item{omschrijving}{The description of measure}
 #'   \item{Prio_M}{weighing factor for measure. This is not used in the script.}
 #'   \item{Dremp_S}{Threshold value of the indicator value. This is not used in the script.}
+#'   \item{Order}{Order of measures. When scores are tie, the measure with a smaller number is chosen.}
+#'   \item{bodemfunctie}{description of the OBIC indicator varialbe}
 #'   \item{OBICvariable}{Name of OBIC soil indicator variable}
 #'   \item{Ef_M}{Effect of measure on soil indicator. +++/++/+/0/nr/-}
-#'   \item{filter}{whether the record is used (1) or unused (2)}
 #'   \item{melkveehouderij (alleen gras)}{Relevance of the effect on dairy farms (1/0)}
 #'   \item{melkveehouderij incl mais naast gras}{}
 #'   \item{akkerbouw}{Relevance of the effect on arable farms (1/0)}
@@ -73,5 +74,6 @@
 #'   \item{veen}{Relevance of the effect on peat (1/0)}
 #'   \item{zand}{Relevance of the effect on sand (1/0)}
 #'   \item{loss}{Relevance of the effect on loss (1/0)}
+#'   \item{Ef_M_v}{Effect of measure on soil indicator. 3/2/1/0/-1}
 #' }
 "maatregel.obic"
