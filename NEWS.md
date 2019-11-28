@@ -1,6 +1,9 @@
 # Changelog OBIC
 
 ## UNRELEASED 
+### Added
+* A relative score per reference group is added #31
+
 ### Changed
 * Update of crumbeability groups in `crops.obic`
 * Maximum value of A_MN_CC is increased from 30000 to 250000
@@ -14,6 +17,7 @@
 * The maximum score of `ind_management` is adjusted #38
 * The parameter values for sulphur on arable land is adjusted #41
 * The optimal pH for grassland depends now on organic matter content and presence of clover #42
+* The score aggragation is now 60% average of last 4 years and 40% of older years #31
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
