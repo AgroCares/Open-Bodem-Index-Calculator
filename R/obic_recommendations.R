@@ -137,11 +137,11 @@ obic_evalmeasure <- function(dt.score) {
     # Effect of the measure m based on crop type
     dt.recom[, (paste0("Ec_", nm)) := NA_real_] # initialization
     dt.recom[crop_maatregel == "melkveehouderij",
-             (paste0("Ec_", nm)) := as.list(maatregel_sel$melkveehouderij..alleen.gras.)]
+             (paste0("Ec_", nm)) := as.list(maatregel_sel$melkveehouderij_alleen_gras)]
     # dt.recom[crop_maatregel == "melkveehouderij" & D_CP_MAIS < 0.2,
-    #           (paste0("Ec_", nm)) := as.list(maatregel_sel$melkveehouderij..alleen.gras.)]
+    #           (paste0("Ec_", nm)) := as.list(maatregel_sel$melkveehouderij_alleen_gras)]
     # dt.recom[crop_maatregel == "melkveehouderij" & D_CP_MAIS >= 0.2,
-    #           (paste0("Ec_", nm)) := as.list(maatregel_sel$melkveehouderij.incl.mais.naast.gras)]
+    #           (paste0("Ec_", nm)) := as.list(maatregel_sel$melkveehouderij_incl_mais_naast_gras)]
     dt.recom[crop_maatregel == "akkerbouw",
              (paste0("Ec_", nm)) := as.list(maatregel_sel$akkerbouw)]
     dt.recom[crop_maatregel == "groenten",
