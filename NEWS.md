@@ -1,6 +1,9 @@
 # Changelog OBIC
 
 ## UNRELEASED 
+### Added
+* Adds the leaching of nitrogen to surface water and groundwater #17
+
 ### Changed
 * Update of crumbeability groups in `crops.obic`
 * Maximum value of A_MN_CC is increased from 30000 to 250000
