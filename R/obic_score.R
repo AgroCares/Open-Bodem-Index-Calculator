@@ -26,11 +26,11 @@ obic_score <- function(dt.ind) {
 
   # Aggregate per field
   col.sel <- colnames(dt.score)[grepl("ID|YEAR|^I_|^S_", colnames(dt.score))]
-  dt.aggr <- dt.score[, ..col.sel]
+  dt.aggr <- dt.score[, mget(col.sel)]
   dt.aggr[YEAR < max(YEAR) - 4, cf := 0.4, by = ID]
   dt.aggr[YEAR >= max(YEAR) - 4, cf := 0.6, by = ID]
   dt.aggr <- dt.aggr[, lapply(.SD, mean), by = list(ID, cf)]
-  dt.aggr <- dt.aggr[, lapply(.SD, function (x, cf) {mean(x * cf)}, cf), by = list(ID)]
+  dt.aggr <- dt.aggr[, lapply(.SD, function (x, cf) {sum(x * cf)}, cf), by = list(ID)]
 
   return(dt.aggr)
 }
