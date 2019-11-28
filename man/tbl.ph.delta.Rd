@@ -4,7 +4,7 @@
 \name{tbl.ph.delta}
 \alias{tbl.ph.delta}
 \title{Table with optimal pH for different crop plans}
-\format{A data.frame with 84 rows and 10 columns:
+\format{A data.frame with 136 rows and 10 columns:
 \describe{
   \item{table}{The original table from Hanboek Bodem en Bemesting}
   \item{lutum.low}{Lower value for A_CLAY_MI}
