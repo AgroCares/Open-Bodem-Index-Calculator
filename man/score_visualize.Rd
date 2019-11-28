@@ -7,11 +7,9 @@
 score_visualize(dt.score, id)
 }
 \arguments{
-\item{dt.score}{(dat.table)}
+\item{dt.score}{(data.table) The table containing the score calculated by \code{\link{obic_score}}}
 
 \item{id}{(integer) The id of the field to visualize the score}
-
-\item{dt.score.abs}{(data.table) The table containing the score calculated by \code{\link{score_absolute}}}
 }
 \description{
 Visualize the score of OBIC in absolute terms and relative terms

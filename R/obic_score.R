@@ -16,7 +16,7 @@ obic_score <- function(dt.ind) {
   dt.ind <- copy(dt.ind)
   
   # define variables used within the function
-  ID =  NULL
+  ID =  YEAR = col.sel = cf = NULL
   
   # Score on a absolute scale
   dt.score <- score_absolute(dt.ind)
@@ -25,10 +25,14 @@ obic_score <- function(dt.ind) {
   dt.score <- score_relative(dt.score)
 
   # Aggregate per field
-  col.sel <- colnames(dt.score)[grepl("ID|^I_|^S_", colnames(dt.score))]
-  dt.score <- dt.ind[, lapply(.SD, mean), by = ID, .SDcols = col.sel]
-  
-  return(dt.score)
+  col.sel <- colnames(dt.score)[grepl("ID|YEAR|^I_|^S_", colnames(dt.score))]
+  dt.aggr <- dt.score[, ..col.sel]
+  dt.aggr[YEAR < max(YEAR) - 4, cf := 0.4, by = ID]
+  dt.aggr[YEAR >= max(YEAR) - 4, cf := 0.6, by = ID]
+  dt.aggr <- dt.aggr[, lapply(.SD, mean), by = list(ID, cf)]
+  dt.aggr <- dt.aggr[, lapply(.SD, function (x, cf) {mean(x * cf)}, cf), by = list(ID)]
+
+  return(dt.aggr)
 }
 
 
@@ -80,10 +84,6 @@ score_absolute <- function(dt.ind) {
   # Calculate the total score
   dt.ind[, S_T_A := 0.35 * S_C_A + 0.35 * S_P_A + 0.2 * S_B_A + 0.1 * S_M_A]
   
-  # Aggregate per field over the last 10 years
-  # col.sel <- colnames(dt.ind)[grepl("ID|^I_|^S_", colnames(dt.ind))]
-  # dt.ind <- dt.ind[, lapply(.SD, mean), by = ID, .SDcols = col.sel]
-  
   # return only the indices and the scores
   return(dt.ind)
 }
@@ -100,7 +100,6 @@ score_absolute <- function(dt.ind) {
 #' This function calculates the relative scoring based on the score calculated by \code{\link{score_absolute}}
 #' 
 #' @param dt.score.abs (data.table) The table containing the score calculated by \code{\link{score_absolute}}
-#' @param id (integer) The id of the field to visualize the score
 #' 
 #' @import data.table
 #' 
@@ -112,7 +111,11 @@ score_relative <- function(dt.score.abs) {
   
   # make local copy
   dt.score.abs <- copy(dt.score.abs)
-
+  
+  group_id = V1 = col.sel = waterstress = yield_depression = NULL
+  S_C_R = S_P_R = S_B_R = S_M_R = S_T_R = NULL
+  S_C_A = S_P_A = S_B_A = S_M_A = S_T_A = NULL
+  
   # Join crop categories
   crops.obic <- as.data.table(OBIC::crops.obic)
   col.sel <- c("crop_code", "crop_waterstress")
@@ -127,7 +130,7 @@ score_relative <- function(dt.score.abs) {
 
   # Select columns to base the ranking on
   grouping <- c("YEAR", "yield_depression", "crop_waterstress", "B_BT_AK")
-  groups <- dt.score.rel2[, (count = .N), by = grouping]
+  groups <- dt.score[, (count = .N), by = grouping]
   groups[, group_id := 1:.N]
   groups[V1 < 10, group_id := -1]
 
@@ -144,7 +147,7 @@ score_relative <- function(dt.score.abs) {
   dt.score[, S_B_R := (S_B_R - min(S_B_R, na.rm = TRUE)) / (max(S_B_R, na.rm = TRUE) - min(S_B_R, na.rm = TRUE)), by = group_id]
   dt.score[, S_M_R := frank(S_M_A), by = group_id]
   dt.score[, S_M_R := (S_M_R - min(S_M_R, na.rm = TRUE)) / (max(S_M_R, na.rm = TRUE) - min(S_M_R, na.rm = TRUE)), by = group_id]
-  dt.score[, S_T_R := frank(S_T_R), by = group_id]
+  dt.score[, S_T_R := frank(S_T_A), by = group_id]
   dt.score[, S_T_R := (S_T_R - min(S_T_R, na.rm = TRUE)) / (max(S_T_R, na.rm = TRUE) - min(S_T_R, na.rm = TRUE)), by = group_id]
 
   return(dt.score)
@@ -155,12 +158,11 @@ score_relative <- function(dt.score.abs) {
 #' 
 #' Visualize the score of OBIC in absolute terms and relative terms
 #' 
-#' @param dt.score.abs (data.table) The table containing the score calculated by \code{\link{score_absolute}}
+#' @param dt.score (data.table) The table containing the score calculated by \code{\link{obic_score}}
 #' @param id (integer) The id of the field to visualize the score
 #' 
 #' @import data.table
 #' 
-#' @param dt.score (dat.table) 
 score_visualize <- function(dt.score, id) {
   
   # 

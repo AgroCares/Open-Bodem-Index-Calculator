@@ -8,8 +8,6 @@ score_relative(dt.score.abs)
 }
 \arguments{
 \item{dt.score.abs}{(data.table) The table containing the score calculated by \code{\link{score_absolute}}}
-
-\item{id}{(integer) The id of the field to visualize the score}
 }
 \description{
 This function calculates the relative scoring based on the score calculated by \code{\link{score_absolute}}
