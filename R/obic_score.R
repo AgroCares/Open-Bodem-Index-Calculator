@@ -16,7 +16,7 @@ obic_score <- function(dt.ind) {
   dt.ind <- copy(dt.ind)
   
   # define variables used within the function
-  ID =  YEAR = col.sel = cf = NULL
+  ID = YEAR = col.sel = cf = NULL
   
   # Score on a absolute scale
   dt.score <- score_absolute(dt.ind)
@@ -119,7 +119,7 @@ score_relative <- function(dt.score.abs) {
   # Join crop categories
   crops.obic <- as.data.table(OBIC::crops.obic)
   col.sel <- c("crop_code", "crop_waterstress")
-  dt.score <- merge(dt.score.abs, crops.obic[, ..col.sel], by.x = "B_LU_BRP", by.y = "crop_code", all.x = TRUE)
+  dt.score <- merge(dt.score.abs, crops.obic[, mget(col.sel)], by.x = "B_LU_BRP", by.y = "crop_code", all.x = TRUE)
 
   # Join the waterstress levels
   waterstress.obic <- as.data.table(OBIC::waterstress.obic)
@@ -136,7 +136,7 @@ score_relative <- function(dt.score.abs) {
 
   # Join the group_id to
   col.sel <- c(grouping, "group_id")
-  dt.score <- merge(dt.score, groups[, ..col.sel], by = grouping, all.x = TRUE)
+  dt.score <- merge(dt.score, groups[, mget(col.sel)], by = grouping, all.x = TRUE)
 
   # Rank the absolute values and scale them between 1 and 0
   dt.score[, S_C_R := frank(S_C_A), by = group_id]
