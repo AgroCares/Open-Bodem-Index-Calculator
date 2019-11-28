@@ -16,7 +16,7 @@
 calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   
   soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = cat_nleach = GT_Nleach = NULL
-  nleach_table = bodem = gewas = gt = filled = id = NULL
+  nleach_table = bodem = gewas = gt = nf = id = NULL
  
   # Load in the datasets
   soils.obic <- as.data.table(OBIC::soils.obic)
@@ -62,21 +62,16 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   dt[crop_category == "natuur" | crop_category == "akkerbouw" , croptype.nleach := "akkerbouw"]
   dt[crop_category == "grasland" , croptype.nleach := "gras"]
   
-  # Rename grondwatertrap categories 
-  dtcon <- data.table(B_GT = c("GtI", "GtII", "GtIII", "GtIV", "GtV",  "GtVI", "GtVII", "GtVIII", "unknown"),
-                      GT_Nleach = c( "GT1", "GT2", "GT3", "GT4", "GT5", "GT6", "GT7", "GT7", "unknown"))
-  dt <- merge(dt, dtcon, by = "B_GT")
-  
   
   # concatenate soil type ('soiltype.n'), crop type ('croptype.nleach'), and grondwatertrap ('GT_Nleach)
-  dt[, cat_nleach := tolower(paste(soiltype.n, croptype.nleach, GT_Nleach, sep = "_"))]
-  nleach_table[, cat_nleach := tolower(paste(bodem, gewas, gt, sep = "_"))]
+  dt[, cat_nleach := tolower(paste(soiltype.n, croptype.nleach, B_GT, sep = "_"))]
+  nleach_table[, cat_nleach := tolower(paste(bodem, gewas, B_GT, sep = "_"))]
   
   # merge fraction of N leaching into 'dt', based on soil type x crop type x grondwatertrap
-  dt <- merge(dt, nleach_table[, list(cat_nleach, filled)], by = 'cat_nleach', sort = FALSE, all.x = TRUE)
+  dt <- merge(dt, nleach_table[, list(cat_nleach, nf)], by = 'cat_nleach', sort = FALSE, all.x = TRUE)
   
   # compute (potential) N leaching to groundwater D_NGW (mgNO3/L/) or D_NOW (kgN/ha/year)
-  dt[, value := D_NLV * filled]
+  dt[, value := D_NLV * nf]
   # when Groundwatertrap is unknown, set N leaching as 0 <-- to be checked if this is okay,
   dt[B_GT == 'unknown', value := 0]
   # When NLV is negative (= net immobilization), no leaching is assumed
@@ -121,16 +116,12 @@ ind_nretention <- function(D_NW, leaching_to){
 #' 
 #' @format A data.frame with 99 rows and 10 columns:
 #' \describe{
-#'   \item{gt}{grondwatertrap}
 #'   \item{gewas}{crop type}
 #'   \item{bodem}{soil type}
-#'   \item{nloss}{Original values of N leaching fraction to groundwater (mgNO3/L per kgN overschot/ha/yr)}
-#'   \item{ghg}{Lower value for groundwater table}
-#'   \item{glg}{Upper value for groundwater table}
-#'   \item{nloss2}{Original values + manually assigned values (for GT1) of N leaching fraction to groundwater}
-#'   \item{pred}{Predicted value of N leaching fraction to groundwater}
-#'   \item{filled}{Original values + predicted values (for NA cells) of N leaching fraction to groundwater}
-#'   \item{orifill}{whether the value is the original ("model"), filled ("gevuld"), or manually assigned ("voorgeschreven"))}
+#'   \item{ghg}{Lower value for groundwater table (cm-mv)}
+#'   \item{glg}{Upper value for groundwater table (cm-mv)}
+#'   \item{B_GT}{grondwatertrap}
+#'   \item{nf}{N leaching fraction to groundwater (mg NO3/L per kg N overschot/ha/year)}
 #' }
 #' 
 #' 
@@ -142,16 +133,12 @@ ind_nretention <- function(D_NW, leaching_to){
 #' 
 #' @format A data.frame with 99 rows and 10 columns:
 #' \describe{
-#'   \item{gt}{grondwatertrap}
 #'   \item{gewas}{crop type}
 #'   \item{bodem}{soil type}
-#'   \item{nloss}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/yaer)}
-#'   \item{ghg}{Lower value for groundwater table}
-#'   \item{glg}{Upper value for groundwater table}
-#'   \item{nloss2}{Original values + manually assigned values (for GT1) of N leaching fraction to groundwater}
-#'   \item{pred}{Predicted value of N leaching fraction to groundwater}
-#'   \item{filled}{Original values + predicted values (for NA cells) of N leaching fraction to groundwater}
-#'   \item{orifill}{whether the value is the original ("model"), filled ("gevuld"), or manually assigned ("voorgeschreven"))}
+#'   \item{ghg}{Lower value for groundwater table (cm-mv)}
+#'   \item{glg}{Upper value for groundwater table (cm-mv)}
+#'   \item{B_GT}{grondwatertrap}
+#'   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year)}
 #' }
 #' 
 #' 
