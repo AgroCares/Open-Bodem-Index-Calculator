@@ -1,0 +1,30 @@
+---
+title: "Description of the columns for OBIC"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{description-of-the-columns}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(OBIC)
+```
+
+
+The main function of the package `obic()` requires as input a `data.table` with specific columns.
+These columns are specified in `OBIC::column_description.obic` and can also be seen in the table below
+
+
+```{r table}
+desc <- OBIC::column_description.obic
+knitr::kable(desc)
+```
