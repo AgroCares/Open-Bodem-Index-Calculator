@@ -14,22 +14,17 @@ obic_evalmeasure <- function(dt.score) {
   
   
   soiltype = soiltype.n = crop_waterstress = crop_maatregel = crop_code = ID = NULL
- Ef_M = Ef_M_v = maatregel_nr = OBICvariable = Order = NULL
-  Dremp_B_DI = Dremp_B_SB = Dremp_B_SF = Dremp_C_CEC = Dremp_C_CU= NULL
-  Dremp_C_K = Dremp_C_MG = Dremp_C_N = Dremp_C_P = Dremp_C_PH = Dremp_C_S= NULL
-  Dremp_C_ZN = Dremp_P_BC = Dremp_P_CEC = Dremp_P_CO = Dremp_P_CR = Dremp_P_DU= NULL
-  Dremp_P_MS = Dremp_P_SE = Dremp_P_WRI= NULL
-  Rel_C_CEC = Rel_C_CU = Rel_C_K = Rel_C_MG= NULL
-  Rel_C_N = Rel_C_P = Rel_C_PH = Rel_C_S = Rel_C_ZN = Rel_P_BC = Rel_P_CEC = Rel_P_CO= NULL
+  Ef_M_v = maatregel_nr = OBICvariable = Order = NULL
+  Dremp_B_DI = Dremp_B_SB = Dremp_B_SF = Dremp_C_CEC = Dremp_C_CU  = NULL
+  Dremp_C_K = Dremp_C_MG = Dremp_C_N = Dremp_C_P = Dremp_C_PH = Dremp_C_S = NULL
+  Dremp_C_ZN = Dremp_P_BC = Dremp_P_CEC = Dremp_P_CO = Dremp_P_CR = Dremp_P_DU = NULL
+  Dremp_P_MS = Dremp_P_SE = Dremp_P_WRI = NULL
+  Rel_C_CEC = Rel_C_CU = Rel_C_K = Rel_C_MG = NULL
+  Rel_C_N = Rel_C_P = Rel_C_PH = Rel_C_S = Rel_C_ZN = Rel_P_BC = Rel_P_CEC = Rel_P_CO = NULL
   Rel_P_CR = Rel_P_DU = Rel_P_MS = Rel_P_SE = Rel_P_WRI = Rel_B_DI = Rel_B_SF = Rel_B_SB = NULL
-  M1_S_C = M2_S_C = M3_S_C = M4_S_C = M5_S_C = M6_S_C = M7_S_C = M8_S_C = M9_S_C = M10_S_C = M11_S_C = NULL
-  M1_S_P = M2_S_P = M3_S_P = M4_S_P = M5_S_P = M6_S_P = M7_S_P = M8_S_P = M9_S_P = M10_S_P = M11_S_P = NULL
-  M1_S_B = M2_S_B = M3_S_B = M4_S_B = M5_S_B = M6_S_B = M7_S_B = M8_S_B = M9_S_B = M10_S_B = M11_S_B = NULL
   M_C_N = M_C_P = M_C_K = M_C_MG = M_C_S = M_C_PH = M_C_CEC = M_C_CU = M_C_ZN = NULL
   M_P_CR = M_P_SE = M_P_MS = M_P_BC = M_P_DU = M_P_CO = M_P_CEC = M_P_WRI = NULL
   M_B_DI = M_B_SF = M_B_SB = NULL
-
-  # other (temporal) variables to be nullified:  Ec_nm], Es_nm], Rel_nm], M[m]_[nm]
   
   ## Settings------------------------------------------------------------
 
@@ -37,7 +32,7 @@ obic_evalmeasure <- function(dt.score) {
   nm <- c( "C_N","C_P","C_K","C_MG","C_S","C_PH","C_CEC","C_CU","C_ZN",
            "P_CR","P_SE","P_MS","P_BC","P_DU","P_CO","P_WRI","P_CEC",
            "B_DI","B_SF","B_SB")
-  # name of indicator variables which are usred to calculate integrated scores (e.g. I_C_N)
+  # name of indicator variables which are used to calculate integrated scores (e.g. I_C_N)
   ind_nm <- paste0("I_", nm)
   
   ## Load in the datasets ------------------------------------------------
@@ -48,7 +43,6 @@ obic_evalmeasure <- function(dt.score) {
   
   # effects of measures
   maatregel.obic <- as.data.table(OBIC::maatregel.obic)
-  #load('data/maatregel_obic.RData')
   
   # crop categories
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -67,7 +61,7 @@ obic_evalmeasure <- function(dt.score) {
   crops.obic[grepl('grasland zonder herinzaai|grasland met herinzaai|natuur', crop_waterstress), crop_maatregel := "melkveehouderij"]
   crops.obic[grepl('granen|suikerbiet|aardappel|snijmais|overig', crop_waterstress), crop_maatregel := "akkerbouw"]
   crops.obic[grepl('bladgroenten|wintergroenten|zomergroenten|bloembollen', crop_waterstress), crop_maatregel := "groenten"]
-  crops.obic[grepl('boomteelt|overig boomteelt|groot fruit|klein fruit', crop_waterstress), crop_maatregel := "boomtelt"]
+  crops.obic[grepl('boomteelt|overig boomteelt|groot fruit|klein fruit', crop_waterstress), crop_maatregel := "boomteelt"]
   setkey(crops.obic, crop_code)
   dt.score <- merge(dt.score, crops.obic[, list(crop_code, crop_maatregel)], by.x = "B_LU_BRP", by.y = "crop_code")
   setkey(dt.score, ID)
@@ -75,7 +69,6 @@ obic_evalmeasure <- function(dt.score) {
   # Pre-processing of effect table -----------------------------------------
   
   # Relative importance of 11 measures
-  #Prio_M <- rep(1, 11) # weight is 1 for all (= no priority)
   Prio_M <- maatregel.obic[OBICvariable == ind_nm[1], Prio_M]
   names(Prio_M) <- paste0("M", 1:11)
   
@@ -97,7 +90,7 @@ obic_evalmeasure <- function(dt.score) {
   dt.recom[, (paste0("Dremp_", nm)) := 0] # initialization
   for(j in nm){ # loop over all indicators
     col = paste0("I_", j)
-    nr_blth <- which(dt.recom[,..col] < Dremp_value[j]) # row number in which indicator value is below the threshold
+    nr_blth <- which(dt.recom[, mget(col)] < Dremp_value[j]) # row number in which indicator value is below the threshold
     set(dt.recom, i = nr_blth, j = paste0("Dremp_", j), value = 1)
   }
   
@@ -107,7 +100,7 @@ obic_evalmeasure <- function(dt.score) {
     # subset the effect table
     maatregel_sel <- subset(maatregel.obic,  maatregel_nr == m) 
     # drop the indicators which does not match the prescribed list 
-    maatregel_sel<- maatregel_sel[grepl(paste0('^', ind_nm, '$', collapse = "|"), maatregel_sel$OBICvariable), ]
+    maatregel_sel <- maatregel_sel[grepl(paste0('^', ind_nm, '$', collapse = "|"), maatregel_sel$OBICvariable), ]
     
     ## check if there is missing data for any indicator (and if so, fill their effect as 0)
     # (This part can be removed after checking that 'maatregel.obic' contains all combinations of 11 measures x indicators)
@@ -190,9 +183,9 @@ obic_evalmeasure <- function(dt.score) {
     
     ## Physical indicators ##
     # Calculate score of the measure for each physical indicators
-    dt.recom[, M_P_CR :=  w$W_P_CR * (Rel_P_CR * pEF_M["P_CR"] * Dremp_P_CR + Rel_P_CR * nEF_M["P_CR"])]
-    dt.recom[, M_P_SE :=  w$W_P_SE * (Rel_P_SE * pEF_M["P_SE"] * Dremp_P_SE + Rel_P_SE * nEF_M["P_SE"])]
-    dt.recom[, M_P_MS :=  w$W_P_MS * (Rel_P_MS * pEF_M["P_MS"] * Dremp_P_MS + Rel_P_MS * nEF_M["P_MS"])] 
+    dt.recom[, M_P_CR := w$W_P_CR * (Rel_P_CR * pEF_M["P_CR"] * Dremp_P_CR + Rel_P_CR * nEF_M["P_CR"])]
+    dt.recom[, M_P_SE := w$W_P_SE * (Rel_P_SE * pEF_M["P_SE"] * Dremp_P_SE + Rel_P_SE * nEF_M["P_SE"])]
+    dt.recom[, M_P_MS := w$W_P_MS * (Rel_P_MS * pEF_M["P_MS"] * Dremp_P_MS + Rel_P_MS * nEF_M["P_MS"])] 
     dt.recom[, M_P_BC := w$W_P_BC * (Rel_P_BC * pEF_M["P_BC"] * Dremp_P_BC + Rel_P_BC * nEF_M["P_BC"])]
     dt.recom[, M_P_DU := w$W_P_DU * (Rel_P_DU * pEF_M["P_DU"] * Dremp_P_DU + Rel_P_DU * nEF_M["P_DU"])]
     dt.recom[, M_P_CO := w$W_P_CO * (Rel_P_CO * pEF_M["P_CO"] * Dremp_P_CO + Rel_P_CO * nEF_M["P_CO"])] 
