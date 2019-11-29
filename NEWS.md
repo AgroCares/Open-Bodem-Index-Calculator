@@ -3,6 +3,7 @@
 ## UNRELEASED 
 ### Added
 * Adds the leaching of nitrogen to surface water and groundwater #17
+* Adds a table with the description of the columns and a vignette about it
 
 ### Changed
 * Update of crumbeability groups in `crops.obic`
