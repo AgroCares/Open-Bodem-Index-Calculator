@@ -1,6 +1,10 @@
 # Changelog OBIC
 
 ## UNRELEASED 
+### Added
+* Adds the evaluation of measures #37
+* Adds giving recommendations based on the OBI score #37
+
 ### Changed
 * Update of crumbeability groups in `crops.obic`
 * Maximum value of A_MN_CC is increased from 30000 to 250000
