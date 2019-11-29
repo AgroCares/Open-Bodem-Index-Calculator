@@ -15,8 +15,8 @@
 #' @export
 calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   
-  soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = cat_nleach = GT_Nleach = NULL
-  nleach_table = bodem = gewas = gt = nf = id = NULL
+  soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = NULL
+  nleach_table = bodem = gewas = nf = id = leaching_to_set = NULL
  
   # Load in the datasets
   soils.obic <- as.data.table(OBIC::soils.obic)
@@ -25,13 +25,8 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   setkey(crops.obic, crop_code)
   
   # Read table of N leaching fraction
-  if (leaching_to == 'gw') {
-    # Groundwater
-    nleach_table <- as.data.table(OBIC::nleach_gw_table)
-  } else if (leaching_to == 'ow') {
-    # Surface water
-    nleach_table <- as.data.table(OBIC::nleach_ow_table)
-  }
+  nleach_table <- as.data.table(OBIC::nleach_table)
+  nleach_table <- nleach_table[leaching_to_set == leaching_to]
   
   # Check input
   arg.length <- max(length(B_BT_AK),length(B_LU_BRP), length(B_GT),
@@ -62,13 +57,8 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   dt[crop_category == "natuur" | crop_category == "akkerbouw" , croptype.nleach := "akkerbouw"]
   dt[crop_category == "grasland" , croptype.nleach := "gras"]
   
-  
-  # concatenate soil type ('soiltype.n'), crop type ('croptype.nleach'), and grondwatertrap ('GT_Nleach)
-  dt[, cat_nleach := tolower(paste(soiltype.n, croptype.nleach, B_GT, sep = "_"))]
-  nleach_table[, cat_nleach := tolower(paste(bodem, gewas, B_GT, sep = "_"))]
-  
   # merge fraction of N leaching into 'dt', based on soil type x crop type x grondwatertrap
-  dt <- merge(dt, nleach_table[, list(cat_nleach, nf)], by = 'cat_nleach', sort = FALSE, all.x = TRUE)
+  dt <- merge(dt, nleach_table[, list(bodem, gewas, B_GT, nf)], by.x = c("soiltype.n", "croptype.nleach", "B_GT"), by.y = c("bodem", "gewas", "B_GT"), sort =FALSE, all.x = TRUE)
   
   # compute (potential) N leaching to groundwater D_NGW (mgNO3/L/) or D_NOW (kgN/ha/year)
   dt[, value := D_NLV * nf]
@@ -143,3 +133,21 @@ ind_nretention <- function(D_NW, leaching_to){
 #' 
 #' 
 "nleach_ow_table"
+
+#' Table with fractions of excess N which runs off to groundwater and surface water
+#' 
+#' This table contains the fractions of N overshot which runs off to groundwater / surface water, per soil type, crop type, and groundwater table
+#' 
+#' @format A data.frame with 198 rows and 11 columns:
+#' \describe{
+#'   \item{gewas}{crop type}
+#'   \item{bodem}{soil type}
+#'   \item{ghg}{Lower value for groundwater table (cm-mv)}
+#'   \item{glg}{Upper value for groundwater table (cm-mv)}
+#'   \item{B_GT}{grondwatertrap}
+#'   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year) or groundwater (mg NO3/L per kg N overschot/ha/year)}
+#'   \item{leaching_to-set}{Tells if leaching to ground water or surface water)}
+#' }
+#' 
+#' 
+"nleach_table"

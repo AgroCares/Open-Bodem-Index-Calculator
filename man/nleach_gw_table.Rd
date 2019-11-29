@@ -6,16 +6,12 @@
 \title{Table with fractions of excess N which leaches out to groundwater}
 \format{A data.frame with 99 rows and 10 columns:
 \describe{
-  \item{gt}{grondwatertrap}
   \item{gewas}{crop type}
   \item{bodem}{soil type}
-  \item{nloss}{Original values of N leaching fraction to groundwater (mgNO3/L per kgN overschot/ha/yr)}
-  \item{ghg}{Lower value for groundwater table}
-  \item{glg}{Upper value for groundwater table}
-  \item{nloss2}{Original values + manually assigned values (for GT1) of N leaching fraction to groundwater}
-  \item{pred}{Predicted value of N leaching fraction to groundwater}
-  \item{filled}{Original values + predicted values (for NA cells) of N leaching fraction to groundwater}
-  \item{orifill}{whether the value is the original ("model"), filled ("gevuld"), or manually assigned ("voorgeschreven"))}
+  \item{ghg}{Lower value for groundwater table (cm-mv)}
+  \item{glg}{Upper value for groundwater table (cm-mv)}
+  \item{B_GT}{grondwatertrap}
+  \item{nf}{N leaching fraction to groundwater (mg NO3/L per kg N overschot/ha/year)}
 }}
 \usage{
 nleach_gw_table
