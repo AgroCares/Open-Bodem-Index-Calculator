@@ -100,40 +100,6 @@ ind_nretention <- function(D_NW, leaching_to){
   return(value)
 }
 
-#' Table with fractions of excess N which leaches out to groundwater
-#' 
-#' This table contains the fractions of N overshot which leaches out to groundwater, per soil type, crop type, and groundwater table
-#' 
-#' @format A data.frame with 99 rows and 10 columns:
-#' \describe{
-#'   \item{gewas}{crop type}
-#'   \item{bodem}{soil type}
-#'   \item{ghg}{Lower value for groundwater table (cm-mv)}
-#'   \item{glg}{Upper value for groundwater table (cm-mv)}
-#'   \item{B_GT}{grondwatertrap}
-#'   \item{nf}{N leaching fraction to groundwater (mg NO3/L per kg N overschot/ha/year)}
-#' }
-#' 
-#' 
-"nleach_gw_table"
-
-#' Table with fractions of excess N which runs off to surface water
-#' 
-#' This table contains the fractions of N overshot which runs off to groundwater, per soil type, crop type, and groundwater table
-#' 
-#' @format A data.frame with 99 rows and 10 columns:
-#' \describe{
-#'   \item{gewas}{crop type}
-#'   \item{bodem}{soil type}
-#'   \item{ghg}{Lower value for groundwater table (cm-mv)}
-#'   \item{glg}{Upper value for groundwater table (cm-mv)}
-#'   \item{B_GT}{grondwatertrap}
-#'   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year)}
-#' }
-#' 
-#' 
-"nleach_ow_table"
-
 #' Table with fractions of excess N which runs off to groundwater and surface water
 #' 
 #' This table contains the fractions of N overshot which runs off to groundwater / surface water, per soil type, crop type, and groundwater table
