@@ -1,6 +1,6 @@
 # Changelog OBIC
 
-## UNRELEASED 
+## Version 0.10.0 UNRELEASED 
 ### Added
 * Adds the leaching of nitrogen to surface water and groundwater #17
 * Adds a table with the description of the columns and a vignette about it #46
