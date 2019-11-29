@@ -52,6 +52,9 @@ calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
   fun.cor.A_PH_CC <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_PH_CC, rule = 2)
   dt[is.na(value) & A_PH_CC < 7, cor.A_PH_CC := fun.cor.A_PH_CC(A_CLAY_MI)]
   dt[is.na(value) & A_PH_CC >= 7, cor.A_PH_CC := 0]
+  
+  # Limit the value to 10
+  dt[value > 10, value := 10]
 
   # Calculate the value
   dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV - cor.A_PH_CC]
