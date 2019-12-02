@@ -94,15 +94,46 @@ calc_nlv <- function(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA) {
 #' This function calculates the indicator for the the nitrogen content of the soil by using the NLV calculated by \code{\link{calc_nlv}}
 #' 
 #' @param D_NLV (numeric) The value of NLV  calculated by \code{\link{calc_nlv}}
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
 #' @export
-ind_nitrogen <- function(D_NLV) {
+ind_nitrogen <- function(D_NLV, B_LU_BRP) {
+  
+  # Load in the datasets for crop types
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  setkey(crops.obic, crop_code)
+  
+  crop_code = crop_n = id = NULL
   
   # Check inputs
+  arg.length <- max(length(D_NLV),length(B_LU_BRP))
   checkmate::assert_numeric(D_NLV, lower = -30, upper = 250, any.missing = FALSE)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
-  # Evaluate the nitrogen
-  value <- OBIC::evaluate_parabolic(D_NLV, x.top = 120)
+  # make data.table to save scores
+  dt = data.table(
+    id = 1:arg.length,
+    D_NLV = D_NLV,
+    B_LU_BRP = B_LU_BRP,
+    value = NA_real_
+  )
+  
+  # add crop names
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_n)], by.x = "B_LU_BRP", by.y = "crop_code")
+  
+  # Evaluate N availability for arable land -----
+  dt.arable <- dt[crop_n == "akkerbouw"]
+  dt.arable[,value := OBIC::evaluate_parabolic(D_NLV, x.top = 100)]
+  
+  # Evaluate N availability for grassland  ----- 
+  dt.grass <- dt[crop_n == "gras"]
+  dt.grass[,value := OBIC::evaluate_parabolic(D_NLV, x.top = 140)]
+  
+  # Combine both tables and extract values
+  dt <- rbindlist(list(dt.grass, dt.arable), fill = TRUE)
+  setorder(dt, id)
+  value <- dt[, value]
   
   # return output
   return(value)
