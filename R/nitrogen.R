@@ -103,6 +103,8 @@ ind_nitrogen <- function(D_NLV, B_LU_BRP) {
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
   
+  crop_code = crop_n = id = NULL
+  
   # Check inputs
   arg.length <- max(length(D_NLV),length(B_LU_BRP))
   checkmate::assert_numeric(D_NLV, lower = -30, upper = 250, any.missing = FALSE)
