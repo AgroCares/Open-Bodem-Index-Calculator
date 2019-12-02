@@ -4,6 +4,8 @@
 ### Added
 * Adds the evaluation of measures #37
 * Adds giving recommendations based on the OBI score #37
+* Adds the leaching of nitrogen to surface water and groundwater #17
+* Adds a table with the description of the columns and a vignette about it #46
 
 ### Changed
 * Update of crumbeability groups in `crops.obic`
@@ -18,6 +20,7 @@
 * The maximum score of `ind_management` is adjusted #38
 * The parameter values for sulphur on arable land is adjusted #41
 * The optimal pH for grassland depends now on organic matter content and presence of clover #42
+* The maximum value for D_CR is limited to 10 #47
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
