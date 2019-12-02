@@ -178,7 +178,7 @@ ind_potassium <- function(D_K,B_LU_BRP,B_BT_AK,A_OS_GV) {
   
   # Evaluate the K availability for maize (CBGV, 2019)
   dt.maize <- dt[crop_category == 'mais']
-  dt.maize[, value := evaluate_logistic(D_K, b = 25, x0 = 0.9, v = 8)]
+  dt.maize[, value := evaluate_logistic(D_K, b = 8, x0 = 2.5, v = 8)]
   
   # Evaluate the K availability for arable crops (Ros & Bussink, 2011)
   dt.arable <- dt[crop_category == 'akkerbouw']
