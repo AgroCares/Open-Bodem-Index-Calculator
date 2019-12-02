@@ -19,6 +19,7 @@
 * The parameter values for sulphur on arable land is adjusted #41
 * The optimal pH for grassland depends now on organic matter content and presence of clover #42
 * The maximum value for D_CR is limited to 10 #47
+* The parameters for the evaluation for `I_C_K` is set to the same as grassland #51
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
