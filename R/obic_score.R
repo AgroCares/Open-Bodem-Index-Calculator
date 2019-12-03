@@ -3,11 +3,12 @@
 #' This wrapper function contains the functions to perform the scoring
 #' 
 #' @param dt.ind (data.table) The table containg the data needed for OBI
+#' @param add_relative_score (logical) Should the relative score be calculated? Defaults to TRUE
 #' 
 #' @import data.table
 #' 
 #' @export
-obic_score <- function(dt.ind) {
+obic_score <- function(dt.ind, add_relative_score) {
 
   # Check inputs
   checkmate::assert_data_table(dt.ind)
@@ -21,8 +22,13 @@ obic_score <- function(dt.ind) {
   # Score on a absolute scale
   dt.score <- score_absolute(dt.ind)
   
-  # Score on a relative scale
-  dt.score <- score_relative(dt.score)
+  if (add_relative_score) {
+    
+    # Score on a relative scale
+    dt.score <- score_relative(dt.score)
+    
+  }
+
 
   # Aggregate per field
   col.sel <- colnames(dt.score)[grepl("ID|YEAR|^I_|^S_", colnames(dt.score))]
