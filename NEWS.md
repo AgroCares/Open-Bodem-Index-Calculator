@@ -5,6 +5,7 @@
 * A relative score per reference group is added #31
 * Adds the leaching of nitrogen to surface water and groundwater #17
 * Adds a table with the description of the columns and a vignette about it #46
+* Adds scoring for environmental performance #31
 
 ### Changed
 * Update of crumbeability groups in `crops.obic`
