@@ -126,7 +126,7 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   checkmate::assert_data_table(dt.recom)
   
   # set variables as NULL
-  Order = maatregel_nr = ID = sid = m.adv = NULL
+  m_order = m_nr = ID = sid = m.adv = NULL
   TH_M_S_C = TH_M_S_P = TH_M_S_B = NULL
   FS_M_S_C = FS_M_S_P = FS_M_S_B = NULL
   
@@ -188,4 +188,4 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
 #' This table defines the effects of 11 measures on soil indicators. 
 #' This table is used internally in \code{\link{obic_evalmeasure}}
 #' 
-"maatregel.obic"
+"recom.obic"
