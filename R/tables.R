@@ -77,3 +77,18 @@
 #'   \item{Ef_M_v}{Effect of measure on soil indicator. 3/2/1/0/-1}
 #' }
 "maatregel.obic"
+
+#' Column description for the OIC
+#' 
+#' This table defines the columns used in the OBIC and which unit is used
+#' 
+#' @format A data.frame with 126 rows and 6 columns:
+#' \describe{
+#'   \item{column}{The column name used in OBIC}
+#'   \item{type}{The type of column}
+#'   \item{description_nl}{A description of the column in Dutch}
+#'   \item{description_en}{A description of the column in English}
+#'   \item{unit}{The unit used for this column}
+#'   \item{method}{The method to measure/obtain the values for this column}
+#' }
+"column_description.obic"

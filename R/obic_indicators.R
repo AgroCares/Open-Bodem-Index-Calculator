@@ -20,10 +20,12 @@ obic_indicators<- function(dt.ppr) {
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_CEC = NULL
+  I_E_NGW = I_E_NOW = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
   D_ZN = D_CU = D_CR = NULL
-  D_SE = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_C_CEC = D_P_CEC = D_K =  NULL
-  D_WSI = D_P_WRI = D_PMN = D_BCS = NULL
+  D_SE = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_C_CEC = D_P_CEC = D_K = NULL
+  D_WSI = D_P_WRI = D_PMN = D_BCS = D_NGW = D_NOW = NULL
+  leaching_to = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -97,6 +99,14 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_M := ind_management(D_MAN, B_LU_BRP, B_BT_AK)]
   
   dt.ppr[, I_BCS := ind_bcs(D_BCS)]
+  
+  # Evaluate Environmental ------------------------------------------------------
+  
+  # N retention groundwater
+  dt.ppr[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
+  
+  # N retention surfacewater
+  dt.ppr[, I_E_NOW := ind_nretention(D_NOW, leaching_to = "ow")]
   
   # return the updated object
   return(dt.ppr)
