@@ -114,7 +114,7 @@ obic_evalmeasure <- function(dt.score) {
 #' 
 #' This function gives recommendations better soil management based on the OBI score
 #' 
-#' @param dt.recom (data.table) Teh results from \code{\link{obic_evalmeasure}}
+#' @param dt.recom (data.table) The results from \code{\link{obic_evalmeasure}}
 #' @param extensive (boolean) whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures
 #' 
 #' @import data.table
