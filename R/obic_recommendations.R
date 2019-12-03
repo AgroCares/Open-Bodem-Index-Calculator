@@ -50,6 +50,64 @@ obic_evalmeasure <- function(dt.score) {
     dt.score <- merge(dt.score, crops.obic[, list(crop_code, crop_maatregel)], by.x = "B_LU_BRP", by.y = "crop_code")
     setkey(dt.score, ID)
     
+  # redesign measures db to make it suitable for joining -----
+    
+    # drop indicators from measure db that are not present in dt.score
+    mdb1 <- maatregel.obic[OBICvariable %in% colnames(dt.score)]
+    
+    # replace two NA values in database (reason why missing is unknown)
+    cols <- colnames(mdb1)[grepl('melk',colnames(mdb1))]
+    mdb1[,(cols) := lapply(.SD,function(x) fifelse(is.na(x),0,x)),.SDcols = cols]
+    
+    # drop descriptive columns that are not needed
+    cols <- colnames(mdb1)[grepl('omschr|Bodemfunct',colnames(mdb1))]
+    mdb1[,c(cols) := NULL]
+    
+    # check if there is missing data for any indicator
+    cols <- colnames(dt.score)[grepl('^I_C_|^I_B|^I_P_',colnames(dt.score))]
+    cols <- cols[!cols %in% unique(mdb1$OBICvariable)]
+    
+    # make temporary data.table with for each unknown indicator a zero impact measure
+    ind.miss <- CJ(maatregel_nr = 1:max(mdb1$maatregel_nr), OBICvariable = cols)
+    ind.add  <- merge(unique(mdb1[,c(1:2,4)]),ind.miss,by='maatregel_nr')
+    
+    # add missing columns with value 0, and a tresshold value of 0.5
+    cols <- colnames(mdb1)[grepl('melk|groente|akker|boom|klei|veen|zand|loss|Ef',colnames(mdb1))]
+    ind.add[,c(cols) := 0]
+    ind.add[,Dremp_S := 0.5]
+    
+    # rbind these new values with the original measures table
+    mdb2 <- rbind(mdb1,ind.add,fill = T)
+    
+    # reshape mdb: agricultural sector from columns to rows
+    cols_m <- colnames(mdb2)[grepl('melkvee|akker|groente|boom',colnames(mdb2))]
+    cols_i <- colnames(mdb2)[!colnames(mdb2) %in% cols_m]
+    mdb3 <- melt(mdb2,id.vars = cols_i, measure.vars = cols_m, variable.name = 'sector',
+                 value.name = 'app1',variable.factor = FALSE)
+    
+    # reshape mdb: soil type from columns to rows
+    cols_m <- colnames(mdb3)[grepl('klei|veen|zand|loss',colnames(mdb3))]
+    cols_i <- colnames(mdb3)[!colnames(mdb3) %in% cols_m]
+    mdb3 <- melt(mdb3,id.vars = cols_i, measure.vars = cols_m, variable.name = 'grondsoort',
+                 value.name = 'app2',variable.factor = FALSE)
+    
+    # take combined applicability for sector and soil type 
+    mdb3[,app := pmin(app1,app2)]
+    mdb3[,c('app1','app2') := NULL]
+    
+    # remove one option for melkveehouderij (is not used) and rename sector to options in crop_maatregel
+    mdb3 <- mdb3[sector != 'melkveehouderij_incl_mais_naast_gras']
+    mdb3[grepl('melkv',sector),sector := 'melkveehouderij']
+    
+    # adjust soil type loss
+    mdb3[grondsoort == 'loss', grondsoort := 'loess']
+    
+    # reset names and set key
+    setnames(mdb3,'OBICvariable','indicator')
+    setkey(mdb3,indicator,sector,grondsoort)
+    
+    # remove temporary databases
+    rm(mdb1,mdb2,cols,cols_m,cols_i,ind.add,ind.miss,maatregel.obic,soils.obic,crops.obic)
     
   
   return(dt.recom)
