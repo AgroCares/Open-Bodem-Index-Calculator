@@ -109,8 +109,60 @@ obic_evalmeasure <- function(dt.score) {
     # remove temporary databases
     rm(mdb1,mdb2,cols,cols_m,cols_i,ind.add,ind.miss,maatregel.obic,soils.obic,crops.obic)
     
-  
-  return(dt.recom)
+  # Make a new datatable to store the effects of measures -----
+    
+    # add local copy of the input
+    dt.recom <- copy(dt.score) 
+    
+    # melt the database
+    cols_m <- colnames(dt.recom)[grepl('^I_C_|^I_P_|^I_B_',colnames(dt.recom))]
+    cols_i <- colnames(dt.recom)[grepl('^B_|^ID$|soil|crop',colnames(dt.recom))]
+    dt.recom <- melt(dt.recom,id.vars = cols_i,measure.vars = cols_m,variable.name = 'indicator', value.name='score')
+    
+    # join with weighing factor
+    w[,indicator := gsub('W_','I_',var)]
+    dt.recom <- merge(dt.recom,w[,c('indicator','weight')],by='indicator',all.x = TRUE)
+    
+    # reset names and set key
+    setnames(dt.recom,c('crop_maatregel','soiltype.n'),c('sector','grondsoort'))
+    setkey(dt.recom,indicator,sector,grondsoort)
+    
+  # join measures and calcualte score ------
+    
+    # join each parcel with possible measures (join by sector, soil type and indicator)
+    dt.recom2 <- mdb3[dt.recom,allow.cartesian=TRUE]
+    
+    # filter only those measures where the score is below the thresshold value
+    dt.recom2[, tresshold := fifelse(score <= Dremp_S & score >= 0,1,0)]
+    
+    # calculate the score of the measure for each indicator
+    dt.recom2[,score.m := weight * app * (pmax(0,Ef_M_v) * tresshold + pmin(0,Ef_M_v))]
+    
+    # add three groups of soil functions
+    dt.recom2[grepl('^I_C_',indicator), grp := 'M_S_C']
+    dt.recom2[grepl('^I_B_',indicator), grp := 'M_S_B']
+    dt.recom2[grepl('^I_P_',indicator), grp := 'M_S_P']
+    
+    # add priority to the score, just before calculating score per group
+    dt.recom2[,score.mp := Prio_M * score.m]
+    
+    # extract relevant columns and dcast effect of measures on indices per parcel
+    cols <- c('ID','maatregel_nr','indicator','score.m')
+    dt.meas.ind <- dt.recom2[,mget(cols)]
+    dt.meas.ind[, m.effect := gsub('I_','M_',indicator)]
+    dt.meas.ind[, score.m := round(score.m,2)]
+    dt.meas.ind <- dcast(dt.meas.ind,ID + maatregel_nr ~ m.effect, value.var = 'score.m')
+    
+    # calculate the total score for each measure, and count the number of indices exceeding thresshold
+    dt.meas.tot <- dt.recom2[,lapply(.SD,sum),.SDcols = c('score.mp','tresshold'),by=.(ID,maatregel_nr,grp)]
+    setnames(dt.meas.tot,c('ID','maatregel_nr','grp','FS','TH'))
+    dt.meas.tot <- dcast(dt.meas.tot,ID + maatregel_nr ~ grp, value.var = c('FS','TH'))
+    
+    # combine total score and individual scores per measure and parcel
+    dt.final <- merge(dt.meas.ind,dt.meas.tot,by=c('ID','maatregel_nr'))
+    
+    # terurn final db
+    return(dt.final)
 }
 
 
