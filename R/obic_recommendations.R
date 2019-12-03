@@ -102,6 +102,9 @@ obic_evalmeasure <- function(dt.score) {
     # combine total score and individual scores per measure and parcel
     dt.final <- merge(dt.meas.ind,dt.meas.tot,by=c('ID','m_nr'))
     
+    # add priority for those situations that measures have equal score
+    dt.final <- merge(dt.final,unique(mdb1[,c('m_nr','m_order')]),by='m_nr')
+    
     # terurn final db
     return(dt.final)
 }
