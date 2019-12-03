@@ -127,7 +127,7 @@ obic_evalmeasure <- function(dt.score) {
     setnames(dt.recom,c('crop_maatregel','soiltype.n'),c('sector','grondsoort'))
     setkey(dt.recom,indicator,sector,grondsoort)
     
-  # join measures and calcualte score ------
+  # join measures and calculate score ------
     
     # join each parcel with possible measures (join by sector, soil type and indicator)
     dt.recom2 <- mdb3[dt.recom,allow.cartesian=TRUE]
@@ -168,7 +168,7 @@ obic_evalmeasure <- function(dt.score) {
 
 #' Recommend measurements for better soil managment
 #' 
-#' This function gives recommendations better soil managament based on the OBI score
+#' This function gives recommendations better soil management based on the OBI score
 #' 
 #' @param dt.recom (data.table) 
 #' @param extensive (boolean) whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures
@@ -178,8 +178,63 @@ obic_evalmeasure <- function(dt.score) {
 #' @export
 obic_recommendations <- function(dt.recom, extensive = FALSE) {
   
- 
+  # Check inputs
+  checkmate::assert_data_table(dt.recom)
   
-  return(dt.recom)
+  # set variables as NULL
+  Order = maatregel_nr = ID = sid = m.adv = NULL
+  TH_M_S_C = TH_M_S_P = TH_M_S_B = NULL
+  FS_M_S_C = FS_M_S_P = FS_M_S_B = NULL
+  
+  # make local copy of input data.table
+  dt.final <- copy(dt.recom)
+  
+  # sort all measures in dt.final for each parcel for chemical score (FS_M_S_C)
+  dt.chem <- dt.final[order(-FS_M_S_C,Order),.(maatregel_nr,FS_M_S_C,TH_M_S_C,Order),by=.(ID)]
+  # add an id for all measures
+  dt.chem[,sid := seq_len(.N),by='ID']
+  # select only the top-3 measures with the highest score
+  dt.chem <- dt.chem[sid<4]
+  # add a character for the recommended measure
+  dt.chem[,m.adv := paste0('M',maatregel_nr)]
+  # when the score of selected measures is <=0, discard the advice 
+  dt.chem[FS_M_S_C==0, m.adv := 'no suitable advice']
+  # when no indicator is below the threshold level, give no advice.
+  dt.chem[TH_M_S_C==0, m.adv := 'no advice needed']
+  # dcast the recommended measures for each parcel
+  dt.chem <- dcast(dt.chem, ID ~ sid, value.var = 'm.adv')
+  # rename the columns with recommeded measures
+  setnames(dt.chem,c('ID',paste0('RM_C_',1:3)))   
+  
+  # similar evaluation for physical properties
+  dt.phys <- dt.final[order(-FS_M_S_P,Order),.(maatregel_nr,FS_M_S_P,TH_M_S_P,Order),by=.(ID)]
+  dt.phys[,sid := seq_len(.N),by='ID']
+  dt.phys <- dt.phys[sid<4]
+  dt.phys[,m.adv := paste0('M',maatregel_nr)]
+  dt.phys[FS_M_S_P==0, m.adv := 'no suitable advice']
+  dt.phys[TH_M_S_P==0, m.adv := 'no advice needed']
+  dt.phys <- dcast(dt.phys, ID ~ sid, value.var = 'm.adv')
+  setnames(dt.phys,c('ID',paste0('RM_P_',1:3)))   
+  
+  # similar evaluation for biological properties
+  dt.biol <- dt.final[order(-FS_M_S_B,Order),.(maatregel_nr,FS_M_S_B,TH_M_S_B,Order),by=.(ID)]
+  dt.biol[,sid := seq_len(.N),by='ID']
+  dt.biol <- dt.biol[sid<4]
+  dt.biol[,m.adv := paste0('M',maatregel_nr)]
+  dt.biol[FS_M_S_B==0, m.adv := 'no suitable advice']
+  dt.biol[TH_M_S_B==0, m.adv := 'no advice needed']
+  dt.biol <- dcast(dt.biol, ID ~ sid, value.var = 'm.adv')
+  setnames(dt.biol,c('ID',paste0('RM_B_',1:3)))   
+  
+  # join the different recommendations
+  out <- merge(dt.chem,dt.phys,by='ID')
+  out <- merge(out,dt.biol,by='ID')
+  
+  if(extensive == FALSE){
+    # add effect of each measure on all indicators
+    out <- merge(dt.final,out,by='ID')
+  }
+  
+  return(out)
   
 }
