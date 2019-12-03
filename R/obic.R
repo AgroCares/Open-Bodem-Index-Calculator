@@ -3,12 +3,17 @@
 #' This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
 #' 
 #' @param dt (data.table) A data.table containing the data of the fields to calcualte the OBI
+#' @param add_relative_score (logical) Should the relative score be calculated? Defaults to TRUE
 #' @param add_recommendations (logical) Should recommendations be given to improve the OBI score? Defaults to TRUE
+#' 
+#' @details The argument add_relative_score calculates relative perforamce of the agricultural fields in the OBI. 
+#' To have a meaningfull relative score a large number of fields need be given as input in dt. 
 #' 
 #' @import data.table
 #' 
 #' @export
 obic <- function(dt, add_recommendations = TRUE) {
+obic <- function(dt, add_relative_score = TRUE) {
   
   # Check inputs
   checkmate::assert_data_table(dt)
@@ -34,7 +39,7 @@ obic <- function(dt, add_recommendations = TRUE) {
   dt.ind <- OBIC::obic_indicators(dt.ppr)
   
   # Score the fields
-  dt.score <- OBIC::obic_score(dt.ind)
+  dt.score <- OBIC::obic_score(dt.ind, add_relative_score = add_relative_score)
   
   if (add_recommendations) {
     

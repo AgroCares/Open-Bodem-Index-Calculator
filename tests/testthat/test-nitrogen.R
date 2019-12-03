@@ -30,16 +30,26 @@ test_that("calc_nlv works", {
 test_that("eval_nitrogen works", {
   expect_equal(
     ind_nitrogen(
-      D_NLV = 120
+      D_NLV = c(140, 100),
+      B_LU_BRP = c(265, 2014)
     ),
-    expected = 1,
+    expected = c(1, 1),
     tolerance = 0.001
   )
   expect_equal(
     ind_nitrogen(
-      D_NLV = seq(from = -30, to = 250, by = 50)
+      D_NLV = seq(from = -30, to = 250, by = 50),
+      B_LU_BRP = rep(265, 6)
     ),
-    expected = c(0, 0.3055556, 0.8263889, 1, 1, 1),
+    expected = c(0, 0.2653061, 0.7500000, 0.9795918, 1, 1),
+    tolerance = 0.001
+  )
+  expect_equal(
+    ind_nitrogen(
+      D_NLV = seq(from = -30, to = 250, by = 50),
+      B_LU_BRP = rep(2014, 6)
+    ),
+    expected = c(0, 0.36, 0.91, 1, 1, 1),
     tolerance = 0.001
   )
 })

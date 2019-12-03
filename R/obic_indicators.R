@@ -30,7 +30,7 @@ obic_indicators<- function(dt.ppr) {
   # Evaluate nutrients ------------------------------------------------------
   
   # Nitrogen
-  dt.ppr[, I_C_N := ind_nitrogen(D_NLV)]
+  dt.ppr[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
   
   # Phosphorus
   dt.ppr[, I_C_P := ind_phosphate_availability(D_PBI)]
