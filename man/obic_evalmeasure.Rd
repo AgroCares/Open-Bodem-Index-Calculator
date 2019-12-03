@@ -7,7 +7,7 @@
 obic_evalmeasure(dt.score)
 }
 \arguments{
-\item{dt.score}{(data.table)}
+\item{dt.score}{(data.table) The results from \code{\link{obic_score}}}
 }
 \description{
 This function quantifies the effects of 11 soil measures on the OBI score

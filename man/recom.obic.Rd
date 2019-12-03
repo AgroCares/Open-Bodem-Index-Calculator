@@ -3,7 +3,7 @@
 \docType{data}
 \name{recom.obic}
 \alias{recom.obic}
-\title{applicability range of measures including literature based estimates of effect on soil indicators}
+\title{Applicability range of measures, including literature based estimates, of effects on soil indicators}
 \format{An object of class \code{data.table} (inherits from \code{data.frame}) with 7040 rows and 11 columns.}
 \usage{
 recom.obic

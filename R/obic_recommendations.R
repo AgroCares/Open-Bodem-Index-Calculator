@@ -2,7 +2,7 @@
 #' 
 #' This function quantifies the effects of 11 soil measures on the OBI score
 #' 
-#' @param dt.score (data.table) 
+#' @param dt.score (data.table) The results from \code{\link{obic_score}}
 #' 
 #' @import data.table
 #' 
@@ -114,7 +114,7 @@ obic_evalmeasure <- function(dt.score) {
 #' 
 #' This function gives recommendations better soil management based on the OBI score
 #' 
-#' @param dt.recom (data.table) 
+#' @param dt.recom (data.table) Teh results from \code{\link{obic_evalmeasure}}
 #' @param extensive (boolean) whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures
 #' 
 #' @import data.table
@@ -126,7 +126,7 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   checkmate::assert_data_table(dt.recom)
   
   # set variables as NULL
-  m_order = m_nr = ID = sid = m.adv = NULL
+  m_order = m_nr = sid = m.adv = NULL
   TH_M_S_C = TH_M_S_P = TH_M_S_B = NULL
   FS_M_S_C = FS_M_S_P = FS_M_S_B = NULL
   
@@ -183,7 +183,7 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   
 }
 
-#' applicability range of measures including literature based estimates of effect on soil indicators
+#' Applicability range of measures, including literature based estimates, of effects on soil indicators
 #' 
 #' This table defines the effects of 11 measures on soil indicators. 
 #' This table is used internally in \code{\link{obic_evalmeasure}}

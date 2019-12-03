@@ -7,7 +7,7 @@
 obic_recommendations(dt.recom, extensive = FALSE)
 }
 \arguments{
-\item{dt.recom}{(data.table)}
+\item{dt.recom}{(data.table) Teh results from \code{\link{obic_evalmeasure}}}
 
 \item{extensive}{(boolean) whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures}
 }
