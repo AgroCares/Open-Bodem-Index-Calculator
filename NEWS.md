@@ -2,6 +2,8 @@
 
 ## UNRELEASED 
 ### Added
+* Adds the evaluation of measures #37
+* Adds giving recommendations based on the OBI score #37
 * A relative score per reference group is added #31
 * Adds the leaching of nitrogen to surface water and groundwater #17
 * Adds a table with the description of the columns and a vignette about it #46

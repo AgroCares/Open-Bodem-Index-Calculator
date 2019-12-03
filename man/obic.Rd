@@ -4,12 +4,14 @@
 \alias{obic}
 \title{Calculate the Open Bodem Index score}
 \usage{
-obic(dt, add_relative_score = TRUE)
+obic(dt, add_relative_score = TRUE, add_recommendations = TRUE)
 }
 \arguments{
 \item{dt}{(data.table) A data.table containing the data of the fields to calcualte the OBI}
 
 \item{add_relative_score}{(logical) Should the relative score be calculated? Defaults to TRUE}
+
+\item{add_recommendations}{(logical) Should recommendations be given to improve the OBI score? Defaults to TRUE}
 }
 \description{
 This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
