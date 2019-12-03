@@ -33,6 +33,23 @@ obic_evalmeasure <- function(dt.score) {
     
     # soil categories
     soils.obic <- as.data.table(OBIC::soils.obic)
+
+  # adapt local databases before joining -----
+    
+    # Make an additional category for loess
+    soils.obic[soiltype == 'loess', soiltype.n := 'loess'] 
+    # merge with dt.score
+    dt.score <- merge(dt.score, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
+    
+    # add crop_maatregel to crops.obic
+    crops.obic[grepl('grasland|natuur', crop_waterstress), crop_maatregel := "melkveehouderij"]
+    crops.obic[grepl('granen|suikerbiet|aardappel|mais|overig', crop_waterstress), crop_maatregel := "akkerbouw"]
+    crops.obic[grepl('groenten|bloembollen', crop_waterstress), crop_maatregel := "groente"]
+    crops.obic[grepl('boomteelt|fruit', crop_waterstress), crop_maatregel := "boomteelt"]
+    # merge with dt.score
+    dt.score <- merge(dt.score, crops.obic[, list(crop_code, crop_maatregel)], by.x = "B_LU_BRP", by.y = "crop_code")
+    setkey(dt.score, ID)
+    
     
   
   return(dt.recom)
