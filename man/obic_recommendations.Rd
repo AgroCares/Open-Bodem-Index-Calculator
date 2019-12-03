@@ -12,5 +12,5 @@ obic_recommendations(dt.recom, extensive = FALSE)
 \item{extensive}{(boolean) whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures}
 }
 \description{
-This function gives recommendations better soil managament based on the OBI score
+This function gives recommendations better soil management based on the OBI score
 }
