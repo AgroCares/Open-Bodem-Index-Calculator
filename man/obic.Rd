@@ -4,8 +4,7 @@
 \alias{obic}
 \title{Calculate the Open Bodem Index score}
 \usage{
-obic(dt, add_recommendations = TRUE)
-obic(dt, add_relative_score = TRUE)
+obic(dt, add_relative_score = TRUE, add_recommendations = TRUE)
 }
 \arguments{
 \item{dt}{(data.table) A data.table containing the data of the fields to calcualte the OBI}

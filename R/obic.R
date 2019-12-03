@@ -12,8 +12,7 @@
 #' @import data.table
 #' 
 #' @export
-obic <- function(dt, add_recommendations = TRUE) {
-obic <- function(dt, add_relative_score = TRUE) {
+obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE) {
   
   # Check inputs
   checkmate::assert_data_table(dt)
