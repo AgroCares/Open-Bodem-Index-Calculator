@@ -14,8 +14,8 @@ obic_evalmeasure <- function(dt.score) {
   
   # set variables as NULL
   soiltype = soiltype.n = crop_waterstress = crop_maatregel = crop_code = ID = NULL
-  OBICvariable = maatregel_nr = Dremp_S = app = app1 = app2 = sector = grondsoort = indicator = NULL
-  Ef_M_v = tresshold = score.m = weight = grp = score.mp = Prio_M = m.effect = FS = TH = NULL
+  OBICvariable = Dremp_S = app = app1 = app2 = sector = grondsoort = indicator = NULL
+  Ef_M_v = tresshold = score.m = weight = grp = score.mp = Prio_M = m.effect = NULL
   var = score = NULL
   
   # make local copy of dt.score
@@ -23,7 +23,7 @@ obic_evalmeasure <- function(dt.score) {
   
   # add local databases for joining properties -----
   
-    # wegingsfactoren voor integratie per bodemfunctie type
+    # Weighing factors to intergrate soil functions
     w <- as.data.table(OBIC::weight.obic)
     
     # measures database
@@ -65,7 +65,7 @@ obic_evalmeasure <- function(dt.score) {
     mdb1[,c(cols) := NULL]
     
     # check if there is missing data for any indicator
-    cols <- colnames(dt.score)[grepl('^I_C_|^I_B|^I_P_',colnames(dt.score))]
+    cols <- colnames(dt.score)[grepl('^I_C_|^I_B_|^I_P_',colnames(dt.score))]
     cols <- cols[!cols %in% unique(mdb1$OBICvariable)]
     
     # make temporary data.table with for each unknown indicator a zero impact measure

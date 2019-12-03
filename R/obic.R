@@ -3,11 +3,12 @@
 #' This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
 #' 
 #' @param dt (data.table) A data.table containing the data of the fields to calcualte the OBI
+#' @param add_recommendations (logical) Should recommendations be given to improve the OBI score? Defaults to TRUE
 #' 
 #' @import data.table
 #' 
 #' @export
-obic <- function(dt) {
+obic <- function(dt, add_recommendations = TRUE) {
   
   # Check inputs
   checkmate::assert_data_table(dt)
@@ -35,11 +36,22 @@ obic <- function(dt) {
   # Score the fields
   dt.score <- OBIC::obic_score(dt.ind)
   
-  # evaluate measures
-  dt.measure <- OBIC::obic_evalmeasure(dt.score)
-  # make recommendations of top 3 measures
-  dt.recom <- OBIC::obic_recommendations(dt.measure, extensive = FALSE)
+  if (add_recommendations) {
+    
+    # evaluate measures
+    dt.measure <- OBIC::obic_evalmeasure(dt.score)
+    
+    # make recommendations of top 3 measures
+    dt.recom <- OBIC::obic_recommendations(dt.measure, extensive = FALSE)
+    
+    result <- dt.recom
+    
+  } else {
+    
+    result <- dt.score
+    
+  }
   
-  return(dt.recom)
+  return(result)
   
 }
