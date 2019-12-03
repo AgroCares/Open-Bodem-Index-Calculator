@@ -134,13 +134,13 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   dt.final <- copy(dt.recom)
   
   # sort all measures in dt.final for each parcel for chemical score (FS_M_S_C)
-  dt.chem <- dt.final[order(-FS_M_S_C,Order),list(maatregel_nr,FS_M_S_C,TH_M_S_C,Order),by='ID']
+  dt.chem <- dt.final[order(-FS_M_S_C,m_order),list(m_nr,FS_M_S_C,TH_M_S_C,m_order),by='ID']
   # add an id for all measures
   dt.chem[,sid := seq_len(.N),by='ID']
   # select only the top-3 measures with the highest score
   dt.chem <- dt.chem[sid<4]
   # add a character for the recommended measure
-  dt.chem[,m.adv := paste0('M',maatregel_nr)]
+  dt.chem[,m.adv := paste0('M',m_nr)]
   # when the score of selected measures is <=0, discard the advice 
   dt.chem[FS_M_S_C==0, m.adv := 'no suitable advice']
   # when no indicator is below the threshold level, give no advice.
@@ -151,20 +151,20 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   setnames(dt.chem,c('ID',paste0('RM_C_',1:3)))   
   
   # similar evaluation for physical properties
-  dt.phys <- dt.final[order(-FS_M_S_P,Order),list(maatregel_nr,FS_M_S_P,TH_M_S_P,Order),by='ID']
+  dt.phys <- dt.final[order(-FS_M_S_P,m_order),list(m_nr,FS_M_S_P,TH_M_S_P,m_order),by='ID']
   dt.phys[,sid := seq_len(.N),by='ID']
   dt.phys <- dt.phys[sid<4]
-  dt.phys[,m.adv := paste0('M',maatregel_nr)]
+  dt.phys[,m.adv := paste0('M',m_nr)]
   dt.phys[FS_M_S_P==0, m.adv := 'no suitable advice']
   dt.phys[TH_M_S_P==0, m.adv := 'no advice needed']
   dt.phys <- dcast(dt.phys, ID ~ sid, value.var = 'm.adv')
   setnames(dt.phys,c('ID',paste0('RM_P_',1:3)))   
   
   # similar evaluation for biological properties
-  dt.biol <- dt.final[order(-FS_M_S_B,Order),list(maatregel_nr,FS_M_S_B,TH_M_S_B,Order),by='ID']
+  dt.biol <- dt.final[order(-FS_M_S_B,m_order),list(m_nr,FS_M_S_B,TH_M_S_B,m_order),by='ID']
   dt.biol[,sid := seq_len(.N),by='ID']
   dt.biol <- dt.biol[sid<4]
-  dt.biol[,m.adv := paste0('M',maatregel_nr)]
+  dt.biol[,m.adv := paste0('M',m_nr)]
   dt.biol[FS_M_S_B==0, m.adv := 'no suitable advice']
   dt.biol[TH_M_S_B==0, m.adv := 'no advice needed']
   dt.biol <- dcast(dt.biol, ID ~ sid, value.var = 'm.adv')
