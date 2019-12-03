@@ -16,6 +16,7 @@ obic_evalmeasure <- function(dt.score) {
   soiltype = soiltype.n = crop_waterstress = crop_maatregel = crop_code = ID = NULL
   OBICvariable = maatregel_nr = Dremp_S = app = app1 = app2 = sector = grondsoort = indicator = NULL
   Ef_M_v = tresshold = score.m = weight = grp = score.mp = Prio_M = m.effect = FS = TH = NULL
+  var = score = NULL
   
   # make local copy of dt.score
   dt.score <- copy(dt.score)
@@ -154,7 +155,7 @@ obic_evalmeasure <- function(dt.score) {
     dt.meas.ind <- dcast(dt.meas.ind,ID + maatregel_nr ~ m.effect, value.var = 'score.m')
     
     # calculate the total score for each measure, and count the number of indices exceeding thresshold
-    dt.meas.tot <- dt.recom2[,lapply(.SD,sum),.SDcols = c('score.mp','tresshold'),by=.(ID,maatregel_nr,grp)]
+    dt.meas.tot <- dt.recom2[,lapply(.SD,sum),.SDcols = c('score.mp','tresshold'),by=c('ID','maatregel_nr','grp')]
     setnames(dt.meas.tot,c('ID','maatregel_nr','grp','FS','TH'))
     dt.meas.tot <- dcast(dt.meas.tot,ID + maatregel_nr ~ grp, value.var = c('FS','TH'))
     
@@ -190,7 +191,7 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   dt.final <- copy(dt.recom)
   
   # sort all measures in dt.final for each parcel for chemical score (FS_M_S_C)
-  dt.chem <- dt.final[order(-FS_M_S_C,Order),.(maatregel_nr,FS_M_S_C,TH_M_S_C,Order),by=.(ID)]
+  dt.chem <- dt.final[order(-FS_M_S_C,Order),list(maatregel_nr,FS_M_S_C,TH_M_S_C,Order),by='ID']
   # add an id for all measures
   dt.chem[,sid := seq_len(.N),by='ID']
   # select only the top-3 measures with the highest score
@@ -207,7 +208,7 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   setnames(dt.chem,c('ID',paste0('RM_C_',1:3)))   
   
   # similar evaluation for physical properties
-  dt.phys <- dt.final[order(-FS_M_S_P,Order),.(maatregel_nr,FS_M_S_P,TH_M_S_P,Order),by=.(ID)]
+  dt.phys <- dt.final[order(-FS_M_S_P,Order),list(maatregel_nr,FS_M_S_P,TH_M_S_P,Order),by='ID']
   dt.phys[,sid := seq_len(.N),by='ID']
   dt.phys <- dt.phys[sid<4]
   dt.phys[,m.adv := paste0('M',maatregel_nr)]
@@ -217,7 +218,7 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   setnames(dt.phys,c('ID',paste0('RM_P_',1:3)))   
   
   # similar evaluation for biological properties
-  dt.biol <- dt.final[order(-FS_M_S_B,Order),.(maatregel_nr,FS_M_S_B,TH_M_S_B,Order),by=.(ID)]
+  dt.biol <- dt.final[order(-FS_M_S_B,Order),list(maatregel_nr,FS_M_S_B,TH_M_S_B,Order),by='ID']
   dt.biol[,sid := seq_len(.N),by='ID']
   dt.biol <- dt.biol[sid<4]
   dt.biol[,m.adv := paste0('M',maatregel_nr)]
@@ -238,3 +239,10 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   return(out)
   
 }
+
+#' applicability range of measures including literature based estimates of effect on soil indicators
+#' 
+#' This table defines the effects of 11 measures on soil indicators. 
+#' This table is used internally in \code{\link{obic_evalmeasure}}
+#' 
+"maatregel.obic"
