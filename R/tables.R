@@ -55,28 +55,21 @@
 #' 
 #' This table defines the effects of 11 measures on soil indicators 
 #' 
-#' @format A data.frame with 254 rows and 20 columns:
+#' @format A data.frame with 7040 rows and 11 columns:
 #' \describe{
-#'   \item{maatregel_nr}{The ID number of measure}
-#'   \item{omschrijving}{The description of measure}
-#'   \item{Prio_M}{weighing factor for measure. This is not used in the script.}
-#'   \item{Dremp_S}{Threshold value of the indicator value. This is not used in the script.}
-#'   \item{Order}{Order of measures. When scores are tie, the measure with a smaller number is chosen.}
-#'   \item{bodemfunctie}{description of the OBIC indicator varialbe}
-#'   \item{OBICvariable}{Name of OBIC soil indicator variable}
-#'   \item{Ef_M}{Effect of measure on soil indicator. +++/++/+/0/nr/-}
-#'   \item{melkveehouderij (alleen gras)}{Relevance of the effect on dairy farms (1/0)}
-#'   \item{melkveehouderij incl mais naast gras}{}
-#'   \item{akkerbouw}{Relevance of the effect on arable farms (1/0)}
-#'   \item{groente}{Relevance of the effect on vegetable (1/0)}
-#'   \item{boomteelt}{Relevance of the effect on tree nurseries (1/0)}
-#'   \item{klei}{Relevance of the effect on clay (1/0)}
-#'   \item{veen}{Relevance of the effect on peat (1/0)}
-#'   \item{zand}{Relevance of the effect on sand (1/0)}
-#'   \item{loss}{Relevance of the effect on loss (1/0)}
-#'   \item{Ef_M_v}{Effect of measure on soil indicator. 3/2/1/0/-1}
+#'   \item{m_nr}{The ID number of measure}
+#'   \item{m_description}{The description of measure}
+#'   \item{m_prio}{weighing factor for measure. This is not used in the script.}
+#'   \item{m_treshold}{Threshold value of the indicator value. This is not used in the script.}
+#'   \item{m_order}{Order of measures. When scores are tie, the measure with a smaller number is chosen.}
+#'   \item{m_soilfunction}{description of the OBIC indicator varialbe}
+#'   \item{indicator}{Name of OBIC soil indicator variable}
+#'   \item{m_effect}{Effect of measure on soil indicator. 3/2/1/0/-1}
+#'   \item{m_sector}{type of agricultural sector: dairy/arable/vegetable/tree cultivation (in dutch)}
+#'   \item{m_soiltype}{type of soil: sand/clay/peat/loess (in dutch)}
+#'   \item{m_applicability}{is the measure applicable for combination of sector and soil (1/0)}
 #' }
-"maatregel.obic"
+"recom.obic"
 
 #' Column description for the OIC
 #' 
