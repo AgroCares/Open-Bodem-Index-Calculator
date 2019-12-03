@@ -4,10 +4,12 @@
 \alias{obic}
 \title{Calculate the Open Bodem Index score}
 \usage{
-obic(dt)
+obic(dt, add_recommendations = TRUE)
 }
 \arguments{
 \item{dt}{(data.table) A data.table containing the data of the fields to calcualte the OBI}
+
+\item{add_recommendations}{(logical) Should recommendations be given to improve the OBI score? Defaults to TRUE}
 }
 \description{
 This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).

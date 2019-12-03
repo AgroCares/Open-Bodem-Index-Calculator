@@ -13,8 +13,8 @@ obic_evalmeasure <- function(dt.score) {
   checkmate::assert_data_table(dt.score)
   
   # set variables as NULL
-  soiltype = soiltype.m = crop_measure = crop_code = ID = m_sector = m_soiltyp = NULL
-  indicator = NULL
+  soiltype = soiltype.m = crop_measure = crop_code = ID = m_sector = m_soiltype = NULL
+  indicator = var = score = m_threshold = m_applicability = NULL
   m_effect = threshold = score.m = weight = grp = score.mp = m_prio = m.effect = FS = TH = NULL
   
   # make local copy of dt.score
