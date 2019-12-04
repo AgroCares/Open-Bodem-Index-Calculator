@@ -41,6 +41,7 @@ obic_score <- function(dt.ind, add_relative_score) {
   dt.aggr[YEAR >= max(YEAR) - 4, cf := 0.6, by = ID]
   dt.aggr <- dt.aggr[, lapply(.SD, mean), by = list(ID, cf)]
   dt.aggr <- dt.aggr[, lapply(.SD, function (x, cf) {sum(x * cf)}, cf), by = list(ID)]
+  dt.aggr[, cf := NULL]
   
   # Merge numeric and soil type and crop
   dt.aggr <- merge(dt.soilcrop, dt.aggr, by = "ID")
