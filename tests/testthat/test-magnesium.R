@@ -44,7 +44,7 @@ test_that("calc_magnesium_availability works", {
     B_BT_AK = c('dekzand','zeeklei','rivierklei','loess'),
     B_LU_BRP = rep(265,4)
   ),
-  expected = c(122,2.026,0.4580,160),
+  expected = c(122,151.30303,72.89788,160),
   tolerance = 0.01
 )
 })
@@ -69,17 +69,17 @@ test_that("ind_magnesium works", {
       B_LU_BRP=rep(3732,10),
       B_BT_AK = rep('dekzand',10)
     ),
-    expected = c(0.12,0.58,0.999,0.999,rep(1,6)),
+    expected = c(0.0225388, 0.7588881, 0.9999578, 1.0000000,rep(1,6)),
     tolerance = 0.01
   )
   # grasland op klei
   expect_equal(
     ind_magnesium(
-      D_MG = seq(0.1,2,length.out = 10),
-      B_LU_BRP=rep(265,10),
-      B_BT_AK = rep('zeeklei',10)
+      D_MG = seq(0, 100,length.out = 6),
+      B_LU_BRP=rep(265,6),
+      B_BT_AK = rep('zeeklei',6)
     ),
-    expected = c(0.6755,0.9977,0.999,rep(1,7)),
+    expected = c(0.004070138, 0.035571189, 0.249739894, 0.750260106, 0.964428811, 0.995929862),
     tolerance = 0.01
   )
 })

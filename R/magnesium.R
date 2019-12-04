@@ -128,14 +128,16 @@ calc_magnesium_availability <- function(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC
                  +0.0001363 * kg * A_PH_KCL * A_SLIB_MI + 0.00001820 * kg * A_OS_GV * A_SLIB_MI
                  -0.000601 * A_PH_KCL * A_OS_GV * A_SLIB_MI]
   
-  # unit correction
-  dt.grass.other[,mg_pred := mg_pred * 10]
+  # unit correction (from % to g/kg)
+  dt.grass.other[,mg_pred := mg_pred * 10] 
   
   # estimate optimum mg-content in grass in spring (Kemp, in Handboek Melkveehouderij)
   dt.grass.other[,mg_aim := (2.511 - 86.46/((param.k * param.re)^0.5))^2]
   
   # weighing Mg index
   dt.grass.other[,value := mg_pred - mg_aim]
+  # scaling Mg index (-1 ~ 1 to 0 ~ 100)
+  dt.grass.other[,value := 50 * (value + 1)]
   
   # nature parcels
   dt.nature <- dt[crop_category == "natuur"]
@@ -194,19 +196,19 @@ ind_magnesium <- function(D_MG,B_LU_BRP,B_BT_AK) {
   
   # Evaluate Mg availability for arable land -----
   dt.arable <- dt[crop_category == "akkerbouw"]
-  dt.arable[,value := evaluate_logistic(D_MG, b = 0.18, x0 = 60, v = 5)]
+  dt.arable[,value := evaluate_logistic(D_MG, b = 0.206, x0 = 45, v = 2.39)]
   
   # Evaluate Mg availability for maize land -----
   dt.maize <- dt[crop_category == "mais"]
-  dt.maize[,value := evaluate_logistic(D_MG, b = 0.30, x0 = 50, v = 6)]
+  dt.maize[,value := evaluate_logistic(D_MG, b = 0.148, x0 = 66, v = 2.39)]
   
   # Evaluate Mg availability for grassland on sandy and loamy soils -----
   dt.grass.sand <- dt[crop_category == "grasland" & grepl('zand|loess|dalgrond',B_BT_AK)]
-  dt.grass.sand[,value := evaluate_logistic(D_MG, b = 0.35, x0 = 55, v = 8)]
+  dt.grass.sand[,value := evaluate_logistic(D_MG, b = 0.075, x0 = 80, v = 2)]
   
   # Evaluate Mg availability for grassland on clay and peat soils ----- 
   dt.grass.other <- dt[crop_category == "grasland" & grepl('klei|veen',B_BT_AK)]
-  dt.grass.other[,value := evaluate_logistic(D_MG, b = 35, x0 = 0.2, v = 9)]
+  dt.grass.other[,value := evaluate_logistic(D_MG, b = 0.11, x0 = 50, v = 1)]
   
   # Evaluate Mg availability for nature parcels
   dt.nature <- dt[crop_category == "natuur"]
