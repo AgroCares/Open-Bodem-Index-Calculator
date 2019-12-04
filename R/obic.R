@@ -49,7 +49,7 @@ obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE) {
     dt.recom <- OBIC::obic_recommendations(dt.measure)
     
     # add recommendations to dt.score
-    result <- merge(dt.score,dt.recom,by='ID',all.x = T)
+    result <- merge(dt.score,dt.recom,by='ID',all.x = TRUE)
     
   } else {
     
