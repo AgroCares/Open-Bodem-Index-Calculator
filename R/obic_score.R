@@ -28,15 +28,22 @@ obic_score <- function(dt.ind, add_relative_score) {
     dt.score <- score_relative(dt.score)
     
   }
+  
+  # Aggregate per field the soil type and crop most occuring
+  cols.soilcrop <- colnames(dt.score)[grepl("B_LU_BRP|B_BT_AK", colnames(dt.score))]
+  dt.soilcrop <- dt.score[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), by = ID, .SDcols = cols.soilcrop]
+  dt.soilcrop[, B_LU_BRP := as.integer(B_LU_BRP)]
 
-
-  # Aggregate per field
+  # Aggregate per field (numeric)
   col.sel <- colnames(dt.score)[grepl("ID|YEAR|^I_|^S_", colnames(dt.score))]
   dt.aggr <- dt.score[, mget(col.sel)]
   dt.aggr[YEAR < max(YEAR) - 4, cf := 0.4, by = ID]
   dt.aggr[YEAR >= max(YEAR) - 4, cf := 0.6, by = ID]
   dt.aggr <- dt.aggr[, lapply(.SD, mean), by = list(ID, cf)]
   dt.aggr <- dt.aggr[, lapply(.SD, function (x, cf) {sum(x * cf)}, cf), by = list(ID)]
+  
+  # Merge numeric and soil type and crop
+  dt.aggr <- merge(dt.soilcrop, dt.aggr, by = "ID")
 
   return(dt.aggr)
 }
