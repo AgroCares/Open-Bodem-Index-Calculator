@@ -3,6 +3,7 @@
 #' This function quantifies the effects of 11 soil measures on the OBI score
 #' 
 #' @param dt.score (data.table) The results from \code{\link{obic_score}}
+#' @param extensive (boolean) whether the output table includes evaluation scores of each  measures (TRUE)
 #' 
 #' @import data.table
 #' 
@@ -124,7 +125,6 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
 #' This function gives recommendations better soil management based on the OBI score
 #' 
 #' @param dt.recom (data.table) The results from \code{\link{obic_evalmeasure}}
-#' @param extensive (boolean) whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures
 #' 
 #' @import data.table
 #' 
@@ -135,7 +135,7 @@ obic_recommendations <- function(dt.recom) {
   checkmate::assert_data_table(dt.recom)
   
   # set variables as NULL
-  m_order = m_nr = sid = m.adv = NULL
+  ID = m_order = m_nr = sid = m.adv = NULL
   TH_M_S_C = TH_M_S_P = TH_M_S_B = NULL
   FS_M_S_C = FS_M_S_P = FS_M_S_B = NULL
   
