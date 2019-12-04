@@ -24,12 +24,14 @@
 * The optimal pH for grassland depends now on organic matter content and presence of clover #42
 * The score aggragation is now 60% average of last 4 years and 40% of older years #31
 * The maximum value for D_CR is limited to 10 #47
-* The parameters for the evaluation for `I_C_K` is set to the same as grassland #51
+* The parameters for the evaluation for `I_C_K` is set to the same as grassland #49
 * The evaluation for I_C_N is now split into grassland and arable land #50
+* The evaluation of `I_C_MG` is adjusted according to factsheet
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
 * Fixed the droughtstress, wetnessstress and waterstress values for GtI in `waterstress.obic`
+* For grasslands on peat pr clay, the `D_MG` is now scaled #51
 
 ## Version 0.9.0 2019-10-22
 ### Changed
