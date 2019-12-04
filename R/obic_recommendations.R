@@ -7,7 +7,7 @@
 #' @import data.table
 #' 
 #' @export
-obic_evalmeasure <- function(dt.score) {
+obic_evalmeasure <- function(dt.score, extensive = FALSE) {
   
   # Check inputs
   checkmate::assert_data_table(dt.score)
@@ -105,6 +105,15 @@ obic_evalmeasure <- function(dt.score) {
     # add priority for those situations that measures have equal score
     dt.final <- merge(dt.final,unique(mdb1[,c('m_nr','m_order')]),by='m_nr')
     
+    # remove the individal score per measure per indicator if needed
+    if(extensive == FALSE){
+      
+      # remove all columns except those needed for recommendation
+      cols <- colnames(dt.final)[grepl('^M_',colnames(dt.final))]
+      # remove columns
+      dt.final[,c(cols) := NULL]
+    }
+    
     # terurn final db
     return(dt.final)
 }
@@ -120,7 +129,7 @@ obic_evalmeasure <- function(dt.score) {
 #' @import data.table
 #' 
 #' @export
-obic_recommendations <- function(dt.recom, extensive = FALSE) {
+obic_recommendations <- function(dt.recom) {
   
   # Check inputs
   checkmate::assert_data_table(dt.recom)
@@ -174,11 +183,10 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   out <- merge(dt.chem,dt.phys,by='ID')
   out <- merge(out,dt.biol,by='ID')
   
-  if(extensive == FALSE){
-    # add effect of each measure on all indicators
-    out <- merge(dt.final,out,by='ID')
-  }
+  # setkey on ID
+  setkey(out,ID)
   
+  # return output
   return(out)
   
 }
