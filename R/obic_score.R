@@ -71,7 +71,7 @@ score_absolute <- function(dt.ind) {
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_CEC = I_P_WRI = NULL
-  I_DGW = I_DOW = NULL
+  I_E_NGW = I_E_NSW = NULL
   rsid = NULL
   
   # Load in the datasets and reshape
@@ -97,7 +97,7 @@ score_absolute <- function(dt.ind) {
   dt.ind[, S_M_A := I_M]
   
   # Score the environmental performance
-  dt.ind[, S_E_A := 0.5 * I_DGW + 0.5 * I_DOW]
+  dt.ind[, S_E_A := 0.5 * I_E_NGW + 0.5 * I_E_NSW]
   
   # Calculate the total score
   dt.ind[, S_T_A := 0.35 * S_C_A + 0.35 * S_P_A + 0.2 * S_B_A + 0.1 * S_M_A]
