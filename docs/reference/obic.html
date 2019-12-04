@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/explaination-of-the-OBIC-package.html">Explaination of the OBIC package</a>
+      <a href="../articles/description-of-the-columns.html">Description of the columns for OBIC</a>
     </li>
   </ul>
 </li>
@@ -129,7 +129,7 @@
     <p>This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>obic</span>(<span class='no'>dt</span>)</pre>
+    <pre class="usage"><span class='fu'>obic</span>(<span class='no'>dt</span>, <span class='kw'>add_relative_score</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>add_recommendations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,14 +138,27 @@
       <th>dt</th>
       <td><p>(data.table) A data.table containing the data of the fields to calcualte the OBI</p></td>
     </tr>
+    <tr>
+      <th>add_relative_score</th>
+      <td><p>(logical) Should the relative score be calculated? Defaults to TRUE</p></td>
+    </tr>
+    <tr>
+      <th>add_recommendations</th>
+      <td><p>(logical) Should recommendations be given to improve the OBI score? Defaults to TRUE</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The argument add_relative_score calculates relative perforamce of the agricultural fields in the OBI. 
+To have a meaningfull relative score a large number of fields need be given as input in dt.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>
