@@ -43,10 +43,10 @@ obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE) {
   if (add_recommendations) {
     
     # evaluate measures
-    dt.measure <- OBIC::obic_evalmeasure(dt.score)
+    dt.measure <- OBIC::obic_evalmeasure(dt.score, extensive = FALSE)
     
     # make recommendations of top 3 measures
-    dt.recom <- OBIC::obic_recommendations(dt.measure, extensive = FALSE)
+    dt.recom <- OBIC::obic_recommendations(dt.measure)
     
     # add recommendations to dt.score
     result <- merge(dt.score,dt.recom,by='ID',all.x = T)
