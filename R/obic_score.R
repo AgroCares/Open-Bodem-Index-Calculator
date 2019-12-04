@@ -17,7 +17,7 @@ obic_score <- function(dt.ind, add_relative_score) {
   dt.ind <- copy(dt.ind)
   
   # define variables used within the function
-  ID = YEAR = col.sel = cf = NULL
+  ID = YEAR = col.sel = cf = B_LU_BRP = NULL
   
   # Score on a absolute scale
   dt.score <- score_absolute(dt.ind)
