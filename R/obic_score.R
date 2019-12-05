@@ -144,7 +144,7 @@ score_relative <- function(dt.score.abs) {
   waterstress.obic[waterstress < 11, yield_depression := 1]
   waterstress.obic[waterstress >= 11 & waterstress < 30, yield_depression := 2]
   waterstress.obic[waterstress >= 30, yield_depression := 3]
-  dt.score <- merge(dt.score, waterstress.obic, by.x = c("crop_waterstress", "B_HELP_WENR", "B_GT"), by.y = c("cropname", "soilunit", "gt"))
+  dt.score <- merge(dt.score, waterstress.obic, by.x = c("crop_waterstress", "B_HELP_WENR", "B_GT"), by.y = c("cropname", "soilunit", "gt"), all.x = TRUE)
 
   # Select columns to base the ranking on
   grouping <- c("YEAR", "yield_depression", "crop_waterstress", "B_BT_AK")
@@ -158,15 +158,15 @@ score_relative <- function(dt.score.abs) {
 
   # Rank the absolute values and scale them between 1 and 0
   dt.score[, S_C_R := frank(S_C_A), by = group_id]
-  dt.score[, S_C_R := (S_C_R - min(S_C_R, na.rm = TRUE)) / (max(S_C_R, na.rm = TRUE) - min(S_C_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_C_R := (S_C_R - min(S_C_R)) / (max(S_C_R) - min(S_C_R)), by = group_id]
   dt.score[, S_P_R := frank(S_P_A), by = group_id]
-  dt.score[, S_P_R := (S_P_R - min(S_P_R, na.rm = TRUE)) / (max(S_P_R, na.rm = TRUE) - min(S_P_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_P_R := (S_P_R - min(S_P_R)) / (max(S_P_R) - min(S_P_R)), by = group_id]
   dt.score[, S_B_R := frank(S_B_A), by = group_id]
-  dt.score[, S_B_R := (S_B_R - min(S_B_R, na.rm = TRUE)) / (max(S_B_R, na.rm = TRUE) - min(S_B_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_B_R := (S_B_R - min(S_B_R)) / (max(S_B_R) - min(S_B_R)), by = group_id]
   dt.score[, S_M_R := frank(S_M_A), by = group_id]
-  dt.score[, S_M_R := (S_M_R - min(S_M_R, na.rm = TRUE)) / (max(S_M_R, na.rm = TRUE) - min(S_M_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_M_R := (S_M_R - min(S_M_R)) / (max(S_M_R) - min(S_M_R)), by = group_id]
   dt.score[, S_T_R := frank(S_T_A), by = group_id]
-  dt.score[, S_T_R := (S_T_R - min(S_T_R, na.rm = TRUE)) / (max(S_T_R, na.rm = TRUE) - min(S_T_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_T_R := (S_T_R - min(S_T_R)) / (max(S_T_R) - min(S_T_R)), by = group_id]
 
   return(dt.score)
 }
