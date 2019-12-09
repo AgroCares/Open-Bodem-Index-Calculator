@@ -50,9 +50,10 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
   Bovengrond = 1
   
   # express soil texture as fraction of total mineral part (if needed)
-  dt[,A_CLAY_MI := A_CLAY_MI * 100 / (A_CLAY_MI + A_SAND_MI + A_SILT_MI)]
-  dt[,A_SAND_MI := A_SAND_MI * 100 / (A_CLAY_MI + A_SAND_MI + A_SILT_MI)]
-  dt[,A_SILT_MI := A_SILT_MI * 100 / (A_CLAY_MI + A_SAND_MI + A_SILT_MI)]
+  dt[,mineral := A_CLAY_MI + A_SAND_MI + A_SILT_MI]
+  dt[,A_CLAY_MI := A_CLAY_MI * 100 / mineral]
+  dt[,A_SAND_MI := A_SAND_MI * 100 / mineral]
+  dt[,A_SILT_MI := A_SILT_MI * 100 / mineral]
   
   dt[, Pleem    := A_CLAY_MI + A_SILT_MI]
   
@@ -184,8 +185,8 @@ pFpara_ptf_Wosten1999 <- function(Pklei, Psilt, Psom, Bovengrond){
   )
   
   # Continue pedotransferfunctie Wosten 1999(in PFT manual), see Wosten 2001 (based on HYPRES dataset)
-  dt[Pklei<25, Dichtheid :=  1/(0.02525*Psom+0.6541)]
-  dt[Pklei>=25, Dichtheid :=  (0.00000067)*Psom^4-(0.00007792)*Psom^3+0.00314712*Psom^2-0.06039523*Psom+1.33932206]
+  dt[Pklei<=25, Dichtheid :=  1/(0.02525*Psom+0.6541)]
+  dt[Pklei>25, Dichtheid :=  (0.00000067)*Psom^4-(0.00007792)*Psom^3+0.00314712*Psom^2-0.06039523*Psom+1.33932206]
   
   dt[, ThetaR    := 0.01]
   dt[, ThetaS    := 0.7919+0.001691*Pklei-0.29619*Dichtheid-0.000001491*Psilt^2+0.0000821*Psom^2+
@@ -318,11 +319,12 @@ pFpara_class <- function(Pklei, Pleem, Psom, M50){
     Pklei = Pklei,
     Pleem = Pleem,
     Psom = Psom,
-    M50 = M50,
-    ThetaR = NA_real_,
-    ThetaS = NA_real_, 
-    alfa = NA_real_, 
-    n = NA_real_
+    M50 = M50
+    # ThetaR = NA_real_,
+    # ThetaS = NA_real_, 
+    # alfa = NA_real_, 
+    # n = NA_real_,
+    # Ks = NA_real_
   )
   
   dt[Pklei <= 8, CF1 := 0]
