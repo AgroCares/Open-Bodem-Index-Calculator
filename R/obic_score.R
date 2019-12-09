@@ -37,8 +37,7 @@ obic_score <- function(dt.ind, add_relative_score) {
   # Aggregate per field (numeric)
   col.sel <- colnames(dt.score)[grepl("ID|YEAR|^I_|^S_", colnames(dt.score))]
   dt.aggr <- dt.score[, mget(col.sel)]
-  dt.aggr[YEAR < max(YEAR) - 4, cf := 0.4, by = ID]
-  dt.aggr[YEAR >= max(YEAR) - 4, cf := 0.6, by = ID]
+  dt.aggr[, cf := fifelse(YEAR < max(YEAR) - 4, 0.4, 0.6), by = ID]
   dt.aggr <- dt.aggr[, lapply(.SD, mean), by = list(ID, cf)]
   dt.aggr <- dt.aggr[, lapply(.SD, function (x, cf) {sum(x * cf) / sum(cf)}, cf), by = list(ID)]
   dt.aggr[, cf := NULL]
