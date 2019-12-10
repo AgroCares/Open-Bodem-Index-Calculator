@@ -164,16 +164,16 @@ test_that("ind_waterretention works", {
       D_P_WRI = c(49.4,54.13,56.98,59.99,63.25,66.72,70.32),
       type = 'plant available water'
     ),
-    expected = c(0.42,0.45,0.48,0.5,0.53,0.55,0.58),
-    tolerance = 0.99
+    expected = c(0.6337925, 0.7061359, 0.7456985, 0.7836507, 0.8200783, 0.8535175, 0.8826870),
+    tolerance = 0.01
   )
   expect_equal(
     ind_waterretention(
       D_P_WRI = c(40.4,50.6,59.8,90.88,202.55,196.4,0),
       type = 'plant available water'
     ),
-    expected = c(0.35,0.43,0.50,0.73,0.99,0.98,0.12),
-    tolerance = 0.99
+    expected = c(0.48335824, 0.65282670, 0.78137645, 0.97036472, 0.99999013, 0.99998463, 0.06508809),
+    tolerance = 0.01
   )
   
   # K saturation
