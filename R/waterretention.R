@@ -43,7 +43,7 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
   )
   # settings
   p.topsoil = 1
-  p.fieldcapacity = 2.2
+  p.fieldcapacity = 2
   p.wiltingpoint = 4.2
   p.depth = 0.3
   M50 = 150
@@ -54,16 +54,15 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
   dt[,A_CLAY_MI := A_CLAY_MI * 100 / mineral]
   dt[,A_SAND_MI := A_SAND_MI * 100 / mineral]
   dt[,A_SILT_MI := A_SILT_MI * 100 / mineral]
-  
   dt[, Pleem    := A_CLAY_MI + A_SILT_MI]
   
   if (ptf == "Wosten1999"){
     # calculate water retention parameters given Wosten (1999), based on HYPRES
     dt[, c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_ptf_Wosten1999(A_CLAY_MI, A_SILT_MI, A_OS_GV, Bovengrond)]
   }
-  if (ptf == "Wosten2004"){
+  if (ptf == "Wosten2001"){
     # calculate water retention parameters given Wosten (2001)
-    dt[,  c("Dichtheid", "thetaR", "thetaS", "ksat", "alfa", "l", "n") := pFpara_ptf_Wosten2001(A_CLAY_MI, Pleem, A_OS_GV, M50, Bovengrond)]
+    dt[,  c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat", "l") := pFpara_ptf_Wosten2001(A_CLAY_MI, Pleem, A_OS_GV, M50, Bovengrond)]
   }
   if (ptf == "Klasse"){
     #Class-translation function Staringreeks
@@ -131,13 +130,15 @@ ind_waterretention <- function(D_P_WRI,type ='plant available water') {
 
 #' Water retention curve
 #' 
-#' This function compute Van Genuchten water retention curve
+#' This function compute water content at given pressure head, using Van Genuchten water retention curve
 #' 
 #' @param head (numeric)  suction pressure ([L] or cm of water)
-#' @param thetaR (numeric) residual water content [L3L−3]
-#' @param thetaS (numeric) saturated water content [L3L−3]
-#' @param alfa (numeric)  related to the inverse of the air entry suction, alfa >0 ([L−1], or cm−1)
+#' @param thetaR (numeric) residual water content (cm3/cm3)
+#' @param thetaS (numeric) saturated water content (cm3/cm3)
+#' @param alfa (numeric)  related to the inverse of the air entry suction, alfa >0 (L−1, or cm−1)
 #' @param n (numeric)  a measure of the pore-size distribution, n>1, dimensionless
+#' 
+#' @return theta (numeric) water content (cm3/cm3)
 #' 
 #' @export 
 pF_curve <- function(head, thetaR, thetaS, alfa, n){
@@ -148,14 +149,27 @@ pF_curve <- function(head, thetaR, thetaS, alfa, n){
 }
 
 
-
-#' Pedo transfer function of Wosten (1999), based on HYPRES, to estimate water retention curve parameters
+#' Estimate water retention curve parameters based on Wosten 1999
+#'
+#' This function estimates water retention curve parameters using Pedo transfer function of Wosten (1999) based on HYPRES
 #' 
-#' @param Pklei (numeric) The clay content of the soil (\%) Pklei > 0
-#' @param Psilt (numeric) The silt content of the soil (\%) Psilt > 0 
-#' @param Psom (numeric) The organic matter content of the soil (\%) Psom > 0
+#' 
+#' @param Pklei (numeric) The clay content of the soil (\%) within soil mineral part. Pklei > 0
+#' @param Psilt (numeric) The silt content of the soil (\%) within soil mineral part. Psilt > 0 
+#' @param Psom (numeric) The organic matter content of the soil (\%). Psom > 0
 #' @param Bovengrond (boolean) whether topsoil (1) or not (0)
-# 
+#' 
+#' @return a table with the following columns:
+#' 
+#' Dichtheid (numeric) soil bulk density (g/cm3)
+#' ThetaR (numeric) residual water content (cm3/cm3)
+#' ThetaS (numeric) saturated water content (cm3/cm3)
+#' alfa (numeric)  related to the inverse of the air entry suction, alfa >0 (L−1, or cm−1) 
+#' n (numeric)  a measure of the pore-size distribution, n>1, dimensionless
+#' ksat (numeric) saturated hydraulic conductivity (cm/d)
+#' 
+#' @references Wösten, J.H.M , Lilly, A., Nemes, A., Le Bas, C. (1999) Development and use of a database of hydraulic properties of European soils. Geoderma 90 (3-4): 169-185.
+#' 
 #' @export
 pFpara_ptf_Wosten1999 <- function(Pklei, Psilt, Psom, Bovengrond){
   
@@ -217,14 +231,17 @@ pFpara_ptf_Wosten1999 <- function(Pklei, Psilt, Psom, Bovengrond){
 }
 
 
-
-#' Pedo transfer function of Wosten (2001), based on HYPRES, to estimate water retention curve parameters
+#' Estimate water retention curve parameters based on Wosten 2001
+#'
+#' This function estimates water retention curve parameters using Pedo transfer function of Wosten (2001)
 #' 
 #' @param Pklei (numeric) The clay (<2um) content of the soil (\%) 
 #' @param Pleem (numeric) The leemt (<50um) content of the soil (\%) Pleem > 0 
 #' @param Psom (numeric) The organic matter content of the soil (\%) Psom > 0
 #' @param M50 (numeric)size of  sand fraction (um)
 #' @param Bovengrond (boolean) whether topsoil (1) or not (0)
+#' 
+#' @references Wösten, J. H. M., Veerman, G. ., de Groot, W. J., & Stolte, J. (2001). Waterretentie- en doorlatendheidskarakteristieken van boven- en ondergronden in Nederland: de Staringreeks. Alterra Rapport, 153, 86. https://doi.org/153
 #'
 #' @export 
 pFpara_ptf_Wosten2001 <- function(Pklei, Pleem, Psom, M50, Bovengrond){
@@ -291,8 +308,8 @@ pFpara_ptf_Wosten2001 <- function(Pklei, Pleem, Psom, M50, Bovengrond){
   
   # order dt
   setorder(dt, id)
-  
-  return(dt[, list(Dichtheid, ThetaR,  ThetaS, Ksat, alfa, l, n)])
+
+  return(dt[, list(Dichtheid, ThetaR,  ThetaS, alfa, n, Ksat, l)])
 }
 
 #' Parameter estimation based on class of Staringreeks (Tabel 3, Wosten 2001)
