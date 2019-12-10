@@ -18,7 +18,7 @@
 calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
                                 type = 'plant available water', ptf = 'Wosten1999') {
   
-  id = thetaS = thetaR = alfa = n = fc = wp = whc = paw = ksat = density = Pleem = NULL
+  id = thetaS = thetaR = alfa = n = fc = wp = whc = paw = ksat = density = Pleem = mineral = NULL
   
   # Check inputs
   arg.length <- max(length(A_CLAY_MI), length(A_SAND_MI),length(A_SILT_MI), length(A_OS_GV))
@@ -70,10 +70,9 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
     dt[,  c("thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_class(A_CLAY_MI, Pleem, A_OS_GV, M50)]
   }
   
-  
-  dt[,wp := thetaR + (thetaS - thetaR) / ((1 + (abs(alfa*(-1 * 10^p.wiltingpoint)))^n)^(1 - 1 / n))]
-  dt[,fc := thetaR + (thetaS - thetaR) / ((1 + (abs(alfa*(-1 * 10^p.fieldcapacity)))^n)^(1 - 1 / n))]
-  dt[,whc := (thetaR + (thetaS - thetaR) / ((1 + (abs(alfa*(-1 * 10^0)))^n)^(1 - 1 / n))) * p.depth * 1000]
+  dt[,wp := pF_curve(-1 * 10^p.wiltingpoint, thetaR, thetaS, alfa, n)]
+  dt[,fc := pF_curve(-1 * 10^p.fieldcapacity, thetaR, thetaS, alfa, n)]
+  dt[,whc := pF_curve(-1 * 10^0, thetaR, thetaS, alfa, n) * p.depth * 1000]
   dt[,paw := abs(fc - wp) * p.depth * 1000]
   
   # convert from % to mm (wp) and dm (fc)
@@ -155,15 +154,15 @@ pF_curve <- function(head, thetaR, thetaS, alfa, n){
 #' @param Pklei (numeric) The clay content of the soil (\%) Pklei > 0
 #' @param Psilt (numeric) The silt content of the soil (\%) Psilt > 0 
 #' @param Psom (numeric) The organic matter content of the soil (\%) Psom > 0
-' @param Bovengrond (boolean) whether topsoil (1) or not (0)
+#' @param Bovengrond (boolean) whether topsoil (1) or not (0)
 # 
 #' @export
 pFpara_ptf_Wosten1999 <- function(Pklei, Psilt, Psom, Bovengrond){
   
-  Dichtheid = ThetaR = ThetaS = alfa = n = ksat = id = NULL
+  Dichtheid = ThetaR = ThetaS = alfa = n = ksat = id = Dichtheid_zand = Dichtheid_klei = Pklei_fr = NULL
   
   # Check input
-  arg.length <- max(length(Pklei), length(Psilt), length(Psom), length(M50), length(Bovengrond))
+  arg.length <- max(length(Pklei), length(Psilt), length(Psom), length(Bovengrond))
   checkmate::assert_numeric(Pklei, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   checkmate::assert_numeric(Psilt, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   checkmate::assert_numeric(Psom, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
@@ -184,10 +183,16 @@ pFpara_ptf_Wosten1999 <- function(Pklei, Psilt, Psom, Bovengrond){
     n = NA_real_
   )
   
-  # Continue pedotransferfunctie Wosten 1999(in PFT manual), see Wosten 2001 (based on HYPRES dataset)
-  dt[Pklei<=25, Dichtheid :=  1/(0.02525*Psom+0.6541)]
-  dt[Pklei>25, Dichtheid :=  (0.00000067)*Psom^4-(0.00007792)*Psom^3+0.00314712*Psom^2-0.06039523*Psom+1.33932206]
+  # Estimate of bulk density (source: Handboek Bodem en Bemesting )
+  # 2 discrete PTF is combined based on clay content, so that it becomes 1 continuous function.
+  #dt[Pklei<=25, Dichtheid :=  1/(0.02525*Psom+0.6541)]
+  #dt[Pklei>25, Dichtheid :=  (0.00000067)*Psom^4-(0.00007792)*Psom^3+0.00314712*Psom^2-0.06039523*Psom+1.33932206]
+  dt[, Dichtheid_zand :=  1/(0.02525*Psom+0.6541)]
+  dt[, Dichtheid_klei :=  (0.00000067)*Psom^4-(0.00007792)*Psom^3+0.00314712*Psom^2-0.06039523*Psom+1.33932206]
+  dt[, Pklei_fr := pmin(1, Pklei/25)]
+  dt[, Dichtheid := Pklei_fr * Dichtheid_klei + (1-Pklei_fr) * Dichtheid_zand]
   
+  # Continue pedotransferfunctie Wosten 1999(in PFT manual), see Wosten 2001 (based on HYPRES dataset)
   dt[, ThetaR    := 0.01]
   dt[, ThetaS    := 0.7919+0.001691*Pklei-0.29619*Dichtheid-0.000001491*Psilt^2+0.0000821*Psom^2+
        0.02427/Pklei+0.01113/Psilt+0.01472*log(Psilt)-0.0000733*Psom*Pklei-0.000619*Dichtheid*Pklei-
@@ -199,11 +204,11 @@ pFpara_ptf_Wosten1999 <- function(Pklei, Psilt, Psom, Bovengrond){
                               0.0003658*Pklei^2+0.002885*Psom^2-12.81/Dichtheid-0.1524/Psilt-0.01958/Psom-
                               0.2876*log(Psilt)-0.0709*log(Psom)-44.6*log(Dichtheid)-0.02264*Dichtheid*Pklei+
                               0.0896*Dichtheid*Psom+0.00718*Bovengrond*Pklei)]
-  dt[, ksat      := exp(7.755 + 0.0352 * Psilt + 0.93 * Bovengrond - 0.967 * Dichtheid^2 - 0.000484 * Pklei^2 -
+  dt[, ksat      := 7.755 + 0.0352 * Psilt + 0.93 * Bovengrond - 0.967 * Dichtheid^2 - 0.000484 * Pklei^2 -
                           0.000322 * Psilt^2 + 0.001 / Psilt - 0.0748 / Psom - 0.643 * log(Psilt) -
                           0.01398 * Dichtheid * Pklei - 0.1673 * Dichtheid * Psom + 0.2986 * Bovengrond * Pklei -
-                          0.03305 * Bovengrond * Psilt)]
-  dt[Psom>25 & log(ksat) < 0, ksat := 5] # Copied from the old version of waterretention.R. THe source information need to be verified.
+                          0.03305 * Bovengrond * Psilt]
+  dt[Psom>25 & ksat < 0, ksat := 5] # Copied from the old version of waterretention.R. THe source information need to be verified.
   
   # order dt
   setorder(dt, id)
@@ -232,7 +237,7 @@ pFpara_ptf_Wosten2001 <- function(Pklei, Pleem, Psom, M50, Bovengrond){
   checkmate::assert_numeric(Pklei, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   checkmate::assert_numeric(Pleem, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   checkmate::assert_numeric(Psom, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
-  checkmate::assert_numeric(M50, lower = 0, upper = 1000, any.missing = FALSE, min.len = 1)
+  checkmate::assert_numeric(M50, lower = 0, upper = 2000, any.missing = FALSE, min.len = 1)
   checkmate::assert_numeric(Bovengrond, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   checkmate::assert_subset(Bovengrond, choices = c(0, 1), empty.ok = FALSE)
   
@@ -311,7 +316,7 @@ pFpara_class <- function(Pklei, Pleem, Psom, M50){
   checkmate::assert_numeric(Pklei, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   checkmate::assert_numeric(Pleem, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   checkmate::assert_numeric(Psom, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
-  checkmate::assert_numeric(M50, lower = 0, upper = 1000, any.missing = FALSE, min.len = 1)
+  checkmate::assert_numeric(M50, lower = 0, upper = 2000, any.missing = FALSE, min.len = 1)
   
   # Collect data in a table
   dt <- data.table(
@@ -333,6 +338,7 @@ pFpara_class <- function(Pklei, Pleem, Psom, M50){
   dt[Psom > 15, CF2 := 1]
   dt[Psom <= 15, CF2 := 0]
   
+  # comment YF: B6 is missing: from the source table the definition is not clear
   dt[, SEL1 := "B20"]
   dt[CF1==0&CF2==0&Pleem>=00&Pleem<10 &M50<210, SEL1 := "B1"]
   dt[CF1==0&CF2==0&Pleem>=10&Pleem<18 &M50<210, SEL1 := "B2"]
@@ -353,7 +359,7 @@ pFpara_class <- function(Pklei, Pleem, Psom, M50){
   dt[CF1==1&CF2==1&Psom>=35  &Psom<=70, SEL1 := "B18"]
   
   # merge table
-  dt <- merge(dt, bouwsteen_tb, by.x = "SEL1", by.y = "bouwsteem", all.x = T,all.y = F)
+  dt <- merge(dt, bouwsteen_tb, by.x = "SEL1", by.y = "bouwsteen", all.x = T,all.y = F)
   
   # order dt
   setorder(dt, id)
