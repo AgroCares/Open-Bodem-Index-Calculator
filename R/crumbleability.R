@@ -38,7 +38,7 @@ calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
   
   # If A_CLAY_MI is outside range give a min/max value
   dt[A_CLAY_MI < 4, value := 10]
-  dt[A_CLAY_MI > 40, value := 1]
+  #dt[A_CLAY_MI > 40, value := 1]
   
   # Calculate value.A_CLAY_MI
   fun.A_CLAY_MI <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$value.A_CLAY_MI, rule = 2)
@@ -57,7 +57,7 @@ calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
   dt[value > 10, value := 10]
 
   # Calculate the value
-  dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV - cor.A_PH_CC]
+  dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV - cor.A_PH_CC * pmax(0, 7 - A_PH_CC)]
   value <- dt[, value]
   
   return(value)
