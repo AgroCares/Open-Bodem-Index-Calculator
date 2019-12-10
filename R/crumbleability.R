@@ -53,11 +53,13 @@ calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
   dt[is.na(value) & A_PH_CC < 7, cor.A_PH_CC := fun.cor.A_PH_CC(A_CLAY_MI)]
   dt[is.na(value) & A_PH_CC >= 7, cor.A_PH_CC := 0]
   
-  # Limit the value to 10
-  dt[value > 10, value := 10]
-
   # Calculate the value
   dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV - cor.A_PH_CC * pmax(0, 7 - A_PH_CC)]
+  
+  # Limit the value to 1 - 10
+  dt[value > 10, value := 10]
+  dt[value < 1, value := 1]
+  
   value <- dt[, value]
   
   return(value)
