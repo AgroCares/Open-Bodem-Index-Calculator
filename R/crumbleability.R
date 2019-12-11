@@ -36,25 +36,21 @@ calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
     cor.A_PH_CC = c(0, 0, 0.15, 0.3, 0.7, 1, 1.5)
   )
   
-  # If A_CLAY_MI is outside range give a min/max value
-  dt[A_CLAY_MI < 4, value := 10]
-  #dt[A_CLAY_MI > 40, value := 1]
-  
   # Calculate value.A_CLAY_MI
   fun.A_CLAY_MI <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$value.A_CLAY_MI, rule = 2)
-  dt[is.na(value), value.A_CLAY_MI := fun.A_CLAY_MI(A_CLAY_MI)]
+  dt[, value.A_CLAY_MI := fun.A_CLAY_MI(A_CLAY_MI)]
     
   # Create organic matter correction function and calculate correction for A_OS_GV
   fun.cor.A_OS_GV <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_OS_GV, rule = 2)
-  dt[is.na(value), cor.A_OS_GV := fun.cor.A_OS_GV(A_CLAY_MI)]
+  dt[, cor.A_OS_GV := fun.cor.A_OS_GV(A_CLAY_MI)]
     
   # Create pH correction function and calculate correction for pH
   fun.cor.A_PH_CC <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_PH_CC, rule = 2)
-  dt[is.na(value) & A_PH_CC < 7, cor.A_PH_CC := fun.cor.A_PH_CC(A_CLAY_MI)]
-  dt[is.na(value) & A_PH_CC >= 7, cor.A_PH_CC := 0]
+  dt[A_PH_CC < 7, cor.A_PH_CC := fun.cor.A_PH_CC(A_CLAY_MI)]
+  dt[A_PH_CC >= 7, cor.A_PH_CC := 0]
   
   # Calculate the value
-  dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV - cor.A_PH_CC * pmax(0, 7 - A_PH_CC)]
+  dt[, value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV - cor.A_PH_CC * pmax(0, 7 - A_PH_CC)]
   
   # Limit the value to 1 - 10
   dt[value > 10, value := 10]

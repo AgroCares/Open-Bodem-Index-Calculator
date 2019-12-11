@@ -14,7 +14,7 @@ test_that("calc_crumbleability works", {
       A_OS_GV = c(5, 5, 5), 
       A_PH_CC= c(6, 6, 6)
     ), 
-    expected = c(10, 10, 1),
+    expected = c(10, 10, 4.045833),
     tolerance = 0.001
   )
 })
