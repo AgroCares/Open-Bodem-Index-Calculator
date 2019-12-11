@@ -33,6 +33,7 @@
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
 * Fixed the droughtstress, wetnessstress and waterstress values for GtI in `waterstress.obic`
 * For grasslands on peat pr clay, the `D_MG` is now scaled #51
+* Limit `D_SLV` between -30 and 250 
 
 ## Version 0.9.0 2019-10-22
 ### Changed
