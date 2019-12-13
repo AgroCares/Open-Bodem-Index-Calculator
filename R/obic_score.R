@@ -155,17 +155,17 @@ score_relative <- function(dt.score.abs) {
   col.sel <- c(grouping, "group_id")
   dt.score <- merge(dt.score, groups[, mget(col.sel)], by = grouping, all.x = TRUE)
 
-  # Rank the absolute values and scale them between 1 and 0
+  # Rank the absolute values and scale them between 1 and 0 (Add 1e-6 to avoid dividing by zero when fields in a group have the same absolute score)
   dt.score[, S_C_R := frank(S_C_A), by = group_id]
-  dt.score[, S_C_R := (S_C_R - min(S_C_R)) / (max(S_C_R) - min(S_C_R)), by = group_id]
+  dt.score[, S_C_R := (S_C_R - min(S_C_R) + 1e-6) / (max(S_C_R) - min(S_C_R) + 1e-6), by = group_id]
   dt.score[, S_P_R := frank(S_P_A), by = group_id]
-  dt.score[, S_P_R := (S_P_R - min(S_P_R)) / (max(S_P_R) - min(S_P_R)), by = group_id]
+  dt.score[, S_P_R := (S_P_R - min(S_P_R) + 1e-6) / (max(S_P_R) - min(S_P_R) + 1e-6), by = group_id]
   dt.score[, S_B_R := frank(S_B_A), by = group_id]
-  dt.score[, S_B_R := (S_B_R - min(S_B_R)) / (max(S_B_R) - min(S_B_R)), by = group_id]
+  dt.score[, S_B_R := (S_B_R - min(S_B_R) + 1e-6) / (max(S_B_R) - min(S_B_R) + 1e-6), by = group_id]
   dt.score[, S_M_R := frank(S_M_A), by = group_id]
-  dt.score[, S_M_R := (S_M_R - min(S_M_R)) / (max(S_M_R) - min(S_M_R)), by = group_id]
+  dt.score[, S_M_R := (S_M_R - min(S_M_R) + 1e-6) / (max(S_M_R) - min(S_M_R) + 1e-6), by = group_id]
   dt.score[, S_T_R := frank(S_T_A), by = group_id]
-  dt.score[, S_T_R := (S_T_R - min(S_T_R)) / (max(S_T_R) - min(S_T_R)), by = group_id]
+  dt.score[, S_T_R := (S_T_R - min(S_T_R) + 1e-6) / (max(S_T_R) - min(S_T_R) + 1e-6), by = group_id]
 
   return(dt.score)
 }
