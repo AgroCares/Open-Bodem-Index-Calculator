@@ -3,11 +3,12 @@
 #' This function quantifies the effects of 11 soil measures on the OBI score
 #' 
 #' @param dt.score (data.table) The results from \code{\link{obic_score}}
+#' @param extensive (boolean) whether the output table includes evaluation scores of each  measures (TRUE)
 #' 
 #' @import data.table
 #' 
 #' @export
-obic_evalmeasure <- function(dt.score) {
+obic_evalmeasure <- function(dt.score, extensive = FALSE) {
   
   # Check inputs
   checkmate::assert_data_table(dt.score)
@@ -105,6 +106,15 @@ obic_evalmeasure <- function(dt.score) {
     # add priority for those situations that measures have equal score
     dt.final <- merge(dt.final,unique(mdb1[,c('m_nr','m_order')]),by='m_nr')
     
+    # remove the individal score per measure per indicator if needed
+    if(extensive == FALSE){
+      
+      # remove all columns except those needed for recommendation
+      cols <- colnames(dt.final)[grepl('^M_',colnames(dt.final))]
+      # remove columns
+      dt.final[,c(cols) := NULL]
+    }
+    
     # terurn final db
     return(dt.final)
 }
@@ -115,18 +125,17 @@ obic_evalmeasure <- function(dt.score) {
 #' This function gives recommendations better soil management based on the OBI score
 #' 
 #' @param dt.recom (data.table) The results from \code{\link{obic_evalmeasure}}
-#' @param extensive (boolean) whether the output table includes evaluation scores of each  measures (TRUE) or only names of top 3 measures
 #' 
 #' @import data.table
 #' 
 #' @export
-obic_recommendations <- function(dt.recom, extensive = FALSE) {
+obic_recommendations <- function(dt.recom) {
   
   # Check inputs
   checkmate::assert_data_table(dt.recom)
   
   # set variables as NULL
-  m_order = m_nr = sid = m.adv = NULL
+  ID = m_order = m_nr = sid = m.adv = NULL
   TH_M_S_C = TH_M_S_P = TH_M_S_B = NULL
   FS_M_S_C = FS_M_S_P = FS_M_S_B = NULL
   
@@ -174,11 +183,10 @@ obic_recommendations <- function(dt.recom, extensive = FALSE) {
   out <- merge(dt.chem,dt.phys,by='ID')
   out <- merge(out,dt.biol,by='ID')
   
-  if(extensive == FALSE){
-    # add effect of each measure on all indicators
-    out <- merge(dt.final,out,by='ID')
-  }
+  # setkey on ID
+  setkey(out,ID)
   
+  # return output
   return(out)
   
 }

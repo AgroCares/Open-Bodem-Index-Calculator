@@ -2,5 +2,5 @@ pandoc: 2.7.1
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
-  explaination-of-the-OBIC-package: explaination-of-the-OBIC-package.html
+  description-of-the-columns: description-of-the-columns.html
 

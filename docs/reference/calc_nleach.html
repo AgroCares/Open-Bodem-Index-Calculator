@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the indicator for Potassium Availability — ind_potassium • OBIC</title>
+<title>Calculate the N leaching — calc_nleach • OBIC</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Calculate the indicator for Potassium Availability — ind_potassium" />
-<meta property="og:description" content="This function calculates the indicator for the the Potassium Availability of the soil by using the K-availability calculated by calc_potassium_availability" />
+<meta property="og:title" content="Calculate the N leaching — calc_nleach" />
+<meta property="og:description" content="This function calculates the potential N leaching of a soil." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,35 +120,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the indicator for Potassium Availability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/potassium.R'><code>R/potassium.R</code></a></small>
-    <div class="hidden name"><code>ind_potassium.Rd</code></div>
+    <h1>Calculate the N leaching</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/nretention.R'><code>R/nretention.R</code></a></small>
+    <div class="hidden name"><code>calc_nleach.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the indicator for the the Potassium Availability of the soil by using the K-availability calculated by <code><a href='calc_potassium_availability.html'>calc_potassium_availability</a></code></p>
+    <p>This function calculates the potential N leaching of a soil.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ind_potassium</span>(<span class='no'>D_K</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_BT_AK</span>, <span class='no'>A_OS_GV</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_nleach</span>(<span class='no'>B_BT_AK</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_GT</span>, <span class='no'>D_NLV</span>, <span class='no'>leaching_to</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>D_K</th>
-      <td><p>(numeric) The value of K-index calculated by <code><a href='calc_potassium_availability.html'>calc_potassium_availability</a></code></p></td>
+      <th>B_BT_AK</th>
+      <td><p>(character) The type of soil</p></td>
     </tr>
     <tr>
       <th>B_LU_BRP</th>
       <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
     </tr>
     <tr>
-      <th>B_BT_AK</th>
-      <td><p>(character) The type of soil</p></td>
+      <th>B_GT</th>
+      <td><p>(character) The groundwater table class</p></td>
     </tr>
     <tr>
-      <th>A_OS_GV</th>
-      <td><p>(numeric) The organic matter content of the soil (%)</p></td>
+      <th>D_NLV</th>
+      <td><p>(numeric) The N-leverend vermogen (kg N ha-1 jr-1) calculated by <code><a href='calc_nlv.html'>calc_nlv</a></code></p></td>
+    </tr>
+    <tr>
+      <th>leaching_to</th>
+      <td><p>(character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")</p></td>
     </tr>
     </table>
 

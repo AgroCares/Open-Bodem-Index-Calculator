@@ -60,7 +60,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   # merge fraction of N leaching into 'dt', based on soil type x crop type x grondwatertrap
   dt <- merge(dt, nleach_table[, list(bodem, gewas, B_GT, nf)], by.x = c("soiltype.n", "croptype.nleach", "B_GT"), by.y = c("bodem", "gewas", "B_GT"), sort =FALSE, all.x = TRUE)
   
-  # compute (potential) N leaching to groundwater D_NGW (mgNO3/L/) or D_NOW (kgN/ha/year)
+  # compute (potential) N leaching to groundwater D_NGW (mgNO3/L/) or D_NSW (kgN/ha/year)
   dt[, value := D_NLV * nf]
   # when Groundwatertrap is unknown, set N leaching as 0 <-- to be checked if this is okay,
   dt[B_GT == 'unknown', value := 0]

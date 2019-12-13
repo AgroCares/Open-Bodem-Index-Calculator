@@ -1,6 +1,6 @@
 # Changelog OBIC
 
-## UNRELEASED 
+## Version 0.10.0 2019-12-13
 ### Added
 * Adds the evaluation of measures #37
 * Adds giving recommendations based on the OBI score #37
@@ -11,9 +11,9 @@
 
 ### Changed
 * Update of crumbeability groups in `crops.obic`
-* Maximum value of A_MN_CC is increased from 30000 to 250000
+* Maximum value of `A_MN_CC` is increased from 30000 to 250000
 * The code for evaluating  in `ind_crumbeability` is simplified
-* M_M10 user input changed in D_CP_RUST input, plus comments added #29
+* M_M10 user input changed in `D_CP_RUST` input, plus comments added #29
 * new table with weighing factors included 'weight.obic' #32
 * weighing factors updated in obic_indicators.R #32
 * Improved the zinc indicator function #39
@@ -23,15 +23,17 @@
 * The parameter values for sulphur on arable land is adjusted #41
 * The optimal pH for grassland depends now on organic matter content and presence of clover #42
 * The score aggragation is now 60% average of last 4 years and 40% of older years #31
-* The maximum value for D_CR is limited to 10 #47
-* The parameters for the evaluation for `I_C_K` is set to the same as grassland #49
-* The evaluation for I_C_N is now split into grassland and arable land #50
+* The maximum value for `D_CR` is limited to 10 #47
+* The parameters for the evaluation for `I_C_K` is set to the same as grassland #51
+* The evaluation for `I_C_N` is now split into grassland and arable land #50
+* Set lifecyle status to `maturing`
 * The evaluation of `I_C_MG` is adjusted according to factsheet
 
 ### Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
 * Fixed the droughtstress, wetnessstress and waterstress values for GtI in `waterstress.obic`
 * For grasslands on peat pr clay, the `D_MG` is now scaled #51
+* Limit `D_SLV` between -30 and 250 
 
 ## Version 0.9.0 2019-10-22
 ### Changed
