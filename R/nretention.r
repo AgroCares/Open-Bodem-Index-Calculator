@@ -119,8 +119,9 @@ ind_nretention <- function(D_NW, leaching_to){
   checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)
   
   if (leaching_to == "gw") {
-    # Evaluate the N retention for groundwater
-    value <- OBIC::evaluate_logistic(x = D_NW, b = 0.1, x0 = 20, v = 0.4, increasing = FALSE) # this makes ca. 0.1 when D_NGW = 50 
+    # Evaluate the N retention for groundwater 
+    value <- OBIC::evaluate_logistic(x = D_NW, b = 0.1, x0 = 24, v = 0.578, increasing = FALSE) 
+    
   } else if (leaching_to == "ow") {
     # Evaluate the N retention for surfacewater
     value <- OBIC::evaluate_logistic(x = D_NW, b = 0.15, x0 = 5, v = 0.3, increasing = FALSE) # this reaches almost 0 when D_NOW = 40 (emperical maximum)
