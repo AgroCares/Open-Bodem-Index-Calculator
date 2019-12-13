@@ -8,16 +8,17 @@
 #' 
 #' @param D_NLV (numeric) The N-leverend vermogen (kg N ha-1 jr-1) calculated by \code{\link{calc_nlv}}
 #' @param leaching_to (character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")
-#' 
+#' @param B_LG_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016) 
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
+calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to){
   
   soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = NULL
   nleach_table = bodem = gewas = nf = id = leaching_to_set = NULL
- 
+  n_eff = anr.cor = n_sp.nlv = n_sp.nfert = n_sp = B_LG_CBS = NULL
+    
   # Load in the datasets
   soils.obic <- as.data.table(OBIC::soils.obic)
   setkey(soils.obic, soiltype)
@@ -29,8 +30,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   nleach_table <- nleach_table[leaching_to_set == leaching_to]
   
   # Check input
-  arg.length <- max(length(B_BT_AK),length(B_LU_BRP), length(B_GT),
-                    length(D_NLV))
+  arg.length <- max(length(B_BT_AK),length(B_LU_BRP), length(B_GT),length(D_NLV))
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype))
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -38,7 +38,12 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   checkmate::assert_character(B_GT,any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(D_NLV, lower = -30, upper = 250, len = arg.length) 
   checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)
-
+  checkmate::assert_subset(B_LG_CBS, choices = c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
+                                                 'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
+                                                 'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
+                                                 'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
+                                                 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
+  
   # Collect data in a table
   dt <- data.table(
     id = 1:arg.length,
@@ -49,7 +54,9 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
     value = NA_real_
   )
   
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
+  # add soil type, crop categories and allowed N dose
+  cols <- colnames(crops.obic)[grepl('^crop_cat|^crop_code|^nf_',colnames(crops.obic))]
+  dt <- merge(dt, crops.obic[, mget(cols)], by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
   
   # Re-categorize crop types
@@ -60,10 +67,32 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to){
   # merge fraction of N leaching into 'dt', based on soil type x crop type x grondwatertrap
   dt <- merge(dt, nleach_table[, list(bodem, gewas, B_GT, nf)], by.x = c("soiltype.n", "croptype.nleach", "B_GT"), by.y = c("bodem", "gewas", "B_GT"), sort =FALSE, all.x = TRUE)
   
-  # compute (potential) N leaching to groundwater D_NGW (mgNO3/L/) or D_NSW (kgN/ha/year)
-  dt[, value := D_NLV * nf]
+  # select the allowed effective N dose (in Dutch: N-gebruiksnorm), being dependent on soil type and region
+  sand.south <- c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant')
+  dt[grepl('zand|dal',B_BT_AK), n_eff := nf_sand.other]
+  dt[grepl('zand|dal',B_BT_AK) & B_LG_CBS %in% sand.south, n_eff := nf_sand.south]
+  dt[grepl('klei',B_BT_AK), n_eff := nf_clay]
+  dt[grepl('veen',B_BT_AK), n_eff := nf_peat]
+  dt[grepl('loess',B_BT_AK), n_eff := nf_loess]
+  
+  # remove columns not needed any more
+  cols <- colnames(dt)[grepl('^nf_',colnames(dt))]
+  dt[,(cols) := NULL]
+  
+  # estimate N-efficiency of the fertilizer added (125 = default NLV and 25 = default deposition, used for N-gebruiksnorm)
+  # by default 0.8 for fertilizers, 0.9 for mineralized N and decreasing to 0 at high N-availability levels
+  dt[, anr.cor := (D_NLV + n_eff)/(125 + n_eff + 25)]
+  dt[, anr.cor := pmin(1, 0.8 * anr.cor^-5)]
+  dt[, n_sp.nlv := (1 - anr.cor * 0.9) * D_NLV]
+  dt[, n_sp.nfert := (1 - anr.cor * 0.8) * n_eff]
+  dt[, n_sp := n_sp.nlv + n_sp.nfert]
+  
+  # compute (potential and soil derived) N leaching to groundwater D_NGW (mg NO3/L) or surface water D_NSW (kgN/ha)
+  dt[, value := n_sp * nf * (n_sp.nlv / n_sp)]
+  
   # when Groundwatertrap is unknown, set N leaching as 0 <-- to be checked if this is okay,
   dt[B_GT == 'unknown', value := 0]
+  
   # When NLV is negative (= net immobilization), no leaching is assumed
   dt[D_NLV < 0, value := 0]
   
