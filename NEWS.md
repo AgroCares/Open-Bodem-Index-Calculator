@@ -1,6 +1,6 @@
 # Changelog OBIC
 
-## Version 0.10.0 2019-12-04
+## Version 0.10.0 2019-12-13
 ### Added
 * Adds the evaluation of measures #37
 * Adds giving recommendations based on the OBI score #37
