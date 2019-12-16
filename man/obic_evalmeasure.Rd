@@ -4,10 +4,12 @@
 \alias{obic_evalmeasure}
 \title{Evaluate effects of measures}
 \usage{
-obic_evalmeasure(dt.score)
+obic_evalmeasure(dt.score, extensive = FALSE)
 }
 \arguments{
 \item{dt.score}{(data.table) The results from \code{\link{obic_score}}}
+
+\item{extensive}{(boolean) whether the output table includes evaluation scores of each  measures (TRUE)}
 }
 \description{
 This function quantifies the effects of 11 soil measures on the OBI score
