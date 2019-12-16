@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the indicator for Potassium Availability — ind_potassium • OBIC</title>
+<title>Evaluate effects of measures — obic_evalmeasure • OBIC</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Calculate the indicator for Potassium Availability — ind_potassium" />
-<meta property="og:description" content="This function calculates the indicator for the the Potassium Availability of the soil by using the K-availability calculated by calc_potassium_availability" />
+<meta property="og:title" content="Evaluate effects of measures — obic_evalmeasure" />
+<meta property="og:description" content="This function quantifies the effects of 11 soil measures on the OBI score" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,35 +120,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the indicator for Potassium Availability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/potassium.R'><code>R/potassium.R</code></a></small>
-    <div class="hidden name"><code>ind_potassium.Rd</code></div>
+    <h1>Evaluate effects of measures</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/obic_recommendations.R'><code>R/obic_recommendations.R</code></a></small>
+    <div class="hidden name"><code>obic_evalmeasure.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the indicator for the the Potassium Availability of the soil by using the K-availability calculated by <code><a href='calc_potassium_availability.html'>calc_potassium_availability</a></code></p>
+    <p>This function quantifies the effects of 11 soil measures on the OBI score</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ind_potassium</span>(<span class='no'>D_K</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_BT_AK</span>, <span class='no'>A_OS_GV</span>)</pre>
+    <pre class="usage"><span class='fu'>obic_evalmeasure</span>(<span class='no'>dt.score</span>, <span class='kw'>extensive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>D_K</th>
-      <td><p>(numeric) The value of K-index calculated by <code><a href='calc_potassium_availability.html'>calc_potassium_availability</a></code></p></td>
+      <th>dt.score</th>
+      <td><p>(data.table) The results from <code><a href='obic_score.html'>obic_score</a></code></p></td>
     </tr>
     <tr>
-      <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
-    </tr>
-    <tr>
-      <th>B_BT_AK</th>
-      <td><p>(character) The type of soil</p></td>
-    </tr>
-    <tr>
-      <th>A_OS_GV</th>
-      <td><p>(numeric) The organic matter content of the soil (%)</p></td>
+      <th>extensive</th>
+      <td><p>(boolean) whether the output table includes evaluation scores of each  measures (TRUE)</p></td>
     </tr>
     </table>
 

@@ -92,6 +92,7 @@ calc_slv <- function(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   # Combine both tables and extract values
   dt <- rbindlist(list(dt.grass, dt.maize,dt.arable,dt.nature), fill = TRUE)
   dt[value > 250, value := 250]
+  dt[value < -30, value := -30]
   setorder(dt, id)
   value <- dt[, value]
   
@@ -122,7 +123,7 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   
   # Check input
   arg.length <- max(length(D_SLV), length(B_LU_BRP), length(B_BT_AK), length(B_LG_CBS))
-  checkmate::assert_numeric(D_SLV, lower = 0, upper = 150, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_SLV, lower = -30, upper = 250, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -204,6 +205,9 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   
   # estimated SLV compared to total S requirement
   dt[,value := D_SLV - sreq]
+  
+  dt[value > 250, value := 250]
+  dt[value < -30, value := -30]
   
   # extract value from dt 
   setorder(dt, id)
