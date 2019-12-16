@@ -36,7 +36,7 @@
 
 
 <meta property="og:title" content="Score the indicators for the OBI — obic_score" />
-<meta property="og:description" content="This wrapper function contains the functions to weight the evaluations." />
+<meta property="og:description" content="This wrapper function contains the functions to perform the scoring" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/explaination-of-the-OBIC-package.html">Explaination of the OBIC package</a>
+      <a href="../articles/description-of-the-columns.html">Description of the columns for OBIC</a>
     </li>
   </ul>
 </li>
@@ -126,10 +126,10 @@
     </div>
 
     <div class="ref-description">
-    <p>This wrapper function contains the functions to weight the evaluations.</p>
+    <p>This wrapper function contains the functions to perform the scoring</p>
     </div>
 
-    <pre class="usage"><span class='fu'>obic_score</span>(<span class='no'>dt.ind</span>)</pre>
+    <pre class="usage"><span class='fu'>obic_score</span>(<span class='no'>dt.ind</span>, <span class='no'>add_relative_score</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,6 +137,10 @@
     <tr>
       <th>dt.ind</th>
       <td><p>(data.table) The table containg the data needed for OBI</p></td>
+    </tr>
+    <tr>
+      <th>add_relative_score</th>
+      <td><p>(logical) Should the relative score be calculated? Defaults to TRUE</p></td>
     </tr>
     </table>
 

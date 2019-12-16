@@ -17,7 +17,7 @@ obic_score <- function(dt.ind, add_relative_score) {
   dt.ind <- copy(dt.ind)
   
   # define variables used within the function
-  ID = YEAR = col.sel = cf = NULL
+  ID = YEAR = col.sel = cf = B_LU_BRP = NULL
   
   # Score on a absolute scale
   dt.score <- score_absolute(dt.ind)
@@ -28,15 +28,22 @@ obic_score <- function(dt.ind, add_relative_score) {
     dt.score <- score_relative(dt.score)
     
   }
+  
+  # Aggregate per field the soil type and crop most occuring
+  cols.soilcrop <- colnames(dt.score)[grepl("B_LU_BRP|B_BT_AK", colnames(dt.score))]
+  dt.soilcrop <- dt.score[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), by = ID, .SDcols = cols.soilcrop]
+  dt.soilcrop[, B_LU_BRP := as.integer(B_LU_BRP)]
 
-
-  # Aggregate per field
+  # Aggregate per field (numeric)
   col.sel <- colnames(dt.score)[grepl("ID|YEAR|^I_|^S_", colnames(dt.score))]
   dt.aggr <- dt.score[, mget(col.sel)]
-  dt.aggr[YEAR < max(YEAR) - 4, cf := 0.4, by = ID]
-  dt.aggr[YEAR >= max(YEAR) - 4, cf := 0.6, by = ID]
+  dt.aggr[, cf := fifelse(YEAR < max(YEAR) - 4, 0.4, 0.6), by = ID]
   dt.aggr <- dt.aggr[, lapply(.SD, mean), by = list(ID, cf)]
-  dt.aggr <- dt.aggr[, lapply(.SD, function (x, cf) {sum(x * cf)}, cf), by = list(ID)]
+  dt.aggr <- dt.aggr[, lapply(.SD, function (x, cf) {sum(x * cf) / sum(cf)}, cf), by = list(ID)]
+  dt.aggr[, cf := NULL]
+  
+  # Merge numeric and soil type and crop
+  dt.aggr <- merge(dt.soilcrop, dt.aggr, by = "ID")
 
   return(dt.aggr)
 }
@@ -63,7 +70,7 @@ score_absolute <- function(dt.ind) {
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_CEC = I_P_WRI = NULL
-  I_DGW = I_DOW = NULL
+  I_E_NGW = I_E_NSW = NULL
   rsid = NULL
   
   # Load in the datasets and reshape
@@ -74,7 +81,7 @@ score_absolute <- function(dt.ind) {
   # Score the chemical indicators
   dt.ind[, S_C_A := ((w$W_C_N + 1/I_C_N) * I_C_N + (w$W_C_P + 1/I_C_P) * I_C_P + w$W_C_K * I_C_K + 
 					w$W_C_MG * I_C_MG + w$W_C_S * I_C_S +(w$W_C_PH + 1/I_C_PH) * I_C_PH + 
-					w$W_C_CEC * I_C_CEC + w$W_C_CUZN * (I_C_CU + I_C_ZN)) / 
+					w$W_C_CEC * I_C_CEC + (w$W_C_CU + w$W_C_ZN) * (I_C_CU + I_C_ZN)) / 
 					  (1 + 1/I_C_N + 1/I_C_P + 1/I_C_PH)]
   
   # Score the physical indicators
@@ -89,7 +96,7 @@ score_absolute <- function(dt.ind) {
   dt.ind[, S_M_A := I_M]
   
   # Score the environmental performance
-  dt.ind[, S_E_A := 0.5 * I_DGW + 0.5 * I_DOW]
+  dt.ind[, S_E_A := 0.5 * I_E_NGW + 0.5 * I_E_NSW]
   
   # Calculate the total score
   dt.ind[, S_T_A := 0.35 * S_C_A + 0.35 * S_P_A + 0.2 * S_B_A + 0.1 * S_M_A]
@@ -136,7 +143,7 @@ score_relative <- function(dt.score.abs) {
   waterstress.obic[waterstress < 11, yield_depression := 1]
   waterstress.obic[waterstress >= 11 & waterstress < 30, yield_depression := 2]
   waterstress.obic[waterstress >= 30, yield_depression := 3]
-  dt.score <- merge(dt.score, waterstress.obic, by.x = c("crop_waterstress", "B_HELP_WENR", "B_GT"), by.y = c("cropname", "soilunit", "gt"))
+  dt.score <- merge(dt.score, waterstress.obic, by.x = c("crop_waterstress", "B_HELP_WENR", "B_GT"), by.y = c("cropname", "soilunit", "gt"), all.x = TRUE)
 
   # Select columns to base the ranking on
   grouping <- c("YEAR", "yield_depression", "crop_waterstress", "B_BT_AK")
@@ -148,17 +155,17 @@ score_relative <- function(dt.score.abs) {
   col.sel <- c(grouping, "group_id")
   dt.score <- merge(dt.score, groups[, mget(col.sel)], by = grouping, all.x = TRUE)
 
-  # Rank the absolute values and scale them between 1 and 0
+  # Rank the absolute values and scale them between 1 and 0 (Add 1e-6 to avoid dividing by zero when fields in a group have the same absolute score)
   dt.score[, S_C_R := frank(S_C_A), by = group_id]
-  dt.score[, S_C_R := (S_C_R - min(S_C_R, na.rm = TRUE)) / (max(S_C_R, na.rm = TRUE) - min(S_C_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_C_R := (S_C_R - min(S_C_R) + 1e-6) / (max(S_C_R) - min(S_C_R) + 1e-6), by = group_id]
   dt.score[, S_P_R := frank(S_P_A), by = group_id]
-  dt.score[, S_P_R := (S_P_R - min(S_P_R, na.rm = TRUE)) / (max(S_P_R, na.rm = TRUE) - min(S_P_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_P_R := (S_P_R - min(S_P_R) + 1e-6) / (max(S_P_R) - min(S_P_R) + 1e-6), by = group_id]
   dt.score[, S_B_R := frank(S_B_A), by = group_id]
-  dt.score[, S_B_R := (S_B_R - min(S_B_R, na.rm = TRUE)) / (max(S_B_R, na.rm = TRUE) - min(S_B_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_B_R := (S_B_R - min(S_B_R) + 1e-6) / (max(S_B_R) - min(S_B_R) + 1e-6), by = group_id]
   dt.score[, S_M_R := frank(S_M_A), by = group_id]
-  dt.score[, S_M_R := (S_M_R - min(S_M_R, na.rm = TRUE)) / (max(S_M_R, na.rm = TRUE) - min(S_M_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_M_R := (S_M_R - min(S_M_R) + 1e-6) / (max(S_M_R) - min(S_M_R) + 1e-6), by = group_id]
   dt.score[, S_T_R := frank(S_T_A), by = group_id]
-  dt.score[, S_T_R := (S_T_R - min(S_T_R, na.rm = TRUE)) / (max(S_T_R, na.rm = TRUE) - min(S_T_R, na.rm = TRUE)), by = group_id]
+  dt.score[, S_T_R := (S_T_R - min(S_T_R) + 1e-6) / (max(S_T_R) - min(S_T_R) + 1e-6), by = group_id]
 
   return(dt.score)
 }
