@@ -84,11 +84,9 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to){
   dt[, anr.cor := (D_NLV + n_eff)/(125 + n_eff + 25)]
   dt[, anr.cor := pmin(1, 0.8 * anr.cor^-5)]
   dt[, n_sp.nlv := (1 - anr.cor * 0.9) * D_NLV]
-  dt[, n_sp.nfert := (1 - anr.cor * 0.8) * n_eff]
-  dt[, n_sp := n_sp.nlv + n_sp.nfert]
-  
+
   # compute (potential and soil derived) N leaching to groundwater D_NGW (mg NO3/L) or surface water D_NSW (kgN/ha)
-  dt[, value := n_sp * nf * (n_sp.nlv / n_sp)]
+  dt[, value := nf * n_sp.nlv]
   
   # when Groundwatertrap is unknown, set N leaching as 0 <-- to be checked if this is okay,
   dt[B_GT == 'unknown', value := 0]
