@@ -39,7 +39,7 @@ calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, advice) {
   dt[, fertility_index := A_CEC_CO]
   
   # Calculate CEC index for structure (normalized to value beween 0-1)
-  dt[, structure_index := sqrt((A_CA_CEC - 80)^2 + (A_MG_CEC - 8.5)^2 + (A_K_CEC - 14.5)^2) / 125]
+  dt[, structure_index := sqrt((A_CA_CEC - 80)^2 + (A_MG_CEC - 8.5)^2 + (A_K_CEC - 11.5)^2) / 125]
   # Restrict the value to be <= 1
   dt[, structure_index := pmin(1, structure_index)]
   
