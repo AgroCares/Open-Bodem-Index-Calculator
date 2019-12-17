@@ -6,6 +6,8 @@
 #' @param A_K_CEC (numeric) The occupation of the CEC with K (\%)
 #' @param A_CA_CEC (numeric) The occupation of the CEC with Mg (\%)
 #' @param A_MG_CEC (numeric) The occupation of the CEC with Ca (\%)
+#' @param A_OS_GV (numeric) The organic matter content of soil in percentage
+#' @param B_BT_AK (character) The type of soil
 #' @param advice (character) Optional parameter to select CEC index for soil structure or fertility. Options: fertility_index or structure_index
 #'    
 #' @import data.table
@@ -23,6 +25,8 @@ calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, advice) {
   checkmate::assert_numeric(A_MG_CEC, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
   checkmate::assert_character(advice, any.missing = FALSE, min.len = 1, len = 1)
   checkmate::assert_subset(advice, choices = c('fertility_index','structure_index'), empty.ok = FALSE)
+  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   
   # Collect data in a table
   dt <- data.table(
@@ -31,6 +35,8 @@ calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, advice) {
     A_K_CEC = A_K_CEC,
     A_CA_CEC = A_CA_CEC,
     A_MG_CEC = A_MG_CEC,
+    B_BT_AK = B_BT_AK,
+    A_OS_GV = A_OS_GV,
     fertility_index = NA_real_,
     structure_index = NA_real_
     )
@@ -38,8 +44,15 @@ calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, advice) {
   # Calculate CEC index for soil fertility
   dt[, fertility_index := A_CEC_CO]
   
-  # Calculate CEC index for structure (normalized to value beween 0-1)
-  dt[, structure_index := sqrt((A_CA_CEC - 80)^2 + (A_MG_CEC - 8.5)^2 + (A_K_CEC - 11.5)^2) / 125]
+  # Calculate CEC index for structure on sandy soils (normalized to value beween 0-1)
+  dt[grepl('zand|dal',B_BT_AK), structure_index := sqrt((A_CA_CEC - 80)^2 + (A_MG_CEC - 8)^2 + (A_K_CEC - 3.5)^2) / 125]
+  
+  # Calculate CEC index for structure on non-sandy soils (normalized to value beween 0-1)
+  dt[!grepl('zand|dal',B_BT_AK), structure_index := sqrt((A_CA_CEC - 85)^2 + (A_MG_CEC - 8)^2 + (A_K_CEC - 3.5)^2) / 125]
+  
+  # Aggregate stability not relevant measure for peat soils
+  dt[A_OS_GV > 25, structure_index := 1]
+  
   # Restrict the value to be <= 1
   dt[, structure_index := pmin(1, structure_index)]
   
