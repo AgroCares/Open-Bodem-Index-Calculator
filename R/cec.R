@@ -51,7 +51,7 @@ calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, A_OS_GV, B_BT_AK, advic
   dt[!grepl('zand|dal',B_BT_AK), structure_index := sqrt((A_CA_CEC - 85)^2 + (A_MG_CEC - 8)^2 + (A_K_CEC - 3.5)^2) / 125]
   
   # Aggregate stability not relevant measure for peat soils
-  dt[A_OS_GV > 25, structure_index := 1]
+  dt[A_OS_GV > 25, structure_index := 0]
   
   # Restrict the value to be <= 1
   dt[, structure_index := pmin(1, structure_index)]
