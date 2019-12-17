@@ -15,7 +15,7 @@
   \item{potato.high}{Upper value for fraction potatoes in crop plan}
   \item{sugarbeet.low}{Lower value for fraction potatoes in crop plan}
   \item{sugarbeet.high}{Upper value for fraction potatoes in crop plan}
-  \item{ph.optimum}{The optimal pH for this range}   
+  \item{ph.optimum}{The optimal pH (pH_CaCl2) for this range}   
 }
 
 #' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}}
