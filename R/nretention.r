@@ -17,6 +17,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to){
   soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = NULL
   nleach_table = bodem = gewas = nf = id = leaching_to_set = NULL
   n_eff = anr.cor = n_sp.nlv = n_sp.nfert = n_sp = NULL
+  nf_sand.other = nf_sand.south = nf_clay = nf_peat = nf_loess = NULL
     
   # Load in the datasets
   soils.obic <- as.data.table(OBIC::soils.obic)
