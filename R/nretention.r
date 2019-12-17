@@ -5,10 +5,9 @@
 #' @param B_BT_AK (character) The type of soil
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_GT (character) The groundwater table class
-#' 
 #' @param D_NLV (numeric) The N-leverend vermogen (kg N ha-1 jr-1) calculated by \code{\link{calc_nlv}}
-#' @param leaching_to (character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")
 #' @param B_LG_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016) 
+#' @param leaching_to (character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")
 #' 
 #' @import data.table
 #' 
@@ -17,7 +16,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to){
   
   soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = NULL
   nleach_table = bodem = gewas = nf = id = leaching_to_set = NULL
-  n_eff = anr.cor = n_sp.nlv = n_sp.nfert = n_sp = B_LG_CBS = NULL
+  n_eff = anr.cor = n_sp.nlv = n_sp.nfert = n_sp = NULL
     
   # Load in the datasets
   soils.obic <- as.data.table(OBIC::soils.obic)
@@ -30,7 +29,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to){
   nleach_table <- nleach_table[leaching_to_set == leaching_to]
   
   # Check input
-  arg.length <- max(length(B_BT_AK),length(B_LU_BRP), length(B_GT),length(D_NLV))
+  arg.length <- max(length(B_BT_AK),length(B_LU_BRP), length(B_GT),length(D_NLV), length(B_LG_CBS))
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype))
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -38,6 +37,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to){
   checkmate::assert_character(B_GT,any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(D_NLV, lower = -30, upper = 250, len = arg.length) 
   checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)
+  checkmate::assert_character(B_LG_CBS, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LG_CBS, choices = c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
                                                  'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
                                                  'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
@@ -51,6 +51,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to){
     B_LU_BRP = B_LU_BRP, 
     B_GT = B_GT,
     D_NLV = D_NLV,
+    B_LG_CBS = B_LG_CBS,
     value = NA_real_
   )
   
@@ -81,9 +82,12 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to){
   
   # estimate N-efficiency of the fertilizer added (125 = default NLV and 25 = default deposition, used for N-gebruiksnorm)
   # by default 0.8 for fertilizers, 0.9 for mineralized N and decreasing to 0 at high N-availability levels
+  # Nitrogen recovery
   dt[, anr.cor := (D_NLV + n_eff)/(125 + n_eff + 25)]
   dt[, anr.cor := pmin(1, 0.8 * anr.cor^-5)]
-  dt[, n_sp.nlv := (1 - anr.cor * 0.9) * D_NLV]
+  # N overschot from soil
+  dt[, n_sp.nlv := (1 - anr.cor * 0.9) * D_NLV] 
+  # N overschot from fertilizer
   dt[, n_sp.nfert := (1 - anr.cor * 0.8) * n_eff]
   dt[, n_sp := n_sp.nlv + n_sp.nfert]
   
