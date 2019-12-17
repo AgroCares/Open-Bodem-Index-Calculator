@@ -98,10 +98,10 @@ obic_preprocessing <- function(dt) {
   dt[, D_PMN := calc_pmn(A_N_PMN,B_LU_BRP,B_BT_AK)]
 
   # Calculate the CEC fertility index
-  dt[,D_C_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,advice = 'fertility_index')]
+  dt[,D_C_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, A_OS_GV, B_BT_AK, advice = 'fertility_index')]
 
   # Calculate the CEC index for soil structure
-  dt[,D_P_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,advice = 'structure_index')]
+  dt[,D_P_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,A_OS_GV, B_BT_AK, advice = 'structure_index')]
   
   # Calculate the score of the BodemConditieScore
   dt[, D_BCS := calc_bcs(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_BC, A_SS_BC, A_CO_BC,
