@@ -121,11 +121,11 @@ ind_nretention <- function(D_NW, leaching_to){
   
   if (leaching_to == "gw") {
     # Evaluate the N retention for groundwater 
-    value <- OBIC::evaluate_logistic(x = D_NW, b = 0.1, x0 = 24, v = 0.578, increasing = FALSE) 
-    
+    value <- OBIC::evaluate_logistic(x = D_NW, b = 0.36, x0 = 12, v = 0.96, increasing = FALSE) 
+
   } else if (leaching_to == "ow") {
     # Evaluate the N retention for surfacewater
-    value <- OBIC::evaluate_logistic(x = D_NW, b = 0.15, x0 = 5, v = 0.3, increasing = FALSE) # this reaches almost 0 when D_NOW = 40 (emperical maximum)
+    value <- OBIC::evaluate_logistic(x = D_NW, b = 0.54, x0 = 5, v = 0.75, increasing = FALSE)
   }
 
   return(value)
