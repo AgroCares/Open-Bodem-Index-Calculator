@@ -3,6 +3,7 @@
 ## UNRELEASED
 ## Changed
 * Improved the function for crumbleability to macht the factsheet #54
+* Optimal pH values of grassland are now the middle value of the class `good` #55
 
 ## Version 0.10.0 2019-12-13
 ### Added
