@@ -5,6 +5,8 @@ test_that("calc_cec works", {
       A_K_CEC = rep(5,5),
       A_MG_CEC = rep(2.8,5),
       A_CA_CEC = seq(35,92,length.out = 5),
+      A_OS_GV = rep(5, 5), 
+      B_BT_AK = rep('dekzand', 5),
       advice='fertility_index'
     ),
     expected = seq(10,500,length.out = 5),
@@ -16,9 +18,11 @@ test_that("calc_cec works", {
       A_K_CEC = rep(5,5),
       A_MG_CEC = rep(2.8,5),
       A_CA_CEC = seq(35,92,length.out = 5),
+      A_OS_GV = rep(5, 5), 
+      B_BT_AK = rep('dekzand', 5),
       advice='structure_index'
     ),
-    expected = c(0.37,0.26,.16,0.09,0.13),
+    expected = c(0.3625942, 0.2497810, 0.1389193, 0.0468888, 0.1053117),
     tolerance = 0.01
   )
 })

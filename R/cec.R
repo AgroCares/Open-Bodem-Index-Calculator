@@ -17,14 +17,18 @@ calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, A_OS_GV, B_BT_AK, advic
   
   id = fertility_index = structure_index = NULL
   
+  # Load in the datasets
+  soils.obic <- as.data.table(OBIC::soils.obic)
+  
   # Check inputs
-  arg.length <- max(length(A_CEC_CO), length(A_K_CEC), length(A_CA_CEC), length(A_MG_CEC))
+  arg.length <- max(length(A_CEC_CO), length(A_K_CEC), length(A_CA_CEC), length(A_MG_CEC),  length(B_BT_AK),  length(A_OS_GV))
   checkmate::assert_numeric(A_CEC_CO, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_K_CEC, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CA_CEC, lower = 0, upper = 400, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_MG_CEC, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
   checkmate::assert_character(advice, any.missing = FALSE, min.len = 1, len = 1)
   checkmate::assert_subset(advice, choices = c('fertility_index','structure_index'), empty.ok = FALSE)
+  checkmate::assert_character(B_BT_AK, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   
