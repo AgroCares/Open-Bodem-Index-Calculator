@@ -42,6 +42,7 @@ calc_sealing_risk <- function(A_CLAY_MI, A_OS_GV) {
   
   # Calculate the value
   dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV]
+  dt[value > 10, value := 10]
   value <- dt[, value]
     
   return(value)
@@ -82,7 +83,7 @@ ind_sealing <- function(D_SE, B_LU_BRP) {
   setorder(dt, id)
 
   # Evaluate the sealing for grassland and all other crops
-  dt[crop_sealing == "overig", value := OBIC::evaluate_logistic(x = D_SE, b = 1.5, x0 = 0.3, v = 0.35)]
+  dt[crop_sealing == "overig", value := OBIC::evaluate_logistic(x = D_SE, b = 0.71, x0 = 4, v = 0.94)]
   dt[crop_sealing == "gras", value := 1]
   
   value <- dt[, value]
