@@ -33,7 +33,7 @@ test_that("eval_crumbleability works", {
       D_CR = seq(5,15,1),
       B_LU_BRP = rep(1042,11)
     ),
-    expected = c(0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0),
+    expected = c(0.3125, 0.3750, 0.4375, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0),
     tolerance = 0.1
   )
   expect_equal(
