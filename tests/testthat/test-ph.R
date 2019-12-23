@@ -30,7 +30,7 @@ test_that("calc_ph_delta works", {
       D_CP_OTHER = c(0.4, 0, 0, 0.5, 0),
       B_LU_BRP = c(265, 265, 265, 265, 800)
     ),
-    expected = c(0.3, 0.7, 0, 0.6, 0.2),
+    expected = c(0.3, 01.31, 0, 0.6, 0.81),
     tolerance = 0.001
   )
 })
