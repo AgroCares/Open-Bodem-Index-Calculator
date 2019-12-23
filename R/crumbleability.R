@@ -100,8 +100,9 @@ ind_crumbleability <- function(D_CR, B_LU_BRP) {
   dt <- dt.eval.crumb[dt]
   
   # calculate a crop specific index
-  dt[,value := 0.5 + 0.5 * (D_CR - lower)/(upper - lower)]
-  dt[,value := pmin(1,pmax(0.5,value))]
+  dt[D_CR >= lower, value := 0.5 + 0.5 * (D_CR - lower)/(upper - lower)]
+  dt[D_CR < lower, value := 0.5 * D_CR/lower]
+  dt[,value := pmin(1,pmax(0, value))]
   
   # retrieve value
   value <- dt[, value]

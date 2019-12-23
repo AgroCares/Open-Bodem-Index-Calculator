@@ -115,11 +115,11 @@ obic_preprocessing <- function(dt) {
   dt[,D_WSI := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstress')]
   
   # calculate N leaching to groundwater (mgNO3/L)
-  dt[,D_NGW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to = "gw")]
+  dt[,D_NGW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to = "gw")]
   
   # calculate N run-off to surface water (kgN/ha/year)
-  dt[,D_NSW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to = "ow")]
-  
+  dt[,D_NSW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to = "ow")]
+
 
   return(dt)
 }
