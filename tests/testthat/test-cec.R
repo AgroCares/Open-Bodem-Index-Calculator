@@ -7,7 +7,7 @@ test_that("calc_cec works", {
       A_CA_CEC = seq(35,92,length.out = 5),
       A_OS_GV = rep(5, 5), 
       B_BT_AK = rep('dekzand', 5),
-      advice='fertility_index'
+      advice='cationbuffer_index'
     ),
     expected = seq(10,500,length.out = 5),
     tolerance = 0
@@ -20,7 +20,7 @@ test_that("calc_cec works", {
       A_CA_CEC = seq(35,92,length.out = 5),
       A_OS_GV = rep(5, 5), 
       B_BT_AK = rep('dekzand', 5),
-      advice='structure_index'
+      advice='aggregation_index'
     ),
     expected = c(0.3625942, 0.2497810, 0.1389193, 0.0468888, 0.1053117),
     tolerance = 0.01
@@ -31,7 +31,7 @@ test_that("eval_cec works", {
   expect_equal(
     ind_cec(
       D_CEC = c(0.37,0.26,0.16,0.09,0.13),
-      advice='structure_index'
+      advice='aggregation_index'
     ),
     expected = c(0.63,0.74,0.84,0.91,0.87),
     tolerance = 0.01
@@ -39,7 +39,7 @@ test_that("eval_cec works", {
   expect_equal(
     ind_cec(
       D_CEC = seq(10,500,50),
-      advice='fertility_index'
+      advice='cationbuffer_index'
     ),
     expected = c(0.1,0.6,1,1,1,1,1,1,1,1),
     tolerance = 0.01
