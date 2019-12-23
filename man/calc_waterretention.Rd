@@ -5,7 +5,7 @@
 \title{Calculate indicators for water retention in topsoil}
 \usage{
 calc_waterretention(A_CLAY_MI, A_SAND_MI, A_SILT_MI, A_OS_GV,
-  type = "plant available water")
+  type = "plant available water", ptf = "Wosten1999")
 }
 \arguments{
 \item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
@@ -17,6 +17,8 @@ calc_waterretention(A_CLAY_MI, A_SAND_MI, A_SILT_MI, A_OS_GV,
 \item{A_OS_GV}{(numeric) The organic matter content of the soil (\%)}
 
 \item{type}{(character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')}
+
+\item{ptf}{(character) Pedotransfer functions to calculate van Genuchten parameters. Options include c('Wosten1999', 'Wosten2001', 'Klasse')}
 }
 \description{
 This function calculates different kind of Water Retention Indices given the continuous pedotransferfunctions of Wosten et al. (2001)
