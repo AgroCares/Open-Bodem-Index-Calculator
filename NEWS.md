@@ -1,9 +1,15 @@
 # Changelog OBIC
 
 ## UNRELEASED
+## Added
+* Adds two other pedotransfer functions (PTFs) to calculate water retention parameters #53
+
 ## Changed
 * Improved the function for crumbleability to macht the factsheet #54
 * Optimal pH values of grassland are now the middle value of the class `good` #55
+* pF of field capacity is changed from 2.2 to 2.0 #53
+* Bulk density in the default PTF is now aggregated into 1 continous function #53
+* Parameters of evaluation for PAW are adjusted
 
 ## Version 0.10.0 2019-12-13
 ### Added
