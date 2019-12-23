@@ -4,7 +4,7 @@
 \alias{calc_nleach}
 \title{Calculate the N leaching}
 \usage{
-calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to)
+calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to)
 }
 \arguments{
 \item{B_BT_AK}{(character) The type of soil}
@@ -14,6 +14,8 @@ calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to)
 \item{B_GT}{(character) The groundwater table class}
 
 \item{D_NLV}{(numeric) The N-leverend vermogen (kg N ha-1 jr-1) calculated by \code{\link{calc_nlv}}}
+
+\item{B_LG_CBS}{(character) The agricultural economic region in the Netherlands (CBS, 2016)}
 
 \item{leaching_to}{(character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")}
 }
