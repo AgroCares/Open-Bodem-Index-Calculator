@@ -13,9 +13,12 @@
 #' @import data.table
 #' 
 #' @export
-calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, advice) {
+calc_cec <- function(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,A_OS_GV,B_BT_AK, advice) {
   
-  id = fertility_index = structure_index = NULL
+  id = fertility_index = structure_index = soils.obic = NULL
+  
+  # Load in the datasets
+  soils.obic <- as.data.table(OBIC::soils.obic)
   
   # Check inputs
   arg.length <- max(length(A_CEC_CO), length(A_K_CEC), length(A_CA_CEC), length(A_MG_CEC))

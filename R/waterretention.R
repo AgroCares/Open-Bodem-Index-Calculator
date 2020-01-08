@@ -68,9 +68,9 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
   dt[,whc := (thetaR + (thetaS - thetaR) / ((1 + (abs(alfa*(-1 * 10^0)))^n)^(1 - 1 / n))) * p.depth * 1000]
   dt[,paw := abs(fc - wp) * p.depth * 1000]
   
-  # convert from % to mm (wp) and dm (fc)
+  # convert from % to mm (wp) and mm (fc)
   dt[,wp := wp * p.depth * 1000]
-  dt[,fc := wp * p.depth * 10]
+  dt[,fc := wp * p.depth * 1000]
   
   # calculate Ksat (saturated conductivity)
   dt[,ksat := 7.755 + 0.0352 * A_SILT_MI + 0.93 * p.topsoil - 0.967 * density^2 - 0.000484 * A_CLAY_MI^2 -

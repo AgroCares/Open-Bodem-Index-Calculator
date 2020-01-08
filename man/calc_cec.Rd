@@ -4,7 +4,7 @@
 \alias{calc_cec}
 \title{Calculate the index for the CEC-occupation}
 \usage{
-calc_cec(A_CEC_CO, A_K_CEC, A_CA_CEC, A_MG_CEC, advice)
+calc_cec(A_CEC_CO, A_K_CEC, A_CA_CEC, A_MG_CEC, A_OS_GV, B_BT_AK, advice)
 }
 \arguments{
 \item{A_CEC_CO}{(numeric) The cation exchange capacity (mmol+ / kg)}
@@ -14,6 +14,10 @@ calc_cec(A_CEC_CO, A_K_CEC, A_CA_CEC, A_MG_CEC, advice)
 \item{A_CA_CEC}{(numeric) The occupation of the CEC with Mg (\%)}
 
 \item{A_MG_CEC}{(numeric) The occupation of the CEC with Ca (\%)}
+
+\item{A_OS_GV}{(numeric) The organic matter content of soil in percentage}
+
+\item{B_BT_AK}{(character) The type of soil}
 
 \item{advice}{(character) Optional parameter to select CEC index for soil structure or fertility. Options: fertility_index or structure_index}
 }
