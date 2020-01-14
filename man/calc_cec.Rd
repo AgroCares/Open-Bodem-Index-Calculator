@@ -19,7 +19,7 @@ calc_cec(A_CEC_CO, A_K_CEC, A_CA_CEC, A_MG_CEC, A_OS_GV, B_BT_AK, advice)
 
 \item{B_BT_AK}{(character) The type of soil}
 
-\item{advice}{(character) Optional parameter to select CEC index for soil structure or fertility. Options: fertility_index or structure_index}
+\item{advice}{(character) Optional parameter to select CEC index for soil aggregation or cation buffer capacity. Options: cationbuffer_index or aggregation_index}
 }
 \description{
 This function calculates the CEC-buffer index for a soil

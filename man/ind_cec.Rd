@@ -4,12 +4,12 @@
 \alias{ind_cec}
 \title{Calculate the indicator for the CEC}
 \usage{
-ind_cec(D_CEC, advice = "fertility_index")
+ind_cec(D_CEC, advice = "cationbuffer_index")
 }
 \arguments{
 \item{D_CEC}{(numeric) The value of CEC calculated by \code{\link{calc_cec}}}
 
-\item{advice}{(character) Optional parameter to select CEC index for soil structure or fertility. Options: fertility_index or structure_index}
+\item{advice}{(character) Optional parameter to select CEC index for soil aggregation or cation buffer capacity. Options: cationbuffer_index or aggregation_index}
 }
 \description{
 This function calculates the indicator for the the CEC  of the soil by using the CEC-index calculated by \code{\link{calc_cec}}
