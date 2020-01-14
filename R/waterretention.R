@@ -56,19 +56,21 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
   dt[,A_SILT_MI := A_SILT_MI * 100 / mineral]
   dt[, Pleem    := A_CLAY_MI + A_SILT_MI]
   
-  if (ptf == "Wosten1999"){
-    # calculate water retention parameters given Wosten (1999), based on HYPRES
-    dt[, c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_ptf_Wosten1999(A_CLAY_MI, A_SILT_MI, A_OS_GV, Bovengrond)]
-  }
-  if (ptf == "Wosten2001"){
-    # calculate water retention parameters given Wosten (2001)
-    dt[,  c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat", "l") := pFpara_ptf_Wosten2001(A_CLAY_MI, Pleem, A_OS_GV, M50, Bovengrond)]
-  }
-  if (ptf == "Klasse"){
-    #Class-translation function Staringreeks
-    dt[,  c("thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_class(A_CLAY_MI, Pleem, A_OS_GV, M50)]
-  }
+  # retreive properties of pF curve, given different types of pedotransfer functions
   
+    # calculate water retention parameters given Wosten (1999), based on HYPRES
+    if (ptf == "Wosten1999"){
+      dt[, c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_ptf_Wosten1999(A_CLAY_MI, A_SILT_MI, A_OS_GV, Bovengrond)]}
+  
+    # calculate water retention parameters given Wosten (2001)
+    if (ptf == "Wosten2001"){
+      dt[,  c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat", "l") := pFpara_ptf_Wosten2001(A_CLAY_MI, Pleem, A_OS_GV, M50, Bovengrond)]}
+  
+    # class-translation function Staringreeks
+    if (ptf == "Klasse"){
+      dt[,  c("thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_class(A_CLAY_MI, Pleem, A_OS_GV, M50)]}
+  
+  # retrieve moisture content at certain pF values 
   dt[,wp := pF_curve(-1 * 10^p.wiltingpoint, thetaR, thetaS, alfa, n)]
   dt[,fc := pF_curve(-1 * 10^p.fieldcapacity, thetaR, thetaS, alfa, n)]
   dt[,whc := pF_curve(-1 * 10^0, thetaR, thetaS, alfa, n) * p.depth * 1000]
@@ -83,8 +85,7 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
   if(type=='field capacity'){dt[,value := fc]}
   if(type=='water holding capacity'){dt[,value := whc]}
   if(type=='plant available water'){dt[,value := paw]}
-  if(type=='Ksat'){dt[,value := round(ksat,2)]
-    }
+  if(type=='Ksat'){dt[,value := round(ksat,2)]}
   
   # return selected Water Retention index
   value <- dt[, value]
