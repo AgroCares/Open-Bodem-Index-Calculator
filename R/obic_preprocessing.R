@@ -97,11 +97,11 @@ obic_preprocessing <- function(dt) {
   # Calculate the index for microbial activity
   dt[, D_PMN := calc_pmn(A_N_PMN,B_LU_BRP,B_BT_AK)]
 
-  # Calculate the CEC fertility index
-  dt[,D_C_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,advice = 'fertility_index')]
+  # Calculate the CEC cationbuffer index
+  dt[,D_C_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, A_OS_GV, B_BT_AK, advice = 'cationbuffer_index')]
 
-  # Calculate the CEC index for soil structure
-  dt[,D_P_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,advice = 'structure_index')]
+  # Calculate the CEC index for soil aggregation
+  dt[,D_P_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,A_OS_GV, B_BT_AK, advice = 'aggregation_index')]
   
   # Calculate the score of the BodemConditieScore
   dt[, D_BCS := calc_bcs(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_BC, A_SS_BC, A_CO_BC,
@@ -115,11 +115,11 @@ obic_preprocessing <- function(dt) {
   dt[,D_WSI := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstress')]
   
   # calculate N leaching to groundwater (mgNO3/L)
-  dt[,D_NGW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to = "gw")]
+  dt[,D_NGW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to = "gw")]
   
   # calculate N run-off to surface water (kgN/ha/year)
-  dt[,D_NSW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, leaching_to = "ow")]
-  
+  dt[,D_NSW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to = "ow")]
+
 
   return(dt)
 }

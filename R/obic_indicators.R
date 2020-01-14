@@ -48,7 +48,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_C_PH := ind_ph(D_PH_DELTA)]
   
   # CEC
-  dt.ppr[, I_C_CEC := ind_cec(D_CEC = D_C_CEC, advice = "fertility_index")]
+  dt.ppr[, I_C_CEC := ind_cec(D_CEC = D_C_CEC, advice = "cationbuffer_index")]
   
   # Copper
   dt.ppr[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
@@ -80,8 +80,8 @@ obic_indicators<- function(dt.ppr) {
   # Water Retention Index 1. Plant available water in topsoil
   dt.ppr[, I_P_WRI := ind_waterretention(D_P_WRI)]
   
-  # structure topsoil via CEC
-  dt.ppr[, I_P_CEC := ind_cec(D_CEC = D_P_CEC, advice = "structure_index")]
+  # aggregation topsoil via CEC
+  dt.ppr[, I_P_CEC := ind_cec(D_CEC = D_P_CEC, advice = "aggregation_index")]
 
   # Evaluate biological -----------------------------------------------------
   
