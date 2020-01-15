@@ -104,7 +104,7 @@ calc_aggregatestability <- function(B_BT_AK,A_OS_GV,A_K_CEC,A_CA_CEC,A_MG_CEC) {
 #' @param D_CEC (numeric) The value of CEC calculated by \code{\link{calc_cec}}
 #' 
 #' @export
-ind_cationbuffercapacity <- function(D_CEC) {
+ind_cec <- function(D_CEC) {
   
   # Check inputs
   checkmate::assert_numeric(D_CEC, lower = 0, upper = 1000, any.missing = FALSE) 
