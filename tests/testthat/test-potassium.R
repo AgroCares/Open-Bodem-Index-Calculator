@@ -71,7 +71,7 @@ test_that("calc_potassium_availability works", {
       B_BT_AK = rep('rivierklei',10),
       B_LU_BRP = rep(3732,10)
     ),
-    expected = c(1.01,10.82,25.56,44.71,68.24,96.17,128.5,165.23,206.34,251.86),
+    expected = c(0.70,11.43,25.57,43.11,64.07,88.43,116.2,147.37,181.96,219.95),
     tolerance = 0.01
   )
 })

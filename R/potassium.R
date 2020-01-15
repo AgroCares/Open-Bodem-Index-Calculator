@@ -101,7 +101,7 @@ calc_potassium_availability <- function(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_
     # calculate K-index based on CaCl2-extracble K as wel ass K-CEC
     dt.arable[grepl('zand|dal|veen',B_BT_AK),kindex1 := A_K_CC * cF * 0.12046]
     dt.arable[grepl('zand|dal|veen',B_BT_AK),kindex2 := (A_K_CO - 0.17 * A_CEC_CO) * cF * 0.12046]
-    dt.arable[grepl('klei',B_BT_AK),kindex1 := (1.56 * A_K_CC - 17 + 0.29 * A_K_CO) * cF * 0.12046]
+    dt.arable[grepl('klei',B_BT_AK),kindex1 := (1.56 * A_K_CC - 17 + 0.29 * A_CEC_CO) * cF * 0.12046]
     dt.arable[grepl('klei',B_BT_AK),kindex2 := A_K_CO * cF * 0.12046]
     
     # calculate K-HCL (mg K2O/ 100 g) for loess, assuming Cohex similar to HCl extraction
