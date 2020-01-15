@@ -2,15 +2,13 @@
 % Please edit documentation in R/cec.R
 \name{ind_cec}
 \alias{ind_cec}
-\title{Calculate the indicator for the CEC}
+\title{Calculate the indicator for soil fertility given the CEC}
 \usage{
-ind_cec(D_CEC, advice = "cationbuffer_index")
+ind_cec(D_CEC)
 }
 \arguments{
 \item{D_CEC}{(numeric) The value of CEC calculated by \code{\link{calc_cec}}}
-
-\item{advice}{(character) Optional parameter to select CEC index for soil aggregation or cation buffer capacity. Options: cationbuffer_index or aggregation_index}
 }
 \description{
-This function calculates the indicator for the the CEC  of the soil by using the CEC-index calculated by \code{\link{calc_cec}}
+This function estimate how much cations can be buffer by soil, being calculated by \code{\link{calc_cec}}
 }

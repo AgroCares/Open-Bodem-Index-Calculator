@@ -2,25 +2,13 @@
 % Please edit documentation in R/cec.R
 \name{calc_cec}
 \alias{calc_cec}
-\title{Calculate the index for the CEC-occupation}
+\title{Calculate a soil fertility index based on the CEC}
 \usage{
-calc_cec(A_CEC_CO, A_K_CEC, A_CA_CEC, A_MG_CEC, A_OS_GV, B_BT_AK, advice)
+calc_cec(A_CEC_CO)
 }
 \arguments{
 \item{A_CEC_CO}{(numeric) The cation exchange capacity (mmol+ / kg)}
-
-\item{A_K_CEC}{(numeric) The occupation of the CEC with K (\%)}
-
-\item{A_CA_CEC}{(numeric) The occupation of the CEC with Mg (\%)}
-
-\item{A_MG_CEC}{(numeric) The occupation of the CEC with Ca (\%)}
-
-\item{A_OS_GV}{(numeric) The organic matter content of soil in percentage}
-
-\item{B_BT_AK}{(character) The type of soil}
-
-\item{advice}{(character) Optional parameter to select CEC index for soil aggregation or cation buffer capacity. Options: cationbuffer_index or aggregation_index}
 }
 \description{
-This function calculates the CEC-buffer index for a soil
+This function calculates the capacity of the soil to buffer cations
 }

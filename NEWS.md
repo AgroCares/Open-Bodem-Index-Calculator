@@ -13,6 +13,9 @@
 * Parameters for the evaluation of sealing are adjusted #57
 * Changes the formula to calculate nitrogen leaching and run-off #58
 * Parameters for the evaluation of nretention are adjusted #58
+* Paramaters and funs for CEC are updated and split for soil fertility and aggregate stability #59
+* Fix error in calc_potassium_availability #59
+* Parameters for the evaluation of Cu availability are adjusted #59
 
 ## Version 0.10.0 2019-12-13
 ### Added
