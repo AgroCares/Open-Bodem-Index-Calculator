@@ -72,7 +72,7 @@ calc_aggregatestability <- function(B_BT_AK,A_OS_GV,A_K_CEC,A_CA_CEC,A_MG_CEC) {
     A_K_CEC = A_K_CEC,
     A_CA_CEC = A_CA_CEC,
     A_MG_CEC = A_MG_CEC,
-    value = NA_real_,
+    value = NA_real_
   )
   
   # Calculate aggregate stability on on sandy soils (normalized to value beween 0-1)
