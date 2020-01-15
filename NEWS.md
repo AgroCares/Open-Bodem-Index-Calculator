@@ -13,6 +13,7 @@
 * Parameters for the evaluation of sealing are adjusted #57
 * Changes the formula to calculate nitrogen leaching and run-off #58
 * Parameters for the evaluation of nretention are adjusted #58
+* potassium index is multiplied so that the evaluation is equal for grass and maize #60
 
 ## Version 0.10.0 2019-12-13
 ### Added
