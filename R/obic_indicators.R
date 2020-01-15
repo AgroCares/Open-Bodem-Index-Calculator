@@ -23,7 +23,7 @@ obic_indicators<- function(dt.ppr) {
   I_E_NGW = I_E_NSW = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
   D_ZN = D_CU = D_CR = NULL
-  D_SE = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_C_CEC = D_P_CEC = D_K = NULL
+  D_SE = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_CEC = D_AS = D_K = NULL
   D_WSI = D_P_WRI = D_PMN = D_BCS = D_NGW = D_NSW = NULL
   leaching_to = NULL
   
@@ -48,7 +48,7 @@ obic_indicators<- function(dt.ppr) {
   dt.ppr[, I_C_PH := ind_ph(D_PH_DELTA)]
   
   # CEC
-  dt.ppr[, I_C_CEC := ind_cec(D_CEC = D_C_CEC, advice = "cationbuffer_index")]
+  dt.ppr[, I_C_CEC := ind_cec(D_CEC)]
   
   # Copper
   dt.ppr[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
@@ -80,8 +80,8 @@ obic_indicators<- function(dt.ppr) {
   # Water Retention Index 1. Plant available water in topsoil
   dt.ppr[, I_P_WRI := ind_waterretention(D_P_WRI)]
   
-  # aggregation topsoil via CEC
-  dt.ppr[, I_P_CEC := ind_cec(D_CEC = D_P_CEC, advice = "aggregation_index")]
+  # aggregation stability 
+  dt.ppr[, I_P_CEC := ind_aggregatestability(D_AS)]
 
   # Evaluate biological -----------------------------------------------------
   
