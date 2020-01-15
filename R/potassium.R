@@ -68,7 +68,7 @@ calc_potassium_availability <- function(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_
 
   # Calculate the K availability for maize (CBGV, 2019)
   dt.maize <- dt[crop_category == 'mais']
-  dt.maize[,value := 1 - (120 - A_K_CC) / 120]
+  dt.maize[,value := (1 - (120 - A_K_CC) / 120) * 2.5]
     
   # Calculate the K availability for arable crops (Ros & Bussink, 2011)
   dt.arable <- dt[crop_category == 'akkerbouw']

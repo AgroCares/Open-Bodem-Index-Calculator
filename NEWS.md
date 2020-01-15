@@ -16,6 +16,7 @@
 * Paramaters and funs for CEC are updated and split for soil fertility and aggregate stability #59
 * Fix error in calc_potassium_availability #59
 * Parameters for the evaluation of Cu availability are adjusted #59
+* potassium index is multiplied so that the evaluation is equal for grass and maize #60
 
 ## Version 0.10.0 2019-12-13
 ### Added
