@@ -25,7 +25,7 @@ obic_preprocessing <- function(dt) {
   B_BT_AK = B_LU_BRP = B_GT = B_LG_CBS = B_HELP_WENR = NULL
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_GA = D_NLV = D_PBI = D_OS_BAL = NULL
   D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_RUST = D_CP_RUSTDEEP = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_PH_DELTA = NULL
-  D_P_CEC = D_C_CEC = D_P_WRI = NULL
+  D_CEC = D_AS = D_P_WRI = NULL
   D_MAN = D_P_DU = D_SLV = D_MG = D_PMN = D_ZN = D_CU = D_PH_DELTA = D_BCS = NULL
   M_M3 = M_M6 = M_M10 = M_M11 = M_M12 = M_M13 = M_M14 = M_M15 = NULL
   D_WSI = D_K = D_NGW = D_NSW = NULL
@@ -97,11 +97,11 @@ obic_preprocessing <- function(dt) {
   # Calculate the index for microbial activity
   dt[, D_PMN := calc_pmn(A_N_PMN,B_LU_BRP,B_BT_AK)]
 
-  # Calculate the CEC cationbuffer index
-  dt[,D_C_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC, A_OS_GV, B_BT_AK, advice = 'cationbuffer_index')]
+  # Calculate the CEC as cationbuffer index
+  dt[,D_CEC := calc_cec(A_CEC_CO)]
 
-  # Calculate the CEC index for soil aggregation
-  dt[,D_P_CEC := calc_cec(A_CEC_CO,A_K_CEC,A_CA_CEC,A_MG_CEC,A_OS_GV, B_BT_AK, advice = 'aggregation_index')]
+  # Calculate the aggregate stability given the CEC
+  dt[,D_AS := calc_aggregatestability(B_BT_AK,A_OS_GV,A_K_CEC,A_CA_CEC,A_MG_CEC)]
   
   # Calculate the score of the BodemConditieScore
   dt[, D_BCS := calc_bcs(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_BC, A_SS_BC, A_CO_BC,
