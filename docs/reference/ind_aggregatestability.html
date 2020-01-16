@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the indicator for crumbleability — ind_crumbleability • OBIC</title>
+<title>Calculate the indicator aggregate stability — ind_aggregatestability • OBIC</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Calculate the indicator for crumbleability — ind_crumbleability" />
-<meta property="og:description" content="This function calculates the indicator for crumbleability. The crumbleability is calculated by calc_crumbleability" />
+<meta property="og:title" content="Calculate the indicator aggregate stability — ind_aggregatestability" />
+<meta property="og:description" content="This function calculates the indicator for the the aggregate stability of the soil by using the index calculated by calc_aggregatestability" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,27 +120,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the indicator for crumbleability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/crumbleability.R'><code>R/crumbleability.R</code></a></small>
-    <div class="hidden name"><code>ind_crumbleability.Rd</code></div>
+    <h1>Calculate the indicator aggregate stability</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/cec.R'><code>R/cec.R</code></a></small>
+    <div class="hidden name"><code>ind_aggregatestability.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the indicator for crumbleability. The crumbleability is calculated by <code><a href='calc_crumbleability.html'>calc_crumbleability</a></code></p>
+    <p>This function calculates the indicator for the the aggregate stability of the soil by using the index calculated by <code><a href='calc_aggregatestability.html'>calc_aggregatestability</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>ind_crumbleability</span>(<span class='no'>D_CR</span>, <span class='no'>B_LU_BRP</span>)</pre>
+    <pre class="usage"><span class='fu'>ind_aggregatestability</span>(<span class='no'>D_AS</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>D_CR</th>
-      <td><p>(numeric) The value of crumbleability calculated by <code><a href='calc_crumbleability.html'>calc_crumbleability</a></code></p></td>
-    </tr>
-    <tr>
-      <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
+      <th>D_AS</th>
+      <td><p>(numeric) The value of aggregate stability calculated by <code><a href='calc_aggregatestability.html'>calc_aggregatestability</a></code></p></td>
     </tr>
     </table>
 

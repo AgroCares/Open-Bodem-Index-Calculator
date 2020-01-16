@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
       </span>
     </div>
 
@@ -121,7 +121,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate the N leaching</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/nretention.R'><code>R/nretention.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/nretention.r'><code>R/nretention.r</code></a></small>
     <div class="hidden name"><code>calc_nleach.Rd</code></div>
     </div>
 
@@ -129,7 +129,7 @@
     <p>This function calculates the potential N leaching of a soil.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_nleach</span>(<span class='no'>B_BT_AK</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_GT</span>, <span class='no'>D_NLV</span>, <span class='no'>leaching_to</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_nleach</span>(<span class='no'>B_BT_AK</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_GT</span>, <span class='no'>D_NLV</span>, <span class='no'>B_LG_CBS</span>, <span class='no'>leaching_to</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,6 +149,10 @@
     <tr>
       <th>D_NLV</th>
       <td><p>(numeric) The N-leverend vermogen (kg N ha-1 jr-1) calculated by <code><a href='calc_nlv.html'>calc_nlv</a></code></p></td>
+    </tr>
+    <tr>
+      <th>B_LG_CBS</th>
+      <td><p>(character) The agricultural economic region in the Netherlands (CBS, 2016)</p></td>
     </tr>
     <tr>
       <th>leaching_to</th>

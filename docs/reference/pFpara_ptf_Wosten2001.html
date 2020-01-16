@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the indicator for crumbleability — ind_crumbleability • OBIC</title>
+<title>Estimate water retention curve parameters based on Wosten 2001 — pFpara_ptf_Wosten2001 • OBIC</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Calculate the indicator for crumbleability — ind_crumbleability" />
-<meta property="og:description" content="This function calculates the indicator for crumbleability. The crumbleability is calculated by calc_crumbleability" />
+<meta property="og:title" content="Estimate water retention curve parameters based on Wosten 2001 — pFpara_ptf_Wosten2001" />
+<meta property="og:description" content="This function estimates water retention curve parameters using Pedo transfer function of Wosten (2001)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,36 +120,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the indicator for crumbleability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/crumbleability.R'><code>R/crumbleability.R</code></a></small>
-    <div class="hidden name"><code>ind_crumbleability.Rd</code></div>
+    <h1>Estimate water retention curve parameters based on Wosten 2001</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/waterretention.R'><code>R/waterretention.R</code></a></small>
+    <div class="hidden name"><code>pFpara_ptf_Wosten2001.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the indicator for crumbleability. The crumbleability is calculated by <code><a href='calc_crumbleability.html'>calc_crumbleability</a></code></p>
+    <p>This function estimates water retention curve parameters using Pedo transfer function of Wosten (2001)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ind_crumbleability</span>(<span class='no'>D_CR</span>, <span class='no'>B_LU_BRP</span>)</pre>
+    <pre class="usage"><span class='fu'>pFpara_ptf_Wosten2001</span>(<span class='no'>Pklei</span>, <span class='no'>Pleem</span>, <span class='no'>Psom</span>, <span class='no'>M50</span>, <span class='no'>Bovengrond</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>D_CR</th>
-      <td><p>(numeric) The value of crumbleability calculated by <code><a href='calc_crumbleability.html'>calc_crumbleability</a></code></p></td>
+      <th>Pklei</th>
+      <td><p>(numeric) The clay (&lt;2um) content of the soil (%)</p></td>
     </tr>
     <tr>
-      <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
+      <th>Pleem</th>
+      <td><p>(numeric) The leemt (&lt;50um) content of the soil (%) Pleem &gt; 0</p></td>
+    </tr>
+    <tr>
+      <th>Psom</th>
+      <td><p>(numeric) The organic matter content of the soil (%) Psom &gt; 0</p></td>
+    </tr>
+    <tr>
+      <th>M50</th>
+      <td><p>(numeric)size of  sand fraction (um)</p></td>
+    </tr>
+    <tr>
+      <th>Bovengrond</th>
+      <td><p>(boolean) whether topsoil (1) or not (0)</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Wösten, J. H. M., Veerman, G. ., de Groot, W. J., &amp; Stolte, J. (2001). Waterretentie- en doorlatendheidskarakteristieken van boven- en ondergronden in Nederland: de Staringreeks. Alterra Rapport, 153, 86. https://doi.org/153</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#references">References</a></li>
     </ul>
 
   </div>
