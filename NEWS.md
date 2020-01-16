@@ -1,6 +1,6 @@
 # Changelog OBIC
 
-## UNRELEASED
+## Version 0.11.0 UNRELEASEED
 ## Added
 * Adds two other pedotransfer functions (PTFs) to calculate water retention parameters #53
 
