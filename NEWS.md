@@ -1,11 +1,10 @@
 # Changelog OBIC
 
-## UNRELEASED
+## Version 0.11.0 2020-01-16
 ## Added
 * Adds two other pedotransfer functions (PTFs) to calculate water retention parameters #53
 
 ## Changed
-* Improved the function for crumbleability to macht the factsheet #54 #56
 * Optimal pH values of grassland are now the middle value of the class `good` #55
 * pF of field capacity is changed from 2.2 to 2.0 #53
 * Bulk density in the default PTF is now aggregated into 1 continous function #53
@@ -14,9 +13,12 @@
 * Changes the formula to calculate nitrogen leaching and run-off #58
 * Parameters for the evaluation of nretention are adjusted #58
 * Paramaters and funs for CEC are updated and split for soil fertility and aggregate stability #59
-* Fix error in calc_potassium_availability #59
 * Parameters for the evaluation of Cu availability are adjusted #59
 * potassium index is multiplied so that the evaluation is equal for grass and maize #60
+
+## Fixed
+* Improved the function for crumbleability to match the factsheet #54 #56
+* Fix error in calc_potassium_availability #59
 
 ## Version 0.10.0 2019-12-13
 ### Added

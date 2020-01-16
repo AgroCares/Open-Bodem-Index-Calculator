@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the index for the CEC-occupation — calc_cec • OBIC</title>
+<title>Calculate a soil fertility index based on the CEC — calc_cec • OBIC</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Calculate the index for the CEC-occupation — calc_cec" />
-<meta property="og:description" content="This function calculates the CEC-buffer index for a soil" />
+<meta property="og:title" content="Calculate a soil fertility index based on the CEC — calc_cec" />
+<meta property="og:description" content="This function calculates the capacity of the soil to buffer cations" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
       </span>
     </div>
 
@@ -120,16 +120,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the index for the CEC-occupation</h1>
+    <h1>Calculate a soil fertility index based on the CEC</h1>
     <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/cec.R'><code>R/cec.R</code></a></small>
     <div class="hidden name"><code>calc_cec.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the CEC-buffer index for a soil</p>
+    <p>This function calculates the capacity of the soil to buffer cations</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_cec</span>(<span class='no'>A_CEC_CO</span>, <span class='no'>A_K_CEC</span>, <span class='no'>A_CA_CEC</span>, <span class='no'>A_MG_CEC</span>, <span class='no'>advice</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_cec</span>(<span class='no'>A_CEC_CO</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,22 +137,6 @@
     <tr>
       <th>A_CEC_CO</th>
       <td><p>(numeric) The cation exchange capacity (mmol+ / kg)</p></td>
-    </tr>
-    <tr>
-      <th>A_K_CEC</th>
-      <td><p>(numeric) The occupation of the CEC with K (%)</p></td>
-    </tr>
-    <tr>
-      <th>A_CA_CEC</th>
-      <td><p>(numeric) The occupation of the CEC with Mg (%)</p></td>
-    </tr>
-    <tr>
-      <th>A_MG_CEC</th>
-      <td><p>(numeric) The occupation of the CEC with Ca (%)</p></td>
-    </tr>
-    <tr>
-      <th>advice</th>
-      <td><p>(character) Optional parameter to select CEC index for soil structure or fertility. Options: fertility_index or structure_index</p></td>
     </tr>
     </table>
 
