@@ -46,6 +46,9 @@ calc_winderodibility <- function(A_CLAY_MI,A_SILT_MI,B_LU_BRP) {
   # set WEF on zero for all non-arable crops
   dt[crop_n != "akkerbouw",value := 0]
   
+  # restrict values between 0 and 1
+  dt[, value := pmax(pmin(value, 1), 0)]
+  
   # return Wind Erodibility Factor
   value <- dt[, value]
   
