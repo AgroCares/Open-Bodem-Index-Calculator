@@ -43,7 +43,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to){
                                                  'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
                                                  'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
                                                  'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
-                                                 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
+                                                 'Veenkolonien en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
   
   # Collect data in a table
   dt <- data.table(
