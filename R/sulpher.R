@@ -63,9 +63,12 @@ calc_slv <- function(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   dt.grass <- dt[crop_category == "grasland"]
   dt.grass[, value := 17.8 * A_S_TOT * 0.001 * D_BDS * 0.001]
   
-  # Calculate SLV for maize for 0-30 cm depth
+  # Calculate SLV for maize for 0-25 cm depth
   dt.maize <- dt[crop_category == "mais"]
-  dt.maize[, value := 41.2 * A_S_TOT * 0.001 * D_BDS * 3 * 0.001]
+  dt.maize[, value := 41.2 * A_S_TOT * 0.001 * D_BDS * 2.5 * 0.001]
+  # correction for the length of growing season (43.5%) 
+  # ref: NMI rapport 1252.N.07; den Boer et al. 2007 Zwavelvoorziening van snijmaïs
+  dt.maize[, value := value * 0.435]
   
   # Calculate the SLV for arable land
   dt.arable <- dt[crop_category == "akkerbouw"]
