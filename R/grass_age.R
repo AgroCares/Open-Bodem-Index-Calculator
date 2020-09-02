@@ -18,7 +18,7 @@ calc_grass_age <- function(ID, B_LU_BRP) {
   
   # Check inputs
   arg.length = max(length(ID), length(B_LU_BRP))
-  checkmate::assert_character(ID, len = arg.length)
+  checkmate::assert_atomic_vector(ID, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
