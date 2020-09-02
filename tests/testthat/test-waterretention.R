@@ -85,7 +85,7 @@ test_that("calc_waterretention works", {
       type = 'water holding capacity',
       ptf = 'Wosten1999'
     ),
-    expected = c(140.6191, 145.3394, 146.8205, 147.2566, 147.0892, 146.4875, 145.5356),
+    expected = c(0.4687305, 0.4844646, 0.4894018, 0.4908554, 0.4902973, 0.4882918, 0.4851186),
     tolerance = 1
   )
   
@@ -98,7 +98,7 @@ test_that("calc_waterretention works", {
       type = 'water holding capacity',
       ptf = 'Wosten1999'
     ),
-    expected = c(136.3153, 155.2113, 163.4369, 168.5193, 175.4615, 186.5310, 201.2698),
+    expected = c(0.4543842, 0.5173710, 0.5447898, 0.5617310, 0.5848718, 0.6217699, 0.6708992),
     tolerance = 1
   )
   
@@ -198,20 +198,11 @@ test_that("ind_waterretention works", {
   # water holding capacity
   expect_equal(
     ind_waterretention(
-      D_P_WRI = c(134,139,141,141,141,140,139),
+      D_P_WRI = c(0.1,0.25,0.5,0.75,1),
       type = 'water holding capacity'
     ),
-    expected = c(.91,.92,.92,.92,.92,.92,.92),
+    expected = c(0.012, 0.205, 0.850, 0.986, 0.998),
     tolerance = 0.01
-  )
-  
-  expect_equal(
-    ind_waterretention(
-      D_P_WRI = c(118,157,184,211,243.5,281,326),
-      type = 'water holding capacity'
-    ),
-    expected = c(.85,.95,.98,.99,.996,.999,1),
-    tolerance = 0.1
   )
   
   # wilting point
