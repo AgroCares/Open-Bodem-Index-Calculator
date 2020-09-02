@@ -73,7 +73,7 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
   # retrieve moisture content at certain pF values 
   dt[,wp := pF_curve(-1 * 10^p.wiltingpoint, thetaR, thetaS, alfa, n)]
   dt[,fc := pF_curve(-1 * 10^p.fieldcapacity, thetaR, thetaS, alfa, n)]
-  dt[,whc := pF_curve(-1 * 10^0, thetaR, thetaS, alfa, n) * p.depth * 1000]
+  dt[,whc := pF_curve(-1 * 10^0, thetaR, thetaS, alfa, n) * p.depth]
   dt[,paw := abs(fc - wp) * p.depth * 1000]
   
   # convert from % to mm (wp) and mm (fc)
