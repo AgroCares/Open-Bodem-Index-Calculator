@@ -6,13 +6,12 @@
 #' @param A_OS_GV (numeric) The organic matter content of the soil (in procent)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
-#' @param B_LG_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
 #' @param D_BDS (numeric) The bulk density of the soil (in kg per m3)
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_slv <- function(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
+calc_slv <- function(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK,D_BDS) {
   
   a = c.ass = c.diss = id = crop_code = soiltype = soiltype.n = crop_category = NULL
   minip.a = D_OC = A_CS_RAT = NULL
@@ -32,12 +31,6 @@ calc_slv <- function(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, B_LG_CBS,D_BDS) {
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
-  checkmate::assert_character(B_LG_CBS, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_LG_CBS, choices = c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
-                                                 'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
-                                                 'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
-                                                 'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
-                                                 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
   checkmate::assert_numeric(D_BDS, lower = 0, upper = 1500, any.missing = FALSE, len = arg.length)
   
   # Settings
