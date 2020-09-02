@@ -18,7 +18,7 @@ calc_rotation_fraction <- function(ID, B_LU_BRP, crop) {
   
   # Check inputs
   arg.length = max(length(ID), length(B_LU_BRP))
-  checkmate::assert_numeric(ID, len = arg.length)
+  checkmate::assert_atomic_vector(ID, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_choice(crop, choices = c("starch", "potato", "sugarbeet", "grass", "mais", 
