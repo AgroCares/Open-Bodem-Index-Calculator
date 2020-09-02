@@ -129,6 +129,11 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_character(B_LG_CBS, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LG_CBS, choices = c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
+                                                 'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
+                                                 'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
+                                                 'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
+                                                 'Veenkoloni\xen en Oldambt', 'Veenkolonien en Oldambt', 'Bouwhoek en Hogeland'), empty.ok = FALSE)
   
   # Collect data in a table
   dt <- data.table(
