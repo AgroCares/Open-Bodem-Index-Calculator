@@ -4,8 +4,19 @@
 \alias{calc_ph_delta}
 \title{Calculate the difference between pH and optimum}
 \usage{
-calc_ph_delta(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH,
-  D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER, B_LU_BRP)
+calc_ph_delta(
+  A_PH_CC,
+  B_BT_AK,
+  A_CLAY_MI,
+  A_OS_GV,
+  D_CP_STARCH,
+  D_CP_POTATO,
+  D_CP_SUGARBEET,
+  D_CP_GRASS,
+  D_CP_MAIS,
+  D_CP_OTHER,
+  B_LU_BRP
+)
 }
 \arguments{
 \item{A_PH_CC}{(numeric) The pH-CaCl2 of the soil}

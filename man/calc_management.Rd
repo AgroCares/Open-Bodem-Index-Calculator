@@ -4,9 +4,25 @@
 \alias{calc_management}
 \title{Calculate the 'performance' of sustainable soil management}
 \usage{
-calc_management(A_OS_GV, B_LU_BRP, B_BT_AK, B_GT, D_OS_BAL, D_CP_GRASS,
-  D_CP_POTATO, D_CP_RUST, D_CP_RUSTDEEP, D_GA, M_M6, M_M10, M_M11, M_M12,
-  M_M13, M_M14, M_M15)
+calc_management(
+  A_OS_GV,
+  B_LU_BRP,
+  B_BT_AK,
+  B_GT,
+  D_OS_BAL,
+  D_CP_GRASS,
+  D_CP_POTATO,
+  D_CP_RUST,
+  D_CP_RUSTDEEP,
+  D_GA,
+  M_M6,
+  M_M10,
+  M_M11,
+  M_M12,
+  M_M13,
+  M_M14,
+  M_M15
+)
 }
 \arguments{
 \item{A_OS_GV}{(numeric) The organic matter content of the soil (in procent)}

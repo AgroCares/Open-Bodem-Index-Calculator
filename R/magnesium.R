@@ -136,8 +136,8 @@ calc_magnesium_availability <- function(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC
   
   # weighing Mg index
   dt.grass.other[,value := mg_pred - mg_aim]
-  # scaling Mg index (-1 ~ 1 to 0 ~ 100)
-  dt.grass.other[,value := 50 * (value + 1)]
+  # scaling Mg index (-1 ~ 1 to 0 ~ 100). Set a ceiling of 1000
+  dt.grass.other[,value := pmin(50 * (value + 1), 1000)]
   
   # nature parcels
   dt.nature <- dt[crop_category == "natuur"]

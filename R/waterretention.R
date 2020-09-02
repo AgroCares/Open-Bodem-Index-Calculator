@@ -73,7 +73,7 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
   # retrieve moisture content at certain pF values 
   dt[,wp := pF_curve(-1 * 10^p.wiltingpoint, thetaR, thetaS, alfa, n)]
   dt[,fc := pF_curve(-1 * 10^p.fieldcapacity, thetaR, thetaS, alfa, n)]
-  dt[,whc := pF_curve(-1 * 10^0, thetaR, thetaS, alfa, n) * p.depth * 1000]
+  dt[,whc := pF_curve(-1 * 10^0, thetaR, thetaS, alfa, n)]
   dt[,paw := abs(fc - wp) * p.depth * 1000]
   
   # convert from % to mm (wp) and mm (fc)
@@ -120,7 +120,7 @@ ind_waterretention <- function(D_P_WRI,type ='plant available water') {
     value <- evaluate_logistic(D_P_WRI, b = 0.072, x0 = 45, v = 1.2)
     }
   if(type == 'Ksat') {value <- evaluate_logistic(D_P_WRI, b = 0.2, x0 = 6, v = 0.3)}
-  if(type == 'water holding capacity') {value <- evaluate_logistic(D_P_WRI, b = 0.03, x0 = 50, v = 0.8)}
+  if(type == 'water holding capacity') {value <- evaluate_logistic(D_P_WRI, b = 10, x0 = 0.2, v = 0.3)}
   if(type == 'wilting point') {value <- evaluate_logistic(D_P_WRI, b = 0.05, x0 = 10, v = .1)}
   if(type == 'field capacity') {value <- evaluate_logistic(D_P_WRI, b = 0.05, x0 = 10, v = .1)}
   

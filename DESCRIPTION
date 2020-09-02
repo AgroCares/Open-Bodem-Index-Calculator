@@ -1,7 +1,7 @@
 Package: OBIC
 Type: Package
 Title: Functions for the Open Bodem Index (OBI)
-Version: 0.11.0
+Version: 0.11.1
 Authors@R: c(
     person("Sven", "Verweij", email = "sven.verweij@nmi-agro.nl", role = c("aut","cre")),
     person("Gerard", "Ros", email = "gerard.ros@nmi-agro.nl", role = "aut"),
@@ -22,7 +22,7 @@ URL: https://github.com/springgbv/Open-Bodem-Index-Calculator
 BugReports: https://github.com/springgbv/Open-Bodem-Index-Calculator/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 2.1.0),
     knitr,

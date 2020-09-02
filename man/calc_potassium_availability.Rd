@@ -4,8 +4,16 @@
 \alias{calc_potassium_availability}
 \title{Calculate the K availability}
 \usage{
-calc_potassium_availability(A_K_CC, A_K_CEC, A_CEC_CO, A_PH_CC, A_OS_GV,
-  A_CLAY_MI, B_LU_BRP, B_BT_AK)
+calc_potassium_availability(
+  A_K_CC,
+  A_K_CEC,
+  A_CEC_CO,
+  A_PH_CC,
+  A_OS_GV,
+  A_CLAY_MI,
+  B_LU_BRP,
+  B_BT_AK
+)
 }
 \arguments{
 \item{A_K_CC}{(numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg / kg),}

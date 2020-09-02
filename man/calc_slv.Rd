@@ -4,7 +4,7 @@
 \alias{calc_slv}
 \title{Calculate the SLV}
 \usage{
-calc_slv(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, B_LG_CBS, D_BDS)
+calc_slv(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, D_BDS)
 }
 \arguments{
 \item{A_S_TOT}{(numeric) The total Sulpher content of the soil (in mg S per kg)}
@@ -14,8 +14,6 @@ calc_slv(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK, B_LG_CBS, D_BDS)
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 
 \item{B_BT_AK}{(character) The type of soil}
-
-\item{B_LG_CBS}{(character) The agricultural economic region in the Netherlands (CBS, 2016)}
 
 \item{D_BDS}{(numeric) The bulk density of the soil (in kg per m3)}
 }

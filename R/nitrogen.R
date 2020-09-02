@@ -80,6 +80,7 @@ calc_nlv <- function(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA) {
   dt.arable[, c.ass := c.diss / param.diss.micro]
   dt.arable[, value := ((c.diss + c.ass) / A_CN_RAT) - (c.ass / param.cn.micro)]
   dt.arable[value > 250, value := 250]
+  dt.arable[value < -30, value := -30]
   
   # Combine both tables and extract values
   dt <- rbindlist(list(dt.grass, dt.arable), fill = TRUE)
