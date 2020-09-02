@@ -4,6 +4,10 @@
 ### Changed
 * The water holding capacity is now between 0 and 1 (as theta should be) and uses new evaluation function
 
+### Fixed
+* Fixed the use of `B_LG_CBS` at sulphur
+
+
 ## Version 0.11.0 2020-01-16
 ### Added
 * Adds two other pedotransfer functions (PTFs) to calculate water retention parameters #53
