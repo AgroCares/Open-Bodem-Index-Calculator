@@ -4,7 +4,8 @@
 \name{tbl.ph.delta}
 \alias{tbl.ph.delta}
 \title{Table with optimal pH for different crop plans}
-\format{A data.frame with 136 rows and 10 columns:
+\format{
+A data.frame with 136 rows and 10 columns:
 \describe{
   \item{table}{The original table from Hanboek Bodem en Bemesting}
   \item{lutum.low}{Lower value for A_CLAY_MI}
@@ -18,7 +19,8 @@
   \item{ph.optimum}{The optimal pH (pH_CaCl2) for this range}   
 }
 
-#' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}}
+#' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
+}
 \usage{
 tbl.ph.delta
 }

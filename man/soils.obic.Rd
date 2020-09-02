@@ -4,12 +4,14 @@
 \name{soils.obic}
 \alias{soils.obic}
 \title{Linking table between soils and different functions in OBIC}
-\format{A data.frame with 7 rows and 2 columns:
+\format{
+A data.frame with 7 rows and 2 columns:
 \describe{
   \item{soiltype}{The name of the soil type}
   \item{soiltype.ph}{The category for this soil at pH}
   \item{soiltype.n}{The category for this soil at nitrogen}
-}}
+}
+}
 \usage{
 soils.obic
 }

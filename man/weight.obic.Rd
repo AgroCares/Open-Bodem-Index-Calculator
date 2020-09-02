@@ -4,7 +4,15 @@
 \name{weight.obic}
 \alias{weight.obic}
 \title{Weight of indicators to calculate integrated scores}
-\format{An object of class \code{data.table} (inherits from \code{data.frame}) with 24 rows and 2 columns.}
+\format{
+An object of class \code{data.table} (inherits from \code{data.frame}) with 24 rows and 2 columns.
+
+A data.frame with 20 rows and 2 columns:
+\describe{
+  \item{var}{The name of the weight}
+  \item{weight}{weighing factor}
+}
+}
 \usage{
 weight.obic
 

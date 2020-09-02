@@ -4,8 +4,21 @@
 \alias{calc_bcs}
 \title{Calculate the BodemConditieScore}
 \usage{
-calc_bcs(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_BC,
-  A_SS_BC, A_CO_BC, A_OS_GV, D_PH_DELTA, B_LU_BRP, B_BT_AK)
+calc_bcs(
+  A_RW_BC,
+  A_BS_BC,
+  A_GV_BC,
+  A_PV_BC,
+  A_AS_BC,
+  A_SV_BC,
+  A_RD_BC,
+  A_SS_BC,
+  A_CO_BC,
+  A_OS_GV,
+  D_PH_DELTA,
+  B_LU_BRP,
+  B_BT_AK
+)
 }
 \arguments{
 \item{A_RW_BC}{(numeric) The presence of earth worms (score 0-1-2)}
