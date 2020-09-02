@@ -4,7 +4,8 @@
 \name{column_description.obic}
 \alias{column_description.obic}
 \title{Column description for the OIC}
-\format{A data.frame with 126 rows and 6 columns:
+\format{
+A data.frame with 126 rows and 6 columns:
 \describe{
   \item{column}{The column name used in OBIC}
   \item{type}{The type of column}
@@ -12,7 +13,8 @@
   \item{description_en}{A description of the column in English}
   \item{unit}{The unit used for this column}
   \item{method}{The method to measure/obtain the values for this column}
-}}
+}
+}
 \usage{
 column_description.obic
 }

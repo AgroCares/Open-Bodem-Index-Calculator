@@ -4,7 +4,8 @@
 \name{nleach_table}
 \alias{nleach_table}
 \title{Table with fractions of excess N which runs off to groundwater and surface water}
-\format{A data.frame with 198 rows and 11 columns:
+\format{
+A data.frame with 198 rows and 11 columns:
 \describe{
   \item{gewas}{crop type}
   \item{bodem}{soil type}
@@ -13,7 +14,8 @@
   \item{B_GT}{grondwatertrap}
   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year) or groundwater (mg NO3/L per kg N overschot/ha/year)}
   \item{leaching_to-set}{Tells if leaching to ground water or surface water)}
-}}
+}
+}
 \usage{
 nleach_table
 }
