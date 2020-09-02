@@ -24,7 +24,7 @@ calc_slv <- function(A_S_TOT, A_OS_GV, B_LU_BRP, B_BT_AK,D_BDS) {
   
   # Check input
   arg.length <- max(length(A_S_TOT), length(A_OS_GV), length(B_LU_BRP), 
-                    length(B_BT_AK), length(B_LG_CBS),length(D_BDS))
+                    length(B_BT_AK), length(D_BDS))
   checkmate::assert_numeric(A_S_TOT, lower = 0, upper = 30000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
