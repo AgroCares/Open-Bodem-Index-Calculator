@@ -4,8 +4,14 @@
 \alias{calc_copper_availability}
 \title{Calculate the availability of the metal Cu}
 \usage{
-calc_copper_availability(A_CU_CC, A_OS_GV, A_MN_CC, A_CLAY_MI, A_K_CC,
-  B_LU_BRP)
+calc_copper_availability(
+  A_CU_CC,
+  A_OS_GV,
+  A_MN_CC,
+  A_CLAY_MI,
+  A_K_CC,
+  B_LU_BRP
+)
 }
 \arguments{
 \item{A_CU_CC}{(numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)}
