@@ -1,6 +1,6 @@
 # Changelog OBIC
 
-## Version 0.12.0 2020-09-02
+## Version 0.11.1 2020-09-02
 ### Changed
 * The water holding capacity is now between 0 and 1 (as theta should be) and uses new evaluation function #67
 * Lower range of `D_NLV` is set to -30
