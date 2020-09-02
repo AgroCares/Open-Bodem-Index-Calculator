@@ -13,11 +13,11 @@ More information about the Open Bodem Index can be found at [Open Bodem Index](h
 
 OBIC can be installed from GitHub using `remotes`. This will install the current developement version from master branch. Stable versions can found at `releases`.
 ```
-remotes::install_github("springgbv/Open-Bodem-Index-Calculator")
+remotes::install_github("AgroCares/Open-Bodem-Index-Calculator")
 library("OBIC")
 ```
 ## Documentation
-Documentation of the R functions in the OBIC package can be found [here](https://springgbv.github.io/Open-Bodem-Index-Calculator/)
+Documentation of the R functions in the OBIC package can be found [here](https://agrocares.github.io/Open-Bodem-Index-Calculator/)
 
 ## More information
 The [Open Bodem Index](https://www.openbodemindex.nl) (OBI) is a collaboration between Wageningen UR, NMI and FarmHack in collaboration with agricultural experts. 
