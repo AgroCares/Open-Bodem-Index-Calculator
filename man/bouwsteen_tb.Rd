@@ -4,7 +4,8 @@
 \name{bouwsteen_tb}
 \alias{bouwsteen_tb}
 \title{Table with water retention properties of 'bouwstenen'}
-\format{A data.frame with 36 rows and 14 columns:
+\format{
+A data.frame with 36 rows and 14 columns:
 \describe{
   \item{bouwsteen}{soil type bouwsteen}
   \item{omschrijving}{description of 'bouwsteen'}
@@ -20,7 +21,8 @@
   \item{OM\%}{organic matter content (\%). Middle value of Table 1 of Wosten 2001}
   \item{bulkdensity}{soil bulk density (g/cm3). Middle value of Table 2 of Wosten 2001}
   \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}
-}}
+}
+}
 \usage{
 bouwsteen_tb
 }
