@@ -81,7 +81,7 @@ score_absolute <- function(dt.ind) {
   # Score the chemical indicators
   dt.ind[, S_C_A := ((w$W_C_N + 1/max(0.1,I_C_N)) * I_C_N + (w$W_C_P + 1/max(0.1,I_C_P)) * I_C_P + w$W_C_K * I_C_K + 
 					w$W_C_MG * I_C_MG + w$W_C_S * I_C_S +(w$W_C_PH + 1/max(0.1,I_C_PH)) * I_C_PH + 
-					w$W_C_CEC * I_C_CEC + (w$W_C_CU + w$W_C_ZN) * (I_C_CU + I_C_ZN)) / 
+					w$W_C_CEC * I_C_CEC + w$W_C_CU * I_C_CU + w$W_C_ZN * I_C_ZN) / 
 					  (1 + 1/max(0.1,I_C_N) + 1/max(0.1,I_C_P) + 1/max(0.1,I_C_PH))]
   
   # Score the physical indicators
