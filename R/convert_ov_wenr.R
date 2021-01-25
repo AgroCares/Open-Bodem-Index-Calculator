@@ -1,6 +1,6 @@
 #' Convert possible B_OV_WENR values to standardised values
 #' 
-#' This function convertes numeric values for OV_WENR to values used by other OBIC functions.
+#' This function converts numeric values for OV_WENR to values used by other OBIC functions if numeric values are entered.
 #' 
 #' @param B_OV_WENR () Data on soil compaction risk that may have to be converted to string
 #' 
