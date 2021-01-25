@@ -32,6 +32,9 @@ obic_preprocessing <- function(dt) {
   
   # Convert B_OV_WENR input when numeric
   dt[, B_OV_WENR := convert_WENR(B_OV_WENR)]
+  
+  # Format GT when required
+  dt[, B_GT := format_gwt(B_GT)]
 
   # Calculate soil sealing risk
   dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]

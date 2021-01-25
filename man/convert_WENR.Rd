@@ -10,5 +10,5 @@ convert_WENR(B_OV_WENR)
 \item{B_OV_WENR}{() Data on soil compaction risk that may have to be converted to string}
 }
 \description{
-This function convertes numeric values for OV_WENR to values used by other OBIC functions.
+This function converts numeric values for OV_WENR to values used by other OBIC functions if numeric values are entered.
 }
