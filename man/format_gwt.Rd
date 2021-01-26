@@ -7,7 +7,7 @@
 format_gwt(B_GT)
 }
 \arguments{
-\item{B_GT}{(sting) Ground water table classes}
+\item{B_GT}{(character) Ground water table classes}
 }
 \description{
 This function formats ground water table information so it can be understood by other OBIC functions
