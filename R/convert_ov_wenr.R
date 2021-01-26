@@ -2,21 +2,18 @@
 #' 
 #' This function converts numeric values for OV_WENR to values used by other OBIC functions if numeric values are entered.
 #' 
-#' @param B_OV_WENR () Data on soil compaction risk that may have to be converted to string
+#' @param B_OV_WENR (numeric or character) Data on soil compaction risk that may have to be converted to string
 #' 
 #' @import data.table
 #' 
 #' @export
 
-convert_WENR <- function(B_OV_WENR) {
+convert_B_OV_WENR <- function(B_OV_WENR) {
   # Create data table
   dt <- data.table(B_OV_WENR = B_OV_WENR)
-  if(is.numeric(B_OV_WENR)){
-    checkmate::assert_subset(B_OV_WENR,
-                             empty.ok = FALSE,
-                             choices = 
-                               c(1, 2, 3, 4, 5, 10, 11, 401, 901, 902)
-                             )
+  if(is.numeric(dt$B_OV_WENR)){
+    checkmate::assert_subset(B_OV_WENR, empty.ok = FALSE, choices = c(1, 2, 3, 4, 5, 10, 11, 401, 901, 902))
+
     # Convert numbers to appropriate strings
     dt[B_OV_WENR==1,B_OV_WENR := 'Zeer beperkt']
     dt[B_OV_WENR==2,B_OV_WENR := 'Beperkt']
