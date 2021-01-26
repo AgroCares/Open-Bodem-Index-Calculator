@@ -126,7 +126,7 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS) {
                                                  'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
                                                  'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
                                                  'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
-                                                 'Veenkoloni\xen en Oldambt', 'Veenkolonien en Oldambt', 'Bouwhoek en Hogeland'), empty.ok = FALSE)
+                                                 'Veenkoloni\u00EBn en Oldambt', 'Veenkolonien en Oldambt', 'Bouwhoek en Hogeland'), empty.ok = FALSE)
   
   # Collect data in a table
   dt <- data.table(
