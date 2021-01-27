@@ -7,10 +7,16 @@
 #' @import data.table
 #' 
 #' @export
-
 convert_B_OV_WENR <- function(B_OV_WENR) {
+  
+  B_OV_WENR_new = NULL
+  
   # Create data table
-  dt <- data.table(B_OV_WENR = B_OV_WENR, B_OV_WENR_new = "")
+  dt <- data.table(
+    B_OV_WENR = B_OV_WENR, 
+    B_OV_WENR_new = NA_character_
+  )
+  
   if(is.numeric(dt$B_OV_WENR)){
     checkmate::assert_subset(B_OV_WENR, empty.ok = FALSE, choices = c(1, 2, 3, 4, 5, 10, 11, 401, 901, 902))
 
