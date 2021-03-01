@@ -4,6 +4,43 @@ library(dplyr)
 
 cr <- read.csv('DEV/crops_obic.csv') %>% setDT()
 
+# update crop codes to 2020
+crops2020 <- readRDS('data/brp_crops_2020.RDS') %>% setDT()
+miss_codes <- crops2020[!Gewascode %in% cr$crop_code]
+setnames(miss_codes, c('crop_name', 'crop_code'))
+cr <- rbindlist(list(cr, miss_codes), fill = TRUE)
+rm(crops2020)
+rm(miss_codes)
+
+# Add crop groups from eval.crumbeability to crops.obic$crop_crumblebility
+cr[crop_name %in% c(), crop_crumbleability := 1L] # 1 graslandverniuwing, graszaad
+cr[crop_name %in% c('Roodzwenkgras'), crop_crumbleability := 2L] # 2 granen, mais, natuur
+cr[crop_name %in% c(), crop_crumbleability := 3L] # 3 (poot)aardappelen
+cr[crop_name %in% c('Knolvenkel/venkel, zaden en opkweekmateriaal', 'Uien, poot en plant, 1e jaars '), crop_crumbleability := 4L] # 4 Fabrieksaardappelen, witlof, selderij, uien, prei,spruiten, koolsoorten
+cr[crop_name %in% c(), crop_crumbleability := 5L] # 5 cons.aardappelen, peen, schorseneren, teelten onder glas
+cr[crop_name %in% c(), crop_crumbleability := 6L] # 6 suikerbieten
+cr[crop_name %in% c(), crop_crumbleability := 7L] # 7 erwten,bonen, koolsoorten
+cr[crop_name %in% c(), crop_crumbleability := 8L] # 8 asperge
+cr[crop_name %in% c(), crop_crumbleability := 9L] # 9 bladgewassen
+cr[crop_name %in% c('Kuifhyacint, bloembollen en -knollen'), crop_crumbleability := 10L] # 10 dahliaâ€™s, hyacinten
+cr[crop_name %in% c(), crop_crumbleability := 11L] # 11 bloembollen (najaarsplanting)
+cr[crop_name %in% c(), crop_crumbleability := 12L] # 12 groot en klein fruit
+cr[crop_name %in% c('Bomenrij (anders dan knotboom)','Boomgroepen in het veld', 'Bosje', 'Bosssingel ',
+                            'Elzensingel', 'Geisoleerde boom (anders dan knotboom)', 'Griendje', 'Hakhoutbosje',
+                            'Houtwal en houtsingel', 'Knotboom, bomen in rij', 'Knotboom, geisloleerde boom',
+                            'Laan', 'Struweelhaag', 'Struweelrand', 'Voedselbos', 'Windhaag , in een perceel fruitteelt'
+), crop_crumbleability := 13L] # 13 bos- en haagplantsoen
+cr[crop_name %in% c('Chrysant, droogbloemen', 'Chrysant, vermeerdering', 'Iris, droogbloemen', 
+                            'Krokus, droogbloemen', 'Kuifhyacint, droogbloemen', 'Lelie, droogbloemen',
+                            'Sierui, droogbloemen', 'Zantedeschia, droogbloemen', 'Zonnekroon'), crop_crumbleability := 14L] # 14 sierteelten
+cr[crop_name %in% c(), crop_crumbleability := 15L] # 15 laanbomen en onderstammen
+cr[crop_name %in% c('Azolla', 'Drachtplanten', 'Hoogstamboomgaard', 'Klaver, Perzische', 'Knip- of scheerheg',
+                            'Komkommer, zaden en opkweekmateriaal', 'Landschapselement, overig', 'Lavas (Maggiplant), zaden en opkweekmateriaal',
+                            'Lisdodde', 'Natuurvriendelijke oever','Niger', 'Palmen, pot- en containervelden', 'Poel en klein historisch water',
+                            'Riet', 'Rietzoom en klein rietperceel', 'Schurvelingen en zandwallen', 'Seradelle', 'Spurrie', 'Vrouwenmantel',
+                            'Wandelpad over boerenland', 'Water, overig', 
+                            'Wilde marjolein (Oregano), zaden en opkweekmateriaal', 'Wilde rijst'), crop_crumbleability := 16L] # 16 overig
+
 # Add scientific name of crop scecies
 cr[grepl('ardappel', cr$crop_name),crop_name_scientific:= 'solanum tuberosum']
 cr[grepl('uinbouwzaden|Bloemzaden open|kwekerijgewassen \\(inclusief bloemzaden\\)|^Bloembollen en - knollen$|Fruit|oomkwekerij|Rand', cr$crop_name),crop_name_scientific:= 'overig']
@@ -11,18 +48,18 @@ cr[grepl('Tarwe|tarwe', cr$crop_name),crop_name_scientific:= 'triticum aestivum'
 cr[grepl('Gerst|gerst', cr$crop_name),crop_name_scientific:= 'horderum vulgare']
 cr[grepl('Rogge|rogge', cr$crop_name),crop_name_scientific:= 'secale cereale']
 cr[grepl('Haver|haver', cr$crop_name),crop_name_scientific:= 'avena sativa']
-cr[grepl('erwten|Erwten|Schokkers', cr$crop_name),crop_name_scientific:= 'pisum sativum']
+cr[grepl('erwten|Erwten|Schokkers|eulen', cr$crop_name),crop_name_scientific:= 'pisum sativum']
 cr[grepl('Bonen|bonen', cr$crop_name),crop_name_scientific:= 'phaseolus vulgaris']
 cr[grepl('Pronkbonen', cr$crop_name),crop_name_scientific:= 'phaseolus coccineus'] #overwrites bonen for pronkbonen
 cr[grepl('Sojabonen', cr$crop_name),crop_name_scientific:= 'glycine max'] #overwrite bonen for sojabonen
 cr[grepl('Karwij|karwij|kummel', cr$crop_name),crop_name_scientific:= 'carum carvi']
 cr[grepl('maanzaad', cr$crop_name),crop_name_scientific:= 'papaver somniferum']
-cr[grepl('Vlas', cr$crop_name),crop_name_scientific:= 'linum usitatissimum']
+cr[grepl('Vlas|vlas', cr$crop_name),crop_name_scientific:= 'linum usitatissimum']
 cr[grepl('Bieten|bieten', cr$crop_name),crop_name_scientific:= 'beta vulgaris']
 cr[grepl('Luzerne', cr$crop_name),crop_name_scientific:= 'medicago sativa']
 cr[grepl('Mais|mais', cr$crop_name),crop_name_scientific:= 'zea mays']
 cr[grepl('Uien|uien|ierui', cr$crop_name),crop_name_scientific:= 'allium cepa']
-cr[grepl('Grasland|grasland|^Graszaad$|blijvend gras$|Graszaad, overig|tijdelijk gras$|raszoden|Graszaad \\(inclusief', cr$crop_name),crop_name_scientific:= 'gras overig']
+cr[grepl('Grasland|grasland|^Graszaad$|blijvend gras$|Graszaad, overig|tijdelijk gras$|raszoden|Graszaad \\(inclusief|estulolium', cr$crop_name),crop_name_scientific:= 'gras overig']
 cr[grepl('Engels raai', cr$crop_name),crop_name_scientific:= 'lolium perenne']
 cr[grepl('Italiaans raai|esterwolds|, Italiaans', cr$crop_name),crop_name_scientific:= 'lolium multiflorum']
 cr[grepl('Sorghum|sorgho', cr$crop_name),crop_name_scientific:= 'sorghum bicolor']
@@ -50,7 +87,7 @@ cr[grepl('Teunisbloem', cr$crop_name),crop_name_scientific:= 'oenothera']
 cr[grepl('Brandnetel', cr$crop_name),crop_name_scientific:= 'Urtica urens']
 cr[grepl('Boekweit', cr$crop_name),crop_name_scientific:= 'fagopyrum esculentum']
 cr[grepl('Gierst', cr$crop_name),crop_name_scientific:= 'panicum miliaceum']
-cr[grepl('Bos|Lijnzaad|oenten|bomen|ilgen|Klaverzaad', cr$crop_name),crop_name_scientific:= 'overig']
+cr[grepl('Bos|Lijnzaad|oenten|bomen|ilgen|Klaverzaad|heester|planten', cr$crop_name),crop_name_scientific:= 'overig']
 cr[grepl('peen', cr$crop_name),crop_name_scientific:= 'daucus carota'] # overwrites bos for bospeen
 cr[grepl('Lupinen', cr$crop_name),crop_name_scientific:= 'lupinus']
 cr[grepl('aapzaad', cr$crop_name),crop_name_scientific:= 'brassica rapa']
@@ -83,10 +120,77 @@ cr[grepl('Pioenroos', cr$crop_name),crop_name_scientific:= 'paeonia']
 cr[grepl('Lavas', cr$crop_name),crop_name_scientific:= 'levisticum officinale']
 cr[grepl('Oregano', cr$crop_name),crop_name_scientific:= 'Origanum vulgare']
 cr[grepl('Goudsbloem', cr$crop_name),crop_name_scientific:= 'calendula officinalis']
-cr[grepl('', cr$crop_name),crop_name_scientific:= '']
+cr[grepl('Igniscum Candy', cr$crop_name),crop_name_scientific:= 'polygonaceae']
+cr[grepl('aaldaar', cr$crop_name),crop_name_scientific:= 'setaria']
+cr[grepl('eterselie', cr$crop_name),crop_name_scientific:= 'petroselinum crispum']
+cr[grepl('rysant', cr$crop_name),crop_name_scientific:= 'chrysanthemum']
+cr[grepl('elica', cr$crop_name),crop_name_scientific:= 'angelica']
+cr[grepl('apaver', cr$crop_name),crop_name_scientific:= 'papaver']
+cr[grepl('donis', cr$crop_name),crop_name_scientific:= 'adonis']
+cr[grepl('nietje', cr$crop_name),crop_name_scientific:= 'myosotis']
+cr[grepl('ranberry', cr$crop_name),crop_name_scientific:= 'vaccinium macrocarpon']
+cr[grepl('zonnehoed', cr$crop_name),crop_name_scientific:= 'echinacea']
+cr[grepl('eeuwenbek', cr$crop_name),crop_name_scientific:= 'antirrhinum']
+cr[grepl('uxus', cr$crop_name),crop_name_scientific:= 'buxus']
+cr[grepl('ricaceae', cr$crop_name),crop_name_scientific:= 'ericaceae']
+cr[grepl('Rozen', cr$crop_name),crop_name_scientific:= 'rosa']
+cr[grepl('coniferen', cr$crop_name),crop_name_scientific:= 'coniferales']
+cr[grepl('ppelen\\.', cr$crop_name),crop_name_scientific:= 'malus']
+cr[grepl('eren\\.', cr$crop_name),crop_name_scientific:= 'pyrus']
+cr[grepl('ijndruiven', cr$crop_name),crop_name_scientific:= 'vitis vinifera']
+cr[grepl('cultuurgrond|aunaranden|fruit|nijgroen|opgegeven|dummy|SBL|beteelde|bemester|eide|element|ruiden|enrij', cr$crop_name),crop_name_scientific:= 'overig']
+cr[grepl('azelno', cr$crop_name),crop_name_scientific:= 'corylus avellana']
+cr[grepl('alnoten', cr$crop_name),crop_name_scientific:= 'juglans regia']
+cr[grepl('essen, blauwe', cr$crop_name),crop_name_scientific:= 'vaccinium corymbosum']
+cr[grepl('ruimen|ersen', cr$crop_name),crop_name_scientific:= 'prunus']
+cr[grepl('essen, zwarte', cr$crop_name),crop_name_scientific:= 'ribes nigrum']
+cr[grepl('oolzaad', cr$crop_name),crop_name_scientific:= 'brassica napus']
+cr[grepl('agetes', cr$crop_name),crop_name_scientific:= 'tagetes']
+cr[grepl('ardperen$', cr$crop_name),crop_name_scientific:= 'helianthus tuberosus']
+cr[grepl('vlinderbloemige', cr$crop_name),crop_name_scientific:= '']
+cr[grepl('essen, rode', cr$crop_name),crop_name_scientific:= 'ribes rubrum']
+cr[grepl('rambozen', cr$crop_name),crop_name_scientific:= 'rubus idaeus']
+cr[grepl('ramen', cr$crop_name),crop_name_scientific:= 'rubus']
+cr[grepl('ardbeien', cr$crop_name),crop_name_scientific:= 'fragaria x ananassa']
+cr[grepl('sperges', cr$crop_name),crop_name_scientific:= 'asparagus officinalis']
+cr[grepl('kool|rocolli|roccoli|rabi', cr$crop_name),crop_name_scientific:= 'brassica oleracea']
+cr[grepl('raap|inese kool|aksoi|aapstelen|oppelknollen', cr$crop_name),crop_name_scientific:= 'brassica rapa']
+cr[grepl('ourgette', cr$crop_name),crop_name_scientific:= 'cucurbita pepo']
+cr[grepl('elderij', cr$crop_name),crop_name_scientific:= 'apium graveolens']
+cr[grepl('enkel', cr$crop_name),crop_name_scientific:= 'foeniculum vulgare']
+cr[grepl('omkommer|gurk', cr$crop_name),crop_name_scientific:= 'cucumis sativus']
+cr[grepl('eloen|ompoen', cr$crop_name),crop_name_scientific:= 'cucurbita'] # soortnieveau van meloenen en pompoen wordt niet bijgehouden in brp
+cr[grepl('abarber', cr$crop_name),crop_name_scientific:= 'rheum rhabarbarum']
+cr[grepl('Prei', cr$crop_name),crop_name_scientific:= 'allium ampeloprasum']
+cr[grepl('adijs', cr$crop_name),crop_name_scientific:= 'raphanus sativus']
+cr[grepl('chorseneren', cr$crop_name),crop_name_scientific:= 'scorzonera hispanica']
+cr[grepl('Sla', cr$crop_name),crop_name_scientific:= 'lactuca sativa']
+cr[grepl('inazie', cr$crop_name),crop_name_scientific:= 'espinaca oleracea']
+cr[grepl('lexandrijnse', cr$crop_name),crop_name_scientific:= 'trifolium alexandrinum']
+cr[grepl('eemdlangbloem', cr$crop_name),crop_name_scientific:= 'festuca pratensis']
+cr[grepl('rammenas', cr$crop_name),crop_name_scientific:= 'raphanus sativus']
+cr[grepl('Deder', cr$crop_name),crop_name_scientific:= 'camelina sativa']
+cr[grepl('acelia', cr$crop_name),crop_name_scientific:= 'phacelia']
+cr[grepl('ranse boekweit', cr$crop_name),crop_name_scientific:= 'fagopyrum tataricum']
+cr[grepl('incarnaat', cr$crop_name),crop_name_scientific:= 'trifolium incarnatum']
+cr[grepl('imothee', cr$crop_name),crop_name_scientific:= 'phleum pratense']
+cr[grepl('zolla', cr$crop_name),crop_name_scientific:= 'azolla']
+cr[grepl('knotboom|Knotboom|historisch|houtsingel|oogstamboomgaar|bosje|oomgroepen|singel|riendje|scheerheg|Laan|almen, |Rietzoom|^Riet$|zandwallen|Struweel|oedselbos|boerenland|Water,', cr$crop_name),crop_name_scientific:= 'overig']
+cr[grepl('erzische', cr$crop_name),crop_name_scientific:= 'trifolium resupinatum']
+cr[grepl('isdodde', cr$crop_name),crop_name_scientific:= 'typhaceae']
+cr[grepl('Niger$', cr$crop_name),crop_name_scientific:= 'guizotia abyssinica']
+cr[grepl('eradelle', cr$crop_name),crop_name_scientific:= 'ornithopus sativus']
+cr[grepl('Spurrie', cr$crop_name),crop_name_scientific:= 'spergula']
+cr[grepl('rouwenmantel', cr$crop_name),crop_name_scientific:= 'alchemila']
+cr[grepl('ilde rijst$', cr$crop_name),crop_name_scientific:= 'zizania']
+cr[grepl('onnekroon', cr$crop_name),crop_name_scientific:= 'silphium perfoliatum']
 
-head(cr[is.na(crop_name_scientific),crop_name],1)
+# head(cr[is.na(crop_name_scientific),crop_name],1)
+# 
+# unique(cr[crop_name_scientific == 'carum carvi',.(crop_name, crop_name_scientific)])
+# cr[grepl('erzische', cr$crop_name), .(crop_name, crop_name_scientific)]
+# cr[grepl('Engels|engels', cr$crop_name), .(crop_name, crop_name_scientific)]
+# unique(cr[is.na(crop_name_scientific),.(crop_name, crop_name_scientific)])
+# sum(is.na(cr$crop_name_scientific))
 
-unique(cr[crop_name_scientific == 'carum carvi',.(crop_name, crop_name_scientific)])
-cr[grepl('noflook', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('Engels|engels', cr$crop_name), .(crop_name, crop_name_scientific)]
+#
