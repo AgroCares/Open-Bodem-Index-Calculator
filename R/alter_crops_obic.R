@@ -336,5 +336,4 @@ cr[grepl('onnekroon', cr$crop_name),crop_name_scientific:= 'silphium perfoliatum
 # sum(is.na(cr$crop_name_scientific))
 
 # Save new crops.obic
-crops.obic.new <- cr
-save(crops.obic.new, file = 'data/crops_obic_new.RData')
+write.csv(cr, 'data/crops_obic_new.csv')
