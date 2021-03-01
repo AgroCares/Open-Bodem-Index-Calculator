@@ -334,3 +334,7 @@ cr[grepl('onnekroon', cr$crop_name),crop_name_scientific:= 'silphium perfoliatum
 # cr[grepl('Engels|engels', cr$crop_name), .(crop_name, crop_name_scientific)]
 # unique(cr[is.na(crop_name_scientific),.(crop_name, crop_name_scientific)])
 # sum(is.na(cr$crop_name_scientific))
+
+# Save new crops.obic
+crops.obic.new <- cr
+save(crops.obic.new, file = 'data/crops_obic_new.RData')
