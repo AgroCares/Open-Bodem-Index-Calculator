@@ -336,4 +336,4 @@ cr[grepl('onnekroon', cr$crop_name),crop_name_scientific:= 'silphium perfoliatum
 
 # Save new crops.obic
 fwrite(cr, 'dev/crops_obic_new.csv')
-save(cr, 'dev/crops_obic.RData')
+save(cr, 'data/crops_obic.RData')
