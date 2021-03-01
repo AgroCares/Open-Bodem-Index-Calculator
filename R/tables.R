@@ -23,6 +23,7 @@
 #'   \item{nf_sand.sout}{}
 #'   \item{nf_loess}{}
 #'   \item{nf_peat}{}
+#'   \item{crop_name_scientific}{All-lower-case scientific name of the crop species. When crop is not species specific the genus of the crop is given}
 #' }
 "crops.obic"
 
