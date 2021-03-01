@@ -1,11 +1,10 @@
 # Script to modify crops.obic
 library(data.table)
-library(dplyr)
 
-cr <- read.csv('dev/crops_obic.csv') %>% setDT()
+cr <- fread('dev/crops_obic.csv')
 
 # update crop codes to 2020
-crops2020 <- readRDS('data/brp_crops_2020.RDS') %>% setDT()
+crops2020 <- as.data.table(readRDS('data/brp_crops_2020.RDS'))
 miss_codes <- crops2020[!Gewascode %in% cr$crop_code]
 setnames(miss_codes, c('crop_name', 'crop_code'))
 cr <- rbindlist(list(cr, miss_codes), fill = TRUE)
@@ -336,4 +335,5 @@ cr[grepl('onnekroon', cr$crop_name),crop_name_scientific:= 'silphium perfoliatum
 # sum(is.na(cr$crop_name_scientific))
 
 # Save new crops.obic
-write.csv(cr, 'data/crops_obic_new.csv')
+fwrite(cr, 'dev/crops_obic_new.csv')
+save(cr, 'dev/crops_obic.RData')
