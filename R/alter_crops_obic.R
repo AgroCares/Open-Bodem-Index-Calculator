@@ -226,7 +226,7 @@ cr[grepl('onnebloem', cr$crop_name),crop_name_scientific:= 'helianthus anuus']
 cr[grepl('Saffloer', cr$crop_name),crop_name_scientific:= 'carthamus tinctorius']
 cr[grepl('Meekrap', cr$crop_name),crop_name_scientific:= 'rubia tinctorum']
 cr[grepl('Teunisbloem', cr$crop_name),crop_name_scientific:= 'oenothera']
-cr[grepl('Brandnetel', cr$crop_name),crop_name_scientific:= 'Urtica urens']
+cr[grepl('Brandnetel', cr$crop_name),crop_name_scientific:= 'urtica urens']
 cr[grepl('Boekweit', cr$crop_name),crop_name_scientific:= 'fagopyrum esculentum']
 cr[grepl('Gierst', cr$crop_name),crop_name_scientific:= 'panicum miliaceum']
 cr[grepl('Bos|Lijnzaad|oenten|bomen|ilgen|Klaverzaad|heester|planten', cr$crop_name),crop_name_scientific:= 'overig']
@@ -260,7 +260,7 @@ cr[grepl('Quinoa', cr$crop_name),crop_name_scientific:= 'chenopodium quinoa']
 cr[grepl('Pastinaak', cr$crop_name),crop_name_scientific:= 'pastinaca sativa']
 cr[grepl('Pioenroos', cr$crop_name),crop_name_scientific:= 'paeonia']
 cr[grepl('Lavas', cr$crop_name),crop_name_scientific:= 'levisticum officinale']
-cr[grepl('Oregano', cr$crop_name),crop_name_scientific:= 'Origanum vulgare']
+cr[grepl('Oregano', cr$crop_name),crop_name_scientific:= 'origanum vulgare']
 cr[grepl('Goudsbloem', cr$crop_name),crop_name_scientific:= 'calendula officinalis']
 cr[grepl('Igniscum Candy', cr$crop_name),crop_name_scientific:= 'polygonaceae']
 cr[grepl('aaldaar', cr$crop_name),crop_name_scientific:= 'setaria']
@@ -330,7 +330,7 @@ cr[grepl('onnekroon', cr$crop_name),crop_name_scientific:= 'silphium perfoliatum
 # head(cr[is.na(crop_name_scientific),crop_name],1)
 # 
 # unique(cr[crop_name_scientific == 'carum carvi',.(crop_name, crop_name_scientific)])
-# cr[grepl('erzische', cr$crop_name), .(crop_name, crop_name_scientific)]
+cr[grepl('lanten', cr$crop_name), .(crop_name, crop_name_scientific)]
 # cr[grepl('Engels|engels', cr$crop_name), .(crop_name, crop_name_scientific)]
 # unique(cr[is.na(crop_name_scientific),.(crop_name, crop_name_scientific)])
 # sum(is.na(cr$crop_name_scientific))
