@@ -2,7 +2,7 @@
 library(data.table)
 library(dplyr)
 
-cr <- read.csv('DEV/crops_obic.csv') %>% setDT()
+cr <- read.csv('dev/crops_obic.csv') %>% setDT()
 
 # update crop codes to 2020
 crops2020 <- readRDS('data/brp_crops_2020.RDS') %>% setDT()
