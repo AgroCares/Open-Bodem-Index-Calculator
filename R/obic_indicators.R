@@ -2,12 +2,14 @@
 #' 
 #' This wrapper function contains the functions to calculate the indicators of agricultural fields.
 #' 
-#' @param dt.ppr (data.table) The table containg the data needed for OBI
+#' @param dt.ppr (data.table) The table containing the data needed for OBI
+#' 
+#' @param dt_nema (data.table) The table containing the counted plant parasitic nematodes
 #' 
 #' @import data.table
 #' 
 #' @export
-obic_indicators<- function(dt.ppr) {
+obic_indicators<- function(dt.ppr, dt_nema = NA) {
   
   # Check inputs
   checkmate::assert_data_table(dt.ppr)
@@ -94,7 +96,9 @@ obic_indicators<- function(dt.ppr) {
   # Soil biodiversity
   dt.ppr[, I_B_SB := -999]
   
-
+  # Nematodes
+  dt.ppr[, I_NEMA := fifelse(!is.na(dt_nema),ind_nematodes(dt_nema), -999)]
+  
   # Evaluate managment ------------------------------------------------------
   dt.ppr[, I_M := ind_management(D_MAN, B_LU_BRP, B_BT_AK)]
   

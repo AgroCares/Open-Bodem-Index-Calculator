@@ -44,7 +44,7 @@ obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE, dt_n
   dt.ppr <- OBIC::obic_preprocessing(dt)
   
   # Calculate the indicators
-  dt.ind <- OBIC::obic_indicators(dt.ppr)
+  dt.ind <- OBIC::obic_indicators(dt.ppr, dt_nema)
   
   # Score the fields
   dt.score <- OBIC::obic_score(dt.ind, add_relative_score = add_relative_score)
