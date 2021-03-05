@@ -10,7 +10,6 @@ obic.nema <- read.csv('DEV/nematodes.csv', sep = ';')
 setDT(obic.nema)
 
 
-
 # Determine values for evaluate logistic functions per Unique Combinations
 uc <- unique(obic.nema[,.(geel, rood)]) # 14 unique combination, so 14 different evaluation curves need to be determined
 #150 300
@@ -161,4 +160,4 @@ ind_nematodes <- function(A_NEMA){
   )
   OBIC::evaluate_logistic(dd[13,count], b = dd[13,b], x0 = dd[13,geel], v = dd[13,v], increasing = FALSE)
 
-
+ind <- ind_nematodes(A_NEMA = A_NEMA)

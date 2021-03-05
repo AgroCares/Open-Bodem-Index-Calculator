@@ -7,6 +7,9 @@
 #' 
 #' @export
 ind_nematodes <- function(A_NEMA){
+  obic.nema <- read.csv('DEV/obic.nema.csv')
+  setDT(obi.nema)
+  
   checkmate::assert_data_table(A_NEMA)
   dd <- merge.data.table(obic.nema, A_NEMA, by = 'species')
   dd <- dd[standaard == TRUE|!is.na(count)]
