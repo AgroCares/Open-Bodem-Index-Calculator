@@ -1,11 +1,10 @@
 # Script to modify crops.obic
 library(data.table)
-library(dplyr)
 
-cr <- read.csv('DEV/crops_obic.csv') %>% setDT()
+cr <- fread('dev/crops_obic.csv')
 
 # update crop codes to 2020
-crops2020 <- readRDS('data/brp_crops_2020.RDS') %>% setDT()
+crops2020 <- as.data.table(readRDS('data/brp_crops_2020.RDS'))
 miss_codes <- crops2020[!Gewascode %in% cr$crop_code]
 setnames(miss_codes, c('crop_name', 'crop_code'))
 cr <- rbindlist(list(cr, miss_codes), fill = TRUE)
@@ -26,56 +25,56 @@ cr[crop_name %in% c('Kuifhyacint, bloembollen en -knollen'), crop_crumbleability
 cr[crop_name %in% c(), crop_crumbleability := 11L] # 11 bloembollen (najaarsplanting)
 cr[crop_name %in% c(), crop_crumbleability := 12L] # 12 groot en klein fruit
 cr[crop_name %in% c('Bomenrij (anders dan knotboom)','Boomgroepen in het veld', 'Bosje', 'Bosssingel ',
-                            'Elzensingel', 'Geisoleerde boom (anders dan knotboom)', 'Griendje', 'Hakhoutbosje',
-                            'Houtwal en houtsingel', 'Knotboom, bomen in rij', 'Knotboom, geisloleerde boom',
-                            'Laan', 'Struweelhaag', 'Struweelrand', 'Voedselbos', 'Windhaag , in een perceel fruitteelt'
+                    'Elzensingel', 'Geisoleerde boom (anders dan knotboom)', 'Griendje', 'Hakhoutbosje',
+                    'Houtwal en houtsingel', 'Knotboom, bomen in rij', 'Knotboom, geisloleerde boom',
+                    'Laan', 'Struweelhaag', 'Struweelrand', 'Voedselbos', 'Windhaag , in een perceel fruitteelt'
 ), crop_crumbleability := 13L] # 13 bos- en haagplantsoen
 cr[crop_name %in% c('Chrysant, droogbloemen', 'Chrysant, vermeerdering', 'Iris, droogbloemen', 
-                            'Krokus, droogbloemen', 'Kuifhyacint, droogbloemen', 'Lelie, droogbloemen',
-                            'Sierui, droogbloemen', 'Zantedeschia, droogbloemen', 'Zonnekroon'), crop_crumbleability := 14L] # 14 sierteelten
+                    'Krokus, droogbloemen', 'Kuifhyacint, droogbloemen', 'Lelie, droogbloemen',
+                    'Sierui, droogbloemen', 'Zantedeschia, droogbloemen', 'Zonnekroon'), crop_crumbleability := 14L] # 14 sierteelten
 cr[crop_name %in% c(), crop_crumbleability := 15L] # 15 laanbomen en onderstammen
 cr[crop_name %in% c('Azolla', 'Drachtplanten', 'Hoogstamboomgaard', 'Klaver, Perzische', 'Knip- of scheerheg',
-                            'Komkommer, zaden en opkweekmateriaal', 'Landschapselement, overig', 'Lavas (Maggiplant), zaden en opkweekmateriaal',
-                            'Lisdodde', 'Natuurvriendelijke oever','Niger', 'Palmen, pot- en containervelden', 'Poel en klein historisch water',
-                            'Riet', 'Rietzoom en klein rietperceel', 'Schurvelingen en zandwallen', 'Seradelle', 'Spurrie', 'Vrouwenmantel',
-                            'Wandelpad over boerenland', 'Water, overig', 
-                            'Wilde marjolein (Oregano), zaden en opkweekmateriaal', 'Wilde rijst'), crop_crumbleability := 16L] # 16 overig
+                    'Komkommer, zaden en opkweekmateriaal', 'Landschapselement, overig', 'Lavas (Maggiplant), zaden en opkweekmateriaal',
+                    'Lisdodde', 'Natuurvriendelijke oever','Niger', 'Palmen, pot- en containervelden', 'Poel en klein historisch water',
+                    'Riet', 'Rietzoom en klein rietperceel', 'Schurvelingen en zandwallen', 'Seradelle', 'Spurrie', 'Vrouwenmantel',
+                    'Wandelpad over boerenland', 'Water, overig', 
+                    'Wilde marjolein (Oregano), zaden en opkweekmateriaal', 'Wilde rijst'), crop_crumbleability := 16L] # 16 overig
 
 # Add crop_category
 cr[crop_name %in% c('Chrysant, droogbloemen', 'Chrysant, vermeerdering', 'Hoogstamboomgaard', 'Iris, droogbloemen',
-                            'Klaver, Perzische', 'Knolvenkel/venkel, zaden en opkweekmateriaal', 'Komkommer, zaden en opkweekmateriaal',
-                            'Krokus, droogbloemen',  'Kuifhyacint, bloembollen en -knollen', 'Kuifhyacint, droogbloemen',
-                            'Lavas (Maggiplant), zaden en opkweekmateriaal', 'Lelie, droogbloemen', 'Palmen, pot- en containervelden',
-                            'Seradelle', 'Sierui, droogbloemen', 'Spurrie', 'Uien, poot en plant, 1e jaars ', 'Voedselbos', 'Vrouwenmantel',
-                            'Wilde marjolein (Oregano), zaden en opkweekmateriaal', 'Wilde rijst', 'Zantedeschia, droogbloemen',
-                            'Zonnekroon'), crop_category := 'akkerbouw'] #  akkerbouw
+                    'Klaver, Perzische', 'Knolvenkel/venkel, zaden en opkweekmateriaal', 'Komkommer, zaden en opkweekmateriaal',
+                    'Krokus, droogbloemen',  'Kuifhyacint, bloembollen en -knollen', 'Kuifhyacint, droogbloemen',
+                    'Lavas (Maggiplant), zaden en opkweekmateriaal', 'Lelie, droogbloemen', 'Palmen, pot- en containervelden',
+                    'Seradelle', 'Sierui, droogbloemen', 'Spurrie', 'Uien, poot en plant, 1e jaars ', 'Voedselbos', 'Vrouwenmantel',
+                    'Wilde marjolein (Oregano), zaden en opkweekmateriaal', 'Wilde rijst', 'Zantedeschia, droogbloemen',
+                    'Zonnekroon'), crop_category := 'akkerbouw'] #  akkerbouw
 cr[crop_name %in% c(), crop_category := 'mais'] #  mais
 cr[crop_name %in% c('Roodzwenkgras'), crop_category := 'grasland'] #  grasland
 cr[crop_name %in% c('Azolla', 'Bomenrij (anders dan knotboom)', 'Boomgroepen in het veld', 'Bosje',
-                            'Bosssingel ','Drachtplanten', 'Elzensingel', 'Geisoleerde boom (anders dan knotboom)',
-                            'Griendje', 'Hakhoutbosje', 'Houtwal en houtsingel','Knip- of scheerheg', 'Knotboom, bomen in rij',
-                            'Knotboom, geisloleerde boom', 'Laan', 'Landschapselement, overig', 'Lisdodde', 'Natuurvriendelijke oever',
-                            'Niger', 'Poel en klein historisch water','Riet', 'Rietzoom en klein rietperceel',
-                            'Schurvelingen en zandwallen', 'Struweelhaag', 'Struweelrand', 'Wandelpad over boerenland',
-                            'Water, overig', 'Windhaag , in een perceel fruitteelt'), crop_category := 'natuur'] #  natuur
+                    'Bosssingel ','Drachtplanten', 'Elzensingel', 'Geisoleerde boom (anders dan knotboom)',
+                    'Griendje', 'Hakhoutbosje', 'Houtwal en houtsingel','Knip- of scheerheg', 'Knotboom, bomen in rij',
+                    'Knotboom, geisloleerde boom', 'Laan', 'Landschapselement, overig', 'Lisdodde', 'Natuurvriendelijke oever',
+                    'Niger', 'Poel en klein historisch water','Riet', 'Rietzoom en klein rietperceel',
+                    'Schurvelingen en zandwallen', 'Struweelhaag', 'Struweelrand', 'Wandelpad over boerenland',
+                    'Water, overig', 'Windhaag , in een perceel fruitteelt'), crop_category := 'natuur'] #  natuur
 
 # Add crop waterstress
 cr[crop_name %in% c('Azolla', 'Bomenrij (anders dan knotboom)' ,'Klaver, Perzische', 'Niger', 'Seradelle',
-                            'Spurrie', 'Zonnekroon'), crop_waterstress := 'overig']
+                    'Spurrie', 'Zonnekroon'), crop_waterstress := 'overig']
 cr[crop_name %in% c('Bomenrij (anders dan knotboom)', 'Boomgroepen in het veld', 'Bosje', 'Bosssingel ', 'Drachtplanten',
-                            'Elzensingel', 'Geisoleerde boom (anders dan knotboom)', 'Griendje','Hakhoutbosje',
-                            'Houtwal en houtsingel', 'Knip- of scheerheg', 'Knotboom, bomen in rij', 'Knotboom, geisloleerde boom',
-                            'Laan', 'Landschapselement, overig', 'Lisdodde', 'Natuurvriendelijke oever', 'Poel en klein historisch water', 'Riet',
-                            'Rietzoom en klein rietperceel','Schurvelingen en zandwallen', 'Struweelhaag', 'Struweelrand',
-                            'Vrouwenmantel', 'Wandelpad over boerenland', 'Water, overig', 'Windhaag , in een perceel fruitteelt'
+                    'Elzensingel', 'Geisoleerde boom (anders dan knotboom)', 'Griendje','Hakhoutbosje',
+                    'Houtwal en houtsingel', 'Knip- of scheerheg', 'Knotboom, bomen in rij', 'Knotboom, geisloleerde boom',
+                    'Laan', 'Landschapselement, overig', 'Lisdodde', 'Natuurvriendelijke oever', 'Poel en klein historisch water', 'Riet',
+                    'Rietzoom en klein rietperceel','Schurvelingen en zandwallen', 'Struweelhaag', 'Struweelrand',
+                    'Vrouwenmantel', 'Wandelpad over boerenland', 'Water, overig', 'Windhaag , in een perceel fruitteelt'
 ), crop_waterstress := 'natuur']
 cr[crop_name %in% c('Iris, droogbloemen', 'Krokus, droogbloemen','Lelie, droogbloemen'), crop_waterstress := 'bloembollen']
 cr[crop_name %in% c('Chrysant, droogbloemen', 'Chrysant, vermeerdering','Kuifhyacint, bloembollen en -knollen', 'Kuifhyacint, droogbloemen',
-                            'Lavas (Maggiplant), zaden en opkweekmateriaal','Sierui, droogbloemen', 
-                            'Wilde marjolein (Oregano), zaden en opkweekmateriaal', 'Wilde rijst', 'Zantedeschia, droogbloemen'), crop_waterstress := 'overig boomteelt']
+                    'Lavas (Maggiplant), zaden en opkweekmateriaal','Sierui, droogbloemen', 
+                    'Wilde marjolein (Oregano), zaden en opkweekmateriaal', 'Wilde rijst', 'Zantedeschia, droogbloemen'), crop_waterstress := 'overig boomteelt']
 cr[crop_name %in% c('Hoogstamboomgaard', 'Palmen, pot- en containervelden', 'Voedselbos'), crop_waterstress := 'boomteelt']
 cr[crop_name %in% c('Knolvenkel/venkel, zaden en opkweekmateriaal', 'Komkommer, zaden en opkweekmateriaal',
-                            'Uien, poot en plant, 1e jaars '), crop_waterstress := 'zomergroenten']
+                    'Uien, poot en plant, 1e jaars '), crop_waterstress := 'zomergroenten']
 cr[crop_name %in% c('Roodzwenkgras'), crop_waterstress := 'grasland zonder herinzaai']
 
 # Add crop intensity
@@ -84,12 +83,12 @@ cr[is.na(cr$crop_intensity), crop_intensity := 'overig']
 
 # Add crop_rotation
 cr[crop_name %in% c('Bomenrij (anders dan knotboom)', 'Boomgroepen in het veld', 'Bosje', 'Bosssingel ', 'Drachtplanten',
-                            'Elzensingel', 'Geisoleerde boom (anders dan knotboom)', 'Griendje','Hakhoutbosje',
-                            'Houtwal en houtsingel', 'Knip- of scheerheg', 'Knotboom, bomen in rij', 'Knotboom, geisloleerde boom',
-                            'Laan', 'Landschapselement, overig', 'Lisdodde', 'Natuurvriendelijke oever', 'Poel en klein historisch water', 'Riet',
-                            'Rietzoom en klein rietperceel','Schurvelingen en zandwallen', 'Struweelhaag', 'Struweelrand',
-                            'Vrouwenmantel', 'Wandelpad over boerenland', 'Water, overig',
-                            'Windhaag , in een perceel fruitteelt'), crop_intensity := 'nature']
+                    'Elzensingel', 'Geisoleerde boom (anders dan knotboom)', 'Griendje','Hakhoutbosje',
+                    'Houtwal en houtsingel', 'Knip- of scheerheg', 'Knotboom, bomen in rij', 'Knotboom, geisloleerde boom',
+                    'Laan', 'Landschapselement, overig', 'Lisdodde', 'Natuurvriendelijke oever', 'Poel en klein historisch water', 'Riet',
+                    'Rietzoom en klein rietperceel','Schurvelingen en zandwallen', 'Struweelhaag', 'Struweelrand',
+                    'Vrouwenmantel', 'Wandelpad over boerenland', 'Water, overig',
+                    'Windhaag , in een perceel fruitteelt'), crop_intensity := 'nature']
 cr[crop_name %in% c('Klaver, Perzische'), crop_intensity := 'clover']
 cr[crop_name %in% c('Roodzwenkgras'), crop_intensity := 'grass']
 cr[is.na(cr$crop_rotation), crop_rotation := 'other']
@@ -97,11 +96,11 @@ cr[is.na(cr$crop_rotation), crop_rotation := 'other']
 # Add crop phosphate
 cr[crop_name %in% c('Roodzwenkgras'), crop_phosphate := 'gras']
 cr[crop_name %in% c('Chrysant, droogbloemen', 'Chrysant, vermeerdering', 'Iris, droogbloemen', 'Klaver, Perzische',
-                            'Knolvenkel/venkel, zaden en opkweekmateriaal', 'Komkommer, zaden en opkweekmateriaal', 'Krokus, droogbloemen',
-                            'Kuifhyacint, bloembollen en -knollen', 'Kuifhyacint, droogbloemen', 'Lavas (Maggiplant), zaden en opkweekmateriaal',
-                            'Lelie, droogbloemen', 'Palmen, pot- en containervelden', 'Seradelle', 'Sierui, droogbloemen', 'Spurrie', 
-                            'Uien, poot en plant, 1e jaars ', 'Voedselbos', 'Wilde marjolein (Oregano), zaden en opkweekmateriaal', 'Wilde rijst',
-                            'Zonnekroon'), crop_phosphate := 'arable']
+                    'Knolvenkel/venkel, zaden en opkweekmateriaal', 'Komkommer, zaden en opkweekmateriaal', 'Krokus, droogbloemen',
+                    'Kuifhyacint, bloembollen en -knollen', 'Kuifhyacint, droogbloemen', 'Lavas (Maggiplant), zaden en opkweekmateriaal',
+                    'Lelie, droogbloemen', 'Palmen, pot- en containervelden', 'Seradelle', 'Sierui, droogbloemen', 'Spurrie', 
+                    'Uien, poot en plant, 1e jaars ', 'Voedselbos', 'Wilde marjolein (Oregano), zaden en opkweekmateriaal', 'Wilde rijst',
+                    'Zonnekroon'), crop_phosphate := 'arable']
 cr[is.na(crop_phosphate), crop_phosphate := 'nature'] # Everything that not grass, mais, or other production = nature
 
 # Add crop sealing
@@ -118,13 +117,13 @@ cr[is.na(cr$crop_k), crop_k := 'mais']
 
 # Add crop measure
 cr[crop_name %in% c('Klaver, Perzische', 'Lavas (Maggiplant), zaden en opkweekmateriaal','Roodzwenkgras', 'Seradelle',
-                            'Spurrie'), crop_measure := 'akkerbouw']
+                    'Spurrie'), crop_measure := 'akkerbouw']
 cr[crop_name %in% c('Palmen, pot- en containervelden', 'Voedselbos'), crop_measure := 'boomteelt']
 cr[crop_name %in% c('Chrysant, droogbloemen', 'Chrysant, vermeerdering', 'Iris, droogbloemen', 
-                            'Knolvenkel/venkel, zaden en opkweekmateriaal', 'Komkommer, zaden en opkweekmateriaal','Krokus, droogbloemen',
-                            'Kuifhyacint, bloembollen en -knollen', "Kuifhyacint, droogbloemen", 'Lelie, droogbloemen',
-                            'Sierui, droogbloemen', 'Uien, poot en plant, 1e jaars ','Wilde marjolein (Oregano), zaden en opkweekmateriaal',
-                            'Wilde rijst'), crop_measure := 'groenteteelt']
+                    'Knolvenkel/venkel, zaden en opkweekmateriaal', 'Komkommer, zaden en opkweekmateriaal','Krokus, droogbloemen',
+                    'Kuifhyacint, bloembollen en -knollen', "Kuifhyacint, droogbloemen", 'Lelie, droogbloemen',
+                    'Sierui, droogbloemen', 'Uien, poot en plant, 1e jaars ','Wilde marjolein (Oregano), zaden en opkweekmateriaal',
+                    'Wilde rijst'), crop_measure := 'groenteteelt']
 cr[is.na(cr$crop_measure), crop_measure := 'veeteelt']
 
 # Add EOS to non nature crops
@@ -226,7 +225,7 @@ cr[grepl('onnebloem', cr$crop_name),crop_name_scientific:= 'helianthus anuus']
 cr[grepl('Saffloer', cr$crop_name),crop_name_scientific:= 'carthamus tinctorius']
 cr[grepl('Meekrap', cr$crop_name),crop_name_scientific:= 'rubia tinctorum']
 cr[grepl('Teunisbloem', cr$crop_name),crop_name_scientific:= 'oenothera']
-cr[grepl('Brandnetel', cr$crop_name),crop_name_scientific:= 'Urtica urens']
+cr[grepl('Brandnetel', cr$crop_name),crop_name_scientific:= 'urtica urens']
 cr[grepl('Boekweit', cr$crop_name),crop_name_scientific:= 'fagopyrum esculentum']
 cr[grepl('Gierst', cr$crop_name),crop_name_scientific:= 'panicum miliaceum']
 cr[grepl('Bos|Lijnzaad|oenten|bomen|ilgen|Klaverzaad|heester|planten', cr$crop_name),crop_name_scientific:= 'overig']
@@ -260,7 +259,7 @@ cr[grepl('Quinoa', cr$crop_name),crop_name_scientific:= 'chenopodium quinoa']
 cr[grepl('Pastinaak', cr$crop_name),crop_name_scientific:= 'pastinaca sativa']
 cr[grepl('Pioenroos', cr$crop_name),crop_name_scientific:= 'paeonia']
 cr[grepl('Lavas', cr$crop_name),crop_name_scientific:= 'levisticum officinale']
-cr[grepl('Oregano', cr$crop_name),crop_name_scientific:= 'Origanum vulgare']
+cr[grepl('Oregano', cr$crop_name),crop_name_scientific:= 'origanum vulgare']
 cr[grepl('Goudsbloem', cr$crop_name),crop_name_scientific:= 'calendula officinalis']
 cr[grepl('Igniscum Candy', cr$crop_name),crop_name_scientific:= 'polygonaceae']
 cr[grepl('aaldaar', cr$crop_name),crop_name_scientific:= 'setaria']
@@ -330,10 +329,11 @@ cr[grepl('onnekroon', cr$crop_name),crop_name_scientific:= 'silphium perfoliatum
 # head(cr[is.na(crop_name_scientific),crop_name],1)
 # 
 # unique(cr[crop_name_scientific == 'carum carvi',.(crop_name, crop_name_scientific)])
-# cr[grepl('erzische', cr$crop_name), .(crop_name, crop_name_scientific)]
+cr[grepl('lanten', cr$crop_name), .(crop_name, crop_name_scientific)]
 # cr[grepl('Engels|engels', cr$crop_name), .(crop_name, crop_name_scientific)]
 # unique(cr[is.na(crop_name_scientific),.(crop_name, crop_name_scientific)])
 # sum(is.na(cr$crop_name_scientific))
 
 # Save new crops.obic
-write.csv(cr, 'data/crops_obic_new.csv')
+fwrite(cr, 'dev/crops_obic_new.csv')
+save(cr, 'data/crops_obic.RData')
