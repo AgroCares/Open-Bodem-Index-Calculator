@@ -12,7 +12,7 @@
 #' @import data.table
 #' 
 #' @export
-obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE) {
+obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE, dt_nema = NA) {
   
   # Check inputs
   checkmate::assert_data_table(dt)
@@ -30,6 +30,15 @@ obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE) {
         "M_M1", "M_M2", "M_M3", "M_M4", "M_M5", "M_M6", "M_M7", "M_M8", "M_M9", "M_M10", "M_M11", "M_M12", "M_M13", "M_M14", "M_M15"
         )
     )
+  
+  if(!is.na(dt_nema)) {
+    checkmate::assert_data_table(dt_nema)
+    checkmate::assert_subset(
+      solnames(dt_nema),
+      empty.ok = FALSE,
+      choices = c('species', 'count')
+    )
+  }
   
   # Run the preprocessing
   dt.ppr <- OBIC::obic_preprocessing(dt)
