@@ -1,7 +1,7 @@
 # Script to modify crops.obic
 library(data.table)
 
-cr <- fread('dev/crops_obic.csv')
+cr <- fread('dev/crops_obic_start.csv')
 cr <- cr[,V1 := NULL]
 
 # update crop codes to 2020
@@ -343,5 +343,5 @@ cr[grepl('onnekroon', cr$crop_name),crop_name_scientific:= 'silphium perfoliatum
 crops.obic <- cr
 
 # Save new crops.obic
-fwrite(crops.obic, 'DEV/crops_obic_new.csv')
+fwrite(crops.obic, 'DEV/crops_obic.csv')
 save(crops.obic, file = 'data/crops_obic.RData')
