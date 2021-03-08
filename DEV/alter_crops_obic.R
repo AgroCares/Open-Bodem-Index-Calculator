@@ -334,6 +334,8 @@ cr[grepl('lanten', cr$crop_name), .(crop_name, crop_name_scientific)]
 # unique(cr[is.na(crop_name_scientific),.(crop_name, crop_name_scientific)])
 # sum(is.na(cr$crop_name_scientific))
 
+crops.obic <- cr
+
 # Save new crops.obic
 fwrite(cr, 'dev/crops_obic_new.csv')
-save(cr, 'data/crops_obic.RData')
+save(crops.obic, file = 'data/crops_obic.RData')
