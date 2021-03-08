@@ -28,6 +28,7 @@ obic_indicators<- function(dt.ppr, dt_nema = NA) {
   D_SE = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_CEC = D_AS = D_K = NULL
   D_WSI = D_P_WRI = D_PMN = D_BCS = D_NGW = D_NSW = NULL
   leaching_to = NULL
+  I_NEMA = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   

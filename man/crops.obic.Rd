@@ -7,12 +7,26 @@
 \format{
 A data.frame with 405 rows and 12 columns:
 \describe{
-  \item{crop_name}{The name of the crop}
   \item{crop_code}{The BRP gewascode of the crop}
+  \item{crop_name}{The name of the crop}
+  \item{crop_waterstress}{Classification linking for linking crops to waterstress.obic}
+  \item{crop_intensity}{Whether crop is root/tuber crop, rest crop, or other.}
+  \item{crop_eos}{Effective soil organic matter produced by the crop in kg/ha}
+  \item{crop_eos_residue}{Effective soil organic matter from plant residues in kg/ha}
+  \item{crop_category}{Classification of crop per land use type (arable, maize, grass, nature)}
+  \item{crop_rotation}{Classification of crop to determine function within crop rotations}
   \item{crop_crumbleability}{The category for this crop at crumbleablity}
   \item{crop_phosphate}{The category for this crop at phosphate availability}
   \item{crop_sealing}{The category for this crop at soil sealing}
   \item{crop_n}{The category for this crop at nitrogen}
+  \item{crop_k}{}
+  \item{crop_measure}{}
+  \item{nf_clay}{}
+  \item{nf_sand.other}{}
+  \item{nf_sand.sout}{}
+  \item{nf_loess}{}
+  \item{nf_peat}{}
+  \item{crop_name_scientific}{All-lower-case scientific name of the crop species. When crop is not species specific the genus of the crop is given}
 }
 }
 \usage{

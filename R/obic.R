@@ -34,7 +34,7 @@ obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE, dt_n
   if(!is.na(dt_nema)) {
     checkmate::assert_data_table(dt_nema)
     checkmate::assert_subset(
-      solnames(dt_nema),
+      colnames(dt_nema),
       empty.ok = FALSE,
       choices = c('species', 'count')
     )
