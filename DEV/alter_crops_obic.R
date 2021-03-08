@@ -5,11 +5,10 @@ cr <- fread('dev/crops_obic.csv')
 cr <- cr[,V1 := NULL]
 
 # update crop codes to 2020
-crops2020 <- as.data.table(fread('DEV/Tabel_Gewassen_en_GLB_2020.csv'))
-crops2020 <- crops2020[4:nrow(crops2020),1:2]
+crops2020 <- as.data.table(fread('DEV/brp_crops_2020.csv'))
 
 # Identify missing crop codes
-miss_codes <- unique(crops2020[!V2 %in% cr$crop_code])
+miss_codes <- unique(crops2020[!crop_code %in% cr$crop_code])
 setnames(miss_codes, c('crop_name', 'crop_code'))
 miss_codes$crop_code <- as.numeric(miss_codes$crop_code)
 miss_codes <- miss_codes[!is.na(crop_code)]
