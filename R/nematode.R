@@ -1,7 +1,7 @@
 #' Calculate indicator for plant parasitic nematodes
 #'
-#' This function calculats the indicator for the presence of plant parasitic nematodes. All nematodes present in a sample are used.
-#' A subset of nematodes is weighted in the set reagardsless of their presesnce.
+#' This function calculates the indicator for the presence of plant parasitic nematodes. All nematodes present in a sample are used.
+#' A subset of nematodes is weighted in the set regardless of their presence.
 #' 
 #' @param A_NEMA (data.table) Long data table with the counted nematodes of a parcel.
 #' 

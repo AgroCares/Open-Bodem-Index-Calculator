@@ -3,7 +3,7 @@ library(data.table)
 # read test data
 dt <- read.csv('DEV/dummy_nema.csv', sep = ';')
 setDT(dt)
-saveRDS(dt, 'dummy_nema.RDS')
+save(dt, file = 'DEV/dummy_nema.Rdata')
 
 # inbuilt nematode table
 obic.nema <- read.csv('DEV/nematodes.csv', sep = ';')
