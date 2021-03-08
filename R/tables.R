@@ -85,7 +85,7 @@
 #' }
 "recom.obic"
 
-#' Column description for the OIC
+#' Column description for the OBIC
 #' 
 #' This table defines the columns used in the OBIC and which unit is used
 #' 
@@ -99,3 +99,18 @@
 #'   \item{method}{The method to measure/obtain the values for this column}
 #' }
 "column_description.obic"
+
+#' Nematode table
+#' 
+#' This table contains information uses for calculations on nematode species counts
+#' 
+#' @format A data.frame with 126 rows and 6 columns:
+#' \describe{
+#'   \item{geel}{The intermediate infestation severity count}
+#'   \item{rood}{The count at which a severe infestation is present}
+#'   \item{species}{The species or sometimes genera of the plant parasitic nematode}
+#'   \item{standard}{A boolean indicating whether the species should always be used in calculating the indicator score, regardless of the number of nematodes}
+#'   \item{b}{Growth rate (b) for the evaluate_logistics function}
+#'   \item{v}{v for the evaluate_logistics function, affects the growth rate near the maximum}
+#' }
+"obic.nema"
