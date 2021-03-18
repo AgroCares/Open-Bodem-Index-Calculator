@@ -113,4 +113,4 @@
 #'   \item{b}{Growth rate (b) for the evaluate_logistics function}
 #'   \item{v}{v for the evaluate_logistics function, affects the growth rate near the maximum}
 #' }
-"obic.nema"
+"nema.obic"

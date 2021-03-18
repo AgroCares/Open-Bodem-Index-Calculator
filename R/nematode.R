@@ -7,11 +7,13 @@
 #' 
 #' @export
 ind_nematodes <- function(A_NEMA){
-  obic.nema <- fread('data/obic.nema.csv')
-  setDT(obic.nema)
+  nema.obic <- fread('data/obic.nema.csv')
+  setDT(nema.obic)
+  
+  standaard = count = nem_score = b = geel = v = NULL
   
   checkmate::assert_data_table(A_NEMA)
-  dd <- merge.data.table(obic.nema, A_NEMA, by = 'species')
+  dd <- merge.data.table(nema.obic, A_NEMA, by = 'species')
   dd <- dd[standaard == TRUE|!is.na(count)]
   
   # Check if all standard nematodes are present
