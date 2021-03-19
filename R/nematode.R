@@ -7,8 +7,7 @@
 #' 
 #' @export
 ind_nematodes <- function(A_NEMA){
-  nema.obic <- fread('data/obic.nema.csv')
-  setDT(nema.obic)
+  nema.obic <- as.data.table(OBIC::nema.obic)
   
   standaard = count = nem_score = b = geel = v = NULL
   
