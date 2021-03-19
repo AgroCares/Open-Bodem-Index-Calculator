@@ -11,7 +11,7 @@
 ind_nematodes <- function(A_NEMA){
   nema.obic <- as.data.table(OBIC::nema.obic)
   
-  standaard = count = nem_score = b = geel = v = NULL
+  geel = rood = species = standaard = b = v = count = nem_score = NULL
   
   checkmate::assert_data_table(A_NEMA)
   checkmate::assert_numeric(A_NEMA[,count])
