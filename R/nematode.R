@@ -5,6 +5,8 @@
 #' 
 #' @param A_NEMA (data.table) Long data table with the counted nematodes of a parcel.
 #' 
+#' @import data.table
+#' 
 #' @export
 ind_nematodes <- function(A_NEMA){
   nema.obic <- as.data.table(OBIC::nema.obic)
