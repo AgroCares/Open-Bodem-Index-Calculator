@@ -47,71 +47,92 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT) {
   if(dt$soiltype.m == 'zand') {
     if(dt$A_SILT_MI < 10) {
       dt[,drukhoogte:= -45]
-      dt[,gws_sub_workindepth := 45]
+      dt[,gws_sub_workingdepth := 45]
       dt[,spring_depth := 30]
       dt[,z := 27]
     } if(dt$A_SILT_MI > 10 & dt$A_SILT_MI < 20) {
       dt[,drukhoogte:= -55]
-      dt[,gws_sub_workindepth := 55]
+      dt[,gws_sub_workingdepth := 55]
       dt[,spring_depth := 30]
       dt[,z := 65]
     } if(dt$A_SILT_MI > 20) {
       dt[,drukhoogte:= -60]
-      dt[,gws_sub_workindepth := 60]
+      dt[,gws_sub_workingdepth := 60]
       dt[,spring_depth := 30]
       dt[,z := 100]
     }
   } if(dt$soiltype.m == 'loess') {
     dt[,drukhoogte:= -65]
-    dt[,gws_sub_workindepth := 65]
+    dt[,gws_sub_workingdepth := 65]
     dt[,spring_depth := 12]
     dt[,z := 105]
   } if(dt$soiltype.m == 'veen') {
     dt[,drukhoogte:= -55]
-    dt[,gws_sub_workindepth := 55]
+    dt[,gws_sub_workingdepth := 55]
     dt[,spring_depth := 22]
     dt[,z := 45]
   } else{
     if(dt$A_CLAY_MI < 12) {
       dt[,drukhoogte:= -85]
-      dt[,gws_sub_workindepth := 85]
+      dt[,gws_sub_workingdepth := 85]
       dt[,spring_depth := 30]
       dt[,z := 73]
     } if(dt$A_CLAY_MI >12 & A_CLAY_MI < 17) {
       dt[,drukhoogte:= -85]
-      dt[,gws_sub_workindepth := 85]
+      dt[,gws_sub_workingdepth := 85]
       dt[,spring_depth := 12]
       dt[,z := 95]
     } if(dt$A_CLAY_MI >17 & A_CLAY_MI < 25) {
       dt[,drukhoogte:= -75]
-      dt[,gws_sub_workindepth := 75]
+      dt[,gws_sub_workingdepth := 75]
       dt[,spring_depth := 15]
       dt[,z := 60]
     } if(dt$A_CLAY_MI >25 & A_CLAY_MI < 35) {
       dt[,drukhoogte:= -65]
-      dt[,gws_sub_workindepth := 65]
+      dt[,gws_sub_workingdepth := 65]
       dt[,spring_depth := 15]
       dt[,z := 60]
     } if(dt$A_CLAY_MI >35) {
       dt[,drukhoogte:= -45]
-      dt[,gws_sub_workindepth := 45]
+      dt[,gws_sub_workingdepth := 45]
       dt[,spring_depth := 15]
       dt[,z := 53]
     }
   }
-  # Overwrite spring working depth for perrenial crops
+  # Overwrite spring working depth for perennial crops
   dt[crop_waterstress %in% c('boomteelt', 'overig boomteelt', 'groot fruit',
                              'grasland zonder herinzaai', 'grasland met herinzaai'),
      spring_depth := 0]
   
-  # test 1: 
+  # test 1: desired groundwater depth for work under hydrostatic equilibrium
+  dt[, required_depth := gws_sub_workingdepth+spring_depth]
   
   # test 2: when capillary rise is lower than evaporation (something based on Z-h relations)
   
   
   ## Calculate growing season length based on Regimecurve
+  regime_table <- data.table(gt = c('GtI',"GtII", "GtIII", "GtV", "GtIV", "GtVI", "GtVII", "GtVIII"),
+                             feb15 = c(20, 40, 40, 40, 40, 80, 80, 140),
+                             aug15 = c(50, 80, 120, 120, 120, 300, 300, 300)) # Not sure how to get a better estimate of what is essentially GLG and GHG
+  # merge regime_table into dt
+  dt <- merge.data.table(dt, regime_table, by.x = 'B_GT', by.y = 'gt')
   
+  if(dt$required_depth < dt$feb15) { # If the required depth is more shallow than the highest water level, soil is always workable 
+    relative_seasonlength <- 1
+  } if(dt$required_depth > dt$aug15) { # If the required depth is deeper than the lowest water level, soil is never workable
+    relative_seasonlength <- 0
+  } else {
+    # Calculate the day on which the desired water depth is reached
+    dt[,season_start := round(138-sin(-required_depth - 0.5*(-feb15 - aug15)/ 0.5*(-feb15+aug15))/0.0172142)]
+    dt[,season_end := round(138+sin(-required_depth - 0.5*(-feb15 - aug15)/ 0.5*(-feb15+aug15))/0.0172142)]
+    relative_seasonlength <- (dt$season_start+dt$season_end)/dt$desired_season_length 
+    ## to add: correction for season not being long enough before or after aug15
+    if(relative_seasonlength > 1) {
+      relative_seasonlength <- 1
+    }
+  }
   
+  return(relative_seasonlength)
 }
 #' Calculate indicator for workability
 #'
@@ -124,6 +145,3 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT) {
 ind_workability <- function() {
   
 }
-
-
-Gwsy = 138 + - (arcsin { [- gws dagx - (- gws 15 feb + - gws 15 aug) /2 ] / [ (- gws 15 feb - - gws 15 aug)/2 ] } / 0,0172142
