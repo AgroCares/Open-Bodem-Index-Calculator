@@ -5,9 +5,112 @@
 #' @param A_CLAY_MI (numeric) The clay content of the soil (in procent)
 #' @param A_SILT_MI (numeric) The silt content of the soil (in procent)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param B_BT_AK (character) The type of soil
+#' @param B_GT (character) The groundwater table class
 #'  
 #' @export
-calc_workability <- function() {
+calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT) {
+  
+  # define variables used within the function
+  
+  
+  # Load in the datasets
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  setkey(crops.obic, crop_code)
+  soils.obic <- as.data.table(OBIC::soils.obic)
+  setkey(soils.obic, soiltype)
+  waterstress.obic <- as.data.table(OBIC::waterstress.obic)
+  
+  # Check inputs
+  arg.length <- max(length(A_CLAY_MI), length(A_SILT_MI), length(B_LU_BRP), B_BT_AK, length(B_GT))
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_SILT_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_character(B_GT,any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(B_GT, choices = c('unknown',unique(waterstress.obic$gt)), empty.ok = FALSE)
+
+  # Collect in data table
+  dt <- data.table(A_CLAY_MI = A_CLAY_MI,
+                   A_SILT_MI = A_SILT_MI,
+                   B_LU_BRP = B_LU_BRP,
+                   B_BT_AK = B_BT_AK,
+                   B_GT = B_GT)
+  
+  # merge with OBIC crop and soil table
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_n,crop_name, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
+  
+  ## determine workableability key numbers
+  if(dt$soiltype.m == 'zand') {
+    if(dt$A_SILT_MI < 10) {
+      dt[,drukhoogte:= -45]
+      dt[,gws_sub_workindepth := 45]
+      dt[,spring_depth := 30]
+      dt[,z := 27]
+    } if(dt$A_SILT_MI > 10 & dt$A_SILT_MI < 20) {
+      dt[,drukhoogte:= -55]
+      dt[,gws_sub_workindepth := 55]
+      dt[,spring_depth := 30]
+      dt[,z := 65]
+    } if(dt$A_SILT_MI > 20) {
+      dt[,drukhoogte:= -60]
+      dt[,gws_sub_workindepth := 60]
+      dt[,spring_depth := 30]
+      dt[,z := 100]
+    }
+  } if(dt$soiltype.m == 'loess') {
+    dt[,drukhoogte:= -65]
+    dt[,gws_sub_workindepth := 65]
+    dt[,spring_depth := 12]
+    dt[,z := 105]
+  } if(dt$soiltype.m == 'veen') {
+    dt[,drukhoogte:= -55]
+    dt[,gws_sub_workindepth := 55]
+    dt[,spring_depth := 22]
+    dt[,z := 45]
+  } else{
+    if(dt$A_CLAY_MI < 12) {
+      dt[,drukhoogte:= -85]
+      dt[,gws_sub_workindepth := 85]
+      dt[,spring_depth := 30]
+      dt[,z := 73]
+    } if(dt$A_CLAY_MI >12 & A_CLAY_MI < 17) {
+      dt[,drukhoogte:= -85]
+      dt[,gws_sub_workindepth := 85]
+      dt[,spring_depth := 12]
+      dt[,z := 95]
+    } if(dt$A_CLAY_MI >17 & A_CLAY_MI < 25) {
+      dt[,drukhoogte:= -75]
+      dt[,gws_sub_workindepth := 75]
+      dt[,spring_depth := 15]
+      dt[,z := 60]
+    } if(dt$A_CLAY_MI >25 & A_CLAY_MI < 35) {
+      dt[,drukhoogte:= -65]
+      dt[,gws_sub_workindepth := 65]
+      dt[,spring_depth := 15]
+      dt[,z := 60]
+    } if(dt$A_CLAY_MI >35) {
+      dt[,drukhoogte:= -45]
+      dt[,gws_sub_workindepth := 45]
+      dt[,spring_depth := 15]
+      dt[,z := 53]
+    }
+  }
+  # Overwrite spring working depth for perrenial crops
+  dt[crop_waterstress %in% c('boomteelt', 'overig boomteelt', 'groot fruit',
+                             'grasland zonder herinzaai', 'grasland met herinzaai'),
+     spring_depth := 0]
+  
+  # test 1: 
+  
+  # test 2: when capillary rise is lower than evaporation (something based on Z-h relations)
+  
+  
+  ## Calculate growing season length based on Regimecurve
+  
   
 }
 #' Calculate indicator for workability
@@ -21,3 +124,6 @@ calc_workability <- function() {
 ind_workability <- function() {
   
 }
+
+
+Gwsy = 138 + - (arcsin { [- gws dagx - (- gws 15 feb + - gws 15 aug) /2 ] / [ (- gws 15 feb - - gws 15 aug)/2 ] } / 0,0172142
