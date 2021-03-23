@@ -24,7 +24,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT, B_GL
   waterstress.obic <- as.data.table(OBIC::waterstress.obic)
   
   # Check inputs
-  arg.length <- max(length(A_CLAY_MI), length(A_SILT_MI), length(B_LU_BRP), B_BT_AK, length(B_GT))
+  arg.length <- max(length(A_CLAY_MI), length(A_SILT_MI), length(B_LU_BRP), length(B_BT_AK), length(B_GT))
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_SILT_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -47,8 +47,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT, B_GL
                    B_GHG = B_GHG)
   
   # merge with OBIC crop and soil table
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_n,crop_name, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
-  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_n,crop_name, crop_category, crop_waterstress)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.m)], by.x = "B_BT_AK", by.y = "soiltype")
   
   ## determine workableability key numbers
   if(dt$soiltype.m == 'zand') {
@@ -57,23 +57,27 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT, B_GL
       dt[,gws_sub_workingdepth := 45]
       dt[,spring_depth := 30]
       dt[,z := 27]
-    } if(dt$A_SILT_MI > 10 & dt$A_SILT_MI < 20) {
+    } 
+    if(dt$A_SILT_MI > 10 & dt$A_SILT_MI < 20) {
       dt[,drukhoogte:= -55]
       dt[,gws_sub_workingdepth := 55]
       dt[,spring_depth := 30]
       dt[,z := 65]
-    } if(dt$A_SILT_MI > 20) {
+    } 
+    if(dt$A_SILT_MI > 20) {
       dt[,drukhoogte:= -60]
       dt[,gws_sub_workingdepth := 60]
       dt[,spring_depth := 30]
       dt[,z := 100]
     }
-  } if(dt$soiltype.m == 'loess') {
+  }
+  if(dt$soiltype.m == 'loess') {
     dt[,drukhoogte:= -65]
     dt[,gws_sub_workingdepth := 65]
     dt[,spring_depth := 12]
     dt[,z := 105]
-  } if(dt$soiltype.m == 'veen') {
+  }
+  if(dt$soiltype.m == 'veen') {
     dt[,drukhoogte:= -55]
     dt[,gws_sub_workingdepth := 55]
     dt[,spring_depth := 22]
@@ -84,22 +88,26 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT, B_GL
       dt[,gws_sub_workingdepth := 85]
       dt[,spring_depth := 30]
       dt[,z := 73]
-    } if(dt$A_CLAY_MI >12 & A_CLAY_MI < 17) {
+    }
+    if(dt$A_CLAY_MI >12 & A_CLAY_MI < 17) {
       dt[,drukhoogte:= -85]
       dt[,gws_sub_workingdepth := 85]
       dt[,spring_depth := 12]
       dt[,z := 95]
-    } if(dt$A_CLAY_MI >17 & A_CLAY_MI < 25) {
+    }
+    if(dt$A_CLAY_MI >17 & A_CLAY_MI < 25) {
       dt[,drukhoogte:= -75]
       dt[,gws_sub_workingdepth := 75]
       dt[,spring_depth := 15]
       dt[,z := 60]
-    } if(dt$A_CLAY_MI >25 & A_CLAY_MI < 35) {
+    }
+    if(dt$A_CLAY_MI >25 & A_CLAY_MI < 35) {
       dt[,drukhoogte:= -65]
       dt[,gws_sub_workingdepth := 65]
       dt[,spring_depth := 15]
       dt[,z := 60]
-    } if(dt$A_CLAY_MI >35) {
+    }
+    if(dt$A_CLAY_MI >35) {
       dt[,drukhoogte:= -45]
       dt[,gws_sub_workingdepth := 45]
       dt[,spring_depth := 15]
@@ -128,7 +136,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT, B_GL
   
   if(dt$required_depth < dt$feb15) { # If the required depth is more shallow than the highest water level, soil is always workable 
     relative_seasonlength <- 1
-  } if(dt$required_depth > dt$aug15) { # If the required depth is deeper than the lowest water level, soil is never workable
+  } 
+  if(dt$required_depth > dt$aug15) { # If the required depth is deeper than the lowest water level, soil is never workable
     relative_seasonlength <- 0
   } else {
     # Calculate the day on which the desired water depth is reached
@@ -138,7 +147,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT, B_GL
     # Calculate the number of days deficit compared to ideal situation
     dt[,early_season_day_deficit := season_start-req_days_pre_glg]
     dt[early_season_day_deficit <0,early_season_day_deficit := 0 ] # Deficient number of days cannot be negative
-    dt[,late_season_day_deficit := season_end-req_days_pre_glg]
+    dt[,late_season_day_deficit := season_end-post_days_pre_glg]
     dt[late_season_day_deficit <0, late_season_day_deficit := 0] # Deficient number of days cannot be negative
     
     # Calculate relative season length
