@@ -134,11 +134,20 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT, B_GL
     # Calculate the day on which the desired water depth is reached
     dt[,season_start := round(138-sin(-required_depth - 0.5*(-feb15 - aug15)/ 0.5*(-feb15+aug15))/0.0172142)]
     dt[,season_end := round(138+sin(-required_depth - 0.5*(-feb15 - aug15)/ 0.5*(-feb15+aug15))/0.0172142)]
-    relative_seasonlength <- (dt$season_start+dt$season_end)/dt$desired_season_length 
-    ## to add: correction for season not being long enough before or after aug15
-    if(relative_seasonlength > 1) {
-      relative_seasonlength <- 1
-    }
+    
+    # Calculate the number of days deficit compared to ideal situation
+    dt[,early_season_day_deficit := season_start-req_days_pre_glg]
+    dt[early_season_day_deficit <0,early_season_day_deficit := 0 ] # Deficient number of days cannot be negative
+    dt[,late_season_day_deficit := season_end-req_days_pre_glg]
+    dt[late_season_day_deficit <0, late_season_day_deficit := 0] # Deficient number of days cannot be negative
+    
+    # Calculate relative season length
+    relative_seasonlength <- (dt$desired_season_length-dt$late_season_deficit-dt$early_season_deficit)/dt$desired_season_length
+    
+    # # Set relative season length to one if it is higher than 1
+    # if(relative_seasonlength > 1) {
+    #   relative_seasonlength <- 1
+    # }
   }
   
   return(relative_seasonlength)
