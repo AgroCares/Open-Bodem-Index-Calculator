@@ -5,3 +5,6 @@
 inst/doc
 doc
 Meta
+dev/*.tif
+dev/*.gpkg
+dev/*brp19.Rdata
