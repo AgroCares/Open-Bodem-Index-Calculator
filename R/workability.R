@@ -7,9 +7,11 @@
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
 #' @param B_GT (character) The groundwater table class
+#' @param B_GLG () The lowest groundwater level averaged over the most dry periods in 8 years
+#' @param B_GHG () The highest groundwater level averaged over the most wet periods in 8 years
 #'  
 #' @export
-calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT) {
+calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT, B_GLG, B_GHG) {
   
   # define variables used within the function
   
@@ -31,13 +33,18 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT) {
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_character(B_GT,any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_GT, choices = c('unknown',unique(waterstress.obic$gt)), empty.ok = FALSE)
+  
+  checkmate::assert_   (B_GLG, any.missing = FALSE, len = arg.length)
+  checkmate::assert_   (B_GHG, any.missing = FALSE, len = arg.length)
 
   # Collect in data table
   dt <- data.table(A_CLAY_MI = A_CLAY_MI,
                    A_SILT_MI = A_SILT_MI,
                    B_LU_BRP = B_LU_BRP,
                    B_BT_AK = B_BT_AK,
-                   B_GT = B_GT)
+                   B_GT = B_GT,
+                   B_GLG = B_GLG,
+                   B_GHG = B_GHG)
   
   # merge with OBIC crop and soil table
   dt <- merge(dt, crops.obic[, list(crop_code, crop_n,crop_name, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
@@ -111,11 +118,13 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT) {
   
   
   ## Calculate growing season length based on Regimecurve
-  regime_table <- data.table(gt = c('GtI',"GtII", "GtIII", "GtV", "GtIV", "GtVI", "GtVII", "GtVIII"),
-                             feb15 = c(20, 40, 40, 40, 40, 80, 80, 140),
-                             aug15 = c(50, 80, 120, 120, 120, 300, 300, 300)) # Not sure how to get a better estimate of what is essentially GLG and GHG
-  # merge regime_table into dt
-  dt <- merge.data.table(dt, regime_table, by.x = 'B_GT', by.y = 'gt')
+  # regime_table <- data.table(gt = c('GtI',"GtII", "GtIII", "GtV", "GtIV", "GtVI", "GtVII", "GtVIII"),
+  #                            feb15 = c(20, 40, 40, 40, 40, 80, 80, 140),
+  #                            aug15 = c(50, 80, 120, 120, 120, 300, 300, 300)) # Not sure how to get a better estimate of what is essentially GLG and GHG
+  # # merge regime_table into dt
+  # dt <- merge.data.table(dt, regime_table, by.x = 'B_GT', by.y = 'gt')
+  dt[,feb15 := B_GHG]
+  dt[,aug15 := B_GLG]
   
   if(dt$required_depth < dt$feb15) { # If the required depth is more shallow than the highest water level, soil is always workable 
     relative_seasonlength <- 1
