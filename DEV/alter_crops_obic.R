@@ -379,37 +379,11 @@ cr[grepl('uifhyacint|bloem|rysant|roos', cr$crop_name)&!grepl('ahlia|bemester',c
    crop_season := 'tulpen, narcis, hyacint']
 cr[grepl('Bos[ ,-js]|bos', cr$crop_name), crop_season := 'loofbos']
 cr[is.na(crop_season), crop_season := 'overig']
-# cr[grepl('', cr$crop_name), crop_season := '']
-# cr[grepl('', cr$crop_name), crop_season := '']
 
+# Correction on Spelt waterstress
+cr[crop_name == 'Spelt', crop_waterstress := 'granen']
 
-# search names temporary to aid development ####
-test <- cr[is.na(crop_season)]
-cr[grepl('Fruit|Peren|Appel|steenvruchten|ruimen|ersen|noten', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('kleinfruit|Aardbeien.*grond|boos|essen|ramen|rambozen|ijndruiven', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('^Aardappelen|ardappelras', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('^Aardappelen.*zetmeel', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('^Aardappelen.*poot|ardappelras', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('ieten.*suiker|ieten.*voeder|ardperen|Kroten', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('^Tarwe.*winter|inter.*arwe|^Gerst.*winter', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('^Gerst.*zomer|erst.*omer|arwe.*zomer|[Hh]aver|Rogge|Spelt|Teff|Triticale|ierst|oekweit', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('ais|ojabonen', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('aanbo.*grond|stammen.*grond', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('oom|omen', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('Kerst', cr$crop_name), .(crop_name, crop_name_scientific)]
-cr[grepl('Graszaad', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('sperge', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('chorseneren', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('Prei|prei|pruit|Winterpeen', cr$crop_name)|grepl('brassica rapa|brassica oleracea', cr$crop_name_scientific), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('rwten|onen|chokkers|eulen', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('lof|elderij|Knoflook|chorei', cr$crop_name)|crop_name_scientific == 'allium cepa', .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('aspeen|ospeen', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('ahlia', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('Sla|pinazie|dijvie', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-# cr[grepl('iet', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('gras|Gras', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('Grasland.*blijvend|Grasland.*tijdelijk|raaigras$|^Veldbeemdgras$|grasland.*begraasd|grasland.*landbouw', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('open.*grond', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
-cr[crop_waterstress== 'zomergroenten'&is.na(crop_season), .(crop_name, crop_name_scientific, crop_season)]
-cr[grepl('uifhyacint|bloem|rysant|roos', cr$crop_name)&!grepl('ahlia|bemester',cr$crop_name)|crop_waterstress == 'bloembollen'&!grepl('ahlia',cr$crop_name), .(crop_name, crop_waterstress, crop_season)]
-cr[grepl('Bos[ ,-js]|bos', cr$crop_name), .(crop_name, crop_name_scientific, crop_season)]
+# Save new crops.obic
+crops.obic <- cr
+fwrite(crops.obic, 'DEV/crops_obic.csv')
+save(crops.obic, file = 'data/crops_obic.RData')
