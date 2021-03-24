@@ -17,6 +17,7 @@ B_BT_AK <-  'zeeklei'
 B_GLG <- 90
 B_GHG <- 35
 t2  <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
+t2.2 <- calc_workability(A_CLAY_MI = c(28), A_SILT_MI = c(20),  B_LU_BRP = c(240),  B_BT_AK = c('zeeklei'),  B_GLG = c(90),  B_GHG = c(35))
 
 # 3
 A_CLAY_MI <- 28
@@ -71,3 +72,15 @@ B_BT_AK <-  'dekzand'
 B_GLG <- 150
 B_GHG <- 25
 t8 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
+
+#9
+t9 <- calc_workability(
+  A_CLAY_MI = c(28, 28, 28, 28, 28, 28, 10, 0),
+  A_SILT_MI = c(20, 20, 20, 20, 20, 20, 20, 14),
+  B_LU_BRP = c(238, 240, 370, 238, 980, 259, 265, 1929),
+  B_BT_AK = c('zeeklei', 'zeeklei', 'zeeklei', 'zeeklei', 'zeeklei', 'loess', 'veen','dekzand'),
+  B_GLG = c(90, 90, 90, 80, 90, 80, 105, 150),
+  B_GHG = c(35, 35, 35, 30, 35, 50, 15, 25)
+)
+t9
+calc_workability(28,20,238,'zeeklei',90,35)
