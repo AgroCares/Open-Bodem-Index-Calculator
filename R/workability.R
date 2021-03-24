@@ -21,7 +21,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   soiltype.m = drukhoogte = gws_sub_workindepth = spring_depth = z = required_depth = NULL
   season_start = season_end = early_season_day_deficit = late_season_day_deficit = NULL
   req_days_pre_glg = req_days_post_glg = gws_sub_workingdepth = NULL
-  required_depth_hydrostatic = required_depth_capilary = NULL
+  required_depth_hydrostatic = required_depth_capilary = total_days = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
