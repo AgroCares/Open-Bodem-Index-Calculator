@@ -1,457 +1,457 @@
-crop_code,crop_name,crop_waterstress,crop_intensity,crop_eos,crop_eos_residue,crop_category,crop_rotation,crop_crumbleability,crop_phosphate,crop_sealing,crop_n,crop_k,crop_measure,nf_clay,nf_sand.other,nf_sand.south,nf_loess,nf_peat,crop_name_scientific
-172,Tuinbouwzaden,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,50,50,40,40,50,overig
-174,Bloemzaden open grond,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,overig
-175,Bloemkwekerijgewassen (inclusief bloemzaden),overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,overig
-176,Bloembollen en - knollen,bloembollen,overig,,,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,overig
-212,Fruit,groot fruit,overig,,,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,overig
-229,Boomkwekerij en vaste planten,overig boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig
-233,"Tarwe, winter-",granen,rust,1640,990,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,245,160,160,190,160,triticum aestivum
-234,"Tarwe, zomer-",granen,rust,1630,960,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,150,140,140,140,140,triticum aestivum
-235,"Gerst, winter-",granen,rust,1570,780,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,horderum vulgare
-236,"Gerst, zomer-",granen,rust,1310,0,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,80,80,80,80,80,horderum vulgare
-237,Rogge (geen snijrogge),granen,rust,1500,1020,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,secale cereale
-238,Haver,granen,rust,1570,900,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,100,100,100,100,100,avena sativa
-239,"Erwten, groene, droog te oogsten (geen conserven)",zomergroenten,overig,170,830,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,90,85,68,68,85,pisum sativum
-240,Schokkers,overig,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,akkerbouw,120,110,88,88,115,pisum sativum
-241,Kapucijners (en grauwe erwten),zomergroenten,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,90,85,68,68,85,pisum sativum
-242,"Bonen, bruine",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,phaseolus vulgaris
-243,"Bonen, veld-(oa duive-, paarde-, wierbonen)(droog te oogsten",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,135,135,108,108,135,phaseolus vulgaris
-244,"Erwten, groene/gele, groen te oogsten",zomergroenten,overig,170,830,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,30,30,30,30,30,pisum sativum
-246,Karwijzaad (oogst dit jaar),overig,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,akkerbouw,150,140,112,112,145,carum carvi
-247,Blauwmaanzaad,overig,overig,750,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,110,100,80,80,105,papaver somniferum
-249,"Vlas, vezel- (niet voor zaaizaad)",overig,overig,100,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,70,70,56,56,70,linum usitatissimum
-256,"Bieten, suiker-",suikerbiet,rooivrucht,375,900,akkerbouw,sugarbeet,6,arable,overig,akkerbouw,mais,akkerbouw,150,145,116,116,145,beta vulgaris
-257,"Bieten, voeder-",suikerbiet,rooivrucht,375,900,akkerbouw,sugarbeet,6,arable,overig,akkerbouw,mais,akkerbouw,165,165,132,132,165,beta vulgaris
-258,Luzerne,overig,rust,1350,0,akkerbouw,alfalfa,16,arable,overig,akkerbouw,mais,akkerbouw,40,40,40,40,40,medicago sativa
-259,"Mais, snij-",snijmais,overig,660,,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,160,140,112,112,150,zea mays
-262,"Uien, zaai-",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,170,120,120,120,120,allium cepa
-263,"Uien, zilver-",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,120,120,120,120,120,allium cepa
-265,"Grasland, blijvend",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig
-266,"Grasland, tijdelijk",grasland met herinzaai,rust,1175,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,310,250,250,250,265,gras overig
-294,"Boomkwekerijgewassen en vaste planten, pot- en containerveld",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig
-308,Erwten (droog te oogsten),zomergroenten,overig,170,830,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,30,30,30,30,30,pisum sativum
-311,"Bonen, veld- (onder andere duiven-, paarden-, wierbonen)",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus vulgaris
-314,Triticale,granen,overig,1600,930,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,160,150,120,120,150,triticale
-316,"Mais, korrel-",snijmais,overig,1900,,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,160,140,112,112,150,zea mays
-317,"Mais, corncob mix",snijmais,overig,1900,0,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,160,140,112,112,150,zea mays
-331,"Grasland, natuurlijk. Hoofdfunctie landbouw.",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig
-332,"Grasland, natuurlijk. Hoofdfunctie natuur.",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,0,0,0,0,0,gras overig
-333,"Rand, grenzend aan blijvend grasland of een blijvende teelt,",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig
-334,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit blijvend gras",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig
-335,Natuurterreinen (incl. heide),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-336,"Grasland, natuurlijk. Areaal met een natuurbeheertype dat overwegend voor landbouwactiviteiten-GLB wordt gebruikt",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig
-337,"Bufferstrook, rand (inclusief eventuele oevervegetatie)",natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-338,"Rand, liggend op bouwland en direct grenzend aan bos. Geen landbouwproductie.",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,0,0,0,0,0,overig
-343,"Sloot, grenzend aan beheerde akkerrand",natuur,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-344,"Rand, grenzend aan blijvend grasland of een blijvende teelt,",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,310,250,250,250,265,gras overig
-345,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit een",natuur,overig,500,0,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,345,250,250,250,265,overig
-346,Tagetes erecta (Afrikaantje),overig,overig,865,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,90,80,80,80,90,tagetes
-347,Tagetes patula (Afrikaantje),overig,overig,865,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,90,80,80,80,90,tagetes
-370,"Rand, grenzend aan blijvend grasland of een blijvende teelt, hoofdzakelijk bestaand uit tijdelijk gras",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,310,250,250,250,265,gras overig
-372,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit tijdelijk gras",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,310,250,250,250,265,gras overig
-375,Hop,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,humulus lupus
-381,Teff,granen,overig,,,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,eragrostis tef
-382,Spelt,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,triticum spelta
-383,Graszaad,overig,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,akkerbouw,90,80,64,64,85,gras overig
-426,"Overige groenbemesters, vlinderbloemige-",overig,rust,800,0,akkerbouw,catchcrop,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,""
-427,"Overige groenbemesters, niet-vlinderbloemige-",overig,rust,800,0,akkerbouw,catchcrop,16,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,""
-428,Gele mosterd,overig boomteelt,overig,850,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,140,112,112,145,sinapis alba
-511,Cichorei,overig boomteelt,overig,700,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,chichorium intybus
-513,Kanariezaad,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,phalaris canariensis
-515,Zonnebloemen,overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,helianthus anuus
-516,Miscanthus (olifantsgras),overig boomteelt,overig,,,akkerbouw,grass,14,mais,overig,akkerbouw,mais,boomteelt,345,250,250,250,265,miscanthus
-636,Saffloer,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,carthamus tinctorius
-652,Meekrap,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,rubia tinctorum
-653,Teunisbloem,overig boomteelt,overig,700,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,oenothera
-654,Brandnetel,natuur,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,veeteelt,150,150,150,150,150,urtica urens
-655,Zwarte mosterd,overig boomteelt,overig,850,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,200,185,148,148,190,brassica nigra
-658,Graansorgho,granen,overig,,,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,sorghum bicolor
-659,Boekweit,granen,overig,,,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,fagopyrum esculentum
-660,Gierst,granen,overig,1310,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,panicum miliaceum
-661,Overige granen,granen,rust,1600,0,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,overig
-662,Bos (SBL-regeling),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig
-663,"Lupinen, niet bittere",overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,150,150,150,150,lupinus
-664,Raapzaad,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,150,150,150,150,brassica rapa
-665,Sojabonen,zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,glycine max
-666,Lijnzaad niet van vezelvlas (olievlas),overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,70,70,56,56,70,overig
-669,Zwaardherik (aaltjesvanggewas),overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,140,112,112,145,Eruca sativa
-670,Japanse haver,granen,overig,850,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,100,100,100,100,100,avena sativa
-671,Raketblad (aaltjesvanggewas),overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,140,112,112,145,solanum sisymbriifolium
-672,Groenten open grond (inclusief groentezaden),zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,150,140,112,112,145,overig
-794,Woudbomen met korte omlooptijd (excl. Wilgenhakhout),boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig
-795,Wilgenhakhout,overig boomteelt,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig
-796,Kerstbomen,boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig
-799,"Klaver, rode",overig boomteelt,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,boomteelt,150,140,112,112,145,trifolium pratense
-800,Rolklaver,overig boomteelt,rust,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,150,140,112,112,145,lotus
-801,Esparcette,overig boomteelt,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,150,140,112,112,145,onobrychis viciifolia
-802,"Wikke, bonte",overig boomteelt,overig,645,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,30,25,25,25,30,vicia villosa
-803,"Wikke, voeder-",overig boomteelt,overig,645,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,30,25,25,25,30,vicia sativa
-804,Klaverzaad,overig boomteelt,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,boomteelt,30,25,25,25,30,overig
-814,"Mais, suiker-",snijmais,overig,660,,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,zea mays
-853,"Bonen, tuin- (droog te oogsten) (geen consumptie)",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus vulgaris
-854,"Bonen, tuin- (groen te oogsten)",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus vulgaris
-859,"Aardappelen, zetmeel geleverd aan buitenland",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,solanum tuberosum
-863,"Bos, zonder herplantplicht",natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig
-864,Bos (set aside regeling),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig
-944,"Hennep, vezel-",overig boomteelt,overig,660,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,cannabis sativa
-964,"Dahlia, overige bloemkwekerijgewassen",bloembollen,overig,750,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,110,105,105,105,105,dahlia
-965,"Dahlia, droogbloemen",bloembollen,overig,750,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,110,105,105,105,105,dahlia
-967,"Gladiool, overige bloemkwekerijgewassen",bloembollen,overig,1000,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,260,245,245,245,245,gladiolus communis
-968,"Gladiool, droogbloemen",bloembollen,overig,1000,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,190,180,180,180,180,gladiolus communis
-970,"Hyacint, overige bloemkwekerijgewassen",bloembollen,overig,350,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,hyacinthus orientalis
-971,"Hyacint, droogbloemen",bloembollen,overig,350,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,hyacinthus orientalis
-973,"Iris, overige bloemkwekerijgewassen",bloembollen,overig,400,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,170,160,160,160,160,iris germanica
-976,"Krokus, overige bloemkwekerijgewassen",bloembollen,overig,150,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,175,165,165,165,165,crocus
-979,"Lelie, overige bloemkwekerijgewassen",bloembollen,overig,450,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,155,145,145,145,145,lilium
-982,"Narcis, overige bloemkwekerijgewassen",bloembollen,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,narcissus
-983,"Narcis, droogbloemen",bloembollen,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,narcissus
-985,"Tulp, overige bloemkwekerijgewassen",bloembollen,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,tulipa
-986,"Tulp, droogbloemen",bloembollen,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,tulipa
-988,"Zantedeschia, overige bloemkwekerijgewassen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,zantedeschia aethiopica
-991,"Overige bloemen, overige bloemkwekerijgewassen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,overig
-992,"Overige bloemen, droogbloemen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,overig
-994,"Amaryllis, overige bloemkwekerijgewassen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,amaryllis belladonna
-995,"Amaryllis, droogbloemen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,amaryllis belladonna
-997,"Dahlia, bloembollen en - knollen",bloembollen,overig,750,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,110,105,105,105,105,dahlia
-998,"Gladiool, bloembollen en - knollen",bloembollen,overig,1900,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,190,180,180,180,180,gladiolus communis
-999,"Hyacint, bloembollen en - knollen",bloembollen,overig,350,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,220,210,210,210,210,hyacinthus orientalis
-1000,"Iris, bloembollen en -knollen",bloembollen,overig,400,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,170,160,160,160,160,iris germanica
-1001,"Krokus, bloembollen en - knollen",bloembollen,overig,150,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,175,165,165,165,165,crocus
-1002,"Lelie, bloembollen en -knollen",bloembollen,overig,450,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,155,145,145,145,145,lilium
-1003,"Narcis, bloembollen en -knollen",bloembollen,overig,500,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,145,140,140,140,140,narcissus
-1004,"Tulp, bloembollen en -knollen",bloembollen,overig,500,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,200,190,190,190,190,tulipa
-1005,"Zantedeschia, bloembollen en -knollen",bloembollen,overig,0,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,120,120,120,120,120,zantedeschia aethiopica
-1006,"Overige bloemen, bloembollen en -knollen",bloembollen,overig,0,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,overig
-1007,"Amaryllis, bloembollen en -knollen",bloembollen,overig,,,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,amaryllis belladonna
-1010,"Sierui, overige bloemkwekerijgewassen",overig boomteelt,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,120,120,120,120,120,allium cepa
-1012,"Sierui, bloembollen en -knollen",bloembollen,overig,500,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,120,120,120,120,120,allium cepa
-1013,"Blauw druifje, overige bloemkwekerijgewassen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,muscari botryoides
-1014,"Blauw druifje, droogbloemen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,muscari botryoides
-1015,"Blauw druifje, bloembollen en -knollen",bloembollen,overig,,,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,muscari botryoides
-1016,"Kuifhyacint, overige bloemkwekerijgewassen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,leopoldia comosa
-1019,"Valeriaan, productie",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,valeriana officinalis
-1020,"Valeriaan, zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,valeriana officinalis
-1021,Knoflook,zomergroenten,overig,300,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,allium sativum
-1022,Quinoa,zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,chenopodium quinoa
-1023,"Pastinaak, productie",zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,pastinaca sativa
-1024,"Pastinaak, zaden en opkweekmateriaal",zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,pastinaca sativa
-1025,"Pioenroos, overige bloemkwekerijgewassen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,paeonia
-1026,"Pioenroos, droogbloemen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,paeonia
-1027,"Pioenroos, bloembollen en -knollen",bloembollen,overig,0,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,paeonia
-1028,"Lavas (Maggiplant), productie",overig boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,levisticum officinale
-1030,"Wilde marjolein (Oregano), productie",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,origanum vulgare
-1032,Goudsbloem,overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,calendula officinalis
-1033,Igniscum Candy,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,polygonaceae
-1034,Kanariezaad,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,phalaris canariensis
-1035,Naaldaar (Setaria),overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,setaria
-1036,Wortelpeterselie,zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,petroselinum crispum
-1037,"Peterselie, productie",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,petroselinum crispum
-1038,"Peterselie, zaden en opkweekmateriaal",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,petroselinum crispum
-1039,"Chrysant, overige bloemkwekerijgewassen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,chrysanthemum
-1042,"Angelica, productie",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,angelica
-1043,"Angelica, zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,angelica
-1044,Papaver,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,papaver
-1045,Adonis,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,adonis
-1046,Vergeet mij nietje,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,myosotis
-1047,Cranberry,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,vaccinium macrocarpon
-1048,"Echinacea (zonnehoed), productie",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,echinacea
-1049,"Echinacea (zonnehoed), zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,echinacea
-1050,Leeuwenbekjes,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,antirrhinum
-1051,"Iris, Bolvormend",bloembollen,overig,400,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,170,160,160,160,160,iris germanica
-1052,"Iris, Rhizoomvormend",bloembollen,overig,400,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,140,135,135,135,135,iris germanica
-1054,"Pioenroos, vermeerdering",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,paeonia
-1067,"Bos- en haagplanten, open grond,",overig boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,95,95,95,95,95,overig
-1068,"Buxus, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,95,95,95,95,95,buxus
-1069,"Ericaceae (Zoals erica, calluna, rododendron, azalea), open grond,",overig boomteelt,overig,0,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,ericaceae
-1070,"Laanbomen/parkbomen, onderstammen, open grond,",boomteelt,overig,1175,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,40,40,40,40,40,overig
-1071,"Laanbomen/parkbomen, opzetters, open grond,",boomteelt,overig,1175,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,115,115,115,115,115,overig
-1072,"Laanbomen/parkbomen, spillen, open grond,",boomteelt,overig,1175,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig
-1073,"Rozenstruiken (incl, zaailingen en onderstammen), open grond",overig boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,rosa
-1074,"Sierconiferen, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,75,75,75,75,75,coniferales
-1075,"Sierheesters en klimplanten, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,75,75,75,75,75,overig
-1076,"Trek- en besheesters, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,75,75,75,75,75,overig
-1077,"Vruchtbomen, moerbomen, open grond,",boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig
-1078,"Vruchtbomen, onderstammen, open grond,",boomteelt,overig,1175,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,30,30,30,30,30,overig
-1079,"Vruchtbomen, overig, open grond,",boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,135,105,105,105,105,overig
-1080,"Vaste planten, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig
-1081,"Bos- en haagplanten, pot- en containerveld,",overig boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,95,95,95,95,95,overig
-1082,"Buxus, pot- en containerveld,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,95,95,95,95,95,buxus
-1083,"Ericaceae (Zoals erica, calluna, rododendron, azalea), pot- en containerveld,",overig boomteelt,overig,0,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,ericaceae
-1084,"Laanbomen/parkbomen, onderstammen, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,40,40,40,40,40,overig
-1085,"Laanbomen/parkbomen, opzetters, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,115,115,115,115,115,overig
-1086,"Laanbomen/parkbomen, spillen, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig
-1087,"Rozenstruiken (incl, zaailingen en onderstammen), pot- en co",overig boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,rosa
-1088,"Sierconiferen, pot- en containerveld,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,80,80,80,80,80,coniferales
-1089,"Sierheesters en klimplanten, pot- en containerveld,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,80,80,80,80,80,overig
-1090,"Trek- en besheesters, pot- en containerveld,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,80,80,80,80,80,overig
-1091,"Vruchtbomen, moerbomen, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig
-1092,"Vruchtbomen, onderstammen, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,30,30,30,30,30,overig
-1093,"Vruchtbomen, overig, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,135,105,105,105,105,overig
-1094,"Vaste planten, pot- en containerteelt,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig
-1095,Appelen. Aangeplant lopende seizoen.,groot fruit,overig,4600,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,malus
-1096,Appelen. Aangeplant voorafgaande aan lopende seizoen.,groot fruit,overig,4600,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,malus
-1097,Peren. Aangeplant lopende seizoen.,groot fruit,overig,5700,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,pyrus
-1098,Peren. Aangeplant voorafgaande aan lopende seizoen.,groot fruit,overig,5700,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,pyrus
-1099,Wijndruiven,klein fruit,overig,0,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,100,95,95,95,95,vitis vinifera
-1100,"Overige pit- en steenvruchten (zoals perziken, tafeldruiven)",klein fruit,overig,,,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig
-1570,Klaverzaad,overig,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,akkerbouw,110,110,110,110,110,overig
-1574,Definitief aan de landbouw onttrokken cultuurgrond,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-1575,Faunaranden,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,110,110,110,110,110,overig
-1697,Hazelnoten,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,110,110,110,110,110,corylus avellana
-1698,Walnoten,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,110,110,110,110,110,juglans regia
-1869,"Bessen, blauwe",klein fruit,overig,2850,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,100,95,95,95,95,vaccinium corymbosum
-1870,Pruimen,groot fruit,overig,5600,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,prunus
-1872,"Kersen, zuur (opbrengst bestemd voor verwerkende industrie)",klein fruit,overig,,,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,prunus
-1873,"Bessen, zwarte (opbrengst verwerkt voor verwerkende industrie)",klein fruit,overig,2850,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,ribes nigrum
-1874,"Overig kleinfruit (zoals kruisbessen, kiwi's)",klein fruit,overig,0,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig
-1876,Snijgroen,bladgroenten,overig,0,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,95,95,95,95,95,overig
-1909,"Aardappelen, consumptie- op kleigrond",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,275,260,208,204,270,solanum tuberosum
-1910,"Aardappelen, consumptie- op zand-/veengrond",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,225,210,168,164,220,solanum tuberosum
-1911,"Aardappelen, cons. op kleigrond (vroeg, loofver voor 15-07)",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,120,120,96,96,120,solanum tuberosum
-1912,"Aardappelen, cons. op zand/veen (vroeg, loofver voor 15-07)",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,120,120,96,96,120,solanum tuberosum
-1914,"Graszaad, overig",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,90,80,64,64,85,gras overig
-1915,"Graszaad, rietzwenkgras",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,140,130,104,104,135,Festuca arundinacea
-1916,"Graszaad, veldbeemd",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,130,100,80,80,105,poa pratensis
-1917,"Graszaad, roodzwenkgras, 1e jaar",grasland met herinzaai,rust,1175,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,85,75,60,60,80,festuca rubra
-1918,"Graszaad, roodzwenkgras, overjarig",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,115,105,84,84,110,festuca rubra
-1919,"Graszaad, westerwolds",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,110,100,80,80,105,lolium multiflorum
-1920,"Graszaad, Italiaans",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,130,120,96,96,125,lolium multiflorum
-1921,Graszoden,grasland zonder herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,340,340,272,272,340,gras overig
-1922,"Koolzaad, winter (ook boterzaad)",zomergroenten,rust,975,0,akkerbouw,rapeseed,2,arable,overig,akkerbouw,mais,groenteteelt,205,190,152,152,195,brassica napus
-1923,"Koolzaad, zomer (ook boterzaad)",zomergroenten,rust,975,0,akkerbouw,rapeseed,2,arable,overig,akkerbouw,mais,groenteteelt,120,120,96,96,120,brassica napus
-1925,Overige akkerbouwgewassen,aardappel,overig,0,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,overig
-1926,"Aardappelen, poot op klei, uitgroeiteelt (loofver na 15-08)",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum
-1927,"Aardappelen, poot op zand/veen, uitgroei (loofver na 15-08)",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,100,100,100,100,100,solanum tuberosum
-1928,"Aardappelrassen, poot- op kleigrond",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum
-1929,"Aardappelrassen, poot- op zand-/veengrond",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,120,120,120,120,120,solanum tuberosum
-1930,"Tagetes (zand, loss) (geen groene braak)",overig,overig,865,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,90,80,80,80,90,tagetes
-1931,"Uien, poot en plant (incl. sjalotten)",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,120,120,120,120,120,allium cepa
-1933,"Vlas, vezel- (voor zaaizaad)",overig,overig,100,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,70,70,56,56,70,linum usitatissimum
-1934,"Aardappelen, zetmeel-",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum
-1935,"Aardappelen, zetmeel- TBM pootgoed",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum
-1936,"Bos, blijvend, met herplantplicht",natuur,overig,,,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig
-1949,Aardperen,overig,overig,375,900,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,165,165,132,132,165,helianthus tuberosus
-1950,Onbekend/gewas niet opgegeven,natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,110,110,110,110,110,overig
-1959,Dummycode voor dummypercelen,natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,110,110,110,110,110,overig
-2014,"Aardappelen, consumptie",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,250,235,188,184,245,solanum tuberosum
-2015,"Aardappelen, poot NAK",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum
-2016,"Aardappelen, poot TBM",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum
-2017,"Aardappelen, zetmeel",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum
-2025,"Aardappelen, bestrijdingsmaatregel AM",aardappel,rooivrucht,875,0,akkerbouw,potato,4,arable,overig,akkerbouw,mais,akkerbouw,180,165,165,165,170,solanum tuberosum
-2026,Braak met bos (SBL-regeling na 28 juni 1995),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig
-2027,Bos (SBL-regeling),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig
-2029,"Braak, natuur-",natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-2030,"Graszaad, Engels raai 1e jaar",grasland zonder herinzaai,rust,1175,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,165,150,120,120,155,lolium perenne
-2031,"Graszaad, Engels raai overjarig",grasland zonder herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,200,185,148,148,190,lolium perenne
-2032,"Mais, energie-",snijmais,overig,660,,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,160,140,112,112,150,zea mays
-2033,"Onbeteelde grond, tijdelijk",natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-2297,Woudbomen met korte omlooptijd,boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig
-2298,"Groenbemesters, vlinderbloemige",overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,""
-2299,"Groenbemesters, niet-vlinderbloemige",overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,""
-2300,Onbeteelde grond door een teeltverbod/ontheffing,natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-2301,Natuurlijk grasland met hoofdfunctie landbouw,grasland met herinzaai,overig,1155,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig
-2302,Natuurlijk grasland (begraasd) met beperkte landbouwact.,grasland met herinzaai,overig,1155,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig
-2303,Overige natuurterreinen,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-2304,"Heide, begraasd",natuur,overig,,,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-2325,"Bessen, rode",klein fruit,overig,5600,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,150,140,140,140,140,ribes rubrum
-2326,Frambozen,klein fruit,overig,2850,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,150,140,140,140,140,rubus idaeus
-2327,Bramen,klein fruit,overig,0,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,150,140,140,140,140,rubus
-2328,"Kersen, zoet",klein fruit,overig,,,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,prunus
-2636,Overig landschapselement,natuur,overig,0,0,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-2645,Notenbomen,boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig
-2650,Erwten inclusief schokkers (droog te oogsten),zomergroenten,overig,170,830,akkerbouw,mais,7,mais,overig,akkerbouw,mais,groenteteelt,30,30,30,30,30,pisum sativum
-2651,"Bieten, voeder- (inclusief aardperen)",suikerbiet,rooivrucht,375,900,akkerbouw,sugarbeet,6,arable,overig,akkerbouw,mais,akkerbouw,165,165,132,132,165,beta vulgaris
-2652,Overige granen,granen,rust,1600,0,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,80,80,80,80,80,overig
-2653,Graszaad (inclusief klaverzaad),grasland zonder herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,90,80,64,64,85,gras overig
-2700,"Aardbeien open grond, vermeerdering",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,120,110,88,88,115,fragaria x ananassa
-2701,"Aardbeien open grond, wachtbed",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,80,70,56,56,75,fragaria x ananassa
-2702,"Aardbeien open grond, productie",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,170,155,124,124,160,fragaria x ananassa
-2703,"Aardbeien open grond, zaden en opkweekmateriaal",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,80,70,56,56,75,fragaria x ananassa
-2704,"Aardbeien op stellingen, vermeerdering",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,120,110,88,88,115,fragaria x ananassa
-2705,"Aardbeien op stellingen, wachtbed",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,80,70,56,56,75,fragaria x ananassa
-2706,"Aardbeien op stellingen, productie",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,170,155,124,124,160,fragaria x ananassa
-2707,"Aardbeien op stellingen, zaden en opkweekmateriaal",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,80,70,56,56,75,fragaria x ananassa
-2708,"Andijvie, productie",bladgroenten,overig,2882304,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,170,136,136,170,chichorium endivia
-2709,"Andijvie, zaden en opkweekmateriaal",bladgroenten,overig,450,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,90,90,72,72,90,chichorium endivia
-2710,"Asperges, oppervlakte die productie oplevert",zomergroenten,overig,1000,0,akkerbouw,other,8,arable,overig,akkerbouw,mais,groenteteelt,85,75,60,60,80,asparagus officinalis
-2711,"Asperges, oppervlakte die nog geen productie oplevert",zomergroenten,overig,1000,0,akkerbouw,other,8,arable,overig,akkerbouw,mais,groenteteelt,85,75,60,60,80,asparagus officinalis
-2712,"Asperges, zaden en opkweekmateriaal",zomergroenten,overig,1000,0,akkerbouw,other,8,arable,overig,akkerbouw,mais,groenteteelt,85,75,60,60,80,asparagus officinalis
-2713,"Bloemkool, productie",zomergroenten,overig,1640.08,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,230,210,168,168,220,brassica oleracea
-2714,"Bloemkool, zaden en opkweekmateriaal",zomergroenten,overig,1000,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,brassica oleracea
-2715,"Boerenkool, productie",zomergroenten,overig,1518096,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,170,155,124,124,160,brassica oleracea
-2716,"Boerenkool, zaden en opkweekmateriaal",zomergroenten,overig,750,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,170,155,124,124,160,brassica oleracea
-2717,"Bospeen, productie",bladgroenten,rooivrucht,300,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,50,50,50,50,50,daucus carota
-2718,"Bospeen, zaden en opkweekmateriaal",bladgroenten,rooivrucht,300,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,50,50,50,50,50,daucus carota
-2719,"Broccoli, productie",zomergroenten,overig,2174128,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,270,235,188,188,245,brassica oleracea
-2720,"Brocolli, zaden en opkweekmateriaal",zomergroenten,overig,1150,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,270,235,188,188,245,brassica oleracea
-2721,"Chinese kool, productie",zomergroenten,overig,1730.16,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,180,155,124,124,160,brassica rapa
-2722,"Chinese kool, zaden en opkweekmateriaal",zomergroenten,overig,450,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,180,155,124,124,160,brassica rapa
-2723,"Courgette, productie",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita pepo
-2724,"Courgette, zaden en opkweekmateriaal",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita pepo
-2725,"Knolselderij, productie",zomergroenten,overig,400,600,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,apium graveolens
-2726,"Knolselderij, zaden en opkweekmateriaal",zomergroenten,overig,400,600,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,apium graveolens
-2727,"Knolvenkel/venkel, productie",zomergroenten,overig,2448256,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,foeniculum vulgare
-2729,"Komkommer, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucumis sativus
-2731,"Augurk, productie",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucumis sativus
-2732,"Augurk, zaden en opkweekmateriaal",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucumis sativus
-2733,"Meloen, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita
-2734,"Meloen, zaden en opkweekmateriaal",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita
-2735,"Pompoen, productie",zomergroenten,overig,350,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita
-2736,"Pompoen, zaden en opkweekmateriaal",zomergroenten,overig,350,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita
-2737,"Koolraap, productie",zomergroenten,overig,550,600,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,170,155,124,124,160,brassica rapa
-2738,"Koolraap, zaden en opkweekmateriaal",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,170,155,124,124,160,brassica rapa
-2739,"Koolrabi, productie",zomergroenten,overig,300,250,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,brassica oleracea
-2740,"Koolrabi, zaden en opkweekmateriaal",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,brassica oleracea
-2741,"Kroten/rode bieten, productie",suikerbiet,overig,600,0,akkerbouw,other,6,arable,overig,akkerbouw,mais,akkerbouw,185,170,136,136,175,beta vulgaris
-2742,"Kroten/rode bieten, zaden en opkweekmateriaal",suikerbiet,overig,600,0,akkerbouw,other,6,arable,overig,akkerbouw,mais,akkerbouw,185,170,136,136,175,beta vulgaris
-2743,"Kruiden, productie",overig,overig,300,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,275,250,200,200,260,overig
-2744,"Kruiden, zaden en opkweekmateriaal",overig,overig,300,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,100,90,72,72,95,overig
-2745,"Paksoi, productie",zomergroenten,overig,450,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,brassica rapa
-2746,"Paksoi, zaden en opkweekmateriaal",zomergroenten,overig,450,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,brassica rapa
-2747,"Peulen, productie",zomergroenten,overig,170,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,pisum sativum
-2748,"Peulen, zaden en opkweekmateriaal",zomergroenten,overig,170,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,pisum sativum
-2749,"Prei, productie",wintergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,245,225,180,180,235,allium ampeloprasum
-2750,"Prei, zaden en opkweekmateriaal",wintergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,90,72,72,95,allium ampeloprasum
-2751,"Pronkbonen, productie",zomergroenten,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus coccineus
-2752,"Pronkbonen, zaden en opkweekmateriaal",zomergroenten,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus coccineus
-2753,"Raapstelen, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,140,130,104,104,135,brassica rapa
-2754,"Raapstelen, zaden en opkweekmateriaal",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,140,130,104,104,135,brassica rapa
-2755,"Rabarber, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,250,230,184,184,240,rheum rhabarbarum
-2756,"Rabarber, zaden en opkweekmateriaal",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,250,230,184,184,240,rheum rhabarbarum
-2757,"Radijs, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,80,80,64,64,80,raphanus sativus
-2758,"Radijs, zaden en opkweekmateriaal",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,80,80,64,64,80,raphanus sativus
-2759,"Rodekool, productie",zomergroenten,overig,2536192,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea
-2760,"Rodekool, zaden en opkweekmateriaal",zomergroenten,overig,1000,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea
-2761,"Savooiekool, productie",zomergroenten,overig,2536192,440,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea
-2762,"Savooiekool, zaden en opkweekmateriaal",zomergroenten,overig,1000,440,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea
-2763,Schorseneren; productie,zomergroenten,overig,600,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,170,170,170,170,170,scorzonera hispanica
-2764,"Schorseneren, zaden en opkweekmateriaal",zomergroenten,overig,600,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,170,170,170,170,170,scorzonera hispanica
-2765,"Selderij, bleek- en groen-, productie",zomergroenten,overig,3266,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,apium graveolens
-2766,"Selderij, bleek- en groen-, zaden en opkweekmateriaal",zomergroenten,overig,450,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,apium graveolens
-2767,"Sla, ijsberg-, productie",bladgroenten,overig,2398256,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa
-2768,"Sla, ijsberg-, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,105,105,84,84,105,lactuca sativa
-2769,"Sla; radicchio rosso, productie",bladgroenten,overig,2398256,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa
-2770,"Sla; radicchio rosso, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa
-2771,"Sla; overig, productie",bladgroenten,overig,2398256,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa
-2772,"Sla; overig, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa
-2773,"Spinazie, productie",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,260,190,152,152,200,espinaca oleracea
-2774,"Spinazie, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,185,145,116,116,150,espinaca oleracea
-2775,"Spitskool, productie",zomergroenten,overig,2536192,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea
-2776,"Spitskool, zaden en opkweekmateriaal",zomergroenten,overig,500,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea
-2777,"Spruitkool/spruitjes, productie",wintergroenten,overig,2836192,700,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,290,265,212,212,275,brassica oleracea
-2778,"Spruitkool/spruitjes, zaden en opkweekmateriaal",wintergroenten,overig,2836192,700,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,50,50,40,40,50,brassica oleracea
-2779,"Stamsperziebonen (=stamslabonen), productie",zomergroenten,overig,170,480,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,phaseolus vulgaris
-2780,"Stamsperziebonen (=stamslabonen), zaden en opkweekmateriaal",zomergroenten,overig,170,480,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,135,135,108,108,135,phaseolus vulgaris
-2781,"Stoksnijbonen en stokslabonen, productie",zomergroenten,overig,170,480,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,phaseolus vulgaris
-2782,"Stoksnijbonen en stokslabonen, zaden en opkweekmateriaal",zomergroenten,overig,170,480,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,135,135,108,108,135,phaseolus vulgaris
-2783,"Waspeen, productie",bladgroenten,rooivrucht,700,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,daucus carota
-2784,"Waspeen, zaden en opkweekmateriaal",bladgroenten,rooivrucht,700,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,daucus carota
-2785,"Winterpeen, productie",bladgroenten,rooivrucht,700,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,daucus carota
-2786,"Winterpeen, zaden en opkweekmateriaal",bladgroenten,overig,700,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,daucus carota
-2787,"Witlofwortel, productie",zomergroenten,rooivrucht,600,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,100,100,100,100,chichorium intybus
-2788,"Witlofwortel, zaden en opkweekmateriaal",zomergroenten,rooivrucht,600,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,100,100,100,100,chichorium intybus
-2789,"Witte kool, productie",zomergroenten,overig,2536192,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,320,290,232,232,305,brassica oleracea
-2790,"Witte kool, zaden en opkweekmateriaal",zomergroenten,overig,1000,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,320,290,232,232,305,brassica oleracea
-2791,"Overige niet genoemde bladgewassen, productie",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,275,250,200,200,260,overig
-2792,"Overige niet genoemde bladgewassen, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,150,140,112,112,145,overig
-2793,"Overige niet genoemde groenten, productie",zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,overig
-2794,"Overige niet genoemde groenten, zaden en opkweekmateriaal",zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,overig
-2795,"Bloemkool, winter, productie",wintergroenten,overig,1640.08,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,brassica oleracea
-2796,"Bloemkool, winter, zaden en opkweekmateriaal",wintergroenten,overig,1640.08,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,brassica oleracea
-2797,"Bloemkool, zomer, productie",zomergroenten,overig,1640.08,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,230,210,168,168,220,brassica oleracea
-2798,"Bloemkool, zomer, zaden en opkweekmateriaal",zomergroenten,overig,1000,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,230,210,168,168,220,brassica oleracea
-2799,"Prei, winter, productie",wintergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,90,72,72,95,allium ampeloprasum
-2800,"Prei, winter, zaden en opkweekmateriaal",wintergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,90,72,72,95,allium ampeloprasum
-2801,"Prei, zomer, productie",zomergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,245,225,180,180,235,allium ampeloprasum
-2802,"Prei, zomer, zaden en opkweekmateriaal",zomergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,245,225,180,180,235,allium ampeloprasum
-2951,"Aardappelen, consumptie op klei/l?Γ??ssgrond",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,275,260,208,204,270,solanum tuberosum
-3500,"Klaver, Alexandrijnse",overig,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,trifolium alexandrinum
-3501,Beemdlangbloem,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,festuca pratensis
-3502,Bladkool,zomergroenten,overig,840,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,150,140,112,112,145,brassica oleracea
-3503,Bladraap,bladgroenten,overig,,,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,150,140,112,112,145,brassica rapa
-3504,Bladrammenas,overig,overig,850,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,140,112,112,145,raphanus sativus
-3505,Deder,overig,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,camelina sativa
-3506,Engels raaigras,grasland zonder herinzaai,rust,980,,akkerbouw,grass,1,mais,overig,akkerbouw,mais,veeteelt,345,250,250,250,265,lolium perenne
-3507,Ethiopische mosterd,overig,overig,850,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,brassica carinata
-3508,Facelia,overig,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,phacelia
-3509,Festulolium,overig,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,gras overig
-3510,Franse boekweit,overig,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,fagopyrum tataricum
-3511,"Klaver, incarnaat",overig,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,trifolium incarnatum
-3512,Italiaans raaigras,grasland zonder herinzaai,rust,1255,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,130,120,96,96,125,lolium multiflorum
-3513,Westerwolds raaigras,grasland zonder herinzaai,overig,980,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,110,100,80,80,105,lolium multiflorum
-3516,Rietzwenkgras,grasland zonder herinzaai,rust,980,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,60,50,40,40,55,Festuca arundinacea
-3517,Sarepta mosterd/Caliente,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,brassica juncea
-3519,Soedangras/Sorghum,overig,overig,850,0,grasland,grass,16,mais,overig,akkerbouw,mais,akkerbouw,345,250,250,250,265,sorghum bicolor
-3521,Stoppelknollen,overig,overig,830,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,brassica rapa
-3522,Timothee,grasland zonder herinzaai,overig,700,0,akkerbouw,other,1,arable,overig,akkerbouw,mais,veeteelt,280,235,235,235,235,phleum pratense
-3523,Veldbeemdgras,grasland zonder herinzaai,overig,980,0,grasland,grass,1,mais,overig,akkerbouw,mais,veeteelt,60,50,40,40,55,poa pratensis
-3524,"Klaver, witte",overig,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,trifolium repens
-3718,"Grasland, natuurlijk",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig
-3719,Heide,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-3720,"Faunaranden, grasland",natuur,overig,,,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,overig
-3721,"Faunaranden, bouwland",natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,280,235,235,235,235,overig
-3722,Overige natuurterreinen,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-3730,"Aardappelen, poot op klei/lossgrond (NAK)",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum
-3731,"Aardappelen, poot op zand/veengrond",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,120,120,120,120,120,solanum tuberosum
-3732,"Aardappelen, zetmeel",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum
-3736,Vezelvlas,overig,overig,100,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,70,70,56,56,70,linum usitatissimum
-3792,"Aardappelen, consumptie op zand/veengrond",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,225,210,168,164,220,solanum tuberosum
-3801,"Tijdelijk onbeteelde grond, i.v.m. publieke werken",natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-3802,"Tijdelijk onbeteelde grond, anders dan voor publieke werken",natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig
-3803,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit een ander gewas dan gras. (EA: beheer)",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,overig
-3804,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit een ander gewas dan gras. (EA: onbeheerd)",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,overig
-3805,"Rietzwenkgras, industriegras",grasland zonder herinzaai,rust,980,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,140,130,104,104,135,Festuca arundinacea
-3806,"Boomkwekerijgewassen en vaste planten, open grond",overig boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig
-3807,"Rietzwenkgras, anders dan voor industriegras",grasland zonder herinzaai,rust,980,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,140,130,104,104,135,Festuca arundinacea
-6520,Azolla,overig,overig,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,azolla
-2641,Bomenrij (anders dan knotboom),natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2617,Boomgroepen in het veld,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2642,Bosje,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2619,Bosssingel,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-1040,"Chrysant, droogbloemen",overig boomteelt,overig,750,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,chrysanthemum
-1055,"Chrysant, vermeerdering",overig boomteelt,overig,750,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,chrysanthemum
-657,Drachtplanten,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2622,Elzensingel,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2640,Geisoleerde boom (anders dan knotboom),natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2631,Griendje,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2630,Hakhoutbosje,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2628,Hoogstamboomgaard,boomteelt,overig,1175,0,akkerbouw,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2621,Houtwal en houtsingel,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-974,"Iris, droogbloemen",bloembollen,overig,400,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,iris germanica
-3515,"Klaver, Perzische",overig,clover,1200,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,,,,,,trifolium resupinatum
-2624,Knip- of scheerheg,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2728,"Knolvenkel/venkel, zaden en opkweekmateriaal",zomergroenten,overig,,,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,,,,,,foeniculum vulgare
-2643,"Knotboom, bomen in rij",natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2644,"Knotboom, geisloleerde boom",natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2730,"Komkommer, zaden en opkweekmateriaal",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,,,,,,cucumis sativus
-977,"Krokus, droogbloemen",bloembollen,overig,150,,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,crocus
-1018,"Kuifhyacint, bloembollen en -knollen",overig boomteelt,overig,350,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,,,,,,leopoldia comosa
-1017,"Kuifhyacint, droogbloemen",overig boomteelt,overig,350,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,leopoldia comosa
-2626,Laan,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2638,"Landschapselement, overig",natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-1029,"Lavas (Maggiplant), zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,,,,,,levisticum officinale
-980,"Lelie, droogbloemen",bloembollen,overig,450,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,lilium
-3055,Lisdodde,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,typhaceae
-2634,Natuurvriendelijke oever,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-3514,Niger,overig,rust,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,guizotia abyssinica
-1053,"Palmen, pot- en containervelden",boomteelt,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,,,,,,overig
-2620,Poel en klein historisch water,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-6522,Riet,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2633,Rietzoom en klein rietperceel,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-3808,Roodzwenkgras,grasland zonder herinzaai,grass,,,grasland,other,2,gras,gras,gras,gras,akkerbouw,,,,,,festuca rubra
-2637,Schurvelingen en zandwallen,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-3518,Seradelle,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,,,,,,ornithopus sativus
-1011,"Sierui, droogbloemen",overig boomteelt,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,allium cepa
-3520,Spurrie,overig,rust,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,,,,,,spergula
-2625,Struweelhaag,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2629,Struweelrand,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-1932,"Uien, poot en plant, 1e jaars",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,,,,,,allium cepa
-1940,Voedselbos,boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,,,,,,overig
-637,Vrouwenmantel,natuur,nature,,,akkerbouw,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,alchemila
-2635,Wandelpad over boerenland,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-2639,"Water, overig",natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-1031,"Wilde marjolein (Oregano), zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,,,,,,origanum vulgare
-6521,Wilde rijst,overig boomteelt,rust,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,,,,,,zizania
-2618,"Windhaag , in een perceel fruitteelt",natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig
-989,"Zantedeschia, droogbloemen",overig boomteelt,overig,,,akkerbouw,other,14,nature,overig,akkerbouw,mais,veeteelt,,,,,,zantedeschia aethiopica
-656,Zonnekroon,overig,rust,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,veeteelt,,,,,,silphium perfoliatum
+crop_code,crop_name,crop_waterstress,crop_intensity,crop_eos,crop_eos_residue,crop_category,crop_rotation,crop_crumbleability,crop_phosphate,crop_sealing,crop_n,crop_k,crop_measure,nf_clay,nf_sand.other,nf_sand.south,nf_loess,nf_peat,crop_name_scientific,crop_season
+172,Tuinbouwzaden,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,50,50,40,40,50,overig,overig
+174,Bloemzaden open grond,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,overig,overige boomteelt
+175,Bloemkwekerijgewassen (inclusief bloemzaden),overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,overig,"tulpen, narcis, hyacint"
+176,Bloembollen en - knollen,bloembollen,overig,,,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,overig,"tulpen, narcis, hyacint"
+212,Fruit,groot fruit,overig,,,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,overig,groot fruit
+229,Boomkwekerij en vaste planten,overig boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig,overige boomteelt
+233,"Tarwe, winter-",granen,rust,1640,990,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,245,160,160,190,160,triticum aestivum,wintertarwe
+234,"Tarwe, zomer-",granen,rust,1630,960,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,150,140,140,140,140,triticum aestivum,zomergerst
+235,"Gerst, winter-",granen,rust,1570,780,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,horderum vulgare,wintertarwe
+236,"Gerst, zomer-",granen,rust,1310,0,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,80,80,80,80,80,horderum vulgare,zomergerst
+237,Rogge (geen snijrogge),granen,rust,1500,1020,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,secale cereale,zomergerst
+238,Haver,granen,rust,1570,900,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,100,100,100,100,100,avena sativa,zomergerst
+239,"Erwten, groene, droog te oogsten (geen conserven)",zomergroenten,overig,170,830,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,90,85,68,68,85,pisum sativum,"erwten, bonen"
+240,Schokkers,overig,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,akkerbouw,120,110,88,88,115,pisum sativum,"erwten, bonen"
+241,Kapucijners (en grauwe erwten),zomergroenten,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,90,85,68,68,85,pisum sativum,"erwten, bonen"
+242,"Bonen, bruine",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,phaseolus vulgaris,"erwten, bonen"
+243,"Bonen, veld-(oa duive-, paarde-, wierbonen)(droog te oogsten",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,135,135,108,108,135,phaseolus vulgaris,"erwten, bonen"
+244,"Erwten, groene/gele, groen te oogsten",zomergroenten,overig,170,830,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,30,30,30,30,30,pisum sativum,"erwten, bonen"
+246,Karwijzaad (oogst dit jaar),overig,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,akkerbouw,150,140,112,112,145,carum carvi,overig
+247,Blauwmaanzaad,overig,overig,750,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,110,100,80,80,105,papaver somniferum,overig
+249,"Vlas, vezel- (niet voor zaaizaad)",overig,overig,100,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,70,70,56,56,70,linum usitatissimum,overig
+256,"Bieten, suiker-",suikerbiet,rooivrucht,375,900,akkerbouw,sugarbeet,6,arable,overig,akkerbouw,mais,akkerbouw,150,145,116,116,145,beta vulgaris,suikerbieten
+257,"Bieten, voeder-",suikerbiet,rooivrucht,375,900,akkerbouw,sugarbeet,6,arable,overig,akkerbouw,mais,akkerbouw,165,165,132,132,165,beta vulgaris,suikerbieten
+258,Luzerne,overig,rust,1350,0,akkerbouw,alfalfa,16,arable,overig,akkerbouw,mais,akkerbouw,40,40,40,40,40,medicago sativa,overig
+259,"Mais, snij-",snijmais,overig,660,,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,160,140,112,112,150,zea mays,snijmais
+262,"Uien, zaai-",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,170,120,120,120,120,allium cepa,"witlof, selderij, uien"
+263,"Uien, zilver-",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,120,120,120,120,120,allium cepa,"witlof, selderij, uien"
+265,"Grasland, blijvend",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig,beweid bemaaid gras
+266,"Grasland, tijdelijk",grasland met herinzaai,rust,1175,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,310,250,250,250,265,gras overig,beweid bemaaid gras
+294,"Boomkwekerijgewassen en vaste planten, pot- en containerveld",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig,overige boomteelt
+308,Erwten (droog te oogsten),zomergroenten,overig,170,830,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,30,30,30,30,30,pisum sativum,"erwten, bonen"
+311,"Bonen, veld- (onder andere duiven-, paarden-, wierbonen)",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus vulgaris,"erwten, bonen"
+314,Triticale,granen,overig,1600,930,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,160,150,120,120,150,triticale,zomergerst
+316,"Mais, korrel-",snijmais,overig,1900,,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,160,140,112,112,150,zea mays,snijmais
+317,"Mais, corncob mix",snijmais,overig,1900,0,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,160,140,112,112,150,zea mays,snijmais
+331,"Grasland, natuurlijk. Hoofdfunctie landbouw.",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig,overig
+332,"Grasland, natuurlijk. Hoofdfunctie natuur.",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,0,0,0,0,0,gras overig,overig
+333,"Rand, grenzend aan blijvend grasland of een blijvende teelt,",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig,overig
+334,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit blijvend gras",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig,overig
+335,Natuurterreinen (incl. heide),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+336,"Grasland, natuurlijk. Areaal met een natuurbeheertype dat overwegend voor landbouwactiviteiten-GLB wordt gebruikt",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig,overig
+337,"Bufferstrook, rand (inclusief eventuele oevervegetatie)",natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+338,"Rand, liggend op bouwland en direct grenzend aan bos. Geen landbouwproductie.",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,0,0,0,0,0,overig,loofbos
+343,"Sloot, grenzend aan beheerde akkerrand",natuur,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+344,"Rand, grenzend aan blijvend grasland of een blijvende teelt,",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,310,250,250,250,265,gras overig,overig
+345,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit een",natuur,overig,500,0,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,345,250,250,250,265,overig,overig
+346,Tagetes erecta (Afrikaantje),overig,overig,865,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,90,80,80,80,90,tagetes,overig
+347,Tagetes patula (Afrikaantje),overig,overig,865,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,90,80,80,80,90,tagetes,overig
+370,"Rand, grenzend aan blijvend grasland of een blijvende teelt, hoofdzakelijk bestaand uit tijdelijk gras",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,310,250,250,250,265,gras overig,overig
+372,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit tijdelijk gras",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,310,250,250,250,265,gras overig,overig
+375,Hop,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,humulus lupus,overig
+381,Teff,granen,overig,,,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,eragrostis tef,zomergerst
+382,Spelt,granen,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,triticum spelta,zomergerst
+383,Graszaad,overig,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,akkerbouw,90,80,64,64,85,gras overig,graszaad
+426,"Overige groenbemesters, vlinderbloemige-",overig,rust,800,0,akkerbouw,catchcrop,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,"",overig
+427,"Overige groenbemesters, niet-vlinderbloemige-",overig,rust,800,0,akkerbouw,catchcrop,16,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,"",overig
+428,Gele mosterd,overig boomteelt,overig,850,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,140,112,112,145,sinapis alba,overig
+511,Cichorei,overig boomteelt,overig,700,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,chichorium intybus,"witlof, selderij, uien"
+513,Kanariezaad,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,phalaris canariensis,overig
+515,Zonnebloemen,overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,helianthus anuus,"tulpen, narcis, hyacint"
+516,Miscanthus (olifantsgras),overig boomteelt,overig,,,akkerbouw,grass,14,mais,overig,akkerbouw,mais,boomteelt,345,250,250,250,265,miscanthus,overig
+636,Saffloer,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,carthamus tinctorius,overig
+652,Meekrap,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,rubia tinctorum,overig
+653,Teunisbloem,overig boomteelt,overig,700,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,oenothera,"tulpen, narcis, hyacint"
+654,Brandnetel,natuur,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,veeteelt,150,150,150,150,150,urtica urens,overig
+655,Zwarte mosterd,overig boomteelt,overig,850,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,200,185,148,148,190,brassica nigra,overig
+658,Graansorgho,granen,overig,,,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,sorghum bicolor,overig
+659,Boekweit,granen,overig,,,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,fagopyrum esculentum,zomergerst
+660,Gierst,granen,overig,1310,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,panicum miliaceum,zomergerst
+661,Overige granen,granen,rust,1600,0,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,overig,overig
+662,Bos (SBL-regeling),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig,loofbos
+663,"Lupinen, niet bittere",overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,150,150,150,150,lupinus,overig
+664,Raapzaad,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,150,150,150,150,brassica rapa,"prei, spruiten, koolsoorten"
+665,Sojabonen,zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,glycine max,snijmais
+666,Lijnzaad niet van vezelvlas (olievlas),overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,70,70,56,56,70,overig,overig
+669,Zwaardherik (aaltjesvanggewas),overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,140,112,112,145,Eruca sativa,overig
+670,Japanse haver,granen,overig,850,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,akkerbouw,100,100,100,100,100,avena sativa,zomergerst
+671,Raketblad (aaltjesvanggewas),overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,140,112,112,145,solanum sisymbriifolium,overig
+672,Groenten open grond (inclusief groentezaden),zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,150,140,112,112,145,overig,overige boomteelt
+794,Woudbomen met korte omlooptijd (excl. Wilgenhakhout),boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig,overige boomteelt
+795,Wilgenhakhout,overig boomteelt,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig,overig
+796,Kerstbomen,boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig,naaldbos
+799,"Klaver, rode",overig boomteelt,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,boomteelt,150,140,112,112,145,trifolium pratense,overig
+800,Rolklaver,overig boomteelt,rust,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,150,140,112,112,145,lotus,overig
+801,Esparcette,overig boomteelt,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,150,140,112,112,145,onobrychis viciifolia,overig
+802,"Wikke, bonte",overig boomteelt,overig,645,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,30,25,25,25,30,vicia villosa,overig
+803,"Wikke, voeder-",overig boomteelt,overig,645,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,30,25,25,25,30,vicia sativa,overig
+804,Klaverzaad,overig boomteelt,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,boomteelt,30,25,25,25,30,overig,overig
+814,"Mais, suiker-",snijmais,overig,660,,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,zea mays,snijmais
+853,"Bonen, tuin- (droog te oogsten) (geen consumptie)",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus vulgaris,"erwten, bonen"
+854,"Bonen, tuin- (groen te oogsten)",zomergroenten,overig,650,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus vulgaris,"erwten, bonen"
+859,"Aardappelen, zetmeel geleverd aan buitenland",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,solanum tuberosum,fabrieksaardappelen
+863,"Bos, zonder herplantplicht",natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig,loofbos
+864,Bos (set aside regeling),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig,loofbos
+944,"Hennep, vezel-",overig boomteelt,overig,660,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,cannabis sativa,overig
+964,"Dahlia, overige bloemkwekerijgewassen",bloembollen,overig,750,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,110,105,105,105,105,dahlia,dahlia
+965,"Dahlia, droogbloemen",bloembollen,overig,750,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,110,105,105,105,105,dahlia,dahlia
+967,"Gladiool, overige bloemkwekerijgewassen",bloembollen,overig,1000,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,260,245,245,245,245,gladiolus communis,"tulpen, narcis, hyacint"
+968,"Gladiool, droogbloemen",bloembollen,overig,1000,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,190,180,180,180,180,gladiolus communis,"tulpen, narcis, hyacint"
+970,"Hyacint, overige bloemkwekerijgewassen",bloembollen,overig,350,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,hyacinthus orientalis,"tulpen, narcis, hyacint"
+971,"Hyacint, droogbloemen",bloembollen,overig,350,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,hyacinthus orientalis,"tulpen, narcis, hyacint"
+973,"Iris, overige bloemkwekerijgewassen",bloembollen,overig,400,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,170,160,160,160,160,iris germanica,"tulpen, narcis, hyacint"
+976,"Krokus, overige bloemkwekerijgewassen",bloembollen,overig,150,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,175,165,165,165,165,crocus,"tulpen, narcis, hyacint"
+979,"Lelie, overige bloemkwekerijgewassen",bloembollen,overig,450,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,155,145,145,145,145,lilium,"tulpen, narcis, hyacint"
+982,"Narcis, overige bloemkwekerijgewassen",bloembollen,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,narcissus,"tulpen, narcis, hyacint"
+983,"Narcis, droogbloemen",bloembollen,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,narcissus,"tulpen, narcis, hyacint"
+985,"Tulp, overige bloemkwekerijgewassen",bloembollen,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,tulipa,"tulpen, narcis, hyacint"
+986,"Tulp, droogbloemen",bloembollen,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,tulipa,"tulpen, narcis, hyacint"
+988,"Zantedeschia, overige bloemkwekerijgewassen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,zantedeschia aethiopica,"tulpen, narcis, hyacint"
+991,"Overige bloemen, overige bloemkwekerijgewassen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,overig,"tulpen, narcis, hyacint"
+992,"Overige bloemen, droogbloemen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,overig,"tulpen, narcis, hyacint"
+994,"Amaryllis, overige bloemkwekerijgewassen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,amaryllis belladonna,"tulpen, narcis, hyacint"
+995,"Amaryllis, droogbloemen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,amaryllis belladonna,"tulpen, narcis, hyacint"
+997,"Dahlia, bloembollen en - knollen",bloembollen,overig,750,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,110,105,105,105,105,dahlia,dahlia
+998,"Gladiool, bloembollen en - knollen",bloembollen,overig,1900,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,190,180,180,180,180,gladiolus communis,"tulpen, narcis, hyacint"
+999,"Hyacint, bloembollen en - knollen",bloembollen,overig,350,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,220,210,210,210,210,hyacinthus orientalis,"tulpen, narcis, hyacint"
+1000,"Iris, bloembollen en -knollen",bloembollen,overig,400,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,170,160,160,160,160,iris germanica,"tulpen, narcis, hyacint"
+1001,"Krokus, bloembollen en - knollen",bloembollen,overig,150,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,175,165,165,165,165,crocus,"tulpen, narcis, hyacint"
+1002,"Lelie, bloembollen en -knollen",bloembollen,overig,450,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,155,145,145,145,145,lilium,"tulpen, narcis, hyacint"
+1003,"Narcis, bloembollen en -knollen",bloembollen,overig,500,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,145,140,140,140,140,narcissus,"tulpen, narcis, hyacint"
+1004,"Tulp, bloembollen en -knollen",bloembollen,overig,500,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,200,190,190,190,190,tulipa,"tulpen, narcis, hyacint"
+1005,"Zantedeschia, bloembollen en -knollen",bloembollen,overig,0,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,120,120,120,120,120,zantedeschia aethiopica,"tulpen, narcis, hyacint"
+1006,"Overige bloemen, bloembollen en -knollen",bloembollen,overig,0,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,overig,"tulpen, narcis, hyacint"
+1007,"Amaryllis, bloembollen en -knollen",bloembollen,overig,,,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,amaryllis belladonna,"tulpen, narcis, hyacint"
+1010,"Sierui, overige bloemkwekerijgewassen",overig boomteelt,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,120,120,120,120,120,allium cepa,"tulpen, narcis, hyacint"
+1012,"Sierui, bloembollen en -knollen",bloembollen,overig,500,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,120,120,120,120,120,allium cepa,"tulpen, narcis, hyacint"
+1013,"Blauw druifje, overige bloemkwekerijgewassen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,muscari botryoides,"tulpen, narcis, hyacint"
+1014,"Blauw druifje, droogbloemen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,muscari botryoides,"tulpen, narcis, hyacint"
+1015,"Blauw druifje, bloembollen en -knollen",bloembollen,overig,,,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,muscari botryoides,"tulpen, narcis, hyacint"
+1016,"Kuifhyacint, overige bloemkwekerijgewassen",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,leopoldia comosa,"tulpen, narcis, hyacint"
+1019,"Valeriaan, productie",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,valeriana officinalis,overig
+1020,"Valeriaan, zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,valeriana officinalis,overig
+1021,Knoflook,zomergroenten,overig,300,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,allium sativum,"witlof, selderij, uien"
+1022,Quinoa,zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,chenopodium quinoa,"witlof, selderij, uien"
+1023,"Pastinaak, productie",zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,pastinaca sativa,"witlof, selderij, uien"
+1024,"Pastinaak, zaden en opkweekmateriaal",zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,pastinaca sativa,"witlof, selderij, uien"
+1025,"Pioenroos, overige bloemkwekerijgewassen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,paeonia,"tulpen, narcis, hyacint"
+1026,"Pioenroos, droogbloemen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,paeonia,"tulpen, narcis, hyacint"
+1027,"Pioenroos, bloembollen en -knollen",bloembollen,overig,0,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,165,155,155,155,155,paeonia,"tulpen, narcis, hyacint"
+1028,"Lavas (Maggiplant), productie",overig boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,levisticum officinale,overig
+1030,"Wilde marjolein (Oregano), productie",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,origanum vulgare,overig
+1032,Goudsbloem,overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,calendula officinalis,"tulpen, narcis, hyacint"
+1033,Igniscum Candy,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,polygonaceae,overig
+1034,Kanariezaad,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,phalaris canariensis,overig
+1035,Naaldaar (Setaria),overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,setaria,overig
+1036,Wortelpeterselie,zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,petroselinum crispum,"witlof, selderij, uien"
+1037,"Peterselie, productie",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,petroselinum crispum,"witlof, selderij, uien"
+1038,"Peterselie, zaden en opkweekmateriaal",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,150,150,150,150,150,petroselinum crispum,"witlof, selderij, uien"
+1039,"Chrysant, overige bloemkwekerijgewassen",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,chrysanthemum,"tulpen, narcis, hyacint"
+1042,"Angelica, productie",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,angelica,overig
+1043,"Angelica, zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,angelica,overig
+1044,Papaver,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,papaver,overig
+1045,Adonis,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,adonis,overig
+1046,Vergeet mij nietje,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,myosotis,overig
+1047,Cranberry,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,vaccinium macrocarpon,overig
+1048,"Echinacea (zonnehoed), productie",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,echinacea,overig
+1049,"Echinacea (zonnehoed), zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,echinacea,overig
+1050,Leeuwenbekjes,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,antirrhinum,overig
+1051,"Iris, Bolvormend",bloembollen,overig,400,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,170,160,160,160,160,iris germanica,"tulpen, narcis, hyacint"
+1052,"Iris, Rhizoomvormend",bloembollen,overig,400,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,140,135,135,135,135,iris germanica,"tulpen, narcis, hyacint"
+1054,"Pioenroos, vermeerdering",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,paeonia,"tulpen, narcis, hyacint"
+1067,"Bos- en haagplanten, open grond,",overig boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,95,95,95,95,95,overig,loofbos
+1068,"Buxus, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,95,95,95,95,95,buxus,overige boomteelt
+1069,"Ericaceae (Zoals erica, calluna, rododendron, azalea), open grond,",overig boomteelt,overig,0,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,ericaceae,overige boomteelt
+1070,"Laanbomen/parkbomen, onderstammen, open grond,",boomteelt,overig,1175,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,40,40,40,40,40,overig,laanbomen_onderstammen
+1071,"Laanbomen/parkbomen, opzetters, open grond,",boomteelt,overig,1175,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,115,115,115,115,115,overig,laanbomen_onderstammen
+1072,"Laanbomen/parkbomen, spillen, open grond,",boomteelt,overig,1175,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig,laanbomen_onderstammen
+1073,"Rozenstruiken (incl, zaailingen en onderstammen), open grond",overig boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,rosa,laanbomen_onderstammen
+1074,"Sierconiferen, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,75,75,75,75,75,coniferales,overige boomteelt
+1075,"Sierheesters en klimplanten, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,75,75,75,75,75,overig,overige boomteelt
+1076,"Trek- en besheesters, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,75,75,75,75,75,overig,overige boomteelt
+1077,"Vruchtbomen, moerbomen, open grond,",boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig,overige boomteelt
+1078,"Vruchtbomen, onderstammen, open grond,",boomteelt,overig,1175,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,30,30,30,30,30,overig,laanbomen_onderstammen
+1079,"Vruchtbomen, overig, open grond,",boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,135,105,105,105,105,overig,overige boomteelt
+1080,"Vaste planten, open grond,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig,overige boomteelt
+1081,"Bos- en haagplanten, pot- en containerveld,",overig boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,95,95,95,95,95,overig,loofbos
+1082,"Buxus, pot- en containerveld,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,95,95,95,95,95,buxus,overig
+1083,"Ericaceae (Zoals erica, calluna, rododendron, azalea), pot- en containerveld,",overig boomteelt,overig,0,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,ericaceae,overig
+1084,"Laanbomen/parkbomen, onderstammen, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,40,40,40,40,40,overig,overige boomteelt
+1085,"Laanbomen/parkbomen, opzetters, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,115,115,115,115,115,overig,overige boomteelt
+1086,"Laanbomen/parkbomen, spillen, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig,overige boomteelt
+1087,"Rozenstruiken (incl, zaailingen en onderstammen), pot- en co",overig boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,70,70,70,70,70,rosa,overig
+1088,"Sierconiferen, pot- en containerveld,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,80,80,80,80,80,coniferales,overig
+1089,"Sierheesters en klimplanten, pot- en containerveld,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,80,80,80,80,80,overig,overig
+1090,"Trek- en besheesters, pot- en containerveld,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,80,80,80,80,80,overig,overig
+1091,"Vruchtbomen, moerbomen, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig,overige boomteelt
+1092,"Vruchtbomen, onderstammen, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,15,arable,overig,akkerbouw,mais,boomteelt,30,30,30,30,30,overig,overige boomteelt
+1093,"Vruchtbomen, overig, pot- en containerveld,",boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,135,105,105,105,105,overig,overige boomteelt
+1094,"Vaste planten, pot- en containerteelt,",overig boomteelt,overig,0,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig,overig
+1095,Appelen. Aangeplant lopende seizoen.,groot fruit,overig,4600,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,malus,groot fruit
+1096,Appelen. Aangeplant voorafgaande aan lopende seizoen.,groot fruit,overig,4600,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,malus,groot fruit
+1097,Peren. Aangeplant lopende seizoen.,groot fruit,overig,5700,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,pyrus,groot fruit
+1098,Peren. Aangeplant voorafgaande aan lopende seizoen.,groot fruit,overig,5700,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,pyrus,groot fruit
+1099,Wijndruiven,klein fruit,overig,0,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,100,95,95,95,95,vitis vinifera,klein fruit
+1100,"Overige pit- en steenvruchten (zoals perziken, tafeldruiven)",klein fruit,overig,,,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig,groot fruit
+1570,Klaverzaad,overig,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,akkerbouw,110,110,110,110,110,overig,overig
+1574,Definitief aan de landbouw onttrokken cultuurgrond,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+1575,Faunaranden,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,110,110,110,110,110,overig,overig
+1697,Hazelnoten,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,110,110,110,110,110,corylus avellana,groot fruit
+1698,Walnoten,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,110,110,110,110,110,juglans regia,groot fruit
+1869,"Bessen, blauwe",klein fruit,overig,2850,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,100,95,95,95,95,vaccinium corymbosum,klein fruit
+1870,Pruimen,groot fruit,overig,5600,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,prunus,groot fruit
+1872,"Kersen, zuur (opbrengst bestemd voor verwerkende industrie)",klein fruit,overig,,,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,prunus,groot fruit
+1873,"Bessen, zwarte (opbrengst verwerkt voor verwerkende industrie)",klein fruit,overig,2850,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,ribes nigrum,klein fruit
+1874,"Overig kleinfruit (zoals kruisbessen, kiwi's)",klein fruit,overig,0,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig,klein fruit
+1876,Snijgroen,bladgroenten,overig,0,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,95,95,95,95,95,overig,overig
+1909,"Aardappelen, consumptie- op kleigrond",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,275,260,208,204,270,solanum tuberosum,aardappelen
+1910,"Aardappelen, consumptie- op zand-/veengrond",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,225,210,168,164,220,solanum tuberosum,aardappelen
+1911,"Aardappelen, cons. op kleigrond (vroeg, loofver voor 15-07)",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,120,120,96,96,120,solanum tuberosum,aardappelen
+1912,"Aardappelen, cons. op zand/veen (vroeg, loofver voor 15-07)",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,120,120,96,96,120,solanum tuberosum,aardappelen
+1914,"Graszaad, overig",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,90,80,64,64,85,gras overig,graszaad
+1915,"Graszaad, rietzwenkgras",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,140,130,104,104,135,Festuca arundinacea,graszaad
+1916,"Graszaad, veldbeemd",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,130,100,80,80,105,poa pratensis,graszaad
+1917,"Graszaad, roodzwenkgras, 1e jaar",grasland met herinzaai,rust,1175,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,85,75,60,60,80,festuca rubra,graszaad
+1918,"Graszaad, roodzwenkgras, overjarig",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,115,105,84,84,110,festuca rubra,graszaad
+1919,"Graszaad, westerwolds",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,110,100,80,80,105,lolium multiflorum,graszaad
+1920,"Graszaad, Italiaans",grasland met herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,130,120,96,96,125,lolium multiflorum,graszaad
+1921,Graszoden,grasland zonder herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,340,340,272,272,340,gras overig,overig
+1922,"Koolzaad, winter (ook boterzaad)",zomergroenten,rust,975,0,akkerbouw,rapeseed,2,arable,overig,akkerbouw,mais,groenteteelt,205,190,152,152,195,brassica napus,"witlof, selderij, uien"
+1923,"Koolzaad, zomer (ook boterzaad)",zomergroenten,rust,975,0,akkerbouw,rapeseed,2,arable,overig,akkerbouw,mais,groenteteelt,120,120,96,96,120,brassica napus,"witlof, selderij, uien"
+1925,Overige akkerbouwgewassen,aardappel,overig,0,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,akkerbouw,200,185,148,148,190,overig,overig
+1926,"Aardappelen, poot op klei, uitgroeiteelt (loofver na 15-08)",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum,pootaardappelen
+1927,"Aardappelen, poot op zand/veen, uitgroei (loofver na 15-08)",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,100,100,100,100,100,solanum tuberosum,pootaardappelen
+1928,"Aardappelrassen, poot- op kleigrond",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum,pootaardappelen
+1929,"Aardappelrassen, poot- op zand-/veengrond",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,120,120,120,120,120,solanum tuberosum,pootaardappelen
+1930,"Tagetes (zand, loss) (geen groene braak)",overig,overig,865,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,90,80,80,80,90,tagetes,overig
+1931,"Uien, poot en plant (incl. sjalotten)",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,120,120,120,120,120,allium cepa,"witlof, selderij, uien"
+1933,"Vlas, vezel- (voor zaaizaad)",overig,overig,100,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,70,70,56,56,70,linum usitatissimum,overig
+1934,"Aardappelen, zetmeel-",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum,fabrieksaardappelen
+1935,"Aardappelen, zetmeel- TBM pootgoed",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum,pootaardappelen
+1936,"Bos, blijvend, met herplantplicht",natuur,overig,,,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig,loofbos
+1949,Aardperen,overig,overig,375,900,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,165,165,132,132,165,helianthus tuberosus,suikerbieten
+1950,Onbekend/gewas niet opgegeven,natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,110,110,110,110,110,overig,overig
+1959,Dummycode voor dummypercelen,natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,110,110,110,110,110,overig,overig
+2014,"Aardappelen, consumptie",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,250,235,188,184,245,solanum tuberosum,aardappelen
+2015,"Aardappelen, poot NAK",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum,pootaardappelen
+2016,"Aardappelen, poot TBM",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum,pootaardappelen
+2017,"Aardappelen, zetmeel",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum,fabrieksaardappelen
+2025,"Aardappelen, bestrijdingsmaatregel AM",aardappel,rooivrucht,875,0,akkerbouw,potato,4,arable,overig,akkerbouw,mais,akkerbouw,180,165,165,165,170,solanum tuberosum,aardappelen
+2026,Braak met bos (SBL-regeling na 28 juni 1995),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig,loofbos
+2027,Bos (SBL-regeling),natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig,loofbos
+2029,"Braak, natuur-",natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+2030,"Graszaad, Engels raai 1e jaar",grasland zonder herinzaai,rust,1175,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,165,150,120,120,155,lolium perenne,graszaad
+2031,"Graszaad, Engels raai overjarig",grasland zonder herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,200,185,148,148,190,lolium perenne,graszaad
+2032,"Mais, energie-",snijmais,overig,660,,mais,mais,2,mais,overig,akkerbouw,mais,akkerbouw,160,140,112,112,150,zea mays,snijmais
+2033,"Onbeteelde grond, tijdelijk",natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+2297,Woudbomen met korte omlooptijd,boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,90,90,90,90,90,overig,overige boomteelt
+2298,"Groenbemesters, vlinderbloemige",overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,"",overig
+2299,"Groenbemesters, niet-vlinderbloemige",overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,"",overig
+2300,Onbeteelde grond door een teeltverbod/ontheffing,natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+2301,Natuurlijk grasland met hoofdfunctie landbouw,grasland met herinzaai,overig,1155,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig,beweid bemaaid gras
+2302,Natuurlijk grasland (begraasd) met beperkte landbouwact.,grasland met herinzaai,overig,1155,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig,beweid bemaaid gras
+2303,Overige natuurterreinen,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+2304,"Heide, begraasd",natuur,overig,,,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+2325,"Bessen, rode",klein fruit,overig,5600,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,150,140,140,140,140,ribes rubrum,klein fruit
+2326,Frambozen,klein fruit,overig,2850,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,150,140,140,140,140,rubus idaeus,klein fruit
+2327,Bramen,klein fruit,overig,0,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,150,140,140,140,140,rubus,klein fruit
+2328,"Kersen, zoet",klein fruit,overig,,,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,175,165,165,165,165,prunus,groot fruit
+2636,Overig landschapselement,natuur,overig,0,0,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+2645,Notenbomen,boomteelt,overig,,,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig,overige boomteelt
+2650,Erwten inclusief schokkers (droog te oogsten),zomergroenten,overig,170,830,akkerbouw,mais,7,mais,overig,akkerbouw,mais,groenteteelt,30,30,30,30,30,pisum sativum,"erwten, bonen"
+2651,"Bieten, voeder- (inclusief aardperen)",suikerbiet,rooivrucht,375,900,akkerbouw,sugarbeet,6,arable,overig,akkerbouw,mais,akkerbouw,165,165,132,132,165,beta vulgaris,suikerbieten
+2652,Overige granen,granen,rust,1600,0,akkerbouw,cereal,2,arable,overig,akkerbouw,mais,akkerbouw,80,80,80,80,80,overig,overig
+2653,Graszaad (inclusief klaverzaad),grasland zonder herinzaai,rust,2300,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,90,80,64,64,85,gras overig,graszaad
+2700,"Aardbeien open grond, vermeerdering",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,120,110,88,88,115,fragaria x ananassa,klein fruit
+2701,"Aardbeien open grond, wachtbed",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,80,70,56,56,75,fragaria x ananassa,klein fruit
+2702,"Aardbeien open grond, productie",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,170,155,124,124,160,fragaria x ananassa,klein fruit
+2703,"Aardbeien open grond, zaden en opkweekmateriaal",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,80,70,56,56,75,fragaria x ananassa,klein fruit
+2704,"Aardbeien op stellingen, vermeerdering",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,120,110,88,88,115,fragaria x ananassa,overig
+2705,"Aardbeien op stellingen, wachtbed",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,80,70,56,56,75,fragaria x ananassa,overig
+2706,"Aardbeien op stellingen, productie",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,170,155,124,124,160,fragaria x ananassa,overig
+2707,"Aardbeien op stellingen, zaden en opkweekmateriaal",klein fruit,overig,300,0,akkerbouw,other,12,arable,overig,akkerbouw,mais,boomteelt,80,70,56,56,75,fragaria x ananassa,overig
+2708,"Andijvie, productie",bladgroenten,overig,2882304,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,170,136,136,170,chichorium endivia,bladgroenten
+2709,"Andijvie, zaden en opkweekmateriaal",bladgroenten,overig,450,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,90,90,72,72,90,chichorium endivia,bladgroenten
+2710,"Asperges, oppervlakte die productie oplevert",zomergroenten,overig,1000,0,akkerbouw,other,8,arable,overig,akkerbouw,mais,groenteteelt,85,75,60,60,80,asparagus officinalis,asperge
+2711,"Asperges, oppervlakte die nog geen productie oplevert",zomergroenten,overig,1000,0,akkerbouw,other,8,arable,overig,akkerbouw,mais,groenteteelt,85,75,60,60,80,asparagus officinalis,asperge
+2712,"Asperges, zaden en opkweekmateriaal",zomergroenten,overig,1000,0,akkerbouw,other,8,arable,overig,akkerbouw,mais,groenteteelt,85,75,60,60,80,asparagus officinalis,asperge
+2713,"Bloemkool, productie",zomergroenten,overig,1640.08,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,230,210,168,168,220,brassica oleracea,"prei, spruiten, koolsoorten"
+2714,"Bloemkool, zaden en opkweekmateriaal",zomergroenten,overig,1000,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,brassica oleracea,"prei, spruiten, koolsoorten"
+2715,"Boerenkool, productie",zomergroenten,overig,1518096,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,170,155,124,124,160,brassica oleracea,"prei, spruiten, koolsoorten"
+2716,"Boerenkool, zaden en opkweekmateriaal",zomergroenten,overig,750,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,170,155,124,124,160,brassica oleracea,"prei, spruiten, koolsoorten"
+2717,"Bospeen, productie",bladgroenten,rooivrucht,300,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,50,50,50,50,50,daucus carota,was bospeen
+2718,"Bospeen, zaden en opkweekmateriaal",bladgroenten,rooivrucht,300,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,50,50,50,50,50,daucus carota,was bospeen
+2719,"Broccoli, productie",zomergroenten,overig,2174128,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,270,235,188,188,245,brassica oleracea,"prei, spruiten, koolsoorten"
+2720,"Brocolli, zaden en opkweekmateriaal",zomergroenten,overig,1150,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,270,235,188,188,245,brassica oleracea,"prei, spruiten, koolsoorten"
+2721,"Chinese kool, productie",zomergroenten,overig,1730.16,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,180,155,124,124,160,brassica rapa,"prei, spruiten, koolsoorten"
+2722,"Chinese kool, zaden en opkweekmateriaal",zomergroenten,overig,450,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,180,155,124,124,160,brassica rapa,"prei, spruiten, koolsoorten"
+2723,"Courgette, productie",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita pepo,"witlof, selderij, uien"
+2724,"Courgette, zaden en opkweekmateriaal",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita pepo,"witlof, selderij, uien"
+2725,"Knolselderij, productie",zomergroenten,overig,400,600,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,apium graveolens,"witlof, selderij, uien"
+2726,"Knolselderij, zaden en opkweekmateriaal",zomergroenten,overig,400,600,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,apium graveolens,"witlof, selderij, uien"
+2727,"Knolvenkel/venkel, productie",zomergroenten,overig,2448256,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,foeniculum vulgare,"witlof, selderij, uien"
+2729,"Komkommer, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucumis sativus,"witlof, selderij, uien"
+2731,"Augurk, productie",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucumis sativus,"witlof, selderij, uien"
+2732,"Augurk, zaden en opkweekmateriaal",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucumis sativus,"witlof, selderij, uien"
+2733,"Meloen, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita,"witlof, selderij, uien"
+2734,"Meloen, zaden en opkweekmateriaal",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita,"witlof, selderij, uien"
+2735,"Pompoen, productie",zomergroenten,overig,350,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita,"witlof, selderij, uien"
+2736,"Pompoen, zaden en opkweekmateriaal",zomergroenten,overig,350,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,190,175,140,140,180,cucurbita,"witlof, selderij, uien"
+2737,"Koolraap, productie",zomergroenten,overig,550,600,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,170,155,124,124,160,brassica rapa,"prei, spruiten, koolsoorten"
+2738,"Koolraap, zaden en opkweekmateriaal",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,170,155,124,124,160,brassica rapa,"prei, spruiten, koolsoorten"
+2739,"Koolrabi, productie",zomergroenten,overig,300,250,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,brassica oleracea,"prei, spruiten, koolsoorten"
+2740,"Koolrabi, zaden en opkweekmateriaal",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,brassica oleracea,"prei, spruiten, koolsoorten"
+2741,"Kroten/rode bieten, productie",suikerbiet,overig,600,0,akkerbouw,other,6,arable,overig,akkerbouw,mais,akkerbouw,185,170,136,136,175,beta vulgaris,suikerbieten
+2742,"Kroten/rode bieten, zaden en opkweekmateriaal",suikerbiet,overig,600,0,akkerbouw,other,6,arable,overig,akkerbouw,mais,akkerbouw,185,170,136,136,175,beta vulgaris,suikerbieten
+2743,"Kruiden, productie",overig,overig,300,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,275,250,200,200,260,overig,overig
+2744,"Kruiden, zaden en opkweekmateriaal",overig,overig,300,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,100,90,72,72,95,overig,overig
+2745,"Paksoi, productie",zomergroenten,overig,450,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,brassica rapa,"prei, spruiten, koolsoorten"
+2746,"Paksoi, zaden en opkweekmateriaal",zomergroenten,overig,450,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,brassica rapa,"prei, spruiten, koolsoorten"
+2747,"Peulen, productie",zomergroenten,overig,170,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,pisum sativum,"erwten, bonen"
+2748,"Peulen, zaden en opkweekmateriaal",zomergroenten,overig,170,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,pisum sativum,"erwten, bonen"
+2749,"Prei, productie",wintergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,245,225,180,180,235,allium ampeloprasum,"prei, spruiten, koolsoorten"
+2750,"Prei, zaden en opkweekmateriaal",wintergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,90,72,72,95,allium ampeloprasum,"prei, spruiten, koolsoorten"
+2751,"Pronkbonen, productie",zomergroenten,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus coccineus,"erwten, bonen"
+2752,"Pronkbonen, zaden en opkweekmateriaal",zomergroenten,overig,,,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,75,75,75,75,75,phaseolus coccineus,"erwten, bonen"
+2753,"Raapstelen, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,140,130,104,104,135,brassica rapa,"prei, spruiten, koolsoorten"
+2754,"Raapstelen, zaden en opkweekmateriaal",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,140,130,104,104,135,brassica rapa,"prei, spruiten, koolsoorten"
+2755,"Rabarber, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,250,230,184,184,240,rheum rhabarbarum,"witlof, selderij, uien"
+2756,"Rabarber, zaden en opkweekmateriaal",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,250,230,184,184,240,rheum rhabarbarum,"witlof, selderij, uien"
+2757,"Radijs, productie",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,80,80,64,64,80,raphanus sativus,"witlof, selderij, uien"
+2758,"Radijs, zaden en opkweekmateriaal",zomergroenten,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,80,80,64,64,80,raphanus sativus,"witlof, selderij, uien"
+2759,"Rodekool, productie",zomergroenten,overig,2536192,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea,"prei, spruiten, koolsoorten"
+2760,"Rodekool, zaden en opkweekmateriaal",zomergroenten,overig,1000,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea,"prei, spruiten, koolsoorten"
+2761,"Savooiekool, productie",zomergroenten,overig,2536192,440,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea,"prei, spruiten, koolsoorten"
+2762,"Savooiekool, zaden en opkweekmateriaal",zomergroenten,overig,1000,440,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea,"prei, spruiten, koolsoorten"
+2763,Schorseneren; productie,zomergroenten,overig,600,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,170,170,170,170,170,scorzonera hispanica,schorseneren
+2764,"Schorseneren, zaden en opkweekmateriaal",zomergroenten,overig,600,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,170,170,170,170,170,scorzonera hispanica,schorseneren
+2765,"Selderij, bleek- en groen-, productie",zomergroenten,overig,3266,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,apium graveolens,"witlof, selderij, uien"
+2766,"Selderij, bleek- en groen-, zaden en opkweekmateriaal",zomergroenten,overig,450,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,apium graveolens,"witlof, selderij, uien"
+2767,"Sla, ijsberg-, productie",bladgroenten,overig,2398256,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa,bladgroenten
+2768,"Sla, ijsberg-, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,105,105,84,84,105,lactuca sativa,bladgroenten
+2769,"Sla; radicchio rosso, productie",bladgroenten,overig,2398256,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa,bladgroenten
+2770,"Sla; radicchio rosso, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa,bladgroenten
+2771,"Sla; overig, productie",bladgroenten,overig,2398256,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa,bladgroenten
+2772,"Sla; overig, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,180,165,132,132,170,lactuca sativa,bladgroenten
+2773,"Spinazie, productie",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,260,190,152,152,200,espinaca oleracea,bladgroenten
+2774,"Spinazie, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,185,145,116,116,150,espinaca oleracea,bladgroenten
+2775,"Spitskool, productie",zomergroenten,overig,2536192,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea,"prei, spruiten, koolsoorten"
+2776,"Spitskool, zaden en opkweekmateriaal",zomergroenten,overig,500,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,285,260,208,208,270,brassica oleracea,"prei, spruiten, koolsoorten"
+2777,"Spruitkool/spruitjes, productie",wintergroenten,overig,2836192,700,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,290,265,212,212,275,brassica oleracea,"prei, spruiten, koolsoorten"
+2778,"Spruitkool/spruitjes, zaden en opkweekmateriaal",wintergroenten,overig,2836192,700,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,50,50,40,40,50,brassica oleracea,"prei, spruiten, koolsoorten"
+2779,"Stamsperziebonen (=stamslabonen), productie",zomergroenten,overig,170,480,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,phaseolus vulgaris,"erwten, bonen"
+2780,"Stamsperziebonen (=stamslabonen), zaden en opkweekmateriaal",zomergroenten,overig,170,480,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,135,135,108,108,135,phaseolus vulgaris,"erwten, bonen"
+2781,"Stoksnijbonen en stokslabonen, productie",zomergroenten,overig,170,480,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,phaseolus vulgaris,"erwten, bonen"
+2782,"Stoksnijbonen en stokslabonen, zaden en opkweekmateriaal",zomergroenten,overig,170,480,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,135,135,108,108,135,phaseolus vulgaris,"erwten, bonen"
+2783,"Waspeen, productie",bladgroenten,rooivrucht,700,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,daucus carota,was bospeen
+2784,"Waspeen, zaden en opkweekmateriaal",bladgroenten,rooivrucht,700,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,daucus carota,was bospeen
+2785,"Winterpeen, productie",bladgroenten,rooivrucht,700,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,daucus carota,"prei, spruiten, koolsoorten"
+2786,"Winterpeen, zaden en opkweekmateriaal",bladgroenten,overig,700,0,akkerbouw,other,5,arable,overig,akkerbouw,mais,groenteteelt,110,110,110,110,110,daucus carota,"prei, spruiten, koolsoorten"
+2787,"Witlofwortel, productie",zomergroenten,rooivrucht,600,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,100,100,100,100,chichorium intybus,"witlof, selderij, uien"
+2788,"Witlofwortel, zaden en opkweekmateriaal",zomergroenten,rooivrucht,600,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,100,100,100,100,chichorium intybus,"witlof, selderij, uien"
+2789,"Witte kool, productie",zomergroenten,overig,2536192,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,320,290,232,232,305,brassica oleracea,"prei, spruiten, koolsoorten"
+2790,"Witte kool, zaden en opkweekmateriaal",zomergroenten,overig,1000,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,320,290,232,232,305,brassica oleracea,"prei, spruiten, koolsoorten"
+2791,"Overige niet genoemde bladgewassen, productie",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,275,250,200,200,260,overig,overig
+2792,"Overige niet genoemde bladgewassen, zaden en opkweekmateriaal",bladgroenten,overig,300,0,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,150,140,112,112,145,overig,overig
+2793,"Overige niet genoemde groenten, productie",zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,overig,"witlof, selderij, uien"
+2794,"Overige niet genoemde groenten, zaden en opkweekmateriaal",zomergroenten,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,200,185,148,148,190,overig,"witlof, selderij, uien"
+2795,"Bloemkool, winter, productie",wintergroenten,overig,1640.08,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,brassica oleracea,"prei, spruiten, koolsoorten"
+2796,"Bloemkool, winter, zaden en opkweekmateriaal",wintergroenten,overig,1640.08,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,120,110,88,88,115,brassica oleracea,"prei, spruiten, koolsoorten"
+2797,"Bloemkool, zomer, productie",zomergroenten,overig,1640.08,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,230,210,168,168,220,brassica oleracea,"prei, spruiten, koolsoorten"
+2798,"Bloemkool, zomer, zaden en opkweekmateriaal",zomergroenten,overig,1000,150,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,230,210,168,168,220,brassica oleracea,"prei, spruiten, koolsoorten"
+2799,"Prei, winter, productie",wintergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,90,72,72,95,allium ampeloprasum,"prei, spruiten, koolsoorten"
+2800,"Prei, winter, zaden en opkweekmateriaal",wintergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,100,90,72,72,95,allium ampeloprasum,"prei, spruiten, koolsoorten"
+2801,"Prei, zomer, productie",zomergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,245,225,180,180,235,allium ampeloprasum,"prei, spruiten, koolsoorten"
+2802,"Prei, zomer, zaden en opkweekmateriaal",zomergroenten,overig,100,350,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,245,225,180,180,235,allium ampeloprasum,"prei, spruiten, koolsoorten"
+2951,"Aardappelen, consumptie op klei/l?Γ??ssgrond",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,275,260,208,204,270,solanum tuberosum,aardappelen
+3500,"Klaver, Alexandrijnse",overig,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,trifolium alexandrinum,overig
+3501,Beemdlangbloem,overig boomteelt,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,boomteelt,150,150,150,150,150,festuca pratensis,"tulpen, narcis, hyacint"
+3502,Bladkool,zomergroenten,overig,840,0,akkerbouw,other,7,arable,overig,akkerbouw,mais,groenteteelt,150,140,112,112,145,brassica oleracea,"prei, spruiten, koolsoorten"
+3503,Bladraap,bladgroenten,overig,,,akkerbouw,other,9,arable,overig,akkerbouw,mais,groenteteelt,150,140,112,112,145,brassica rapa,"prei, spruiten, koolsoorten"
+3504,Bladrammenas,overig,overig,850,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,150,140,112,112,145,raphanus sativus,overig
+3505,Deder,overig,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,camelina sativa,overig
+3506,Engels raaigras,grasland zonder herinzaai,rust,980,,akkerbouw,grass,1,mais,overig,akkerbouw,mais,veeteelt,345,250,250,250,265,lolium perenne,beweid bemaaid gras
+3507,Ethiopische mosterd,overig,overig,850,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,brassica carinata,overig
+3508,Facelia,overig,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,phacelia,overig
+3509,Festulolium,overig,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,gras overig,overig
+3510,Franse boekweit,overig,overig,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,fagopyrum tataricum,zomergerst
+3511,"Klaver, incarnaat",overig,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,trifolium incarnatum,overig
+3512,Italiaans raaigras,grasland zonder herinzaai,rust,1255,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,130,120,96,96,125,lolium multiflorum,beweid bemaaid gras
+3513,Westerwolds raaigras,grasland zonder herinzaai,overig,980,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,110,100,80,80,105,lolium multiflorum,beweid bemaaid gras
+3516,Rietzwenkgras,grasland zonder herinzaai,rust,980,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,60,50,40,40,55,Festuca arundinacea,overig
+3517,Sarepta mosterd/Caliente,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,brassica juncea,overig
+3519,Soedangras/Sorghum,overig,overig,850,0,grasland,grass,16,mais,overig,akkerbouw,mais,akkerbouw,345,250,250,250,265,sorghum bicolor,overig
+3521,Stoppelknollen,overig,overig,830,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,60,50,50,50,60,brassica rapa,"prei, spruiten, koolsoorten"
+3522,Timothee,grasland zonder herinzaai,overig,700,0,akkerbouw,other,1,arable,overig,akkerbouw,mais,veeteelt,280,235,235,235,235,phleum pratense,overig
+3523,Veldbeemdgras,grasland zonder herinzaai,overig,980,0,grasland,grass,1,mais,overig,akkerbouw,mais,veeteelt,60,50,40,40,55,poa pratensis,beweid bemaaid gras
+3524,"Klaver, witte",overig,rust,1200,0,akkerbouw,clover,16,arable,overig,akkerbouw,mais,akkerbouw,30,25,25,25,30,trifolium repens,overig
+3718,"Grasland, natuurlijk",grasland met herinzaai,rust,1400,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,345,250,250,250,265,gras overig,overig
+3719,Heide,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+3720,"Faunaranden, grasland",natuur,overig,,,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,overig,overig
+3721,"Faunaranden, bouwland",natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,280,235,235,235,235,overig,overig
+3722,Overige natuurterreinen,natuur,overig,,,natuur,nature,2,nature,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+3730,"Aardappelen, poot op klei/lossgrond (NAK)",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,140,140,140,140,140,solanum tuberosum,pootaardappelen
+3731,"Aardappelen, poot op zand/veengrond",aardappel,rooivrucht,875,0,akkerbouw,potato,3,arable,overig,akkerbouw,mais,akkerbouw,120,120,120,120,120,solanum tuberosum,pootaardappelen
+3732,"Aardappelen, zetmeel",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum,fabrieksaardappelen
+3736,Vezelvlas,overig,overig,100,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,70,70,56,56,70,linum usitatissimum,overig
+3792,"Aardappelen, consumptie op zand/veengrond",aardappel,rooivrucht,875,0,akkerbouw,potato,5,arable,overig,akkerbouw,mais,akkerbouw,225,210,168,164,220,solanum tuberosum,aardappelen
+3801,"Tijdelijk onbeteelde grond, i.v.m. publieke werken",natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+3802,"Tijdelijk onbeteelde grond, anders dan voor publieke werken",natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,0,0,0,0,0,overig,overig
+3803,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit een ander gewas dan gras. (EA: beheer)",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,overig,overig
+3804,"Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit een ander gewas dan gras. (EA: onbeheerd)",natuur,overig,500,0,natuur,nature,2,nature,gras,gras,gras,veeteelt,345,250,250,250,265,overig,overig
+3805,"Rietzwenkgras, industriegras",grasland zonder herinzaai,rust,980,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,140,130,104,104,135,Festuca arundinacea,overig
+3806,"Boomkwekerijgewassen en vaste planten, open grond",overig boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,175,175,175,175,175,overig,overige boomteelt
+3807,"Rietzwenkgras, anders dan voor industriegras",grasland zonder herinzaai,rust,980,0,grasland,grass,1,gras,gras,gras,gras,veeteelt,140,130,104,104,135,Festuca arundinacea,overig
+6520,Azolla,overig,overig,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,azolla,overig
+2641,Bomenrij (anders dan knotboom),natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overige boomteelt
+2617,Boomgroepen in het veld,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overige boomteelt
+2642,Bosje,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,loofbos
+2619,Bosssingel,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,loofbos
+1040,"Chrysant, droogbloemen",overig boomteelt,overig,750,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,chrysanthemum,"tulpen, narcis, hyacint"
+1055,"Chrysant, vermeerdering",overig boomteelt,overig,750,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,chrysanthemum,"tulpen, narcis, hyacint"
+657,Drachtplanten,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+2622,Elzensingel,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+2640,Geisoleerde boom (anders dan knotboom),natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overige boomteelt
+2631,Griendje,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+2630,Hakhoutbosje,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,loofbos
+2628,Hoogstamboomgaard,boomteelt,overig,1175,0,akkerbouw,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overige boomteelt
+2621,Houtwal en houtsingel,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+974,"Iris, droogbloemen",bloembollen,overig,400,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,iris germanica,"tulpen, narcis, hyacint"
+3515,"Klaver, Perzische",overig,clover,1200,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,,,,,,trifolium resupinatum,overig
+2624,Knip- of scheerheg,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+2728,"Knolvenkel/venkel, zaden en opkweekmateriaal",zomergroenten,overig,,,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,,,,,,foeniculum vulgare,"witlof, selderij, uien"
+2643,"Knotboom, bomen in rij",natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overige boomteelt
+2644,"Knotboom, geisloleerde boom",natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overige boomteelt
+2730,"Komkommer, zaden en opkweekmateriaal",zomergroenten,overig,250,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,,,,,,cucumis sativus,"witlof, selderij, uien"
+977,"Krokus, droogbloemen",bloembollen,overig,150,,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,crocus,"tulpen, narcis, hyacint"
+1018,"Kuifhyacint, bloembollen en -knollen",overig boomteelt,overig,350,0,akkerbouw,other,10,arable,overig,akkerbouw,mais,groenteteelt,,,,,,leopoldia comosa,"tulpen, narcis, hyacint"
+1017,"Kuifhyacint, droogbloemen",overig boomteelt,overig,350,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,leopoldia comosa,"tulpen, narcis, hyacint"
+2626,Laan,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+2638,"Landschapselement, overig",natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+1029,"Lavas (Maggiplant), zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,,,,,,levisticum officinale,overig
+980,"Lelie, droogbloemen",bloembollen,overig,450,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,lilium,"tulpen, narcis, hyacint"
+3055,Lisdodde,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,typhaceae,overig
+2634,Natuurvriendelijke oever,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+3514,Niger,overig,rust,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,guizotia abyssinica,overig
+1053,"Palmen, pot- en containervelden",boomteelt,overig,0,0,akkerbouw,other,16,arable,overig,akkerbouw,mais,boomteelt,,,,,,overig,overig
+2620,Poel en klein historisch water,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+6522,Riet,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+2633,Rietzoom en klein rietperceel,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overige boomteelt
+3808,Roodzwenkgras,grasland zonder herinzaai,grass,,,grasland,other,2,gras,gras,gras,gras,akkerbouw,,,,,,festuca rubra,overig
+2637,Schurvelingen en zandwallen,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+3518,Seradelle,overig,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,,,,,,ornithopus sativus,overig
+1011,"Sierui, droogbloemen",overig boomteelt,overig,500,0,akkerbouw,other,14,arable,overig,akkerbouw,mais,groenteteelt,,,,,,allium cepa,"tulpen, narcis, hyacint"
+3520,Spurrie,overig,rust,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,,,,,,spergula,overig
+2625,Struweelhaag,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+2629,Struweelrand,natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+1932,"Uien, poot en plant, 1e jaars",zomergroenten,overig,300,0,akkerbouw,other,4,arable,overig,akkerbouw,mais,groenteteelt,,,,,,allium cepa,"witlof, selderij, uien"
+1940,Voedselbos,boomteelt,overig,1175,0,akkerbouw,other,13,arable,overig,akkerbouw,mais,boomteelt,,,,,,overig,loofbos
+637,Vrouwenmantel,natuur,nature,,,akkerbouw,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,alchemila,overig
+2635,Wandelpad over boerenland,natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+2639,"Water, overig",natuur,nature,,,natuur,other,16,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+1031,"Wilde marjolein (Oregano), zaden en opkweekmateriaal",overig boomteelt,overig,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,,,,,,origanum vulgare,overig
+6521,Wilde rijst,overig boomteelt,rust,,,akkerbouw,other,16,arable,overig,akkerbouw,mais,groenteteelt,,,,,,zizania,overig
+2618,"Windhaag , in een perceel fruitteelt",natuur,nature,,,natuur,other,13,nature,overig,akkerbouw,mais,veeteelt,,,,,,overig,overig
+989,"Zantedeschia, droogbloemen",overig boomteelt,overig,,,akkerbouw,other,14,nature,overig,akkerbouw,mais,veeteelt,,,,,,zantedeschia aethiopica,"tulpen, narcis, hyacint"
+656,Zonnekroon,overig,rust,,,akkerbouw,other,14,arable,overig,akkerbouw,mais,veeteelt,,,,,,silphium perfoliatum,overig
