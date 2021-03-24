@@ -1,7 +1,6 @@
 # Script to make season.obic table
 # Table is based on Tabel 2 in Huinink (2018) and links to crops.obic$crop_season
 # Not all landuses in the original table appear in brp and some of the brp crops have been assigned to "overig" and could be reclassified later.
-library(data.table)
 season.obic <- data.frame(landuse = c('naaldbos', 'loofbos', 'groot fruit', 'klein fruit',
                                       'aardappelen', 'pootaardappelen', 'fabrieksaardappelen',
                                       'suikerbieten', 'wintertarwe', 'zomergerst', 'snijmais',
@@ -19,7 +18,7 @@ season.obic <- data.frame(landuse = c('naaldbos', 'loofbos', 'groot fruit', 'kle
                                                75,  100, 180,
                                                100, 100, 180,
                                                180, 100, 100, 100,
-                                               0),
+                                               1),
                           req_days_post_glg =c(75, 75, 75, 75,
                                                35,  0, 65, 
                                                75, 10,  0, 35,
@@ -28,7 +27,7 @@ season.obic <- data.frame(landuse = c('naaldbos', 'loofbos', 'groot fruit', 'kle
                                                65, 25,140,
                                               140, 75, 75,
                                                75, 75, 45, 75,
-                                               0),
+                                               1),
                           total_days = c(245, 245, 245, 245,
                                          190, 150, 220,
                                          230, 175, 170, 165,
@@ -37,5 +36,5 @@ season.obic <- data.frame(landuse = c('naaldbos', 'loofbos', 'groot fruit', 'kle
                                          140, 125, 320,
                                          320, 175, 225,
                                          225, 210, 145, 255,
-                                         0))
+                                         1))
 save(season.obic,file = 'data/season.obic.RData')
