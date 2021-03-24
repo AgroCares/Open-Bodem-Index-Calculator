@@ -7,7 +7,7 @@ season.obic <- data.frame(landuse = c('naaldbos', 'loofbos', 'groot fruit', 'kle
                                       'laanbomen_onderstammen', 'overige boomteelt', 'graszaad', 'asperge',
                                       'schorseneren', 'prei, spruiten, koolsoorten', 'erwten, bonen',
                                       'witlof, selderij, uien', 'was bospeen', 'tulpen, narcis, hyacint',
-                                      'dahlia', 'bladgroenten', 'beweid gemaaid gras',
+                                      'dahlia', 'bladgroenten', 'beweid bemaaid gras',
                                       'plantsoenen', 'gazons', 'kampeerterreinen, ligweiden', 'sportvelden',
                                       'overig'),
                           req_days_pre_glg = c(170, 170, 170, 170,
