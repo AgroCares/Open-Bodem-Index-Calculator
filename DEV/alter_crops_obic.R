@@ -387,3 +387,9 @@ cr[crop_name == 'Spelt', crop_waterstress := 'granen']
 crops.obic <- cr
 fwrite(crops.obic, 'DEV/crops_obic.csv')
 save(crops.obic, file = 'data/crops_obic.RData')
+
+# Undo changes to Spelt, Spelt is one of the crops in the package waterstress test. Test and spelt should both be changed reflecting that spelt is a cereal.
+load('data/crops_obic.RData')
+crops.obic[crop_name == "Spelt", crop_waterstress := 'overig']
+fwrite(crops.obic, 'DEV/crops_obic.csv')
+save(crops.obic, file = 'data/crops_obic.RData')
