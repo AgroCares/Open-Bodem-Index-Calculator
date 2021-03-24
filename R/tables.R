@@ -71,7 +71,7 @@
 #' }
 "recom.obic"
 
-#' Column description for the OIC
+#' Column description for the OBIC
 #' 
 #' This table defines the columns used in the OBIC and which unit is used
 #' 
@@ -85,3 +85,16 @@
 #'   \item{method}{The method to measure/obtain the values for this column}
 #' }
 "column_description.obic"
+
+#' Desired growing season period for maximum yield
+#' 
+#' This table gives the required number of days before and after August 15 required for optimal yield or usability based on Tabel 2 from Huinink (2018)
+#' 
+#' @format A data.frame with 29 rows and 4 columns:
+#' \describe{
+#'   \item{landuse}{The name of the crop or landuse category, used to link to crops.obic$crop_season}
+#'   \item{req_days_pre_glg}{Required number of workable days before August 15 assuming this coincides with GLG, lowest groundwater}
+#'   \item{req_days_post_glg}{Required number of workable days after August 15 assuming this coincides with GLG, lowest groundwater}
+#'   \item{total_days}{Total number of days required for optimal growth or use}
+#' }
+"season.obic"

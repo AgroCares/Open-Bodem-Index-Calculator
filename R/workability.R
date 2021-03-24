@@ -147,7 +147,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GT, B_GL
     # Calculate the number of days deficit compared to ideal situation
     dt[,early_season_day_deficit := season_start-req_days_pre_glg]
     dt[early_season_day_deficit <0,early_season_day_deficit := 0 ] # Deficient number of days cannot be negative
-    dt[,late_season_day_deficit := season_end-post_days_pre_glg]
+    dt[,late_season_day_deficit := season_end-req_days_post_glg]
     dt[late_season_day_deficit <0, late_season_day_deficit := 0] # Deficient number of days cannot be negative
     
     # Calculate relative season length
