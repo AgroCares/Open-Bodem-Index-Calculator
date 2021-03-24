@@ -19,7 +19,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   # define variables used within the function
   crop_code = soiltype = landuse = crop_name = crop_waterstress = crop_season = NULL
   soiltype.m = drukhoogte = gws_sub_workindepth = spring_depth = z = required_depth = NULL
-  feb15 = aug15 = season_start = season_end = early_season_day_deficit = late_season_day_deficit = NULL
+  season_start = season_end = early_season_day_deficit = late_season_day_deficit = NULL
   req_days_pre_glg = req_days_post_glg = gws_sub_workingdepth = NULL
   
   # Load in the datasets
@@ -38,11 +38,9 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
-  # checkmate::assert_character(B_GT,any.missing = FALSE, len = arg.length)
-  # checkmate::assert_subset(B_GT, choices = c('unknown',unique(waterstress.obic$gt)), empty.ok = FALSE)
-  
   checkmate::assert_numeric(B_GLG, lower = 0, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_GHG, lower = 0, any.missing = FALSE, len = arg.length)
+  checkmate::assert_true(B_GHG < B_GLG)
 
   # Collect in data table
   dt <- data.table(A_CLAY_MI = A_CLAY_MI,
@@ -131,25 +129,16 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   
   # test 2: when capillary rise is lower than evaporation (something based on Z-h relations)
   
-  
-  ## Calculate growing season length based on Regimecurve
-  # regime_table <- data.table(gt = c('GtI',"GtII", "GtIII", "GtV", "GtIV", "GtVI", "GtVII", "GtVIII"),
-  #                            feb15 = c(20, 40, 40, 40, 40, 80, 80, 140),
-  #                            aug15 = c(50, 80, 120, 120, 120, 300, 300, 300)) # Not sure how to get a better estimate of what is essentially GLG and GHG
-  # # merge regime_table into dt
-  # dt <- merge.data.table(dt, regime_table, by.x = 'B_GT', by.y = 'gt')
-  dt[,feb15 := B_GHG]
-  dt[,aug15 := B_GLG]
-  
-  if(dt$required_depth < dt$feb15) { # If the required depth is more shallow than the highest water level, soil is always workable 
+# Determine relative season length
+  if(dt$required_depth < dt$B_GHG) { # If the required depth is more shallow than the highest water level, soil is always workable 
     relative_seasonlength <- 1
   } 
-  if(dt$required_depth > dt$aug15) { # If the required depth is deeper than the lowest water level, soil is never workable
+  if(dt$required_depth > dt$B_GLG) { # If the required depth is deeper than the lowest water level, soil is never workable
     relative_seasonlength <- 0
   } else {
     # Calculate the day on which the desired water depth is reached
-    dt[,season_start := round(138-sin(-required_depth - 0.5*(-feb15 - aug15)/ 0.5*(-feb15+aug15))/0.0172142)]
-    dt[,season_end := round(138+sin(-required_depth - 0.5*(-feb15 - aug15)/ 0.5*(-feb15+aug15))/0.0172142)]
+    dt[,season_start := round(138-sin(-required_depth - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
+    dt[,season_end := round(138+sin(-required_depth - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
     
     # Calculate the number of days deficit compared to ideal situation
     dt[,early_season_day_deficit := req_days_pre_glg-season_start]
@@ -160,10 +149,6 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
     # Calculate relative season length
     relative_seasonlength <- (dt$total_days-dt$late_season_day_deficit-dt$early_season_day_deficit)/dt$total_days
     
-    # # Set relative season length to one if it is higher than 1
-    # if(relative_seasonlength > 1) {
-    #   relative_seasonlength <- 1
-    # }
   }
   
   return(relative_seasonlength)
