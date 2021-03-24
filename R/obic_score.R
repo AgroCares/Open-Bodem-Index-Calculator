@@ -72,6 +72,7 @@ score_absolute <- function(dt.ind) {
   I_P_CEC = I_P_WRI = NULL
   I_E_NGW = I_E_NSW = NULL
   rsid = NULL
+  I_P_WO = NULL
   
   # Load in the datasets and reshape
   w <- as.data.table(OBIC::weight.obic)
