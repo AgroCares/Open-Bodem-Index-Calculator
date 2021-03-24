@@ -161,8 +161,11 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
 #' This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
 #' inflicting structural damage that cannot be restored by the regular management on the farm.
 #'  
-#' 
 #' @export
-ind_workability <- function() {
+ind_workability <- function(D_P_WO) {
   
+  # Check inputs
+  checkmate::assert_numeric(D_P_WO, lower = 0, upper = 1, any.missing = FALSE)
+  # Maybe insert logistic function
+  return(D_P_WO)
 }

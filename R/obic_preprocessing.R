@@ -120,6 +120,7 @@ obic_preprocessing <- function(dt) {
   # calculate N run-off to surface water (kgN/ha/year)
   dt[,D_NSW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to = "ow")]
 
+  dt[,D_P_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_GHG)]
 
   return(dt)
 }

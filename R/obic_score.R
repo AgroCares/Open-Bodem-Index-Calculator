@@ -87,7 +87,7 @@ score_absolute <- function(dt.ind) {
   # Score the physical indicators
    dt.ind[, S_P_A :=  w$W_P_CR * I_P_CR + w$W_P_SE * I_P_SE + w$W_P_MS * I_P_MS +  
 					w$W_P_BC * I_P_BC + w$W_P_DU * I_P_DU + w$W_P_CO * I_P_CO + 
-					w$W_P_CEC * I_P_CEC + w$W_P_WRI * I_P_WRI]
+					w$W_P_CEC * I_P_CEC + w$W_P_WRI * I_P_WRI + w$W_P_WO * I_P_WO]
   
   # Score the biology
   dt.ind[, S_B_A := w$W_B_DI * I_B_DI + w$W_B_SF * I_B_SF + w$W_B_SB * I_B_SB]
