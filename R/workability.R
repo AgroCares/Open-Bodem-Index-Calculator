@@ -6,21 +6,21 @@
 #' @param A_SILT_MI (numeric) The silt content of the soil (in procent)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
-#' @param B_GT (character) The groundwater table class
 #' @param B_GLG () The lowest groundwater level averaged over the most dry periods in 8 years
 #' @param B_GHG () The highest groundwater level averaged over the most wet periods in 8 years
 #' 
 #' @import data.table
 #' 
 #' @references Huinink (2018) Bodem/perceel geschiktheidsbeoordeling voor Landbouw, Bosbouw en Recreatie. BodemConsult-Arnhem
-#' 
-#' @details 
 #'  
 #' @export
 calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_GHG) {
   
   # define variables used within the function
-  
+  crop_code = soiltype = landuse = crop_name = crop_waterstress = crop_season = NULL
+  soiltype.m = drukhoogte = gws_sub_workindepth = spring_depth = z = required_depth = NULL
+  feb15 = aug15 = season_start = season_end = early_season_day_deficit = late_season_day_deficit = NULL
+  req_days_pre_glg = req_days_post_glg = gws_sub_workingdepth = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -173,7 +173,6 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
 #' This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
 #' inflicting structural damage that cannot be restored by the regular management on the farm.
 #'  
-#' @param D_P_WO (numeric) The value for workability as calculated by \code{\link{calc_workability}}
 #' 
 #' @export
 ind_workability <- function() {

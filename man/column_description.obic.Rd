@@ -3,7 +3,7 @@
 \docType{data}
 \name{column_description.obic}
 \alias{column_description.obic}
-\title{Column description for the OIC}
+\title{Column description for the OBIC}
 \format{
 A data.frame with 126 rows and 6 columns:
 \describe{
