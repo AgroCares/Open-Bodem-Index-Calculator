@@ -125,9 +125,13 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
      spring_depth := 0]
   
   # test 1: desired groundwater depth for work under hydrostatic equilibrium
-  dt[, required_depth := gws_sub_workingdepth+spring_depth]
+  dt[, required_depth_hydrostatic := gws_sub_workingdepth+spring_depth]
   
   # test 2: when capillary rise is lower than evaporation (something based on Z-h relations)
+  dt[, required_depth_capilary := 999]
+  
+  # Choose lowest required depth as required depth
+  dt$required_depth <- min(dt$required_depth_hydrostatic, dt$required_depth_capilary)
   
 # Determine relative season length
   if(dt$required_depth < dt$B_GHG) { # If the required depth is more shallow than the highest water level, soil is always workable 
