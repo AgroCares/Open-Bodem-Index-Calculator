@@ -18,10 +18,10 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   
   # define variables used within the function
   id =crop_code = soiltype = landuse = crop_name = crop_waterstress = crop_season = NULL
-  soiltype.m = drukhoogte = gws_sub_workindepth = spring_depth = z = required_depth = NULL
+  soiltype.m = drukhoogte = spring_depth = z = required_depth = NULL
   season_start = season_end = early_season_day_deficit = late_season_day_deficit = NULL
   req_days_pre_glg = req_days_post_glg = gws_sub_workingdepth = NULL
-  required_depth_hydrostatic = required_depth_capilary = total_days = NULL
+  required_depth_hydrostatic = required_depth_capilary = total_days = required_depth_spring= NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -132,15 +132,15 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   dt[, required_depth_capilary := 999]
   
   # Choose lowest required depth as required depth
-  dt[,required_depth := fifelse(required_depth_hydrostatic<required_depth_capilary,required_depth_hydrostatic,required_depth_capilary)]
+  dt[,required_depth_spring := fifelse(required_depth_hydrostatic<required_depth_capilary,required_depth_hydrostatic,required_depth_capilary)]
   
 # Determine relative season length
   dt[required_depth < B_GHG, relative_seasonlength := 1]# If the required depth is more shallow than the highest water level, soil is always workable 
   dt[required_depth > B_GLG, relative_seasonlength := 0]# If the required depth is deeper than the lowest water level, soil is never workable
 
   # Calculate the day on which the desired water depth is reached
-  dt[,season_start := round(138-sin(-required_depth - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
-  dt[,season_end := round(138+sin(-required_depth - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
+  dt[,season_start := round(138-sin(-required_depth_spring - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
+  dt[,season_end := round(138+sin(-gws_sub_workingdepth - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
     
   # Calculate the number of days deficit compared to ideal situation
   dt[,early_season_day_deficit := req_days_pre_glg-season_start]
@@ -161,7 +161,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
 #' This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
 #' inflicting structural damage that cannot be restored by the regular management on the farm.
 #'  
-#'  @param D_P_WO (numeric) The value of workability calculated by \code{\link{calc_workability}}
+#' @param D_P_WO (numeric) The value of workability calculated by \code{\link{calc_workability}}
 #'  
 #' @export
 ind_workability <- function(D_P_WO) {

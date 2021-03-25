@@ -6,9 +6,10 @@
 \usage{
 ind_workability(D_P_WO)
 }
+\arguments{
+\item{D_P_WO}{(numeric) The value of workability calculated by \code{\link{calc_workability}}}
+}
 \description{
 This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
 inflicting structural damage that cannot be restored by the regular management on the farm.
- 
- @param D_P_WO (numeric) The value of workability calculated by \code{\link{calc_workability}}
 }
