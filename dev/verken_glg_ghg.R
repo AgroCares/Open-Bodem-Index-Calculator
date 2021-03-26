@@ -66,3 +66,7 @@ brp_water <- brp_water[!is.na(glg)]
 brp_water <- rbindlist(list(brp_water, brp_lr_water))
 
 saveRDS(brp_water, '../OBIC functies bodembewerkbaarheid/dev/brp_water2.rds')
+test <- readRDS('../OBIC functies bodembewerkbaarheid/dev/brp_water2.rds')
+brpwatersf <- st_as_sf(brp_water)
+st_write(brpwatersf, '../OBIC functies bodembewerkbaarheid/dev/brp_water.gpkg')
+st_write(strange, '../OBIC functies bodembewerkbaarheid/dev/negative_water.gpkg')

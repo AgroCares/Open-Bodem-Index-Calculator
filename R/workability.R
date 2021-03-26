@@ -6,8 +6,8 @@
 #' @param A_SILT_MI (numeric) The silt content of the soil (in procent)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_BT_AK (character) The type of soil
-#' @param B_GLG () The lowest groundwater level averaged over the most dry periods in 8 years
-#' @param B_GHG () The highest groundwater level averaged over the most wet periods in 8 years
+#' @param B_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
+#' @param B_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
 #' 
 #' @import data.table
 #' 

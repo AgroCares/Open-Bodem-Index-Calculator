@@ -84,3 +84,13 @@ t9 <- calc_workability(
 )
 t9
 calc_workability(28,20,238,'zeeklei',90,35)
+
+# Test negative valuses for ghg and glg
+t10 <- calc_workability(
+  A_CLAY_MI = c(28, 28),
+  A_SILT_MI = c(20, 20),
+  B_LU_BRP = c(265, 265),
+  B_BT_AK = c('zeeklei', 'zeeklei'),
+  B_GLG = c(76, -5),
+  B_GHG = c(-233, -448)
+)
