@@ -16,6 +16,7 @@ obic_indicators<- function(dt.ppr, dt_nema = NA) {
   
   # make local copy
   dt.ppr <- copy(dt.ppr)
+  dt_nema <- copy(dt_nema)
   
   # define variables used within the function
   A_OS_GV = NULL
@@ -98,7 +99,9 @@ obic_indicators<- function(dt.ppr, dt_nema = NA) {
   dt.ppr[, I_B_SB := -999]
   
   # Nematodes
-  dt.ppr[, I_NEMA := fifelse(!is.na(dt_nema),ind_nematodes(dt_nema), -999)]
+  if(is.data.table(dt_nema)){dt.ppr[,I_NEMA := ind_nematodes(dt_nema)]
+  } else{checkmate::check_subset(dt_nema, choices = NA) 
+      dt.ppr[, I_NEMA := -999]}
   
   # Evaluate managment ------------------------------------------------------
   dt.ppr[, I_M := ind_management(D_MAN, B_LU_BRP, B_BT_AK)]
