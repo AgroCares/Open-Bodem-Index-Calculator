@@ -94,3 +94,37 @@ t10 <- calc_workability(
   B_GLG = c(76, -5),
   B_GHG = c(-233, -448)
 )
+
+# Testing build with mock input data
+obiin <- readRDS('../OBIC functies bodembewerkbaarheid/dev/obiin_pdf.rds')
+# need to add glg and ghg
+set.seed(5)
+obiin[,B_GLG := sample.int(100, 910, replace = TRUE)]
+obiin[,B_GHG := sample.int(100, 910, replace = TRUE)]
+for(i in 1:nrow(obiin)){
+  if(obiin[i,B_GHG]>obiin[i, B_GLG]) {
+    x <- obiin[i,B_GHG]
+    obiin[i,B_GHG := B_GLG]
+    obiin[i,B_GLG := x]
+  }
+}
+# Values may still be equal
+obiin[,B_GLG := fifelse(B_GLG-B_GHG < 10, B_GLG+10,B_GLG)]
+
+# Calculate OBIC
+result <- OBIC::obic(obiin, FALSE)
+# Error on OBIC::obic_evalmeasure because I_P_WO is missing in OBIC::recom.obic
+# Adding I_P_WO to recom.obic
+m.obic <- as.data.table(OBIC::recom.obic)
+m.test <- m.obic[indicator == 'I_B_DI']
+m.test <- m.test[,indicator := 'I_P_WO']
+m.test <- m.test[,m_effect := NA]
+m.test <- m.test[,m_applicability := NA]
+recom.obic <- rbindlist(list(m.obic, m.test))
+save(recom.obic, file = 'data/recom_obic.RData')
+
+# Test OBIC again
+result <- OBIC::obic(obiin, FALSE)
+# Still doesn't work, for some reason updated table with values for I_P_WO isn't used
+# Try function without recomendations
+result <- OBIC::obic(obiin, add_relative_score = FALSE, add_recommendations = FALSE)

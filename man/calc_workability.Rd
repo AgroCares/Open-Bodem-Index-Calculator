@@ -15,9 +15,9 @@ calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_GHG)
 
 \item{B_BT_AK}{(character) The type of soil}
 
-\item{B_GLG}{() The lowest groundwater level averaged over the most dry periods in 8 years}
+\item{B_GLG}{(numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level}
 
-\item{B_GHG}{() The highest groundwater level averaged over the most wet periods in 8 years}
+\item{B_GHG}{(numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level}
 }
 \description{
 This function calculates the workability of soils, given as potential length of the growing season. Based on Huinink (2018)
