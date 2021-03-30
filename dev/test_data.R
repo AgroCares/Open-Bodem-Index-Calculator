@@ -128,3 +128,7 @@ result <- OBIC::obic(obiin, FALSE)
 # Still doesn't work, for some reason updated table with values for I_P_WO isn't used
 # Try function without recomendations
 result <- OBIC::obic(obiin, add_relative_score = FALSE, add_recommendations = FALSE)
+
+# STUDY BOFEK 2020 files
+library(sf)
+bof <- st_read('../OBIC functies bodembewerkbaarheid/dev/BOFEK2020_GIS/GIS/shp_files/bod_clusters.shp')
