@@ -31,7 +31,8 @@ ind_nematodes <- function(A_NEMA){
                                        "Pratylenchus fallax"          ,"Pratylenchus pinguicaudatus"  ,"Pratylenchus pseudopratensis" ,"Pratylenchus vulnus"      ,   
                                        "Pratylenchus dunensis"        ,"Pratylenchus zeae"))
   
-  dd <- merge.data.table(nema.obic, A_NEMA, by = 'species')
+  # merge dd and nema.obic and remove non standard non counted nematodes from dd
+  dd <- merge.data.table(nema.obic, A_NEMA, by = 'species', all.x = TRUE)
   dd <- dd[standaard == TRUE|!is.na(count)]
   
   # Check if all standard nematodes are present
