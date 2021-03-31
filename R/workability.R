@@ -18,10 +18,10 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   
   # define variables used within the function
   id =crop_code = soiltype = landuse = crop_name = crop_waterstress = crop_season = NULL
-  soiltype.m = drukhoogte = spring_depth = z = required_depth = NULL
+  soiltype.m = drukhoogte = spring_depth = z = req_depth = NULL
   season_start = season_end = early_season_day_deficit = late_season_day_deficit = NULL
   req_days_pre_glg = req_days_post_glg = gws_sub_workingdepth = NULL
-  required_depth_hydrostatic = required_depth_capilary = total_days = required_depth_spring= NULL
+  req_depth_hydrostatic = req_depth_capilary = total_days = req_depth_spring= NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -126,26 +126,28 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
      spring_depth := 0]
   
   # test 1: desired groundwater depth for work under hydrostatic equilibrium
-  dt[, required_depth_hydrostatic := gws_sub_workingdepth+spring_depth]
+  dt[, req_depth_hydrostatic_spring := gws_sub_workingdepth+spring_depth]
+  dt[, req_depth_hydrostatic_fall := gws_sub_workingdepth]
   
   # test 2: when capillary rise is lower than evaporation (something based on Z-h relations)
-  dt[, required_depth_capilary := 999]
+  dt[, req_depth_capilary := 999]
   
   # Choose lowest required depth as required depth
-  dt[,required_depth_spring := fifelse(required_depth_hydrostatic<required_depth_capilary,required_depth_hydrostatic,required_depth_capilary)]
+  dt[,req_depth_spring := fifelse(req_depth_hydrostatic_spring <= req_depth_capilary, req_depth_hydrostatic_spring,req_depth_capilary)]
+  dt[,req_depth_fall   := fifelse(req_depth_hydrostatic_fall   <= req_depth_capilary, req_depth_hydrostatic_fall,  req_depth_capilary)]
   
 # Determine relative season length
-  dt[required_depth < B_GHG, relative_seasonlength := 1]# If the required depth is more shallow than the highest water level, soil is always workable 
-  dt[required_depth > B_GLG, relative_seasonlength := 0]# If the required depth is deeper than the lowest water level, soil is never workable
+  dt[req_depth < B_GHG, relative_seasonlength := 1]# If the required depth is more shallow than the highest water level, soil is always workable 
+  dt[req_depth > B_GLG, relative_seasonlength := 0]# If the required depth is deeper than the lowest water level, soil is never workable
 
-  # Calculate the day on which the desired water depth is reached
-  dt[,season_start := round(138-sin(-required_depth_spring - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
-  dt[,season_end := round(138+sin(-gws_sub_workingdepth - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
+  # Calculate the day on which the desired water depth is reached for spring and fall
+  dt[,req_spring_depth_day := round(138-sin(-req_depth_spring - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
+  dt[,req_fall_depth_day :=   round(138-sin(-req_depth_fall   - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
     
   # Calculate the number of days deficit compared to ideal situation
-  dt[,early_season_day_deficit := req_days_pre_glg-season_start]
+  dt[,early_season_day_deficit := req_days_pre_glg-(228-req_spring_depth_day)]
   dt[early_season_day_deficit <0,early_season_day_deficit := 0 ] # Deficient number of days cannot be negative
-  dt[,late_season_day_deficit := req_days_post_glg-season_end]
+  dt[,late_season_day_deficit := req_days_post_glg-(228-req_fall_depth_day)]
   dt[late_season_day_deficit <0, late_season_day_deficit := 0] # Deficient number of days cannot be negative
   
   # Calculate relative season length
