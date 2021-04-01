@@ -141,8 +141,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   dt[req_depth > B_GLG, relative_seasonlength := 0]# If the required depth is deeper than the lowest water level, soil is never workable
 
   # Calculate the day on which the desired water depth is reached for spring and fall
-  dt[,req_spring_depth_day := round(138-sin(-req_depth_spring - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
-  dt[,req_fall_depth_day :=   round(138-sin(-req_depth_fall   - 0.5*(-B_GHG - B_GLG)/ 0.5*(-B_GHG+B_GLG))/0.0172142)]
+  dt[,req_spring_depth_day := round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))]
+  dt[,req_fall_depth_day :=   round(138-(asin((-req_depth_fall-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))]
     
   # Calculate the number of days deficit compared to ideal situation
   dt[,early_season_day_deficit := req_days_pre_glg-(228-req_spring_depth_day)]
@@ -152,6 +152,20 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   
   # Calculate relative season length
   dt[,relative_seasonlength := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
+  
+  # # Calculate yield loss by sub-optimal season length
+  # dt[crop_season %in% c('suikerbieten', 'schorseneren', 'was bospeen', 'erwten, bonen', 'tulpen, narcis, hyacint'),yl := 538*relative_seasonlength^2-1144*relative_seasonlength+606]
+  # dt[crop_season %in% c('zomergerst', 'snijmais', 'graszaad'),yl := 232*relative_seasonlength^2-475*relative_seasonlength+244]
+  # dt[crop_season %in% c('wintertarwe'),yl := (232*relative_seasonlength^2-475*relative_seasonlenght+244)*0.85/2]
+  # dt[crop_season %in% c('fabrieksaardappelen', 'pootaardappelen','aardappelen', 'bladgroenten', 'prei, spruiten, koolsoorten', 'witlof, selderij, uien'),yl := 538*relative_seasonlength^2-1144*relative_seasonlength+606]
+  # 
+  # # Add yield loss due to texture
+  # dt[crop_season %in% c('suikerbieten', 'schorseneren', 'was bospeen', 'erwten, bonen',
+  #                       'tulpen, narcis, hyacint','fabrieksaardappelen', 'pootaardappelen',
+  #                       'aardappelen', 'bladgroenten', 'prei, spruiten, koolsoorten', 'witlof, selderij, uien',
+  #                       'klein fruit')]
+  # dt[crop_season %in% c('zomergerst', 'snijmais', 'graszaad', 'wintertarwe')]
+  # dt[crop_season %in% c('overige boomteelt', 'beweid bemaaid gras', 'loofbos', 'laanbomen_onderstammen', 'groot fruit', 'naaldbos')]
   
   # Return relative season length
   setorder(dt, id)

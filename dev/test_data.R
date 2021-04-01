@@ -132,3 +132,81 @@ result <- OBIC::obic(obiin, add_relative_score = FALSE, add_recommendations = FA
 # STUDY BOFEK 2020 files
 library(sf)
 bof <- st_read('../OBIC functies bodembewerkbaarheid/dev/BOFEK2020_GIS/GIS/shp_files/bod_clusters.shp')
+
+# proberen dag van juiste grondwaterstand goed te berekenen
+# Functie van Huinink zou 127 als antwoord moeten geven maar geeft 150:
+138-sin((-76-(25-150)/2)/((-25+150)/2))/0.0172024
+# Ook asin ipv sin (Huinink gebruikt BOOGSIN of ARCSIN in excel denk ik) geeft niet het gewenste resultat
+138-asin((-76-(25-150)/2)/((-25+150)/2))/0.0172024
+# Plotten van de sinosoide geeft ook iets raars
+x <- B_GLG:B_GHG
+B_GHG <- 25
+B_GLG <- 150
+
+png(filename='dev/grondwaterstand_doy.png')
+plot(x, 138-(asin((-x-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024), xlab = "gewenste grondwaterstand onder maaiveld cm", ylab = "doy waarop grondwaterstand wordt bereikt")
+dev.off()
+png(filename = 'dev/plot.png')
+plot(138-(asin((-x-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024), x, xlab = "doy waarop grondwaterstand wordt bereikt", ylab = "gewenste grondwaterstand onder maaiveld cm")
+dev.off()
+
+library(ggpubr)
+B_GHG <- 25
+B_GLG <- 150
+x <- B_GLG:B_GHG
+gg <- ggplot(data = data.frame(x = B_GLG:B_GHG, B_GHG = B_GHG, B_GLG = B_GHG, y = 138-(asin((-x-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024)),
+             mapping = aes(x = x, y =y ))+
+  theme_pubr() + geom_point()+
+  xlab("gewenste grondwaterstand onder maaiveld cm") +
+  ylab("doy waarop grondwaterstand wordt bereikt")
+show(gg)
+ggsave('dev/grondwater_doy.png')
+
+# Plot van lengte van het groeiseizoen
+gg <- ggplot(data = data.frame(x = B_GLG:B_GHG, B_GHG = B_GHG, B_GLG = B_GHG, y = 2*(228-(138-(asin((-x-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024)))),
+             mapping = aes(x = x, y =y ))+
+  theme_pubr() + geom_point()+
+  xlab("gewenste grondwaterstand onder maaiveld cm") +
+  ylab("lengte bewerkbare seizoen")
+show(gg)
+
+y =0:99
+s = 100
+d = 1:100
+plot(1:100,(s-d)/s)
+
+
+# Modify season.obic to add more info
+season.obic <- season.obic
+# Eenjarige tuin en akkerbouw gewassen
+season.obic[landuse %in% c('suikerbieten', 'schorseneren', 'was bospeen', 'erwten, bonen', 'tulpen, narcis, hyacint'), ylcat_season := "gezaaide groenten"]
+season.obic[landuse %in% c('zomergerst', 'snijmais', 'graszaad'), ylcat_season := "zomergranen, mais, graszaad"]
+season.obic[landuse %in% c('wintertarwe'), ylcat_season := "wintergranen"]
+season.obic[landuse %in% c('fabrieksaardappelen', 'pootaardappelen','aardappelen',
+                           'bladgroenten', 'prei, spruiten, koolsoorten', 'witlof, selderij, uien'),
+            ylcat_season := "geplante groenten"]
+
+
+# meerjarige akker en tuinbouwgewassen
+RLG <- seq(0,1, 0.05)
+plot(RLG,538*RLG^2-1144*RLG+606, ylab = 'opbrengstderving bieten etc. (%)')
+plot(RLG,232*RLG^2-475*RLG+244, ylab = 'opbrengstderving zomergranen etc. (%)')
+plot(RLG,(232*RLG^2-475*RLG+244)*0.85/2, ylab = 'opbrengstderving wintergranen etc. (%)')
+plot(RLG,392*RLG^2-785*RLG+393, ylab = 'opbrengstderving aardappel etc. (%)')
+gg <- ggplot() +
+  geom_line(aes(x = RLG, y = y, color = id), data.frame(RLG = seq(0,1, 0.05), y = 538*RLG^2-1144*RLG+606, id = 'suikerbiet en zaaigroenten'))+
+  geom_line(aes(x = RLG, y = y, color = id), data.frame(RLG = seq(0,1, 0.05), y = 232*RLG^2-475*RLG+244, id = 'zomergranen'))+
+  geom_line(aes(x = RLG, y = y, color = id), data.frame(RLG = seq(0,1, 0.05), y = (232*RLG^2-475*RLG+244)*0.85/2, id = 'wintergranen'))+
+  geom_line(aes(x = RLG, y = y, color = id), data.frame(RLG = seq(0,1, 0.05), y = 392*RLG^2-785*RLG+393, id = 'aardappel en plant groenten'))+
+  geom_line(aes(x = RLG, y = y, color = id), data.frame(RLG = seq(0,1, 0.05), y = (538*RLG^2-1144*RLG+606)/2, id = 'boomteelt dahlia asperge'))+
+  theme_pubr() + coord_cartesian(ylim = c(0,100)) + ylab("opbrengstderving %")
+
+show(gg)
+
+# Onvermijdelijke beginschade vanwege textuur categorie
+season.obic[landuse %in% c('suikerbieten', 'schorseneren', 'was bospeen', 'erwten, bonen',
+                           'tulpen, narcis, hyacint','fabrieksaardappelen', 'pootaardappelen',
+                           'aardappelen', 'bladgroenten', 'prei, spruiten, koolsoorten', 'witlof, selderij, uien',
+                           'klein fruit'), ylcat_texture := 'zaai, plant, pootgoed, klein fruit']
+season.obic[landuse %in% c('zomergerst', 'snijmais', 'graszaad', 'wintertarwe'), ylcat_texture := 'granen']
+season.obic[landuse %in% c('overige boomteelt', 'beweid bemaaid gras', 'loofbos', 'laanbomen_onderstammen', 'groot fruit', 'naaldbos'), ylcat_texture := 'gras, bos']
