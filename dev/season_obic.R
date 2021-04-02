@@ -1,7 +1,15 @@
-# Script to make season.obic table
+#' Script to make season.obic table
+#' 
+#' This table is based on Tabel 2 in Huinink (2018) and links to crops.obic$crop_season
+#' Column derving is based on equations a, b, c, d, a1, a2 in Huinink (2018)
+#' 
+#' @references  Huinink (2018) Bodem/perceel geschiktheidsbeoordeling voor Landbouw, Bosbouw en Recreatie. BodemConsult-Arnhem
+#' 
+#' @import data.table
+# 
 # Table is based on Tabel 2 in Huinink (2018) and links to crops.obic$crop_season
 # Not all landuses in the original table appear in brp and some of the brp crops have been assigned to "overig" and could be reclassified later.
-season.obic <- data.frame(landuse = c('naaldbos', 'loofbos', 'groot fruit', 'klein fruit',
+season.obic <- data.table(landuse = c('naaldbos', 'loofbos', 'groot fruit', 'klein fruit',
                                       'aardappelen', 'pootaardappelen', 'fabrieksaardappelen',
                                       'suikerbieten', 'wintertarwe', 'zomergerst', 'snijmais',
                                       'laanbomen_onderstammen', 'overige boomteelt', 'graszaad', 'asperge',
@@ -37,4 +45,26 @@ season.obic <- data.frame(landuse = c('naaldbos', 'loofbos', 'groot fruit', 'kle
                                          320, 175, 225,
                                          225, 210, 145, 255,
                                          1))
+
+# Modify season.obic to add more info on yield loss
+
+# Eenjarige tuin en akkerbouw gewassen
+season.obic[landuse %in% c('suikerbieten', 'schorseneren', 'was bospeen', 'erwten, bonen', 'tulpen, narcis, hyacint'), derving := "zaai groenten"]
+season.obic[landuse %in% c('zomergerst', 'snijmais', 'graszaad'), derving := "zomergranen"]
+season.obic[landuse %in% c('fabrieksaardappelen', 'pootaardappelen','aardappelen',
+                           'bladgroenten', 'prei, spruiten, koolsoorten', 'witlof, selderij, uien'),
+            derving := "plant groenten"]
+# meerjarige akkerbouw en boomteelt gewassen
+season.obic[landuse %in% c('naaldbos', 'loofbos', 'groot fruit', 'klein fruit', 'dahlia',
+                           'asperge', 'overige boomteelt', 'laanbomen_onderstammen'), derving := 'boomteelt']
+season.obic[landuse %in% c('wintertarwe'), derving := "wintergranen"]
+
+# Melkveegrasland
+season.obic[landuse == 'beweid bemaaid gras', derving := 'grasland']
+
+# Overig
+season.obic[landuse %in% c('plantsoenen', 'gazons', 'kampeerterreinen, ligweiden', 'sportvelden', 'overig'), derving := 'overig']
+
+# Save table
+write.csv(season.obic, 'data/season_obic.csv')
 save(season.obic,file = 'data/season.obic.RData')
