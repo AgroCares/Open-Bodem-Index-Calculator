@@ -151,26 +151,36 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   dt[late_season_day_deficit <0, late_season_day_deficit := 0] # Deficient number of days cannot be negative
   
   # Calculate relative season length
-  dt[,relative_seasonlength := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
+  dt[,rsl := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
   
-  # # Calculate yield loss by sub-optimal season length
-  # dt[crop_season %in% c('suikerbieten', 'schorseneren', 'was bospeen', 'erwten, bonen', 'tulpen, narcis, hyacint'),yl := 538*relative_seasonlength^2-1144*relative_seasonlength+606]
-  # dt[crop_season %in% c('zomergerst', 'snijmais', 'graszaad'),yl := 232*relative_seasonlength^2-475*relative_seasonlength+244]
-  # dt[crop_season %in% c('wintertarwe'),yl := (232*relative_seasonlength^2-475*relative_seasonlenght+244)*0.85/2]
-  # dt[crop_season %in% c('fabrieksaardappelen', 'pootaardappelen','aardappelen', 'bladgroenten', 'prei, spruiten, koolsoorten', 'witlof, selderij, uien'),yl := 538*relative_seasonlength^2-1144*relative_seasonlength+606]
-  # 
-  # # Add yield loss due to texture
-  # dt[crop_season %in% c('suikerbieten', 'schorseneren', 'was bospeen', 'erwten, bonen',
-  #                       'tulpen, narcis, hyacint','fabrieksaardappelen', 'pootaardappelen',
-  #                       'aardappelen', 'bladgroenten', 'prei, spruiten, koolsoorten', 'witlof, selderij, uien',
-  #                       'klein fruit')]
-  # dt[crop_season %in% c('zomergerst', 'snijmais', 'graszaad', 'wintertarwe')]
-  # dt[crop_season %in% c('overige boomteelt', 'beweid bemaaid gras', 'loofbos', 'laanbomen_onderstammen', 'groot fruit', 'naaldbos')]
+  # # Calculate yield % loss by sub-optimal season length
+  dt[derving == 'zaai groenten', yl := 538*rsl^2-1144*rsl+606]
+  dt[derving == 'zomergranen'   , yl := 232*rsl^2- 475*rsl+244]
+  dt[derving == 'plant groenten', yl := 392*rsl^2- 785*rsl+393]
+  dt[derving == 'wintergranen'  , yl :=(232*rsl^2- 475*rsl+244)*0.85/2]
+  dt[derving == 'boomteelt'     , yl :=(538*rsl^2-1144*rsl+606)/2]
+  dt[derving == 'overig'        , yl := rsl*100]
   
-  # Return relative season length
+  # functions to determine yield loss in grass
+  ylveen <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
+                      y = c(23, 25, 28, 36, 38, 41, 54, 59, 100), method = 'linear',
+                      yleft = NA_integer_, yright = NA_integer_)
+  ylsoil <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
+                      y = c(23, 25, 29, 41, 43, 51, 68, 72, 100), method = 'linear',
+                      yleft = NA_integer_, yright = NA_integer_)
+  
+  dt[derving == 'grasland' & soiltype.m == 'veen', yl := ylveen(rsl)]
+  dt[derving == 'grasland' & !soiltype.m == 'veen', yl := ylsoil(rsl)]
+  
+  # Calculate yield fraction
+  dt[,yield := 1-0.01*yl] 
+  # Set yield to 0 if negative
+  dt[yield < 0, yield := 0]
+  
+  # Return yield
   setorder(dt, id)
-  relative_seasonlength <- dt[,relative_seasonlength]
-  return(relative_seasonlength)
+  value <- dt[,yield]
+  return(value)
 }
 #' Calculate indicator for workability
 #'

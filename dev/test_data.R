@@ -162,7 +162,7 @@ gg <- ggplot(data = data.frame(x = B_GLG:B_GHG, B_GHG = B_GHG, B_GLG = B_GHG, y 
 show(gg)
 ggsave('dev/grondwater_doy.png')
 
-# Plot van lengte van het groeiseizoen
+# Plot van lengte van het groeiseizoen============
 gg <- ggplot(data = data.frame(x = B_GLG:B_GHG, B_GHG = B_GHG, B_GLG = B_GHG, y = 2*(228-(138-(asin((-x-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024)))),
              mapping = aes(x = x, y =y ))+
   theme_pubr() + geom_point()+
@@ -174,18 +174,6 @@ y =0:99
 s = 100
 d = 1:100
 plot(1:100,(s-d)/s)
-
-
-# Modify season.obic to add more info
-season.obic <- season.obic
-# Eenjarige tuin en akkerbouw gewassen
-season.obic[landuse %in% c('suikerbieten', 'schorseneren', 'was bospeen', 'erwten, bonen', 'tulpen, narcis, hyacint'), ylcat_season := "gezaaide groenten"]
-season.obic[landuse %in% c('zomergerst', 'snijmais', 'graszaad'), ylcat_season := "zomergranen, mais, graszaad"]
-season.obic[landuse %in% c('wintertarwe'), ylcat_season := "wintergranen"]
-season.obic[landuse %in% c('fabrieksaardappelen', 'pootaardappelen','aardappelen',
-                           'bladgroenten', 'prei, spruiten, koolsoorten', 'witlof, selderij, uien'),
-            ylcat_season := "geplante groenten"]
-
 
 # meerjarige akker en tuinbouwgewassen
 RLG <- seq(0,1, 0.05)
@@ -203,10 +191,15 @@ gg <- ggplot() +
 
 show(gg)
 
-# Onvermijdelijke beginschade vanwege textuur categorie
+# Onvermijdelijke beginschade vanwege textuur categorie==========
 season.obic[landuse %in% c('suikerbieten', 'schorseneren', 'was bospeen', 'erwten, bonen',
                            'tulpen, narcis, hyacint','fabrieksaardappelen', 'pootaardappelen',
                            'aardappelen', 'bladgroenten', 'prei, spruiten, koolsoorten', 'witlof, selderij, uien',
                            'klein fruit'), ylcat_texture := 'zaai, plant, pootgoed, klein fruit']
 season.obic[landuse %in% c('zomergerst', 'snijmais', 'graszaad', 'wintertarwe'), ylcat_texture := 'granen']
 season.obic[landuse %in% c('overige boomteelt', 'beweid bemaaid gras', 'loofbos', 'laanbomen_onderstammen', 'groot fruit', 'naaldbos'), ylcat_texture := 'gras, bos']
+
+# aproxfun voor yieldloss grasland ======
+apf <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
+                 y = c(23, 25, 28, 36, 38, 41, 54, 59, 100), method = 'linear',
+                 yleft = NA_integer_, yright = NA_integer_)
