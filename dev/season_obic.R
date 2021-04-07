@@ -42,9 +42,9 @@ season.obic <- data.table(landuse = c('naaldbos', 'loofbos', 'groot fruit', 'kle
                                          245, 225, 185, 245,
                                          245, 225, 130,
                                          140, 125, 320,
-                                         320, 175, 225,
-                                         225, 210, 145, 255,
-                                         1))
+                                         320, 175, 255,
+                                         255, 210, 145, 255,
+                                         2))
 
 # Modify season.obic to add more info on yield loss
 
