@@ -84,5 +84,48 @@ brp2dt <- brp2dt[ghg<0, ghg := ghg_mean]
 
 # Save file
 brp_glg_ghg <- st_as_sf(brp2dt)
-saveRDS(brp_glg_ghg, '../OBIC functies bodembewerkbaarheid/dev/brp_glg_ghg.rds')
-st_write(brp_glg_ghg, '../OBIC functies bodembewerkbaarheid/dev/brp_glg_ghg.gpkg')
+saveRDS(brp_glg_ghg, '../OBIC functies bodembewerkbaarheid/dev/glg ghg/brp_glg_ghg.rds')
+st_write(brp_glg_ghg, '../OBIC functies bodembewerkbaarheid/dev/glg ghg/brp_glg_ghg.gpkg')
+
+#### Check wether glg and ghg fit the grondwater trap classification #######
+sf <- st_read('../OBIC functies bodembewerkbaarheid/dev/glg ghg/brp_glg_ghg.gpkg')
+dt <- as.data.table(sf)
+dt <- dt[,.(ref_id, GWS_GEWASCODE,GWT, glg, ghg, glg_mean, ghg_mean)]
+
+# convert glg and ghg from m to cm
+dt[, glg := glg*100]
+dt[, ghg := ghg*100]
+
+# Check if glg and ghg fall in groundwater trap (according to wikipedia)
+dt[GWT == 'I', ghgcheck := fifelse(ghg<20, TRUE, FALSE)]
+dt[GWT == 'I', glgcheck := fifelse(glg<50, TRUE, FALSE)]
+
+dt[GWT == 'II', ghgcheck := fifelse(ghg<40, TRUE, FALSE)]
+dt[GWT == 'II', glgcheck := fifelse(glg>50 & glg <=80, TRUE, FALSE)]
+
+dt[GWT == 'IIb', ghgcheck := fifelse(ghg<40 & ghg>25, TRUE, FALSE)]
+dt[GWT == 'IIb', glgcheck := fifelse(glg>50 & glg <=80, TRUE, FALSE)]
+
+dt[GWT == 'III', ghgcheck := fifelse(ghg<40, TRUE, FALSE)]
+dt[GWT == 'III', glgcheck := fifelse(glg>80 & glg <=120, TRUE, FALSE)]
+
+dt[GWT == 'IIIb', ghgcheck := fifelse(ghg<40 & ghg >25, TRUE, FALSE)]
+dt[GWT == 'IIIb', glgcheck := fifelse(glg>80 & glg <=120, TRUE, FALSE)]
+
+dt[GWT == 'IV', ghgcheck := fifelse(ghg>40, TRUE, FALSE)]
+dt[GWT == 'IV', glgcheck := fifelse(glg>80 & glg <=120, TRUE, FALSE)]
+
+dt[GWT == 'V', ghgcheck := fifelse(ghg<40, TRUE, FALSE)]
+dt[GWT == 'V', glgcheck := fifelse(glg > 120, TRUE, FALSE)]
+
+dt[GWT == 'VI', ghgcheck := fifelse(ghg > 40 & ghg < 80, TRUE, FALSE)]
+dt[GWT == 'VI', glgcheck := fifelse(glg > 120, TRUE, FALSE)]
+
+dt[GWT == 'VII', ghgcheck := fifelse(ghg > 80, TRUE, FALSE)]
+
+dt[GWT == 'VIII', ghgcheck := fifelse(ghg > 140, TRUE, FALSE)]
+
+dtgwt <- dt[!is.na(ghgcheck)]
+dtgwt_false <- dtgwt[ghgcheck == FALSE| glgcheck == FALSE]
+
+# conclusion: 424 thousand out of 614 thousand parcels do not have matching gwt with glg or ghg

@@ -132,6 +132,10 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   dt[, req_depth_hydrostatic_fall := gws_sub_workingdepth]
   
   # test 2: when capillary rise is lower than evaporation (something based on Z-h relations)
+  # If some Z value is entered in OBIC for the whole soil profile, probably a Z value for 2mm/day is rigth
+  # dt[,req_depth_capilary := Z]
+  # Else Z has to be calculated using the Darcy-equation: Z= sum(- h/(h+q)*dh)
+  # where h is the mean pressure height over the height interval, critical rising height (the amount of water in mm/d, so for Z2mm; q=0.2). dh is height interval (length of the horizont)
   dt[, req_depth_capilary := 999]
   
   # Choose lowest required depth as required depth
