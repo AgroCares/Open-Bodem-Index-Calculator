@@ -203,3 +203,129 @@ season.obic[landuse %in% c('overige boomteelt', 'beweid bemaaid gras', 'loofbos'
 apf <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
                  y = c(23, 25, 28, 36, 38, 41, 54, 59, 100), method = 'linear',
                  yleft = NA_integer_, yright = NA_integer_)
+
+
+# Make some testable data based on realistic parcels==============
+library(data.table)
+library(OBIC)
+library(sf)
+library(dplyr)
+library(httr)
+
+# Load data
+parcels <- st_read('../OBIC functies bodembewerkbaarheid/dev/glg ghg/brp_glg_ghg.gpkg')
+parcels.dt <-as.data.table(parcels)
+# Select some parcels
+sf <- st_as_sf(parcels[201:250,])
+
+m2 <- st_transform(sf, 4326)
+setDT(m2)
+m2 <- m2[,.(ref_id, geom)] 
+m2 <- st_as_sf(m2)
+m2 <- st_centroid(m2)
+
+m3 <- data.table(m2$ref_id, st_coordinates(m2))
+setnames(m3,c('filename','lon','lat'))
+fieldprop = list()
+
+  for(i in 1:nrow(m2)){
+    
+    # extract field properties for each parcel
+    request <- GET(url    = 'https://api.nmi-agro.nl/nl/field_estimates',
+                   query  = list(lat=m3$lat[i], lon=m3$lon[i]),
+                   add_headers(Authorization = paste("Bearer", Sys.getenv('NMI_API_KEY'), sep = " ")))
+    
+    # get output
+    out1 <- content(request)
+    
+    # cultivation list
+    cl =  which(grepl('cultiv',names(out1$data)))
+    
+    # convert to data.table
+    out2 <- as.data.table(out1$data[-cl])
+    
+    # add crop codes 2016-2019
+    out3 <- as.data.table(out1$data[cl]$cultivation_history)[2,]
+    
+    # combine crop codes
+    out3 <- cbind(out2,b_lu_brp = unlist(out3),year = 2015:2019,field = m3$filename[i])
+    
+    # save in list
+    fieldprop[[i]] <- copy(out3)
+    
+    print(i)
+    saveRDS(fieldprop, '../OBIC functies bodembewerkbaarheid/dev/fieldprop.rds')
+  }
+
+m4 <- rbindlist(fieldprop)
+sf.dt <- as.data.table(sf)
+m4 <- merge.data.table(m4, sf.dt[,.(ref_id, glg, ghg)], by.x = 'field', by.y = 'ref_id')
+setnames(m4, names(m4), toupper(names(m4)))
+setnames(m4, c('REF_ID', 'GLG', 'GHG'), c('ID', 'B_GLG', 'B_GHG'))
+# GLG en GHG omzetten van m naar cm
+m4[,B_GLG := B_GLG*100]
+m4[,B_GHG := B_GHG*100]
+
+saveRDS(m4, '../OBIC functies bodembewerkbaarheid/dev/testdata.rds')
+testdt <- m4[YEAR == 2019]
+test <- calc_workability(A_CLAY_MI = testdt$A_CLAY_MI, A_SILT_MI = testdt$A_SILT_MI, B_LU_BRP = testdt$B_LU_BRP,
+                         B_BT_AK = testdt$B_BT_AK, B_GLG = testdt$B_GLG, B_GHG = testdt$B_GHG)
+# NaN's worden geproduceerd wanneer (-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024) kleiner is dan -1 of groter dan 1
+# in regels 144 en 145: dt[,req_spring_depth_day := round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))]
+# Zoek uit waarom dit zo kan zijn
+testdt$I_WO <- test
+
+#plot waardes
+round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024)) # Formule waar het mis gaat
+mokghg <- seq(1,201, 4)
+req_depth_spring <- 60
+plot(mokghg, (-req_depth_spring-0.5*(-mokghg-testdt$B_GLG))/(0.5*(-mokghg+testdt$B_GLG))/0.0172024)
+plot(mokghg, (-req_depth_spring-0.5*(-mokghg-150))/(0.5*(-mokghg+150))/0.0172024)              
+
+plot(145, (-req_depth_spring-0.5*(-145-150))/(0.5*(-145+150))/0.0172024) 
+x <- seq(130,170,2)
+x <- seq(1, 100,1)
+plot(x, (-req_depth_spring-0.5*(-x-150))/(0.5*(-x+150))/0.0172024) 
+
+# constante glg, toenemende ghg
+req_depth_day <- c()
+for(B_GHG in 1:149) {
+  B_GLG <- 150
+  req_depth_spring <- 60
+  req_depth_day[B_GHG] <- round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))
+}
+plot(1:149,req_depth_day)
+# toenemende glg en ghg
+req_depth_day <- c()
+for(B_GHG in 1:149) {
+  B_GLG <- 150 +B_GHG
+  req_depth_spring <- 60
+  req_depth_day[B_GHG] <- round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))
+}
+plot(1:149,req_depth_day)
+
+# De grondwaterstand op de y-as op dagnr x kan worden berekend uit 0.5*amplitude * SIN(x*0.0172024) of
+# GWSdagx = -(-B_GHG-B_GLG)/2+(-B_GHG+B_GLG)/2*sin(0.0172142*(dagx +46))
+GWSdagx <- -(-B_GHG-B_GLG)/2+(-B_GHG+B_GLG)/2*sin(0.0172142*(dagx +46))
+gws_jaar <- c()
+for(dagx in 1:365){
+  gws_jaar[dagx] <- -(-B_GHG-B_GLG)/2+(-B_GHG+B_GLG)/2*sin(0.0172142*(dagx +46))
+}
+plot(1:365,gws_jaar)
+# De dag x te waarop tussen 15 februari en 15 augustus een gegeven grondwaterstand y gemiddeld voor komt volgt uit:
+# Dag x = - arcsin [ -(gwsy – gemiddelde gws) / amplitude van de golf] /0,0172142 + 138
+B_GHG <- 20
+B_GLG <- 120
+req_depth_spring <- 20:121
+# dagx <- - asin(-(req_depth_spring-(B_GHG+B_GLG)/2/(-B_GHG+B_GLG)/2))/0.0172142+138
+dagx <- 138-(asin((-req_depth_spring-(-B_GHG-B_GLG)/2)/((-B_GHG+B_GLG)/2))/0.0172142) # the proper formula
+plot(min(req_depth_spring):max(req_depth_spring),dagx)
+# perhaps req_depth_spring is sometimes outside bounds of B_GLG and B_GHG
+debug(calc_workability)
+test <- calc_workability(A_CLAY_MI = testdt$A_CLAY_MI, A_SILT_MI = testdt$A_SILT_MI, B_LU_BRP = testdt$B_LU_BRP,
+                         B_BT_AK = testdt$B_BT_AK, B_GLG = testdt$B_GLG, B_GHG = testdt$B_GHG)
+
+# yield loss voor overig heeft een formule nodig:
+rsltest <- seq(0,1,0.01)
+100*rsltest^2-200*rsltest+100
+plot(rsltest, 100*rsltest^2-200*rsltest+100)

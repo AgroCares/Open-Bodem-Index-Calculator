@@ -162,11 +162,11 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   
   # # Calculate yield % loss by sub-optimal season length
   dt[derving == 'zaai groenten', yl := 538*rsl^2-1144*rsl+606]
-  dt[derving == 'zomergranen'   , yl := 232*rsl^2- 475*rsl+244]
+  dt[derving == 'zomergranen'   , yl := 232*rsl^2- 475*rsl+243]
   dt[derving == 'plant groenten', yl := 392*rsl^2- 785*rsl+393]
-  dt[derving == 'wintergranen'  , yl :=(232*rsl^2- 475*rsl+244)*0.85/2]
+  dt[derving == 'wintergranen'  , yl :=(232*rsl^2- 475*rsl+243)*0.85/2]
   dt[derving == 'boomteelt'     , yl :=(538*rsl^2-1144*rsl+606)/2]
-  dt[derving == 'overig'        , yl := rsl*100]
+  dt[derving == 'overig'        , yl := 100*rsl^2- 100*rsl+100]
   
   # functions to determine yield loss in grass
   ylveen <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
