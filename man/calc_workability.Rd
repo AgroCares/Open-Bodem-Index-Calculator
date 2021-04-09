@@ -4,7 +4,15 @@
 \alias{calc_workability}
 \title{Calculate indicator for workability}
 \usage{
-calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_GHG)
+calc_workability(
+  A_CLAY_MI,
+  A_SILT_MI,
+  B_LU_BRP,
+  B_BT_AK,
+  B_GLG,
+  B_GHG,
+  B_Z_TWO
+)
 }
 \arguments{
 \item{A_CLAY_MI}{(numeric) The clay content of the soil (in procent)}
@@ -18,6 +26,8 @@ calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_GHG)
 \item{B_GLG}{(numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level}
 
 \item{B_GHG}{(numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level}
+
+\item{B_Z_TWO}{(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)}
 }
 \description{
 This function calculates the workability of soils, given as potential length of the growing season. Based on Huinink (2018)

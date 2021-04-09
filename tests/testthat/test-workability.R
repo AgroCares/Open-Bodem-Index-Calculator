@@ -6,7 +6,8 @@ test_that("calc_workability works", {
       B_LU_BRP = c(233, 234, 236, 256, 259, 265, 265, 317, 2014),
       B_BT_AK = c('zeeklei','zeeklei', 'dekzand','zeeklei', 'dekzand', 'dekzand', 'veen', 'dekzand', 'zeeklei'),
       B_GLG = c(173,139, 106, 144, 115, 113, 42, 106, 173),
-      B_GHG = c(21, 18, 62, 70, 49, 81, 9, 62, 21)
+      B_GHG = c(21, 18, 62, 70, 49, 81, 9, 62, 21),
+      B_Z_TWO = c(400, 400, 400, 400, 400, 400, 400, 400, 400)
     ),
     expected = c(0.79,0.24,0.46,0.75,0.91, 0.77, 0.00,0.81,0.54),
     tolerance = .01
