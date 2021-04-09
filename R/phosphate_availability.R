@@ -2,34 +2,34 @@
 #' 
 #' This function calculates the phosphate availability. This value can be evaluated by \code{\link{ind_phosphate_availability}}
 #' 
-#' @param A_P_PAL (numeric) The P-AL content of the soil
-#' @param A_P_PAE (numeric) The P-CaCl2 content of the soil
+#' @param A_P_AL (numeric) The P-AL content of the soil
+#' @param A_P_CC (numeric) The P-CaCl2 content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water
-#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param B_LU_BRP (numeric) The crop code from the BRP
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, A_P_WA, B_LU_BRP) {
+calc_phosphate_availability <- function(A_P_AL, A_P_CC, A_P_WA, B_LU_BRP) {
   
-  # Load in the crops dataset
+  # Load in the crops data set
   crop_code = crop_phosphate = id = NULL
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
   
   # Check input
   arg.length <- max(length(A_P_PAL), length(A_P_PAE), length(B_LU_BRP))
-  checkmate::assert_numeric(A_P_PAL, lower = 8, upper = 200, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_P_PAE, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_P_WA, lower = 0, upper = 200, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_P_AL, lower = 8, upper = 200, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_P_CC, lower = 0.1, upper = 50, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_P_WA, lower = 0.1, upper = 200, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
   # Collect the data into a table
   dt <- data.table(
     id = 1:arg.length,
-    A_P_PAL = A_P_PAL,
-    A_P_PAE = A_P_PAE,
+    A_P_AL = A_P_AL,
+    A_P_CC = A_P_CC,
     A_P_WA = A_P_WA,
     B_LU_BRP = B_LU_BRP,
     value = NA_real_
@@ -38,15 +38,14 @@ calc_phosphate_availability <- function(A_P_PAL, A_P_PAE, A_P_WA, B_LU_BRP) {
   dt <- crops.obic[dt]
   setorder(dt, id)
   
-  # Calculate the phosphate availability for grass (PBI, unit?)
-  dt[crop_phosphate == "gras", value := log(A_P_PAE) * (-0.0114 * A_P_PAL + 2.5) + 0.0251 * A_P_PAE + 2]
-  # force negative values to be 0 (Negative values occur when PAL is large relative to PPAE)
-  dt[crop_phosphate == "gras" & value  < 0, value := 0] 
-  # when A_P_PAE is 0, force the value to be 0 (because log(A_P_PAE) gives-Inf)
-  dt[crop_phosphate == "gras" & A_P_PAE == 0, value := 0] 
+  # Calculate the phosphate availability for grass (PBI)
+  dt[crop_phosphate == "gras", value := log(A_P_CC) * (-0.0114 * A_P_AL + 2.5) + 0.0251 * A_P_CC + 2]
   
-  # Calculate the phosphate availability for maize (PBI, unit?)
-  dt[crop_phosphate == "mais", value := A_P_PAE + 0.05 * (A_P_PAL / A_P_PAE)]
+  # force negative values to be 0 (negative values occur when PAL is large relative to PPAE)
+  dt[crop_phosphate == "gras" & value  < 0, value := 0] 
+  
+  # Calculate the phosphate availability for maize (PBI)
+  dt[crop_phosphate == "mais", value := A_P_PAE + 0.05 * (A_P_AL / A_P_CC)]
   
   # calculate the P-availability for arable systems, normalized to a scale with maximum around 6
   dt[crop_phosphate == "arable", value := A_P_WA * 0.1]
