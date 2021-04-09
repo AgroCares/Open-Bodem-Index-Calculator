@@ -2,25 +2,25 @@
 #' 
 #' This function formats ground water table information so it can be understood by other OBIC functions
 #' 
-#' @param B_GT (character) Ground water table classes
+#' @param B_GWL_CLASS (character) Ground water table classes
 #' 
 #' @import data.table
 #' 
 #' @export
-
-format_gwt <- function(B_GT) {
-  dt <- data.table(B_GT = B_GT)
+format_gwt <- function(B_GWL_CLASS) {
+  
+  # options for B_GWL_CLASS
+  bgwlclass <- c('I','II','IIb','III','IIIb','IV','V','Vb','VI','VI','VII','VIII',
+                 'GtI','GtII','GtIIb','GtIII','GtIIIb','GtIV','GtV','GtVb','GtVI',
+                 'GtVI','GtVII','GtVIII','-')
   
   # Check if B_GT values are appropriate
-  checkmate::assert_subset(B_GT, empty.ok = FALSE, choices = 
-                             c(gsub("Gt", "",unique(OBIC::nleach_table$B_GT)),"-", unique(OBIC::nleach_table$B_GT)))
+  checkmate::assert_subset(B_GT, empty.ok = FALSE, choices = bgwlclass)
   
-  # if value starts with I or V, prefix Gt to it. This way messy gwt data both with and without Gt prefix can be used as input.
-  dt[, B_GT := gsub("^I", "GtI", B_GT)]
-  dt[, B_GT := gsub("^V", "GtV", B_GT)]
-  
+  # if value starts with I or V, add prefix Gt to it.
+  B_GWL_CLASS <- gsub("^I", "GtI", B_GWL_CLASS)
+  B_GWL_CLASS <- gsub("^V", "GtI", B_GWL_CLASS)
+ 
   # Return B_GT
-  B_GT <- dt[,B_GT]
-  
-  return(B_GT)
+  return(B_GWL_CLASS)
 }
