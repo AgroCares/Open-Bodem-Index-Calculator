@@ -16,7 +16,7 @@ test_that("calc_phosphate_availability works", {
       A_P_WA = c(24,20),
       B_LU_BRP = c(2014, 265)
     ),
-    expected = c(2.4, 4.986531),
+    expected = c(2.4, 4.5713),
     tolerance = 0.001
   )
 })
