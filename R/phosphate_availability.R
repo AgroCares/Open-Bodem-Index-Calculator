@@ -10,19 +10,31 @@
 #' @import data.table
 #' 
 #' @export
-calc_phosphate_availability <- function(A_P_AL, A_P_CC, A_P_WA, B_LU_BRP) {
+calc_phosphate_availability <- function(A_P_AL = NULL, A_P_CC = NULL, A_P_WA = NULL, B_LU_BRP) {
   
   # Load in the crops data set
   crop_code = crop_phosphate = id = NULL
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
   
-  # Check input
-  arg.length <- max(length(A_P_PAL), length(A_P_PAE), length(B_LU_BRP))
-  checkmate::assert_numeric(A_P_AL, lower = 8, upper = 200, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_P_CC, lower = 0.1, upper = 50, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_P_WA, lower = 0.1, upper = 200, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  # Check length of desired input
+  arg.length <- max(length(B_LU_BRP))
+
+  # check P input parameters for grassland 
+  arg.length.grass <- max(length(A_P_AL),length(A_P_CC))
+  if(arg.length.grass > 0){
+    checkmate::assert_numeric(A_P_AL, lower = 1, upper = 200, any.missing = FALSE, len = arg.length.grass)
+    checkmate::assert_numeric(A_P_CC, lower = 0.1, upper = 50, any.missing = FALSE, len = arg.length.grass)
+  }
+  
+  # check P input parameters for arable soils
+  arg.length.arable <- length(A_P_WA)
+  if(arg.length.arable > 0){
+    checkmate::assert_numeric(A_P_WA, lower = 0.1, upper = 200, any.missing = FALSE, len = arg.length.arable)  
+  }
+  
+  # check crop input
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length.grass+arg.length.arable)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
   # Collect the data into a table
