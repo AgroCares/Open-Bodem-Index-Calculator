@@ -25,7 +25,7 @@ ind_nematodes <- function(A_NEMA){
                                        "Paratylenchus bukowinensis"   ,"Meloidogyne spp."             ,"Meloidogyne chitwoodi/fallax" ,"Meloidogyne chitwoodi"    ,   
                                        "Meloidogyne fallax"           ,"Meloidogyne minor"            ,"Meloidogyne incognita"        ,"Meloidogyne javanica"     ,   
                                        "Meloidogyne artiellia"        ,"Meloidogyne arenaria"         ,"Meloidogyne ardenensis"       ,"Meloidogyne naasi"        ,   
-                                       "Meloidogyne hapla"            ,"Cysteaaltjes "                ,"Hemicycliophora spp."         ,"Pratylenchus spp."        ,   
+                                       "Meloidogyne hapla"            ,"Cysteaaltjes"                 ,"Hemicycliophora spp."         ,"Pratylenchus spp."        ,   
                                        "Pratylenchus penetrans"       ,"Pratylenchus crenatus"        ,"Tylenchorhynchus spp."        ,"Helicotylenchus spp."     ,   
                                        "Pratylenchus neglectus"       ,"Pratylenchus pratensis"       ,"Pratylenchus thornei"         ,"Pratylenchus flakkensis"  ,   
                                        "Pratylenchus fallax"          ,"Pratylenchus pinguicaudatus"  ,"Pratylenchus pseudopratensis" ,"Pratylenchus vulnus"      ,   

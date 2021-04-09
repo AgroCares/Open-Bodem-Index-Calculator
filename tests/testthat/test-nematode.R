@@ -12,7 +12,7 @@ test_that("ind_nematodes works", {
                                 "Paratylenchus bukowinensis"   ,"Meloidogyne spp."             ,"Meloidogyne chitwoodi/fallax" ,"Meloidogyne chitwoodi"    ,   
                                 "Meloidogyne fallax"           ,"Meloidogyne minor"            ,"Meloidogyne incognita"        ,"Meloidogyne javanica"     ,   
                                 "Meloidogyne artiellia"        ,"Meloidogyne arenaria"         ,"Meloidogyne ardenensis"       ,"Meloidogyne naasi"        ,   
-                                "Meloidogyne hapla"            ,"Cysteaaltjes "                ,"Hemicycliophora spp."         ,"Pratylenchus spp."        ,   
+                                "Meloidogyne hapla"            ,"Cysteaaltjes"                 ,"Hemicycliophora spp."         ,"Pratylenchus spp."        ,   
                                 "Pratylenchus penetrans"       ,"Pratylenchus crenatus"        ,"Tylenchorhynchus spp."        ,"Helicotylenchus spp."     ,   
                                 "Pratylenchus neglectus"       ,"Pratylenchus pratensis"       ,"Pratylenchus thornei"         ,"Pratylenchus flakkensis"  ,   
                                 "Pratylenchus fallax"          ,"Pratylenchus pinguicaudatus"  ,"Pratylenchus pseudopratensis" ,"Pratylenchus vulnus"      ,   
@@ -33,12 +33,12 @@ test_that("ind_nematodes works", {
                              "Paratylenchus bukowinensis"   ,"Meloidogyne spp."             ,"Meloidogyne chitwoodi/fallax" ,"Meloidogyne chitwoodi"    ,   
                              "Meloidogyne fallax"           ,"Meloidogyne minor"            ,"Meloidogyne incognita"        ,"Meloidogyne javanica"     ,   
                              "Meloidogyne artiellia"        ,"Meloidogyne arenaria"         ,"Meloidogyne ardenensis"       ,"Meloidogyne naasi"        ,   
-                             "Meloidogyne hapla"            ,"Cysteaaltjes "                ,"Hemicycliophora spp."         ,"Pratylenchus spp."        ,   
+                             "Meloidogyne hapla"            ,"Cysteaaltjes"                 ,"Hemicycliophora spp."         ,"Pratylenchus spp."        ,   
                              "Pratylenchus penetrans"       ,"Pratylenchus crenatus"        ,"Tylenchorhynchus spp."        ,"Helicotylenchus spp."     ,   
                              "Pratylenchus neglectus"       ,"Pratylenchus pratensis"       ,"Pratylenchus thornei"         ,"Pratylenchus flakkensis"  ,   
                              "Pratylenchus fallax"          ,"Pratylenchus pinguicaudatus"  ,"Pratylenchus pseudopratensis" ,"Pratylenchus vulnus"      ,   
                              "Pratylenchus dunensis"        ,"Pratylenchus zeae"),
-                 count = rep(1000,54))
+                 count = rep(10000,54))
     ),
     expected = 0.0011
   )
