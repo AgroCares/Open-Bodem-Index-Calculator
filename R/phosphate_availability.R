@@ -18,7 +18,7 @@ calc_phosphate_availability <- function(A_P_AL = NULL, A_P_CC = NULL, A_P_WA = N
   setkey(crops.obic, crop_code)
   
   # Check length of desired input
-  arg.length <- max(length(B_LU_BRP))
+  arg.length <- max(length(B_LU_BRP),length(A_P_AL),length(A_P_CC),length(A_P_WA))
 
   # check P input parameters for grassland 
   arg.length.grass <- max(length(A_P_AL),length(A_P_CC))
@@ -34,7 +34,7 @@ calc_phosphate_availability <- function(A_P_AL = NULL, A_P_CC = NULL, A_P_WA = N
   }
   
   # check crop input
-  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length.grass+arg.length.arable)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
   # Collect the data into a table
@@ -53,11 +53,11 @@ calc_phosphate_availability <- function(A_P_AL = NULL, A_P_CC = NULL, A_P_WA = N
   # Calculate the phosphate availability for grass (PBI)
   dt[crop_phosphate == "gras", value := log(A_P_CC) * (-0.0114 * A_P_AL + 2.5) + 0.0251 * A_P_CC + 2]
   
-  # force negative values to be 0 (negative values occur when PAL is large relative to PPAE)
+  # force negative values to be 0 (negative values occur when PAL is large relative to P-CaCl2)
   dt[crop_phosphate == "gras" & value  < 0, value := 0] 
   
   # Calculate the phosphate availability for maize (PBI)
-  dt[crop_phosphate == "mais", value := A_P_PAE + 0.05 * (A_P_AL / A_P_CC)]
+  dt[crop_phosphate == "mais", value := A_P_CC + 0.05 * (A_P_AL / A_P_CC)]
   
   # calculate the P-availability for arable systems, normalized to a scale with maximum around 6
   dt[crop_phosphate == "arable", value := A_P_WA * 0.1]
