@@ -4,16 +4,16 @@
 \alias{ind_sulpher}
 \title{Calculate the indicator for SLV}
 \usage{
-ind_sulpher(D_SLV, B_LU_BRP, B_BT_AK, B_LG_CBS)
+ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)
 }
 \arguments{
 \item{D_SLV}{(numeric) The value of SLV  calculated by \code{\link{calc_slv}}}
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The type of soil}
 
-\item{B_LG_CBS}{(character) The agricultural economic region in the Netherlands (CBS, 2016)}
+\item{B_AER_CBS}{(character) The agricultural economic region in the Netherlands (CBS, 2016)}
 }
 \description{
 This function calculates the indicator for the the S-index by using the SLV calculated by \code{\link{calc_slv}}

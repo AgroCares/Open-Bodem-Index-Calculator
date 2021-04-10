@@ -3,7 +3,7 @@ test_that("calc_waterstressindex works", {
     calc_waterstressindex(
       B_HELP_WENR= c('gMn25C','bMn15A','gMn25C','bMn15A','gMn25C','bMn15A'),
       B_LU_BRP = c(3732,265,258,382,343,2709),
-      B_GT = c('GtIV','GtV','GtIII','GtII','GtVI','GtIV')
+      B_GWL_CLASS = c('GtIV','GtV','GtIII','GtII','GtVI','GtIV')
     ),
     expected = c(5,9,0,0,0,5),
     tolerance = .1

@@ -1,5 +1,28 @@
 # Changelog OBIC
 
+## Version 1.0.0 2021-04-10
+
+### Changed
+* calculation PBI updated for grassland
+* PBI input is flexible for both grassland and arable
+* calculation SLV updated
+* update element_names for A_P_CC, A_P_AL in phosphate_availability.R
+* update element_names for A_S_RT, A_SOM_LOI, B_AER_CBS, B_SOILTYPE_AGR in sulpher.R
+* update element_names for B_GWL_CLASS in wateravailability.R
+* update element_names for B_GWL_CLASS and B_AER_CBS in nretention.R
+* correct weighing for S_C_A
+
+### Fixed
+* setorder in winderodibility
+
+### Added
+* column crops_season to crops.obic
+* column scientific_names to crops.obic
+* preparation crops.obic in dev
+* function format_gwt to reformat input for groundwater table 
+* function format_soilcompaction to reformat input for subsoil compaction
+
+
 ## Version 0.11.1 2020-09-02
 ### Changed
 * The water holding capacity is now between 0 and 1 (as theta should be) and uses new evaluation function #67
