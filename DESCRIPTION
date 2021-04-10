@@ -7,7 +7,8 @@ Authors@R: c(
     person("Gerard", "Ros", email = "gerard.ros@nmi-agro.nl", role = "aut"),
     person("Job", "de Pater", email = "job.depater@nmi-agro.nl", role = "ctb"),
     person("Yuki", "Fujita", email = "yuki.fujitar@nmi-agro.nl", role = "ctb"),
-    person("Nutriënten Managment Instituut", email = "nmi@nmi-agro.nl", role = "cph"))
+    person("Nutriënten Managment Instituut", email = "nmi@nmi-agro.nl", role = "cph"),
+    person("Brent", "Riechelman", email = 'brent.riechelman@nmi-agro.nl', role = "ctb"))
 Description: This package can be used to calculate the Open Bodem Index (OBI). 
     The OBI is a tool that evaluate the soil of agricultural fields based on four main criteria: chemical, physical, biological and managment. 
     These four criteria consist of more than 15 indicators to get an comprehensive picture of the soil. 
