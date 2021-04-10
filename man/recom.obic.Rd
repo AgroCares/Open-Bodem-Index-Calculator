@@ -5,7 +5,7 @@
 \alias{recom.obic}
 \title{Applicability range of measures, including literature based estimates, of effects on soil indicators}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 7040 rows and 11 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 7216 rows and 11 columns.
 
 A data.frame with 7040 rows and 11 columns:
 \describe{

@@ -1,0 +1,147 @@
+"","crop_season","crop_name","crop_code"
+"1","overig","Tuinbouwzaden",172
+"2","overig","Karwijzaad (oogst dit jaar)",246
+"3","overig","Blauwmaanzaad",247
+"4","overig","Vlas, vezel- (niet voor zaaizaad)",249
+"5","overig","Luzerne",258
+"6","overig","Grasland, natuurlijk. Hoofdfunctie landbouw.",331
+"7","overig","Grasland, natuurlijk. Hoofdfunctie natuur.",332
+"8","overig","Rand, grenzend aan blijvend grasland of een blijvende teelt,",333
+"9","overig","Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit blijvend gras",334
+"10","overig","Natuurterreinen (incl. heide)",335
+"11","overig","Grasland, natuurlijk. Areaal met een natuurbeheertype dat overwegend voor landbouwactiviteiten-GLB wordt gebruikt",336
+"12","overig","Bufferstrook, rand (inclusief eventuele oevervegetatie)",337
+"13","overig","Sloot, grenzend aan beheerde akkerrand",343
+"14","overig","Rand, grenzend aan blijvend grasland of een blijvende teelt,",344
+"15","overig","Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit een",345
+"16","overig","Tagetes erecta (Afrikaantje)",346
+"17","overig","Tagetes patula (Afrikaantje)",347
+"18","overig","Rand, grenzend aan blijvend grasland of een blijvende teelt, hoofdzakelijk bestaand uit tijdelijk gras",370
+"19","overig","Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit tijdelijk gras",372
+"20","overig","Hop",375
+"21","overig","Overige groenbemesters, vlinderbloemige-",426
+"22","overig","Overige groenbemesters, niet-vlinderbloemige-",427
+"23","overig","Gele mosterd",428
+"24","overig","Kanariezaad",513
+"25","overig","Miscanthus (olifantsgras)",516
+"26","overig","Saffloer",636
+"27","overig","Meekrap",652
+"28","overig","Brandnetel",654
+"29","overig","Zwarte mosterd",655
+"30","overig","Graansorgho",658
+"31","overig","Overige granen",661
+"32","overig","Lupinen, niet bittere",663
+"33","overig","Lijnzaad niet van vezelvlas (olievlas)",666
+"34","overig","Zwaardherik (aaltjesvanggewas)",669
+"35","overig","Raketblad (aaltjesvanggewas)",671
+"36","overig","Wilgenhakhout",795
+"37","overig","Klaver, rode",799
+"38","overig","Rolklaver",800
+"39","overig","Esparcette",801
+"40","overig","Wikke, bonte",802
+"41","overig","Wikke, voeder-",803
+"42","overig","Klaverzaad",804
+"43","overig","Hennep, vezel-",944
+"44","overig","Valeriaan, productie",1019
+"45","overig","Valeriaan, zaden en opkweekmateriaal",1020
+"46","overig","Lavas (Maggiplant), productie",1028
+"47","overig","Wilde marjolein (Oregano), productie",1030
+"48","overig","Igniscum Candy",1033
+"49","overig","Kanariezaad",1034
+"50","overig","Naaldaar (Setaria)",1035
+"51","overig","Angelica, productie",1042
+"52","overig","Angelica, zaden en opkweekmateriaal",1043
+"53","overig","Papaver",1044
+"54","overig","Adonis",1045
+"55","overig","Vergeet mij nietje",1046
+"56","overig","Cranberry",1047
+"57","overig","Echinacea (zonnehoed), productie",1048
+"58","overig","Echinacea (zonnehoed), zaden en opkweekmateriaal",1049
+"59","overig","Leeuwenbekjes",1050
+"60","overig","Buxus, pot- en containerveld,",1082
+"61","overig","Ericaceae (Zoals erica, calluna, rododendron, azalea), pot- en containerveld,",1083
+"62","overig","Rozenstruiken (incl, zaailingen en onderstammen), pot- en co",1087
+"63","overig","Sierconiferen, pot- en containerveld,",1088
+"64","overig","Sierheesters en klimplanten, pot- en containerveld,",1089
+"65","overig","Trek- en besheesters, pot- en containerveld,",1090
+"66","overig","Vaste planten, pot- en containerteelt,",1094
+"67","overig","Klaverzaad",1570
+"68","overig","Definitief aan de landbouw onttrokken cultuurgrond",1574
+"69","overig","Faunaranden",1575
+"70","overig","Snijgroen",1876
+"71","overig","Graszoden",1921
+"72","overig","Overige akkerbouwgewassen",1925
+"73","overig","Tagetes (zand, loss) (geen groene braak)",1930
+"74","overig","Vlas, vezel- (voor zaaizaad)",1933
+"75","overig","Onbekend/gewas niet opgegeven",1950
+"76","overig","Dummycode voor dummypercelen",1959
+"77","overig","Braak, natuur-",2029
+"78","overig","Onbeteelde grond, tijdelijk",2033
+"79","overig","Groenbemesters, vlinderbloemige",2298
+"80","overig","Groenbemesters, niet-vlinderbloemige",2299
+"81","overig","Onbeteelde grond door een teeltverbod/ontheffing",2300
+"82","overig","Overige natuurterreinen",2303
+"83","overig","Heide, begraasd",2304
+"84","overig","Overig landschapselement",2636
+"85","overig","Overige granen",2652
+"86","overig","Aardbeien op stellingen, vermeerdering",2704
+"87","overig","Aardbeien op stellingen, wachtbed",2705
+"88","overig","Aardbeien op stellingen, productie",2706
+"89","overig","Aardbeien op stellingen, zaden en opkweekmateriaal",2707
+"90","overig","Kruiden, productie",2743
+"91","overig","Kruiden, zaden en opkweekmateriaal",2744
+"92","overig","Overige niet genoemde bladgewassen, productie",2791
+"93","overig","Overige niet genoemde bladgewassen, zaden en opkweekmateriaal",2792
+"94","overig","Klaver, Alexandrijnse",3500
+"95","overig","Bladrammenas",3504
+"96","overig","Deder",3505
+"97","overig","Ethiopische mosterd",3507
+"98","overig","Facelia",3508
+"99","overig","Festulolium",3509
+"100","overig","Klaver, incarnaat",3511
+"101","overig","Rietzwenkgras",3516
+"102","overig","Sarepta mosterd/Caliente",3517
+"103","overig","Soedangras/Sorghum",3519
+"104","overig","Timothee",3522
+"105","overig","Klaver, witte",3524
+"106","overig","Grasland, natuurlijk",3718
+"107","overig","Heide",3719
+"108","overig","Faunaranden, grasland",3720
+"109","overig","Faunaranden, bouwland",3721
+"110","overig","Overige natuurterreinen",3722
+"111","overig","Vezelvlas",3736
+"112","overig","Tijdelijk onbeteelde grond, i.v.m. publieke werken",3801
+"113","overig","Tijdelijk onbeteelde grond, anders dan voor publieke werken",3802
+"114","overig","Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit een ander gewas dan gras. (EA: beheer)",3803
+"115","overig","Rand, grenzend aan bouwland, hoofdzakelijk bestaand uit een ander gewas dan gras. (EA: onbeheerd)",3804
+"116","overig","Rietzwenkgras, industriegras",3805
+"117","overig","Rietzwenkgras, anders dan voor industriegras",3807
+"118","overig","Azolla",6520
+"119","overig","Drachtplanten",657
+"120","overig","Elzensingel",2622
+"121","overig","Griendje",2631
+"122","overig","Houtwal en houtsingel",2621
+"123","overig","Klaver, Perzische",3515
+"124","overig","Knip- of scheerheg",2624
+"125","overig","Laan",2626
+"126","overig","Landschapselement, overig",2638
+"127","overig","Lavas (Maggiplant), zaden en opkweekmateriaal",1029
+"128","overig","Lisdodde",3055
+"129","overig","Natuurvriendelijke oever",2634
+"130","overig","Niger",3514
+"131","overig","Palmen, pot- en containervelden",1053
+"132","overig","Poel en klein historisch water",2620
+"133","overig","Riet",6522
+"134","overig","Roodzwenkgras",3808
+"135","overig","Schurvelingen en zandwallen",2637
+"136","overig","Seradelle",3518
+"137","overig","Spurrie",3520
+"138","overig","Struweelhaag",2625
+"139","overig","Struweelrand",2629
+"140","overig","Vrouwenmantel",637
+"141","overig","Wandelpad over boerenland",2635
+"142","overig","Water, overig",2639
+"143","overig","Wilde marjolein (Oregano), zaden en opkweekmateriaal",1031
+"144","overig","Wilde rijst",6521
+"145","overig","Windhaag , in een perceel fruitteelt",2618
+"146","overig","Zonnekroon",656
