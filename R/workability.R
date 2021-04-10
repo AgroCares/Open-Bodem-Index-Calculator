@@ -22,7 +22,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   soiltype.m = spring_depth =  gws_sub_workingdepth = NULL
   early_season_day_deficit = late_season_day_deficit = NULL
   req_days_pre_glg = req_days_post_glg = total_days = NULL
-  rdh = rdc = req_depth_spring = req_depth_fall = NULL
+  # parameters related to required depth (rd): required depth for capilairy (rdc), for hydrostatic equilibrium (rdh)
+  rdh = rdc = rd_spring = rd_fall = NULL
   rdh_spring = rdh_fall = req_spring_depth_day = req_fall_depth_day = NULL
   rsl = derving = yl = yield = NULL
   
@@ -99,41 +100,30 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   dt[, rdc := B_Z_TWO]
 
   # Choose lowest required depth as required depth
-  dt[,req_depth_spring := fifelse(rdh_spring <= rdc, rdh_spring,rdc)]
-  dt[,req_depth_fall   := fifelse(rdh_fall   <= rdc, rdh_fall,  rdc)]
+  dt[,rd_spring := fifelse(rdh_spring <= rdc, rdh_spring,rdc)]
+  dt[,rd_fall   := fifelse(rdh_fall   <= rdc, rdh_fall,  rdc)]
   
 # Calculate season length -----
   
   # Calculate the day on which the desired water depth is reached for spring and fall
   
-  # Spring
-  dt[req_depth_spring >= B_GWL_GHG & req_depth_spring <= B_GWL_GLG,
-     req_spring_depth_day := round(138-(asin((-req_depth_spring-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
+  # Spring and fall
+  dt[rd_spring >= B_GWL_GHG & rd_spring <= B_GWL_GLG,
+     req_spring_depth_day := round(138-(asin((-rd_spring-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
+  dt[rd_fall >= B_GWL_GHG & rd_fall <= B_GWL_GLG,
+     req_fall_depth_day := round(138-(asin((-rd_fall-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
   
   # if highest groundwater level is deeper than required depth, soil is always workable
-  dt[req_depth_spring < B_GWL_GHG, req_spring_depth_day := 1] 
-  
   # if lowest groundwater level is higher than required depth, soil is never workable.
   # required_depth_day is set to 228 (which is 15 aug/GLG) so season length will be 0
-  dt[req_depth_spring > B_GWL_GLG, req_spring_depth_day := 228] 
+  dt[rd_spring < B_GWL_GHG, req_spring_depth_day := 1] 
+  dt[rd_spring >= B_GWL_GLG, req_spring_depth_day := 228] 
+  dt[rd_fall < B_GWL_GHG, req_fall_depth_day := 1] 
+  dt[rd_fall > B_GWL_GLG, req_fall_depth_day := 228]
   
-  
-  # Fall
-  dt[req_depth_fall >= B_GWL_GHG & req_depth_fall <= B_GWL_GLG,
-     req_fall_depth_day :=   round(138-(asin((-req_depth_fall-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
-  
-  # if highest groundwater level is deeper than required depth, soil is always workable
-  dt[req_depth_fall < B_GWL_GHG, req_fall_depth_day := 1] 
-  # if lowest groundwater level is higher than required depth, soil is never workable.
-  dt[req_depth_fall > B_GWL_GLG, req_fall_depth_day := 228]
-  
-  # Calculate the number of days deficit compared to ideal situation
-  dt[,early_season_day_deficit := req_days_pre_glg-(228-req_spring_depth_day)]
-  dt[,late_season_day_deficit := req_days_post_glg-(228-req_fall_depth_day)]
-  
-  # Deficient number of days cannot be negative
-  dt[early_season_day_deficit < 0,early_season_day_deficit := 0 ]
-  dt[late_season_day_deficit < 0, late_season_day_deficit := 0] 
+  # Calculate the number of days deficit compared to ideal situation, always above zero
+  dt[,early_season_day_deficit := pmax(0,req_days_pre_glg-(228-req_spring_depth_day))]
+  dt[,late_season_day_deficit := pmax(0,req_days_post_glg-(228-req_fall_depth_day))]
   
   # Calculate relative season length
   dt[,rsl := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
