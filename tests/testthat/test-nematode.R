@@ -57,9 +57,13 @@ A_DSN_PA_NAN=nmet; A_DSN_TY_TOT=nmet; A_DSN_RO_TOT=nmet; A_DSN_XI_TOT=nmet; A_DS
 A_SN_DI_TOT=nmet; A_SN_DI_DIP=nmet; A_SN_DI_DES=nmet; A_OPN_PA_TOT=nmet; A_OPN_PA_BUK=nmet; A_OPN_CY_TOT=nmet; A_OPN_AP_TOT=nmet;    
 A_OPN_AP_FRA=nmet; A_OPN_AP_RIT=nmet; A_OPN_AP_SUB=nmet; A_OPN_CR_TOT=nmet; A_OPN_SU_TOT = nmet;A_NPN_SA_TOT = nmet
 
+set.seed(123)
+B_LU_BRP = sample(c(2014, 265,1079, 265, 308),nfields,replace = T)
+
 test_that("ind_nematodes works with complete input", {
   expect_equal(
-    ind_nematodes(A_RLN_PR_TOT = A_RLN_PR_TOT,A_RLN_PR_CREN = A_RLN_PR_CREN,A_RLN_PR_NEG = A_RLN_PR_NEG,
+    ind_nematodes(B_LU_BRP = B_LU_BRP,
+                  A_RLN_PR_TOT = A_RLN_PR_TOT,A_RLN_PR_CREN = A_RLN_PR_CREN,A_RLN_PR_NEG = A_RLN_PR_NEG,
                   A_RLN_PR_PEN = A_RLN_PR_PEN,A_RLN_PR_PRA = A_RLN_PR_PRA,A_RLN_PR_THO = A_RLN_PR_THO,
                   A_RLN_PR_FLA = A_RLN_PR_FLA,A_RLN_PR_FAL = A_RLN_PR_FAL,A_RLN_PR_PIN = A_RLN_PR_PIN,
                   A_RLN_PR_PSE = A_RLN_PR_PSE,A_RLN_PR_VUL = A_RLN_PR_VUL,A_RLN_PR_DUN = A_RLN_PR_DUN,
@@ -87,7 +91,7 @@ test_that("ind_nematodes works with complete input", {
 
 # add some NA values
 set.seed(123)
-selrow = sample(2,1:nfields)
+selrow = sample(1:nfields,2)
 
 A_DSN_TR_CYL[selrow] <- NA
 A_RLN_PR_FAL[selrow] <- NA
@@ -96,7 +100,8 @@ A_OPN_SU_TOT[selrow] <- NA
 
 test_that("ind_nematodes works with complete input but with missing values", {
   expect_equal(
-    ind_nematodes(A_RLN_PR_TOT = A_RLN_PR_TOT,A_RLN_PR_CREN = A_RLN_PR_CREN,A_RLN_PR_NEG = A_RLN_PR_NEG,
+    ind_nematodes(B_LU_BRP = B_LU_BRP,
+                  A_RLN_PR_TOT = A_RLN_PR_TOT,A_RLN_PR_CREN = A_RLN_PR_CREN,A_RLN_PR_NEG = A_RLN_PR_NEG,
                   A_RLN_PR_PEN = A_RLN_PR_PEN,A_RLN_PR_PRA = A_RLN_PR_PRA,A_RLN_PR_THO = A_RLN_PR_THO,
                   A_RLN_PR_FLA = A_RLN_PR_FLA,A_RLN_PR_FAL = A_RLN_PR_FAL,A_RLN_PR_PIN = A_RLN_PR_PIN,
                   A_RLN_PR_PSE = A_RLN_PR_PSE,A_RLN_PR_VUL = A_RLN_PR_VUL,A_RLN_PR_DUN = A_RLN_PR_DUN,
@@ -126,7 +131,8 @@ test_that("ind_nematodes works with complete input but with missing values", {
 # remove some measurement from input
 test_that("ind_nematodes works with complete input but with missing values", {
   expect_equal(
-    ind_nematodes(A_RLN_PR_TOT = A_RLN_PR_TOT,A_RLN_PR_CREN = A_RLN_PR_CREN,A_RLN_PR_NEG = A_RLN_PR_NEG,
+    ind_nematodes(B_LU_BRP = B_LU_BRP,
+                  A_RLN_PR_TOT = A_RLN_PR_TOT,A_RLN_PR_CREN = A_RLN_PR_CREN,A_RLN_PR_NEG = A_RLN_PR_NEG,
                   A_RLN_PR_PEN = A_RLN_PR_PEN,A_RLN_PR_PRA = A_RLN_PR_PRA,A_RLN_PR_THO = A_RLN_PR_THO,
                   A_RLN_PR_FLA = NULL,A_RLN_PR_FAL = NULL,A_RLN_PR_PIN = A_RLN_PR_PIN,
                   A_RLN_PR_PSE = A_RLN_PR_PSE,A_RLN_PR_VUL = A_RLN_PR_VUL,A_RLN_PR_DUN = NULL,

@@ -39,6 +39,7 @@ ind_nematodes_list <- function(A_NEMA){
 #' This function calculates the indicator for the presence of plant parasitic nematodes. 
 #' If input values are not given, the number is assumed to be zero.
 #' 
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param A_RLN_PR_TOT (numeric) Number of pratylenchus spp. (n / 100g)
 #' @param A_RLN_PR_CREN (numeric) Number of pratylenchus crenatus (n / 100g)
 #' @param A_RLN_PR_NEG (numeric) Number of pratylenchus neglectus (n / 100g)
@@ -98,14 +99,15 @@ ind_nematodes_list <- function(A_NEMA){
 #' @import data.table
 #' 
 #' @export
-ind_nematodes <- function(A_RLN_PR_TOT=NULL, A_RLN_PR_CREN=NULL, A_RLN_PR_NEG=NULL, A_RLN_PR_PEN=NULL, A_RLN_PR_PRA=NULL, A_RLN_PR_THO=NULL, A_RLN_PR_FLA=NULL,    
-                          A_RLN_PR_FAL=NULL, A_RLN_PR_PIN=NULL, A_RLN_PR_PSE=NULL, A_RLN_PR_VUL=NULL, A_RLN_PR_DUN=NULL, A_RLN_PR_ZEA=NULL, A_RKN_ME_TOT=NULL,   
-                          A_RKN_ME_HAP=NULL, A_RKN_ME_CHIFAL=NULL, A_RKN_ME_CHI=NULL, A_RKN_ME_NAA=NULL, A_RKN_ME_FAL=NULL, A_RKN_ME_MIN=NULL, A_RKN_ME_INC=NULL,    
-                          A_RKN_ME_JAV=NULL, A_RKN_ME_ART=NULL, A_RKN_ME_ARE=NULL, A_RKN_ME_ARD=NULL, A_DSN_TR_TOT=NULL, A_DSN_TR_SIM=NULL, A_DSN_TR_PRI=NULL,    
-                          A_DSN_TR_VIR=NULL, A_DSN_TR_SPA=NULL, A_DSN_TR_CYL=NULL, A_DSN_TR_HOO=NULL, A_DSN_PA_TER=NULL, A_DSN_PA_PAC=NULL, A_DSN_PA_ANE=NULL,    
-                          A_DSN_PA_NAN=NULL, A_DSN_TY_TOT=NULL, A_DSN_RO_TOT=NULL, A_DSN_XI_TOT=NULL, A_DSN_LO_TOT=NULL, A_DSN_HEM_TOT=NULL, A_DSN_HEL_TOT=NULL,   
-                          A_SN_DI_TOT=NULL, A_SN_DI_DIP=NULL, A_SN_DI_DES=NULL, A_OPN_PA_TOT=NULL, A_OPN_PA_BUK=NULL, A_OPN_CY_TOT=NULL, A_OPN_AP_TOT=NULL,    
-                          A_OPN_AP_FRA=NULL, A_OPN_AP_RIT=NULL, A_OPN_AP_SUB=NULL, A_OPN_CR_TOT=NULL, A_OPN_SU_TOT = NULL,A_NPN_SA_TOT = NULL){
+ind_nematodes <- function(B_LU_BRP = B_LU_BRP,
+                          A_RLN_PR_TOT=0, A_RLN_PR_CREN=0, A_RLN_PR_NEG=0, A_RLN_PR_PEN=0, A_RLN_PR_PRA=0, A_RLN_PR_THO=0, A_RLN_PR_FLA=0,    
+                          A_RLN_PR_FAL=0, A_RLN_PR_PIN=0, A_RLN_PR_PSE=0, A_RLN_PR_VUL=0, A_RLN_PR_DUN=0, A_RLN_PR_ZEA=0, A_RKN_ME_TOT=0,   
+                          A_RKN_ME_HAP=0, A_RKN_ME_CHIFAL=0, A_RKN_ME_CHI=0, A_RKN_ME_NAA=0, A_RKN_ME_FAL=0, A_RKN_ME_MIN=0, A_RKN_ME_INC=0,    
+                          A_RKN_ME_JAV=0, A_RKN_ME_ART=0, A_RKN_ME_ARE=0, A_RKN_ME_ARD=0, A_DSN_TR_TOT=0, A_DSN_TR_SIM=0, A_DSN_TR_PRI=0,    
+                          A_DSN_TR_VIR=0, A_DSN_TR_SPA=0, A_DSN_TR_CYL=0, A_DSN_TR_HOO=0, A_DSN_PA_TER=0, A_DSN_PA_PAC=0, A_DSN_PA_ANE=0,    
+                          A_DSN_PA_NAN=0, A_DSN_TY_TOT=0, A_DSN_RO_TOT=0, A_DSN_XI_TOT=0, A_DSN_LO_TOT=0, A_DSN_HEM_TOT=0, A_DSN_HEL_TOT=0,   
+                          A_SN_DI_TOT=0, A_SN_DI_DIP=0, A_SN_DI_DES=0, A_OPN_PA_TOT=0, A_OPN_PA_BUK=0, A_OPN_CY_TOT=0, A_OPN_AP_TOT=0,    
+                          A_OPN_AP_FRA=0, A_OPN_AP_RIT=0, A_OPN_AP_SUB=0, A_OPN_CR_TOT=0, A_OPN_SU_TOT = 0,A_NPN_SA_TOT = 0){
   
   
   # indicator scoring values per nematode type
@@ -142,11 +144,15 @@ ind_nematodes <- function(A_RLN_PR_TOT=NULL, A_RLN_PR_CREN=NULL, A_RLN_PR_NEG=NU
                      A_NPN_SA_TOT = A_NPN_SA_TOT)
   
   # length of input variables
-  arg.length <- max(nrow(dt.rln),nrow(dt.rkn),nrow(dt.dsn),nrow(dt.sn),nrow(dt.opn))
+  arg.length <- max(length(B_LU_BRP),nrow(dt.rln),nrow(dt.rkn),nrow(dt.dsn),nrow(dt.sn),nrow(dt.opn))
+  
+  # check B_LU_BRP
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   
   # combine all inputs into one
   dt.all <- data.table(id = 1:arg.length,
-                  dt.rln, dt.rkn, dt.dsn, dt.sn, dt.opn)
+                       B_LU_BRP = B_LU_BRP,
+                       dt.rln, dt.rkn, dt.dsn, dt.sn, dt.opn)
   
   
   # melt all nematode input variables from column to row
