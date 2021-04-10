@@ -72,7 +72,7 @@ test_that("ind_sulpher works", {
       B_SOILTYPE_AGR = rep('zeeklei',10),
       B_AER_CBS = rep('IJsselmeerpolders',10)
     ),
-    expected = c(0.0408, 0.4102,rep(1,8)),
+    expected = c(0.0909, 0.52078,0.9603,rep(1,7)),
     tolerance = 0.001
   )
 })
