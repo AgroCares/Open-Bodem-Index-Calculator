@@ -22,8 +22,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   soiltype.m = spring_depth =  gws_sub_workingdepth = NULL
   early_season_day_deficit = late_season_day_deficit = NULL
   req_days_pre_glg = req_days_post_glg = total_days = NULL
-  req_depth_hydrostatic = req_depth_capilary = req_depth_spring = req_depth_fall = NULL
-  req_depth_hydrostatic_spring = req_depth_hydrostatic_fall = req_spring_depth_day = req_fall_depth_day = NULL
+  rdh = rdc = req_depth_spring = req_depth_fall = NULL
+  rdh_spring = rdh_fall = req_spring_depth_day = req_fall_depth_day = NULL
   rsl = derving = yl = yield = NULL
   
   # Load in the datasets
@@ -35,7 +35,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   setkey(season.obic, landuse)
 
   # Check inputs
-  arg.length <- max(length(A_CLAY_MI), length(A_SILT_MI), length(B_LU_BRP), length(B_SOILTYPE_AGR), length(B_GWL_GLG), length(B_GWL_GHG), length(B_Z_TWO))
+  arg.length <- max(length(A_CLAY_MI), length(A_SILT_MI), length(B_LU_BRP), length(B_SOILTYPE_AGR), 
+                    length(B_GWL_GLG), length(B_GWL_GHG), length(B_Z_TWO))
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_SILT_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -62,97 +63,90 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.m)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
   dt <- merge(dt, season.obic, by.x = 'crop_season', by.y = 'landuse')
   
-  ## determine workableability key numbers
-  # soiltype.m == 'zand'
-    # A_SILT_MI < 10
-      dt[soiltype.m == 'zand' & A_SILT_MI < 10,gws_sub_workingdepth := 45]
-      dt[soiltype.m == 'zand' & A_SILT_MI < 10,spring_depth := 30]
+  ## determine workability key numbers
 
-    # A_SILT_MI > 10 & dt$A_SILT_MI < 20
-      dt[soiltype.m == 'zand' & A_SILT_MI >= 10 & dt$A_SILT_MI < 20,gws_sub_workingdepth := 55]
-      dt[soiltype.m == 'zand' & A_SILT_MI >= 10 & dt$A_SILT_MI < 20,spring_depth := 30]
+    # new parameters to be added
+    cols <- c('gws_sub_workingdepth','spring_depth')
+    
+    # sandy soils with variable silt content
+    dt[soiltype.m == 'zand' & A_SILT_MI < 10, c(cols) := list(45,35)]
+    dt[soiltype.m == 'zand' & A_SILT_MI >= 10 & A_SILT_MI < 20, c(cols) := list(55,30)]
+    dt[soiltype.m == 'zand' & A_SILT_MI >= 20, c(cols) := list(60,30)]
+      
+    # loess soils
+    dt[soiltype.m == 'loess',c(cols) := list(65,12)]
 
-    # A_SILT_MI > 20
-      dt[soiltype.m == 'zand' & A_SILT_MI >= 20,gws_sub_workingdepth := 60]
-      dt[soiltype.m == 'zand' & A_SILT_MI >= 20,spring_depth := 30]
+    # peat soils
+    dt[soiltype.m == 'veen',c(cols) := list(55,22)]
+    
+    # clay soils
+    dt[soiltype.m == 'klei' & A_CLAY_MI < 12, c(cols) := list(85,12)]
+    dt[soiltype.m == 'klei' & A_CLAY_MI >= 12 & A_CLAY_MI < 17, c(cols) := list(85,12)]
+    dt[soiltype.m == 'klei' & A_CLAY_MI >= 17 & A_CLAY_MI < 25, c(cols) := list(75,15)]
+    dt[soiltype.m == 'klei' & A_CLAY_MI >= 25 & A_CLAY_MI < 35, c(cols) := list(65,15)]
+    dt[soiltype.m == 'klei' & A_CLAY_MI >= 35, c(cols) := list(45,15)]
 
-  # soiltype.m == 'loess'
-    dt[soiltype.m == 'loess',gws_sub_workingdepth := 65]
-    dt[soiltype.m == 'loess',spring_depth := 12]
-
-# soiltype.m == 'veen'
-    dt[soiltype.m == 'veen',gws_sub_workingdepth := 55]
-    dt[soiltype.m == 'veen',spring_depth := 22]
-
-    # A_CLAY_MI < 12
-      dt[soiltype.m == 'klei' & A_CLAY_MI < 12,gws_sub_workingdepth := 85]
-      dt[soiltype.m == 'klei' & A_CLAY_MI < 12,spring_depth := 30]
-
-    # A_CLAY_MI >12 & A_CLAY_MI < 17
-      dt[soiltype.m == 'klei' & A_CLAY_MI >=12 & A_CLAY_MI < 17,gws_sub_workingdepth := 85]
-      dt[soiltype.m == 'klei' & A_CLAY_MI >=12 & A_CLAY_MI < 17,spring_depth := 12]
-
-    # A_CLAY_MI >17 & A_CLAY_MI < 25
-      dt[soiltype.m == 'klei' & A_CLAY_MI >=17 & A_CLAY_MI < 25,gws_sub_workingdepth := 75]
-      dt[soiltype.m == 'klei' & A_CLAY_MI >=17 & A_CLAY_MI < 25,spring_depth := 15]
-
-    # A_CLAY_MI >25 & A_CLAY_MI < 35
-      dt[soiltype.m == 'klei' & A_CLAY_MI >=25 & A_CLAY_MI < 35,gws_sub_workingdepth := 65]
-      dt[soiltype.m == 'klei' & A_CLAY_MI >=25 & A_CLAY_MI < 35,spring_depth := 15]
-
-    # A_CLAY_MI >35
-      dt[soiltype.m == 'klei' & A_CLAY_MI >=35,gws_sub_workingdepth := 45]
-      dt[soiltype.m == 'klei' & A_CLAY_MI >=35,spring_depth := 15]
 
   # Overwrite spring working depth for perennial crops
-  dt[crop_waterstress %in% c('boomteelt', 'overig boomteelt', 'groot fruit',
-                             'grasland zonder herinzaai', 'grasland met herinzaai'),
-     spring_depth := 0]
+  crops.p <- c('boomteelt', 'overig boomteelt', 'groot fruit','grasland zonder herinzaai', 'grasland met herinzaai')
+  dt[crop_waterstress %in% crops.p,spring_depth := 0]
   
-  # test 1: desired groundwater depth for work under hydrostatic equilibrium
-  dt[, req_depth_hydrostatic_spring := gws_sub_workingdepth+spring_depth]
-  dt[, req_depth_hydrostatic_fall := gws_sub_workingdepth]
+  # test 1: desired groundwater depth for work under hydrostatic equilibrium (abbreviated as rdh) in spring and fall
+  dt[, rdh_spring := gws_sub_workingdepth+spring_depth]
+  dt[, rdh_fall := gws_sub_workingdepth]
   
-  # test 2: At what groundwater level is  capillary rise lower than evaporation (<2mm/d) 
-    dt[, req_depth_capilary := B_Z_TWO]
+  # test 2: At what groundwater level is  capillary rise lower than evaporation (<2mm/d), required depth capilairy abbreviated as rdc
+  dt[, rdc := B_Z_TWO]
 
   # Choose lowest required depth as required depth
-  dt[,req_depth_spring := fifelse(req_depth_hydrostatic_spring <= req_depth_capilary, req_depth_hydrostatic_spring,req_depth_capilary)]
-  dt[,req_depth_fall   := fifelse(req_depth_hydrostatic_fall   <= req_depth_capilary, req_depth_hydrostatic_fall,  req_depth_capilary)]
+  dt[,req_depth_spring := fifelse(rdh_spring <= rdc, rdh_spring,rdc)]
+  dt[,req_depth_fall   := fifelse(rdh_fall   <= rdc, rdh_fall,  rdc)]
   
 # Calculate season length -----
+  
   # Calculate the day on which the desired water depth is reached for spring and fall
+  
   # Spring
   dt[req_depth_spring >= B_GWL_GHG & req_depth_spring <= B_GWL_GLG,
      req_spring_depth_day := round(138-(asin((-req_depth_spring-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
-  dt[req_depth_spring < B_GWL_GHG, req_spring_depth_day := 1] # if highest groundwater level is deeper than required depth, soil is always workable
-  dt[req_depth_spring > B_GWL_GLG, req_spring_depth_day := 228] # if lowest groundwater level is higher than required depth, soil is never workable.
+  
+  # if highest groundwater level is deeper than required depth, soil is always workable
+  dt[req_depth_spring < B_GWL_GHG, req_spring_depth_day := 1] 
+  
+  # if lowest groundwater level is higher than required depth, soil is never workable.
   # required_depth_day is set to 228 (which is 15 aug/GLG) so season length will be 0
+  dt[req_depth_spring > B_GWL_GLG, req_spring_depth_day := 228] 
+  
   
   # Fall
   dt[req_depth_fall >= B_GWL_GHG & req_depth_fall <= B_GWL_GLG,
      req_fall_depth_day :=   round(138-(asin((-req_depth_fall-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
-  dt[req_depth_fall < B_GWL_GHG, req_fall_depth_day := 1] # if highest groundwater level is deeper than required depth, soil is always workable
-  dt[req_depth_fall > B_GWL_GLG, req_fall_depth_day := 228] # if lowest groundwater level is higher than required depth, soil is never workable.
+  
+  # if highest groundwater level is deeper than required depth, soil is always workable
+  dt[req_depth_fall < B_GWL_GHG, req_fall_depth_day := 1] 
+  # if lowest groundwater level is higher than required depth, soil is never workable.
+  dt[req_depth_fall > B_GWL_GLG, req_fall_depth_day := 228]
   
   # Calculate the number of days deficit compared to ideal situation
   dt[,early_season_day_deficit := req_days_pre_glg-(228-req_spring_depth_day)]
-  dt[early_season_day_deficit <0,early_season_day_deficit := 0 ] # Deficient number of days cannot be negative
   dt[,late_season_day_deficit := req_days_post_glg-(228-req_fall_depth_day)]
-  dt[late_season_day_deficit <0, late_season_day_deficit := 0] # Deficient number of days cannot be negative
+  
+  # Deficient number of days cannot be negative
+  dt[early_season_day_deficit < 0,early_season_day_deficit := 0 ]
+  dt[late_season_day_deficit < 0, late_season_day_deficit := 0] 
   
   # Calculate relative season length
   dt[,rsl := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
   
-  # # Calculate yield % loss by sub-optimal season length
-  dt[derving == 'zaai groenten', yl := 538*rsl^2-1144*rsl+606]
+  # # Calculate percentage yield loss non-grassland by sub-optimal season length
+  dt[derving == 'zaai groenten' , yl := 538*rsl^2-1144*rsl+606]
   dt[derving == 'zomergranen'   , yl := 232*rsl^2- 475*rsl+243]
   dt[derving == 'plant groenten', yl := 392*rsl^2- 785*rsl+393]
   dt[derving == 'wintergranen'  , yl :=(232*rsl^2- 475*rsl+243)*0.85/2]
   dt[derving == 'boomteelt'     , yl :=(538*rsl^2-1144*rsl+606)/2]
   dt[derving == 'overig'        , yl := 100*rsl^2- 100*rsl+100]
   
-  # functions to determine yield loss in grass
+  # helper functions to determine yield loss in grass given soiltype
   ylveen <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
                       y = c(23, 25, 28, 36, 38, 41, 54, 59, 100), method = 'linear',
                       yleft = NA_integer_, yright = NA_integer_)
@@ -165,12 +159,17 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   
   # Calculate yield fraction
   dt[,yield := 1-0.01*yl] 
+  
   # Set yield to 0 if negative
   dt[yield < 0, yield := 0]
   
-  # Return yield
+  # setorder
   setorder(dt, id)
+  
+  # Return yield
   value <- dt[,yield]
+  
+  # return value
   return(value)
 }
 
@@ -186,6 +185,7 @@ ind_workability <- function(D_P_WO) {
   
   # Check inputs
   checkmate::assert_numeric(D_P_WO, lower = 0, upper = 1, any.missing = FALSE)
+  
   # Maybe insert logistic function
   return(D_P_WO)
 }
