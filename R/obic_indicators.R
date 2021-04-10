@@ -2,18 +2,21 @@
 #' 
 #' This wrapper function contains the functions to calculate the indicators of agricultural fields.
 #' 
-#' @param dt.ppr (data.table) The table containg the data needed for OBI
+#' @param dt.ppr (data.table) The table containing the data needed for OBI
+#' 
+#' @param dt_nema (data.table) The table containing the counted plant parasitic nematodes
 #' 
 #' @import data.table
 #' 
 #' @export
-obic_indicators<- function(dt.ppr) {
+obic_indicators<- function(dt.ppr, dt_nema = NA) {
   
   # Check inputs
   checkmate::assert_data_table(dt.ppr)
   
   # make local copy
   dt.ppr <- copy(dt.ppr)
+  dt_nema <- copy(dt_nema)
   
   # define variables used within the function
   A_OS_GV = NULL
@@ -27,6 +30,7 @@ obic_indicators<- function(dt.ppr) {
   D_SE = D_NLV = D_PBI = D_PH_DELTA = D_MAN = D_P_DU = D_SLV = D_MG = D_CEC = D_AS = D_K = NULL
   D_WSI = D_P_WRI = D_PMN = D_BCS = D_NGW = D_NSW = NULL
   leaching_to = NULL
+  I_NEMA = NULL
   D_P_WO = NULL
   
   # Evaluate nutrients ------------------------------------------------------
@@ -99,7 +103,11 @@ obic_indicators<- function(dt.ppr) {
   # Soil biodiversity
   dt.ppr[, I_B_SB := -999]
   
-
+  # Nematodes
+  if(is.data.table(dt_nema)){dt.ppr[,I_NEMA := ind_nematodes(dt_nema)]
+  } else{checkmate::check_subset(dt_nema, choices = NA) 
+      dt.ppr[, I_NEMA := -999]}
+  
   # Evaluate managment ------------------------------------------------------
   dt.ppr[, I_M := ind_management(D_MAN, B_LU_BRP, B_BT_AK)]
   

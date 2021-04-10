@@ -4,10 +4,12 @@
 \alias{obic_indicators}
 \title{Calculate the indicators for the OBI}
 \usage{
-obic_indicators(dt.ppr)
+obic_indicators(dt.ppr, dt_nema = NA)
 }
 \arguments{
-\item{dt.ppr}{(data.table) The table containg the data needed for OBI}
+\item{dt.ppr}{(data.table) The table containing the data needed for OBI}
+
+\item{dt_nema}{(data.table) The table containing the counted plant parasitic nematodes}
 }
 \description{
 This wrapper function contains the functions to calculate the indicators of agricultural fields.
