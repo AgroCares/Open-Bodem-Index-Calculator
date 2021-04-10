@@ -41,13 +41,15 @@ obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
     dt.soil[, D_SE := calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)]
   
     # calculate the crumbleability of the soil
-    dt[, D_CR := calc_crumbleability(A_SOM_LOI, A_CLAY_MI,A_PH_CC)]
+    dt.soil[, D_CR := calc_crumbleability(A_SOM_LOI, A_CLAY_MI,A_PH_CC)]
   
-  # Calculate bulk density
-  dt[, D_BDS := calc_bulk_density(A_OS_GV, B_BT_AK)]
+    # calculate bulk density
+    dt.soil[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI)]
   
-  # Determine the root depth of the soil
-  dt[, D_RD := calc_root_depth(B_LU_BRP)]
+  # update field properties
+    
+    # calculate the rootable depth of the soil
+    dt.field[, D_RD := calc_root_depth(B_LU_BRP)]
   
   # Calculate the amount of total organic carbon
   dt[, D_OC := calc_organic_carbon(A_OS_GV, D_BDS, D_RD)]
