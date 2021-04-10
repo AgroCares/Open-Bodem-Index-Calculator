@@ -51,14 +51,28 @@ obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
     # calculate the rootable depth of the soil
     dt.field[, D_RD := calc_root_depth(B_LU_BRP)]
   
+    # Calculate the grass age
+    dt.field[, D_GA := calc_grass_age(ID = refid, B_LU_BRP)]
+    
+    # Calculate the crop rotation fraction
+    dt.field[, D_CP_STARCH := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "starch")]
+    dt.field[, D_CP_POTATO := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "potato")]
+    dt.field[, D_CP_SUGARBEET := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "sugarbeet")]
+    dt.field[, D_CP_GRASS := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "grass")]
+    dt.field[, D_CP_MAIS := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "mais")]
+    dt.field[, D_CP_OTHER := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "other")]
+    dt.field[, D_CP_RUST := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "rustgewas")]
+    dt.field[, D_CP_RUSTDEEP := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "rustgewasdiep")]
+    
+    
+    
   # Calculate the amount of total organic carbon
   dt[, D_OC := calc_organic_carbon(A_OS_GV, D_BDS, D_RD)]
   
   # Calculate a simple organic matter balance
   dt[,D_OS_BAL := calc_sombalance(A_OS_GV, A_P_PAL, A_P_WA, B_LU_BRP, M_M3, M_M6)]
   
-  # Calculate the grass age
-  dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
+  
   
   # Calculate the NLV
   dt[, D_NLV := calc_nlv(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA)]
@@ -69,16 +83,7 @@ obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
   # Calculate the PBI
   dt[, D_PBI := calc_phosphate_availability(A_P_PAL, A_P_PAE, A_P_WA,B_LU_BRP)]
   
-  # Calculate the crop rotation fraction
-  dt[, D_CP_STARCH := calc_rotation_fraction(ID, B_LU_BRP, crop = "starch")]
-  dt[, D_CP_POTATO := calc_rotation_fraction(ID, B_LU_BRP, crop = "potato")]
-  dt[, D_CP_SUGARBEET := calc_rotation_fraction(ID, B_LU_BRP, crop = "sugarbeet")]
-  dt[, D_CP_GRASS := calc_rotation_fraction(ID, B_LU_BRP, crop = "grass")]
-  dt[, D_CP_MAIS := calc_rotation_fraction(ID, B_LU_BRP, crop = "mais")]
-  dt[, D_CP_OTHER := calc_rotation_fraction(ID, B_LU_BRP, crop = "other")]
-  dt[, D_CP_RUST := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewas")]
-  dt[, D_CP_RUSTDEEP := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewasdiep")]
-  
+    
   # Calculate the difference between the actual pH and optimum pH
   dt[, D_PH_DELTA := calc_ph_delta(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER, B_LU_BRP)]
   
