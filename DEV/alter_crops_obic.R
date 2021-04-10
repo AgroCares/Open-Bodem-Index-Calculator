@@ -437,7 +437,7 @@ cr <- cr[,V1 := NULL]
   cr[is.na(crop_season), crop_season := 'overig']
 
   # Correction on Spelt waterstress
-  cr[crop_name == 'spelt', crop_waterstress := 'granen']
+  cr[crop_name == 'spelt', crop_waterstress := 'overig']
 
   # update the csv and Rdata file
   crops.obic <- copy(cr)
