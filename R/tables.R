@@ -2,7 +2,7 @@
 #' 
 #' This table helps to link the different crops in the OBIC functions with the crops selected by the user
 #' 
-#' @format A data.frame with 405 rows and 12 columns:
+#' @format A data.frame with 465 rows and 21 columns:
 #' \describe{
 #'   \item{crop_code}{The BRP gewascode of the crop}
 #'   \item{crop_name}{The name of the crop, in lower case}
@@ -13,11 +13,11 @@
 #'   \item{crop_category}{Classification of crop per land use type (arable, maize, grass, nature)}
 #'   \item{crop_rotation}{Classification of crop to determine function within crop rotations}
 #'   \item{crop_crumbleability}{The category for this crop at crumbleablity}
-#'   \item{crop_phosphate}{The category for this crop at phosphate availability}
+#'   \item{crop_phosphate}{The category for this crop for evaluation phosphate availability}
 #'   \item{crop_sealing}{The category for this crop at soil sealing}
-#'   \item{crop_n}{The category for this crop at nitrogen}
-#'   \item{crop_k}{}
-#'   \item{crop_measure}{}
+#'   \item{crop_n}{The category for this crop for evaluation nitrogen}
+#'   \item{crop_k}{The category for this crop for evaluation potassium}
+#'   \item{crop_measure}{The category for this crop for evaluating measures}
 #'   \item{nf_clay}{Allowed effective N dose on clay soils}
 #'   \item{nf_sand.other}{Allowed effective N dose on sanndy soils}
 #'   \item{nf_sand.sout}{Allowed effective N dose on sandy soils sensitive to leaching}
@@ -101,6 +101,20 @@
 #' }
 "column_description.obic"
 
+#' Nematode table
+#' 
+#' This table contains information uses for calculations on nematode species counts
+#' 
+#' @format A data.frame with 126 rows and 6 columns:
+#' \describe{
+#'   \item{geel}{The intermediate infestation severity count}
+#'   \item{rood}{The count at which a severe infestation is present}
+#'   \item{species}{The species or sometimes genera of the plant parasitic nematode}
+#'   \item{standard}{A boolean indicating whether the species should always be used in calculating the indicator score, regardless of the number of nematodes}
+#'   \item{b}{Growth rate (b) for the evaluate_logistics function}
+#'   \item{v}{v for the evaluate_logistics function, affects the growth rate near the maximum}
+#' }
+"nema.obic"
 #' Desired growing season period for maximum yield
 #' 
 #' This table gives the required number of days before and after August 15 required for optimal yield or usability and has categories to determine yield loss having a shorter workable growing season based on Tabel 2 and several formulas from Huinink (2018)

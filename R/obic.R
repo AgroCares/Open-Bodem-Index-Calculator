@@ -5,6 +5,7 @@
 #' @param dt (data.table) A data.table containing the data of the fields to calcualte the OBI
 #' @param add_relative_score (logical) Should the relative score be calculated? Defaults to TRUE
 #' @param add_recommendations (logical) Should recommendations be given to improve the OBI score? Defaults to TRUE
+#' @param dt_nema (data.table) A data.table containing the number of counted plant parasitic nematodes per species
 #' 
 #' @details The argument add_relative_score calculates relative perforamce of the agricultural fields in the OBI. 
 #' To have a meaningfull relative score a large number of fields need be given as input in dt. 
@@ -12,7 +13,7 @@
 #' @import data.table
 #' 
 #' @export
-obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE) {
+obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE, dt_nema = NA) {
   
   # Check inputs
   checkmate::assert_data_table(dt)
@@ -32,11 +33,20 @@ obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE) {
         )
     )
   
+  if(!any(is.na(dt_nema))) {
+    checkmate::assert_data_table(dt_nema)
+    checkmate::assert_subset(
+      colnames(dt_nema),
+      empty.ok = FALSE,
+      choices = c('species', 'count')
+    )
+  }
+  
   # Run the preprocessing
   dt.ppr <- OBIC::obic_preprocessing(dt)
   
   # Calculate the indicators
-  dt.ind <- OBIC::obic_indicators(dt.ppr)
+  dt.ind <- OBIC::obic_indicators(dt.ppr, dt_nema)
   
   # Score the fields
   dt.score <- OBIC::obic_score(dt.ind, add_relative_score = add_relative_score)
