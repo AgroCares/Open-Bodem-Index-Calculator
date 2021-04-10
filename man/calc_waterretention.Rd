@@ -4,8 +4,14 @@
 \alias{calc_waterretention}
 \title{Calculate indicators for water retention in topsoil}
 \usage{
-calc_waterretention(A_CLAY_MI, A_SAND_MI, A_SILT_MI, A_OS_GV,
-  type = "plant available water", ptf = "Wosten1999")
+calc_waterretention(
+  A_CLAY_MI,
+  A_SAND_MI,
+  A_SILT_MI,
+  A_OS_GV,
+  type = "plant available water",
+  ptf = "Wosten1999"
+)
 }
 \arguments{
 \item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}

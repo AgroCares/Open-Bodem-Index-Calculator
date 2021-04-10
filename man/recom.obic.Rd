@@ -4,7 +4,24 @@
 \name{recom.obic}
 \alias{recom.obic}
 \title{Applicability range of measures, including literature based estimates, of effects on soil indicators}
-\format{An object of class \code{data.table} (inherits from \code{data.frame}) with 7040 rows and 11 columns.}
+\format{
+An object of class \code{data.table} (inherits from \code{data.frame}) with 7040 rows and 11 columns.
+
+A data.frame with 7040 rows and 11 columns:
+\describe{
+  \item{m_nr}{The ID number of measure}
+  \item{m_description}{The description of measure}
+  \item{m_prio}{weighing factor for measure. This is not used in the script.}
+  \item{m_treshold}{Threshold value of the indicator value. This is not used in the script.}
+  \item{m_order}{Order of measures. When scores are tie, the measure with a smaller number is chosen.}
+  \item{m_soilfunction}{description of the OBIC indicator varialbe}
+  \item{indicator}{Name of OBIC soil indicator variable}
+  \item{m_effect}{Effect of measure on soil indicator. 3/2/1/0/-1}
+  \item{m_sector}{type of agricultural sector: dairy/arable/vegetable/tree cultivation (in dutch)}
+  \item{m_soiltype}{type of soil: sand/clay/peat/loess (in dutch)}
+  \item{m_applicability}{is the measure applicable for combination of sector and soil (1/0)}
+}
+}
 \usage{
 recom.obic
 

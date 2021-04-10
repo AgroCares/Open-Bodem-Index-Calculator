@@ -4,8 +4,17 @@
 \alias{calc_magnesium_availability}
 \title{Calculate the capacity of soils to supply Magnesium}
 \usage{
-calc_magnesium_availability(A_MG_CC, A_PH_CC, A_OS_GV, A_CEC_CO, A_K_CC,
-  A_K_CEC, A_CLAY_MI, B_BT_AK, B_LU_BRP)
+calc_magnesium_availability(
+  A_MG_CC,
+  A_PH_CC,
+  A_OS_GV,
+  A_CEC_CO,
+  A_K_CC,
+  A_K_CEC,
+  A_CLAY_MI,
+  B_BT_AK,
+  B_LU_BRP
+)
 }
 \arguments{
 \item{A_MG_CC}{(numeric) The plant available content of Mg in the soil (mg  Mg per kg) extracted by 0.01M CaCl2}
