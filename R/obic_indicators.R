@@ -23,6 +23,7 @@ obic_indicators<- function(dt.ppr, dt_nema = NA) {
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_CEC = NULL
+  I_P_WO = NULL
   I_E_NGW = I_E_NSW = NULL
   B_LU_BRP = B_BT_AK = B_OV_WENR = B_LG_CBS = NULL
   D_ZN = D_CU = D_CR = NULL
@@ -30,6 +31,7 @@ obic_indicators<- function(dt.ppr, dt_nema = NA) {
   D_WSI = D_P_WRI = D_PMN = D_BCS = D_NGW = D_NSW = NULL
   leaching_to = NULL
   I_NEMA = NULL
+  D_P_WO = NULL
   
   # Evaluate nutrients ------------------------------------------------------
   
@@ -86,6 +88,9 @@ obic_indicators<- function(dt.ppr, dt_nema = NA) {
   
   # aggregation stability 
   dt.ppr[, I_P_CEC := ind_aggregatestability(D_AS)]
+  
+  # workability
+  dt.ppr[, I_P_WO := ind_workability(D_P_WO)]
 
   # Evaluate biological -----------------------------------------------------
   

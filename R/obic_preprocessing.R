@@ -22,14 +22,21 @@ obic_preprocessing <- function(dt) {
   A_RW_BC = A_BS_BC = A_GV_BC = A_PV_BC = A_AS_BC = A_SV_BC = A_RD_BC = A_SS_BC = A_CO_BC = NULL
   A_CA_CEC = A_MG_CEC = NULL
   A_N_PMN = NULL
-  B_BT_AK = B_LU_BRP = B_GT = B_LG_CBS = B_HELP_WENR = NULL
+  B_BT_AK = B_LU_BRP = B_GT = B_LG_CBS = B_HELP_WENR = B_OV_WENR = NULL
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_GA = D_NLV = D_PBI = D_OS_BAL = NULL
   D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_RUST = D_CP_RUSTDEEP = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_PH_DELTA = NULL
   D_CEC = D_AS = D_P_WRI = NULL
   D_MAN = D_P_DU = D_SLV = D_MG = D_PMN = D_ZN = D_CU = D_PH_DELTA = D_BCS = NULL
   M_M3 = M_M6 = M_M10 = M_M11 = M_M12 = M_M13 = M_M14 = M_M15 = NULL
   D_WSI = D_K = D_NGW = D_NSW = NULL
-
+  D_P_WO = B_GLG = B_GHG = B_Z_TWO= NULL
+  
+  # Convert B_OV_WENR input when numeric
+  dt[, B_OV_WENR := format_soilcompaction(B_OV_WENR)]
+  
+  # Format GT when required
+  dt[, B_GT := format_gwt(B_GT)]
+  
   # Calculate soil sealing risk
   dt[, D_SE := calc_sealing_risk(A_CLAY_MI, A_OS_GV)]
   
@@ -120,6 +127,8 @@ obic_preprocessing <- function(dt) {
   # calculate N run-off to surface water (kgN/ha/year)
   dt[,D_NSW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to = "ow")]
 
+  # calculate workability 
+  dt[,D_P_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_GHG, B_Z_TWO)]
 
   return(dt)
 }

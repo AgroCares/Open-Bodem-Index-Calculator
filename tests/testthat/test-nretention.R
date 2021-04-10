@@ -4,9 +4,9 @@ test_that("calc_nleach works", {
     calc_nleach(
       B_BT_AK = c('dekzand','zeeklei','rivierklei','loess'),
       B_LU_BRP = c(265, 2014, 259, 259), # grasland, bouwland, mais, mais
-      B_GT = c('GtIV','GtV','GtIII','GtII'),
+      B_GWL_CLASS = c('GtIV','GtV','GtIII','GtII'),
       D_NLV = c(5, 30, 100, 150),
-      B_LG_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
+      B_AER_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
       leaching_to = "gw"
     ),
     expected = c(0.41, 0.39, 0.90, 4.62),
@@ -18,9 +18,9 @@ test_that("calc_nleach works", {
     calc_nleach(
       B_BT_AK = c('dekzand','zeeklei','rivierklei','loess'),
       B_LU_BRP = c(265, 2014, 259, 259), # grasland, bouwland, mais, mais
-      B_GT = c('GtIV','GtV','GtIII','GtII'),
+      B_GWL_CLASS = c('GtIV','GtV','GtIII','GtII'),
       D_NLV = c(5, 30, 100, 150),
-      B_LG_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
+      B_AER_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
       leaching_to = "ow"
     ),
     expected = c(0.095, 0.270, 0.700, 5.880),

@@ -5,7 +5,7 @@
 #' @format A data.frame with 405 rows and 12 columns:
 #' \describe{
 #'   \item{crop_code}{The BRP gewascode of the crop}
-#'   \item{crop_name}{The name of the crop}
+#'   \item{crop_name}{The name of the crop, in lower case}
 #'   \item{crop_waterstress}{Classification linking for linking crops to waterstress.obic}
 #'   \item{crop_intensity}{Whether crop is root/tuber crop, rest crop, or other.}
 #'   \item{crop_eos}{Effective soil organic matter produced by the crop in kg/ha}
@@ -18,12 +18,13 @@
 #'   \item{crop_n}{The category for this crop at nitrogen}
 #'   \item{crop_k}{}
 #'   \item{crop_measure}{}
-#'   \item{nf_clay}{}
-#'   \item{nf_sand.other}{}
-#'   \item{nf_sand.sout}{}
-#'   \item{nf_loess}{}
-#'   \item{nf_peat}{}
+#'   \item{nf_clay}{Allowed effective N dose on clay soils}
+#'   \item{nf_sand.other}{Allowed effective N dose on sanndy soils}
+#'   \item{nf_sand.sout}{Allowed effective N dose on sandy soils sensitive to leaching}
+#'   \item{nf_loess}{Allowed effective N dose on loess soils}
+#'   \item{nf_peat}{Allowed effective N dose on peat soils}
 #'   \item{crop_name_scientific}{All-lower-case scientific name of the crop species. When crop is not species specific the genus of the crop is given}
+#'   \item{crop_season}{Crop category for length growing season}
 #' }
 "crops.obic"
 
@@ -114,3 +115,16 @@
 #'   \item{v}{v for the evaluate_logistics function, affects the growth rate near the maximum}
 #' }
 "nema.obic"
+#' Desired growing season period for maximum yield
+#' 
+#' This table gives the required number of days before and after August 15 required for optimal yield or usability and has categories to determine yield loss having a shorter workable growing season based on Tabel 2 and several formulas from Huinink (2018)
+#' 
+#' @format A data.table with 29 rows and 5 columns:
+#' \describe{
+#'   \item{landuse}{The name of the crop or landuse category, used to link to crops.obic$crop_season}
+#'   \item{req_days_pre_glg}{Required number of workable days before August 15 assuming this coincides with GLG, lowest groundwater}
+#'   \item{req_days_post_glg}{Required number of workable days after August 15 assuming this coincides with GLG, lowest groundwater}
+#'   \item{total_days}{Total number of days required for optimal growth or use}
+#'   \item{derving}{Category to determine yield loss due to having a sub-optimal relative growing season length or RLG}
+#' }
+"season.obic"

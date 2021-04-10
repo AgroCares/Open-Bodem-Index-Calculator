@@ -28,7 +28,8 @@ obic <- function(dt, add_relative_score = TRUE, add_recommendations = TRUE, dt_n
         "A_GV_BC", "A_PV_BC", "A_AS_BC", "A_SV_BC", "A_RD_BC", "A_SS_BC", "A_CO_BC", 'A_CU_CC','A_MN_CC','A_ZN_CC', 
         "B_LU_BRP", "B_BT_AK", "B_NR_RIVM", "B_RWT_DANK", "B_RWA_DANK", "B_OV_WENR", 
         "B_HELP_WENR", "B_LG_CBS", 
-        "M_M1", "M_M2", "M_M3", "M_M4", "M_M5", "M_M6", "M_M7", "M_M8", "M_M9", "M_M10", "M_M11", "M_M12", "M_M13", "M_M14", "M_M15"
+        "M_M1", "M_M2", "M_M3", "M_M4", "M_M5", "M_M6", "M_M7", "M_M8", "M_M9", "M_M10", "M_M11", "M_M12", "M_M13", "M_M14", "M_M15",
+        "B_GLG", "B_GHG", 'B_Z_TWO'
         )
     )
   

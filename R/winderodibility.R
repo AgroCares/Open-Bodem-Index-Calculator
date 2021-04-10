@@ -50,6 +50,7 @@ calc_winderodibility <- function(A_CLAY_MI,A_SILT_MI,B_LU_BRP) {
   dt[, value := pmax(pmin(value, 1), 0)]
   
   # return Wind Erodibility Factor
+  setorder(dt, id)
   value <- dt[, value]
   
   # return

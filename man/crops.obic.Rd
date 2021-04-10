@@ -8,7 +8,7 @@
 A data.frame with 405 rows and 12 columns:
 \describe{
   \item{crop_code}{The BRP gewascode of the crop}
-  \item{crop_name}{The name of the crop}
+  \item{crop_name}{The name of the crop, in lower case}
   \item{crop_waterstress}{Classification linking for linking crops to waterstress.obic}
   \item{crop_intensity}{Whether crop is root/tuber crop, rest crop, or other.}
   \item{crop_eos}{Effective soil organic matter produced by the crop in kg/ha}
@@ -21,12 +21,13 @@ A data.frame with 405 rows and 12 columns:
   \item{crop_n}{The category for this crop at nitrogen}
   \item{crop_k}{}
   \item{crop_measure}{}
-  \item{nf_clay}{}
-  \item{nf_sand.other}{}
-  \item{nf_sand.sout}{}
-  \item{nf_loess}{}
-  \item{nf_peat}{}
+  \item{nf_clay}{Allowed effective N dose on clay soils}
+  \item{nf_sand.other}{Allowed effective N dose on sanndy soils}
+  \item{nf_sand.sout}{Allowed effective N dose on sandy soils sensitive to leaching}
+  \item{nf_loess}{Allowed effective N dose on loess soils}
+  \item{nf_peat}{Allowed effective N dose on peat soils}
   \item{crop_name_scientific}{All-lower-case scientific name of the crop species. When crop is not species specific the genus of the crop is given}
+  \item{crop_season}{Crop category for length growing season}
 }
 }
 \usage{
