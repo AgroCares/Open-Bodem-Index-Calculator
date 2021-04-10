@@ -2,7 +2,7 @@ test_that("calc_crumbleability works", {
   expect_equal(
     calc_crumbleability(
       A_CLAY_MI = 10, 
-      A_OS_GV = 5, 
+      A_SOM_LOI = 5, 
       A_PH_CC = 6
     ),
     expected = 9.3,
@@ -11,7 +11,7 @@ test_that("calc_crumbleability works", {
   expect_equal(
     calc_crumbleability(
       A_CLAY_MI = c(2, 4, 45), 
-      A_OS_GV = c(5, 5, 5), 
+      A_SOM_LOI = c(5, 5, 5), 
       A_PH_CC= c(6, 6, 6)
     ), 
     expected = c(10, 10, 4.045833),
