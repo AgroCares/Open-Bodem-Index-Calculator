@@ -18,7 +18,7 @@
 calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO) {
   
   # define variables used within the function
-  id =crop_code = soiltype = landuse = crop_name = crop_waterstress = crop_season = NULL
+  id =crop_code = soiltype = landuse = crop_waterstress = crop_season = NULL
   soiltype.m = spring_depth =  gws_sub_workingdepth = NULL
   early_season_day_deficit = late_season_day_deficit = NULL
   req_days_pre_glg = req_days_post_glg = total_days = NULL
@@ -60,7 +60,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
                    B_Z_TWO = B_Z_TWO)
   
   # merge with OBIC crop and soil table
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_name, crop_waterstress, crop_season)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_waterstress, crop_season)], 
+              by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.m)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
   dt <- merge(dt, season.obic, by.x = 'crop_season', by.y = 'landuse')
   
@@ -74,10 +75,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
     dt[soiltype.m == 'zand' & A_SILT_MI >= 10 & A_SILT_MI < 20, c(cols) := list(55,30)]
     dt[soiltype.m == 'zand' & A_SILT_MI >= 20, c(cols) := list(60,30)]
       
-    # loess soils
+    # loess and peat soils
     dt[soiltype.m == 'loess',c(cols) := list(65,12)]
-
-    # peat soils
     dt[soiltype.m == 'veen',c(cols) := list(55,22)]
     
     # clay soils
@@ -147,11 +146,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   dt[derving == 'grasland' & soiltype.m == 'veen', yl := ylveen(rsl)]
   dt[derving == 'grasland' & !soiltype.m == 'veen', yl := ylsoil(rsl)]
   
-  # Calculate yield fraction
-  dt[,yield := 1-0.01*yl] 
-  
-  # Set yield to 0 if negative
-  dt[yield < 0, yield := 0]
+  # Calculate yield fraction, always above zero
+  dt[,yield := pmax(0, 1 - 0.01 * yl)] 
   
   # setorder
   setorder(dt, id)
