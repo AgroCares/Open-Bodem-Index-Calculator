@@ -109,6 +109,8 @@ ind_nematodes <- function(B_LU_BRP = B_LU_BRP,
                           A_SN_DI_TOT=0, A_SN_DI_DIP=0, A_SN_DI_DES=0, A_OPN_PA_TOT=0, A_OPN_PA_BUK=0, A_OPN_CY_TOT=0, A_OPN_AP_TOT=0,    
                           A_OPN_AP_FRA=0, A_OPN_AP_RIT=0, A_OPN_AP_SUB=0, A_OPN_CR_TOT=0, A_OPN_SU_TOT = 0,A_NPN_SA_TOT = 0){
   
+  # add visual bindings
+  b = element = geel = id = nem_b = nem_v = nem_x = number = standaard = v = value = NULL
   
   # indicator scoring values per nematode type
   nema.obic <- as.data.table(OBIC::nema.obic)
