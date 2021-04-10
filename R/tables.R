@@ -2,7 +2,7 @@
 #' 
 #' This table helps to link the different crops in the OBIC functions with the crops selected by the user
 #' 
-#' @format A data.frame with 405 rows and 12 columns:
+#' @format A data.frame with 465 rows and 21 columns:
 #' \describe{
 #'   \item{crop_code}{The BRP gewascode of the crop}
 #'   \item{crop_name}{The name of the crop, in lower case}
@@ -13,11 +13,11 @@
 #'   \item{crop_category}{Classification of crop per land use type (arable, maize, grass, nature)}
 #'   \item{crop_rotation}{Classification of crop to determine function within crop rotations}
 #'   \item{crop_crumbleability}{The category for this crop at crumbleablity}
-#'   \item{crop_phosphate}{The category for this crop at phosphate availability}
+#'   \item{crop_phosphate}{The category for this crop for evaluation phosphate availability}
 #'   \item{crop_sealing}{The category for this crop at soil sealing}
-#'   \item{crop_n}{The category for this crop at nitrogen}
-#'   \item{crop_k}{}
-#'   \item{crop_measure}{}
+#'   \item{crop_n}{The category for this crop for evaluation nitrogen}
+#'   \item{crop_k}{The category for this crop for evaluation potassium}
+#'   \item{crop_measure}{The category for this crop for evaluating measures}
 #'   \item{nf_clay}{Allowed effective N dose on clay soils}
 #'   \item{nf_sand.other}{Allowed effective N dose on sanndy soils}
 #'   \item{nf_sand.sout}{Allowed effective N dose on sandy soils sensitive to leaching}
