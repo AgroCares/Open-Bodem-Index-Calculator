@@ -6,7 +6,11 @@
 
 ## Added
 * season.obic added as data.table
-* new function and tests for workability
+* new function and tests for workability indicator
+* nema.obic added as data.table
+* new function and tests for nematode indicator
+* preparation nema.obic in dev
+* preparation season.obic in dev
 
 ## Version 1.0.0 2021-04-10
 
