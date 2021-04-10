@@ -5,9 +5,9 @@
 #' @param A_CLAY_MI (numeric) The clay content of the soil (in procent)
 #' @param A_SILT_MI (numeric) The silt content of the soil (in procent)
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
-#' @param B_BT_AK (character) The type of soil
-#' @param B_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
-#' @param B_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
+#' @param B_SOILTYPE_AGR (character) The type of soil
+#' @param B_GWL_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
+#' @param B_GWL_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
 #' @param B_Z_TWO  (numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)
 #' 
 #' @import data.table
@@ -15,7 +15,7 @@
 #' @references Huinink (2018) Bodem/perceel geschiktheidsbeoordeling voor Landbouw, Bosbouw en Recreatie. BodemConsult-Arnhem
 #'  
 #' @export
-calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_GHG, B_Z_TWO) {
+calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO) {
   
   # define variables used within the function
   id =crop_code = soiltype = landuse = crop_name = crop_waterstress = crop_season = NULL
@@ -35,16 +35,16 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
   setkey(season.obic, landuse)
 
   # Check inputs
-  arg.length <- max(length(A_CLAY_MI), length(A_SILT_MI), length(B_LU_BRP), length(B_BT_AK), length(B_GLG), length(B_GHG), length(B_Z_TWO))
+  arg.length <- max(length(A_CLAY_MI), length(A_SILT_MI), length(B_LU_BRP), length(B_SOILTYPE_AGR), length(B_GWL_GLG), length(B_GWL_GHG), length(B_Z_TWO))
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_SILT_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
-  checkmate::assert_numeric(B_GLG, lower = 0, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(B_GHG, lower = 0, any.missing = FALSE, len = arg.length)
-  checkmate::assert_true(all(B_GHG < B_GLG))
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_numeric(B_GWL_GLG, lower = 0, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_GWL_GHG, lower = 0, any.missing = FALSE, len = arg.length)
+  checkmate::assert_true(all(B_GWL_GHG < B_GWL_GLG))
   checkmate::assert_numeric(B_Z_TWO, lower = 0, upper = 400, any.missing = FALSE, len = arg.length)
 
   # Collect in data table
@@ -52,14 +52,14 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
                    A_CLAY_MI = A_CLAY_MI,
                    A_SILT_MI = A_SILT_MI,
                    B_LU_BRP = B_LU_BRP,
-                   B_BT_AK = B_BT_AK,
-                   B_GLG = B_GLG,
-                   B_GHG = B_GHG,
+                   B_SOILTYPE_AGR = B_SOILTYPE_AGR,
+                   B_GWL_GLG = B_GWL_GLG,
+                   B_GWL_GHG = B_GWL_GHG,
                    B_Z_TWO = B_Z_TWO)
   
   # merge with OBIC crop and soil table
   dt <- merge(dt, crops.obic[, list(crop_code, crop_name, crop_waterstress, crop_season)], by.x = "B_LU_BRP", by.y = "crop_code")
-  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.m)], by.x = "B_BT_AK", by.y = "soiltype")
+  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.m)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
   dt <- merge(dt, season.obic, by.x = 'crop_season', by.y = 'landuse')
   
   ## determine workableability key numbers
@@ -123,17 +123,17 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_G
 # Calculate season length -----
   # Calculate the day on which the desired water depth is reached for spring and fall
   # Spring
-  dt[req_depth_spring >= B_GHG & req_depth_spring <= B_GLG,
-     req_spring_depth_day := round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))]
-  dt[req_depth_spring < B_GHG, req_spring_depth_day := 1] # if highest groundwater level is deeper than required depth, soil is always workable
-  dt[req_depth_spring > B_GLG, req_spring_depth_day := 228] # if lowest groundwater level is higher than required depth, soil is never workable.
+  dt[req_depth_spring >= B_GWL_GHG & req_depth_spring <= B_GWL_GLG,
+     req_spring_depth_day := round(138-(asin((-req_depth_spring-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
+  dt[req_depth_spring < B_GWL_GHG, req_spring_depth_day := 1] # if highest groundwater level is deeper than required depth, soil is always workable
+  dt[req_depth_spring > B_GWL_GLG, req_spring_depth_day := 228] # if lowest groundwater level is higher than required depth, soil is never workable.
   # required_depth_day is set to 228 (which is 15 aug/GLG) so season length will be 0
   
   # Fall
-  dt[req_depth_fall >= B_GHG & req_depth_fall <= B_GLG,
-     req_fall_depth_day :=   round(138-(asin((-req_depth_fall-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))]
-  dt[req_depth_fall < B_GHG, req_fall_depth_day := 1] # if highest groundwater level is deeper than required depth, soil is always workable
-  dt[req_depth_fall > B_GLG, req_fall_depth_day := 228] # if lowest groundwater level is higher than required depth, soil is never workable.
+  dt[req_depth_fall >= B_GWL_GHG & req_depth_fall <= B_GWL_GLG,
+     req_fall_depth_day :=   round(138-(asin((-req_depth_fall-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
+  dt[req_depth_fall < B_GWL_GHG, req_fall_depth_day := 1] # if highest groundwater level is deeper than required depth, soil is always workable
+  dt[req_depth_fall > B_GWL_GLG, req_fall_depth_day := 228] # if lowest groundwater level is higher than required depth, soil is never workable.
   
   # Calculate the number of days deficit compared to ideal situation
   dt[,early_season_day_deficit := req_days_pre_glg-(228-req_spring_depth_day)]
