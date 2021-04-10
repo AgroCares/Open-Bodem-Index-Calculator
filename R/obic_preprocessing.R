@@ -31,7 +31,7 @@ obic_preprocessing <- function(dt) {
   D_WSI = D_K = D_NGW = D_NSW = NULL
   
   # Convert B_OV_WENR input when numeric
-  dt[, B_OV_WENR := convert_B_OV_WENR(B_OV_WENR)]
+  dt[, B_OV_WENR := format_soilcompaction(B_OV_WENR)]
   
   # Format GT when required
   dt[, B_GT := format_gwt(B_GT)]
