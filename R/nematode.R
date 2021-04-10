@@ -173,6 +173,9 @@ ind_nematodes <- function(A_RLN_PR_TOT=NULL, A_RLN_PR_CREN=NULL, A_RLN_PR_NEG=NU
   # ensure correct order
   setorder(out,id)
   
+  # extract relevant score
+  out <- out[,value]
+  
   # return out
   return(out)
 } 

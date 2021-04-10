@@ -16,10 +16,10 @@ testspecies = c("Ditylenchus spp."             ,"Ditylenchus dipsaci"          ,
                 "Pratylenchus fallax"          ,"Pratylenchus pinguicaudatus"  ,"Pratylenchus pseudopratensis" ,"Pratylenchus vulnus"      ,   
                 "Pratylenchus dunensis"        ,"Pratylenchus zeae")
 
-# test 1
+# test function for ind_nematodes_list
 test_that("ind_nematodes works", {
   expect_equal(
-    ind_nematodes(
+    ind_nematodes_list(
       data.table(species = testspecies,
                  count = rep(0,54))
       ),
@@ -27,7 +27,7 @@ test_that("ind_nematodes works", {
     tolecance = 0.01
   )
   expect_lt(
-    ind_nematodes(
+    ind_nematodes_list(
       data.table(species = testspecies,
                  count = rep(10000,54))
     ),
