@@ -1,5 +1,13 @@
 # Changelog OBIC
 
+## Version 1.1.0 2021-04-10
+
+### Changed
+
+## Added
+* season.obic added as data.table
+* new function and tests for workability
+
 ## Version 1.0.0 2021-04-10
 
 ### Changed
