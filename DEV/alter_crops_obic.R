@@ -22,7 +22,6 @@ cr <- cr[,V1 := NULL]
   cr <- rbindlist(list(cr, miss_codes), fill = TRUE)
   
   # convert to lower case
-  org_names <- cr[,.(crop_name, crop_code)]
   cr[,crop_name := tolower(crop_name)]
   
   # Add crop groups for crop_crumblebility (only done for new crop codes)
@@ -233,30 +232,30 @@ cr <- cr[,V1 := NULL]
     
     # unknown: maggi, niger, roodzwenk, rijst, spurrie, seradelle, zonnekroon
    
-  # Add nitrogen use normes (stikstofgebruiksnormen)
-    nfcols <- c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat')
+  # Add nitrogen use norms (stikstofgebruiksnormen)
+    cols <- c(cols)
   
     cr[grepl('^azolla|^lisdodde|^schurveling|wandelpad|^bomen|^boom|^bos|^griend|bosje$|^struweel|^windhaag|knotboom|^houtwal|elzensingel|landschapselement|oever|^poel|^riet|wandelpad,|water|scheerheg|^laan$', crop_name)&is.na(nf_clay),
-       c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(0, 0, 0, 0,0)]
-    cr[grepl('^chrysant|^iris|^kroku|^kuifhyacint|^lelie|^sierui', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(150, 150, 150, 150,150)]
-    cr[grepl('^drachtplanten', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(150, 140, 112, 112,145)]
-    cr[grepl('^hoogstamboomgaard', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(135, 105, 105, 105,105)]
-    cr[grepl('^klaver', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(30, 25, 25, 25,30)]
-    cr[grepl('^^knolvenkel', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(180, 165, 132, 132, 170)]
-    cr[grepl('^komkommer', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(190, 175, 140, 140,180)]
-    cr[grepl('^kuifhyacint.*bloembollen|^sierui', crop_name), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(165, 155, 155, 155,155)]
-    cr[grepl('maggi.*zaden', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(100, 90, 72, 72,92)]
-    cr[grepl('^niger|^seradelle', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(200, 185, 148, 148, 190)] # stengel/knol/wortegewassen, overig
-    cr[grepl('^palmen', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(80, 80, 80, 80,80)]
-    cr[grepl('^roodzwenkgras', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(85, 75, 60, 60,80)] #uncertain
-    cr[grepl('^uien', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(120, 120, 120, 120,120)]
-    cr[grepl('^spurrie', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(60, 50, 50, 50,50)]
-    cr[grepl('^vrouwenmantel', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(150, 140, 112, 112,145)] # aangenomen als Kruiden, bladgewas, eenmalige oogst
-    cr[grepl('^wilde marjolein', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(100, 90, 72, 72,95)]
-    cr[grepl('^wilde rijst', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(150, 150, 150, 150,150)] # buitenbloemen overig
-    cr[grepl('^zantedeschia', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(120, 120, 120, 120,120)]
-    cr[grepl('^zonnekroon', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(185, 140, 112, 112, 150)] # als mais zonder derogatie
-    cr[grepl('^voedselbos', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(110, 110, 110, 110, 110)]
+       c(cols) := list(0, 0, 0, 0,0)]
+    cr[grepl('^chrysant|^iris|^kroku|^kuifhyacint|^lelie|^sierui', crop_name)&is.na(nf_clay), c(cols) := list(150, 150, 150, 150,150)]
+    cr[grepl('^drachtplanten', crop_name)&is.na(nf_clay), c(cols) := list(150, 140, 112, 112,145)]
+    cr[grepl('^hoogstamboomgaard', crop_name)&is.na(nf_clay), c(cols) := list(135, 105, 105, 105,105)]
+    cr[grepl('^klaver', crop_name)&is.na(nf_clay), c(cols) := list(30, 25, 25, 25,30)]
+    cr[grepl('^^knolvenkel', crop_name)&is.na(nf_clay), c(cols) := list(180, 165, 132, 132, 170)]
+    cr[grepl('^komkommer', crop_name)&is.na(nf_clay), c(cols) := list(190, 175, 140, 140,180)]
+    cr[grepl('^kuifhyacint.*bloembollen|^sierui', crop_name), c(cols) := list(165, 155, 155, 155,155)]
+    cr[grepl('maggi.*zaden', crop_name)&is.na(nf_clay), c(cols) := list(100, 90, 72, 72,92)]
+    cr[grepl('^niger|^seradelle', crop_name)&is.na(nf_clay), c(cols) := list(200, 185, 148, 148, 190)] # stengel/knol/wortegewassen, overig
+    cr[grepl('^palmen', crop_name)&is.na(nf_clay), c(cols) := list(80, 80, 80, 80,80)]
+    cr[grepl('^roodzwenkgras', crop_name)&is.na(nf_clay), c(cols) := list(85, 75, 60, 60,80)] #uncertain
+    cr[grepl('^uien', crop_name)&is.na(nf_clay), c(cols) := list(120, 120, 120, 120,120)]
+    cr[grepl('^spurrie', crop_name)&is.na(nf_clay), c(cols) := list(60, 50, 50, 50,50)]
+    cr[grepl('^vrouwenmantel', crop_name)&is.na(nf_clay), c(cols) := list(150, 140, 112, 112,145)] # aangenomen als Kruiden, bladgewas, eenmalige oogst
+    cr[grepl('^wilde marjolein', crop_name)&is.na(nf_clay), c(cols) := list(100, 90, 72, 72,95)]
+    cr[grepl('^wilde rijst', crop_name)&is.na(nf_clay), c(cols) := list(150, 150, 150, 150,150)] # buitenbloemen overig
+    cr[grepl('^zantedeschia', crop_name)&is.na(nf_clay), c(cols) := list(120, 120, 120, 120,120)]
+    cr[grepl('^zonnekroon', crop_name)&is.na(nf_clay), c(cols) := list(185, 140, 112, 112, 150)] # als mais zonder derogatie
+    cr[grepl('^voedselbos', crop_name)&is.na(nf_clay), c(cols) := list(110, 110, 110, 110, 110)]
 # --- add scientific name of crop species ---------------
     
   # update done at 10-april-21
@@ -460,9 +459,6 @@ cr <- cr[,V1 := NULL]
   cr[crop_name == 'spelt', crop_waterstress := 'granen']
 
   # update the csv and Rdata file
-  # replace crop names with original capitalised names
-  cr[,crop_name := NULL]
-  cr <- merge.data.table(org_names, cr, by='crop_code')
   crops.obic <- copy(cr)
   fwrite(crops.obic, 'dev/crops_obic.csv')
   save(crops.obic, file = 'data/crops_obic.RData')
