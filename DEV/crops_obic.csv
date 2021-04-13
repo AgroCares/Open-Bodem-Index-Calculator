@@ -246,7 +246,7 @@ crop_code,crop_name,crop_waterstress,crop_intensity,crop_eos,crop_eos_residue,cr
 1934,"Aardappelen, zetmeel-",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum,fabrieksaardappelen
 1935,"Aardappelen, zetmeel- TBM pootgoed",aardappel,rooivrucht,875,0,akkerbouw,starch,4,arable,overig,akkerbouw,mais,akkerbouw,240,230,184,184,230,solanum tuberosum,pootaardappelen
 1936,"Bos, blijvend, met herplantplicht",natuur,overig,,,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,90,90,90,90,90,overig,loofbos
-1940,Voedselbos,boomteelt,overig,,,akkerbouw,,16,arable,overig,akkerbouw,mais,boomteelt,,,,,,overig,loofbos
+1940,Voedselbos,boomteelt,overig,,,akkerbouw,,16,arable,overig,akkerbouw,mais,boomteelt,110,110,110,110,110,overig,loofbos
 1949,Aardperen,overig,overig,375,900,akkerbouw,other,16,arable,overig,akkerbouw,mais,akkerbouw,165,165,132,132,165,helianthus tuberosus,suikerbieten
 1950,Onbekend/gewas niet opgegeven,natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,110,110,110,110,110,overig,overig
 1959,Dummycode voor dummypercelen,natuur,overig,0,0,akkerbouw,other,2,arable,overig,akkerbouw,mais,veeteelt,110,110,110,110,110,overig,overig

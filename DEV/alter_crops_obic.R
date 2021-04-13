@@ -256,7 +256,7 @@ cr <- cr[,V1 := NULL]
     cr[grepl('^wilde rijst', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(150, 150, 150, 150,150)] # buitenbloemen overig
     cr[grepl('^zantedeschia', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(120, 120, 120, 120,120)]
     cr[grepl('^zonnekroon', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(185, 140, 112, 112, 150)] # als mais zonder derogatie
-
+    cr[grepl('^voedselbos', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(110, 110, 110, 110, 110)]
 # --- add scientific name of crop species ---------------
     
   # update done at 10-april-21
