@@ -255,17 +255,8 @@ cr <- cr[,V1 := NULL]
     cr[grepl('^wilde marjolein', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(100, 90, 72, 72,95)]
     cr[grepl('^wilde rijst', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(150, 150, 150, 150,150)] # buitenbloemen overig
     cr[grepl('^zantedeschia', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(120, 120, 120, 120,120)]
-    cr[grepl('^zonnekroon', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(60, 50, 50, 50,60)] # groenbemester?
+    cr[grepl('^zonnekroon', crop_name)&is.na(nf_clay), c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat') := list(185, 140, 112, 112, 150)] # als mais zonder derogatie
 
-    
-    # update the csv and Rdata file
-    # replace crop names with original capitalised names
-    cr[,crop_name := NULL]
-    cr <- merge.data.table(org_names, cr, by='crop_code')
-    crops.obic <- copy(cr)
-    fwrite(crops.obic, 'dev/crops_obic.csv')
-    save(crops.obic, file = 'data/crops_obic.RData')
-    
 # --- add scientific name of crop species ---------------
     
   # update done at 10-april-21
@@ -466,9 +457,12 @@ cr <- cr[,V1 := NULL]
   cr[is.na(crop_season), crop_season := 'overig']
 
   # Correction on Spelt waterstress
-  cr[crop_name == 'spelt', crop_waterstress := 'overig']
+  cr[crop_name == 'spelt', crop_waterstress := 'granen']
 
   # update the csv and Rdata file
+  # replace crop names with original capitalised names
+  cr[,crop_name := NULL]
+  cr <- merge.data.table(org_names, cr, by='crop_code')
   crops.obic <- copy(cr)
   fwrite(crops.obic, 'dev/crops_obic.csv')
   save(crops.obic, file = 'data/crops_obic.RData')
