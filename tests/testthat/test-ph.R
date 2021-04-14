@@ -2,9 +2,9 @@ test_that("calc_ph_delta works", {
   expect_equal(
     calc_ph_delta(
       A_PH_CC = 6,
-      B_BT_AK = "rivierklei",
+      B_SOILTYPE_AGR = "rivierklei",
       A_CLAY_MI = 20,
-      A_OS_GV = 5,
+      A_SOM_LOI = 5,
       D_CP_STARCH = 0,
       D_CP_POTATO = 0.3,
       D_CP_GRASS = 0,
@@ -19,9 +19,9 @@ test_that("calc_ph_delta works", {
   expect_equal(
     calc_ph_delta(
       A_PH_CC = c(6, 4.0, 6.2, 4.5, 5.0),
-      B_BT_AK = c("rivierklei", "veen", "veen", "loess", "dekzand"),
+      B_SOILTYPE_AGR = c("rivierklei", "veen", "veen", "loess", "dekzand"),
       A_CLAY_MI = c(20, 5, 8, 12, 5),
-      A_OS_GV = c(5, 20, 23, 8, 10),
+      A_SOM_LOI = c(5, 20, 23, 8, 10),
       D_CP_STARCH = c(0, 0.2, 0, 0.4, 0),
       D_CP_POTATO = c(0.3, 0.15, 0, 0, 0),
       D_CP_GRASS = c(0, 0.45, 0.7, 0, 0.5),
