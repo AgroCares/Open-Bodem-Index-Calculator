@@ -6,7 +6,7 @@
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
-#' @param A_OS_GV (numeric) The organic matter content of the soil (\%)
+#' @param A_SOM_LOI (numeric) The organic matter content of the soil (\%)
 #' @param type (character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
 #' @param ptf (character) Pedotransfer functions to calculate van Genuchten parameters. Options include c('Wosten1999', 'Wosten2001', 'Klasse')
 #'
@@ -15,17 +15,17 @@
 #' @import data.table  
 #'
 #' @export
-calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
+calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,
                                 type = 'plant available water', ptf = 'Wosten1999') {
   
   id = thetaS = thetaR = alfa = n = fc = wp = whc = paw = ksat = density = Pleem = mineral = NULL
   
   # Check inputs
-  arg.length <- max(length(A_CLAY_MI), length(A_SAND_MI),length(A_SILT_MI), length(A_OS_GV))
+  arg.length <- max(length(A_CLAY_MI), length(A_SAND_MI),length(A_SILT_MI), length(A_SOM_LOI))
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE)
   checkmate::assert_numeric(A_SAND_MI, lower = 0, upper = 100, any.missing = FALSE)
   checkmate::assert_numeric(A_SILT_MI, lower = 0, upper = 100, any.missing = FALSE)
-  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE)
+  checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE)
   checkmate::assert_character(type, any.missing = FALSE, min.len = 1, len = 1)
   checkmate::assert_subset(type, choices = c('wilting point','field capacity','water holding capacity','plant available water','Ksat'), empty.ok = FALSE)
   checkmate::assert_character(ptf, any.missing = FALSE, min.len = 1, len = 1)
@@ -38,7 +38,7 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
     A_SAND_MI = A_SAND_MI,
     A_SILT_MI = A_SILT_MI,
     A_LOAM_MI = (A_CLAY_MI + A_SILT_MI),
-    A_OS_GV = A_OS_GV,
+    A_SOM_LOI = A_SOM_LOI,
     value = NA_real_
   )
   # settings
@@ -60,15 +60,15 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,
   
     # calculate water retention parameters given Wosten (1999), based on HYPRES
     if (ptf == "Wosten1999"){
-      dt[, c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_ptf_Wosten1999(A_CLAY_MI, A_SILT_MI, A_OS_GV, Bovengrond)]}
+      dt[, c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_ptf_Wosten1999(A_CLAY_MI, A_SILT_MI, A_SOM_LOI, Bovengrond)]}
   
     # calculate water retention parameters given Wosten (2001)
     if (ptf == "Wosten2001"){
-      dt[,  c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat", "l") := pFpara_ptf_Wosten2001(A_CLAY_MI, Pleem, A_OS_GV, M50, Bovengrond)]}
+      dt[,  c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat", "l") := pFpara_ptf_Wosten2001(A_CLAY_MI, Pleem, A_SOM_LOI, M50, Bovengrond)]}
   
     # class-translation function Staringreeks
     if (ptf == "Klasse"){
-      dt[,  c("thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_class(A_CLAY_MI, Pleem, A_OS_GV, M50)]}
+      dt[,  c("thetaR", "thetaS", "alfa", "n", "ksat") := pFpara_class(A_CLAY_MI, Pleem, A_SOM_LOI, M50)]}
   
   # retrieve moisture content at certain pF values 
   dt[,wp := pF_curve(-1 * 10^p.wiltingpoint, thetaR, thetaS, alfa, n)]
