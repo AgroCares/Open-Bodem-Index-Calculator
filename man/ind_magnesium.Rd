@@ -4,14 +4,14 @@
 \alias{ind_magnesium}
 \title{Calculate the indicator for Magnesium}
 \usage{
-ind_magnesium(D_MG, B_LU_BRP, B_BT_AK)
+ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)
 }
 \arguments{
 \item{D_MG}{(numeric) The value of Mg calculated by \code{\link{calc_magnesium_availability}}}
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The type of soil}
 }
 \description{
 This function calculates the indicator for the the Magnesium content of the soil by using the Mg-availability calculated by \code{\link{calc_magnesium_availability}}

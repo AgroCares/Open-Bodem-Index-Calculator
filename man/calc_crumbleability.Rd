@@ -4,14 +4,14 @@
 \alias{calc_crumbleability}
 \title{Calculate the crumbleability}
 \usage{
-calc_crumbleability(A_CLAY_MI, A_OS_GV, A_PH_CC)
+calc_crumbleability(A_SOM_LOI, A_CLAY_MI, A_PH_CC)
 }
 \arguments{
-\item{A_CLAY_MI}{(numeric) The percentage A_CLAY_MI available of the soil}
+\item{A_SOM_LOI}{(numeric) The organic matter content of soil (\%)}
 
-\item{A_OS_GV}{(numeric) The organic matter content of soil in percentage}
+\item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
 
-\item{A_PH_CC}{(numeric) The pH of the soil}
+\item{A_PH_CC}{(numeric) The pH of the soil, measured in 0.01M CaCl2}
 }
 \description{
 This function calculates the crumbleability. This value can be evaluated by \code{\link{ind_crumbleability}}

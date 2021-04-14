@@ -13,7 +13,7 @@
 #' 
 #' @export
 calc_copper_availability <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI,
-                                     A_K_CC, A_MN_CC, A_CU_CC, 
+                                     A_K_CC, A_MN_CC, A_CU_CC
                                      ) {
   
   id = crop_code = crop_n = crop_category = NULL

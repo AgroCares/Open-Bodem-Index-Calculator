@@ -35,7 +35,7 @@ test_that("calc_bodemconditiescore works", {
       B_LU_BRP = rep(265,3),
       B_SOILTYPE_AGR = rep('dekzand',3)
     ),
-    expected = c(12, 23, 42),
+    expected = c(12, 23, 34),
     tolerance = 0.01
   )
   

@@ -4,14 +4,14 @@
 \alias{ind_management}
 \title{Calculate the indicator for sustainable management}
 \usage{
-ind_management(D_MAN, B_LU_BRP, B_BT_AK)
+ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)
 }
 \arguments{
 \item{D_MAN}{(numeric) The value of Sustainable Management  calculated by \code{\link{calc_management}}}
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The type of soil}
 }
 \description{
 This function calculates the the sustainability of strategic management options as calculated by \code{\link{calc_management}}

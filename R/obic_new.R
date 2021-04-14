@@ -9,13 +9,17 @@
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
+#' @param A_PH_CC (numeric) The acidity of the soil, determined in 0.01M CaCl2 (-)
 #' 
 #' @import data.table
 #' 
 #' @export
 obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
-                       A_SOM_LOI,A_CLAY_MI) {
+                       A_SOM_LOI,A_CLAY_MI,A_PH_CC) {
 
+  # add visual bindings
+  D_SE = D_CR = D_BDS = D_RD = D_GA = NULL
+  D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_CP_RUST = D_CP_RUSTDEEP = NULL
   
   # check input
   
@@ -27,7 +31,8 @@ obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
                         B_GWL_CLASS = B_GWL_CLASS,
                         B_SOILTYPE_AGR = B_SOILTYPE_AGR,
                         A_SOM_LOI = A_SOM_LOI,
-                        A_CLAY_MI = A_CLAY_MI
+                        A_CLAY_MI = A_CLAY_MI,
+                        A_PH_CC = A_PH_CC
                         )
   
   
@@ -65,78 +70,6 @@ obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
     dt.field[, D_CP_RUSTDEEP := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "rustgewasdiep")]
     
     
-    
-  # Calculate the amount of total organic carbon
-  dt[, D_OC := calc_organic_carbon(A_OS_GV, D_BDS, D_RD)]
-  
-  # Calculate a simple organic matter balance
-  dt[,D_OS_BAL := calc_sombalance(A_OS_GV, A_P_PAL, A_P_WA, B_LU_BRP, M_M3, M_M6)]
-  
-  
-  
-  # Calculate the NLV
-  dt[, D_NLV := calc_nlv(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA)]
-  
-  # Calculate the potassium availability
-  dt[, D_K := calc_potassium_availability(A_K_CC, A_K_CEC,A_CEC_CO, A_PH_CC, A_OS_GV, A_CLAY_MI, B_LU_BRP, B_BT_AK)]
-  
-  # Calculate the PBI
-  dt[, D_PBI := calc_phosphate_availability(A_P_PAL, A_P_PAE, A_P_WA,B_LU_BRP)]
-  
-    
-  # Calculate the difference between the actual pH and optimum pH
-  dt[, D_PH_DELTA := calc_ph_delta(A_PH_CC, B_BT_AK, A_CLAY_MI, A_OS_GV, D_CP_STARCH, D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER, B_LU_BRP)]
-  
-  # Determine the managment
-  dt[, D_MAN := calc_management(A_OS_GV,B_LU_BRP, B_BT_AK,B_GT,
-                                D_OS_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
-                                M_M6, M_M10, M_M11, M_M12, M_M13, M_M14, M_M15)]
-  
-  # Calculate the wind erodibility 
-  dt[, D_P_DU := calc_winderodibility(A_CLAY_MI, A_SILT_MI, B_LU_BRP)]
-  
-  # Calculate the sulphur supply
-  dt[, D_SLV := calc_slv(A_S_TOT,A_OS_GV,B_LU_BRP, B_BT_AK, D_BDS)]
-  
-  # Calculate the magnesium index
-  dt[, D_MG := calc_magnesium_availability(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC,
-                                           A_K_CEC,A_CLAY_MI,B_BT_AK,B_LU_BRP)]
-  
-  # Calculate the Cu-index
-  dt[, D_CU := calc_copper_availability(A_CU_CC, A_OS_GV, A_MN_CC,A_CLAY_MI,A_K_CC,
-                                        B_LU_BRP)]
-  # Calculate the Zn-index
-  dt[, D_ZN := calc_zinc_availability(A_ZN_CC, B_LU_BRP, B_BT_AK, A_PH_CC)]
-  
-  # Calculate the index for microbial activity
-  dt[, D_PMN := calc_pmn(A_N_PMN,B_LU_BRP,B_BT_AK)]
-  
-  # Calculate the CEC as cationbuffer index
-  dt[,D_CEC := calc_cec(A_CEC_CO)]
-  
-  # Calculate the aggregate stability given the CEC
-  dt[,D_AS := calc_aggregatestability(B_BT_AK,A_OS_GV,A_K_CEC,A_CA_CEC,A_MG_CEC)]
-  
-  # Calculate the score of the BodemConditieScore
-  dt[, D_BCS := calc_bcs(A_RW_BC, A_BS_BC, A_GV_BC, A_PV_BC, A_AS_BC, A_SV_BC, A_RD_BC, A_SS_BC, A_CO_BC,
-                         A_OS_GV, D_PH_DELTA,
-                         B_LU_BRP,B_BT_AK)]
-  
-  # Calculate water retention index 1. Plant Available Water
-  dt[,D_P_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_OS_GV,type = 'plant available water')]
-  
-  # Calculate Water Stress Risk
-  dt[,D_WSI := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'waterstress')]
-  
-  # calculate N leaching to groundwater (mgNO3/L)
-  dt[,D_NGW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to = "gw")]
-  
-  # calculate N run-off to surface water (kgN/ha/year)
-  dt[,D_NSW := calc_nleach(B_BT_AK, B_LU_BRP, B_GT, D_NLV, B_LG_CBS, leaching_to = "ow")]
-  
-  # calculate workability 
-  dt[,D_P_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_BT_AK, B_GLG, B_GHG, B_Z_TWO)]
-  
   
   
 }
@@ -147,34 +80,35 @@ obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
 #' 
 #' This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI) for a single field.
 #' 
-#' @param refid (character) a field id
-#' @param B_LU_BRP (numeric) The crop code from the BRP 
+#' @param B_LU_BRP (numeric) a series with crop codes given the crop rotation plan (source: the BRP) 
 #' @param B_SC_WENR (character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006).
 #' @param B_GWL_CLASS (character) The groundwater table class
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
+#' @param B_HELP_WENR (character) The soil type abbreviation, derived from 1:50.000 soil map
+#' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
-#' @param A_SAND_MI
-#' @param A_SILT_MI
-#' @param A_PH_CC
-#' @param A_CACO3_IF
-#' @param A_N_RT
-#' @param A_CN_FR
-#' @param A_COM_FR
-#' @param A_S_RT
-#' @param A_N_PMN
-#' @param A_P_AL
-#' @param A_P_CC 
-#' @param A_P_WA
-#' @param A_CEC_CO
-#' @param A_CA_CO_PO
-#' @param A_MG_CO_PO
-#' @param A_K_CO_PO
-#' @param A_K_CC
-#' @param A_MG_CC
-#' @param A_MN_CC
-#' @param A_ZN_CC
-#' @param A_CU_CC
+#' @param A_SAND_MI (numeric) The
+#' @param A_SILT_MI (numeric) The
+#' @param A_PH_CC (numeric) The
+#' @param A_CACO3_IF (numeric) The
+#' @param A_N_RT (numeric) The
+#' @param A_CN_FR (numeric) The
+#' @param A_COM_FR (numeric) The
+#' @param A_S_RT (numeric) The
+#' @param A_N_PMN (numeric) The
+#' @param A_P_AL (numeric) The
+#' @param A_P_CC (numeric) The
+#' @param A_P_WA (numeric) The
+#' @param A_CEC_CO (numeric) The
+#' @param A_CA_CO_PO (numeric) The
+#' @param A_MG_CO_PO (numeric) The
+#' @param A_K_CO_PO (numeric) The
+#' @param A_K_CC (numeric) The
+#' @param A_MG_CC (numeric) The
+#' @param A_MN_CC (numeric) The
+#' @param A_ZN_CC (numeric) The
+#' @param A_CU_CC (numeric) The
 #' @param A_EW_BCS (numeric) The presence of earth worms (score 0-1-2)
 #' @param A_SC_BCS (numeric) The presence of compaction of subsoil (score 0-1-2)
 #' @param A_GS_BCS (numeric) The presence of waterlogged conditions, gley spots (score 0-1-2)
@@ -185,13 +119,13 @@ obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
 #' @param A_SS_BCS (integer) The soil structure (score 0-1-2)
 #' @param A_CC_BCS (integer) The crop cover on the surface (score 0-1-2)
 #' @param M_COMPOST (numeric) The frequency that compost is applied (every x years)
-#' @param M_GREEN (boolean) measure 6. are catchcrops sown after main crop (option: yes or no)
+#' @param M_GREEN (boolean) measure. are catchcrops sown after main crop (option: yes or no)
 #' @param M_NONBARE (boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)
 #' @param M_EARLYCROP (boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)
 #' @param M_SLEEPHOSE (boolean) measure. is sleepslangbemester used for slurry application (option: yes or no)
 #' @param M_DRAIN (boolean) measure. are under water drains installed in peaty soils (option: yes or no)
-#' @param M_DITCH (boolean) measure 14. are ditched maintained carefully and slib applied on the land (option: yes or no)
-#' @param M_UNDERSEED (boolean) measure 15. is grass used as second crop in between maize rows (option: yes or no)#' 
+#' @param M_DITCH (boolean) measure. are ditched maintained carefully and slib applied on the land (option: yes or no)
+#' @param M_UNDERSEED (boolean) measure. is grass used as second crop in between maize rows (option: yes or no) 
 #' 
 #' @import data.table
 #' 

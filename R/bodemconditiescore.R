@@ -24,7 +24,7 @@
 #' @import data.table
 #' 
 #' @export
-calc_bcs <- function(B_LU_BRP,B_SOILTYPE_AGRA_SOM_LOI, D_PH_DELTA,
+calc_bcs <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
                      A_EW_BCS, A_SC_BCS, A_GS_BCS, A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS
                      ) {
   

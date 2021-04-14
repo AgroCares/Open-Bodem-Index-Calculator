@@ -4,11 +4,11 @@
 \alias{ind_resistance}
 \title{Calculate indicator for soil resistance}
 \usage{
-ind_resistance(A_OS_GV)
+ind_resistance(A_SOM_LOI)
 }
 \arguments{
-\item{A_OS_GV}{(numeric) The organic matter content of the soil in percentage}
+\item{A_SOM_LOI}{(numeric) The organic matter content of the soil in percentage}
 }
 \description{
-This function calculats the indicator for the resistance of the soil against diseases and is inidcatd by the amount of soil life.
+This function calculates the indicator for the resistance of the soil against diseases and is indicated by the amount of soil life.
 }

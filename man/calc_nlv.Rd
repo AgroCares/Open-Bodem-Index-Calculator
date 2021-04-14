@@ -4,20 +4,20 @@
 \alias{calc_nlv}
 \title{Calculate the NLV}
 \usage{
-calc_nlv(A_N_TOT, D_OC, B_LU_BRP, B_BT_AK, D_BDS, A_CN_RAT, D_GA)
+calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)
 }
 \arguments{
-\item{A_N_TOT}{(numeric) The organic nitrogen content of the soil in mg N / kg}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
+
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
+
+\item{A_N_RT}{(numeric) The organic nitrogen content of the soil in mg N / kg}
+
+\item{A_CN_FR}{(numeric) The carbon to nitrogen ratio}
 
 \item{D_OC}{(numeric) The organic carbon content of the soil in kg C / ha}
 
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
-
-\item{B_BT_AK}{(character) The type of soil}
-
 \item{D_BDS}{(numeric) The bulk density of the soil in kg / m3}
-
-\item{A_CN_RAT}{(numeric)}
 
 \item{D_GA}{(numeric) The age of the grass if present}
 }

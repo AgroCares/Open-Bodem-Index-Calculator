@@ -4,20 +4,20 @@
 \alias{calc_sombalance}
 \title{Calculate simple organic matter balance}
 \usage{
-calc_sombalance(A_OS_GV, A_P_PAL, A_P_WA, B_LU_BRP, M_M3, M_M6)
+calc_sombalance(B_LU_BRP, A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)
 }
 \arguments{
-\item{A_OS_GV}{(numeric) The organic matter content of the soil (in procent)}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
-\item{A_P_PAL}{(numeric) The P-AL content of the soil (in mg P2O5 per 100g)}
+\item{A_SOM_LOI}{(numeric) The percentage organic matter in the soil (\%)}
 
-\item{A_P_WA}{(numeric) The P-water content of the soil (inmg P2O5 per Liter)}
+\item{A_P_AL}{(numeric) The P-AL content of the soil (in mg P2O5 per 100g)}
 
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
+\item{A_P_WA}{(numeric) The P-water content of the soil (in mg P2O5 per Liter)}
 
-\item{M_M3}{(numeric) The frequency that compost is applied (every x years)}
+\item{M_COMPOST}{(numeric) The frequency that compost is applied (every x years)}
 
-\item{M_M6}{(boolean) are catch crops (groenbemesters) frequently used: yes or no}
+\item{M_GREEN}{(boolean) measure. are catchcrops sown after main crop (option: yes or no)}
 }
 \description{
 This function calculates a simple organic matter balance, as currently used in agricultural practice in the Netherlands.For more details, see www.os-balans.nl
