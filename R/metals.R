@@ -2,18 +2,19 @@
 #' 
 #' This function calculates the availability of Cu for plant uptake
 #' 
-#' @param A_CU_CC (numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param A_SOM_LOI (numeric) The organic matter content of the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
-#' @param A_OS_GV (numeric) The organic matter content of the soil (\%)
 #' @param A_K_CC (numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg / kg),
 #' @param A_MN_CC (numeric) The plant available Mn content, extracted with 0.01M CaCl2 (ug / kg)
-#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param A_CU_CC (numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_copper_availability <- function(A_CU_CC, A_OS_GV, A_MN_CC,A_CLAY_MI,A_K_CC,
-                                     B_LU_BRP) {
+calc_copper_availability <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI,
+                                     A_K_CC, A_MN_CC, A_CU_CC, 
+                                     ) {
   
   id = crop_code = crop_n = crop_category = NULL
   
@@ -22,10 +23,10 @@ calc_copper_availability <- function(A_CU_CC, A_OS_GV, A_MN_CC,A_CLAY_MI,A_K_CC,
   setkey(crops.obic, crop_code)
   
   # Check input
-  arg.length <- max(length(A_CU_CC),length(A_OS_GV), length(A_MN_CC),
+  arg.length <- max(length(A_CU_CC),length(A_SOM_LOI), length(A_MN_CC),
                     length(A_CLAY_MI),length(A_K_CC), length(B_LU_BRP))
   checkmate::assert_numeric(A_CU_CC, lower = 0, upper = 500, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_MN_CC, lower = 0, upper = 250000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_K_CC, lower = 0, upper = 800, any.missing = FALSE, len = arg.length)
@@ -35,12 +36,12 @@ calc_copper_availability <- function(A_CU_CC, A_OS_GV, A_MN_CC,A_CLAY_MI,A_K_CC,
   # Collect data in a table
   dt <- data.table(
     id = 1:arg.length,
-    A_CU_CC = A_CU_CC,
-    A_OS_GV = A_OS_GV, 
-    A_MN_CC = A_MN_CC,
+    B_LU_BRP = B_LU_BRP,
+    A_SOM_LOI = A_SOM_LOI,
     A_CLAY_MI = A_CLAY_MI,
     A_K_CC = A_K_CC,
-    B_LU_BRP = B_LU_BRP,
+    A_MN_CC = A_MN_CC,
+    A_CU_CC = A_CU_CC,
     value = NA_real_
   )
   dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
@@ -53,7 +54,7 @@ calc_copper_availability <- function(A_CU_CC, A_OS_GV, A_MN_CC,A_CLAY_MI,A_K_CC,
   dt[crop_category =='natuur', value := 0]
   
   # Calculate Cu-availability for grassland (following estimated Cu-HNO3, in mg/kg)
-  dt[crop_category =='grasland', value := exp(1.85 + 0.1255 * log(A_CU_CC) + 0.01796 * A_OS_GV +
+  dt[crop_category =='grasland', value := exp(1.85 + 0.1255 * log(A_CU_CC) + 0.01796 * A_SOM_LOI +
                                           0.0481 * log(A_MN_CC) -0.06222 * A_CLAY_MI + 
                                           0.01372 * A_CLAY_MI * log(A_CU_CC) -0.1479 * log(A_K_CC))]
   
@@ -68,15 +69,15 @@ calc_copper_availability <- function(A_CU_CC, A_OS_GV, A_MN_CC,A_CLAY_MI,A_K_CC,
 #' 
 #' This function calculates the availability of Zn for plant uptake
 #' 
-#' @param A_ZN_CC The plant available Zn content, extracted with 0.01M CaCl2 (mg / kg)
-#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
-#' @param B_BT_AK (character) The type of soil
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param A_PH_CC (numeric) The acidity of the soil, determined in 0.01M CaCl2 (-)
+#' @param A_ZN_CC The plant available Zn content, extracted with 0.01M CaCl2 (mg / kg)
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_zinc_availability <- function(A_ZN_CC, B_LU_BRP, B_BT_AK, A_PH_CC) {
+calc_zinc_availability <- function(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC) {
   
   id = crop_code = soiltype = soiltype.n = crop_n = crop_category = NULL
   
@@ -87,25 +88,25 @@ calc_zinc_availability <- function(A_ZN_CC, B_LU_BRP, B_BT_AK, A_PH_CC) {
   setkey(soils.obic, soiltype)
   
   # Check input
-  arg.length <- max(length(A_ZN_CC), length(B_LU_BRP), length(B_BT_AK))
+  arg.length <- max(length(A_ZN_CC), length(B_LU_BRP), length(B_SOILTYPE_AGR))
   checkmate::assert_numeric(A_ZN_CC, lower = 0, upper = 10000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_PH_CC, lower = 3, upper = 10, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   
   # Collect data in a table
   dt <- data.table(
     id = 1:arg.length,
-    A_ZN_CC = A_ZN_CC,
-    A_PH_CC = A_PH_CC,
     B_LU_BRP = B_LU_BRP,
-    B_BT_AK = B_BT_AK,
+    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
+    A_PH_CC = A_PH_CC,
+    A_ZN_CC = A_ZN_CC,
     value = NA_real_
   )
   dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
-  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
+  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
   
   # Calculate Zn-availability
   dt[crop_category =='akkerbouw', value := 10^(0.88 + 0.56 * log10(A_ZN_CC*0.001) + 0.13 * A_PH_CC)]

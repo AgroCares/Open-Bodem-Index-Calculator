@@ -2,7 +2,7 @@ test_that("calc_cu works", {
   expect_equal(
     calc_copper_availability(
       A_CU_CC = seq(1,200,length.out = 7),
-      A_OS_GV = rep(4,7),
+      A_SOM_LOI = rep(4,7),
       A_MN_CC = rep(1300,7),
       A_CLAY_MI = rep(15,7),
       A_K_CC = rep(85, 7),
@@ -14,7 +14,7 @@ test_that("calc_cu works", {
   expect_equal(
     calc_copper_availability(
       A_CU_CC = seq(1,50,length.out = 7),
-      A_OS_GV = rep(4,7),
+      A_SOM_LOI = rep(4,7),
       A_MN_CC = rep(1300,7),
       A_CLAY_MI = rep(15,7),
       A_K_CC = rep(85, 7),
@@ -51,7 +51,7 @@ test_that("calc_zn works", {
       A_ZN_CC = seq(100,5000,length.out = 7),
       A_PH_CC = rep(4.5,7),
       B_LU_BRP = rep(3732,7),
-      B_BT_AK = rep('zeeklei',7)
+      B_SOILTYPE_AGR = rep('zeeklei',7)
     ),
     expected = c(8.04,27.79,39.70,49.28,57.57,62.02,71.85),
     tolerance = 0.01
@@ -61,7 +61,7 @@ test_that("calc_zn works", {
       A_ZN_CC = c(seq(100,1000,length.out = 6),2500),
       A_PH_CC = rep(4.5,7),
       B_LU_BRP = rep(265,7),
-      B_BT_AK = rep('dekzand',7)
+      B_SOILTYPE_AGR = rep('dekzand',7)
     ),
     expected = c(3.47,6.91,9.64,12.03,14.199,16.22,29.97),
     tolerance = 1
