@@ -2,7 +2,7 @@ test_that("crop classification works", {
   expect_equal(
     calc_cropclass(
       B_LU_BRP = 235,
-      B_BT_AK = 'dekzand', 
+      B_SOILTYPE_AGR = 'dekzand', 
       nutrient = 'P'
       ),
     expected = 'class3'
@@ -12,7 +12,7 @@ test_that("crop classification works", {
   expect_equal(
     calc_cropclass(
       B_LU_BRP = c(2721,2951,256,236,2715,3720,3506,3506,3506),
-      B_BT_AK = c('dekzand','duinzand','zeeklei','rivierklei','maasklei','dalgrond','moerige_klei','veen','loess'), 
+      B_SOILTYPE_AGR = c('dekzand','duinzand','zeeklei','rivierklei','maasklei','dalgrond','moerige_klei','veen','loess'), 
       nutrient = c('P')
     ),
     expected = c('class0','class1','class2','class3','class4','natuur','gras','gras','gras')
@@ -22,7 +22,7 @@ test_that("crop classification works", {
   expect_equal(
     calc_cropclass(
       B_LU_BRP = c(2789,2951,256,236,2715,3732,2713,257,383,814),
-      B_BT_AK = rep('dekzand',10), 
+      B_SOILTYPE_AGR = rep('dekzand',10), 
       nutrient = c('K')
     ),
     expected = c('class1','class1','class1','class4','class1','class2','class2','class3','class4','class4')
@@ -33,7 +33,7 @@ test_that("crop classification works", {
   expect_equal(
     calc_cropclass(
       B_LU_BRP = c(2721,2951,256,236,2715,3732,2713,257,2777,814),
-      B_BT_AK = rep('dekzand',10), 
+      B_SOILTYPE_AGR = rep('dekzand',10), 
       nutrient = c('S')
     ),
     expected = c('class2','class3','class4','class3','class3','class3','class2','class4','class1','class3')
