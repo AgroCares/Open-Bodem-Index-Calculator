@@ -3,7 +3,7 @@ test_that("calc_pmn works", {
     calc_pmn(
       A_N_PMN = 65,
       B_LU_BRP = 265,
-      B_BT_AK = "rivierklei"
+      B_SOILTYPE_AGR = "rivierklei"
     ),
     expected = 74.21,
     tolerance = 0.01
@@ -12,7 +12,7 @@ test_that("calc_pmn works", {
     calc_pmn(
       A_N_PMN = seq(15,75,length.out = 8),
       B_LU_BRP = c(rep(265,4), rep(235,4)),
-      B_BT_AK = rep(c("rivierklei", "veen", "veen", "dekzand"),2)
+      B_SOILTYPE_AGR = rep(c("rivierklei", "veen", "veen", "dekzand"),2)
     ),
     expected = c(17.13,23.57,32.14,38.43,25.82,57.86,66.43,64.67),
     tolerance = 0.1
