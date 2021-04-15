@@ -133,7 +133,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   dt[derving == 'plant groenten', yl := 392*rsl^2- 785*rsl+393]
   dt[derving == 'wintergranen'  , yl :=(232*rsl^2- 475*rsl+243)*0.85/2]
   dt[derving == 'boomteelt'     , yl :=(538*rsl^2-1144*rsl+606)/2]
-  dt[derving == 'overig'        , yl := 100*rsl^2- 100*rsl+100]
+  dt[derving == 'overig'        , yl := 100*rsl^2- 200*rsl+100]
   
   # helper functions to determine yield loss in grass given soiltype
   ylveen <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
