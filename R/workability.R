@@ -113,8 +113,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
      req_fall_depth_day := round(138-(asin((-rd_fall-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
   
   # if highest groundwater level is deeper than required depth, soil is always workable
-  # if lowest groundwater level is higher than required depth, soil is never workable.
-  # required_depth_day is set to 228 (which is 15 aug/GLG) so season length will be 0
+  # if lowest groundwater level is higher than required depth, soil is never workable
+  # then required_depth_day is set to 228 (which is 15 aug/GLG) so season length will be 0
   dt[rd_spring < B_GWL_GHG, req_spring_depth_day := 1] 
   dt[rd_spring >= B_GWL_GLG, req_spring_depth_day := 228] 
   dt[rd_fall < B_GWL_GHG, req_fall_depth_day := 1] 
@@ -148,6 +148,9 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   
   # Calculate yield fraction, always above zero
   dt[,yield := pmax(0, 1 - 0.01 * yl)] 
+  # Correct grasland yield with logistic evaluation
+  dt[derving == 'grasland', yield := 
+       OBIC::evaluate_logistic(x = yield, b = 16, x0 = 0.5, v = 0.5,increasing = TRUE)]
   
   # setorder
   setorder(dt, id)
