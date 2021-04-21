@@ -9,15 +9,16 @@ calc_bcs(
   B_SOILTYPE_AGR,
   A_SOM_LOI,
   D_PH_DELTA,
-  A_EW_BCS,
-  A_SC_BCS,
-  A_GS_BCS,
-  A_P_BCS,
-  A_C_BCS,
-  A_RT_BCS,
-  A_RD_BCS,
-  A_SS_BCS,
-  A_CC_BCS
+  A_EW_BCS = NA,
+  A_SC_BCS = NA,
+  A_GS_BCS = NA,
+  A_P_BCS = NA,
+  A_C_BCS = NA,
+  A_RT_BCS = NA,
+  A_RD_BCS = NA,
+  A_SS_BCS = NA,
+  A_CC_BCS = NA,
+  type = "score"
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ calc_bcs(
 \item{A_SS_BCS}{(integer) The soil structure (score 0-1-2)}
 
 \item{A_CC_BCS}{(integer) The crop cover on the surface (score 0-1-2)}
+
+\item{type}{(character) Define output of the function. Options: score (integrated score) and indicator (score per indicator)}
 }
 \description{
 This function calculates the BodemConditieScore given input from manual observations made in the field.

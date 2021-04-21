@@ -18,6 +18,7 @@
 #' @param A_RD_BCS (integer) The rooting depth (score 0-1-2)
 #' @param A_SS_BCS (integer) The soil structure (score 0-1-2)
 #' @param A_CC_BCS (integer) The crop cover on the surface (score 0-1-2)
+#' @param type (character) Define output of the function. Options: score (integrated score) and indicator (score per indicator)
 #' 
 #' @references \href{http://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
 #' 
@@ -25,7 +26,9 @@
 #' 
 #' @export
 calc_bcs <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
-                     A_EW_BCS, A_SC_BCS, A_GS_BCS, A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS
+                     A_EW_BCS = NA, A_SC_BCS = NA, A_GS_BCS = NA, A_P_BCS = NA, A_C_BCS = NA, A_RT_BCS =NA, A_RD_BCS = NA, 
+                     A_SS_BCS = NA, A_CC_BCS = NA,
+                     type = 'score'
                      ) {
   
   id = crop_code = crop_n = crop_category = bcs_om = bcs_ph = soiltype = soiltype.n = NULL
@@ -45,16 +48,16 @@ calc_bcs <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(D_PH_DELTA, lower = 0, upper = 5, any.missing = FALSE)
-  checkmate::assert_numeric(A_EW_BCS,lower = 0, upper = 2, any.missing = FALSE)
-  checkmate::assert_numeric(A_SC_BCS,lower = 0, upper = 2, any.missing = FALSE)
-  checkmate::assert_numeric(A_GS_BCS,lower = 0, upper = 2, any.missing = FALSE)
-  checkmate::assert_numeric(A_P_BCS,lower = 0, upper = 2, any.missing = FALSE)
-  checkmate::assert_numeric(A_C_BCS,lower = 0, upper = 2, any.missing = FALSE)
-  checkmate::assert_numeric(A_RT_BCS,lower = 0, upper = 2, any.missing = FALSE)
-  checkmate::assert_numeric(A_RD_BCS,lower = 0, upper = 2, any.missing = FALSE)
-  checkmate::assert_numeric(A_SS_BCS,lower = 0, upper = 2, any.missing = FALSE)
-  checkmate::assert_numeric(A_CC_BCS,lower = 0, upper = 2, any.missing = FALSE)
+  checkmate::assert_numeric(D_PH_DELTA, lower = 0, upper = 5)
+  checkmate::assert_numeric(A_EW_BCS,lower = 0, upper = 2)
+  checkmate::assert_numeric(A_SC_BCS,lower = 0, upper = 2)
+  checkmate::assert_numeric(A_GS_BCS,lower = 0, upper = 2)
+  checkmate::assert_numeric(A_P_BCS,lower = 0, upper = 2)
+  checkmate::assert_numeric(A_C_BCS,lower = 0, upper = 2)
+  checkmate::assert_numeric(A_RT_BCS,lower = 0, upper = 2)
+  checkmate::assert_numeric(A_RD_BCS,lower = 0, upper = 2)
+  checkmate::assert_numeric(A_SS_BCS,lower = 0, upper = 2)
+  checkmate::assert_numeric(A_CC_BCS,lower = 0, upper = 2)
   
   # Collect data in a table
   dt <- data.table(
@@ -118,13 +121,28 @@ calc_bcs <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
   dt[crop_category == 'natuur', bcs_om := 2]
   
   # Calculate final score
-  dt[,value := 2 * A_CC_BCS + 3 * A_RD_BCS+ 3 * A_SC_BCS + 3 * A_EW_BCS + 
+  dt[,value := 2 * A_CC_BCS + 3 * A_RD_BCS + 3 * A_SC_BCS + 3 * A_EW_BCS + 
                3 * A_SS_BCS +3 * bcs_ph + 3 * bcs_om + 1 * A_GS_BCS -
                2 * A_P_BCS - 1 * A_C_BCS - 1 * A_RT_BCS]
 
   # Combine both tables and extract values
   setorder(dt, id)
-  value <- dt[, value]
+  if(type == 'score'){
+    
+    # select the integrative BCS score
+    value <- dt[, value]
+    
+  }else{
+    
+    # define columns that are given as output of the function when indicators are calculated
+    cols <- colnames(dt)[grepl('_BCS$',colnames(dt))]
+    
+    # convert the BCS input to a 0-1 scale
+    dt[,c(cols) := lapply(.SD,function(x) x * 0.5),.SDcols = cols]
+    
+    # select the columns as output
+    value <- dt[,mget(cols)]
+  }  
   
   return(value)
 }
