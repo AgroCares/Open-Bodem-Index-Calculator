@@ -193,6 +193,15 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
                    M_GREEN = M_GREEN
                    )
   
+  # step 1. preprocess
+  
+  # step 2. calculate indicators
+  
+  # step 3. calculate scores
+  
+  # step 4. add management recommendations
+  
+  
   # prepare output object for indicator values (for the moment, will be extended)
   out.ind <- data.table(I_C_N = 1, I_C_P = 1,I_C_K = 1,I_C_MG = 1,I_C_S = 1,I_C_PH = 1,I_C_CEC= 1,
                         I_C_CU = 1,I_C_ZN = 1,
