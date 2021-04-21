@@ -144,7 +144,7 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   # define variables used within the function
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
   D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_CP_RUST = D_CP_RUSTDEEP = NULL
-  D_NLV = D_PH_DELTA = ccalc_ph_delta = D_MAN = D_SOM_BAL = D_P_DU = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
+  D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_P_DU = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
   D_AS =  D_BCS = D_P_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_P_WO = B_GWL_GLG = B_GWL_GHG = B_Z_TWO = NULL
   ID = NULL
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
@@ -253,8 +253,11 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt[, D_CP_RUSTDEEP := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewasdiep")]
   
   # Calculate the difference between the actual pH and optimum pH
-  dt[, D_PH_DELTA := ccalc_ph_delta(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, D_CP_STARCH,
+  dt[, D_PH_DELTA := calc_ph_delta(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, D_CP_STARCH,
                                     D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)]
+  
+  # Calculate the OM balance
+  dt[,D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
   
   # Determine the managment
   dt[, D_MAN := calc_management(A_SOM_LOI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, D_SOM_BAL, 
@@ -297,7 +300,7 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt[,D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
   
   # Calculate Wetness Stress Risk
-  dt[,D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wettnessstress')]
+  dt[,D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wetnessstress')]
   
   # calculate N leaching to groundwater (mgNO3/L)
   dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
@@ -308,8 +311,9 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   # calculate workability 
   dt[,D_P_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO)]
   
-  # Step 2 Add indicators ------------------
   
+  
+  # Step 2 Add indicators ------------------
   # Evaluate nutrients ------------------------------------------------------
   
   # Nitrogen
@@ -413,7 +417,7 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   
   
   # Step 3 Scoring
-
+  
   
   
   
