@@ -141,7 +141,17 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
                             M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED) {
   
   
-  # check input
+  # define variables used within the function
+  D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
+  D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_CP_RUST = D_CP_RUSTDEEP = NULL
+  D_NLV = D_PH_DELTA = ccalc_ph_delta = D_MAN = D_SOM_BAL = D_P_DU = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
+  D_AS =  D_BCS = D_P_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_P_WO = B_GWL_GLG = B_GWL_GHG = B_Z_TWO = NULL
+  ID = NULL
+  I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
+  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
+  I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_NGW = I_E_NSW = NULL
+  leaching_to = NULL
+  
   
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
@@ -284,10 +294,10 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt[,D_P_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
   
   # Calculate Drought Stress Risk
-  dt[,D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'droughtstress')]
+  dt[,D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
   
   # Calculate Wetness Stress Risk
-  dt[,D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GT, WSI = 'wettnessstress')]
+  dt[,D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wettnessstress')]
   
   # calculate N leaching to groundwater (mgNO3/L)
   dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
@@ -298,7 +308,113 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   # calculate workability 
   dt[,D_P_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO)]
   
- 
+  # Step 2 Add indicators ------------------
+  
+  # Evaluate nutrients ------------------------------------------------------
+  
+  # Nitrogen
+  dt[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
+  
+  # Phosphorus
+  dt[, I_C_P := ind_phosphate_availability(D_PBI)]
+  
+  # Potassium
+  dt[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
+  
+  # Magnesium
+  dt[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
+  
+  # Sulphur
+  dt[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
+  
+  # pH
+  dt[, I_C_PH := ind_ph(D_PH_DELTA)]
+  
+  # CEC
+  dt[, I_C_CEC := ind_cec(D_CEC)]
+  
+  # Copper
+  dt[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
+  
+  # Zinc
+  dt[, I_C_ZN := ind_zinc(D_ZN)]
+  
+  
+  # Evaluate physical -------------------------------------------------------
+  
+  # Crumbleability
+  dt[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
+  
+  # Sealing
+  dt[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
+  
+  # add indicator for droughtstress
+  dt[, I_P_DS := ind_waterstressindex(D_WSI_DS)]
+  
+  # add indicator for wetness stress
+  dt[, I_P_WS := ind_waterstressindex(D_WSI_WS)]
+  
+  # Dustiness
+  dt[, I_P_DU := ind_winderodibility(D_P_DU)]
+  
+  # Compaction
+  dt[, I_P_CO := ind_compaction(B_SC_WENR)]
+  
+  # Water Retention Index 1. Plant available water in topsoil
+  dt[, I_P_WRI := ind_waterretention(D_P_WRI)]
+  
+  # aggregation stability 
+  dt[, I_P_CEC := ind_aggregatestability(D_AS)]
+  
+  # workability
+  dt[, I_P_WO := ind_workability(D_P_WO)]
+  
+  
+  # Evaluate biological -----------------------------------------------------
+  
+  # Disease / pest resistance
+  dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
+  
+  # Soil life activity
+  dt[, I_B_SF := ind_pmn(D_PMN)]
+  
+  
+  # Evaluate data from Visual Soil Assessment -------------------------------
+  
+  # calculate the soil indicators
+  bcs.par <- c('I_B_EW_BCS', 'I_P_SC_BCS', 'I_P_GS_BCS', 'I_P_P_BCS', 'I_P_C_BCS', 'I_P_RT_BCS', 'I_P_RD_BCS',
+               'I_P_SS_BCS', 'I_P_CC_BCS')
+  dt[,c(bcs.par) := calc_bcs(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
+                             A_EW_BCS, A_SC_BCS, A_GS_BCS, A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS,
+                             type = 'indicator')]
+  
+  # overwrite physical functions for compaction and aggregate stability when BCS is available
+  dt[,D_P_CO := (3*A_EW_BCS + 3*A_SC_BCS + 3*A_RD_BCS  - 2*A_P_BCS - A_RT_BCS)/18]
+  dt[,I_P_CO := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
+    
+  dt[,D_P_CEC := (3*A_EW_BCS + 3*A_SS_BCS - A_C_BCS)/12]
+  dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
+  
+  
+  # Evaluate management ------------------------------------------------------
+  dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
+  
+  dt[, I_BCS := ind_bcs(D_BCS)]
+  
+  # Evaluate Environmental ------------------------------------------------------ 
+  
+  # N retention groundwater
+  dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
+  
+  # N retention surfacewater
+  dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
+  
+  
+  
+  
+  # Step 3 Scoring
+  
+  
   
   
   # prepare output object for indicator values (for the moment, will be extended)
