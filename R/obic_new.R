@@ -227,7 +227,7 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
   
   # Calculate a simple organic matter balance
-  dt[,D_OS_BAL := calc_sombalance(A_SOM_LOI, A_P_AL, A_P_WA, B_LU_BRP, M_COMPOST, M_GREEN)]
+  dt[,D_OS_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
   
   # Calculate the grass age
   dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
@@ -413,7 +413,7 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   
   
   # Step 3 Scoring
-  
+
   
   
   
