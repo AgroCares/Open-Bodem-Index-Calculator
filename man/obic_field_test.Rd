@@ -34,7 +34,7 @@ obic_field_test(
   A_MN_CC,
   A_ZN_CC,
   A_CU_CC,
-  A_C_BCS,
+  A_C_BCS = NA,
   A_CC_BCS,
   A_GS_BCS,
   A_P_BCS,
@@ -68,49 +68,49 @@ obic_field_test(
 
 \item{A_SOM_LOI}{(numeric) The percentage organic matter in the soil (\%)}
 
-\item{A_SAND_MI}{(numeric) The}
+\item{A_SAND_MI}{(numeric) The sand content of the soil (\%)}
 
-\item{A_SILT_MI}{(numeric) The}
+\item{A_SILT_MI}{(numeric) The silt content of the soil (\%)}
 
 \item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
 
-\item{A_PH_CC}{(numeric) The}
+\item{A_PH_CC}{(numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)}
 
 \item{A_CACO3_IF}{(numeric) The}
 
-\item{A_N_RT}{(numeric) The}
+\item{A_N_RT}{(numeric) The organic nitrogen content of the soil in mg N / kg}
 
-\item{A_CN_FR}{(numeric) The}
+\item{A_CN_FR}{(numeric) The carbon to nitrogen ratio}
 
 \item{A_COM_FR}{(numeric) The}
 
-\item{A_S_RT}{(numeric) The}
+\item{A_S_RT}{(numeric) The total Sulpher content of the soil (in mg S per kg)}
 
-\item{A_N_PMN}{(numeric) The}
+\item{A_N_PMN}{(numeric) The potentially mineralizable N pool (mg N / kg soil)}
 
-\item{A_P_AL}{(numeric) The}
+\item{A_P_AL}{(numeric) The P-AL content of the soil}
 
-\item{A_P_CC}{(numeric) The}
+\item{A_P_CC}{(numeric) The P-CaCl2 content of the soil}
 
-\item{A_P_WA}{(numeric) The}
+\item{A_P_WA}{(numeric) The P-content of the soil extracted with water}
 
-\item{A_CEC_CO}{(numeric) The}
+\item{A_CEC_CO}{(numeric) The cation exchange capacity of the soil (mmol+ / kg), analysed via Cobalt-hexamine extraction}
 
-\item{A_CA_CO_PO}{(numeric) The}
+\item{A_CA_CO_PO}{(numeric) The The occupation of the CEC with Ca (\%)}
 
-\item{A_MG_CO_PO}{(numeric) The}
+\item{A_MG_CO_PO}{(numeric) The The occupation of the CEC with Mg (\%)}
 
-\item{A_K_CO_PO}{(numeric) The}
+\item{A_K_CO_PO}{(numeric) The occupation of the CEC with K (\%)}
 
-\item{A_K_CC}{(numeric) The}
+\item{A_K_CC}{(numeric) The plant available K content, extracted with 0.01M CaCl2 (mg / kg)}
 
-\item{A_MG_CC}{(numeric) The}
+\item{A_MG_CC}{(numeric) The plant available Mg content, extracted with 0.01M CaCl2 (ug / kg)}
 
-\item{A_MN_CC}{(numeric) The}
+\item{A_MN_CC}{(numeric) The plant available Mn content, extracted with 0.01M CaCl2 (ug / kg)}
 
-\item{A_ZN_CC}{(numeric) The}
+\item{A_ZN_CC}{(numeric) The plant available Zn content, extracted with 0.01M CaCl2 (ug / kg)}
 
-\item{A_CU_CC}{(numeric) The}
+\item{A_CU_CC}{(numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)}
 
 \item{A_C_BCS}{(numeric) The presence of visible cracks in the top layer (score 0-1-2)}
 
