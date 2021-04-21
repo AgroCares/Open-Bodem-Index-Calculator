@@ -233,7 +233,7 @@ cr <- cr[,V1 := NULL]
     # unknown: maggi, niger, roodzwenk, rijst, spurrie, seradelle, zonnekroon
    
   # Add nitrogen use norms (stikstofgebruiksnormen)
-    cols <- c(cols)
+    cols <- c('nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat')
   
     cr[grepl('^azolla|^lisdodde|^schurveling|wandelpad|^bomen|^boom|^bos|^griend|bosje$|^struweel|^windhaag|knotboom|^houtwal|elzensingel|landschapselement|oever|^poel|^riet|wandelpad,|water|scheerheg|^laan$', crop_name)&is.na(nf_clay),
        c(cols) := list(0, 0, 0, 0,0)]
@@ -270,7 +270,8 @@ cr <- cr[,V1 := NULL]
   cr[grepl('tarwe', crop_name),crop_name_scientific:= 'triticum aestivum']
   cr[grepl('gerst', crop_name),crop_name_scientific:= 'horderum vulgare']
   cr[grepl('rogge', crop_name),crop_name_scientific:= 'secale cereale']
-  cr[grepl('haver', crop_name),crop_name_scientific:= 'avena sativa']
+  cr[grepl('^haver$', crop_name),crop_name_scientific:= 'avena sativa']
+  cr[grepl('^japanse haver$', crop_name),crop_name_scientific:= 'avena strigosa']
   cr[grepl('erwten|schokkers|eulen', crop_name),crop_name_scientific:= 'pisum sativum']
   cr[grepl('bonen', crop_name),crop_name_scientific:= 'phaseolus vulgaris']
   cr[grepl('pronkbonen', crop_name),crop_name_scientific:= 'phaseolus coccineus'] #overwrites bonen for pronkbonen
