@@ -2,7 +2,7 @@
 #' 
 #' This function calculates the potential N leaching of a soil.
 #' 
-#' @param B_BT_AK (character) The type of soil
+#' @param B_SOILTYPE_AGR (character) The type of soil
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_GWL_CLASS (character) The groundwater table class
 #' @param D_NLV (numeric) The N supplying capacity of a soil (kg N ha-1 jr-1) calculated by \code{\link{calc_nlv}}
@@ -12,7 +12,7 @@
 #' @import data.table
 #' 
 #' @export
-calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to){
+calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to){
   
   soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = B_GT = NULL
   nleach_table = bodem = gewas = nf = id = leaching_to_set = NULL
@@ -30,9 +30,9 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leachi
   nleach_table <- nleach_table[leaching_to_set == leaching_to]
   
   # Check input
-  arg.length <- max(length(B_BT_AK),length(B_LU_BRP), length(B_GWL_CLASS),length(D_NLV), length(B_AER_CBS))
-  checkmate::assert_character(B_BT_AK, any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype))
+  arg.length <- max(length(B_SOILTYPE_AGR),length(B_LU_BRP), length(B_GWL_CLASS),length(D_NLV), length(B_AER_CBS))
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype))
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_GWL_CLASS,any.missing = FALSE, len = arg.length)
@@ -48,7 +48,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leachi
   # Collect data in a table
   dt <- data.table(
     id = 1:arg.length,
-    B_BT_AK = B_BT_AK,
+    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
     B_LU_BRP = B_LU_BRP, 
     B_GWL_CLASS = B_GWL_CLASS,
     D_NLV = D_NLV,
@@ -59,7 +59,7 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leachi
   # add soil type, crop categories and allowed N dose
   cols <- colnames(crops.obic)[grepl('^crop_cat|^crop_code|^nf_',colnames(crops.obic))]
   dt <- merge(dt, crops.obic[, mget(cols)], by.x = "B_LU_BRP", by.y = "crop_code")
-  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
+  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
   
   # Re-categorize crop types
   dt[, croptype.nleach := crop_category]
@@ -73,11 +73,11 @@ calc_nleach <- function(B_BT_AK, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leachi
   
   # select the allowed effective N dose (in Dutch: N-gebruiksnorm), being dependent on soil type and region
   sand.south <- c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant')
-  dt[grepl('zand|dal',B_BT_AK), n_eff := nf_sand.other]
-  dt[grepl('zand|dal',B_BT_AK) & B_AER_CBS %in% sand.south, n_eff := nf_sand.south]
-  dt[grepl('klei',B_BT_AK), n_eff := nf_clay]
-  dt[grepl('veen',B_BT_AK), n_eff := nf_peat]
-  dt[grepl('loess',B_BT_AK), n_eff := nf_loess]
+  dt[grepl('zand|dal',B_SOILTYPE_AGR), n_eff := nf_sand.other]
+  dt[grepl('zand|dal',B_SOILTYPE_AGR) & B_AER_CBS %in% sand.south, n_eff := nf_sand.south]
+  dt[grepl('klei',B_SOILTYPE_AGR), n_eff := nf_clay]
+  dt[grepl('veen',B_SOILTYPE_AGR), n_eff := nf_peat]
+  dt[grepl('loess',B_SOILTYPE_AGR), n_eff := nf_loess]
   
   # remove columns not needed any more
   cols <- colnames(dt)[grepl('^nf_',colnames(dt))]
