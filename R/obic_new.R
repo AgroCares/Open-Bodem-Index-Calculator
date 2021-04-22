@@ -438,7 +438,11 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
   
   
+    # Step 3 Scoring
+  cols <- colnames(dt)[grepl('^I_|BRP',colnames(dt))]
+  dt.score <- melt(dt[,mget(cols)],id.vars = 'B_LU_BRP',variable.name = 'indicator')
   
+  # add gro
   
   # Step 3 Scoring -----------------------------------------------------------
   # Pre-processing ----
@@ -504,7 +508,7 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   
   
   # prepare output object for indicator values (for the moment, will be extended)
-  out.ind <- data.table(I_C_N = 1, I_C_P = 1,I_C_K = 1,I_C_MG = 1,I_C_S = 1,I_C_PH = 1,I_C_CEC= 1,
+  dt.score <- data.table(I_C_N = 1, I_C_P = 1,I_C_K = 1,I_C_MG = 1,I_C_S = 1,I_C_PH = 1,I_C_CEC= 1,
                         I_C_CU = 1,I_C_ZN = 1,
                         I_P_CR = 0.5,I_P_SE= 0.5,I_P_MS = 0.5,I_P_BC = 0.5,I_P_DU = 0.5,I_P_CO = 0.5,
                         I_P_WRI = 0.5,I_P_CEC = 0.1,
