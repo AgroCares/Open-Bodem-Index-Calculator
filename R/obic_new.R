@@ -82,6 +82,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   
   crop_code = weight.obic = weight = score.cf = . = out.ind = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
+  var = cf = ncat = NULL
   
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M

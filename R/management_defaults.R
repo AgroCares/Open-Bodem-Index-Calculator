@@ -21,6 +21,8 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
                            M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, M_COMPOST = NA,
                            M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA){
   
+  # add visual bindings
+  crop_code = crop_category = soiltype = soiltype.n = id = . = NULL
   
   # Check input
   arg.length <- max(length(B_LU_BRP), length(B_SOILTYPE_AGR))
