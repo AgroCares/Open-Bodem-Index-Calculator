@@ -134,6 +134,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_GREEN = M_GREEN
                    )
   
+  
+  # Merge dt with crops.obic
+  dt <- merge(dt,crops.obic[,.(crop_code,crop_category)], by.x = 'B_LU_BRP', by.y = 'crop_code') 
+  
   # Step 1 Pre-processing ------------------
   
     # check format B_SC_WENR and B_GWL_CLASS
@@ -246,47 +250,31 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,D_P_CEC := (3 * A_EW_BCS + 3 * A_SS_BCS - A_C_BCS)/12]
     dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
   
+    # Calculate Visual Soil Assessment Indicator
+    dt[, I_BCS := ind_bcs(D_BCS)]
+    
+    # Calculate indicators for soil management
+    dt[, I_M_GREEN := fifelse(M_GREEN == TRUE, 1,0)]
+    dt[, I_M_COMPOST := fifelse(M_COMPOST > 0,1,0)]
+    dt[, I_M_NONBARE := fifelse(M_NONBARE == TRUE, 1,0)]
+    dt[, I_M_EARLYCROP := fifelse(M_EARLYCROP == TRUE, 1,0)]
+    dt[, I_M_SLEEPHOSE := fifelse(M_SLEEPHOSE == TRUE & B_SOILTYPE_AGR != 'veen' & crop_category == 'mais',1,0)]
+    dt[, I_M_SLEEPHOSE := fifelse(M_SLEEPHOSE == TRUE & crop_category == 'grasland',1,I_M_SLEEPHOSE)]
+    dt[, I_M_DRAIN := fifelse(M_DRAIN == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
+    dt[, I_M_DITCH := fifelse(M_DITCH == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
+    dt[, I_M_UNDERSEED := fifelse(M_UNDERSEED == TRUE,1,0)]
   
-  # Evaluate management -----------------------------------------------------
-  # merge dt with crops.obic
-  dt <- merge(dt,crops.obic[,.(crop_code,crop_category)], by.x = 'B_LU_BRP', by.y = 'crop_code') 
+    # Calculate integrated management indicator
+    dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
   
+    # Calculate indicators for environment
+    dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
+    dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
   
-  # determine index score for management practices
-  dt[, I_M_GREEN := fifelse(M_GREEN == TRUE, 1,0) ]
-  
-  dt[, I_M_COMPOST := fifelse(M_GREEN > 0,1,0)]
-  
-  dt[, I_M_NONBARE := fifelse(M_NONBARE == TRUE, 1,0)]
-  
-  dt[, I_M_EARLYCROP := fifelse(M_EARLYCROP == TRUE, 1,0)]
-  
-  dt[, I_M_SLEEPHOSE := fifelse(M_SLEEPHOSE == TRUE & B_SOILTYPE_AGR != 'veen' & crop_category == 'mais',1,0)]
-  dt[, I_M_SLEEPHOSE := fifelse(M_SLEEPHOSE == TRUE & crop_category == 'grasland',1,0)]
-  
-  dt[, I_M_DRAIN := fifelse(M_DRAIN == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
-  
-  dt[, I_M_DITCH := fifelse(M_DITCH == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
-  
-  dt[, I_M_UNDERSEED := fifelse(M_UNDERSEED == TRUE,1,0)]
-  
-  # calculate integrated management score
-  dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
-  
-  dt[, I_BCS := ind_bcs(D_BCS)]
-  
-  # Evaluate Environmental --------------------------------------------------
-  
-  # N retention groundwater
-  dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
-  
-  # N retention surfacewater
-  dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
-  
-  
-  # Step 3 Scoring -----------------------------------------------------------
-  # Pre-processing ----
-  
+    
+  # Step 2 Add scores ------------------
+    
+    
   # Add years
   dt[,year := .I]
   
