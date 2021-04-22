@@ -2,84 +2,6 @@
 #' 
 #' This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI) for a single field.
 #' 
-#' @param refid (character) a field id
-#' @param B_LU_BRP (numeric) The crop code from the BRP 
-#' @param B_SC_WENR (character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006).
-#' @param B_GWL_CLASS (character) The groundwater table class
-#' @param B_SOILTYPE_AGR (character) The agricultural type of soil
-#' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
-#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
-#' @param A_PH_CC (numeric) The acidity of the soil, determined in 0.01M CaCl2 (-)
-#' 
-#' @import data.table
-#' 
-#' @export
-obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
-                       A_SOM_LOI,A_CLAY_MI,A_PH_CC) {
-
-  # add visual bindings
-  D_SE = D_CR = D_BDS = D_RD = D_GA = NULL
-  D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_CP_RUST = D_CP_RUSTDEEP = NULL
-  
-  # check input
-  
-  # collect input for field and crop rotation
-  dt.field <- CJ(refid = refid, B_LU_BRP = B_LU_BRP)
-  
-  # collect input for soil properties
-  dt.soil <- data.table(B_SC_WENR = B_SC_WENR,
-                        B_GWL_CLASS = B_GWL_CLASS,
-                        B_SOILTYPE_AGR = B_SOILTYPE_AGR,
-                        A_SOM_LOI = A_SOM_LOI,
-                        A_CLAY_MI = A_CLAY_MI,
-                        A_PH_CC = A_PH_CC
-                        )
-  
-  
-  # update soil properties
-  
-    # check format B_SC_WENR and B_GWL_CLASS
-    dt.soil[, B_SC_WENR := format_soilcompaction(B_SC_WENR)]
-    dt.soil[, B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
-  
-    # calculate soil sealing risk
-    dt.soil[, D_SE := calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)]
-  
-    # calculate the crumbleability of the soil
-    dt.soil[, D_CR := calc_crumbleability(A_SOM_LOI, A_CLAY_MI,A_PH_CC)]
-  
-    # calculate bulk density
-    dt.soil[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI)]
-  
-  # update field properties
-    
-    # calculate the rootable depth of the soil
-    dt.field[, D_RD := calc_root_depth(B_LU_BRP)]
-  
-    # Calculate the grass age
-    dt.field[, D_GA := calc_grass_age(ID = refid, B_LU_BRP)]
-    
-    # Calculate the crop rotation fraction
-    dt.field[, D_CP_STARCH := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "starch")]
-    dt.field[, D_CP_POTATO := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "potato")]
-    dt.field[, D_CP_SUGARBEET := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "sugarbeet")]
-    dt.field[, D_CP_GRASS := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "grass")]
-    dt.field[, D_CP_MAIS := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "mais")]
-    dt.field[, D_CP_OTHER := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "other")]
-    dt.field[, D_CP_RUST := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "rustgewas")]
-    dt.field[, D_CP_RUSTDEEP := calc_rotation_fraction(ID = refid, B_LU_BRP, crop = "rustgewasdiep")]
-    
-    
-  
-  
-}
-
-
-
-#' Calculate the Open Bodem Index score for one field
-#' 
-#' This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI) for a single field.
-#' 
 #' @param B_LU_BRP (numeric) a series with crop codes given the crop rotation plan (source: the BRP) 
 #' @param B_SC_WENR (character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006).
 #' @param B_GWL_CLASS (character) The groundwater table class
@@ -91,15 +13,15 @@ obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #' @param A_PH_CC (numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)
-#' @param A_CACO3_IF (numeric) The
+#' @param A_CACO3_IF (numeric) The carbonate content of the soil (\%)
 #' @param A_N_RT (numeric) The organic nitrogen content of the soil in mg N / kg
-#' @param A_CN_FR (numeric) The carbon to nitrogen ratio
-#' @param A_COM_FR (numeric) The
+#' @param A_CN_FR (numeric) The carbon to nitrogen ratio (-)
+#' @param A_COM_FR (numeric) The carbon fraction of soil organic matter (\%)
 #' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
 #' @param A_N_PMN (numeric) The potentially mineralizable N pool (mg N / kg soil)
 #' @param A_P_AL (numeric) The P-AL content of the soil
-#' @param A_P_CC (numeric) The P-CaCl2 content of the soil
-#' @param A_P_WA (numeric) The P-content of the soil extracted with water
+#' @param A_P_CC (numeric) The plant available P content, extracted with 0.01M CaCl2 (mg / kg)
+#' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
 #' @param A_CEC_CO (numeric) The cation exchange capacity of the soil (mmol+ / kg), analysed via Cobalt-hexamine extraction
 #' @param A_CA_CO_PO (numeric) The The occupation of the CEC with Ca (\%)
 #' @param A_MG_CO_PO (numeric) The The occupation of the CEC with Mg (\%)
@@ -109,36 +31,39 @@ obic_field <- function(refid, B_LU_BRP,B_SC_WENR,B_GWL_CLASS,B_SOILTYPE_AGR,
 #' @param A_MN_CC (numeric) The plant available Mn content, extracted with 0.01M CaCl2 (ug / kg)
 #' @param A_ZN_CC (numeric) The plant available Zn content, extracted with 0.01M CaCl2 (ug / kg)
 #' @param A_CU_CC (numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)
-#' @param A_EW_BCS (numeric) The presence of earth worms (score 0-1-2)
-#' @param A_SC_BCS (numeric) The presence of compaction of subsoil (score 0-1-2)
-#' @param A_GS_BCS (numeric) The presence of waterlogged conditions, gley spots (score 0-1-2)
-#' @param A_P_BCS (numeric) The presence / occurrence of water puddles on the land, ponding (score 0-1-2)
-#' @param A_C_BCS (numeric) The presence of visible cracks in the top layer (score 0-1-2)
-#' @param A_RT_BCS (numeric) The presence of visible tracks / rutting or trampling on the land (score 0-1-2)
-#' @param A_RD_BCS (integer) The rooting depth (score 0-1-2)
-#' @param A_SS_BCS (integer) The soil structure (score 0-1-2)
-#' @param A_CC_BCS (integer) The crop cover on the surface (score 0-1-2)
-#' @param M_COMPOST (numeric) The frequency that compost is applied (every x years)
-#' @param M_GREEN (boolean) measure. are catchcrops sown after main crop (option: yes or no)
-#' @param M_NONBARE (boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)
-#' @param M_EARLYCROP (boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)
-#' @param M_SLEEPHOSE (boolean) measure. is sleepslangbemester used for slurry application (option: yes or no)
-#' @param M_DRAIN (boolean) measure. are under water drains installed in peaty soils (option: yes or no)
-#' @param M_DITCH (boolean) measure. are ditched maintained carefully and slib applied on the land (option: yes or no)
-#' @param M_UNDERSEED (boolean) measure. is grass used as second crop in between maize rows (option: yes or no) 
+#' @param A_EW_BCS (numeric) The presence of earth worms (optional, score 0-1-2)
+#' @param A_SC_BCS (numeric) The presence of compaction of subsoil (optional, score 0-1-2)
+#' @param A_GS_BCS (numeric) The presence of waterlogged conditions, gley spots (optional, score 0-1-2)
+#' @param A_P_BCS (numeric) The presence / occurrence of water puddles on the land, ponding (optional, score 0-1-2)
+#' @param A_C_BCS (numeric) The presence of visible cracks in the top layer (optional, score 0-1-2)
+#' @param A_RT_BCS (numeric) The presence of visible tracks / rutting or trampling on the land (optional, score 0-1-2)
+#' @param A_RD_BCS (integer) The rooting depth (optional, score 0-1-2)
+#' @param A_SS_BCS (integer) The soil structure (optional, score 0-1-2)
+#' @param A_CC_BCS (integer) The crop cover on the surface (optional, score 0-1-2)
+#' @param M_COMPOST (numeric) The frequency that compost is applied (optional, every x years)
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
+#' @param M_NONBARE (boolean) A soil measure. Is parcel for 80 percent of the year cultivated and 'green' (optional, option: yes or no)
+#' @param M_EARLYCROP (boolean) A soil measure. Use of early crop varieties to avoid late harvesting (optional, option: yes or no)
+#' @param M_SLEEPHOSE (boolean) A soil measure. Is sleephose used for slurry application (optional, option: yes or no)
+#' @param M_DRAIN (boolean) A soil measure. Are under water drains installed in peaty soils (optional, option: yes or no)
+#' @param M_DITCH (boolean) A soil measure. Are ditched maintained carefully and slib applied on the land (optional, option: yes or no)
+#' @param M_UNDERSEED (boolean) A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no) 
 #' 
 #' @import data.table
 #' 
 #' @export
-obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CBS,
-                            B_LU_BRP, 
-                            A_SOM_LOI, A_SAND_MI, A_SILT_MI, A_CLAY_MI,A_PH_CC,A_CACO3_IF,
-                            A_N_RT,A_CN_FR,A_COM_FR, A_S_RT,A_N_PMN,
-                            A_P_AL, A_P_CC, A_P_WA,
-                            A_CEC_CO,A_CA_CO_PO, A_MG_CO_PO, A_K_CO_PO,
-                            A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
-                            A_C_BCS = NA, A_CC_BCS,A_GS_BCS,A_P_BCS,A_RD_BCS,A_EW_BCS,A_SS_BCS,A_RT_BCS,A_SC_BCS,
-                            M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED) {
+obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CBS,
+                       B_LU_BRP, 
+                       A_SOM_LOI, A_SAND_MI, A_SILT_MI, A_CLAY_MI,A_PH_CC,A_CACO3_IF,
+                       A_N_RT,A_CN_FR,A_COM_FR, A_S_RT,A_N_PMN,
+                       A_P_AL, A_P_CC, A_P_WA,
+                       A_CEC_CO,A_CA_CO_PO, A_MG_CO_PO, A_K_CO_PO,
+                       A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
+                       A_C_BCS = NA, A_CC_BCS = NA,A_GS_BCS = NA,A_P_BCS = NA,A_RD_BCS = NA,
+                       A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
+                       M_COMPOST  = NA,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
+                       M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
+                       refid = 1) {
   
   
   # define variables used within the function
@@ -157,10 +82,10 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   crop_code = weight.obic = weight = score.cf = . = out.ind = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
   
-  
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
-  dt <- data.table(B_LU_BRP = B_LU_BRP,
+  dt <- data.table(refid = refid,
+                   B_LU_BRP = B_LU_BRP,
                    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
                    B_AER_CBS = B_AER_CBS,
                    B_GWL_CLASS =  B_GWL_CLASS,
