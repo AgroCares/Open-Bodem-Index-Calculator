@@ -400,12 +400,12 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
   
   
-  # Evaluate management ------------------------------------------------------
+  # Evaluate management -----------------------------------------------------
   dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
   
   dt[, I_BCS := ind_bcs(D_BCS)]
   
-  # Evaluate Environmental ------------------------------------------------------ 
+  # Evaluate Environmental --------------------------------------------------
   
   # N retention groundwater
   dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
@@ -420,6 +420,61 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   
   # add gro
   
+  # Step 3 Scoring -----------------------------------------------------------
+  # Pre-processing ----
+  
+  # Add years
+  dt[,year := .I]
+  
+  # merge dt with crops.obic
+  dt <- merge(dt,crops.obic[,.(crop_code,crop_category)], by.x = 'B_LU_BRP', by.y = 'crop_code') 
+  
+  # Select indicators
+  cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat',colnames(dt))]
+  cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
+  
+  # Melt dt and assign categories
+  dt.melt <- melt(dt[,mget(cols)],id.vars = c('crop_category','year'), variable.name = 'indicator')
+  
+  dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
+  
+  # Determine amount of indicators per category
+  dt.melt[,ind.n := (.N)/max(year),by='cat']
+  
+  # merge dt.melt with weights.obic
+  #w <- as.data.table(OBIC::weight.obic)
+  load('data/weight_obic.RData')
+  
+  test <- merge(dt.melt,weight.obic,by = 'crop_category')
+  
+  
+  # Calculations ----
+  
+  # calculate weighted value for crop category
+  dt.melt[,value.w := value * weight]
+  
+  # calculate correction factor for indicator values
+  dt.melt[,value.cf := wf(value.w)]
+  
+  # calculate weighted average per indicator category
+  out <- dt.melt[,list(value.group = sum(value.cf * value.w / sum(value.cf[value>0])),
+                       ind.n = mean(ind.n)), by = .(cat,year)]
+  
+  # calculate correction factor per year
+  out[,cf.year := log(12 - pmin(10,year))]
+  
+  # calculate weigthed average per year
+  out <- out[,list(value.year = sum(cf.year * value.group/ sum(cf.year)),
+                   ind.n = mean(ind.n)), by = cat]
+  
+  # calculate correction factor for size of categories
+  out[,score.cf := log(ind.n+1)]
+  
+  # calculated final obi score
+  obi.score <- out[,list(score.final = sum(value.year * score.cf / sum(score.cf)))]
+  
+  
+  # return(obi.score)
   
   
   # prepare output object for indicator values (for the moment, will be extended)
