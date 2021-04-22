@@ -364,48 +364,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.measure <- OBIC::obic_evalmeasure(dt.score, extensive = FALSE)
     
     # make recommendations of top 3 measures
-    dt.recom <- OBIC::obic_recommendations(dt.measure)
+    out.recom <- OBIC::obic_recommendations(dt.measure)
     
-
-  # prepare output objects
-  
-       
+  #  Step 6 Combine all outputs into one ------------------
     
-  # prepare output object for indicator values (for the moment, will be extended)
-  dt.score <- data.table(I_C_N = 1, I_C_P = 1,I_C_K = 1,I_C_MG = 1,I_C_S = 1,I_C_PH = 1,I_C_CEC= 1,
-                        I_C_CU = 1,I_C_ZN = 1,
-                        I_P_CR = 0.5,I_P_SE= 0.5,I_P_MS = 0.5,I_P_BC = 0.5,I_P_DU = 0.5,I_P_CO = 0.5,
-                        I_P_WRI = 0.5,I_P_CEC = 0.1,
-                        I_B_DI = 0.9,I_B_SF = 0.8,
-                        I_E_NGW = 0.4, I_E_NSW = 0.5,
-                        I_M = 0.2, I_BCS = 0.8)
-                        
-  # prepare output object for scores (absolute and relative)
-  out.score <- data.table(S_C_OBI_A = 0.6,
-                          S_P_OBI_A = 0.6,
-                          S_B_OBI_A = 0.6,
-                          S_M_OBI_A = 0.6,
-                          S_T_OBI_A = 0.6,
-                          S_C_OBI_R = 0.6,
-                          S_P_OBI_R = 0.6,
-                          S_B_OBI_R = 0.6,
-                          S_M_OBI_R = 0.6,
-                          S_T_OBI_R = 0.6)
-    
-  # prepare output object for recommendations
-  out.recom <- data.table(RM_C_1 = 'M1',
-                          RM_C_2 = 'M8',
-                          RM_C_3 = 'M7',
-                          RM_P_1 = 'M1',
-                          RM_P_2 = 'M1',
-                          RM_P_3 = 'M1',
-                          RM_B_1 = 'M100',
-                          RM_B_2 = 'M1',
-                          RM_B_3 = 'M11')
-    
-    
-  # combine both outputs
-  out <- data.table(out.ind,out.score,out.recom)
+    # combine both outputs
+    out <- data.table(out.ind,out.score,out.recom)
   
   # return output
   return(out)
