@@ -1,7 +1,7 @@
 library(data.table)
 
   # load maatregel csv
-  maatregel.obic  <- fread("data/internal_data/raw/maatregel_effect.csv")
+  maatregel.obic  <- fread("dev/maatregel_effect.csv")
 
   # maatregel tabel preprocessed by Sven in november 2019 ---
 
@@ -37,7 +37,7 @@ library(data.table)
   m.obic[,(cols) := lapply(.SD,function(x) fifelse(is.na(x),0,x)),.SDcols = cols]
   
   # check if there is missing data for any indicator
-  load('data/internal_data/products/column_description_obic.RData')
+  load('dev/column_description_obic.RData')
   cols <- column_description.obic[grepl('^I_C_|^I_P_|^I_B_',column),column]
   
   # make temporary data.table with for each unknown indicator a zero impact measure
@@ -90,7 +90,19 @@ library(data.table)
   # setkey
   setkey(m.obic,indicator,m_sector,m_soiltype)
   
+# update april 2021
+  
+  # I_P_MS is splitted into droughtstress and wetness stress separately
+  m1.copy <- m.obic[indicator=='I_P_MS'][,indicator := 'I_P_DS']
+  m2.copy <- m.obic[indicator=='I_P_MS'][,indicator := 'I_P_WS']
+  
+  # add to m.obic
+  m.obic <- rbind(m.obic[!indicator=='I_P_MS'],m1.copy,m2.copy)
+  
+  # setkey
+  setkey(m.obic,indicator,m_sector,m_soiltype)
+  
   # rename to recom.obic
   recom.obic <- m.obic
   
-save(recom.obic, file = "data/internal_data/products/recom_obic.RData")
+save(recom.obic, file = "data/recom_obic.RData")
