@@ -406,6 +406,10 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   
   
   # Evaluate management -----------------------------------------------------
+  # merge dt with crops.obic
+  dt <- merge(dt,crops.obic[,.(crop_code,crop_category)], by.x = 'B_LU_BRP', by.y = 'crop_code') 
+  
+  
   # determine index score for management practices
   dt[, I_M_GREEN := fifelse(M_GREEN == TRUE, 1,0) ]
   
@@ -438,20 +442,11 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
   
   
-    # Step 3 Scoring
-  cols <- colnames(dt)[grepl('^I_|BRP',colnames(dt))]
-  dt.score <- melt(dt[,mget(cols)],id.vars = 'B_LU_BRP',variable.name = 'indicator')
-  
-  # add gro
-  
   # Step 3 Scoring -----------------------------------------------------------
   # Pre-processing ----
   
   # Add years
   dt[,year := .I]
-  
-  # merge dt with crops.obic
-  dt <- merge(dt,crops.obic[,.(crop_code,crop_category)], by.x = 'B_LU_BRP', by.y = 'crop_code') 
   
   # Select indicators
   cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat',colnames(dt))]
@@ -472,7 +467,9 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   weights <- weight.obic
   weights[,indicator := rep(c("I_C_N","I_C_P","I_C_K","I_C_MG","I_C_S","I_C_PH","I_C_CEC","I_C_CU",
                         "I_C_ZN","I_P_CR","I_P_SE","I_P_MS","I_P_BC","I_P_DU","I_P_CO","I_P_CEC",
-                        "I_P_WRI","I_B_DI","I_B_SF","I_B_SB","I_E_NGW","I_E_NSW","I_M","I_BCS"),
+                        "I_P_WRI","I_B_DI","I_B_SF","I_B_SB","I_E_NGW","I_E_NSW","I_M","I_BCS",
+                        "I_M_GREEN","I_M_COMPOST","I_M_NONBARE","I_M_EARLYCROP","I_M_DRAIN","I_M_SLEEPHOSE",
+                        "I_M_DITCH","I_M_UNDERSEED"),
                         times = 4)]
   
   dt.melt <- merge(dt.melt,weights[,.(crop_category,indicator,weight)], by = c('crop_category','indicator'))
@@ -484,7 +481,7 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt.melt[,value.w := value * weight]
   
   # calculate correction factor for indicator values
-  dt.melt[,value.cf := wf(value.w)]
+  dt.melt[,value.cf := weightfunction(value.w)]
   
   # calculate weighted average per indicator category
   out <- dt.melt[,list(value.group = sum(value.cf * value.w / sum(value.cf[value.w>0])),
