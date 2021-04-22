@@ -54,3 +54,15 @@ evaluate_parabolic <- function(x, x.top) {
   return(y)
   
 }
+
+
+#' Helper function to weight and correct the risk and scores
+#' 
+#' @param x The risk or score value to be weighted
+#' 
+#' @export
+wf <- function(x) {
+    y <- 1 / (x  + 0.2)
+  
+  return(y)
+}
