@@ -1,10 +1,28 @@
 # Changelog OBIC
 
+## Version 1.2.0 2021-04-23
+
+### Changed
+* all element names are updated to english ones
+* weighing for score calculated is changed into a more generic approach
+* structure for running obi is changed into one function
+* weights.obic is extended and used to distinguish for relevant/non-relevant indicators
+* grass_age function is updated: count actual years
+* BCS is optional input, and when given it overwrite risk indicators compaction / aggregate stability
+
+### Added
+* obic_field is added to run obic score for one field
+* ppr_column_description plus column_descriptons_obic.Rdata
+* ppr_maatregel plus recom_obic.Rdata
+* ppr_weights plus weights.obic
+* I_P_DS and I_P_WS added (drought and wetness stress separately)
+* add_management added to estimate default values for measures when not given 
+
 ## Version 1.1.0 2021-04-10
 
 ### Changed
 
-## Added
+### Added
 * season.obic added as data.table
 * new function and tests for workability indicator
 * nema.obic added as data.table
