@@ -48,6 +48,7 @@
 #' @param M_DRAIN (boolean) A soil measure. Are under water drains installed in peaty soils (optional, option: yes or no)
 #' @param M_DITCH (boolean) A soil measure. Are ditched maintained carefully and slib applied on the land (optional, option: yes or no)
 #' @param M_UNDERSEED (boolean) A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no) 
+#' @param ID (character) A field id
 #' 
 #' @import data.table
 #' 
@@ -63,7 +64,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
                        M_COMPOST  = NA,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
-                       refid = 1) {
+                       ID = 1) {
   
   
   # define variables used within the function
@@ -84,7 +85,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
-  dt <- data.table(refid = refid,
+  dt <- data.table(ID = ID,
                    B_LU_BRP = B_LU_BRP,
                    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
                    B_AER_CBS = B_AER_CBS,
