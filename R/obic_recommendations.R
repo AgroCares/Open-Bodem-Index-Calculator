@@ -160,9 +160,9 @@ obic_recommendations <- function(dt.recom) {
   # add a character for the recommended measure
   dt.chem[,m.adv := paste0('M',m_nr)]
   # when the score of selected measures is <=0, discard the advice 
-  dt.chem[FS_M_S_C==0, m.adv := 'no suitable advice']
+  dt.chem[FS_M_S_C==0, m.adv := 'M100']
   # when no indicator is below the threshold level, give no advice.
-  dt.chem[TH_M_S_C==0, m.adv := 'no advice needed']
+  dt.chem[TH_M_S_C==0, m.adv := 'M0']
   # dcast the recommended measures for each parcel
   dt.chem <- dcast(dt.chem, ID ~ sid, value.var = 'm.adv')
   # rename the columns with recommeded measures
@@ -173,8 +173,8 @@ obic_recommendations <- function(dt.recom) {
   dt.phys[,sid := seq_len(.N),by='ID']
   dt.phys <- dt.phys[sid<4]
   dt.phys[,m.adv := paste0('M',m_nr)]
-  dt.phys[FS_M_S_P==0, m.adv := 'no suitable advice']
-  dt.phys[TH_M_S_P==0, m.adv := 'no advice needed']
+  dt.phys[FS_M_S_P==0, m.adv := 'M100']
+  dt.phys[TH_M_S_P==0, m.adv := 'M0']
   dt.phys <- dcast(dt.phys, ID ~ sid, value.var = 'm.adv')
   setnames(dt.phys,c('ID',paste0('RM_P_',1:3)))   
   
@@ -183,8 +183,8 @@ obic_recommendations <- function(dt.recom) {
   dt.biol[,sid := seq_len(.N),by='ID']
   dt.biol <- dt.biol[sid<4]
   dt.biol[,m.adv := paste0('M',m_nr)]
-  dt.biol[FS_M_S_B==0, m.adv := 'no suitable advice']
-  dt.biol[TH_M_S_B==0, m.adv := 'no advice needed']
+  dt.biol[FS_M_S_B==0, m.adv := 'M100']
+  dt.biol[TH_M_S_B==0, m.adv := 'M0']
   dt.biol <- dcast(dt.biol, ID ~ sid, value.var = 'm.adv')
   setnames(dt.biol,c('ID',paste0('RM_B_',1:3)))   
   
