@@ -271,61 +271,75 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # Calculate indicators for environment
     dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
     dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
-  
-    
-  # Step 2 Add scores ------------------
+
+  # Step 3 Reformat dt given weighing per indicator and prepare for aggregation  ------------------
     
     # load weights.obic (set indicator to zero when not applicable)
     w <- as.data.table(OBIC::weight.obic)
     
     # Add years per field
     dt[,year := .I, by = ID]
-  
+    
     # Select all indicators used for scoring
     cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat',colnames(dt))]
     cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     cols <- cols[!grepl('^I_M_',cols)]
-                   
+    
     # Melt dt and assign main categories for OBI
     dt.melt <- melt(dt[,mget(cols)],id.vars = c('crop_category','year'), variable.name = 'indicator')
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
-  
+    
     # Determine amount of indicators per category
     dt.melt.ncat <- dt.melt[year==1][,list(ncat = .N),by='cat']
-  
-    # add indicator name to weights.obic
-    w[,indicator := gsub('^W_','I_',var)]
     
     # add weighing factor to indicator values
     dt.melt <- merge(dt.melt,w[,.(crop_category,indicator,weight)], 
                      by = c('crop_category','indicator'), all.x = TRUE)
-  
+    
     # calculate weighted value for crop category
     dt.melt[,value.w := value * weight]
-  
+    
     # calculate correction factor for indicator values (low values have more impact than high values, a factor 5)
     dt.melt[,cf := cf_ind_importance(value.w)]
+    
+  # Step 4 Aggregate indicators ------------------
+
+    # subset dt.melt for relevant columns only
+    out.ind <-  dt.melt[,.(indicator,year,value = value.w)]
+    
+    # calculate correction factor per year; recent years are more important
+    out.ind[,cf := log(12 - pmin(10,year))]
+    
+    # calculate weighted average per indicator over the year
+    out.ind <- out.ind[,list(value = round(sum(cf * value/ sum(cf)),3)), by = indicator]
+        
+  # Step 5 Add scores ------------------
+    
+    # subset dt.melt for relevant columns only
+    out.score <-  dt.melt[,.(cat, year, cf, value = value.w)]
   
     # calculate weighted average per indicator category
-    out <- dt.melt[,list(value = sum(cf * value.w / sum(cf[value.w > 0]))), by = .(cat,year)]
+    out.score <- out.score[,list(value = sum(cf * value / sum(cf[value > 0]))), by = .(cat,year)]
   
       # calculate correction factor per year; recent years are more important
-      out[,cf := log(12 - pmin(10,year))]
+      out.score[,cf := log(12 - pmin(10,year))]
   
     # calculate weighted average per indicator category per year
-    out <- out[,list(value = sum(cf * value/ sum(cf))), by = cat]
+    out.score <- out.score[,list(value = sum(cf * value/ sum(cf))), by = cat]
   
       # merge out with number per category
-      out <- merge(out,dt.melt.ncat, by='cat')
+      out.score <- merge(out.score,dt.melt.ncat, by='cat')
     
       # calculate weighing factor depending on number of indicators
-      out[,cf := log(ncat + 1)]
+      out.score[,cf := log(ncat + 1)]
   
-  # calculated final obi score
-  obi.score <- out[,list(cat = "T",value = sum(value * cf / sum(cf)))]
+    # calculated final obi score
+    out.score <- rbind(out.score[,.(cat,value)],
+                       out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
   
-  # add total score to the scores per category
-  out <- rbind(out[,.(cat,value)],obi.score)
+   
+  
+  # add 
   
   # return(obi.score)
   
