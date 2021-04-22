@@ -70,8 +70,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   # define variables used within the function
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
   D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_CP_RUST = D_CP_RUSTDEEP = NULL
-  D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_P_DU = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
-  D_AS =  D_BCS = D_P_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_P_WO = B_GWL_GLG = B_GWL_GHG = B_Z_TWO = NULL
+  D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_WE = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
+  D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = B_GWL_GLG = B_GWL_GHG = B_Z_TWO = NULL
   ID = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
@@ -145,12 +145,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, c(cols) := add_management(ID,B_LU_BRP, B_SOILTYPE_AGR,
                                    M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED)]
     
-    # add
-    
     # calculate derivative supporting soil properties
     dt[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI)]
-    dt[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
     dt[, D_RD := calc_root_depth(B_LU_BRP)]
+    dt[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
     dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
 
     # Calculate the crop rotation fraction
@@ -180,11 +178,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # Calculate series of physical soil functions
     dt[, D_SE := calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)]
     dt[, D_CR := calc_crumbleability(A_SOM_LOI, A_CLAY_MI,A_PH_CC)]
-    dt[, D_P_DU := calc_winderodibility(B_LU_BRP, A_CLAY_MI, A_SILT_MI)]
+    dt[, D_WE := calc_winderodibility(B_LU_BRP, A_CLAY_MI, A_SILT_MI)]
     dt[, D_AS := calc_aggregatestability(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO)]
     dt[, D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
     dt[, D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wetnessstress')]
-    dt[, D_P_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
+    dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
+    #dt[, D_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO)]
     
     # Calculate series of biological soil functions
     dt[, D_PMN := calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)]
@@ -194,112 +193,58 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
     
     # Calculate series of management actions
-    dt[,D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
+    dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
     dt[, D_MAN := calc_management(A_SOM_LOI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, D_SOM_BAL, 
                                   D_CP_GRASS, D_CP_POTATO, D_CP_RUST, D_CP_RUSTDEEP, D_GA,
                                   M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED)]
   
+    # Calculate the score of the BodemConditieScore
+    dt[, D_BCS := calc_bcs(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, D_PH_DELTA, 
+                           A_EW_BCS, A_SC_BCS, A_GS_BCS,A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS)]
   
-  
-  # Calculate the score of the BodemConditieScore
-  dt[, D_BCS := calc_bcs(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, D_PH_DELTA, A_EW_BCS, A_SC_BCS, A_GS_BCS,
-                         A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS)]
-  
-  # Calculate water retention index 1. Plant Available Water
-  
-  
-  
-  
-  # calculate workability 
-  dt[,D_P_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO)]
-  
-  
-  
+ 
   # Step 2 Add indicators ------------------
-  # Evaluate nutrients ------------------------------------------------------
   
-  # Nitrogen
-  dt[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
-  
-  # Phosphorus
-  dt[, I_C_P := ind_phosphate_availability(D_PBI)]
-  
-  # Potassium
-  dt[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
-  
-  # Magnesium
-  dt[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
-  
-  # Sulphur
-  dt[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
-  
-  # pH
-  dt[, I_C_PH := ind_ph(D_PH_DELTA)]
-  
-  # CEC
-  dt[, I_C_CEC := ind_cec(D_CEC)]
-  
-  # Copper
-  dt[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
-  
-  # Zinc
-  dt[, I_C_ZN := ind_zinc(D_ZN)]
-  
-  
-  # Evaluate physical -------------------------------------------------------
-  
-  # Crumbleability
-  dt[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
-  
-  # Sealing
-  dt[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
-  
-  # add indicator for droughtstress
-  dt[, I_P_DS := ind_waterstressindex(D_WSI_DS)]
-  
-  # add indicator for wetness stress
-  dt[, I_P_WS := ind_waterstressindex(D_WSI_WS)]
-  
-  # Dustiness
-  dt[, I_P_DU := ind_winderodibility(D_P_DU)]
-  
-  # Compaction
-  dt[, I_P_CO := ind_compaction(B_SC_WENR)]
-  
-  # Water Retention Index 1. Plant available water in topsoil
-  dt[, I_P_WRI := ind_waterretention(D_P_WRI)]
-  
-  # aggregation stability 
-  dt[, I_P_CEC := ind_aggregatestability(D_AS)]
-  
-  # workability
-  dt[, I_P_WO := ind_workability(D_P_WO)]
-  
-  
-  # Evaluate biological -----------------------------------------------------
-  
-  # Disease / pest resistance
-  dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
-  
-  # Soil life activity
-  dt[, I_B_SF := ind_pmn(D_PMN)]
-  
-  
-  # Evaluate data from Visual Soil Assessment -------------------------------
-  
-  # calculate the soil indicators
-  bcs.par <- c('I_B_EW_BCS', 'I_P_SC_BCS', 'I_P_GS_BCS', 'I_P_P_BCS', 'I_P_C_BCS', 'I_P_RT_BCS', 'I_P_RD_BCS',
-               'I_P_SS_BCS', 'I_P_CC_BCS')
-  dt[,c(bcs.par) := calc_bcs(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
-                             A_EW_BCS, A_SC_BCS, A_GS_BCS, A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS,
-                             type = 'indicator')]
-  
-  # overwrite physical functions for compaction and aggregate stability when BCS is available
-  dt[,D_P_CO := (3*A_EW_BCS + 3*A_SC_BCS + 3*A_RD_BCS  - 2*A_P_BCS - A_RT_BCS)/18]
-  dt[,I_P_CO := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
+    # Calculate indicators for soil chemical functions
+    dt[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
+    dt[, I_C_P := ind_phosphate_availability(D_PBI)]
+    dt[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
+    dt[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
+    dt[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
+    dt[, I_C_PH := ind_ph(D_PH_DELTA)]
+    dt[, I_C_CEC := ind_cec(D_CEC)]
+    dt[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
+    dt[, I_C_ZN := ind_zinc(D_ZN)]
     
-  dt[,D_P_CEC := (3*A_EW_BCS + 3*A_SS_BCS - A_C_BCS)/12]
-  dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
+    # Calculate indicators for soil physical functions
+    dt[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
+    dt[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
+    dt[, I_P_DS := ind_waterstressindex(D_WSI_DS)]
+    dt[, I_P_WS := ind_waterstressindex(D_WSI_WS)]
+    dt[, I_P_DU := ind_winderodibility(D_P_DU)]
+    dt[, I_P_CO := ind_compaction(B_SC_WENR)]
+    dt[, I_P_WRI := ind_waterretention(D_P_WRI)]
+    dt[, I_P_CEC := ind_aggregatestability(D_AS)]
+    dt[, I_P_WO := ind_workability(D_P_WO)]
+  
+    # Calculate indicators for soil biological functions
+    dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
+    dt[, I_B_SF := ind_pmn(D_PMN)]
+  
+    # Calculate indicators for soil visual assessment (optional)
+    bcs.par <- c('I_B_EW_BCS', 'I_P_SC_BCS', 'I_P_GS_BCS', 'I_P_P_BCS', 'I_P_C_BCS', 'I_P_RT_BCS', 'I_P_RD_BCS',
+                 'I_P_SS_BCS', 'I_P_CC_BCS')
+    dt[,c(bcs.par) := calc_bcs(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
+                              A_EW_BCS, A_SC_BCS, A_GS_BCS, A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS,
+                              type = 'indicator')]
+  
+    # overwrite soil physical functions for compaction when BCS is available
+    dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
+    dt[,I_P_CO := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
+    
+    # overwrite soil physical functions for aggregate stability when BCS is available
+    dt[,D_P_CEC := (3 * A_EW_BCS + 3 * A_SS_BCS - A_C_BCS)/12]
+    dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
   
   
   # Evaluate management -----------------------------------------------------
