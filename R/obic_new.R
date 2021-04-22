@@ -400,12 +400,12 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
   
   
-  # Evaluate management ------------------------------------------------------
+  # Evaluate management -----------------------------------------------------
   dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
   
   dt[, I_BCS := ind_bcs(D_BCS)]
   
-  # Evaluate Environmental ------------------------------------------------------ 
+  # Evaluate Environmental --------------------------------------------------
   
   # N retention groundwater
   dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
@@ -416,7 +416,42 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   
   
   
-  # Step 3 Scoring
+  # Step 3 Scoring -----------------------------------------------------------
+  #w <- as.data.table(OBIC::weight.obic)
+  load('data/weight_obic.RData')
+  dt[,year := .I]
+  
+  # adapt 
+# merge dt with crops.obic[,.(crop_code,crop_category)]
+  
+  # Select indicators
+  cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat',colnames(dt))]
+  cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
+  
+  # Melt dt and assign categories
+  dt.melt <- melt(dt[,mget(cols)],id.vars = c('crop_cateogry','year', variable.name = 'indicator'))
+  
+  # merge wdt.melt with weights.obic
+ #by crop category
+ # set value = value * weight
+ # and then continue als below
+  dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
+  
+  dt.melt[,nun := (.N)/max(year),by='cat']
+  
+  dt.melt[,value.cf := wf(value)]
+  
+  out <- dt.melt[,list(value.group = sum(value.cf * value / sum(value.cf[value>0])),
+                       nun = mean(nun)), by = .(cat,year)]
+  
+  out[,cf.year := log(12 - pmin(10,year))]
+  
+  out <- out[,list(value.year = sum(cf.year * value.group/ sum(cf.year)),
+                   nun = mean(nun)), by = cat]
+  
+  out[,score.cf := log(nun+1)]
+  
+  obiscore <- out[,list(score.final = sum(value.year * score.cf / sum(score.cf)))]
   
   
   
