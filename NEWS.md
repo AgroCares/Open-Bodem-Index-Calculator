@@ -9,6 +9,7 @@
 * weights.obic is extended and used to distinguish for relevant/non-relevant indicators
 * grass_age function is updated: count actual years
 * BCS is optional input, and when given it overwrite risk indicators compaction / aggregate stability
+* M codes for no advice, issue #62
 
 ### Added
 * obic_field is added to run obic score for one field
@@ -17,6 +18,8 @@
 * ppr_weights plus weights.obic
 * I_P_DS and I_P_WS added (drought and wetness stress separately)
 * add_management added to estimate default values for measures when not given 
+* set of eight I_M_XX indicators for measures are added
+* set of nine I_X_BCS indicators are added (optional)
 
 ## Version 1.1.0 2021-04-10
 
