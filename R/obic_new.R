@@ -154,7 +154,7 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   I_M_GREEN = I_M_COMPOST = I_M_NONBARE = I_M_EARLYCROP = I_M_SLEEPHOSE = I_M_DRAIN = I_M_DITCH = I_M_UNDERSEED = NULL
   crop_category = crops.obic = leaching_to = NULL
   
-  crop_code = weight.obic = weight = score.cf = NULL
+  crop_code = weight.obic = weight = score.cf = . = out.ind = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
   
   
