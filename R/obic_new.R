@@ -147,10 +147,15 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_P_DU = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
   D_AS =  D_BCS = D_P_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_P_WO = B_GWL_GLG = B_GWL_GHG = B_Z_TWO = NULL
   ID = NULL
+  
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_NGW = I_E_NSW = NULL
-  leaching_to = NULL
+  I_M_GREEN = I_M_COMPOST = I_M_NONBARE = I_M_EARLYCROP = I_M_SLEEPHOSE = I_M_DRAIN = I_M_DITCH = I_M_UNDERSEED = NULL
+  crop_category = crops.obic = leaching_to = NULL
+  
+  crop_code = weight.obic = weight = score.cf = NULL
+  indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
   
   
   # combine input into one data.table
@@ -259,7 +264,7 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   # Calculate the OM balance
   dt[,D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
   
-  # Determine the managment
+  # Determine the management
   dt[, D_MAN := calc_management(A_SOM_LOI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, D_SOM_BAL, 
                                 D_CP_GRASS, D_CP_POTATO, D_CP_RUST, D_CP_RUSTDEEP, D_GA,
                                 M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED)]
@@ -401,6 +406,25 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   
   
   # Evaluate management -----------------------------------------------------
+  # determine index score for management practices
+  dt[, I_M_GREEN := fifelse(M_GREEN == TRUE, 1,0) ]
+  
+  dt[, I_M_COMPOST := fifelse(M_GREEN > 0,1,0)]
+  
+  dt[, I_M_NONBARE := fifelse(M_NONBARE == TRUE, 1,0)]
+  
+  dt[, I_M_EARLYCROP := fifelse(M_EARLYCROP == TRUE, 1,0)]
+  
+  dt[, I_M_SLEEPHOSE := fifelse(M_SLEEPHOSE == TRUE & B_SOILTYPE_AGR != 'veen' & crop_category == 'mais',1,0)]
+  dt[, I_M_SLEEPHOSE := fifelse(M_SLEEPHOSE == TRUE & crop_category == 'grasland',1,0)]
+  
+  dt[, I_M_DRAIN := fifelse(M_DRAIN == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
+  
+  dt[, I_M_DITCH := fifelse(M_DITCH == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
+  
+  dt[, I_M_UNDERSEED := fifelse(M_UNDERSEED == TRUE,1,0)]
+  
+  # calculate integrated management score
   dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
   
   dt[, I_BCS := ind_bcs(D_BCS)]
@@ -441,7 +465,13 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   #w <- as.data.table(OBIC::weight.obic)
   load('data/weight_obic.RData')
   
-  test <- merge(dt.melt,weight.obic,by = 'crop_category')
+  weights <- weight.obic
+  weights[,indicator := rep(c("I_C_N","I_C_P","I_C_K","I_C_MG","I_C_S","I_C_PH","I_C_CEC","I_C_CU",
+                        "I_C_ZN","I_P_CR","I_P_SE","I_P_MS","I_P_BC","I_P_DU","I_P_CO","I_P_CEC",
+                        "I_P_WRI","I_B_DI","I_B_SF","I_B_SB","I_E_NGW","I_E_NSW","I_M","I_BCS"),
+                        times = 4)]
+  
+  dt.melt <- merge(dt.melt,weights[,.(crop_category,indicator,weight)], by = c('crop_category','indicator'))
   
   
   # Calculations ----
@@ -453,14 +483,14 @@ obic_field_test <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_A
   dt.melt[,value.cf := wf(value.w)]
   
   # calculate weighted average per indicator category
-  out <- dt.melt[,list(value.group = sum(value.cf * value.w / sum(value.cf[value>0])),
+  out <- dt.melt[,list(value.group = sum(value.cf * value.w / sum(value.cf[value.w>0])),
                        ind.n = mean(ind.n)), by = .(cat,year)]
   
   # calculate correction factor per year
-  out[,cf.year := log(12 - pmin(10,year))]
+  out[,year.cf := log(12 - pmin(10,year))]
   
   # calculate weigthed average per year
-  out <- out[,list(value.year = sum(cf.year * value.group/ sum(cf.year)),
+  out <- out[,list(value.year = sum(year.cf * value.group/ sum(year.cf)),
                    ind.n = mean(ind.n)), by = cat]
   
   # calculate correction factor for size of categories
