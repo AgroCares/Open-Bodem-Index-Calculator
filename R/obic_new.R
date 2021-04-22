@@ -313,6 +313,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # calculate weighted average per indicator over the year
     out.ind <- out.ind[,list(value = round(sum(cf * value/ sum(cf)),3)), by = indicator]
         
+    # dcast output
+    out.ind[,id:=1]
+    out.ind <- dcast(out.ind,id~indicator)[,id:=NULL]
+    
   # Step 5 Add scores ------------------
     
     # subset dt.melt for relevant columns only
@@ -337,7 +341,13 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.score <- rbind(out.score[,.(cat,value)],
                        out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
   
+    # update element names
+    out.score[,cat := paste0('S_',cat,'_OBI_A')]
+    out.score[, value := round(value,3)]
    
+    # dcast output
+    out.score[,id:=1]
+    out.score <- dcast(out.score,id~cat)[,id:=NULL]
   
   # add 
   
