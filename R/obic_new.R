@@ -82,7 +82,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   
   crop_code = weight.obic = weight = score.cf = . = out.ind = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
-  var = cf = ncat = NULL
+  var = cf = ncat = id = NULL
   
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
@@ -313,9 +313,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # calculate weighted average per indicator over the year
     out.ind <- out.ind[,list(value = round(sum(cf * value/ sum(cf)),3)), by = indicator]
         
-    # dcast output
-    out.ind[,id:=1]
-    out.ind <- dcast(out.ind,id~indicator)[,id:=NULL]
     
   # Step 5 Add scores ------------------
     
@@ -345,15 +342,35 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.score[,cat := paste0('S_',cat,'_OBI_A')]
     out.score[, value := round(value,3)]
    
+#  Step 6 Add recommendations ------------------
+    
+    # dcast output
+    out.ind[,id:=1]
+    out.ind <- dcast(out.ind,id~indicator)[,id:=NULL]
+    
     # dcast output
     out.score[,id:=1]
     out.score <- dcast(out.score,id~cat)[,id:=NULL]
+    
+    # get most occurring soil type and crop type
+    dt.sc <- dt[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), 
+                            .SDcols = c('B_LU_BRP','B_SOILTYPE_AGR'),by = ID]
+    dt.sc[, B_LU_BRP := as.integer(B_LU_BRP)]
+    
+    # combine indicators and score in one data.table
+    dt.score <- data.table(dt.sc,out.ind,out.score)
   
-  # add 
+    # evaluate measures
+    dt.measure <- OBIC::obic_evalmeasure(dt.score, extensive = FALSE)
+    
+    # make recommendations of top 3 measures
+    dt.recom <- OBIC::obic_recommendations(dt.measure)
+    
+
+  # prepare output objects
   
-  # return(obi.score)
-  
-  
+       
+    
   # prepare output object for indicator values (for the moment, will be extended)
   dt.score <- data.table(I_C_N = 1, I_C_P = 1,I_C_K = 1,I_C_MG = 1,I_C_S = 1,I_C_PH = 1,I_C_CEC= 1,
                         I_C_CU = 1,I_C_ZN = 1,
