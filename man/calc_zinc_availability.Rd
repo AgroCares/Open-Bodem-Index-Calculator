@@ -4,16 +4,16 @@
 \alias{calc_zinc_availability}
 \title{Calculate the availability of the metal Zinc}
 \usage{
-calc_zinc_availability(A_ZN_CC, B_LU_BRP, B_BT_AK, A_PH_CC)
+calc_zinc_availability(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC)
 }
 \arguments{
-\item{A_ZN_CC}{The plant available Zn content, extracted with 0.01M CaCl2 (mg / kg)}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
-
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
 \item{A_PH_CC}{(numeric) The acidity of the soil, determined in 0.01M CaCl2 (-)}
+
+\item{A_ZN_CC}{The plant available Zn content, extracted with 0.01M CaCl2 (mg / kg)}
 }
 \description{
 This function calculates the availability of Zn for plant uptake

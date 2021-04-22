@@ -2,15 +2,15 @@
 #' 
 #' This function calculates the phosphate availability. This value can be evaluated by \code{\link{ind_phosphate_availability}}
 #' 
+#' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_CC (numeric) The P-CaCl2 content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water
-#' @param B_LU_BRP (numeric) The crop code from the BRP
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_phosphate_availability <- function(A_P_AL = NULL, A_P_CC = NULL, A_P_WA = NULL, B_LU_BRP) {
+calc_phosphate_availability <- function(B_LU_BRP, A_P_AL = NULL, A_P_CC = NULL, A_P_WA = NULL) {
   
   # Load in the crops data set
   crop_code = crop_phosphate = id = NULL

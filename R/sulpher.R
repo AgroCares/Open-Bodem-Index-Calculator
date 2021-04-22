@@ -2,17 +2,17 @@
 #' 
 #' This function calculates a S-balance given the SLV (Sulpher supplying capacity) of a soil
 #' 
-#' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
-#' @param A_SOM_LOI (numeric) The organic matter content of the soil (in procent)
-#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
+#' @param A_SOM_LOI (numeric) The organic matter content of the soil (in procent)
+#' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
 #' @param D_BDS (numeric) The bulk density of the soil (in kg per m3)
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_slv <- function(A_S_RT, A_SOM_LOI, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,D_BDS) {
+calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS) {
   
   a = c.ass = c.diss = id = crop_code = soiltype = soiltype.n = crop_category = NULL
   minip.a = D_OC = A_CS_RAT = NULL
@@ -49,10 +49,10 @@ calc_slv <- function(A_S_RT, A_SOM_LOI, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,D_BD
   # Collect data in a table
   dt <- data.table(
     id = 1:arg.length,
-    A_S_RT = A_S_RT,
-    A_SOM_LOI = A_SOM_LOI,
     B_LU_BRP = B_LU_BRP,
     B_SOILTYPE_AGR = B_SOILTYPE_AGR,
+    A_SOM_LOI = A_SOM_LOI,
+    A_S_RT = A_S_RT,
     D_BDS = D_BDS,
     value = NA_real_
   )

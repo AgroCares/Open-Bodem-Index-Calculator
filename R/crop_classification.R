@@ -2,14 +2,14 @@
 #' 
 #' This function determines crop classes given crop response to P, K and S fertilizers
 #' 
-#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
-#' @param B_BT_AK (character) The type of soil
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param nutrient (character) The nutrient for wich crop classification is needed. Options include P, K and S.
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_cropclass <- function(B_LU_BRP,B_BT_AK, nutrient = NULL) {
+calc_cropclass <- function(B_LU_BRP,B_SOILTYPE_AGR, nutrient = NULL) {
   
   crop_category = crop_code = crop_name = soiltype = id = soiltype.n = NULL
   
@@ -20,21 +20,21 @@ calc_cropclass <- function(B_LU_BRP,B_BT_AK, nutrient = NULL) {
   setkey(soils.obic, soiltype)
   
   # Check inputs
-  arg.length <- max(length(B_LU_BRP), length(B_BT_AK))
+  arg.length <- max(length(B_LU_BRP), length(B_SOILTYPE_AGR))
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_character(B_BT_AK, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_BT_AK, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   
   # Collect the data into a table
   dt <- data.table(
     id = 1:length(B_LU_BRP),
     B_LU_BRP = B_LU_BRP,
-    B_BT_AK = B_BT_AK,
+    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
     value = NA_character_
   )
   dt <- merge(dt, crops.obic[, list(crop_code, crop_name)], by.x = "B_LU_BRP", by.y = "crop_code")
-  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_BT_AK", by.y = "soiltype")
+  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
   setorder(dt, id)
   
   # lower case and character crop names

@@ -2,7 +2,7 @@ test_that("calc_nleach works", {
   # groundwater leaching
   expect_equal(
     calc_nleach(
-      B_BT_AK = c('dekzand','zeeklei','rivierklei','loess'),
+      B_SOILTYPE_AGR = c('dekzand','zeeklei','rivierklei','loess'),
       B_LU_BRP = c(265, 2014, 259, 259), # grasland, bouwland, mais, mais
       B_GWL_CLASS = c('GtIV','GtV','GtIII','GtII'),
       D_NLV = c(5, 30, 100, 150),
@@ -16,7 +16,7 @@ test_that("calc_nleach works", {
   # surfacewater run-off
   expect_equal(
     calc_nleach(
-      B_BT_AK = c('dekzand','zeeklei','rivierklei','loess'),
+      B_SOILTYPE_AGR = c('dekzand','zeeklei','rivierklei','loess'),
       B_LU_BRP = c(265, 2014, 259, 259), # grasland, bouwland, mais, mais
       B_GWL_CLASS = c('GtIV','GtV','GtIII','GtII'),
       D_NLV = c(5, 30, 100, 150),

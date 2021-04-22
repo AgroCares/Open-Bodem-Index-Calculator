@@ -4,12 +4,12 @@
 \alias{calc_cropclass}
 \title{Determine classification rules for crops used to prepare crops.obic}
 \usage{
-calc_cropclass(B_LU_BRP, B_BT_AK, nutrient = NULL)
+calc_cropclass(B_LU_BRP, B_SOILTYPE_AGR, nutrient = NULL)
 }
 \arguments{
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
 \item{nutrient}{(character) The nutrient for wich crop classification is needed. Options include P, K and S.}
 }
