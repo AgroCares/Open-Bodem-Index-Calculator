@@ -134,110 +134,81 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_GREEN = M_GREEN
                    )
   
-  
-  
   # Step 1 Pre-processing ------------------
   
-  # check format B_SC_WENR and B_GWL_CLASS
-  dt[, B_SC_WENR := format_soilcompaction(B_SC_WENR)]
-  dt[, B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
+    # check format B_SC_WENR and B_GWL_CLASS
+    dt[, B_SC_WENR := format_soilcompaction(B_SC_WENR)]
+    dt[, B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
   
-  # calculate soil sealing risk
-  dt[, D_SE := calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)]
-  
-  # calculate the crumbleability of the soil
-  dt[, D_CR := calc_crumbleability(A_SOM_LOI, A_CLAY_MI,A_PH_CC)]
-  
-  # calculate bulk density
-  dt[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI)]
-  
-  # Determine the root depth of the soil
-  dt[, D_RD := calc_root_depth(B_LU_BRP)]
-  
-  # Calculate the amount of total organic carbon
-  dt[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
-  
-  # Calculate a simple organic matter balance
-  dt[,D_OS_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
-  
-  # Calculate the grass age
-  dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
-  
-  # Calculate the NLV
-  dt[, D_NLV := calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)]
+    # add management when input is missing
+    cols <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_COMPOST','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED')
+    dt[, c(cols) := add_management(ID,B_LU_BRP, B_SOILTYPE_AGR,
+                                   M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED)]
+    
+    # add
+    
+    # calculate derivative supporting soil properties
+    dt[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI)]
+    dt[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
+    dt[, D_RD := calc_root_depth(B_LU_BRP)]
+    dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
 
-  # Calculate the potassium availability
-  dt[, D_K :=  calc_potassium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC,
-                                           A_CEC_CO, A_K_CO_PO, A_K_CC)]
+    # Calculate the crop rotation fraction
+    dt[, D_CP_STARCH := calc_rotation_fraction(ID, B_LU_BRP, crop = "starch")]
+    dt[, D_CP_POTATO := calc_rotation_fraction(ID, B_LU_BRP, crop = "potato")]
+    dt[, D_CP_SUGARBEET := calc_rotation_fraction(ID, B_LU_BRP, crop = "sugarbeet")]
+    dt[, D_CP_GRASS := calc_rotation_fraction(ID, B_LU_BRP, crop = "grass")]
+    dt[, D_CP_MAIS := calc_rotation_fraction(ID, B_LU_BRP, crop = "mais")]
+    dt[, D_CP_OTHER := calc_rotation_fraction(ID, B_LU_BRP, crop = "other")]
+    dt[, D_CP_RUST := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewas")]
+    dt[, D_CP_RUSTDEEP := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewasdiep")]
+    
+    # Calculate series of chemical soil functions
+    dt[, D_PH_DELTA := calc_ph_delta(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, D_CP_STARCH,
+                                     D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)]
+    dt[, D_CEC := calc_cec(A_CEC_CO)]
+    dt[, D_NLV := calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)]
+    dt[, D_PBI := calc_phosphate_availability(B_LU_BRP, A_P_AL, A_P_CC, A_P_WA)]
+    dt[, D_K :=  calc_potassium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC,
+                                             A_CEC_CO, A_K_CO_PO, A_K_CC)]
+    dt[, D_SLV := calc_slv(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS)]
+    dt[, D_MG := calc_magnesium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, A_CEC_CO,
+                                             A_K_CO_PO, A_MG_CC, A_K_CC)]
+    dt[, D_CU := calc_copper_availability(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_K_CC, A_MN_CC, A_CU_CC)]
+    dt[, D_ZN := calc_zinc_availability(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC)]
+    
+    # Calculate series of physical soil functions
+    dt[, D_SE := calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)]
+    dt[, D_CR := calc_crumbleability(A_SOM_LOI, A_CLAY_MI,A_PH_CC)]
+    dt[, D_P_DU := calc_winderodibility(B_LU_BRP, A_CLAY_MI, A_SILT_MI)]
+    dt[, D_AS := calc_aggregatestability(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO)]
+    dt[, D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
+    dt[, D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wetnessstress')]
+    dt[, D_P_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
+    
+    # Calculate series of biological soil functions
+    dt[, D_PMN := calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)]
+    
+    # Calculate series of environmental soil functions
+    dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
+    dt[,D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
+    
+    # Calculate series of management actions
+    dt[,D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
+    dt[, D_MAN := calc_management(A_SOM_LOI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, D_SOM_BAL, 
+                                  D_CP_GRASS, D_CP_POTATO, D_CP_RUST, D_CP_RUSTDEEP, D_GA,
+                                  M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED)]
   
-  # Calculate the PBI
-  dt[, D_PBI := calc_phosphate_availability(B_LU_BRP, A_P_AL, A_P_CC, A_P_WA)]
   
-  # Calculate the crop rotation fraction
-  dt[, D_CP_STARCH := calc_rotation_fraction(ID, B_LU_BRP, crop = "starch")]
-  dt[, D_CP_POTATO := calc_rotation_fraction(ID, B_LU_BRP, crop = "potato")]
-  dt[, D_CP_SUGARBEET := calc_rotation_fraction(ID, B_LU_BRP, crop = "sugarbeet")]
-  dt[, D_CP_GRASS := calc_rotation_fraction(ID, B_LU_BRP, crop = "grass")]
-  dt[, D_CP_MAIS := calc_rotation_fraction(ID, B_LU_BRP, crop = "mais")]
-  dt[, D_CP_OTHER := calc_rotation_fraction(ID, B_LU_BRP, crop = "other")]
-  dt[, D_CP_RUST := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewas")]
-  dt[, D_CP_RUSTDEEP := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewasdiep")]
-  
-  # Calculate the difference between the actual pH and optimum pH
-  dt[, D_PH_DELTA := calc_ph_delta(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, D_CP_STARCH,
-                                    D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)]
-  
-  # Calculate the OM balance
-  dt[,D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
-  
-  # Determine the management
-  dt[, D_MAN := calc_management(A_SOM_LOI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, D_SOM_BAL, 
-                                D_CP_GRASS, D_CP_POTATO, D_CP_RUST, D_CP_RUSTDEEP, D_GA,
-                                M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED)]
-  
-  # Calculate the wind erodibility 
-  dt[, D_P_DU := calc_winderodibility(B_LU_BRP, A_CLAY_MI, A_SILT_MI)]
-  
-  # Calculate the sulphur supply
-  dt[, D_SLV := calc_slv(A_S_RT, A_SOM_LOI, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS, D_BDS)]
-  
-  # Calculate the magnesium index
-  dt[, D_MG := calc_magnesium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, A_CEC_CO,
-                                           A_K_CO_PO, A_MG_CC, A_K_CC)]
-  
-  # Calculate the Cu-index
-  dt[, D_CU := calc_copper_availability(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_K_CC, A_MN_CC, A_CU_CC)]
-  
-  # Calculate the Zn-index
-  dt[, D_ZN := calc_zinc_availability(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC)]
-  
-  # Calculate the index for microbial activity
-  dt[, D_PMN := calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)]
-  
-  # Calculate the CEC as cationbuffer index
-  dt[,D_CEC := calc_cec(A_CEC_CO)]
-  
-  # Calculate the aggregate stability given the CEC
-  dt[,D_AS := calc_aggregatestability(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO)]
   
   # Calculate the score of the BodemConditieScore
   dt[, D_BCS := calc_bcs(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, D_PH_DELTA, A_EW_BCS, A_SC_BCS, A_GS_BCS,
                          A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS)]
   
   # Calculate water retention index 1. Plant Available Water
-  dt[,D_P_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
   
-  # Calculate Drought Stress Risk
-  dt[,D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
   
-  # Calculate Wetness Stress Risk
-  dt[,D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wetnessstress')]
   
-  # calculate N leaching to groundwater (mgNO3/L)
-  dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
-  
-  # calculate N run-off to surface water (kgN/ha/year)
-  dt[,D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
   
   # calculate workability 
   dt[,D_P_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO)]
