@@ -228,6 +228,9 @@ ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
   # Ensure no vales above 1
   dt[value > 1, value := 1]
   
+  # values extact zero not desired (due to non relevance zero in scoring method)
+  dt[value==0, value := 0.05]
+  
   # round value
   dt[,value := round(value,2)]
   
