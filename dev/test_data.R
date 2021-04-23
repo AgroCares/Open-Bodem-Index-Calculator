@@ -346,8 +346,9 @@ rsltest <- seq(0,1,0.01)
 100*rsltest^2-200*rsltest+100
 plot(rsltest, 100*rsltest^2-200*rsltest+100)
 
+# testobject
 require(data.table)
-field <- fromJSON("dev/obi2.json")
+field <- jsonlite::fromJSON("dev/obi2.json")
 
 dt <- data.table(ID = 362662,
                  B_SOILTYPE_AGR = field$b_soiltype_agr,
@@ -396,3 +397,32 @@ dt <- data.table(ID = 362662,
                  M_DRAIN = field$m_drain,
                  M_DITCH = field$m_ditch,
                  M_UNDERSEED = field$m_underseed)
+
+require(OBIC)
+
+nsim = 25
+out.list = list()
+
+  for(i in 1:nsim){
+    
+    # adapt input random
+    dt[,B_SOILTYPE_AGR := sample(OBIC::soils.obic$soiltype,.N,replace = T)]
+    dt[,B_GWL_CLASS := sample(unique(OBIC::waterstress.obic$gt),.N,replace = T)]
+    dt[,B_LU_BRP := sample(OBIC::crops.obic$crop_code,.N,replace = T)]
+    
+    out.list[[i]] <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
+                                dt$B_LU_BRP, 
+                                dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,dt$A_CACO3_IF,
+                                dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
+                                dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
+                                dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
+                                dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,
+                                dt$A_C_BCS , dt$A_CC_BCS ,dt$A_GS_BCS ,dt$A_P_BCS ,dt$A_RD_BCS ,
+                                dt$A_EW_BCS ,dt$A_SS_BCS ,dt$A_RT_BCS ,dt$A_SC_BCS ,
+                                dt$M_COMPOST  ,dt$M_GREEN , dt$M_NONBARE , dt$M_EARLYCROP , 
+                                dt$M_SLEEPHOSE ,dt$M_DRAIN ,dt$M_DITCH ,dt$M_UNDERSEED ,
+                                ID = 1)
+  }
+ 
+
+
