@@ -68,8 +68,7 @@ calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY
   
   # Calculate the Mg availability for arable land -----
   dt.arable <- dt[crop_category == "akkerbouw"]
-  dt.arable[grepl('zand|loess|dalgrond',soiltype.n),value := A_MG_CC]
-  dt.arable[grepl('klei|veen',soiltype.n),value := pmax(0,A_MG_CC-10)]
+  dt.arable[,value := A_MG_CC]
   
   # Calculate the Mg availability for maize land -----
   dt.maize <- dt[crop_category == "mais"]
