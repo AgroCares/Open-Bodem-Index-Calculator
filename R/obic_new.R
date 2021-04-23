@@ -293,7 +293,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.melt.ncat <- dt.melt[year==1][,list(ncat = .N),by='cat']
     
     # add weighing factor to indicator values
-    dt.melt <- merge(dt.melt,w[,.(crop_category,indicator,weight)], 
+    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator,weight)], 
                      by = c('crop_category','indicator'), all.x = TRUE)
     
     # calculate weighted value for crop category
@@ -305,7 +305,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   # Step 4 Aggregate indicators ------------------
 
     # subset dt.melt for relevant columns only
-    out.ind <-  dt.melt[,.(indicator,year,value = value.w)]
+    out.ind <-  dt.melt[,list(indicator,year,value = value.w)]
     
     # calculate correction factor per year; recent years are more important
     out.ind[,cf := log(12 - pmin(10,year))]
@@ -317,10 +317,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   # Step 5 Add scores ------------------
     
     # subset dt.melt for relevant columns only
-    out.score <-  dt.melt[,.(cat, year, cf, value = value.w)]
+    out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
   
     # calculate weighted average per indicator category
-    out.score <- out.score[,list(value = sum(cf * value / sum(cf[value > 0]))), by = .(cat,year)]
+    out.score <- out.score[,list(value = sum(cf * value / sum(cf[value > 0]))), by = list(cat,year)]
   
       # calculate correction factor per year; recent years are more important
       out.score[,cf := log(12 - pmin(10,year))]
@@ -335,7 +335,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
       out.score[,cf := log(ncat + 1)]
   
     # calculated final obi score
-    out.score <- rbind(out.score[,.(cat,value)],
+    out.score <- rbind(out.score[,list(cat,value)],
                        out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
   
     # update element names
