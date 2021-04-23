@@ -92,8 +92,8 @@ obic_preprocessing <- function(dt) {
   dt[, D_SLV := calc_slv(A_S_TOT,A_OS_GV,B_LU_BRP, B_BT_AK, D_BDS)]
   
   # Calculate the magnesium index
-  dt[, D_MG := calc_magnesium_availability(A_MG_CC,A_PH_CC,A_OS_GV,A_CEC_CO, A_K_CC,
-                                           A_K_CEC,A_CLAY_MI,B_BT_AK,B_LU_BRP)]
+  dt[, D_MG := calc_magnesium_availability(B_LU_BRP,B_BT_AK,A_OS_GV,A_CLAY_MI,
+                                           A_PH_CC, A_CEC_CO,A_K_CEC,A_MG_CC,A_K_CC)]
  
   # Calculate the Cu-index
   dt[, D_CU := calc_copper_availability(A_CU_CC, A_OS_GV, A_MN_CC,A_CLAY_MI,A_K_CC,
