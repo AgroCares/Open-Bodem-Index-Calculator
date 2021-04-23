@@ -115,14 +115,10 @@ setorder(nema.crop.rot.obic, crop, name_scientific)
 setcolorder(nema.crop.rot.obic, c('crop', 'name_scientific', 'propagation', 'damage', 'cultivar_dependent', 'serotype_dependent',
                                   'dalgrond', 'klei', 'loess', 'zand', 'zavel', 'info', 'name_common', 'nema_name', 'grondsoort'))
 
-
 # Write to OBIC
 write.csv(nema.crop.rot.obic, 'dev/aaltjes_gewas_schema.csv')
 save(nema.crop.rot.obic, file = 'data/nema_crop_rot_obic.RData')
 
 # check wether crops ending in _xx are different
-testf <- nema.crop.rot.obic[grepl('_br$|_ls$|_vs$|_st$',crop),.(nema_name, crop, propagation, damage)]
-testf.dc <- dcast(testf, crop~nema_name, value.var = c('damage', 'propagation'))
-testf.dc <- testf.dc[, cr := crop]
-testf.dc <- testf.dc[, cr := gsub('_.*$', '',cr)]
-setorder(testf.dc, cr)
+
+
