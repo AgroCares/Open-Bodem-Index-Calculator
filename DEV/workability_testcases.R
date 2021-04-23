@@ -132,6 +132,9 @@ calc_workability_testcase <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE
   # Calculate relative season length
   dt[,rsl := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
   
+  # Calculate new score without taking yields into account
+  dt[,new_score := OBIC::evaluate_logistic(x = rsl, b = 15, x0 = 0.75, v = 1, increasing = TRUE)]
+  
   # # Calculate percentage yield loss non-grassland by sub-optimal season length
   dt[derving == 'zaai groenten' , yl := 538*rsl^2-1144*rsl+606]
   dt[derving == 'zomergranen'   , yl := 232*rsl^2- 475*rsl+243]
@@ -180,10 +183,10 @@ tc.dat <- merge.data.table(tc.dat,
                                      derving, gws_sub_workingdepth, spring_depth, rd_spring,
                                      rd_fall, req_spring_depth_day, req_fall_depth_day,
                                      early_season_day_deficit, late_season_day_deficit,
-                                     rsl, yl, yield)],
+                                     rsl, yl, yield, new_score)],
                            by.x = 'ID', by.y = 'ref_id')
 
-write.csv(tc.dat, '../OBIC functies bodembewerkbaarheid/workability_testcases3.csv')
+write.csv(tc.dat, '../OBIC functies bodembewerkbaarheid/workability_testcases4.csv')
 
 # calc Huinink
 huinres <- calc_workability_testcase(0,14,1929,'dekzand',150,25,76,'huinink')
@@ -205,3 +208,9 @@ gg.gras <- ggarrange(gg1, gg2, gg3, ncol = 2, nrow = 2, common.legend = TRUE)
 show(gg.gras)
 
 ggsave(filename = '../OBIC functies bodembewerkbaarheid/testcase_plot_gras.png',plot = gg.gras, width = 9.8*1.61803, units = 'cm')
+
+# plot new_score against rsl
+nsdt <- data.table(x = seq(0,1,0.01), y = OBIC::evaluate_logistic(x = seq(0,1,0.01), b = 15, x0 = 0.75, v = 1, increasing = TRUE))
+ggn <- ggscatter(nsdt, x = 'x', y = 'y') + theme_pubr(base_size = 10) + ylab('Bewerkbaarheidsscore') + xlab('Relatieve lengte bewerkbare periode')
+show(ggn)
+ggsave(filename = '../OBIC functies bodembewerkbaarheid/indicator_scores.png',plot = ggn, width = 9.8*1.61803/2,height = 9.8/2, units = 'cm')
