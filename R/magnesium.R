@@ -107,14 +107,11 @@ calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY
   # remove columns not needed any more
   dt.grass.other[,c('kg1','kg2','cF'):=NULL]
   
-  # calculate expected Mg-content in grass in the spring on peat soils (den Boer 2003)
-  dt.grass.other[grepl('veen', B_SOILTYPE_AGR),mg_pred := 3.3284 + 0.001058* A_MG_CC - 0.02059* kg -0.01163*A_CLAY_MI -0.2691* A_PH_KCL]
+  # calculate expected Mg-content in grass (g/kg) in the spring on peat soils (den Boer 2003)
+  dt.grass.other[grepl('veen', B_SOILTYPE_AGR),mg_pred := 3.3284 + 0.001058* A_MG_NC - 0.02059* kg -0.01163*A_CLAY_MI -0.2691* A_PH_KCL]
   
-  # calculate expected Mg-content in grass in the spring on clay soils (den Boer 2003)
-  dt.grass.other[grepl('klei',B_SOILTYPE_AGR),mg_pred := 2.6688 + 0.001563* A_MG_CC - 0.01738* kg -0.04175* A_OS_GV -0.015128* A_SLIB_MI]
-  
-  # unit correction (from % to g/kg)
-  dt.grass.other[,mg_pred := mg_pred * 10] 
+  # calculate expected Mg-content in grass (g/kg) in the spring on clay soils (den Boer 2003)
+  dt.grass.other[grepl('klei',B_SOILTYPE_AGR),mg_pred := 2.6688 + 0.001563* A_MG_NC - 0.01738* kg -0.04175* A_SOM_LOI -0.015128* A_SLIB_MI]
   
   # estimate optimum mg-content in grass in spring (Kemp, in Handboek Melkveehouderij)
   dt.grass.other[,mg_aim := (2.511 - 86.46/((param.k * param.re)^0.5))^2]
