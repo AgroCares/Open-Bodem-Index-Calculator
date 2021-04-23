@@ -244,10 +244,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
+    dt[,D_P_CO := pmax(0, D_P_CO)]
     dt[,I_P_CO := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
     
     # overwrite soil physical functions for aggregate stability when BCS is available
     dt[,D_P_CEC := (3 * A_EW_BCS + 3 * A_SS_BCS - A_C_BCS)/12]
+    dt[,D_P_CEC := pmax(0, D_P_CEC)]
     dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
   
     # Calculate Visual Soil Assessment Indicator
@@ -281,15 +283,21 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
     # Select all indicators used for scoring
     cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat',colnames(dt))]
-    cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
-    cols <- cols[!grepl('^I_M_',cols)]
+    #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
+    #cols <- cols[!grepl('^I_M_',cols)]
     
     # Melt dt and assign main categories for OBI
     dt.melt <- melt(dt[,mget(cols)],id.vars = c('crop_category','year'), variable.name = 'indicator')
+    
+    # add categories relevant for aggregating
+    # C = chemical, P = physics, B = biological, BCS = visual soil assessment
+    # indicators not used for integrating: IBCS and IM
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
+    dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
+    dt.melt[grepl('^I_M_',indicator), cat := 'IM']
     
     # Determine amount of indicators per category
-    dt.melt.ncat <- dt.melt[year==1][,list(ncat = .N),by='cat']
+    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']
     
     # add weighing factor to indicator values
     dt.melt <- merge(dt.melt,w[,list(crop_category,indicator,weight)], 
@@ -311,13 +319,18 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
     # calculate weighted average per indicator over the year
     out.ind <- out.ind[,list(value = round(sum(cf * value/ sum(cf)),3)), by = indicator]
-        
+       
+    # when visual soil assessment is not availabe, replace NA by zero
+    out.ind[grepl('_BCS$',indicator) & is.na(value), value := 0]
     
   # Step 5 Add scores ------------------
     
     # subset dt.melt for relevant columns only
     out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
   
+    # remove indicator categories that are not used for socring
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+    
     # calculate weighted average per indicator category
     out.score <- out.score[,list(value = sum(cf * value / sum(cf[value > 0]))), by = list(cat,year)]
   
