@@ -12,8 +12,8 @@ calc_organic_carbon <- function(A_SOM_LOI, D_BDS, D_RD) {
   # Check inputs
   arg.length <- max(length(A_SOM_LOI), length(D_BDS), length(D_RD))
   checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(D_BDS, lower = 500, upper = 1500, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(D_RD, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_BDS, lower = 100, upper = 1900, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_RD, lower = 0, upper = 2, any.missing = FALSE, len = arg.length)
   
   # Calculate the value
   ha <- 100 * 100
