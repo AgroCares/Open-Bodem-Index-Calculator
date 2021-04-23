@@ -25,7 +25,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   # parameters related to required depth (rd): required depth for capilairy (rdc), for hydrostatic equilibrium (rdh)
   rdh = rdc = rd_spring = rd_fall = NULL
   rdh_spring = rdh_fall = req_spring_depth_day = req_fall_depth_day = NULL
-  rsl = derving = yl = yield = NULL
+  rsl = score = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -127,36 +127,39 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   # Calculate relative season length
   dt[,rsl := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
   
-  # # Calculate percentage yield loss non-grassland by sub-optimal season length
-  dt[derving == 'zaai groenten' , yl := 538*rsl^2-1144*rsl+606]
-  dt[derving == 'zomergranen'   , yl := 232*rsl^2- 475*rsl+243]
-  dt[derving == 'plant groenten', yl := 392*rsl^2- 785*rsl+393]
-  dt[derving == 'wintergranen'  , yl :=(232*rsl^2- 475*rsl+243)*0.85/2]
-  dt[derving == 'boomteelt'     , yl :=(538*rsl^2-1144*rsl+606)/2]
-  dt[derving == 'overig'        , yl := 100*rsl^2- 200*rsl+100]
+  # evaluate relative season length
+  dt[,score := OBIC::evaluate_logistic(x = rsl, b = 15, x0 = 0.75, v = 1, increasing = TRUE)]
   
-  # helper functions to determine yield loss in grass given soiltype
-  ylveen <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
-                      y = c(23, 25, 28, 36, 38, 41, 54, 59, 100), method = 'linear',
-                      yleft = NA_integer_, yright = NA_integer_)
-  ylsoil <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
-                      y = c(23, 25, 29, 41, 43, 51, 68, 72, 100), method = 'linear',
-                      yleft = NA_integer_, yright = NA_integer_)
-  
-  dt[derving == 'grasland' & soiltype.m == 'veen', yl := ylveen(rsl)]
-  dt[derving == 'grasland' & !soiltype.m == 'veen', yl := ylsoil(rsl)]
-  
-  # Calculate yield fraction, always above zero
-  dt[,yield := pmax(0, 1 - 0.01 * yl)] 
-  # Correct grasland yield with logistic evaluation
-  dt[derving == 'grasland', yield := 
-       OBIC::evaluate_logistic(x = yield, b = 16, x0 = 0.5, v = 0.5,increasing = TRUE)]
+  # # # Calculate percentage yield loss non-grassland by sub-optimal season length
+  # dt[derving == 'zaai groenten' , yl := 538*rsl^2-1144*rsl+606]
+  # dt[derving == 'zomergranen'   , yl := 232*rsl^2- 475*rsl+243]
+  # dt[derving == 'plant groenten', yl := 392*rsl^2- 785*rsl+393]
+  # dt[derving == 'wintergranen'  , yl :=(232*rsl^2- 475*rsl+243)*0.85/2]
+  # dt[derving == 'boomteelt'     , yl :=(538*rsl^2-1144*rsl+606)/2]
+  # dt[derving == 'overig'        , yl := 100*rsl^2- 200*rsl+100]
+  # 
+  # # helper functions to determine yield loss in grass given soiltype
+  # ylveen <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
+  #                     y = c(23, 25, 28, 36, 38, 41, 54, 59, 100), method = 'linear',
+  #                     yleft = NA_integer_, yright = NA_integer_)
+  # ylsoil <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
+  #                     y = c(23, 25, 29, 41, 43, 51, 68, 72, 100), method = 'linear',
+  #                     yleft = NA_integer_, yright = NA_integer_)
+  # 
+  # dt[derving == 'grasland' & soiltype.m == 'veen', yl := ylveen(rsl)]
+  # dt[derving == 'grasland' & !soiltype.m == 'veen', yl := ylsoil(rsl)]
+  # 
+  # # Calculate yield fraction, always above zero
+  # dt[,yield := pmax(0, 1 - 0.01 * yl)] 
+  # # Correct grasland yield with logistic evaluation
+  # dt[derving == 'grasland', yield := 
+  #      OBIC::evaluate_logistic(x = yield, b = 16, x0 = 0.5, v = 0.5,increasing = TRUE)]
   
   # setorder
   setorder(dt, id)
   
   # Return yield
-  value <- dt[,yield]
+  value <- dt[,score]
   
   # return value
   return(value)
