@@ -37,9 +37,9 @@ calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_numeric(A_MG_CC, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_PH_CC, lower = 3, upper = 10, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_CEC_CO, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_CEC_CO, lower = 1, upper = 1000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_K_CC, lower = 0, upper = 800, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_K_CO_PO, lower = 0, upper = 20, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_K_CO_PO, lower = 0.1, upper = 50, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
    
