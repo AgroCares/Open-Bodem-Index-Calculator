@@ -114,7 +114,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    A_MG_CC = A_MG_CC, 
                    A_MN_CC = A_MN_CC, 
                    A_ZN_CC = A_ZN_CC, 
-                   A_CU_CC = A_ZN_CC,
+                   A_CU_CC = A_CU_CC,
                    A_C_BCS = A_C_BCS, 
                    A_CC_BCS = A_CC_BCS,
                    A_GS_BCS = A_GS_BCS,
