@@ -82,7 +82,7 @@ calc_phosphate_availability <- function(B_LU_BRP, A_P_AL = NULL, A_P_CC = NULL, 
 ind_phosphate_availability <- function(D_PBI) {
   
   # Check inputs
-  checkmate::assert_numeric(D_PBI, lower = 0, upper = 90, any.missing = FALSE)
+  checkmate::assert_numeric(D_PBI, lower = 0, upper = 100, any.missing = FALSE)
   
   # Evaluate the phosphate availability
   value <- OBIC::evaluate_logistic(D_PBI, b = 1.3, x0 = 1.3, v = 0.35)
