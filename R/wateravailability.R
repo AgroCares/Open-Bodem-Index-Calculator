@@ -83,7 +83,8 @@ ind_waterstressindex <- function(D_WSI) {
   checkmate::assert_numeric(D_WSI, lower = 0, upper = 100, any.missing = FALSE)
   
   # Evaluate the WSI
-  value <- c(100 - D_WSI)/100
+  D_WSI <- D_WSI/100
+  value <- evaluate_logistic(D_WSI,20,0.18,0.78,increasing = F)
   
   # return output
   return(value)
