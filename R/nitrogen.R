@@ -25,14 +25,14 @@ calc_nlv <- function(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_G
   
   # Check input
   arg.length <- max(length(A_N_RT), length(D_OC), length(B_LU_BRP), length(B_SOILTYPE_AGR), length(D_BDS), length(D_GA))
-  checkmate::assert_numeric(A_N_RT, lower = 0, upper = 30000, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(D_OC, lower = 0, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_N_RT, lower = 0.1, upper = 30000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_OC, lower = 0.1, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
-  checkmate::assert_numeric(D_BDS, lower = 0, upper = 1500, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_CN_FR, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_BDS, lower = 100, upper = 1900, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_CN_FR, lower = 0.1, upper = 50, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(D_GA, lower = 0, upper = 99, len = arg.length)
   
   # Settings
