@@ -396,7 +396,15 @@ dt <- data.table(ID = 362662,
                  M_SLEEPHOSE = field$m_sleephose,
                  M_DRAIN = field$m_drain,
                  M_DITCH = field$m_ditch,
-                 M_UNDERSEED = field$m_underseed)
+                 M_UNDERSEED = field$m_underseed,
+                 M_LIME = TRUE,
+                 M_NONINVTILL = TRUE,
+                 M_SSPM = TRUE,
+                 M_SOLIDMANURE = TRUE,
+                 M_STRAWRESIDUE = TRUE,
+                 M_MECHWEEDS = TRUE,
+                 M_PESTICIDES_DST = TRUE
+                 )
 
 require(OBIC)
 
@@ -479,7 +487,10 @@ pb <- txtProgressBar(0,nsim)
                                 dt$A_C_BCS , dt$A_CC_BCS ,dt$A_GS_BCS ,dt$A_P_BCS ,dt$A_RD_BCS ,
                                 dt$A_EW_BCS ,dt$A_SS_BCS ,dt$A_RT_BCS ,dt$A_SC_BCS ,
                                 dt$M_COMPOST  ,dt$M_GREEN , dt$M_NONBARE , dt$M_EARLYCROP , 
-                                dt$M_SLEEPHOSE ,dt$M_DRAIN ,dt$M_DITCH ,dt$M_UNDERSEED ,
+                                dt$M_SLEEPHOSE ,dt$M_DRAIN ,dt$M_DITCH ,dt$M_UNDERSEED,
+                                dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
+                                dt$M_STRAWRESIDUE,dt$M_MECHWEEDS ,dt$M_PESTICIDES_DST ,
+                                
                                 ID = 1)
     setTxtProgressBar(pb, i)
   }
