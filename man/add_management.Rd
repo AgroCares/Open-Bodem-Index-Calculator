@@ -15,7 +15,14 @@ add_management(
   M_SLEEPHOSE = NA,
   M_DRAIN = NA,
   M_DITCH = NA,
-  M_UNDERSEED = NA
+  M_UNDERSEED = NA,
+  M_LIME = NA,
+  M_NONINVTILL = NA,
+  M_SSPM = NA,
+  M_SOLIDMANURE = NA,
+  M_STRAWRESIDUE = NA,
+  M_MECHWEEDS = NA,
+  M_PESTICIDES_DST = NA
 )
 }
 \arguments{
@@ -40,6 +47,20 @@ add_management(
 \item{M_DITCH}{(boolean) A soil measure. Are ditched maintained carefully and slib applied on the land (optional, option: yes or no)}
 
 \item{M_UNDERSEED}{(boolean) A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no)}
+
+\item{M_LIME}{(boolean) measure. Has field been limed in last three years (option: yes or no)}
+
+\item{M_NONINVTILL}{(boolean) measure. Non inversion tillage (option: yes or no)}
+
+\item{M_SSPM}{(boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)}
+
+\item{M_SOLIDMANURE}{(boolean) measure. Use of solid manure (option: yes or no)}
+
+\item{M_STRAWRESIDUE}{(boolean) measure. Application of straw residues (option: yes or no)}
+
+\item{M_MECHWEEDS}{(boolean) measure. Use of mechanical weed protection (option: yes or no)}
+
+\item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
 }
 \description{
 This function adds default management input variables given soil type and land use

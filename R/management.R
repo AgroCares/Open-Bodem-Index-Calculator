@@ -21,7 +21,7 @@
 #' @param M_UNDERSEED (boolean) measure. is maize grown with grass underseeded (option: yes or no)
 #' @param M_LIME (boolean) measure. Has field been limed in last three years (option: yes or no)
 #' @param M_NONINVTILL (boolean) measure. Non inversion tillage (option: yes or no)
-#' @param M_SPMM (boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)
+#' @param M_SSPM (boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)
 #' @param M_SOLIDMANURE (boolean) measure. Use of solid manure (option: yes or no)
 #' @param M_STRAWRESIDUE (boolean) measure. Application of straw residues (option: yes or no)
 #' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: yes or no)
@@ -33,7 +33,7 @@
 calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
                             D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
                             M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
-                            M_LIME, M_NONINVTILL, M_SPMM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
+                            M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
                             ) {
   
   id = crop_code = crop_name = soiltype = soiltype.n = crop_n = crop_category = NULL
@@ -49,7 +49,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
                     length(D_CP_POTATO), length(D_CP_GRASS), length(D_CP_RUST), length(D_CP_RUSTDEEP),length(D_GA),
                     length(M_GREEN), length(M_NONBARE), length(M_EARLYCROP),length(M_SLEEPHOSE),length(M_DRAIN),
                     length(M_DITCH),length(M_UNDERSEED),
-                    length(M_LIME), length(M_NONINVTILL), length(M_SPMM), length(M_SOLIDMANURE),length(M_STRAWRESIDUE),
+                    length(M_LIME), length(M_NONINVTILL), length(M_SSPM), length(M_SOLIDMANURE),length(M_STRAWRESIDUE),
                     length(M_MECHWEEDS),length(M_PESTICIDES_DST)
                     )
  
@@ -65,7 +65,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   checkmate::assert_logical(M_UNDERSEED,any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_LIME,any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_NONINVTILL,any.missing = FALSE, len = arg.length)
-  checkmate::assert_logical(M_SPMM,any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_SSPM,any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_SOLIDMANURE,any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_STRAWRESIDUE,any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_MECHWEEDS,any.missing = FALSE, len = arg.length)
@@ -96,7 +96,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     M_UNDERSEED = M_UNDERSEED,
     M_LIME = M_LIME,
     M_NONINVTILL = M_NONINVTILL,
-    M_SSPM = M_SPMM,
+    M_SSPM = M_SSPM,
     M_SOLIDMANURE = M_SOLIDMANURE,
     M_STRAWRESIDUE = M_STRAWRESIDUE,
     M_MECHWEEDS = M_MECHWEEDS,
@@ -135,7 +135,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     dt.arable[B_GWL_CLASS %in% gt_wet & soiltype.n == 'veen', value := value - 5]
     
     # measure 8. are soil protection measures taken?
-    dt.arable[M_SPMM == TRUE, value := value + 1]
+    dt.arable[M_SSPM == TRUE, value := value + 1]
     
     # measure 9. are soils frequently limed?
     dt.arable[M_LIME == TRUE, value := value + 1]
@@ -183,7 +183,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     dt.maize[B_GWL_CLASS %in% gt_wet & soiltype.n == 'veen', value := value - 5]
     
     # measure 8. are soil protection measures taken?
-    dt.maize[M_SPMM == TRUE, value := value + 1]
+    dt.maize[M_SSPM == TRUE, value := value + 1]
     
     # measure 9. are soils frequently limed?
     dt.maize[M_LIME == TRUE, value := value + 1]
@@ -232,7 +232,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     dt.grass[M_SOLIDMANURE == TRUE, value := value + 1]
     
     # measure 8. are soil protection measures taken?
-    dt.grass[M_SPMM == TRUE, value := value + 1]
+    dt.grass[M_SSPM == TRUE, value := value + 1]
     
     # measure 9. are soils frequently limed?
     dt.grass[M_LIME == TRUE, value := value + 1]
@@ -272,7 +272,7 @@ ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
   
   # Check inputs
   arg.length <- max(length(D_MAN), length(B_LU_BRP), length(B_SOILTYPE_AGR))
-  checkmate::assert_numeric(D_MAN, lower = 0, upper = 11, any.missing = FALSE)
+  checkmate::assert_numeric(D_MAN, lower = 0, upper = 17, any.missing = FALSE)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)

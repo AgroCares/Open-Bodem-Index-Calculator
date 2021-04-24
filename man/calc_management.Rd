@@ -21,7 +21,14 @@ calc_management(
   M_SLEEPHOSE,
   M_DRAIN,
   M_DITCH,
-  M_UNDERSEED
+  M_UNDERSEED,
+  M_LIME,
+  M_NONINVTILL,
+  M_SSPM,
+  M_SOLIDMANURE,
+  M_STRAWRESIDUE,
+  M_MECHWEEDS,
+  M_PESTICIDES_DST
 )
 }
 \arguments{
@@ -57,7 +64,21 @@ calc_management(
 
 \item{M_DITCH}{(boolean) measure. are ditched maintained carefully and slib applied on the land (option: yes or no)}
 
-\item{M_UNDERSEED}{(boolean) measure. is grass used as second crop in between maize rows (option: yes or no)}
+\item{M_UNDERSEED}{(boolean) measure. is maize grown with grass underseeded (option: yes or no)}
+
+\item{M_LIME}{(boolean) measure. Has field been limed in last three years (option: yes or no)}
+
+\item{M_NONINVTILL}{(boolean) measure. Non inversion tillage (option: yes or no)}
+
+\item{M_SSPM}{(boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)}
+
+\item{M_SOLIDMANURE}{(boolean) measure. Use of solid manure (option: yes or no)}
+
+\item{M_STRAWRESIDUE}{(boolean) measure. Application of straw residues (option: yes or no)}
+
+\item{M_MECHWEEDS}{(boolean) measure. Use of mechanical weed protection (option: yes or no)}
+
+\item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
 }
 \description{
 This function evaluates the contribution of sustainable soil management following the Label Sustainable Soil Management.

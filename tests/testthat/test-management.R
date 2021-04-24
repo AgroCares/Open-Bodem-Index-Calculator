@@ -17,8 +17,15 @@ test_that("calc_management works", {
       M_SLEEPHOSE = TRUE, 
       M_DRAIN = TRUE, 
       M_DITCH = TRUE, 
-      M_UNDERSEED = TRUE),
-    expected = 1,
+      M_UNDERSEED = TRUE,
+      M_LIME = TRUE, 
+      M_NONINVTILL = TRUE, 
+      M_SSPM = TRUE, 
+      M_SOLIDMANURE = TRUE,
+      M_STRAWRESIDUE = TRUE,
+      M_MECHWEEDS = TRUE,
+      M_PESTICIDES_DST = TRUE),
+    expected = 9,
     tolerance = 1
   )
   expect_equal(
@@ -39,8 +46,15 @@ test_that("calc_management works", {
       M_SLEEPHOSE = rep(TRUE,10),
       M_DRAIN = c(rep(FALSE,5),TRUE,rep(FALSE,4)),
       M_DITCH = rep(TRUE,10),
-      M_UNDERSEED = rep(TRUE,10)),
-    expected = c(1,1,1,1,1,0,5,2,2,2),
+      M_UNDERSEED = rep(TRUE,10),
+      M_LIME = rep(TRUE,10), 
+      M_NONINVTILL = rep(TRUE,10), 
+      M_SSPM = rep(TRUE,10), 
+      M_SOLIDMANURE = rep(TRUE,10),
+      M_STRAWRESIDUE = c(rep(FALSE,5),TRUE,rep(FALSE,4)),
+      M_MECHWEEDS = c(rep(FALSE,5),TRUE,rep(FALSE,4)),
+      M_PESTICIDES_DST = c(rep(FALSE,5),TRUE,rep(FALSE,4))),
+    expected = c(6,6,6,6,6,4,10,7,7,7),
     tolerance = 1
   )
   expect_equal(
@@ -61,8 +75,15 @@ test_that("calc_management works", {
       M_SLEEPHOSE = rep(TRUE,10),
       M_DRAIN = c(rep(FALSE,5),TRUE,rep(FALSE,4)),
       M_DITCH = rep(TRUE,10),
-      M_UNDERSEED = rep(TRUE,10)),
-    expected = c(2,2,2,2,1,14,1,1,1,1),
+      M_UNDERSEED = rep(TRUE,10),
+      M_LIME = rep(TRUE,10), 
+      M_NONINVTILL = rep(TRUE,10), 
+      M_SSPM = rep(TRUE,10), 
+      M_SOLIDMANURE = rep(TRUE,10),
+      M_STRAWRESIDUE = c(rep(FALSE,5),TRUE,rep(FALSE,4)),
+      M_MECHWEEDS = c(rep(FALSE,5),TRUE,rep(FALSE,4)),
+      M_PESTICIDES_DST = c(rep(FALSE,5),TRUE,rep(FALSE,4))),
+    expected = c(5,5,5,5,4,17,4,4,4,4),
     tolerance = 1
   )
   
@@ -75,7 +96,7 @@ test_that("ind_management works", {
       D_MAN = c(2,2,2,2,1,11,1,1,1,1),
       B_LU_BRP = rep(265,10),
       B_SOILTYPE_AGR = c(rep('dekzand',5),'veen','duinzand','rivierklei','zeeklei','dalgrond')),
-    expected = c(rep(0.29,4),0.14,1,rep(0.14,4)),
+    expected = c(rep(0.22,4),0.11,0.65,rep(0.111,4)),
     tolerance = .01
   )
   expect_equal(
@@ -83,8 +104,24 @@ test_that("ind_management works", {
       D_MAN = c(2,2,2,2,1,11,1,1,1,1),
       B_LU_BRP = rep(3732,10),
       B_SOILTYPE_AGR = c(rep('dekzand',5),'veen','duinzand','rivierklei','zeeklei','dalgrond')),
-    expected = c(rep(.22,4),0.11,1,rep(0.11,4)),
+    expected = c(rep(0.12,4),0.06,0.69,rep(0.06,4)),
     tolerance = .01
   )
-  
+  expect_equal(
+    ind_management(
+      D_MAN = rep(17,10),
+      B_LU_BRP = rep(3732,10),
+      B_SOILTYPE_AGR = c(rep('dekzand',5),'veen','duinzand','rivierklei','zeeklei','dalgrond')),
+    expected = rep(1,10),
+    tolerance = .01
+  )
+  expect_equal(
+    ind_management(
+      D_MAN = c(1,3,5,6,8,10,12,14,16,17),
+      B_LU_BRP = rep(3732,10),
+      B_SOILTYPE_AGR = c(rep('dekzand',5),'veen','duinzand','rivierklei','zeeklei','dalgrond')),
+    expected =c(0.06,0.19,0.31,0.38,0.5,.62,.75,.88,1,1),
+    tolerance = .01
+  )  
+    
 })

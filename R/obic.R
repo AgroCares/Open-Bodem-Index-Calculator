@@ -48,6 +48,13 @@
 #' @param M_DRAIN (boolean) A soil measure. Are under water drains installed in peaty soils (optional, option: yes or no)
 #' @param M_DITCH (boolean) A soil measure. Are ditched maintained carefully and slib applied on the land (optional, option: yes or no)
 #' @param M_UNDERSEED (boolean) A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no) 
+#' @param M_LIME (boolean) measure. Has field been limed in last three years (option: yes or no)
+#' @param M_NONINVTILL (boolean) measure. Non inversion tillage (option: yes or no)
+#' @param M_SSPM (boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)
+#' @param M_SOLIDMANURE (boolean) measure. Use of solid manure (option: yes or no)
+#' @param M_STRAWRESIDUE (boolean) measure. Application of straw residues (option: yes or no)
+#' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: yes or no)
+#' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
 #' @param ID (character) A field id
 #' 
 #' @import data.table
@@ -64,7 +71,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
                        M_COMPOST  = NA,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
-                       M_LIME = NA, M_NONINVTILL = NA, M_SPMM = NA, M_SOLIDMANURE = NA,
+                       M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
                        ID = 1) {
   
@@ -79,6 +86,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_NGW = I_E_NSW = NULL
   I_M_GREEN = I_M_COMPOST = I_M_NONBARE = I_M_EARLYCROP = I_M_SLEEPHOSE = I_M_DRAIN = I_M_DITCH = I_M_UNDERSEED = NULL
+  I_M_LIME = I_M_NONINVTILL = I_M_SSPM = I_M_SOLIDMANURE = I_M_STRAWRESIDUE = I_M_MECHWEEDS = I_M_PESTICIDES_DST = NULL
   crop_category = crops.obic = leaching_to = NULL
   
   crop_code = weight.obic = weight = score.cf = . = out.ind = NULL
@@ -136,7 +144,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_GREEN = M_GREEN,
                    M_LIME = M_LIME,
                    M_NONINVTILL = M_NONINVTILL,
-                   M_SSPM = M_SPMM,
+                   M_SSPM = M_SSPM,
                    M_SOLIDMANURE = M_SOLIDMANURE,
                    M_STRAWRESIDUE = M_STRAWRESIDUE,
                    M_MECHWEEDS = M_MECHWEEDS,
@@ -155,10 +163,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   
     # add management when input is missing
     cols <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_COMPOST','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED',
-              'M_LIME', 'M_NONINVTILL', 'M_SPMM', 'M_SOLIDMANURE','M_STRAWRESIDUE','M_MECHWEEDS','M_PESTICIDES_DST')
+              'M_LIME', 'M_NONINVTILL', 'M_SSPM', 'M_SOLIDMANURE','M_STRAWRESIDUE','M_MECHWEEDS','M_PESTICIDES_DST')
     dt[, c(cols) := add_management(ID,B_LU_BRP, B_SOILTYPE_AGR,
                                    M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED,
-                                   M_LIME, M_NONINVTILL, M_SPMM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
+                                   M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
     
     # calculate derivative supporting soil properties
     dt[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI)]

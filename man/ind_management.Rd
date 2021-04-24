@@ -18,6 +18,6 @@ This function calculates the the sustainability of strategic management options 
 The main source of this indicator is developed for Label Duurzaam Bodembeheer (Van der Wal, 2016)
 }
 \details{
-The current function allows a maximum score of 9 points for arable systems, 7 for maize 
-and 7 for grass (non-peat) and 11 for grass on peat.
+The current function allows a maximum score of 16 points for arable systems, 12 for maize 
+and 9 for grass (non-peat) and 17 for grass on peat.
 }

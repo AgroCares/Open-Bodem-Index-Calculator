@@ -15,7 +15,7 @@
 #' @param M_UNDERSEED (boolean) A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no) 
 #' @param M_LIME (boolean) measure. Has field been limed in last three years (option: yes or no)
 #' @param M_NONINVTILL (boolean) measure. Non inversion tillage (option: yes or no)
-#' @param M_SPMM (boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)
+#' @param M_SSPM (boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)
 #' @param M_SOLIDMANURE (boolean) measure. Use of solid manure (option: yes or no)
 #' @param M_STRAWRESIDUE (boolean) measure. Application of straw residues (option: yes or no)
 #' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: yes or no)
@@ -27,7 +27,7 @@
 add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
                            M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, M_COMPOST = NA,
                            M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
-                           M_LIME = NA, M_NONINVTILL = NA, M_SPMM = NA, M_SOLIDMANURE = NA,
+                           M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                            M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA){
   
   # add visual bindings
@@ -55,7 +55,7 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
                    M_UNDERSEED = M_UNDERSEED,
                    M_LIME = M_LIME,
                    M_NONINVTILL = M_NONINVTILL,
-                   M_SSPM = M_SPMM,
+                   M_SSPM = M_SSPM,
                    M_SOLIDMANURE = M_SOLIDMANURE,
                    M_STRAWRESIDUE = M_STRAWRESIDUE,
                    M_MECHWEEDS = M_MECHWEEDS,
@@ -127,7 +127,7 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
   
   # select relevant output
   out <- dt[,.(M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED,
-               M_LIME, M_NONINVTILL, M_SPMM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
+               M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
   
   # return
   return(out)
