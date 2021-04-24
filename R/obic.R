@@ -219,7 +219,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
     dt[, D_MAN := calc_management(A_SOM_LOI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, D_SOM_BAL, 
                                   D_CP_GRASS, D_CP_POTATO, D_CP_RUST, D_CP_RUSTDEEP, D_GA,
-                                  M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED)]
+                                  M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
+                                  M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
   
     # Calculate the score of the BodemConditieScore
     dt[, D_BCS := calc_bcs(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, D_PH_DELTA, 
@@ -308,12 +309,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,year := .I, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
     # Melt dt and assign main categories for OBI
-    dt.melt <- melt(dt[,mget(cols)],id.vars = c('crop_category','year'), variable.name = 'indicator')
+    dt.melt <- melt(dt[,mget(cols)],
+                    id.vars = c('B_SOILTYPE_AGR','crop_category','year'), 
+                    variable.name = 'indicator')
     
     # add categories relevant for aggregating
     # C = chemical, P = physics, B = biological, BCS = visual soil assessment
@@ -326,14 +329,16 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']
     
     # add weighing factor to indicator values
-    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator,weight)], 
+    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator,weight_nonpeat,weight_peat)], 
                      by = c('crop_category','indicator'), all.x = TRUE)
     
-    # calculate weighted value for crop category
-    dt.melt[,value.w := value * weight]
-    
     # calculate correction factor for indicator values (low values have more impact than high values, a factor 5)
-    dt.melt[,cf := cf_ind_importance(value.w)]
+    dt.melt[,cf := cf_ind_importance(value)]
+    
+    # calculate weighted value for crop category
+    dt.melt[,value.w := value]
+    dt.melt[grepl('veen',B_SOILTYPE_AGR) & weight_peat < 0,value.w := -999]
+    dt.melt[!grepl('veen',B_SOILTYPE_AGR) & weight_nonpeat < 0,value.w := -999]
     
   # Step 4 Aggregate indicators ------------------
 
@@ -344,27 +349,30 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.ind[,cf := log(12 - pmin(10,year))]
     
     # calculate weighted average per indicator over the year
-    out.ind <- out.ind[,list(value = round(sum(cf * value/ sum(cf)),3)), by = indicator]
+    out.ind <- out.ind[,list(value = round(sum(cf * pmax(0,value) / sum(cf[value >= 0])),3)), by = indicator]
        
-    # when visual soil assessment is not availabe, replace NA by zero
-    out.ind[grepl('_BCS$',indicator) & is.na(value), value := 0]
+    # non relevant indicators, set to -999
+    out.ind[is.na(value), value := -999]
     
   # Step 5 Add scores ------------------
     
     # subset dt.melt for relevant columns only
     out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
   
-    # remove indicator categories that are not used for socring
+    # remove indicator categories that are not used for scoring
     out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
     
     # calculate weighted average per indicator category
-    out.score <- out.score[,list(value = sum(cf * value / sum(cf[value > 0]))), by = list(cat,year)]
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), by = list(cat,year)]
   
+      # for case that a cat has one indicator or one year and has NA
+      out.score[is.na(value), value := -999]
+      
       # calculate correction factor per year; recent years are more important
       out.score[,cf := log(12 - pmin(10,year))]
   
     # calculate weighted average per indicator category per year
-    out.score <- out.score[,list(value = sum(cf * value/ sum(cf))), by = cat]
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
   
       # merge out with number per category
       out.score <- merge(out.score,dt.melt.ncat, by='cat')
