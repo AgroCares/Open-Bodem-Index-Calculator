@@ -1,16 +1,18 @@
 # Script to modify crops.obic
-library(data.table)
 
-# load the original OBIC csv file from version 0.11.0
-cr <- fread('dev/crops_obic_start.csv')
-cr <- cr[,V1 := NULL]
+  # load packag
+  library(data.table)
+
+  # load the original OBIC csv file from version 0.11.0
+  cr <- fread('dev/data/crops_obic_start.csv')
+  cr <- cr[,V1 := NULL]
 
 # --- update crops for 2020 ---------------
 
   # update done at 10-april 2021
 
   # update crop codes to 2020
-  crops2020 <- as.data.table(fread('dev/brp_crops_2020.csv'))
+  crops2020 <- as.data.table(fread('dev/data/brp_crops_2020.csv'))
   
   # Identify missing crop codes
   miss_codes <- unique(crops2020[!crop_code %in% cr$crop_code])
@@ -291,13 +293,10 @@ cr <- cr[,V1 := NULL]
     cr[grepl('^zantedeschia', crop_name)&is.na(nf_clay), c(cols) := list(120, 120, 120, 120,120)]
     cr[grepl('^zonnekroon', crop_name)&is.na(nf_clay), c(cols) := list(185, 140, 112, 112, 150)] # als mais zonder derogatie
     cr[grepl('^voedselbos', crop_name)&is.na(nf_clay), c(cols) := list(110, 110, 110, 110, 110)]
+
 # --- add scientific name of crop species ---------------
     
   # update done at 10-april-21
-    
-  # load data
-  # load('data/crops_obic.RData')
-  # cr <- as.data.table(crops.obic)
     
   # Add scientific name of crop species
   cr[grepl('ardappel', crop_name),crop_name_scientific:= 'solanum tuberosum']
@@ -444,19 +443,10 @@ cr <- cr[,V1 := NULL]
   cr[grepl('onnekroon', crop_name),crop_name_scientific:= 'silphium perfoliatum']
   cr[grepl('festulolium', crop_name),crop_name_scientific:= 'festulolium']
 
-  # update the csv and Rdata file
-  # crops.obic <- copy(cr)
-  # fwrite(crops.obic, 'dev/crops_obic.csv')
-  # save(crops.obic, file = 'data/crops_obic.RData')
-  
-  
+
 # add crop_season for workability -----
   
   # update done at 10-april-21
-  
-  # load data
-  # load('data/crops_obic.RData')
-  # cr <- as.data.table(crops.obic)
 
   # add categories
   cr[grepl('fruit|peren|appel|steenvruchten|ruimen|ersen|noten', crop_name), crop_season := 'groot fruit']
@@ -495,7 +485,6 @@ cr <- cr[,V1 := NULL]
 
   # update the csv and Rdata file
   crops.obic <- copy(cr)
-  fwrite(crops.obic, 'dev/crops_obic.csv')
   save(crops.obic, file = 'data/crops_obic.RData')
   
   

@@ -18,6 +18,7 @@ W_P_DS;I_P_DS;akkerbouw;1;1
 W_P_WS;I_P_WS;akkerbouw;1;1
 W_P_CEC;I_P_CEC;akkerbouw;1;1
 W_P_WRI;I_P_WRI;akkerbouw;1;1
+W_P_WO;I_P_WO;akkerbouw;-1;-1
 W_B_DI;I_B_DI;akkerbouw;1;1
 W_B_SF;I_B_SF;akkerbouw;1;1
 W_B_SB;I_B_SB;akkerbouw;1;1
@@ -33,6 +34,13 @@ W_M_SLEEPHOSE;I_M_SLEEPHOSE;akkerbouw;1;1
 W_M_DRAIN;I_M_DRAIN;akkerbouw;1;1
 W_M_DITCH;I_M_DITCH;akkerbouw;1;1
 W_M_UNDERSEED;I_M_UNDERSEED;akkerbouw;-1;-1
+W_M_LIME;I_M_LIME;akkerbouw;1;1
+W_M_NONINVTILL;I_M_NONINVTILL;akkerbouw;1;1
+W_M_SSPM;I_M_SSPM;akkerbouw;1;1
+W_M_SOLIDMANURE;I_M_SOLIDMANURE;akkerbouw;1;1
+W_M_STRAWRESIDUE;I_M_STRAWRESIDUE;akkerbouw;1;1
+W_M_MECHWEEDS;I_M_MECHWEEDS;akkerbouw;1;1
+W_M_PESTICIDES_DST;I_M_PESTICIDES_DST;akkerbouw;1;1
 W_B_EW_BCS;I_B_EW_BCS;akkerbouw;-1;-1
 W_P_C_BCS;I_P_C_BCS;akkerbouw;-1;-1
 W_P_CC_BCS;I_P_CC_BCS;akkerbouw;-1;-1
@@ -61,6 +69,7 @@ W_P_DS;I_P_DS;mais;1;1
 W_P_WS;I_P_WS;mais;1;1
 W_P_CEC;I_P_CEC;mais;1;1
 W_P_WRI;I_P_WRI;mais;1;1
+W_P_WO;I_P_WO;mais;-1;-1
 W_B_DI;I_B_DI;mais;1;1
 W_B_SF;I_B_SF;mais;1;1
 W_B_SB;I_B_SB;mais;1;1
@@ -76,6 +85,13 @@ W_M_SLEEPHOSE;I_M_SLEEPHOSE;mais;1;1
 W_M_DRAIN;I_M_DRAIN;mais;1;1
 W_M_DITCH;I_M_DITCH;mais;1;1
 W_M_UNDERSEED;I_M_UNDERSEED;mais;1;1
+W_M_LIME;I_M_LIME;mais;1;1
+W_M_NONINVTILL;I_M_NONINVTILL;mais;1;1
+W_M_SSPM;I_M_SSPM;mais;1;1
+W_M_SOLIDMANURE;I_M_SOLIDMANURE;mais;1;1
+W_M_STRAWRESIDUE;I_M_STRAWRESIDUE;mais;1;1
+W_M_MECHWEEDS;I_M_MECHWEEDS;mais;1;1
+W_M_PESTICIDES_DST;I_M_PESTICIDES_DST;mais;1;1
 W_B_EW_BCS;I_B_EW_BCS;mais;-1;-1
 W_P_C_BCS;I_P_C_BCS;mais;-1;-1
 W_P_CC_BCS;I_P_CC_BCS;mais;-1;-1
@@ -104,6 +120,7 @@ W_P_DS;I_P_DS;grasland;1;1
 W_P_WS;I_P_WS;grasland;1;1
 W_P_CEC;I_P_CEC;grasland;1;1
 W_P_WRI;I_P_WRI;grasland;1;1
+W_P_WO;I_P_WO;grasland;-1;-1
 W_B_DI;I_B_DI;grasland;1;1
 W_B_SF;I_B_SF;grasland;1;1
 W_B_SB;I_B_SB;grasland;1;1
@@ -119,6 +136,13 @@ W_M_SLEEPHOSE;I_M_SLEEPHOSE;grasland;1;1
 W_M_DRAIN;I_M_DRAIN;grasland;1;1
 W_M_DITCH;I_M_DITCH;grasland;1;1
 W_M_UNDERSEED;I_M_UNDERSEED;grasland;-1;-1
+W_M_LIME;I_M_LIME;grasland;1;1
+W_M_NONINVTILL;I_M_NONINVTILL;grasland;1;1
+W_M_SSPM;I_M_SSPM;grasland;1;1
+W_M_SOLIDMANURE;I_M_SOLIDMANURE;grasland;1;1
+W_M_STRAWRESIDUE;I_M_STRAWRESIDUE;grasland;1;1
+W_M_MECHWEEDS;I_M_MECHWEEDS;grasland;1;1
+W_M_PESTICIDES_DST;I_M_PESTICIDES_DST;grasland;1;1
 W_B_EW_BCS;I_B_EW_BCS;grasland;-1;-1
 W_P_C_BCS;I_P_C_BCS;grasland;-1;-1
 W_P_CC_BCS;I_P_CC_BCS;grasland;-1;-1
@@ -147,6 +171,7 @@ W_P_DS;I_P_DS;natuur;1;1
 W_P_WS;I_P_WS;natuur;1;1
 W_P_CEC;I_P_CEC;natuur;1;1
 W_P_WRI;I_P_WRI;natuur;1;1
+W_P_WO;I_P_WO;natuur;-1;-1
 W_B_DI;I_B_DI;natuur;1;1
 W_B_SF;I_B_SF;natuur;1;1
 W_B_SB;I_B_SB;natuur;1;1
@@ -162,6 +187,13 @@ W_M_SLEEPHOSE;I_M_SLEEPHOSE;natuur;1;1
 W_M_DRAIN;I_M_DRAIN;natuur;1;1
 W_M_DITCH;I_M_DITCH;natuur;1;1
 W_M_UNDERSEED;I_M_UNDERSEED;natuur;-1;-1
+W_M_LIME;I_M_LIME;natuur;1;1
+W_M_NONINVTILL;I_M_NONINVTILL;natuur;1;1
+W_M_SSPM;I_M_SSPM;natuur;1;1
+W_M_SOLIDMANURE;I_M_SOLIDMANURE;natuur;1;1
+W_M_STRAWRESIDUE;I_M_STRAWRESIDUE;natuur;1;1
+W_M_MECHWEEDS;I_M_MECHWEEDS;natuur;1;1
+W_M_PESTICIDES_DST;I_M_PESTICIDES_DST;natuur;1;1
 W_B_EW_BCS;I_B_EW_BCS;natuur;-1;-1
 W_P_C_BCS;I_P_C_BCS;natuur;-1;-1
 W_P_CC_BCS;I_P_CC_BCS;natuur;-1;-1
