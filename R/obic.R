@@ -90,6 +90,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   crop_category = crops.obic = leaching_to = NULL
   
   crop_code = weight.obic = weight = score.cf = . = out.ind = NULL
+  weight_peat = weight_nonpeat = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
   var = cf = ncat = id = NULL
   
