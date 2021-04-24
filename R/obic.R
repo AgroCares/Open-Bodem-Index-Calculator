@@ -64,6 +64,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
                        M_COMPOST  = NA,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
+                       M_LIME = NA, M_NONINVTILL = NA, M_SPMM = NA, M_SOLIDMANURE = NA,
+                       M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
                        ID = 1) {
   
   
@@ -131,7 +133,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_DITCH = M_DITCH,
                    M_UNDERSEED = M_UNDERSEED,
                    M_COMPOST = M_COMPOST,
-                   M_GREEN = M_GREEN
+                   M_GREEN = M_GREEN,
+                   M_LIME = M_LIME,
+                   M_NONINVTILL = M_NONINVTILL,
+                   M_SSPM = M_SPMM,
+                   M_SOLIDMANURE = M_SOLIDMANURE,
+                   M_STRAWRESIDUE = M_STRAWRESIDUE,
+                   M_MECHWEEDS = M_MECHWEEDS,
+                   M_PESTICIDES_DST = M_PESTICIDES_DST
                    )
   
   
@@ -145,7 +154,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
   
     # add management when input is missing
-    cols <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_COMPOST','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED')
+    cols <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_COMPOST','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED',
+              'M_LIME', 'M_NONINVTILL', 'M_SPMM', 'M_SOLIDMANURE','M_STRAWRESIDUE','M_MECHWEEDS','M_PESTICIDES_DST')
     dt[, c(cols) := add_management(ID,B_LU_BRP, B_SOILTYPE_AGR,
                                    M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED)]
     
@@ -265,7 +275,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_M_DRAIN := fifelse(M_DRAIN == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
     dt[, I_M_DITCH := fifelse(M_DITCH == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
     dt[, I_M_UNDERSEED := fifelse(M_UNDERSEED == TRUE,1,0)]
-  
+    dt[, I_M_LIME := fifelse(M_LIME == TRUE,1,0)]
+    dt[, I_M_NONINVTILL := fifelse(M_NONINVTILL == TRUE,1,0)]
+    dt[, I_M_SSPM := fifelse(M_SSPM == TRUE,1,0)]
+    dt[, I_M_SOLIDMANURE := fifelse(M_SOLIDMANURE == TRUE,1,0)]
+    dt[, I_M_STRAWRESIDUE := fifelse(M_STRAWRESIDUE == TRUE,1,0)]
+    dt[, I_M_MECHWEEDS := fifelse(M_MECHWEEDS == TRUE,1,0)]
+    dt[, I_M_PESTICIDES_DST := fifelse(M_PESTICIDES_DST == TRUE,1,0)]
+    
     # Calculate integrated management indicator
     dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
   

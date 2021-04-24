@@ -13,13 +13,22 @@
 #' @param M_DRAIN (boolean) A soil measure. Are under water drains installed in peaty soils (optional, option: yes or no)
 #' @param M_DITCH (boolean) A soil measure. Are ditched maintained carefully and slib applied on the land (optional, option: yes or no)
 #' @param M_UNDERSEED (boolean) A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no) 
-#' 
+#' @param M_LIME (boolean) measure. Has field been limed in last three years (option: yes or no)
+#' @param M_NONINVTILL (boolean) measure. Non inversion tillage (option: yes or no)
+#' @param M_SPMM (boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)
+#' @param M_SOLIDMANURE (boolean) measure. Use of solid manure (option: yes or no)
+#' @param M_STRAWRESIDUE (boolean) measure. Application of straw residues (option: yes or no)
+#' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: yes or no)
+#' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
+#'  
 #' @import data.table
 #' 
 #' @export
 add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
                            M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, M_COMPOST = NA,
-                           M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA){
+                           M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
+                           M_LIME = NA, M_NONINVTILL = NA, M_SPMM = NA, M_SOLIDMANURE = NA,
+                           M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA){
   
   # add visual bindings
   crop_code = crop_category = soiltype = soiltype.n = id = . = NULL
@@ -43,7 +52,14 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
                    M_SLEEPHOSE = M_SLEEPHOSE,
                    M_DRAIN = M_DRAIN,
                    M_DITCH = M_DITCH,
-                   M_UNDERSEED = M_UNDERSEED
+                   M_UNDERSEED = M_UNDERSEED,
+                   M_LIME = M_LIME,
+                   M_NONINVTILL = M_NONINVTILL,
+                   M_SSPM = M_SPMM,
+                   M_SOLIDMANURE = M_SOLIDMANURE,
+                   M_STRAWRESIDUE = M_STRAWRESIDUE,
+                   M_MECHWEEDS = M_MECHWEEDS,
+                   M_PESTICIDES_DST = M_PESTICIDES_DST
                    )
   
 
@@ -83,11 +99,35 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
     dt[is.na(M_GREEN), M_GREEN := TRUE]
     dt[is.na(M_NONBARE), M_NONBARE := FALSE]
     
+    # is the soil limed in last three years
+    dt[is.na(M_LIME), M_LIME := TRUE]
+    dt[crop_category %in% c("grasland","natuur","mais"), M_LIME := TRUE]
+    
+    # is the soil ploughed minimally (NKG)
+    dt[is.na(M_NONINVTILL), M_NONINVTILL := FALSE]
+    
+    # is the soil structure prevented with measures avoiding compaction?
+    dt[is.na(M_SSPM), M_SSPM := FALSE]
+    
+    # is the soil fertilized with solid manure preferentially above slurry or fertilizer
+    dt[is.na(M_SOLIDMANURE), M_SOLIDMANURE := TRUE]
+    
+    # are weeds preferentially removed by mechanical machinery (rather than pesticides)
+    dt[is.na(M_MECHWEEDS), M_MECHWEEDS := FALSE]
+    
+    # are straw residues incorporated in crops where residues are available
+    dt[is.na(M_STRAWRESIDUE), M_STRAWRESIDUE := TRUE]
+    dt[crop_category %in% c("grasland","natuur"), M_LIME := M_STRAWRESIDUE]
+    
+    # use of DST for pesticides to minimize pesticide use
+    dt[is.na(M_PESTICIDES_DST), M_PESTICIDES_DST := FALSE]
+    
   # setorder
   setorder(dt,id)
   
   # select relevant output
-  out <- dt[,.(M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED)]
+  out <- dt[,.(M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED,
+               M_LIME, M_NONINVTILL, M_SPMM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
   
   # return
   return(out)
