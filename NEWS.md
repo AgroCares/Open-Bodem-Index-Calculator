@@ -4,6 +4,8 @@
 
 ### Changed
 * allow unknown B_HELP_WENR in checkmate water_availability, issue 65
+* very low Mg indicator values for maize are changed
+* very low Mg indicator values for grassland on clay and peat, issue 84
 
 ### Added
 
