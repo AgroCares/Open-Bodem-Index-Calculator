@@ -25,7 +25,7 @@
 #' 
 #' @export
 add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
-                           M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, M_COMPOST = NA,
+                           M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, M_COMPOST = NA_real_,
                            M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                            M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                            M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA){
