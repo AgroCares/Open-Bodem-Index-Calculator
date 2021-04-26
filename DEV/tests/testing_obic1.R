@@ -408,7 +408,7 @@ dt <- data.table(ID = 362662,
 
 require(OBIC)
 
-nsim = 10
+nsim = 50
 out.list = list()
 pb <- txtProgressBar(0,nsim)
 
@@ -476,6 +476,14 @@ pb <- txtProgressBar(0,nsim)
     dt[,M_DRAIN := sample(c(TRUE,FALSE),.N,replace = T)]
     dt[,M_DITCH := sample(c(TRUE,FALSE),.N,replace = T)]
     dt[,M_UNDERSEED := sample(c(TRUE,FALSE),.N,replace = T)]
+    
+    dt[,M_LIME := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_NONINVTILL := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_SSPM := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_SOLIDMANURE := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_STRAWRESIDUE := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_MECHWEEDS := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_PESTICIDES_DST := sample(c(TRUE,FALSE),.N,replace = T)]
     
     out.list[[i]] <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
                                 dt$B_LU_BRP, 
