@@ -8,7 +8,7 @@ test_that("calc_cu works", {
       A_K_CC = rep(85, 7),
       B_LU_BRP = rep(3732,7)
       ),
-    expected = c(1.57,3.05,3.47,3.74,3.94,4.11,4.25),
+    expected = c(1.97,6.34,7.93,9.06,9.96,10.71,11.38),
     tolerance = 0.01
   )
   expect_equal(
@@ -20,7 +20,7 @@ test_that("calc_cu works", {
       A_K_CC = rep(85, 7),
       B_LU_BRP = rep(265,7)
     ),
-    expected = c(1.97,4.10,5.06,5.75,6.31,6.78,7.2),
+    expected = c(1.97,4.1,5.06,5.75,6.31,6.78,7.19),
     tolerance = 0.01
   )
   
@@ -32,7 +32,7 @@ test_that("ind_copper works", {
       D_CU = c(1.57,3.05,3.47,3.74,3.94,4.11,4.25),
       B_LU_BRP = rep(3732,7)
     ),
-    expected = c(0.29,0.52,0.57,0.61,0.63,0.65,0.67),
+    expected = c(0,0.34,0.54,0.65,0.72,0.77,0.81),
     tolerance = 0.99
   )
   expect_equal(
@@ -40,7 +40,7 @@ test_that("ind_copper works", {
       D_CU = c(1.97,4.10,5.06,5.75,6.31,6.78,7.2),
       B_LU_BRP = rep(265,7)
     ),
-    expected = c(0.13,0.37,0.52,0.63,0.72,0.78,0.82),
+    expected = c(0.17,0.79,0.92,0.96,0.98,0.99,0.99),
     tolerance = 0.99
   )
 })

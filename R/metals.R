@@ -47,16 +47,17 @@ calc_copper_availability <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI,
   dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
 
   # Calculate Cu-availability for maize and arable crops (mail Romkens, 2018)
-  dt[crop_category =='akkerbouw', value := 10^(0.948 + 0.188 * log10(A_CU_CC*0.001*0.1))]
-  dt[crop_category =='mais', value := 10^(0.948 + 0.188 * log10(A_CU_CC*0.001*0.1))]
+  #dt[crop_category =='akkerbouw', value := 10^(0.948 + 0.188 * log10(A_CU_CC*0.001*0.1))]
+  #dt[crop_category =='mais', value := 10^(0.948 + 0.188 * log10(A_CU_CC*0.001*0.1))]
+  
+  # Calculate Cu-availability for grassland (following estimated Cu-HNO3, in mg/kg)
+  # update in april 2021: use same equation for grassland and arable systems
+  dt[, value := exp(1.85 + 0.1255 * log(A_CU_CC) + 0.01796 * A_SOM_LOI +
+                    0.0481 * log(A_MN_CC) -0.06222 * A_CLAY_MI + 
+                    0.01372 * A_CLAY_MI * log(A_CU_CC) -0.1479 * log(A_K_CC))]
   
   # Calculate Cu-availability for nature (not done yet)
   dt[crop_category =='natuur', value := 0]
-  
-  # Calculate Cu-availability for grassland (following estimated Cu-HNO3, in mg/kg)
-  dt[crop_category =='grasland', value := exp(1.85 + 0.1255 * log(A_CU_CC) + 0.01796 * A_SOM_LOI +
-                                          0.0481 * log(A_MN_CC) -0.06222 * A_CLAY_MI + 
-                                          0.01372 * A_CLAY_MI * log(A_CU_CC) -0.1479 * log(A_K_CC))]
   
   # Extract relevant variable and return
   setorder(dt, id)
@@ -157,11 +158,11 @@ ind_copper <- function(D_CU,B_LU_BRP) {
   # merge with crop
   dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
   
-  # Evaluate the copper availability given estimated Cu-content of crop
-  dt[, value := evaluate_parabolic(D_CU, x.top = 5)]
+  # Evaluate the copper availability for cropland
+  dt[, value :=  evaluate_logistic(D_CU, b = 1.4, x0 = 1.5, v = 0.1)]
   
-  # Evaluate the copper availability given fertilizer research (need to be updated)
-  dt[crop_category =='grasland', value := evaluate_logistic(D_CU, b = 0.7, x0 = 5.3, v = 1.2)]
+  # Evaluate the copper availability for grassland
+  dt[crop_category =='grasland', value := evaluate_logistic(D_CU, b = 1.1, x0 = 2, v = 0.4)]
   
   # order output and extract index
   setorder(dt, id)
