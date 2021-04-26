@@ -157,10 +157,10 @@ ind_copper <- function(D_CU,B_LU_BRP) {
   # merge with crop
   dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
   
-  # Evaluate the copper availability given estimated Cu-content of crop
+  # Evaluate the copper availability for cropland
   dt[, value :=  evaluate_logistic(D_CU, b = 1.4, x0 = 1.5, v = 0.1)]
   
-  # Evaluate the copper availability given fertilizer research (need to be updated)
+  # Evaluate the copper availability for grassland
   dt[crop_category =='grasland', value := evaluate_logistic(D_CU, b = 1.1, x0 = 2, v = 0.4)]
   
   # order output and extract index
