@@ -115,11 +115,10 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   # evaluation of measures in an arable system -----
   
     # subset data.table
-    dt.arable = dt[crop_n == 'akkerbouw' & crop_category != 'mais']
+    dt.arable = dt[crop_category == 'akkerbouw']
     
     # measure 1. is the parcel for 80% of the year grown by a crop (add 3 points)
-    # calculate from fraction rustgewassen (suggestion of Wim)
-    dt.arable[D_CP_RUST > 0.60, value := value + 3] 
+    dt.arable[D_CP_RUST > 0.60 | M_NONBARE == TRUE, value := value + 3] 
     
     # measure 2. is minimal 40% of the deep rooting crops (add one point)
     dt.arable[D_CP_RUST > 0.4, value := value + 1]
@@ -135,13 +134,13 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     dt.arable[B_GWL_CLASS %in% gt_wet & soiltype.n == 'veen', value := value - 5]
     
     # measure 8. are soil protection measures taken?
-    dt.arable[M_SSPM == TRUE, value := value + 1]
+    dt.arable[M_SSPM == TRUE | M_SLEEPHOSE == TRUE, value := value + 1]
     
     # measure 9. are soils frequently limed?
     dt.arable[M_LIME == TRUE, value := value + 1]
     
     # measure 10. are soils receiving preferential solid manure above slurry
-    dt.arable[M_SOLIDMANURE == TRUE, value := value + 1]
+    dt.arable[M_SOLIDMANURE == TRUE | M_COMPOST == TRUE | M_GREEN == TRUE, value := value + 1]
     
     # measure 11. is straw incorporated when straw residues are present
     dt.arable[M_STRAWRESIDUE == TRUE, value := value + 1]
@@ -155,14 +154,17 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     # measure 14. add organic matter balance (and when positive, add one point)
     dt.arable[D_SOM_BAL > 0, value := value + 2]
     
+    # measure 15. is NKG applied to minimize tillage?
+    dt.arable[M_NONINVTILL == TRUE, value := value + 1]
+    
     # negative scores may not occur
     dt.arable[value < 0, value := 0]
   
-  # evaluation of meaures in maize system -----
+  # evaluation of measures in maize system -----
   dt.maize = dt[crop_category == 'mais']
   
     # measure 1. maize crop in combination with grassland
-    dt.maize[M_UNDERSEED == TRUE, value := value + 1]
+    dt.maize[M_UNDERSEED == TRUE | M_NONBARE == TRUE, value := value + 1]
     
     # measure 2. are catchcrops sown after main crop (alleen klei, zand en löss al verplicht)
     dt.maize[soiltype.n =='klei' & M_GREEN == TRUE, value := value + 1]
@@ -176,23 +178,23 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     # measure 5. add organic matter balance (and when positive, add one point)
     dt.maize[D_SOM_BAL > 0, value := value + 2]
     
-    # measure 6. is clover used in grassland
-    dt.maize[soiltype.n !='veen' & grepl('klaver',crop_name), value := value + 1]
-    
-    # measure 7. add minus points when arable crops are grown on wet peat soils
+    # measure 6. add minus points when arable crops are grown on wet peat soils
     dt.maize[B_GWL_CLASS %in% gt_wet & soiltype.n == 'veen', value := value - 5]
     
-    # measure 8. are soil protection measures taken?
+    # measure 7. are soil protection measures taken?
     dt.maize[M_SSPM == TRUE, value := value + 1]
     
-    # measure 9. are soils frequently limed?
+    # measure 8. are soils frequently limed?
     dt.maize[M_LIME == TRUE, value := value + 1]
     
-    # measure 10. are soils receiving preferential solid manure above slurry
-    dt.maize[M_SOLIDMANURE == TRUE, value := value + 1]
+    # measure 9. are soils receiving compost or preferential solid manure above slurry
+    dt.maize[M_SOLIDMANURE == TRUE| M_COMPOST == TRUE, value := value + 1]
+    
+    # measure 10. is NKG applied to minimize tillage?
+    dt.maize[M_NONINVTILL == TRUE, value := value + 1]
     
     # measure 11. is straw incorporated when straw residues are present
-    dt.maize[M_STRAWRESIDUE == TRUE, value := value + 1]
+    dt.maize[M_STRAWRESIDUE == TRUE , value := value + 1]
     
     # measure 12. are weeds removed with mechanical machinery rather than chemicals
     dt.maize[M_MECHWEEDS == TRUE, value := value + 1]
@@ -206,7 +208,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   # evaluation of measures in a grassland system -----
   
   # subset data.table
-  dt.grass = dt[crop_n == 'gras']
+  dt.grass = dt[crop_category == 'grasland']
   
     # measure 1. age of the grass
     dt.grass[D_GA > 3 & !B_GWL_CLASS %in% gt_wet, value := value + 1]
@@ -228,8 +230,8 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     # measure 6. is heavy machinery avoided by slurry application
     dt.grass[M_SLEEPHOSE==TRUE, value := value + 1]
   
-    # measure 7. are soils also receivingsolid manure 
-    dt.grass[M_SOLIDMANURE == TRUE, value := value + 1]
+    # measure 7. are soils also receiving solid manure or compost 
+    dt.grass[M_SOLIDMANURE == TRUE | M_COMPOST == TRUE, value := value + 1]
     
     # measure 8. are soil protection measures taken?
     dt.grass[M_SSPM == TRUE, value := value + 1]
@@ -237,8 +239,21 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     # measure 9. are soils frequently limed?
     dt.grass[M_LIME == TRUE, value := value + 1]
     
+    
+  # subset data.table
+  dt.nature = dt[crop_category == 'natuur']
+  
+    # measure 1. are soils also receiving solid manure or compost 
+    dt.nature[M_SOLIDMANURE == TRUE | M_COMPOST == TRUE, value := value + 2]
+    
+    # measure 2. are soils 80% of the year green / cultivated 
+    dt.nature[M_NONBARE == TRUE, value := value + 1] 
+    
+    # measure 3. are soil protection measures taken?
+    dt.nature[M_SSPM == TRUE, value := value + 1]
+    
   # Combine both tables and extract values
-  dt <- rbindlist(list(dt.grass, dt.arable,dt.maize), fill = TRUE)
+  dt <- rbindlist(list(dt.grass, dt.arable,dt.maize,dt.nature), fill = TRUE)
   setorder(dt, id)
   value <- dt[, value]
   
@@ -270,6 +285,10 @@ ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
   soils.obic <- as.data.table(OBIC::soils.obic)
   setkey(soils.obic, soiltype)
   
+  # load weights.obic (set indicator to zero when not applicable)
+  w <- as.data.table(OBIC::weight.obic)
+  w <- w[grepl('^I_M_',indicator)]
+  
   # Check inputs
   arg.length <- max(length(D_MAN), length(B_LU_BRP), length(B_SOILTYPE_AGR))
   checkmate::assert_numeric(D_MAN, lower = 0, upper = 17, any.missing = FALSE)
@@ -291,13 +310,24 @@ ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
   dt <- merge(dt, crops.obic[, list(crop_code, crop_n,crop_name, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
   
-  # Evaluate the Sustainability of Soil Management
-  dt[crop_n == 'gras', value := D_MAN / 9]
-  dt[crop_n == 'gras' & soiltype.n == 'veen', value := D_MAN / 17]
-  dt[crop_n == 'akkerbouw', value := D_MAN / 16]
-  dt[crop_category == 'mais' & soiltype.n == 'zand', value := D_MAN / 11]
-  dt[crop_category == 'mais' & soiltype.n == 'klei', value := D_MAN / 12]
-  dt[crop_category == 'mais' & soiltype.n == 'veen', value := D_MAN / 9]
+  # find maximum score
+  w.max <- w[, list(weight_nonpeat = sum(weight_nonpeat[weight_nonpeat>0]),
+                    weight_peat = sum(weight_peat[weight_peat>0])), by = 'crop_category']
+  
+  # add default scores 
+  # due to i) corrections due to OR-OR statements, ii) points for crop rotation plan/clover, and iii) extra points (>+1 )  (see calc_management)
+  w.max[crop_category=='akkerbouw',weight_nonpeat := weight_nonpeat - 2 + 6 + 2]
+  w.max[crop_category=='akkerbouw',weight_peat := weight_peat - 2 + 6 + 2]
+  w.max[crop_category=='mais', weight_nonpeat := weight_nonpeat - 2 + 2 + 0]
+  w.max[crop_category=='mais', weight_peat := weight_peat - 2 + 2 + 0]
+  w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat - 1 + 6 + 0]
+  w.max[crop_category=='grasland', weight_peat := weight_peat - 1 + 8 + 3]
+
+  # merge max score to actual dt
+  dt <- merge(dt, w.max, by='crop_category')
+  
+  # evaluate the Sustainability of Soil Management
+  dt[, value := D_MAN / fifelse(B_SOILTYPE_AGR == 'veen',weight_peat,weight_nonpeat)]
   
   # Ensure no vales above 1
   dt[value > 1, value := 1]
