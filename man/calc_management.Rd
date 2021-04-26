@@ -15,6 +15,7 @@ calc_management(
   D_CP_RUST,
   D_CP_RUSTDEEP,
   D_GA,
+  M_COMPOST,
   M_GREEN,
   M_NONBARE,
   M_EARLYCROP,
@@ -51,6 +52,8 @@ calc_management(
 \item{D_CP_RUSTDEEP}{(numeric) The fraction diepe rustgewassen in crop rotation (-)}
 
 \item{D_GA}{(numeric) The age of the grassland (years)}
+
+\item{M_COMPOST}{(numeric) The frequency that compost is applied (optional, every x years)}
 
 \item{M_GREEN}{(boolean) measure. are catchcrops sown after main crop (option: yes or no)}
 

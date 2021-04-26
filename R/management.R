@@ -12,6 +12,7 @@
 #' @param D_CP_RUSTDEEP (numeric) The fraction diepe rustgewassen in crop rotation (-)
 #' @param D_CP_GRASS (numeric) The fraction grassland in crop rotation
 #' @param D_GA (numeric) The age of the grassland (years)
+#' @param M_COMPOST (numeric) The frequency that compost is applied (optional, every x years)
 #' @param M_GREEN (boolean) measure. are catchcrops sown after main crop (option: yes or no)
 #' @param M_NONBARE (boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)
 #' @param M_EARLYCROP (boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)
@@ -32,7 +33,7 @@
 #' @export
 calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
                             D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
-                            M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
+                            M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
                             M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
                             ) {
   
@@ -46,7 +47,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   
   # Check input
   arg.length <- max(length(A_SOM_LOI), length(B_LU_BRP), length(B_SOILTYPE_AGR), length(D_SOM_BAL),length(B_GWL_CLASS),
-                    length(D_CP_POTATO), length(D_CP_GRASS), length(D_CP_RUST), length(D_CP_RUSTDEEP),length(D_GA),
+                    length(D_CP_POTATO), length(D_CP_GRASS), length(D_CP_RUST), length(D_CP_RUSTDEEP),length(D_GA),length(M_COMPOST),
                     length(M_GREEN), length(M_NONBARE), length(M_EARLYCROP),length(M_SLEEPHOSE),length(M_DRAIN),
                     length(M_DITCH),length(M_UNDERSEED),
                     length(M_LIME), length(M_NONINVTILL), length(M_SSPM), length(M_SOLIDMANURE),length(M_STRAWRESIDUE),
@@ -56,6 +57,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   # add checks Sven
   checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_character(B_GWL_CLASS,any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(M_COMPOST, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_NONBARE,any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_EARLYCROP,any.missing = FALSE, len = arg.length)
@@ -87,6 +89,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     D_CP_RUSTDEEP = D_CP_RUSTDEEP,
     D_GA = D_GA,
     B_GWL_CLASS = B_GWL_CLASS,
+    M_COMPOST = M_COMPOST,
     M_GREEN = M_GREEN,
     M_NONBARE = M_NONBARE,
     M_EARLYCROP = M_EARLYCROP,
@@ -277,7 +280,9 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
 #' @export
 ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
   
+  # add visible bindings
   id = crop_code = soiltype = soiltype.n = crop_n = crop_name = crop_category = NULL
+  indicator = weight_nonpeat = weight_peat = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -291,7 +296,7 @@ ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
   
   # Check inputs
   arg.length <- max(length(D_MAN), length(B_LU_BRP), length(B_SOILTYPE_AGR))
-  checkmate::assert_numeric(D_MAN, lower = 0, upper = 17, any.missing = FALSE)
+  checkmate::assert_numeric(D_MAN, lower = 0, upper = 18, any.missing = FALSE)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
