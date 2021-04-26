@@ -186,7 +186,7 @@ ind_magnesium <- function(D_MG,B_LU_BRP,B_SOILTYPE_AGR) {
   
   # Evaluate Mg availability for grassland on clay and peat soils ----- 
   dt.grass.other <- dt[crop_category == "grasland" & grepl('klei|veen',B_SOILTYPE_AGR)]
-  dt.grass.other[,value := evaluate_logistic(D_MG, b = 0.11, x0 = 50, v = 1)]
+  dt.grass.other[,value := evaluate_logistic(D_MG, b = 0.15, x0 = 75, v = 1)]
   
   # Evaluate Mg availability for nature parcels
   dt.nature <- dt[crop_category == "natuur"]
