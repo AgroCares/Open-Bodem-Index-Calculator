@@ -73,3 +73,23 @@ calc_gw_recharge <- function(ID, B_LU_BRP,M_GREEN){
   return(value)
   
 }
+
+
+#' Calculate the indicator for the groundwater recharge through precipitation surplus in the Netherlands
+#' 
+#' This function calculates the indicator for the the groundwater recharge through precipitation surplus calculated by \code{\link{calc_gw_recharge}}
+#' 
+#' @param D_PSP (numeric) The precipitation surplus per crop  calculated by \code{\link{calc_gw_recharge}}
+#' 
+#' @export
+ind_gw_recharge <- function(D_PSP) {
+  
+  # convert value to meter recharge (to be updated later)
+  value <- D_PSP * 0.001
+  
+  return(value)
+  
+}
+
+
+
