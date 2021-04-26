@@ -1,5 +1,11 @@
 # Changelog OBIC
 
+## Version 1.3.0 2021-04-26
+
+### Changed
+
+### Added
+
 ## Version 1.2.0 2021-04-23 / 2021-04-26
 
 ### Changed
