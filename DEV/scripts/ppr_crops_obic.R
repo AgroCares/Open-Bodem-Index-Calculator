@@ -304,7 +304,8 @@
   cr[grepl('tarwe', crop_name),crop_name_scientific:= 'triticum aestivum']
   cr[grepl('gerst', crop_name),crop_name_scientific:= 'horderum vulgare']
   cr[grepl('rogge', crop_name),crop_name_scientific:= 'secale cereale']
-  cr[grepl('haver', crop_name),crop_name_scientific:= 'avena sativa']
+  cr[grepl('^haver$', crop_name),crop_name_scientific:= 'avena sativa']
+  cr[grepl('^japanse haver', crop_name),crop_name_scientific:= 'avena strigosa']
   cr[grepl('erwten|schokkers|eulen', crop_name),crop_name_scientific:= 'pisum sativum']
   cr[grepl('bonen', crop_name),crop_name_scientific:= 'phaseolus vulgaris']
   cr[grepl('pronkbonen', crop_name),crop_name_scientific:= 'phaseolus coccineus'] #overwrites bonen for pronkbonen
