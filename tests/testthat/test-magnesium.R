@@ -79,7 +79,7 @@ test_that("ind_magnesium works", {
       B_LU_BRP=rep(265,6),
       B_SOILTYPE_AGR = rep('zeeklei',6)
     ),
-    expected = c(0.004070138, 0.035571189, 0.249739894, 0.750260106, 0.964428811, 0.995929862),
+    expected = c(0,0,0.005,0.095,0.679,0.977),
     tolerance = 0.01
   )
 })
