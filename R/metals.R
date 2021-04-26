@@ -143,7 +143,7 @@ ind_copper <- function(D_CU,B_LU_BRP) {
   
   # Check inputs
   arg.length <- max(length(D_CU),length(B_LU_BRP))
-  checkmate::assert_numeric(D_CU, lower = 0, upper = 500, any.missing = FALSE)
+  checkmate::assert_numeric(D_CU, lower = 0, upper = 750, any.missing = FALSE)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
