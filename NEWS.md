@@ -1,6 +1,6 @@
 # Changelog OBIC
 
-## Version 1.2.0 2021-04-23
+## Version 1.2.0 2021-04-23 / 2021-04-26
 
 ### Changed
 * all element names are updated to english ones
@@ -10,6 +10,8 @@
 * grass_age function is updated: count actual years
 * BCS is optional input, and when given it overwrite risk indicators compaction / aggregate stability
 * M codes for no advice, issue #62
+* directory dev is updated and cleaned, issue 104
+* lower and upper limits for soil properties updated
 
 ### Added
 * obic_field is added to run obic score for one field
@@ -20,6 +22,7 @@
 * add_management added to estimate default values for measures when not given 
 * set of eight I_M_XX indicators for measures are added
 * set of nine I_X_BCS indicators are added (optional)
+* new M_codes added: M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE, M_MECHWEEDS, M_PESTICIDES_DST, issue 107
 
 ## Version 1.1.0 2021-04-10
 
