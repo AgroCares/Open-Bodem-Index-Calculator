@@ -23,6 +23,9 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wat
   waterstress.obic <- as.data.table(OBIC::waterstress.obic)
   setkey(waterstress.obic, cropname, soilunit)
   
+  # update B_GWL_CLASS to more generic ones
+  B_GWL_CLASS.wi <- gsub("b$","", B_GWL_CLASS)
+  
   # Check input
   arg.length <- max(length(B_HELP_WENR), length(B_LU_BRP), length(B_GWL_CLASS))
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -39,7 +42,7 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wat
     id = 1:arg.length,
     B_HELP_WENR = B_HELP_WENR,
     B_LU_BRP = B_LU_BRP,
-    B_GWL_CLASS = B_GWL_CLASS
+    B_GWL_CLASS = B_GWL_CLASS.wi
   )
   
   # merge with crop and waterstress tables
@@ -83,8 +86,7 @@ ind_waterstressindex <- function(D_WSI) {
   checkmate::assert_numeric(D_WSI, lower = 0, upper = 100, any.missing = FALSE)
   
   # Evaluate the WSI
-  D_WSI <- D_WSI/100
-  value <- evaluate_logistic(D_WSI,20,0.18,0.78,increasing = F)
+  value <- evaluate_logistic(D_WSI / 100,20,0.18,0.78,increasing = F)
   
   # return output
   return(value)
