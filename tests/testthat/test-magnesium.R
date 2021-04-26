@@ -28,7 +28,7 @@ test_that("calc_magnesium_availability works", {
     B_SOILTYPE_AGR = c('dekzand','zeeklei','rivierklei','loess'),
     B_LU_BRP = rep(3732,4)
   ),
-  expected = c(122,136,281,160),
+  expected = c(122,146,291,160),
   tolerance = 1
 )
   expect_equal(
@@ -44,7 +44,7 @@ test_that("calc_magnesium_availability works", {
     B_SOILTYPE_AGR = c('dekzand','zeeklei','rivierklei','loess'),
     B_LU_BRP = rep(265,4)
   ),
-  expected = c(122,151.30303,72.89788,160),
+  expected = c(122,77.49,100,160),
   tolerance = 0.01
 )
 })
