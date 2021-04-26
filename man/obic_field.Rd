@@ -43,7 +43,7 @@ obic_field(
   A_SS_BCS = NA,
   A_RT_BCS = NA,
   A_SC_BCS = NA,
-  M_COMPOST = NA,
+  M_COMPOST = NA_real_,
   M_GREEN = NA,
   M_NONBARE = NA,
   M_EARLYCROP = NA,

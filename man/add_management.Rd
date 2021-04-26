@@ -11,7 +11,7 @@ add_management(
   M_GREEN = NA,
   M_NONBARE = NA,
   M_EARLYCROP = NA,
-  M_COMPOST = NA,
+  M_COMPOST = NA_real_,
   M_SLEEPHOSE = NA,
   M_DRAIN = NA,
   M_DITCH = NA,
