@@ -176,13 +176,9 @@ ind_magnesium <- function(D_MG,B_LU_BRP,B_SOILTYPE_AGR) {
   # add crop names
   dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
   
-  # Evaluate Mg availability for arable land -----
-  dt.arable <- dt[crop_category == "akkerbouw"]
+  # Evaluate Mg availability for arable land and mais -----
+  dt.arable <- dt[grepl('akkerbouw|mais',crop_category)]
   dt.arable[,value := evaluate_logistic(D_MG, b = 0.206, x0 = 45, v = 2.39)]
-  
-  # Evaluate Mg availability for maize land -----
-  dt.maize <- dt[crop_category == "mais"]
-  dt.maize[,value := evaluate_logistic(D_MG, b = 0.148, x0 = 66, v = 2.39)]
   
   # Evaluate Mg availability for grassland on sandy and loamy soils -----
   dt.grass.sand <- dt[crop_category == "grasland" & grepl('zand|loess|dalgrond',B_SOILTYPE_AGR)]
@@ -197,7 +193,7 @@ ind_magnesium <- function(D_MG,B_LU_BRP,B_SOILTYPE_AGR) {
   dt.nature[,value := 1]
   
   # Combine both tables and extract values
-  dt <- rbindlist(list(dt.grass.sand,dt.grass.other, dt.arable,dt.maize,dt.nature), fill = TRUE)
+  dt <- rbindlist(list(dt.grass.sand,dt.grass.other, dt.arable,dt.nature), fill = TRUE)
   setorder(dt, id)
   value <- dt[, value]
   
