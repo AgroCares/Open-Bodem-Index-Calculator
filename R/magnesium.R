@@ -68,8 +68,7 @@ calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY
   
   # Calculate the Mg availability for arable land -----
   dt.arable <- dt[crop_category == "akkerbouw"]
-  dt.arable[grepl('zand|loess|dalgrond',soiltype.n),value := A_MG_CC]
-  dt.arable[grepl('klei|veen',soiltype.n),value := pmax(0,A_MG_CC-10)]
+  dt.arable[,value := A_MG_CC]
   
   # Calculate the Mg availability for maize land -----
   dt.maize <- dt[crop_category == "mais"]
@@ -108,36 +107,17 @@ calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY
   # remove columns not needed any more
   dt.grass.other[,c('kg1','kg2','cF'):=NULL]
   
-  # calculate expected Mg-content in grass in the spring on peat soils (R2 = 67%, NMI report 426.98)
-  dt.grass.other[grepl('veen', B_SOILTYPE_AGR),mg_pred := 4.769 - 0.001564 * A_MG_NC - 0.01021 * kg + 
-                   0.00001554 * A_MG_NC * kg -1.238 * A_PH_KCL - 
-                   0.01771 * A_SOM_LOI - 0.0926 * A_SLIB_MI +0.0002456 * A_MG_NC * A_PH_KCL + 0.0000684 * A_MG_NC * A_SLIB_MI +
-                   0.000370 * kg * A_SLIB_MI + 0.00975 * A_PH_KCL * A_SLIB_MI + 0.00135 * A_SOM_LOI * A_SLIB_MI +
-                   0.0924 * A_PH_KCL^2 + 0.0002877 * A_SLIB_MI^2 - 0.00000 * A_SOM_LOI * A_SLIB_MI^2 +
-                   0.0001646 * A_SOM_LOI^2 -0.00001289 * A_SLIB_MI * A_SOM_LOI^2 -
-                   0.000000584 * A_MG_NC * kg * A_SLIB_MI -0.00001062 * A_MG_NC * A_PH_KCL * A_SLIB_MI]
+  # calculate expected Mg-content in grass (g/kg) in the spring on peat soils (den Boer 2003)
+  dt.grass.other[grepl('veen', B_SOILTYPE_AGR),mg_pred := pmax(3.3284 + 0.001058* A_MG_NC - 0.02059* kg -0.01163*A_CLAY_MI -0.2691* A_PH_KCL, 0)]
   
-  # calculate expected Mg-content in grass in the spring on clay soils (R2 = 58%, NMI report 426.98)
-  dt.grass.other[grepl('klei',B_SOILTYPE_AGR),mg_pred := 7.55 - 0.000278 * A_MG_NC -0.0405 * kg + 0.00003397 * A_MG_NC * kg
-                 -1.882 * A_PH_KCL - 0.3020 * A_SOM_LOI - 0.1327 * A_SLIB_MI + 0.00750 * kg * A_PH_KCL + 0.0000206 * A_MG_NC * A_SOM_LOI
-                 +0.00545 * kg * A_SOM_LOI + 0.04841 * A_PH_KCL * A_SOM_LOI + 0.00000581*A_MG_NC*A_SLIB_MI
-                 -0.001054 * kg * A_SLIB_MI + 0.0364 * A_PH_KCL * A_SLIB_MI +0.004155 * A_SOM_LOI * A_SLIB_MI
-                 +0.1096 * A_PH_KCL^2 + 0.001109 * A_SOM_LOI^2 - 0.0000307 * A_SLIB_MI * A_SOM_LOI^2 
-                 -0.002522 * A_SLIB_MI * A_PH_KCL^2
-                 -0.000002441 * A_MG_NC * kg * A_SOM_LOI -0.000975 * kg * A_PH_KCL * A_SOM_LOI
-                 +0.0001363 * kg * A_PH_KCL * A_SLIB_MI + 0.00001820 * kg * A_SOM_LOI * A_SLIB_MI
-                 -0.000601 * A_PH_KCL * A_SOM_LOI * A_SLIB_MI]
-  
-  # unit correction (from % to g/kg)
-  dt.grass.other[,mg_pred := mg_pred * 10] 
+  # calculate expected Mg-content in grass (g/kg) in the spring on clay soils (den Boer 2003)
+  dt.grass.other[grepl('klei',B_SOILTYPE_AGR),mg_pred := pmax(2.6688 + 0.001563* A_MG_NC - 0.01738* kg -0.04175* A_SOM_LOI -0.015128* A_SLIB_MI, 0)]
   
   # estimate optimum mg-content in grass in spring (Kemp, in Handboek Melkveehouderij)
   dt.grass.other[,mg_aim := (2.511 - 86.46/((param.k * param.re)^0.5))^2]
   
-  # weighing Mg index
-  dt.grass.other[,value := mg_pred - mg_aim]
-  # scaling Mg index (-1 ~ 1 to 0 ~ 100). Set a ceiling of 1000
-  dt.grass.other[,value := pmin(50 * (value + 1), 1000)]
+  # Mg index
+  dt.grass.other[,value := pmin(100 * (mg_pred /2.0), 100)] 
   
   # nature parcels
   dt.nature <- dt[crop_category == "natuur"]
@@ -152,6 +132,8 @@ calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY
   # return value: be aware, index is different for different land use and soil combinations
   return(value)
 }
+
+
 
 
 
@@ -194,13 +176,9 @@ ind_magnesium <- function(D_MG,B_LU_BRP,B_SOILTYPE_AGR) {
   # add crop names
   dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
   
-  # Evaluate Mg availability for arable land -----
-  dt.arable <- dt[crop_category == "akkerbouw"]
+  # Evaluate Mg availability for arable land and mais -----
+  dt.arable <- dt[grepl('akkerbouw|mais',crop_category)]
   dt.arable[,value := evaluate_logistic(D_MG, b = 0.206, x0 = 45, v = 2.39)]
-  
-  # Evaluate Mg availability for maize land -----
-  dt.maize <- dt[crop_category == "mais"]
-  dt.maize[,value := evaluate_logistic(D_MG, b = 0.148, x0 = 66, v = 2.39)]
   
   # Evaluate Mg availability for grassland on sandy and loamy soils -----
   dt.grass.sand <- dt[crop_category == "grasland" & grepl('zand|loess|dalgrond',B_SOILTYPE_AGR)]
@@ -215,7 +193,7 @@ ind_magnesium <- function(D_MG,B_LU_BRP,B_SOILTYPE_AGR) {
   dt.nature[,value := 1]
   
   # Combine both tables and extract values
-  dt <- rbindlist(list(dt.grass.sand,dt.grass.other, dt.arable,dt.maize,dt.nature), fill = TRUE)
+  dt <- rbindlist(list(dt.grass.sand,dt.grass.other, dt.arable,dt.nature), fill = TRUE)
   setorder(dt, id)
   value <- dt[, value]
   
