@@ -20,7 +20,7 @@ format_gwt <- function(B_GWL_CLASS) {
   # if value starts with I or V, add prefix Gt to it.
   B_GWL_CLASS <- gsub("^I", "GtI", B_GWL_CLASS)
   B_GWL_CLASS <- gsub("^V", "GtV", B_GWL_CLASS)
- 
+  
   # Return B_GT
   return(B_GWL_CLASS)
 }
