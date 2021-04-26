@@ -484,12 +484,12 @@ pb <- txtProgressBar(0,nsim)
                                 dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
                                 dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
                                 dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,
-                                dt$A_C_BCS , dt$A_CC_BCS ,dt$A_GS_BCS ,dt$A_P_BCS ,dt$A_RD_BCS ,
-                                dt$A_EW_BCS ,dt$A_SS_BCS ,dt$A_RT_BCS ,dt$A_SC_BCS ,
-                                dt$M_COMPOST  ,dt$M_GREEN , dt$M_NONBARE , dt$M_EARLYCROP , 
-                                dt$M_SLEEPHOSE ,dt$M_DRAIN ,dt$M_DITCH ,dt$M_UNDERSEED,
-                                dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
-                                dt$M_STRAWRESIDUE,dt$M_MECHWEEDS ,dt$M_PESTICIDES_DST ,
+                                #dt$A_C_BCS , dt$A_CC_BCS ,dt$A_GS_BCS ,dt$A_P_BCS ,dt$A_RD_BCS ,
+                                #dt$A_EW_BCS ,dt$A_SS_BCS ,dt$A_RT_BCS ,dt$A_SC_BCS ,
+                                #dt$M_COMPOST  ,dt$M_GREEN , dt$M_NONBARE , dt$M_EARLYCROP , 
+                                #dt$M_SLEEPHOSE ,dt$M_DRAIN ,dt$M_DITCH ,dt$M_UNDERSEED,
+                                #dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
+                                #dt$M_STRAWRESIDUE,dt$M_MECHWEEDS ,dt$M_PESTICIDES_DST ,
                                 
                                 ID = 1)
     setTxtProgressBar(pb, i)
@@ -501,5 +501,5 @@ out
 
 
 # test when BSC contains NA
-
+# when some measures are not given, I_M, then also -999 => calc_man gebruikt dan alleen de gegeven input?
 
