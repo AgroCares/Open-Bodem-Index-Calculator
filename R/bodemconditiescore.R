@@ -157,9 +157,9 @@ calc_bcs <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
 ind_bcs <- function(D_BCS) {
   
   # Check inputs
-  checkmate::assert_numeric(D_BCS, lower = 0, upper = 50, any.missing = FALSE)
+  checkmate::assert_numeric(D_BCS, lower = 0, upper = 50)
   
-  # Evaluate the BodemConditieScore
+  # Evaluate the Bodem Conditie Score
   # ensure that it does not exceed 1
   value <- pmin(D_BCS / 40, 1)
   

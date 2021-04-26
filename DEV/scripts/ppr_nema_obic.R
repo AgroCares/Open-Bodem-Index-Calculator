@@ -1,10 +1,10 @@
 # Make nema.obic table
 
   # packages
-  library(data.table); library(OBIC)
+  library(data.table)
 
   # load initial data from csv file
-  obic.nema <- fread('dev/nematodes.csv', sep = ';')
+  obic.nema <- fread('dev/data/nematodes.csv', sep = ';')
 
   # remove column standaard
   obic.nema[, standaard := NULL]
@@ -40,6 +40,5 @@
   obic.nema[is.na(standaard),standaard := FALSE]
   
   # save files
-  write.csv(obic.nema, 'dev/obic.nema.csv')
   nema.obic <- obic.nema
   save(nema.obic, file= 'data/nema_obic.RData')

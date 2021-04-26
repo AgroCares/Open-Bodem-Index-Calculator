@@ -346,8 +346,9 @@ rsltest <- seq(0,1,0.01)
 100*rsltest^2-200*rsltest+100
 plot(rsltest, 100*rsltest^2-200*rsltest+100)
 
+# testobject
 require(data.table)
-field <- fromJSON("dev/obi2.json")
+field <- jsonlite::fromJSON("dev/tests/obi2.json")
 
 dt <- data.table(ID = 362662,
                  B_SOILTYPE_AGR = field$b_soiltype_agr,
@@ -395,4 +396,110 @@ dt <- data.table(ID = 362662,
                  M_SLEEPHOSE = field$m_sleephose,
                  M_DRAIN = field$m_drain,
                  M_DITCH = field$m_ditch,
-                 M_UNDERSEED = field$m_underseed)
+                 M_UNDERSEED = field$m_underseed,
+                 M_LIME = TRUE,
+                 M_NONINVTILL = TRUE,
+                 M_SSPM = TRUE,
+                 M_SOLIDMANURE = TRUE,
+                 M_STRAWRESIDUE = TRUE,
+                 M_MECHWEEDS = TRUE,
+                 M_PESTICIDES_DST = TRUE
+                 )
+
+require(OBIC)
+
+nsim = 10
+out.list = list()
+pb <- txtProgressBar(0,nsim)
+
+  for(i in 1:nsim){
+    
+    # adapt input random
+    dt[,B_SOILTYPE_AGR := sample(OBIC::soils.obic$soiltype,.N,replace = T)]
+    dt[,B_GWL_CLASS := sample(unique(OBIC::waterstress.obic$gt),.N,replace = T)]
+    dt[,B_LU_BRP := sample(OBIC::crops.obic$crop_code,.N,replace = T)]
+    dt[, B_HELP_WENR := sample(unique(waterstress.obic$soilunit),.N,replace = T)]
+    dt[,B_AER_CBS := sample(c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
+                              'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
+                              'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
+                              'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
+                              'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'),.N,replace = T)]
+    check = sample(c(TRUE,FALSE),1)
+    if(check){
+      dt[,B_SC_WENR := sample(c("Bebouwing en infrastructuur","Groot","Zeer groot","Matig","Water",
+                                "Glastuinbouw, niet beoordeeld","Beperkt door veenlagen","Van nature dicht" ,
+                                "Beperkt", "Zeer beperkt"),.N,replace = T)]
+    } else {
+      
+      dt[,B_SC_WENR := sample(c('1', '2', '3', '4', "5", '10', '11', '401', '901', '902'),.N,replace = T)]
+    }
+    dt[,A_SOM_LOI := runif(.N,0.1,60)]
+    dt[,A_CLAY_MI := runif(.N,0.1,100)]
+    dt[,A_SAND_MI := pmax(0,runif(.N,0.1,100)-A_CLAY_MI)]
+    dt[,A_SILT_MI := 100 - A_SAND_MI - A_CLAY_MI]
+    dt[,A_PH_CC := runif(.N,3,10)]
+    dt[,A_CACO3_IF := runif(.N,0.1,50)]
+    dt[,A_N_RT := runif(.N,1,30000)]
+    dt[,A_CN_FR := runif(.N,5,40)]
+    dt[,A_COM_FR := runif(.N,.3,.8)]
+    dt[,A_S_RT := runif(.N,1,10000)]
+    dt[,A_N_PMN := runif(.N,1,500)]
+    dt[,A_P_AL := runif(.N,1,250)]
+    dt[,A_P_CC := runif(.N,0.1,100)]
+    dt[,A_P_WA := runif(.N,1,250)]
+    dt[,A_CEC_CO := runif(.N,1,1000)]
+    dt[,A_CA_CO_PO := 0.9*runif(.N,1,100)]
+    dt[,A_MG_CO_PO := 0.7 * pmax(0.1,runif(.N,0.1,50) - A_CA_CO_PO)]
+    dt[,A_K_CO_PO := pmax(0.1,runif(.N,0.1,50) - A_CA_CO_PO - A_K_CO_PO)]
+    
+    dt[,A_K_CC := runif(.N,1,600)]
+    dt[,A_MG_CC := runif(.N,1,1100)]
+    dt[,A_MN_CC := runif(.N,0.1,60000)]
+    dt[,A_ZN_CC := runif(.N,5,50000)]
+    dt[,A_CU_CC := runif(.N,0.1,1000)]
+    
+    dt[,A_C_BCS := sample(c(0,1,2,NA),.N,replace = T)]
+    dt[,A_CC_BCS := sample(c(0,1,2),.N,replace = T)]
+    dt[,A_GS_BCS := sample(c(0,1,2),.N,replace = T)]
+    dt[,A_P_BCS := sample(c(0,1,2,NA),.N,replace = T)]
+    dt[,A_RD_BCS := sample(c(0,1,2),.N,replace = T)]
+    dt[,A_EW_BCS := sample(c(0,1,2),.N,replace = T)]
+    dt[,A_SS_BCS := sample(c(0,1,2,NA),.N,replace = T)]
+    dt[,A_RT_BCS := sample(c(0,1,2),.N,replace = T)]
+    dt[,A_SC_BCS := sample(c(NA,NA,NA),.N,replace = T)]
+     
+    dt[,M_COMPOST := runif(.N,0,50)]
+    dt[,M_GREEN := sample(c(NA,NA),.N,replace = T)]
+    dt[,M_NONBARE := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_EARLYCROP := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_SLEEPHOSE := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_DRAIN := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_DITCH := sample(c(TRUE,FALSE),.N,replace = T)]
+    dt[,M_UNDERSEED := sample(c(TRUE,FALSE),.N,replace = T)]
+    
+    out.list[[i]] <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
+                                dt$B_LU_BRP, 
+                                dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,dt$A_CACO3_IF,
+                                dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
+                                dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
+                                dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
+                                dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,
+                                dt$A_C_BCS , dt$A_CC_BCS ,dt$A_GS_BCS ,dt$A_P_BCS ,dt$A_RD_BCS ,
+                                dt$A_EW_BCS ,dt$A_SS_BCS ,dt$A_RT_BCS ,dt$A_SC_BCS ,
+                                dt$M_COMPOST  ,dt$M_GREEN , dt$M_NONBARE , dt$M_EARLYCROP , 
+                                dt$M_SLEEPHOSE ,dt$M_DRAIN ,dt$M_DITCH ,dt$M_UNDERSEED,
+                                dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
+                                dt$M_STRAWRESIDUE,dt$M_MECHWEEDS ,dt$M_PESTICIDES_DST ,
+                                
+                                ID = 1)
+    setTxtProgressBar(pb, i)
+  }
+close(pb)
+
+  out = rbindlist(out.list) 
+out
+
+
+# test when BSC contains NA
+
+

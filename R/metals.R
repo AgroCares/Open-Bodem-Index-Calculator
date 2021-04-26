@@ -25,11 +25,11 @@ calc_copper_availability <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI,
   # Check input
   arg.length <- max(length(A_CU_CC),length(A_SOM_LOI), length(A_MN_CC),
                     length(A_CLAY_MI),length(A_K_CC), length(B_LU_BRP))
-  checkmate::assert_numeric(A_CU_CC, lower = 0, upper = 500, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_CU_CC, lower = 0.1, upper = 1000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_MN_CC, lower = 0, upper = 250000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_MN_CC, lower = 0.1, upper = 60000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_K_CC, lower = 0, upper = 800, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_K_CC, lower = 1, upper = 600, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
 
@@ -89,7 +89,7 @@ calc_zinc_availability <- function(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC) {
   
   # Check input
   arg.length <- max(length(A_ZN_CC), length(B_LU_BRP), length(B_SOILTYPE_AGR))
-  checkmate::assert_numeric(A_ZN_CC, lower = 0, upper = 10000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_ZN_CC, lower = 5, upper = 50000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_PH_CC, lower = 3, upper = 10, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
@@ -142,7 +142,7 @@ ind_copper <- function(D_CU,B_LU_BRP) {
   
   # Check inputs
   arg.length <- max(length(D_CU),length(B_LU_BRP))
-  checkmate::assert_numeric(D_CU, lower = 0, upper = 50, any.missing = FALSE)
+  checkmate::assert_numeric(D_CU, lower = 0, upper = 500, any.missing = FALSE)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   

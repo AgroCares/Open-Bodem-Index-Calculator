@@ -15,13 +15,21 @@ calc_management(
   D_CP_RUST,
   D_CP_RUSTDEEP,
   D_GA,
+  M_COMPOST,
   M_GREEN,
   M_NONBARE,
   M_EARLYCROP,
   M_SLEEPHOSE,
   M_DRAIN,
   M_DITCH,
-  M_UNDERSEED
+  M_UNDERSEED,
+  M_LIME,
+  M_NONINVTILL,
+  M_SSPM,
+  M_SOLIDMANURE,
+  M_STRAWRESIDUE,
+  M_MECHWEEDS,
+  M_PESTICIDES_DST
 )
 }
 \arguments{
@@ -45,6 +53,8 @@ calc_management(
 
 \item{D_GA}{(numeric) The age of the grassland (years)}
 
+\item{M_COMPOST}{(numeric) The frequency that compost is applied (optional, every x years)}
+
 \item{M_GREEN}{(boolean) measure. are catchcrops sown after main crop (option: yes or no)}
 
 \item{M_NONBARE}{(boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)}
@@ -57,7 +67,21 @@ calc_management(
 
 \item{M_DITCH}{(boolean) measure. are ditched maintained carefully and slib applied on the land (option: yes or no)}
 
-\item{M_UNDERSEED}{(boolean) measure. is grass used as second crop in between maize rows (option: yes or no)}
+\item{M_UNDERSEED}{(boolean) measure. is maize grown with grass underseeded (option: yes or no)}
+
+\item{M_LIME}{(boolean) measure. Has field been limed in last three years (option: yes or no)}
+
+\item{M_NONINVTILL}{(boolean) measure. Non inversion tillage (option: yes or no)}
+
+\item{M_SSPM}{(boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)}
+
+\item{M_SOLIDMANURE}{(boolean) measure. Use of solid manure (option: yes or no)}
+
+\item{M_STRAWRESIDUE}{(boolean) measure. Application of straw residues (option: yes or no)}
+
+\item{M_MECHWEEDS}{(boolean) measure. Use of mechanical weed protection (option: yes or no)}
+
+\item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
 }
 \description{
 This function evaluates the contribution of sustainable soil management following the Label Sustainable Soil Management.

@@ -26,7 +26,7 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
   # Check input
   arg.length <- max(length(A_S_RT), length(A_SOM_LOI), length(B_LU_BRP), 
                     length(B_SOILTYPE_AGR), length(B_AER_CBS),length(D_BDS))
-  checkmate::assert_numeric(A_S_RT, lower = 0, upper = 30000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_S_RT, lower = 0, upper = 10000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
@@ -38,7 +38,7 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
                                                  'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
                                                  'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
                                                  'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
-  checkmate::assert_numeric(D_BDS, lower = 0, upper = 1500, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_BDS, lower = 100, upper = 1900, any.missing = FALSE, len = arg.length)
   
   # Settings
   param.b <- 2^((14.1 - 9)/ 9) # Temperature correction

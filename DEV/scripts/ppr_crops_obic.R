@@ -1,16 +1,18 @@
 # Script to modify crops.obic
-library(data.table)
 
-# load the original OBIC csv file from version 0.11.0
-cr <- fread('dev/crops_obic_start.csv')
-cr <- cr[,V1 := NULL]
+  # load packag
+  library(data.table)
+
+  # load the original OBIC csv file from version 0.11.0
+  cr <- fread('dev/data/crops_obic_start.csv')
+  cr <- cr[,V1 := NULL]
 
 # --- update crops for 2020 ---------------
 
   # update done at 10-april 2021
 
   # update crop codes to 2020
-  crops2020 <- as.data.table(fread('dev/brp_crops_2020.csv'))
+  crops2020 <- as.data.table(fread('dev/data/brp_crops_2020.csv'))
   
   # Identify missing crop codes
   miss_codes <- unique(crops2020[!crop_code %in% cr$crop_code])
@@ -49,7 +51,7 @@ cr <- cr[,V1 := NULL]
     # group 12. groot en klein fruit
    
     # group 13. bos- en haagplantsoen
-    cr[grepl('^bomen|^boom|^bos|^griend|bosje$|^struweel|^windhaag|^knotboom|^houtwal|elzensingel',crop_name) & is.na(crop_crumbleability), crop_crumbleability := 13L]
+    cr[grepl('^bomen|^boom|^bos|^griend|bosje$|^struweel|^windhaag|^knotboom|^houtwal|elzensingel|^knip',crop_name) & is.na(crop_crumbleability), crop_crumbleability := 13L]
     
     # group 14. sierteelten
     cr[grepl('chrysant|iris|droogbloem|zonnekroon',crop_name) & is.na(crop_crumbleability), crop_crumbleability := 14L]
@@ -79,8 +81,43 @@ cr <- cr[,V1 := NULL]
     cr[grepl('natuur|^riet|singel|^dracht|^houtwal|scheerheg|wandelpad|water|struweel|windhaag|^niger',crop_name) & is.na(crop_category), crop_category := 'natuur']
     cr[grepl('griendje|schurveling',crop_name) & is.na(crop_category), crop_category := 'natuur']
     
-  
-  # Add crop waterstress
+  # Add crop rotation
+    
+    # group 1 cereal
+     
+    # group 2 sugarbeet
+    cr[grepl('griendje|schurveling',crop_name) & is.na(crop_category), crop_category := 'natuur']
+    
+    # group 3 alfalfa
+    
+    # group 4 mais
+    
+    # group 5 grass
+    cr[grepl('roodzwenkgras',crop_name) & is.na(crop_rotation), crop_rotation := 'grasland zonder herinzaai']
+    
+    # group 6 nature
+    cr[grepl('bossingel|bomenrij|azolla|boomgroepen|bosje|knotboom|landschap|laan|lisdodde',crop_name) & is.na(crop_rotation), crop_rotation := 'natuur']
+    cr[grepl('natuur|^riet|singel|^dracht|^houtwal|scheerheg|wandelpad|water|struweel|windhaag|^niger',crop_name) & is.na(crop_rotation), crop_rotation := 'natuur']
+    cr[grepl('griendje|schurveling|vrouwen',crop_name) & is.na(crop_rotation), crop_rotation := 'natuur']
+    
+    # group 7 catchcrop
+    
+    # group 8 clover
+    
+    # group 9 starch
+    
+    # group 9 potato
+    
+    # group 10 rapeseed
+    
+    # group 11 other
+    cr[grepl('^iris|^krokus|^lelie',crop_name) & is.na(crop_rotation), crop_rotation := 'other']
+    cr[grepl('^komkommer|^knolvenkel|^uien',crop_name) & is.na(crop_rotation), crop_rotation := 'other']
+    cr[grepl('^hoogstamboom|^palmen|voedselbos',crop_name) & is.na(crop_rotation), crop_rotation := 'other']
+    cr[grepl('^chrysant|^kuifhyacint|maggi|^sierui|marjolein|rijst|zante',crop_name) & is.na(crop_rotation), crop_rotation := 'other']
+    cr[grepl('azolla|^bomenrij|klaver|niger|seradelle|spurrie|zonnekroon',crop_name) & is.na(crop_rotation), crop_rotation := 'other']
+    
+  # Add crop waterstress 
     
     # group overig boomteelt
     # group bloembollen
@@ -233,7 +270,7 @@ cr <- cr[,V1 := NULL]
     # unknown: maggi, niger, roodzwenk, rijst, spurrie, seradelle, zonnekroon
    
   # Add nitrogen use norms (stikstofgebruiksnormen)
-    cols <- c(cols)
+    cols <- colnames(cr)[grepl('nf_',colnames(cr))]
   
     cr[grepl('^azolla|^lisdodde|^schurveling|wandelpad|^bomen|^boom|^bos|^griend|bosje$|^struweel|^windhaag|knotboom|^houtwal|elzensingel|landschapselement|oever|^poel|^riet|wandelpad,|water|scheerheg|^laan$', crop_name)&is.na(nf_clay),
        c(cols) := list(0, 0, 0, 0,0)]
@@ -256,13 +293,10 @@ cr <- cr[,V1 := NULL]
     cr[grepl('^zantedeschia', crop_name)&is.na(nf_clay), c(cols) := list(120, 120, 120, 120,120)]
     cr[grepl('^zonnekroon', crop_name)&is.na(nf_clay), c(cols) := list(185, 140, 112, 112, 150)] # als mais zonder derogatie
     cr[grepl('^voedselbos', crop_name)&is.na(nf_clay), c(cols) := list(110, 110, 110, 110, 110)]
+
 # --- add scientific name of crop species ---------------
     
   # update done at 10-april-21
-    
-  # load data
-  # load('data/crops_obic.RData')
-  # cr <- as.data.table(crops.obic)
     
   # Add scientific name of crop species
   cr[grepl('ardappel', crop_name),crop_name_scientific:= 'solanum tuberosum']
@@ -409,19 +443,10 @@ cr <- cr[,V1 := NULL]
   cr[grepl('onnekroon', crop_name),crop_name_scientific:= 'silphium perfoliatum']
   cr[grepl('festulolium', crop_name),crop_name_scientific:= 'festulolium']
 
-  # update the csv and Rdata file
-  # crops.obic <- copy(cr)
-  # fwrite(crops.obic, 'dev/crops_obic.csv')
-  # save(crops.obic, file = 'data/crops_obic.RData')
-  
-  
+
 # add crop_season for workability -----
   
   # update done at 10-april-21
-  
-  # load data
-  # load('data/crops_obic.RData')
-  # cr <- as.data.table(crops.obic)
 
   # add categories
   cr[grepl('fruit|peren|appel|steenvruchten|ruimen|ersen|noten', crop_name), crop_season := 'groot fruit']
@@ -460,7 +485,6 @@ cr <- cr[,V1 := NULL]
 
   # update the csv and Rdata file
   crops.obic <- copy(cr)
-  fwrite(crops.obic, 'dev/crops_obic.csv')
   save(crops.obic, file = 'data/crops_obic.RData')
   
   

@@ -43,6 +43,7 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
     
     # check if there is missing data for any indicator
     cols <- colnames(dt.score)[grepl('^I_C_|^I_B_|^I_P_',colnames(dt.score))]
+    cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     cols <- cols[!cols %in% unique(mdb1$indicator)]
     checkmate::assert_character(cols, len = 0)
     
