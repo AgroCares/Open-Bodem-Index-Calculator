@@ -3,6 +3,7 @@
 ## Version 1.3.0 2021-04-26
 
 ### Changed
+* allow unknown B_HELP_WENR in checkmate water_availability, issue 65
 
 ### Added
 
