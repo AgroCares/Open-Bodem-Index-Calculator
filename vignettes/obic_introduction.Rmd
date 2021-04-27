@@ -549,4 +549,68 @@ An example of this function is illustrated below for both an arable and a grassl
 ```
 
 
+### Copper supply
+Copper (Cu) occurs in soil solution largely in a complexed form, mainly with dissolved organic matter. Root uptake of Cu probably occurs as free Cu ions (Cu2+). The availability of complexed Cu for uptake is lower than that of Cu2+ and depends on the stability of the complex. Complexation of Cu, however, may increase the mobility of Cu in soils. Besides complexation of Cu to dissolved or solid organic matter, Cu can be adsorbed to Fe-, Al- and Mn-(hydr)oxides and clay minerals. Cu desorbed from the mentioned soil components is available for uptake. The degree of adsorption increases at higher pH, which decreases the availability. Other factors that influence Cu availability are nitrogen and phosphate content. Nitrogen and Cu show positive interactions. Decreasing N use will lead to lower levels in crops. Phosphate can drive Cu away from the adsorption sites and this leads to Cu deficiency in the long run.
+
+The supply and availability of Cu depends on the plant available Cu-pool in soil (Cu-CaCl2) or the reactive Cu pool (Cu-HNO3) for both arable and grassland soils. The optimum value is derived from historical field experiments and is established on a level of 5 to 10 mg / kg. The risk of Cu deficiency can be calculated based on the Cu content in the soil and relevant soil characteristics that influence its availability. The following measurements are used to calculate Cu plant availability: land use, Cu-CaCl2, clay content, the organic matter content, and the plant extractable levels of K and Mn. The last soil properties are used for an empirical function to estimate Cu-HNO3 (the basis for fertilizer recommendations based on long-term field experiments) from Cu-CaCl2 (being currently measured in agricultural laboratories). In OBIC, one can make use of the function `calc_copper_availability`. The function requires the input mentioned above. For more details, see `?calc_copper_availability`. 
+
+
+
+```{r, results = FALSE}
+
+  # estimate Cu availability index
+  dt[, D_CU := calc_copper_availability(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_K_CC, A_MN_CC, A_CU_CC)]
+
+```
+
+
+An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between Cu-CaCl2 and D_CU for a grassland soil. In this case all soil properties driving Cu availability in soil are left constant whereas the bio-available Cu pool is increasing from 5 to 500 ug Cu / kg.
+
+<br />
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # define an arable field with two landuses
+  dt.test <- binnenveld[ID %in% c(1,3)]
+  
+  # estimate Cu-availability index
+  dt.test[, D_CU := calc_copper_availability(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_K_CC, A_MN_CC, A_CU_CC)]
+  
+  # add group for figure
+  dt.test[,luse := fifelse(ID==1,'arable','grasland')]
+  
+  # estimate averaged Cu-availability indices for both soils
+  dt.test1 <- dt.test[,list(D_CU = mean(D_CU)), by = 'luse']
+  
+   # plot output
+  p1 <- ggplot(data = dt.test1,aes(y = D_CU, x = luse, fill = luse)) + 
+        geom_col(show.legend = FALSE) +  theme_bw() + 
+        ylab('Cu availability index (-)') + xlab('Landuse') + 
+        theme(plot.title = element_text(size=10),
+              axis.text = element_text(size=10)) + 
+        ggtitle('Cu availability index')
+     
+  
+  # estimate Cu-supply for grassland soil over range of Mg-CaCl2 levels in soil
+  dt.test2 <- dt.test[ID==3]
+  
+  # overwrite Cu-CaCl2 levels
+  dt.test2[, A_CU_CC := seq(5,500,length.out = .N)]
+  dt.test2[, B_SOILTYPE_AGR := 'dekzand']
+  dt.test2[, D_CU := calc_copper_availability(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_K_CC, A_MN_CC, A_CU_CC)]
+    
+  # plot output
+  p2 <- ggplot(data = dt.test2,
+               aes(x = A_CU_CC, y = D_CU)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('Cu availability index (-)') + xlab('Available Cu-CaCl2 (mg / kg)') +
+        ggtitle('Relationship Cu-availability (grasland) and Cu-CaCl2') 
+
+  # plot side by side
+  p1 + p2
+  
+```
+
 
