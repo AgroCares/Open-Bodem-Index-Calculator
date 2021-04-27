@@ -408,7 +408,7 @@ dt <- data.table(ID = 362662,
 
 require(OBIC)
 
-nsim = 50
+nsim =1 
 out.list = list()
 pb <- txtProgressBar(0,nsim)
 
