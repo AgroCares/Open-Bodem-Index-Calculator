@@ -409,3 +409,75 @@ An example of this function is illustrated below for both an arable and a grassl
   
 ```
 
+
+
+
+### Magnesium supply
+Deficiencies for magnesium often occur on sandy soils with low organic matter and low pH. The supply of Mg for arable fields as well as grassland fields on sandy soils is directly related to the plant available Mg-content (Mg-CaCl2). For grassland fields on clay and peat soils the Mg-supply is indirectly quantified given the required composition of the grass (for intake by cows) and depends on the CEC, the organic matter and clay content, pH, as well as the K-availability assessed by K-CaCl2 and K-CEC. 
+
+To estimate the Mg supplying capacity of the soil, one can make use of the function `calc_magnesium_availability`. The function requires the following input: the BRP crop code, the soil type, the organic matter content, the clay content, the pH, the cation exchange capacity (CEC), the occupation of the CEC with potassium (%) and the directly available concentration of both Mg and K as determined with a soil extraction with 0.01M CaCl2. For more details, see `?calc_magnesium_availability`. 
+
+
+```{r, results = FALSE}
+
+  # estimate magnesium availability index (unitless)
+  dt[, D_MG := calc_magnesium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, 
+                                           A_CLAY_MI, A_PH_CC, A_CEC_CO,
+                                           A_K_CO_PO, A_MG_CC, A_K_CC)]
+
+```
+
+
+An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between Mg-CaCl2 and D_MG for a grassland soil. In this case all soil properties driving Mg availability in soil are left constant whereas the bio-available Mg pool is increasing from 5 to 500 mg Mg / kg.
+
+<br />
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # define an arable field with two landuses
+  dt.test <- binnenveld[ID %in% c(1,3)]
+  
+  # estimate Mg-availability index
+  dt.test[, D_MG := calc_magnesium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, 
+                                           A_CLAY_MI, A_PH_CC, A_CEC_CO,
+                                           A_K_CO_PO, A_MG_CC, A_K_CC)]
+  
+  # add group for figure
+  dt.test[,luse := fifelse(ID==1,'arable','grasland')]
+  
+  # estimate averaged Mg-availability indices for both soils
+  dt.test1 <- dt.test[,list(D_MG = mean(D_MG)), by = 'luse']
+  
+   # plot output
+  p1 <- ggplot(data = dt.test1,aes(y = D_MG, x = luse, fill = luse)) + 
+        geom_col(show.legend = FALSE) +  theme_bw() + 
+        ylab('Mg availability index (-)') + xlab('Landuse') + 
+        theme(plot.title = element_text(size=10),
+              axis.text = element_text(size=10)) + 
+        ggtitle('Mg availability index')
+     
+  
+  # estimate Mg-supply for grassland soil over range of Mg-CaCl2 levels in soil
+  dt.test2 <- dt.test[ID==3]
+  
+  # overwrite Mg-CaCl2 levels
+  dt.test2[, A_MG_CC := seq(5,500,length.out = .N)]
+  dt.test2[, B_SOILTYPE_AGR := 'dekzand']
+  dt.test2[, D_MG := calc_magnesium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, 
+                                           A_CLAY_MI, A_PH_CC, A_CEC_CO,
+                                           A_K_CO_PO, A_MG_CC, A_K_CC)]
+    
+  # plot output
+  p2 <- ggplot(data = dt.test2,
+               aes(x = A_MG_CC, y = D_MG)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('Mg availability index (-)') + xlab('Available Mg-CaCl2 (mg / kg)') +
+        ggtitle('Relationship Mg-availability (grasland) and Mg-CaCl2') 
+
+  # plot side by side
+  p1 + p2
+  
+```
+
