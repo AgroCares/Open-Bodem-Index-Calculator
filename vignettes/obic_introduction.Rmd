@@ -769,5 +769,22 @@ An example of this function is illustrated below for both an arable and a grassl
 
 
 
+### Soil Cation Buffering
+For good crop growth, sufficient nutrients must be available. Besides the actual nutrient availability in soil solution, the capacity of a soil to buffer nutrients is important to identify potential bottlenecks for crop production. Fertilization is needed when the buffer capacity or speed of replenishment is insufficient. Soils can vary greatly in their buffer capacity.  To supply a crop with cations (K, Mg, Na, Ca etc.), the buffer capacity is strongly determined by the cation exchange complex (CEC). Cations are adsorbed to negatively charged soil particles (clay, organic matter and oxides) and these cations may become available through exchange. For example, a growing plant extracts K+ from the soil solution. The adsorption complex will start to resupply because the amount of K+ in the soil solution has decreased. Once again, a balance is established between the K+ concentration in the soil solution and the quantity of K+ adsorbed. In practice, soil with a higher CEC are usually more fertilize and there is a lower risk of cation deficiencies during growing season. A general rule of thumb for the optimum CEC in soil has been established around a CEC value of about 100 mmol+/kg. CEC levels below 30-40 mmol+/kg are characterized by substantial crop limitation whereas values above 100 has no positive impact any more. The scientific underpinning of these guidelines is still poor. In OBIC the soil fertility is positively assessed in relation to the CEC, whereas this can be evaluated with the OBIC function `calc_cec`.
+
+For more details, see `?calc_cec`. 
+
+
+
+```{r, results = FALSE, eval = FALSE}
+
+  # estimate importance of CEC supporting crop development
+  dt[, D_CEC := calc_cec(A_CEC_CO)]
+
+```
+
+
+
+
 
 
