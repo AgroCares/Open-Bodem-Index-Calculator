@@ -65,7 +65,7 @@ In this example all optional input variables are set to the lowest score (for vi
 Note that `binnenveld` is a data.table, a modern and fast variant of a data frame. It's particularly useful for large datasets because it only prints a selection of the dataset and calculations done on a data.table are extremely fast. You can learn more about data.tables at [this link](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) ; in particular you can convert data frmes to data.tables with as.data.table().
 
 ## Running OBIC for a single field
-The main function to evaluate the quality of the soil is `obic_field()`. It is a wrapper around the the following steps:
+The main function to evaluate the quality of the soil is `obic_field()` as well as `obic_field_dt()`. Both are wrappers around the the following steps (where the last one requires a data.table as input and the first one not):
 
 * Data preparation:
    * check format B_SC_WENR and B_GWL_CLASS
@@ -90,22 +90,28 @@ The main function to evaluate the quality of the soil is `obic_field()`. It is a
    * for soil chemical, physical, biological and environmental soil quality (absolute)
    * for benchmarking (not yet implemented)
 
+An example of both wrapper functions is illustrated below. The soil has an OBIC score of 0.81 indicating a relatively good quality to continue the current crop rotation plan. A value of one means that the soil quality is optimum for the continuation of the cropping plan whereas a value of zero means that there are substantial bottlenecks that need to be solved.
 
-```{r, showbinnenveld}
 
-  # select the first field
-  dt <- binnenveld[ID==1]
+```{r}
+
+  # select the relevant columns without management measures and data from Visual Soil Assessment
+  cols <- colnames(binnenveld)[!grepl('_BCS$|^M_',colnames(binnenveld))]
+  
+  # select the first field 
+  dt <- binnenveld[ID==1,mget(cols)]
 
   # run the obic_field with default management measures and no visual assessment data
 
-  # tet the
+  # test the obic field function via obic_field and give only the final score
   obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
              dt$B_LU_BRP, dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,
              dt$A_CACO3_IF,dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
              dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
              dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,output = 'obic_score')
   
-  
+  # test the obic field function via obic_field_dt and give only the final score
+  obic_field_dt(dt,output = 'obic_score')
 
 ```
 
