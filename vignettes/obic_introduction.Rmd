@@ -282,7 +282,9 @@ The total N supply is evaluated via a parabolic scoring function with an optimum
 ### Phosphorus Availability Index
 The phosphorus supply of an agricultural soil can be derived from methods measuring either a capacity or an intensity P pools in soil or a combination of both. The latter approach is followed for grassland and maize fields, where the optimum P supply is derived from multiple field experiments across the Netherlands. For arable farming systems, the phosphorus supply is derived from one measured P pool reflecting the P status as well as controlling the crop response to P inputs. The availability is highly controlled by chemical sorption and desorption equilibria, and affected by the iron and aluminum oxides content of soils as well as the availability of oxygen. A phosphorus supply around 4.8 (unitless index, for maize and grassland fields) and 45 (mg P2O5 per liter, for arable fields)  is optimal for crop production.
 
-To estimate the P availability of the soil, one can make use of the function `calc_phosphate_availability`. The function requires the following input: the BRP crop code, and the concentration of P measured via extraction of ammonium lactate (A_P_AL), water (A_P_WA) or 0.01M CaCl2 (A_P_CC). For more details, see `?calc_phosphate_availability`. 
+To estimate the P availability of the soil, one can make use of the function `calc_phosphate_availability`. The function requires the following input: the BRP crop code, and the concentration of P measured via extraction of ammonium lactate (A_P_AL), water (A_P_WA) or 0.01M CaCl2 (A_P_CC). 
+
+For more details, see `?calc_phosphate_availability`. 
 
 
 ```{r, results = FALSE}
@@ -346,7 +348,9 @@ An example of this function is illustrated below for both an arable and a grassl
 ### Potassium supply
 The potassium supply is strongly controlled by the distribution of K over the possible K pools in soil, being controlled by sorption and desorption processes, the cation exchange capacity of the soil and competing ions in soil solution and present at the exchange complex. Building upon agronomic research done in last decade, the K supply is quantified for grasslands using the plant available K fraction (measured via CaCl2-extraction, K-CaCl2) as well as the CEC. For maize it is quantified using K-CaCl2 and for arable fields its quantified from K-CaCl2 and the CEC while accounting for the clay content, the organic matter content and the pH of the soil. 
 
-To estimate the K supplying capcity of the soil, one can make use of the function `calc_potassium_availability`. The function requires the following input: the BRP crop code, the soil type, the organic matter content, the clay content, the pH, the cation exchange capacity (CEC), the occupation of the CEC with potassium (%) and the directly available concentration of K as determined with a soil extraction with 0.01M CaCl2. For more details, see `?calc_potassium_availability`. 
+To estimate the K supplying capcity of the soil, one can make use of the function `calc_potassium_availability`. The function requires the following input: the BRP crop code, the soil type, the organic matter content, the clay content, the pH, the cation exchange capacity (CEC), the occupation of the CEC with potassium (%) and the directly available concentration of K as determined with a soil extraction with 0.01M CaCl2. 
+
+For more details, see `?calc_potassium_availability`. 
 
 
 ```{r, results = FALSE}
@@ -413,7 +417,9 @@ An example of this function is illustrated below for both an arable and a grassl
 ### Sulpher supply
 The amount of sulphur in the soil that is available for crop uptake is determined by the mineral sulphur supply remaining in the soil after winter (Smin), mineralisation of sulphur in the soil during the growing season (sulphur supply capacity), sulphur deposition, sulphur supply by irrigation during cultivation, capillary rise of sulphur-containing groundwater and by possible losses. Sulphur supply, capillary rise and Smin are quantitatively the most important inputs of sulphur. However, all three can vary considerably. The contribution from sulphur deposition is only minor throughout the Netherlands. A substantial amount of sulphur can also be supplied through irrigation with sulphurous spring water. This supply, however, varies greatly, depending on the amount sprayed and the sulphur content of the water.
 
-To estimate the S supplying capacity of the soil, one can make use of the function `calc_slv`. The function requires the following input: the BRP crop code, the soil type, the agricultural region within the Netherlands (used to estimate default S deposition rates), the organic matter content, the total S content of the soil and the bulk density. For more details, see `?calc_slv`. 
+To estimate the S supplying capacity of the soil, one can make use of the function `calc_slv`. The function requires the following input: the BRP crop code, the soil type, the agricultural region within the Netherlands (used to estimate default S deposition rates), the organic matter content, the total S content of the soil and the bulk density. 
+
+For more details, see `?calc_slv`. 
 
 
 ```{r, results = FALSE}
@@ -686,6 +692,82 @@ An example of this function is illustrated below for both an arable and a grassl
 
 
 ### Soil Acidity
+The pH is a measure of the acidity of the soil. The pH influences the soil quality and crop growth, among others through availability of nutrients and (heavy) metals and activity of soil life. In addition, the pH influences also various soil functions such as nutrient buffering and aggregate stability. The optimum soil pH for crop growth differs per crop. Potatoes prefer a lower pH and cereals, maize, sugar beet and field vegetables a higher pH. Organic matter reduces the negative effect of pH on crop growth. On sandy soils with an organic matter content of 15%, the desired pH can be up to half a unit lower than on low organic matter content soils. On clay soils the desired pH is higher than on sandy soils. With a clay percentage above 10, the desired pH is half a unit higher than with low clay percentages.
+
+The optimum pH is determined in historical field experiments given crop rotation plan, soil texture, soil organic matter and initial pH. The derivation of the optimum pH can be estimated via the OBIC using the function `calc_ph_delta`. This function estimates how much the pH has to increase by liming to be optimum for crop development. The original empirical relationships are based on pH measurements done in KCl-extraction. Since the current pH analysis methods all make use of 0.01M CaCl2, this pH value can easily be transformed to pH-KCl given an empirical relationship between both. 
+
+For more details, see `?calc_ph_delta`. 
+
+
+```{r, results = FALSE, eval = FALSE}
+
+  # estimate distance to required pH
+  dt[, D_PH_DELTA := calc_ph_delta(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, D_CP_STARCH,
+                                   D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)]
+
+```
+
+
+An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between the initial and desired pH change for a grassland soil. In this case all soil properties driving pH in soil are left constant whereas the initial pH is increasing from 3 to 10.
+
+<br />
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # define an arable field with two landuses
+  dt.test <- binnenveld[ID %in% c(1,3)]
+  
+  # Calculate the crop rotation fraction
+  dt.test[, D_CP_STARCH := calc_rotation_fraction(ID, B_LU_BRP, crop = "starch")]
+  dt.test[, D_CP_POTATO := calc_rotation_fraction(ID, B_LU_BRP, crop = "potato")]
+  dt.test[, D_CP_SUGARBEET := calc_rotation_fraction(ID, B_LU_BRP, crop = "sugarbeet")]
+  dt.test[, D_CP_GRASS := calc_rotation_fraction(ID, B_LU_BRP, crop = "grass")]
+  dt.test[, D_CP_MAIS := calc_rotation_fraction(ID, B_LU_BRP, crop = "mais")]
+  dt.test[, D_CP_OTHER := calc_rotation_fraction(ID, B_LU_BRP, crop = "other")]
+    
+  # estimate delta-pH
+  dt.test[, D_PH_DELTA := calc_ph_delta(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, D_CP_STARCH,
+                                   D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)]
+  
+  # add group for figure
+  dt.test[,luse := fifelse(ID==1,'arable','grasland')]
+  
+  # estimate averaged delta-pH for both soils
+  dt.test1 <- dt.test[,list(D_PH_DELTA = mean(D_PH_DELTA)), by = 'luse']
+  
+   # plot output
+  p1 <- ggplot(data = dt.test1,aes(y = D_PH_DELTA, x = luse, fill = luse)) + 
+        geom_col(show.legend = FALSE) +  theme_bw() + 
+        ylab('desired pH-change (-)') + xlab('Landuse') + 
+        theme(plot.title = element_text(size=10),
+              axis.text = element_text(size=10)) + 
+        ggtitle('desired pH-change (-)')
+     
+  
+  # estimate desired pH-change for grassland soil over range of pH levels in soil
+  dt.test2 <- dt.test[ID==3]
+  
+  # overwrite initial pH
+  dt.test2[, A_PH_CC := seq(3,10,length.out = .N)]
+  dt.test2[, B_SOILTYPE_AGR := 'dekzand']
+  dt.test2[, D_PH_DELTA := calc_ph_delta(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, D_CP_STARCH,
+                                   D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)]
+    
+  # plot output
+  p2 <- ggplot(data = dt.test2,
+               aes(y = D_PH_DELTA, x = A_PH_CC)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('desired pH-change (-)') + xlab('pH value') +
+        ggtitle('Relationship desired pH-change (grasland) and pH') 
+
+  # plot side by side
+  p1 + p2
+  
+```
+
+
 
 
 
