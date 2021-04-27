@@ -982,6 +982,7 @@ Below is illustrated how the obic_field wrapper deals with the parameters derive
 The review study of various soil healt instruments (Buneman et al., 2016) identifies a variety of indicators that can be used to gain more insight into the water retaining capacity of a soil. Frequently used indicators are the amount of plant-available water (14 x), the water holding capacity (11 x), the moisture content at field capacity (11 x) and the saturated permeability (10 x). These indicators can be measured or estimated indirectly via so-called pedotransfer functions (Wosten et al., 2001).  
 
 The OBIC includes functions to derive the following water-related indicators in function `calc_waterretention`:
+
 * the moisture content at wilting point and field capacity
 * The amount of plant available water (mm) 
 * the flow limit or porosity, also called water holding capacity, and
@@ -1010,6 +1011,54 @@ For more details, see `?calc_waterretention`.
   dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'Ksat')]
 
 ```
+
+
+
+## Calculate series of biological soil functions
+The open soil index quantifies and evaluates a series of physical soil functions related to xxxx. Soil biological functions include xxxx.
+
+### Potentially mineralizable Nitrogen
+
+### Disease resistance
+
+### Nematodes
+
+### Earthworm density (from VSA)
+
+
+## Calculate series of environmental soil functions
+The open soil index quantifies and evaluates a series of environmental soil functions related to xxxx. Soil environmental functions include xxxx.
+
+### N retention preventing N leaching
+
+### N retention preventing N runoff
+
+
+
+
+## Evaluate Soil Management
+Add text of LDBB.
+
+### Measures
+
+### Crop rotation and SOM balance
+
+### Recommendations
+
+
+
+## Integrating Soil Functions into OBIC scores
+
+### Crop and soil dependent applicability of functions
+
+### Integrating over time
+
+### Aggregated soil functions
+
+### Holistic OBI score
+
+
+
 
 
 
