@@ -35,6 +35,8 @@ Soil quality is defined as the capacity of a soil to fulfil the desired soil fun
 Within the boundary condition of context (i.e. continuation of crop rotation scheme in next decade) and objective (i.e. sustainable crop production), soil properties are quantified based on routinely available soil analyses, field properties and remote sensing data. The soil properties are in conjunction with each other used to quantify a number of soil functions. These functions can be clustered around the three relevant aspects of soil, namely i) chemistry and nutrient supply, ii) structure and root ability and iii) biology and disease resistance. Separately from these three aspects - each of which relies heavily on actual measurements - soil management is also evaluated. Furthermore, the soil's contribution to a sustainable living environment is first and foremost indirectly included as the following soil functions: the N buffering capacity for ground and surface water as well as for the potential to sequester carbon.
 The algorithms to evaluate and assess the quality of the soil originates from field experiments and evidence from fundamental as well as applied research. 
 
+<br />
+<br />
 
 # The Open Soil Index Calculator (OBIC)
 
@@ -58,5 +60,54 @@ For each field, the following properties are available:
 
 ```
 
+In this example all optional input variables are set to the lowest score (for visuals soil assment) or to false (for soil management measures). Since soil quality can only be evaluated given its use, the crop rotation plan determines also which soil properties and which soil functions are relevant and how they are evaluated given a desired thresshold value.
+
 Note that `binnenveld` is a data.table, a modern and fast variant of a data frame. It's particularly useful for large datasets because it only prints a selection of the dataset and calculations done on a data.table are extremely fast. You can learn more about data.tables at [this link](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) ; in particular you can convert data frmes to data.tables with as.data.table().
+
+## Running OBIC for a single field
+The main function to evaluate the quality of the soil is `obic_field()`. It is a wrapper around the the following steps:
+
+* Data preparation:
+   * check format B_SC_WENR and B_GWL_CLASS
+   * add default estimates for soil management measures given soil type and land use
+* Estimate derivative soil properties
+   * general supporting soil properties
+   * soil chemical functions
+   * soil physical functions
+   * soil biological functions
+   * soil environmental functions
+   * soil management actions
+   * visual soil assessment observations
+* Estimate soil indicators (evaluating soil functions given a distance to target)
+   * soil chemical functions
+   * soil physical functions
+   * soil biological functions
+   * soil environmental functions
+   * soil management actions
+   * visual soil assessment score
+* Aggregate soil indicators over the crop rotation plan
+* Aggregate soil functions into more generic soil quality scores
+   * for soil chemical, physical, biological and environmental soil quality (absolute)
+   * for benchmarking (not yet implemented)
+
+
+```{r, showbinnenveld}
+
+  # select the first field
+  dt <- binnenveld[ID==1]
+
+  # run the obic_field with default management measures and no visual assessment data
+
+  # tet the
+  obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
+             dt$B_LU_BRP, dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,
+             dt$A_CACO3_IF,dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
+             dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
+             dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,output = 'obic_score')
+  
+  
+
+```
+
+  
 
