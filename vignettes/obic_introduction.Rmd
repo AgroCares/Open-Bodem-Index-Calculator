@@ -211,7 +211,6 @@ Nitrogen supply on grassland is derived from empirical datasets relating total N
 
 To estimate the N supplying capacity of the soil, one can make use of the function `calc_nlv`. For more details, see `?calc_nlv`. 
 
-<br />
 
 ```{r, results = FALSE}
 
@@ -220,7 +219,6 @@ To estimate the N supplying capacity of the soil, one can make use of the functi
 
 ```
 
-<br />
 
 An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between total N and NLV for a grassland soil. In summary, the N supplying capacity of a soil increases with the total N present in the soil.
 
