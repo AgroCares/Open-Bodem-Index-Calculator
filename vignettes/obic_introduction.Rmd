@@ -410,6 +410,73 @@ An example of this function is illustrated below for both an arable and a grassl
 ```
 
 
+### Sulpher supply
+The amount of sulphur in the soil that is available for crop uptake is determined by the mineral sulphur supply remaining in the soil after winter (Smin), mineralisation of sulphur in the soil during the growing season (sulphur supply capacity), sulphur deposition, sulphur supply by irrigation during cultivation, capillary rise of sulphur-containing groundwater and by possible losses. Sulphur supply, capillary rise and Smin are quantitatively the most important inputs of sulphur. However, all three can vary considerably. The contribution from sulphur deposition is only minor throughout the Netherlands. A substantial amount of sulphur can also be supplied through irrigation with sulphurous spring water. This supply, however, varies greatly, depending on the amount sprayed and the sulphur content of the water.
+
+To estimate the S supplying capacity of the soil, one can make use of the function `calc_slv`. The function requires the following input: the BRP crop code, the soil type, the agricultural region within the Netherlands (used to estimate default S deposition rates), the organic matter content, the total S content of the soil and the bulk density. For more details, see `?calc_slv`. 
+
+
+```{r, results = FALSE}
+
+  # estimate S supplying capacity
+  dt[, D_SLV := calc_slv(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS)]
+
+```
+
+
+An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between total S and D_SLV for a grassland soil. In this case all soil properties driving S supplying capacity are left constant whereas the total S pool is increasing from 500 to 5000 mg S / kg.
+
+
+<br />
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # define an arable field with two landuses
+  dt.test <- binnenveld[ID %in% c(1,3)]
+  
+  # estimate bulk density
+  dt.test[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]
+
+  # estimate Mg-availability index
+  dt.test[,D_SLV := calc_slv(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS)]
+  
+  # add group for figure
+  dt.test[,luse := fifelse(ID==1,'arable','grasland')]
+  
+  # estimate averaged SLV for both soils
+  dt.test1 <- dt.test[,list(D_SLV = mean(D_SLV)), by = 'luse']
+  
+   # plot output
+  p1 <- ggplot(data = dt.test1,aes(y = D_SLV, x = luse, fill = luse)) + 
+        geom_col(show.legend = FALSE) +  theme_bw() + 
+        ylab('S supplying capacity (kg S / ha)') + xlab('Landuse') + 
+        theme(plot.title = element_text(size=10),
+              axis.text = element_text(size=10)) + 
+        ggtitle('S supplying capacity (kg S / ha)')
+     
+  
+  # estimate SLV for grassland soil over range of total S levels in soil
+  dt.test2 <- dt.test[ID==3]
+  
+  # overwrite A_S_RT levels
+  dt.test2[, A_S_RT := seq(500,5000,length.out = .N)]
+  dt.test2[, B_SOILTYPE_AGR := 'dekzand']
+  dt.test2[, D_SLV := calc_slv(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS)]
+    
+  # plot output
+  p2 <- ggplot(data = dt.test2,
+               aes(x = A_S_RT, y = D_SLV)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('S supplying capacity (kg S / ha)') + xlab('total S (mg / kg)') +
+        ggtitle('Relationship SLV (grasland) and total S') 
+
+  # plot side by side
+  p1 + p2
+  
+```
+
 
 
 ### Magnesium supply
@@ -480,4 +547,6 @@ An example of this function is illustrated below for both an arable and a grassl
   p1 + p2
   
 ```
+
+
 
