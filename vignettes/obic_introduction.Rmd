@@ -3,7 +3,7 @@ title: "The Open Soil Index"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{description-of-the-columns}
+  %\VignetteIndexEntry{the-open-soil-index}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -40,4 +40,23 @@ The algorithms to evaluate and assess the quality of the soil originates from fi
 
 The OBIC package makes it possible to evaluate Soil Health for a number of aggregated soil functions, evaluating a series of soil functions in relation to a "distance to target". 
 
+## Data: Binnenveld
+To explore the functionality of OBIC, we'll use the dataset `binnenveld`. The dataset contains soil properties from 11 agricultural fields in the neighborhood of Wageningen, with different soil texture and land use, and is documented in `?binnenveld`
+
+For each field, the following properties are available:
+
+* field properties: ID, year, landuse (B_LU_BRP) and agricultural region (B_AER_CBS)
+* basic soil properties: soil type (B_SOILTYPE_AGR, B_HELP_WENR), risk for soil compaction (B_SC_WENR) and groundwater level (B_GWL_CLASS)
+* chemical, physical and biological soil measurements done (all variables starting with "A_")
+* measurements done via a Visual Soil Assessment Form (optional, all variables starting with "A_" and ending with "BCS"). For details, see the Assessment Form of the [Bodemconditiescore](http://mijnbodemconditie.nl/aan-de-slag/download/)
+* soil management measures taken (optional, all variables starting with "M_")
+
+```{r, showbinnenveld}
+
+  dim(binnenveld)
+  binnenveld[1]
+
+```
+
+Note that `binnenveld` is a data.table, a modern and fast variant of a data frame. It's particularly useful for large datasets because it only prints a selection of the dataset and calculations done on a data.table are extremely fast. You can learn more about data.tables at [this link](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) ; in particular you can convert data frmes to data.tables with as.data.table().
 
