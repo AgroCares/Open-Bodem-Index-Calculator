@@ -867,3 +867,75 @@ An example of this function is illustrated below for both an sandy and a clay so
   
 ```
 
+### Sealing Soil Surface and Wind Erodibility
+The vulnerability of soils to sealing and wind erosion is derived from those properties controlling the susceptibility for both risks. These include the clay content as well as the organic matter content, where the vulnerability for sealing is derived from field expert-based observations and associated yield depression (Huinink, 2018; Heeres en Van Erp, 1999) in particular for some arable crops. The presence of soil sealing can be estimated via the function `calc_sealing_risk` whereas the risk for soil erosion due to wind is estimated via the function `calc_winderodibility`. The wind erodibility can be estimated from the inputs land use, clay and silt content of the topsoil whereas the risk for sealing depends on the clay content as well as the organic matter content of the soil.
+
+For more details, see `?calc_sealing_risk` and `?calc_winderodibility`. 
+
+
+```{r, results = FALSE, eval = FALSE}
+
+  # estimate the presence / risk for surface sealing and wind erodibility
+  dt[, D_SE := calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)]
+  dt[, D_WE := calc_winderodibility(B_LU_BRP, A_CLAY_MI, A_SILT_MI)]
+
+```
+
+
+An example of these functions is illustrated below for an arable soil with variable clay content for both an cropland (with organic matter levels of 3.5%) and a grassland soil (with organic matter levels of 5%). Soil sealing is a potential risk and this risk is evaluated in the indicator function (explained and illustrated later) given the land use present. The wind erodibility is declining with the clay content and is not relevant for grassland due to the permanent crop cover. 
+
+<br />
+
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # make a data.table for sandy and clay soil with potatoes
+  dt.test1 <- data.table(B_LU_BRP = rep(859,20),
+                        A_CLAY_MI = c(seq(1,25,length.out = 10), seq(1,25,length.out = 10)),
+                        A_SOM_LOI = c(rep(3.5,10),rep(3.5,10)),
+                        A_SILT_MI = c(rep(5,10),rep(5,10)))
+
+  # make a data.table for sandy and clay soil with grasland
+  dt.test2 <- data.table(B_LU_BRP = rep(265,20),
+                        A_CLAY_MI = c(seq(1,25,length.out = 10), seq(1,25,length.out = 10)),
+                        A_SOM_LOI = c(rep(5,10),rep(5,10)),
+                        A_SILT_MI = c(rep(5,10),rep(5,10)))
+  
+  # combine both
+  dt.test <- rbind(dt.test1,dt.test2)
+  dt.test[, B_SOILTYPE_AGR := fifelse(A_CLAY_MI < 15,'dekzand','rivierklei')]
+  
+  # estimate the presence / risk for surface sealing and wind erodibility
+  dt.test[, D_SE := calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)]
+  dt.test[, D_WE := calc_winderodibility(B_LU_BRP, A_CLAY_MI, A_SILT_MI)]
+  
+  # set land use
+  dt.test[,luse := fifelse(B_LU_BRP==265,'grass','cropland')]
+   
+  # plot output sealing
+  p1 <- ggplot(data = dt.test,
+               aes(x = A_CLAY_MI, y = D_SE, color = luse,group = luse)) + 
+        geom_line() + geom_point(size=3) +  theme_bw() + 
+        ylab('Soil Sealing (-)') + xlab('Clay content (%)') + ylim(4,12)+
+        theme(legend.position = c(0.4,0.8),
+              plot.title = element_text(size=10),
+              legend.text = element_text(size=10)) + 
+    ggtitle('Soil sealing given SOM and clay content')   
+
+  # plot output wind erodibility
+  p2 <- ggplot(data = dt.test,
+               aes(x = A_CLAY_MI, y = D_WE, color = luse)) + 
+        geom_line() + geom_point(size=3) +  theme_bw() + 
+        ylab('Wind Erodibility (-)') + xlab('Clay content (%)') + ylim(0,1)+
+        theme(legend.position = c(0.7,0.8),
+              plot.title = element_text(size=10),
+              legend.text = element_text(size=10)) + 
+    ggtitle('Wind erodibility given soil texture and landuse') 
+  
+  # plot side by side
+  p1 + p2
+  
+```
+
+
+
