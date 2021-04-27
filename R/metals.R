@@ -188,6 +188,9 @@ ind_zinc <- function(D_ZN) {
   # Evaluate the Zn
   value <- OBIC::evaluate_parabolic(D_ZN, x.top = 100)
   
+  # set the minimum value of I_C_ZU as 0.4
+  value[value < 0.4] <- 0.4
+  
   # return output
   return(value)
 }
