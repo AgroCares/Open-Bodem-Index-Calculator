@@ -110,10 +110,10 @@ calc_zinc_availability <- function(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC) {
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
   
   # Calculate Zn-availability
-  dt[crop_category =='akkerbouw', value := 10^(0.88 + 0.56 * log10(A_ZN_CC*0.001) + 0.13 * pmin(A_PH_CC, 6))]
-  dt[crop_category =='mais', value := 10^(0.88 + 0.56 * log10(A_ZN_CC*0.001) + 0.13 * pmin(A_PH_CC, 6))]
+  dt[crop_category =='akkerbouw', value := 10^(0.88 + 0.56 * log10(A_ZN_CC*0.001) + 0.13 * A_PH_CC)]
+  dt[crop_category =='mais', value := 10^(0.88 + 0.56 * log10(A_ZN_CC*0.001) + 0.13 * A_PH_CC)]
   dt[crop_category =='natuur', value := 0]
-  dt[crop_category =='grasland', value := 10^(-1.04 + 0.67 * log10(A_ZN_CC*0.001) + 0.5 * pmin(A_PH_CC,6))]
+  dt[crop_category =='grasland', value := 10^(-1.04 + 0.67 * log10(A_ZN_CC*0.001) + 0.5 * A_PH_CC)]
 
   # Too high values for Zn-availability are prevented
   dt[value > 250, value := 250]
