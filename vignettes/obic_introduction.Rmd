@@ -1,0 +1,43 @@
+---
+title: "The Open Soil Index"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{description-of-the-columns}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(OBIC)
+```
+
+# The Open Soil Index
+
+## an introduction
+
+To meet the demands of a growing population, agriculture continues to intensify, along with increasing and evolving impacts on crop growth, soil quality and environmental quality. There has been a great increase in world food production since the 1960s and an increase in per capita agricultural production, accompanied by a likewise increase in machinery and fertilizer use. Increased inputs of nitrogen and phosphorus to the soil however has also led to substantial negative impacts on biodiversity, drinking and surface water quality, and human health. Both the agronomic potential of cropping systems as well as the environmental impacts of agriculture are highly controlled by soil properties and its management. Soil health (or soil quality) refers to the capacity of soil to function as a living ecosystem that sustains plants, animals, and humans and support ecosystem services including agricultural production. Healthy soils are not just a growing medium for crops but they regulate and support a set of essential ecosystem services, such as water purification, carbon sequestration, nutrient cycling and they provide habitats for biodiversity. Improving and sustaining soil health is therefore key to sustainable crop production.
+
+Many attempts have been made to develop indices to assess soil quality as well as related ecosystem services (reviewed by Bünemann et al., 2018; Rinot et al., 2019). To date, most of this knowledge has not been implemented in decision support tools assisting farmers for monitoring and evaluation of soil quality on farm and field level. Explicit evaluation of soil quality with respect to soil threats, soil functions and ecosystem services has rarely been implemented, and few approaches provide clear interpretation schemes of measured indicator values. The main reason for this lack of valorisation is that soil is a complex interplay of chemical, biological and physical processes and that the objectives for which the soil is used for has an enormous influence on the evaluation of soil quality. However, there is broad consensus that soil chemistry, soil structure, as well as soil biology need to be considered for a good interpretation of soil quality. 
+
+In order to improve and maintain soil quality while supporting sustainable agronomic production as well as other soil ecosystems services, the Open Soil Index was initiatied in 2018, an open source framework for assessing and valorising soil quality and sustainable soil management. Experts from universities, consultancy companies, soil experts and farmer groups collaborated to bring together existing data from routine soil laboratories, smart data retrieval from satellites, insights from fundamental and applied research and smart in a transparent and scientifically underpinned soil assessment framework. The framework is highly influenced by the Soil Management Assessment Framework (Andrews & Carroll, 2001;Wienhold et al. 2004, 2009) and the proposed holistic, multivariate soil health framework from Rinot et al. (2019). 
+
+## the Open Soil Index Framework
+Soil quality is defined as the capacity of a soil to fulfil the desired soil functions under varying conditions for a combination of purposes (and services) such as food production, efficient nutrient cycling and preservation of biodiversity. Soil ecosystem services are the different ecosystem services that soils can provide, being categorised as production, support, regulation and information services. Soil functions are quantitative relationships evaluating how soil properties alone or in combination with each other contribute to the aforementioned ecosystem services. Soil indicators are the result of an evaluation scoring methodology transforming the output of soil functions to a qualitative category (low to high) or a numeric grade (1-10). Soil and field properties are characteristics of a soil (or field) that are used to quantify the soil functions. These characteristics may have been analysed in the laboratory as well as those resulting from the location of the field in the landscape. For example, the groundwater level, the variation in ground level, the slope, and the presence of drainage are soil properties, similar to the organic matter content, pH and clay content. Soil management includes all measures that land users or farmers can take to improve or adapt soil quality for a specific purpose. This has a direct influence on (measurable) soil properties. 
+
+Within the boundary condition of context (i.e. continuation of crop rotation scheme in next decade) and objective (i.e. sustainable crop production), soil properties are quantified based on routinely available soil analyses, field properties and remote sensing data. The soil properties are in conjunction with each other used to quantify a number of soil functions. These functions can be clustered around the three relevant aspects of soil, namely i) chemistry and nutrient supply, ii) structure and root ability and iii) biology and disease resistance. Separately from these three aspects - each of which relies heavily on actual measurements - soil management is also evaluated. Furthermore, the soil's contribution to a sustainable living environment is first and foremost indirectly included as the following soil functions: the N buffering capacity for ground and surface water as well as for the potential to sequester carbon.
+The algorithms to evaluate and assess the quality of the soil originates from field experiments and evidence from fundamental as well as applied research. 
+
+
+# The Open Soil Index Calculator (OBIC)
+
+The OBIC package makes it possible to evaluate Soil Health for a number of aggregated soil functions, evaluating a series of soil functions in relation to a "distance to target". 
+
+
