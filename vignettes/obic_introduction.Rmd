@@ -201,12 +201,10 @@ An example of these functions is illustrated below.
 ```
 
 
-### Calculate series of chemical soil functions
+## Calculate series of chemical soil functions
 The open soil index quantifies and evaluates the capacity of the soil to supply nitrogen, phosphorus, potassium, magnesium, copper and zinc as well as the capacity of the soil to buffer cations and the pH. The different functions are illustrated and explained below.
 
-**Nitrogen supplying capacity**
-<br />
-
+### Nitrogen supplying capacity
 Nitrogen supply on grassland is derived from empirical datasets relating total N levels in soil to the N supply, depending on sampling depth, soil texture and the age of the grassland. For arable fields, the N supply is derived from a simple first order decomposition model, calibrated for Dutch circumstances and depending on soil texture, organic matter and total N content. 
 
 To estimate the N supplying capacity of the soil, one can make use of the function `calc_nlv`. For more details, see `?calc_nlv`. 
@@ -281,11 +279,133 @@ The total N supply is evaluated via a parabolic scoring function with an optimum
 
 <br />
 
-**Phosphorus Availability Index**
+### Phosphorus Availability Index
+The phosphorus supply of an agricultural soil can be derived from methods measuring either a capacity or an intensity P pools in soil or a combination of both. The latter approach is followed for grassland and maize fields, where the optimum P supply is derived from multiple field experiments across the Netherlands. For arable farming systems, the phosphorus supply is derived from one measured P pool reflecting the P status as well as controlling the crop response to P inputs. The availability is highly controlled by chemical sorption and desorption equilibria, and affected by the iron and aluminum oxides content of soils as well as the availability of oxygen. A phosphorus supply around 4.8 (unitless index, for maize and grassland fields) and 45 (mg P2O5 per liter, for arable fields)  is optimal for crop production.
+
+To estimate the P availability of the soil, one can make use of the function `calc_phosphate_availability`. The function requires the following input: the BRP crop code, and the concentration of P measured via extraction of ammonium lactate (A_P_AL), water (A_P_WA) or 0.01M CaCl2 (A_P_CC). For more details, see `?calc_phosphate_availability`. 
+
+
+```{r, results = FALSE}
+
+  # estimate phosphate availability index (unitless)
+  dt[, D_PBI := calc_phosphate_availability(B_LU_BRP, A_P_AL, A_P_CC, A_P_WA)]
+
+```
+
+
+An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between P-CaCl2 and D_PBI for a grassland soil. In this case the P capacity is left constant (so, A_P_AL is not changing) whereas the bio-available P pool is increasing from 0.5 to 10 mg P / kg.
+
 <br />
 
-The phosphorus supply is derived from one capacity and one intensity P pools in soil for grassland and maize fields, where the optimum P supply is derived from multiple field experiments across the Netherlands. For arable farming systems, the phosphorus supply is derived from one measured P pool reflecting the P status as well as controlling the crop response to P inputs. The availability is highly controlled by chemical sorption and desorption equilibria, and affected by the iron and aluminum oxides content of soils as well as the availability of oxygen. A phosphorus supply around 4.8 (unitless index, for maize and grassland fields) and 45 (mg P2O5 per liter, for arable fields)  is optimal for crop production.
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # define an arable field with two landuses
+  dt.test <- binnenveld[ID %in% c(1,3)]
+  
+  # estimate PBI
+  dt.test[, D_PBI := calc_phosphate_availability(B_LU_BRP, A_P_AL, A_P_CC, A_P_WA)]
+  
+  # add group for figure
+  dt.test[,luse := fifelse(ID==1,'arable','grasland')]
+  
+  # estimate averaged PBI for both soils
+  dt.test1 <- dt.test[,list(D_PBI = mean(D_PBI)), by = 'luse']
+  
+   # plot output
+  p1 <- ggplot(data = dt.test1,aes(y = D_PBI, x = luse, fill = luse)) + 
+        geom_col(show.legend = FALSE) +  theme_bw() + 
+        ylab('P availability index (-)') + xlab('Landuse') + ylim(0,7)+
+        theme(plot.title = element_text(size=10),
+              axis.text = element_text(size=10)) + 
+        ggtitle('P availability index')
+     
+  
+  # estimate PBI for grassland soil over range of P-CaCl2 levels in soil
+  dt.test2 <- dt.test[ID==3]
+  
+  # overwrite P-CaCl2 levels
+  dt.test2[, A_P_CC := seq(0.5,10,length.out = .N)]
+  dt.test2[, B_SOILTYPE_AGR := 'dekzand']
+  dt.test2[, D_PBI := calc_phosphate_availability(B_LU_BRP, A_P_AL, A_P_CC, A_P_WA)]
+    
+  # plot output
+  p2 <- ggplot(data = dt.test2,
+               aes(x = A_P_CC, y = D_PBI)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('P availability index (-)') + xlab('Available P-CaCl2 (mg / kg)') +
+        ggtitle('Relationship PBI (grasland) and P-CaCl2') 
+
+  # plot side by side
+  p1 + p2
+  
+```
 
 
+### Potassium supply
+The potassium supply is strongly controlled by the distribution of K over the possible K pools in soil, being controlled by sorption and desorption processes, the cation exchange capacity of the soil and competing ions in soil solution and present at the exchange complex. Building upon agronomic research done in last decade, the K supply is quantified for grasslands using the plant available K fraction (measured via CaCl2-extraction, K-CaCl2) as well as the CEC. For maize it is quantified using K-CaCl2 and for arable fields its quantified from K-CaCl2 and the CEC while accounting for the clay content, the organic matter content and the pH of the soil. 
 
+To estimate the K supplying capcity of the soil, one can make use of the function `calc_potassium_availability`. The function requires the following input: the BRP crop code, the soil type, the organic matter content, the clay content, the pH, the cation exchange capacity (CEC), the occupation of the CEC with potassium (%) and the directly available concentration of K as determined with a soil extraction with 0.01M CaCl2. For more details, see `?calc_potassium_availability`. 
+
+
+```{r, results = FALSE}
+
+  # estimate potassium availability index (unitless)
+  dt[, D_K :=  calc_potassium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
+                                           A_PH_CC, A_CEC_CO, A_K_CO_PO, A_K_CC)]
+
+```
+
+
+An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between K-CaCl2 and D_K for a grassland soil. In this case the occupation of the CEC with K is left constant (so, A_K_CO_PO is not changing) whereas the bio-available K pool is increasing from 5 to 500 mg K / kg.
+
+<br />
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # define an arable field with two landuses
+  dt.test <- binnenveld[ID %in% c(1,3)]
+  
+  # estimate K-availability index
+  dt.test[, D_K :=  calc_potassium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
+                                           A_PH_CC, A_CEC_CO, A_K_CO_PO, A_K_CC)]
+  
+  # add group for figure
+  dt.test[,luse := fifelse(ID==1,'arable','grasland')]
+  
+  # estimate averaged K-availability indices for both soils
+  dt.test1 <- dt.test[,list(D_K = mean(D_K)), by = 'luse']
+  
+   # plot output
+  p1 <- ggplot(data = dt.test1,aes(y = D_K, x = luse, fill = luse)) + 
+        geom_col(show.legend = FALSE) +  theme_bw() + 
+        ylab('K availability index (-)') + xlab('Landuse') + 
+        theme(plot.title = element_text(size=10),
+              axis.text = element_text(size=10)) + 
+        ggtitle('K availability index')
+     
+  
+  # estimate K-supply for grassland soil over range of K-CaCl2 levels in soil
+  dt.test2 <- dt.test[ID==3]
+  
+  # overwrite K-CaCl2 levels
+  dt.test2[, A_K_CC := seq(5,500,length.out = .N)]
+  dt.test2[, B_SOILTYPE_AGR := 'dekzand']
+  dt.test2[, D_K :=  calc_potassium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
+                                           A_PH_CC, A_CEC_CO, A_K_CO_PO, A_K_CC)]
+    
+  # plot output
+  p2 <- ggplot(data = dt.test2,
+               aes(x = A_K_CC, y = D_K)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('K availability index (-)') + xlab('Available K-CaCl2 (mg / kg)') +
+        ggtitle('Relationship K-availability (grasland) and K-CaCl2') 
+
+  # plot side by side
+  p1 + p2
+  
+```
 
