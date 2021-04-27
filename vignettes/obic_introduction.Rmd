@@ -13,13 +13,18 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
-```{r setup}
-library(OBIC)
+```{r setup, include = FALSE}
+
+  # load packages
+  library(OBIC); library(data.table); library(ggplot2);require(patchwork)
+
+  # load binnenveld data.table
+  binnenveld <- as.data.table(OBIC::binnenveld)
 ```
 
-# The Open Soil Index
 
 ## an introduction
 
@@ -115,5 +120,174 @@ An example of both wrapper functions is illustrated below. The soil has an OBIC 
 
 ```
 
+When interested in the averaged indicator value or the averaged aggregated soil indicators, one can adjust the output argument of the wrapper functions.
+
+```{r, results = FALSE}
+
+  # run obic_field to retrieve indicators
+  obic_field_dt(dt, output = 'indicators')
+
+  # run obic_field to retrieve aggregated scores 
+  # for chemistry, biology, fysics, management and environment
+  obic_field_dt(dt, output = 'scores')
   
+  # the default option is to retrieve all output
+  obic_field_dt(dt, output = 'all')
+
+```
+
+
+<br />
+<br />
+
+# The Soil Functions in the OBIC
+To assess the soil quality of an agricultural field, soil properties are used to derive so-called soil functions. Theses soil functions represent distinct processes in soil supporting the sustainable crop development. In this section the available soil functions are presented and illustrated.
+
+## General supporting soil properties
+Since the quality of a soil is evaluated given its crop rotation plan, soil type and geohydrological conditions, a few general derivative soil properties are estimated. These include the calculation of bulk density, rooting depth, organic carbon stocks, the age of grassland and the fraction that a crop contributes to the crop rotation plan. These general properties are explained below.
+
+### Estimate bulk density
+Soil Bulk density is estimated via a pedotransferfunction using 'calc_bulk_density' currently used in Dutch fertilizer recommendation systems. It requires as input the agronomic soil type, the soil organic matter content and the clay content of the topsoil analyzed. For details see `?calc_bulk_density`. Generally, the bulk density declines with the soil organic matter level in the soil and is higher in sandy soils compared to clayey soils.
+
+<br />
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, echo=FALSE}
+
+  # make a data.table for sandy and clay soil
+  dt.test <- data.table(B_SOILTYPE_AGR = c(rep('dekzand',10),rep('rivierklei',10)),
+                        A_SOM_LOI = c(seq(0.1,10,length.out = 10), seq(0.1,10,length.out = 10)),
+                        A_CLAY_MI = c(rep(5,10),rep(25,10)))
+
+  # estimate bulk density (D_BDS)
+  dt.test[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]
+  
+  # plot output
+  ggplot(data = dt.test,
+         aes(x = A_SOM_LOI, y = D_BDS, group = B_SOILTYPE_AGR, color = B_SOILTYPE_AGR)) + 
+    geom_line() + geom_point(size=3) +  theme_bw() + 
+    ylab('Bulk density (kg / m3)') + xlab('Soil organic matter content (%)') + 
+    theme(legend.position = c(0.8,0.8)) + ggtitle('Estimate bulk density from SOM and clay content') 
+  
+```
+
+
+### Estimate other general properties
+Agricultural soils are frequently analyzed in routine agricultural laboratories. In the Netherlands the soil layer analyzed is the top 25cm of an arable soil and the first 10 cm of a grassland soil. To convert soil nutrient concentrations (mg / kg) to a hectare basis, one need to know the soil depth analyzed. The OBIC function for this is a rather simple one, `calc_root_depth` where the details can be found via `?calc_root_depth`. The only input required is the crop code.
+
+The Carbon pool in soil (kg / ha) is subsequently calculated from the soil organic matter content, the bulk density and the sample depth via `calc_organic_carbon`. For details, see `?calc_organic_carbon`.
+
+The age of grassland is calculated via the function `calc_grass_age` given the series of crop codes available per field. These crop codes have a temporal order with the most recent ones on top. For details, see `?calc_grass_age`.
+
+Lastly, the relative contribution of a few crops to the full crop rotation plan over the last ten years can be estimated via the function `calc_rotation_fraction`. This function has as input the field-ID, the series of crop codes and the name of the crop for which one likes to know the relative fraction within a crop rotation plan. The following options are possible: starch, potato, sugarbeet, grass, mais, alfalfa, catchcrop, cereal, clover, nature, rapeseed, other, rustgewas, and rustgewasdiep. 
+
+An example of these functions is illustrated below.
+
+```{r, results = FALSE}
+
+  # estimate soil bulk density
+  dt[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]
+
+  # estimate soil sampling depth
+  dt[, D_RD := calc_root_depth(dt$B_LU_BRP)]
+
+  # estimate Carbon pool
+  dt[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
+  
+  # estimate age of grassland
+  dt[,D_GA := calc_grass_age(ID, B_LU_BRP)]
+  
+  # estimate crop rotation fraction for sugar beet
+  dt[, D_CP_SUGARBEET := calc_rotation_fraction(ID, B_LU_BRP, crop = "sugarbeet")]
+```
+
+
+### Calculate series of chemical soil functions
+The open soil index quantifies and evaluates the capacity of the soil to supply nitrogen, phosphorus, potassium, magnesium, copper and zinc as well as the capacity of the soil to buffer cations and the pH. The different functions are illustrated and explained below.
+
+**Nitrogen supplying capacity**
+<br />
+
+Nitrogen supply on grassland is derived from empirical datasets relating total N levels in soil to the N supply, depending on sampling depth, soil texture and the age of the grassland. For arable fields, the N supply is derived from a simple first order decomposition model, calibrated for Dutch circumstances and depending on soil texture, organic matter and total N content. 
+
+To estimate the N supplying capacity of the soil, one can make use of the function `calc_nlv`. For more details, see `?calc_nlv`. 
+
+<br />
+
+```{r, results = FALSE}
+
+  # estimate nitrogen supply (kg N / ha)
+  dt[, D_NLV := calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)]
+
+```
+
+<br />
+
+An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between total N and NLV for a grassland soil. In summary, the N supplying capacity of a soil increases with the total N present in the soil.
+
+<br />
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # define an arable field with two landuses
+  dt.test <- binnenveld[ID %in% c(1,3)]
+  
+  # estimate default properties needed to estimate NLV
+  dt.test[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]
+  dt.test[, D_RD := calc_root_depth(B_LU_BRP)]
+  dt.test[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
+  dt.test[, D_GA := calc_grass_age(ID, B_LU_BRP)]
+
+  # estimate nitrogen supply (kg N / ha)
+  dt.test[, D_NLV := calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)]
+  
+  # add group for figure
+  dt.test[,luse := fifelse(ID==1,'arable','grasland')]
+  
+  # estimate averaged NLV for both soils
+  dt.test1 <- dt.test[,list(D_NLV = mean(D_NLV)), by = 'luse']
+  
+   # plot output
+  p1 <- ggplot(data = dt.test1,aes(y = D_NLV, x = luse, fill = luse)) + geom_col() +  theme_bw() + 
+        ylab('N supplying capacity (kg N / ha)') + xlab('Landuse') + 
+        theme(legend.position = c(0.2,0.8),
+              plot.title = element_text(size=10),
+              legend.text = element_text(size=10),
+              axis.text = element_text(size=10)) + ggtitle('N supplying capacity')
+     
+  
+  # estimate NLV for grassland soil over range of N-total levels in soil
+  dt.test2 <- dt.test[ID==3]
+  
+  # overwrite N levels of the soil and the soil texture to sand with a range to illustrate impact of N total on NLV
+  dt.test2[, A_N_RT := seq(100,5000,length.out = .N)]
+  dt.test2[, B_SOILTYPE_AGR := 'dekzand']
+  dt.test2[, D_GA := 5]
+  dt.test2[, D_NLV := calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)]
+    
+  # plot output
+  p2 <- ggplot(data = dt.test2,
+               aes(x = A_N_RT, y = D_NLV)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+    theme(plot.title = element_text(size=10),
+              legend.text = element_text(size=10),
+              axis.text = element_text(size=10))+
+    ylab('N supplying capacity (kg N / ha)') + xlab('Total Nitrogen content (mg / kg)') +
+    ggtitle('Relationship NLV (grasland) and N total') 
+
+  # plot side by side
+  p1 + p2
+  
+```
+
+
+The total N supply is evaluated via a parabolic scoring function with an optimum of 100 kg N / ha in arable fields and 140 kg N / ha in grassland fields.
+
+<br />
+
+**Phosphorus Availability Index**
+<br />
+
+The phosphorus supply is derived from one capacity and one intensity P pools in soil for grassland and maize fields, where the optimum P supply is derived from multiple field experiments across the Netherlands. For arable farming systems, the phosphorus supply is derived from one measured P pool reflecting the P status as well as controlling the crop response to P inputs. The availability is highly controlled by chemical sorption and desorption equilibria, and affected by the iron and aluminum oxides content of soils as well as the availability of oxygen. A phosphorus supply around 4.8 (unitless index, for maize and grassland fields) and 45 (mg P2O5 per liter, for arable fields)  is optimal for crop production.
+
+
+
 
