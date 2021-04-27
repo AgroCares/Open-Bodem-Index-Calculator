@@ -497,12 +497,12 @@ obic_field_dt <- function(dt,output = 'all') {
                       M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED,
                       M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,
                       M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST,
-                      ID = 1,output = 'all')
+                      ID = 1,output = output)
     
+    # return output
+    return(out)
   })
   
-  # return output
-  return(out)
 }
 
 
