@@ -870,6 +870,8 @@ An example of this function is illustrated below for both an sandy and a clay so
 ### Sealing Soil Surface and Wind Erodibility
 The vulnerability of soils to sealing and wind erosion is derived from those properties controlling the susceptibility for both risks. These include the clay content as well as the organic matter content, where the vulnerability for sealing is derived from field expert-based observations and associated yield depression (Huinink, 2018; Heeres en Van Erp, 1999) in particular for some arable crops. The presence of soil sealing can be estimated via the function `calc_sealing_risk` whereas the risk for soil erosion due to wind is estimated via the function `calc_winderodibility`. The wind erodibility can be estimated from the inputs land use, clay and silt content of the topsoil whereas the risk for sealing depends on the clay content as well as the organic matter content of the soil.
 
+Wind erosion is highly controlled by the mineralogical composition and texture as well as the presence of growing crops. Using laboratory experiments from wind tunnels, a exponential function has been developed to estimate the erodibility risk for soils, given the clay and silt content of a field. Grasslands are not susceptible for these two risks.
+
 For more details, see `?calc_sealing_risk` and `?calc_winderodibility`. 
 
 
@@ -935,6 +937,78 @@ An example of these functions is illustrated below for an arable soil with varia
   # plot side by side
   p1 + p2
   
+```
+
+
+### Aggregate Stability and Crumbleability
+Similarly to the vulnerability to sealing and wind erodiblity, the crumbleability of a soil (a measure for aggregate stability) as well as the potential risk for yield depressions (crop specific) can be derived from the clay content, the organic matter content and the pH (Huinink, 2011). Aggregate stability is additionally evaluated given the cation occupation of the cation exchange capacity. Clayey soils with 80% Ca, 8% Mg and about 3.5% K are recognized as soils with more stable aggregates due to the influence of electrostatic bindings of divalent cations. Within OBIC these two soil functions are calculated using `calc_crumbleability` and `calc_aggregatestability`.
+
+For more details, see `?calc_crumbleability` and `?calc_aggregatestability`. 
+
+
+```{r, results = FALSE, eval = FALSE}
+
+  # assess the crumbleability and aggregate stability
+  dt[, D_CR := calc_crumbleability(A_SOM_LOI, A_CLAY_MI,A_PH_CC)]
+  dt[, D_AS := calc_aggregatestability(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO)]
+ 
+
+```
+
+
+
+### Subsoil compaction
+The risk of subsoil compaction for each field was assessed using soil texture, land use and a soil compaction model SOCOMO. The model determines whether the usual wheel loads for that land use exceed the strength of the subsurface in wet or humid conditions. Subsequently it was determined on the basis of the soil properties and groundwater levels whether the subsurface is extra sensitive to compaction or whether natural recovery is possible due to, for example, drought shrinkage. Strength, land use and soil properties together determine the risk of subsoil compaction. The presence of subsoil compaction is derived from a national map with the estimated risk. As such, there is not calculation used. Recent field experimental data support the accuracy of this risk assessment map.
+
+Within the OBIC, this estimate can be adapted to local site specific insights derived from the Visual Soil Assessment Methodology. Visual soil assessments (VSA) asses soil quality in the field, by digging a hole and assess several soil quality indicators visually. Soil quality indicators are grass cover, number of roots, number of biopores, soil color, soil structure, soil compaction and number of gray spots. Visual soil assessments are more and more used by farmers in the Netherlands, but not specifically developed for various soil types. 
+
+Below is illustrated how the obic_field wrapper deals with the parameters derived from the VSA methodology. When scores are present for the presence of earthworms (A_EW_BCS), the occurence of subsurface compaction (A_SC_BCS), limited root development (A_RD_BCS), ponding in the spring (wet conditions after rainfall, A_P_BCS) and clear presence of visible tracks / rutting or trampling on the land (A_RT_BCS), then the original risk assessment map for subsoil compaction is overwritten the score for the relevant VSA indicators. Similarly, the soil aggregate stability is adapted when VSA indicators are available for earthworm density (A_EW_BCS), soil structure (A_SS_BCS) and presence of cracks in the topsoil (A_C_BCS).
+
+```{r, results = FALSE, eval = FALSE}
+
+    # overwrite soil physical functions for compaction when BCS is available
+    dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
+    dt[,D_P_CO := pmax(0, D_P_CO)]
+    dt[,I_P_CO := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
+    
+    # overwrite soil physical functions for aggregate stability when BCS is available
+    dt[,D_P_CEC := (3 * A_EW_BCS + 3 * A_SS_BCS - A_C_BCS)/12]
+    dt[,D_P_CEC := pmax(0, D_P_CEC)]
+    dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]
+```
+
+
+### Water retention in topsoil
+The review study of various soil healt instruments (Buneman et al., 2016) identifies a variety of indicators that can be used to gain more insight into the water retaining capacity of a soil. Frequently used indicators are the amount of plant-available water (14 x), the water holding capacity (11 x), the moisture content at field capacity (11 x) and the saturated permeability (10 x). These indicators can be measured or estimated indirectly via so-called pedotransfer functions (Wosten et al., 2001).  
+
+The OBIC includes functions to derive the following water-related indicators in function `calc_waterretention`:
+* the moisture content at wilting point and field capacity
+* The amount of plant available water (mm) 
+* the flow limit or porosity, also called water holding capacity, and
+* the saturated permeability.
+
+The basic indicator used in the OBIC is the amount of plant available water. The capacity of the soil to buffer water during the growing season is estimated from pedotransferfunctions (pdf) for plant available water in the topsoil. The default pdf is derived from a European database, and enables one to estimate the van Genuchten parameters for the pF-curve. Other options are also possible.
+
+For more details, see `?calc_waterretention`. 
+
+
+```{r, results = FALSE, eval = FALSE}
+
+  # estimate the plant available water in topsoil
+  dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
+  
+  # estimate the water holding capacity in topsoil
+  dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'water holding capacity')]
+  
+  # estimate the moisture content of the wilting point in topsoil
+  dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'wilting point')]
+  
+  # estimate the moisture content of the field capacity in topsoil
+  dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'field capacity')]
+  
+  # estimate the saturated permeability in topsoil
+  dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'Ksat')]
+
 ```
 
 
