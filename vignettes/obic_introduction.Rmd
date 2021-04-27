@@ -827,7 +827,7 @@ An example of this function is illustrated below for both an sandy and a clay so
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = value, x = ID, fill = stresstype)) + 
         geom_bar(stat='identity') +  theme_bw() + ylim(0,50)+
-        theme(legend.position = c(0.2,0.8),
+        theme(legend.position = c(0.3,0.8),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10)) +
         ylab('yield reduction (%)') + xlab('Field') + 
@@ -856,7 +856,7 @@ An example of this function is illustrated below for both an sandy and a clay so
   # plot output
   p2 <- ggplot(data = dt.test2,aes(y = value, x = B_GWL_CLASS, fill = stresstype)) + 
         geom_bar(stat='identity') +  theme_bw() + ylim(0,30)+
-        theme(legend.position = c(0.2,0.8),
+        theme(legend.position = c(0.3,0.8),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10)) +
         ylab('yield reduction (%)') + xlab('GWL_CLASS') + 
