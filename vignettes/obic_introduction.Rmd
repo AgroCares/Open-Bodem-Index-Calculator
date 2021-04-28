@@ -28,14 +28,14 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 ## an introduction
 
-To meet the demands of a growing population, agriculture continues to intensify, along with increasing and evolving impacts on crop growth, soil quality and environmental quality. There has been a great increase in world food production since the 1960s and an increase in per capita agricultural production, accompanied by a likewise increase in machinery and fertilizer use. Increased inputs of nitrogen and phosphorus to the soil however has also led to substantial negative impacts on biodiversity, drinking and surface water quality, and human health. Both the agronomic potential of cropping systems as well as the environmental impacts of agriculture are highly controlled by soil properties and its management. Soil health (or soil quality) refers to the capacity of soil to function as a living ecosystem that sustains plants, animals, and humans and support ecosystem services including agricultural production. Healthy soils are not just a growing medium for crops but they regulate and support a set of essential ecosystem services, such as water purification, carbon sequestration, nutrient cycling and they provide habitats for biodiversity. Improving and sustaining soil health is therefore key to sustainable crop production.
+To meet the demands of a growing population, agriculture continues to intensify, along with increasing and evolving impacts on crop growth, soil quality and environmental quality. There has been a great increase in world food production since the 1960s and an increase in per capita agricultural production, accompanied by a likewise increase in machinery and fertiliser use. Increased inputs of nitrogen and phosphorus to the soil however has also led to substantial negative impacts on biodiversity, drinking and surface water quality, and human health. Both the agronomic potential of cropping systems as well as the environmental impacts of agriculture are highly controlled by soil properties and its management. Soil health (or soil quality) refers to the capacity of soil to function as a living ecosystem that sustains plants, animals, and humans and support ecosystem services including agricultural production. Healthy soils are not just a growing medium for crops but they regulate and support a set of essential ecosystem services, such as water purification, carbon sequestration, nutrient cycling and they provide habitats for biodiversity. Improving and sustaining soil health is therefore key to sustainable crop production.
 
 Many attempts have been made to develop indices to assess soil quality as well as related ecosystem services (reviewed by Bünemann et al., 2018; Rinot et al., 2019). To date, most of this knowledge has not been implemented in decision support tools assisting farmers for monitoring and evaluation of soil quality on farm and field level. Explicit evaluation of soil quality with respect to soil threats, soil functions and ecosystem services has rarely been implemented, and few approaches provide clear interpretation schemes of measured indicator values. The main reason for this lack of valorisation, is that soil is a complex interplay of chemical, biological and physical processes and that the objectives for which the soil is used, have an enormous influence on the evaluation of soil quality. However, there is broad consensus that soil chemistry, soil structure, as well as soil biology, need to be considered for a good interpretation of soil quality. 
 
 In order to improve and maintain soil quality while supporting sustainable agronomic production as well as other soil ecosystems services, the Open Soil Index was initiated in 2018, an open source framework for assessing and valorising soil quality and sustainable soil management. Experts from universities, consultancy companies, soil experts and farmer groups collaborated to bring together existing data from routine soil laboratories, smart data retrieval from satellites, insights from fundamental and applied research in a transparent and scientifically underpinned soil assessment framework. The framework is highly influenced by the Soil Management Assessment Framework (Andrews & Carroll, 2001;Wienhold et al. 2004, 2009) and the proposed holistic, multivariate soil health framework from Rinot et al. (2019). 
 
 ## the Open Soil Index Framework
-Soil quality is defined as the capacity of a soil to fulfill the desired soil functions under varying conditions for a combination of purposes (and services) such as food production, efficient nutrient cycling and preservation of biodiversity. Soil ecosystem services are the different ecosystem services that soils can provide, being categorized as production, support, regulation and information services. Soil functions are quantitative relationships evaluating how soil properties alone or in combination with each other contribute to the aforementioned ecosystem services. Soil indicators are the result of an evaluation scoring methodology transforming the output of soil functions to a qualitative category (low to high) or a numeric grade (1-10). Soil and field properties are characteristics of a soil (or field) that are used to quantify the soil functions. These characteristics may have been analyzed in the laboratory as well as those resulting from the location of the field in the landscape. For example, the groundwater level, the variation in ground level, the slope, and the presence of drainage are soil properties, similar to the organic matter content, pH and clay content. Soil management includes all measures that land users or farmers can take to improve or adapt soil quality for a specific purpose. This has a direct influence on (measurable) soil properties. 
+Soil quality is defined as the capacity of a soil to fulfil the desired soil functions under varying conditions for a combination of purposes (and services) such as food production, efficient nutrient cycling and preservation of biodiversity. Soil ecosystem services are the different ecosystem services that soils can provide, being categorized as production, support, regulation and information services. Soil functions are quantitative relationships evaluating how soil properties alone or in combination with each other contribute to the aforementioned ecosystem services. Soil indicators are the result of an evaluation scoring methodology transforming the output of soil functions to a qualitative category (low to high) or a numeric grade (1-10). Soil and field properties are characteristics of a soil (or field) that are used to quantify the soil functions. These characteristics may have been analysed in the laboratory as well as those resulting from the location of the field in the landscape. For example, the groundwater level, the variation in ground level, the slope, and the presence of drainage are soil properties, similar to the organic matter content, pH and clay content. Soil management includes all measures that land users or farmers can take to improve or adapt soil quality for a specific purpose. This has a direct influence on (measurable) soil properties. 
 
 Within the boundary condition of context (i.e. continuation of crop rotation scheme in next decade) and objective (i.e. sustainable crop production), soil properties are quantified based on routinely available soil analyses, field properties and remote sensing data. The soil properties are in conjunction with each other used to quantify a number of soil functions. These functions can be clustered around the three relevant aspects of soil, namely i) chemistry and nutrient supply, ii) structure and root ability and iii) biology and disease resistance. Separately from these three aspects - each of which relies heavily on actual measurements - soil management is also evaluated. Furthermore, the soil's contribution to a sustainable living environment is first and foremost indirectly included as the following soil functions: the N buffering capacity for ground and surface water as well as for the potential to sequester carbon.
 The algorithms to evaluate and assess the quality of the soil originates from field experiments and evidence from fundamental as well as applied research. 
@@ -147,7 +147,7 @@ To assess the soil quality of an agricultural field, soil properties are used to
 Since the quality of a soil is evaluated given its crop rotation plan, soil type and geohydrological conditions, a few general derivative soil properties are estimated. These include the calculation of bulk density, rooting depth, organic carbon stocks, the age of grassland and the fraction that a crop contributes to the crop rotation plan. These general properties are explained below.
 
 ### Estimate bulk density
-Soil Bulk density is estimated via a pedotransferfunction using 'calc_bulk_density' currently used in Dutch fertilizer recommendation systems. It requires as input the agronomic soil type, the soil organic matter content and the clay content of the topsoil analyzed. For details see `?calc_bulk_density`. Generally, the bulk density declines with the soil organic matter level in the soil and is higher in sandy soils compared to clayey soils.
+Soil Bulk density is estimated via a pedotransferfunction using 'calc_bulk_density' currently used in Dutch fertiliser recommendation systems. It requires as input the agronomic soil type, the soil organic matter content and the clay content of the topsoil analysed. For details see `?calc_bulk_density`. Generally, the bulk density declines with the soil organic matter level in the soil and is higher in sandy soils compared to clayey soils.
 
 <br />
 
@@ -172,7 +172,7 @@ Soil Bulk density is estimated via a pedotransferfunction using 'calc_bulk_densi
 
 
 ### Estimate other general properties
-Agricultural soils are frequently analyzed in routine agricultural laboratories. In the Netherlands the soil layer analyzed, is the top 25cm of an arable soil and the first 10 cm of a grassland soil. To convert soil nutrient concentrations (mg / kg) to a hectare basis, one need to know the soil depth analyzed. The OBIC function for this is a rather simple one, `calc_root_depth` where the details can be found via `?calc_root_depth`. The only input required is the crop code.
+Agricultural soils are frequently analysed in routine agricultural laboratories. In the Netherlands the soil layer analysed, is the top 25cm of an arable soil and the first 10 cm of a grassland soil. To convert soil nutrient concentrations (mg / kg) to a hectare basis, one need to know the soil depth analysed. The OBIC function for this is a rather simple one, `calc_root_depth` where the details can be found via `?calc_root_depth`. The only input required is the crop code.
 
 The Carbon pool in soil (kg / ha) is subsequently calculated from the soil organic matter content, the bulk density and the sample depth via `calc_organic_carbon`. For details, see `?calc_organic_carbon`.
 
@@ -560,7 +560,7 @@ An example of this function is illustrated below for both an arable and a grassl
 ### Copper supply
 Copper (Cu) occurs in soil solution largely in a complexed form, mainly with dissolved organic matter. Root uptake of Cu probably occurs as free Cu ions (Cu2+). The availability of complexed Cu for uptake is lower than that of Cu2+ and depends on the stability of the complex. Complexation of Cu, however, may increase the mobility of Cu in soils. Besides complexation of Cu to dissolved or solid organic matter, Cu can be adsorbed to Fe-, Al- and Mn-(hydr)oxides and clay minerals. Cu desorbed from the mentioned soil components is available for uptake. The degree of adsorption increases at higher pH, which decreases the availability. Other factors that influence Cu availability are nitrogen and phosphate content. Nitrogen and Cu show positive interactions. Decreasing N use will lead to lower levels in crops. Phosphate can drive Cu away from the adsorption sites and this leads to Cu deficiency in the long run.
 
-The supply and availability of Cu depends on the plant available Cu-pool in soil (Cu-CaCl2) or the reactive Cu pool (Cu-HNO3) for both arable and grassland soils. The optimum value is derived from historical field experiments and is established on a level of 5 to 10 mg / kg. The risk of Cu deficiency can be calculated based on the Cu content in the soil and relevant soil characteristics that influence its availability. The following measurements are used to calculate Cu plant availability: land use, Cu-CaCl2, clay content, the organic matter content, and the plant extractable levels of K and Mn. The last soil properties are used for an empirical function to estimate Cu-HNO3 (the basis for fertilizer recommendations based on long-term field experiments) from Cu-CaCl2 (being currently measured in agricultural laboratories). In OBIC, one can make use of the function `calc_copper_availability`. The function requires the input mentioned above. 
+The supply and availability of Cu depends on the plant available Cu-pool in soil (Cu-CaCl2) or the reactive Cu pool (Cu-HNO3) for both arable and grassland soils. The optimum value is derived from historical field experiments and is established on a level of 5 to 10 mg / kg. The risk of Cu deficiency can be calculated based on the Cu content in the soil and relevant soil characteristics that influence its availability. The following measurements are used to calculate Cu plant availability: land use, Cu-CaCl2, clay content, the organic matter content, and the plant extractable levels of K and Mn. The last soil properties are used for an empirical function to estimate Cu-HNO3 (the basis for fertiliser recommendations based on long-term field experiments) from Cu-CaCl2 (being currently measured in agricultural laboratories). In OBIC, one can make use of the function `calc_copper_availability`. The function requires the input mentioned above. 
 
 For more details, see `?calc_copper_availability`. 
 
@@ -770,7 +770,7 @@ An example of this function is illustrated below for both an arable and a grassl
 
 
 ### Soil Cation Buffering
-For good crop growth, sufficient nutrients must be available. Besides the actual nutrient availability in soil solution, the capacity of a soil to buffer nutrients is important to identify potential bottlenecks for crop production. Fertilization is needed when the buffer capacity or speed of replenishment is insufficient. Soils can vary greatly in their buffer capacity.  To supply a crop with cations (K, Mg, Na, Ca etc.), the buffer capacity is strongly determined by the cation exchange complex (CEC). Cations are adsorbed to negatively charged soil particles (clay, organic matter and oxides) and these cations may become available through exchange. For example, a growing plant extracts K+ from the soil solution. The adsorption complex will start to resupply because the amount of K+ in the soil solution has decreased. Once again, a balance is established between the K+ concentration in the soil solution and the quantity of K+ adsorbed. In practice, soil with a higher CEC are usually more fertilize and there is a lower risk of cation deficiencies during growing season. A general rule of thumb for the optimum CEC in soil has been established around a CEC value of about 100 mmol+/kg. CEC levels below 30-40 mmol+/kg are characterized by substantial crop limitation whereas values above 100 has no positive impact any more. The scientific underpinning of these guidelines is still poor. In OBIC the soil fertility is positively assessed in relation to the CEC, whereas this can be evaluated with the OBIC function `calc_cec`.
+For good crop growth, sufficient nutrients must be available. Besides the actual nutrient availability in soil solution, the capacity of a soil to buffer nutrients is important to identify potential bottlenecks for crop production. Fertilisation is needed when the buffer capacity or speed of replenishment is insufficient. Soils can vary greatly in their buffer capacity.  To supply a crop with cations (K, Mg, Na, Ca etc.), the buffer capacity is strongly determined by the cation exchange complex (CEC). Cations are adsorbed to negatively charged soil particles (clay, organic matter and oxides) and these cations may become available through exchange. For example, a growing plant extracts K+ from the soil solution. The adsorption complex will start to resupply because the amount of K+ in the soil solution has decreased. Once again, a balance is established between the K+ concentration in the soil solution and the quantity of K+ adsorbed. In practice, soil with a higher CEC are usually more fertilize and there is a lower risk of cation deficiencies during growing season. A general rule of thumb for the optimum CEC in soil has been established around a CEC value of about 100 mmol+/kg. CEC levels below 30-40 mmol+/kg are characterized by substantial crop limitation whereas values above 100 has no positive impact any more. The scientific underpinning of these guidelines is still poor. In OBIC the soil fertility is positively assessed in relation to the CEC, whereas this can be evaluated with the OBIC function `calc_cec`.
 
 For more details, see `?calc_cec`. 
 
@@ -1083,7 +1083,7 @@ The PMN measured by routine laboratories in the Netherlands may be overestimated
 
 ### Disease resistance
 
-### Nematodes
+### Nematodes (WIP)
 Nematodes are small animals occurring in all ecotypes on Earth, so also in soil. There is a large variety of nematodes in soils, they vary amongst other things, in size, feeding habits, reproduction speed and life cycle. Plant parasitic nematodes (PPN) can reproduce in a range of host plants. Some nematodes have a specific host preference while other can reproduce in a large variety of plants. PPN can severely depress crop yields in vulnerable crops. Therefore, farmers can have their fields sampled to analyse which and how many nematodes occur.
 
 An indicator has been developed to assess to what degree plant parasitic nematode infections of a field can be limiting for crop production. 
@@ -1112,12 +1112,99 @@ A nematode parameter that is not entered is assumed to be 0. The severity of an 
 
 
 ## Calculate series of environmental soil functions
-The open soil index quantifies and evaluates a series of environmental soil functions related to xxxx. Soil environmental functions include xxxx.
+The open soil index quantifies and evaluates a series of environmental soil functions related to buffering. Soil environmental functions include nitrogen leaching and nitrogen runoff.
 
 ### N retention preventing N leaching
+The capacity of the soil to hold or move nitrogen in the form of nitrate (NO3^-) so that leaching of nitrate to groundwater is prevented is determined by the landuse, soiltype, groundwatertable, N application, and nitrogen supply capacity. Nitrate is either taken up by a crop, denitrified (under anaerobic conditions), leached or washed away (runoff).
+The potential for N leaching to groundwater for a soil can be calculated with calc_nleach(). For more details, see ?calc_nleach.
+
+```{r, results = FALSE, eval = FALSE}
+# calculate potential for N leaching to groundwater
+dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
+
+```
+
+Example of this function are given for some parcels with different attributes, as well as for different groundwatertables.
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # subset a serie of agricultural fields
+  dt.test <- binnenveld[ID %in% c(1,2,3,4,5)& YEAR == 2010]
+  
+    # estimate default properties needed to estimate NLV
+  dt.test[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]
+  dt.test[, D_RD := calc_root_depth(B_LU_BRP)]
+  dt.test[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
+  dt.test[, D_GA := calc_grass_age(ID, B_LU_BRP)]
+
+  # estimate nitrogen supply (kg N / ha)
+  dt.test[, D_NLV := calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)]
+
+  # estimate potential for N leaching
+  dt.test[, D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
+  
+    # estimate potential for N runoff
+  dt.test[, D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
+  
+   # plot output
+  p1 <- ggplot(data = dt.test, aes(y = D_NGW, x = ID, col = )) + 
+        geom_col() +  theme_bw()+ xlab('field') + ggtitle('Potential for N leaching')
+  p2 <- ggplot(data = dt.test, aes(y = D_NSW, x = ID, col = )) + 
+        geom_col() +  theme_bw()+ xlab('field') + ggtitle('Potential for N runoff')
+  p3 <- ggarrange(p1, p2, ncol = 2)
+  
+  
+  # Make example with different gwt's
+  dt.test2 <- rbindlist(list(OBIC::binnenveld[1],OBIC::binnenveld[1],OBIC::binnenveld[1],OBIC::binnenveld[1],OBIC::binnenveld[1]))
+  dt.test2 <- dt.test2[,B_GWL_CLASS := c('GtIII','GtIV', 'GtV', 'GtVI', 'GtVII')]
+
+      # estimate default properties needed to estimate NLV
+  dt.test2[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]
+  dt.test2[, D_RD := calc_root_depth(B_LU_BRP)]
+  dt.test2[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
+  dt.test2[, D_GA := calc_grass_age(ID, B_LU_BRP)]
+
+  # estimate nitrogen supply (kg N / ha)
+  dt.test2[, D_NLV := calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)]
+
+  # estimate potential for N leaching
+  dt.test2[, D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
+  
+    # estimate potential for N runoff
+  dt.test2[, D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
+  
+  p4 <- ggplot(data = dt.test2, aes(y = D_NGW, x = B_GWL_CLASS)) + 
+        geom_col() +  theme_bw()+ xlab('B_GWL_CLASS') + ggtitle('Potential for N leaching')
+  p5 <- ggplot(data = dt.test2, aes(y = D_NSW, x = B_GWL_CLASS)) + 
+        geom_col() +  theme_bw()+ xlab('B_GWL_CLASS') + ggtitle('Potential for N runoff')
+  p6 <- ggarrange(p4, p5, ncol = 2)
+    
+  p1+p4
+```
+
+These parameters are used by ind_nretention() to calculate an indicator score using a logistic evaluation function.
+```{r, results = FALSE, eval = FALSE}
+# calculate indicator for N leaching to groundwater
+dt[,D_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
+
+```
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # create example data
+  dt.test <- data.table(ngw = seq(0,30,2))
+  dt.test <- dt.test[, I_NGW := ind_nretention(ngw, 'gw')]
+  
+    # plot output
+  p <- ggplot(data = dt.test, aes(y = I_NGW, x = ngw)) + geom_line()  +
+    theme_bw() + xlab('Potential N leaching')
+  
+```
 
 ### N retention preventing N runoff
-
+something something runoff
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+p2+p5
+```
 
 
 
