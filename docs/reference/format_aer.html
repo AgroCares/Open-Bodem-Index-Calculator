@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Applicability range of measures, including literature based estimates, of effects on soil indicators — recom.obic • OBIC</title>
+<title>Convert possible B_AER_CBS values to standardized values — format_aer • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Applicability range of measures, including literature based estimates, of effects on soil indicators — recom.obic" />
-<meta property="og:description" content="This table defines the effects of 11 measures on soil indicators. 
-This table is used internally in obic_evalmeasure
-This table defines the effects of 11 measures on soil indicators" />
+<meta property="og:title" content="Convert possible B_AER_CBS values to standardized values — format_aer" />
+<meta property="og:description" content="This function formats information of Agricultural Economic Region so it can be understood by other OBIC functions" />
 
 
 
@@ -125,39 +123,25 @@ This table defines the effects of 11 measures on soil indicators" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Applicability range of measures, including literature based estimates, of effects on soil indicators</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/obic_recommendations.R'><code>R/obic_recommendations.R</code></a>, <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/tables.R'><code>R/tables.R</code></a></small>
-    <div class="hidden name"><code>recom.obic.Rd</code></div>
+    <h1>Convert possible B_AER_CBS values to standardized values</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/obic_format_inputs.R'><code>R/obic_format_inputs.R</code></a></small>
+    <div class="hidden name"><code>format_aer.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This table defines the effects of 11 measures on soil indicators. 
-This table is used internally in <code><a href='obic_evalmeasure.html'>obic_evalmeasure</a></code></p>
-<p>This table defines the effects of 11 measures on soil indicators</p>
+    <p>This function formats information of Agricultural Economic Region so it can be understood by other OBIC functions</p>
     </div>
 
-    <pre class="usage"><span class='va'>recom.obic</span>
+    <pre class="usage"><span class='fu'>format_aer</span><span class='op'>(</span><span class='va'>B_AER_CBS</span><span class='op'>)</span></pre>
 
-<span class='va'>recom.obic</span></pre>
-
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An object of class <code>data.table</code> (inherits from <code>data.frame</code>) with 3696 rows and 11 columns.</p>
-<p>A data.frame with 7040 rows and 11 columns:</p><dl>
-  <dt>m_nr</dt><dd><p>The ID number of measure</p></dd>
-  <dt>m_description</dt><dd><p>The description of measure</p></dd>
-  <dt>m_prio</dt><dd><p>weighing factor for measure. This is not used in the script.</p></dd>
-  <dt>m_treshold</dt><dd><p>Threshold value of the indicator value. This is not used in the script.</p></dd>
-  <dt>m_order</dt><dd><p>Order of measures. When scores are tie, the measure with a smaller number is chosen.</p></dd>
-  <dt>m_soilfunction</dt><dd><p>description of the OBIC indicator varialbe</p></dd>
-  <dt>indicator</dt><dd><p>Name of OBIC soil indicator variable</p></dd>
-  <dt>m_effect</dt><dd><p>Effect of measure on soil indicator. 3/2/1/0/-1</p></dd>
-  <dt>m_sector</dt><dd><p>type of agricultural sector: dairy/arable/vegetable/tree cultivation (in dutch)</p></dd>
-  <dt>m_soiltype</dt><dd><p>type of soil: sand/clay/peat/loess (in dutch)</p></dd>
-  <dt>m_applicability</dt><dd><p>is the measure applicable for combination of sector and soil (1/0)</p></dd>
-
-</dl>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>B_AER_CBS</th>
+      <td><p>(character) The agricultural economic region in the Netherlands (CBS, 2016)</p></td>
+    </tr>
+    </table>
 
 
   </div>
