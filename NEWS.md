@@ -1,5 +1,13 @@
 # Changelog OBIC
 
+## Version 1.4.0 2021-04-28
+
+### Changed
+* includes all changes in 1.1.0, 1.1.0, 1.2.0 and 1.3.0 for stable release
+
+### Added
+* includes all changes in 1.1.0, 1.1.0, 1.2.0 and 1.3.0 for stable release
+
 ## Version 1.3.0 2021-04-26
 
 ### Changed
@@ -7,7 +15,6 @@
 * very low Mg indicator values for maize are changed, plus tests updated
 * very low Mg indicator values for grassland on clay and peat, issue 84
 * evaluation and calculation for Cu are updated
-
 
 ### Added
 * obic_field_dt to run obic_field() for a data.table input 
