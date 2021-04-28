@@ -8,7 +8,9 @@
 * very low Mg indicator values for grassland on clay and peat, issue 84
 * evaluation and calculation for Cu are updated
 
+
 ### Added
+* obic_field_dt to run obic_field() for a data.table input 
 
 ## Version 1.2.0 2021-04-23 / 2021-04-26
 

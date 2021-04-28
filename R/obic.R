@@ -56,6 +56,7 @@
 #' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: yes or no)
 #' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
 #' @param ID (character) A field id
+#' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
 #' 
 #' @import data.table
 #' 
@@ -73,7 +74,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
-                       ID = 1) {
+                       ID = 1, output = 'all') {
   
   
   # define variables used within the function
@@ -415,11 +416,87 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.recom <- OBIC::obic_recommendations(dt.measure)
     
   #  Step 6 Combine all outputs into one ------------------
-    
+ 
     # combine both outputs
-    out <- data.table(out.ind,out.score,out.recom)
+    if(output == 'all'){out <- data.table(out.ind,out.score,out.recom)}
+    if(output == 'indicators'){out <- out.ind}
+    if(output == 'recommendations'){out <- out.recom}
+    if(output == 'scores'){out <- out.score}
+    if(output == 'obic_score'){out <- out.score[,'S_T_OBI_A']}
   
   # return output
   return(out)
 }
 
+#' Calculate the Open Bodem Index score for a single field
+#' 
+#' This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
+#' In contrast to obic_field, this wrapper can handle a data.table as input.
+#' 
+#' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
+#' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
+#' 
+#' @import data.table
+#' 
+#' @export
+obic_field_dt <- function(dt,output = 'all') {
+  
+  # make local copy
+  dt <- copy(dt)
+  
+  # Check inputs
+  checkmate::assert_data_table(dt)
+  
+  # column names in input
+  dt.cols <- colnames(dt)
+  
+  # column names mandatory
+  dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 'B_LU_BRP', 
+              'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC','A_CACO3_IF',
+              'A_N_RT','A_CN_FR','A_COM_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
+              'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
+              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
+  
+  # check input
+  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 29
+  
+  # check type of dt
+  checkmate::assert_true(dt.check)
+  
+  # check which BodemConditieScore input is missing
+  bcs.all <- c('A_C_BCS', 'A_CC_BCS','A_GS_BCS','A_P_BCS','A_RD_BCS','A_EW_BCS','A_SS_BCS','A_RT_BCS','A_SC_BCS')
+  bcs.missing <- bcs.all[!bcs.all %in% colnames(dt)]
+  
+  # check which Soil Measures input is missing
+  sm.all <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED',
+              'M_LIME', 'M_NONINVTILL', 'M_SSPM', 'M_SOLIDMANURE','M_STRAWRESIDUE','M_MECHWEEDS','M_PESTICIDES_DST')
+  sm.missing <- sm.all[!sm.all %in% colnames(dt)]
+  
+  # check if compost measure is missing
+  smc.all <- 'M_COMPOST'
+  smc.missing <- smc.all[!smc.all %in% colnames(dt)]
+  
+  # extend dt with missing elements, so that these are replaced by default estimates
+  if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
+  if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
+  if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
+  
+  # calculate obic_field
+  out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,dt$B_LU_BRP, 
+                    dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,dt$A_CACO3_IF,
+                    dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
+                    dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
+                    dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
+                    dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,
+                    dt$A_C_BCS, dt$A_CC_BCS,dt$A_GS_BCS,dt$A_P_BCS,dt$A_RD_BCS,
+                    dt$A_EW_BCS,dt$A_SS_BCS,dt$A_RT_BCS,dt$A_SC_BCS,
+                    dt$M_COMPOST,dt$M_GREEN, dt$M_NONBARE, dt$M_EARLYCROP, 
+                    dt$M_SLEEPHOSE,dt$M_DRAIN,dt$M_DITCH,dt$M_UNDERSEED,
+                    dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
+                    dt$M_STRAWRESIDUE,dt$M_MECHWEEDS,dt$M_PESTICIDES_DST,
+                    ID = 1,output = output)
+  
+  # return output
+  return(out)
+  
+}
