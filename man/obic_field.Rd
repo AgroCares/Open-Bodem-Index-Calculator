@@ -58,7 +58,8 @@ obic_field(
   M_STRAWRESIDUE = NA,
   M_MECHWEEDS = NA,
   M_PESTICIDES_DST = NA,
-  ID = 1
+  ID = 1,
+  output = "all"
 )
 }
 \arguments{
@@ -169,6 +170,8 @@ obic_field(
 \item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
 
 \item{ID}{(character) A field id}
+
+\item{output}{(character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)}
 }
 \description{
 This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI) for a single field.
