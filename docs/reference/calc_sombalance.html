@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -132,34 +132,34 @@
     <p>This function calculates a simple organic matter balance, as currently used in agricultural practice in the Netherlands.For more details, see www.os-balans.nl</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_sombalance</span>(<span class='no'>A_OS_GV</span>, <span class='no'>A_P_PAL</span>, <span class='no'>A_P_WA</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>M_M3</span>, <span class='no'>M_M6</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_sombalance</span><span class='op'>(</span><span class='va'>B_LU_BRP</span>, <span class='va'>A_SOM_LOI</span>, <span class='va'>A_P_AL</span>, <span class='va'>A_P_WA</span>, <span class='va'>M_COMPOST</span>, <span class='va'>M_GREEN</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A_OS_GV</th>
-      <td><p>(numeric) The organic matter content of the soil (in procent)</p></td>
+      <th>B_LU_BRP</th>
+      <td><p>(numeric) The crop code from the BRP</p></td>
     </tr>
     <tr>
-      <th>A_P_PAL</th>
+      <th>A_SOM_LOI</th>
+      <td><p>(numeric) The percentage organic matter in the soil (%)</p></td>
+    </tr>
+    <tr>
+      <th>A_P_AL</th>
       <td><p>(numeric) The P-AL content of the soil (in mg P2O5 per 100g)</p></td>
     </tr>
     <tr>
       <th>A_P_WA</th>
-      <td><p>(numeric) The P-water content of the soil (inmg P2O5 per Liter)</p></td>
+      <td><p>(numeric) The P-water content of the soil (in mg P2O5 per Liter)</p></td>
     </tr>
     <tr>
-      <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
-    </tr>
-    <tr>
-      <th>M_M3</th>
+      <th>M_COMPOST</th>
       <td><p>(numeric) The frequency that compost is applied (every x years)</p></td>
     </tr>
     <tr>
-      <th>M_M6</th>
-      <td><p>(boolean) are catch crops (groenbemesters) frequently used: yes or no</p></td>
+      <th>M_GREEN</th>
+      <td><p>(boolean) measure. are catchcrops sown after main crop (option: yes or no)</p></td>
     </tr>
     </table>
 
@@ -179,7 +179,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
