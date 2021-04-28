@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate effects of measures — obic_evalmeasure • OBIC</title>
+<title>Calculate the Open Bodem Index score for a single field — obic_field_dt • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Evaluate effects of measures — obic_evalmeasure" />
-<meta property="og:description" content="This function quantifies the effects of 11 soil measures on the OBI score" />
+<meta property="og:title" content="Calculate the Open Bodem Index score for a single field — obic_field_dt" />
+<meta property="og:description" content="This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
+In contrast to obic_field, this wrapper can handle a data.table as input." />
 
 
 
@@ -123,27 +124,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate effects of measures</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/obic_recommendations.R'><code>R/obic_recommendations.R</code></a></small>
-    <div class="hidden name"><code>obic_evalmeasure.Rd</code></div>
+    <h1>Calculate the Open Bodem Index score for a single field</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/obic.R'><code>R/obic.R</code></a></small>
+    <div class="hidden name"><code>obic_field_dt.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function quantifies the effects of 11 soil measures on the OBI score</p>
+    <p>This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
+In contrast to obic_field, this wrapper can handle a data.table as input.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>obic_evalmeasure</span><span class='op'>(</span><span class='va'>dt.score</span>, extensive <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>obic_field_dt</span><span class='op'>(</span><span class='va'>dt</span>, output <span class='op'>=</span> <span class='st'>"all"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dt.score</th>
-      <td><p>(data.table) containing all indicators and scores of a single field</p></td>
+      <th>dt</th>
+      <td><p>(data.table) A data.table containing the data of the fields to calculate the OBI</p></td>
     </tr>
     <tr>
-      <th>extensive</th>
-      <td><p>(boolean) whether the output table includes evaluation scores of each  measures (TRUE)</p></td>
+      <th>output</th>
+      <td><p>(character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)</p></td>
     </tr>
     </table>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate effects of measures — obic_evalmeasure • OBIC</title>
+<title>Nematode table — nema.obic • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Evaluate effects of measures — obic_evalmeasure" />
-<meta property="og:description" content="This function quantifies the effects of 11 soil measures on the OBI score" />
+<meta property="og:title" content="Nematode table — nema.obic" />
+<meta property="og:description" content="This table contains information uses for calculations on nematode species counts" />
 
 
 
@@ -123,29 +123,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate effects of measures</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/obic_recommendations.R'><code>R/obic_recommendations.R</code></a></small>
-    <div class="hidden name"><code>obic_evalmeasure.Rd</code></div>
+    <h1>Nematode table</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/tables.R'><code>R/tables.R</code></a></small>
+    <div class="hidden name"><code>nema.obic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function quantifies the effects of 11 soil measures on the OBI score</p>
+    <p>This table contains information uses for calculations on nematode species counts</p>
     </div>
 
-    <pre class="usage"><span class='fu'>obic_evalmeasure</span><span class='op'>(</span><span class='va'>dt.score</span>, extensive <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>nema.obic</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>dt.score</th>
-      <td><p>(data.table) containing all indicators and scores of a single field</p></td>
-    </tr>
-    <tr>
-      <th>extensive</th>
-      <td><p>(boolean) whether the output table includes evaluation scores of each  measures (TRUE)</p></td>
-    </tr>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data.frame with 126 rows and 6 columns:</p><dl>
+  <dt>geel</dt><dd><p>The intermediate infestation severity count</p></dd>
+  <dt>rood</dt><dd><p>The count at which a severe infestation is present</p></dd>
+  <dt>species</dt><dd><p>The species or sometimes genera of the plant parasitic nematode</p></dd>
+  <dt>standard</dt><dd><p>A boolean indicating whether the species should always be used in calculating the indicator score, regardless of the number of nematodes</p></dd>
+  <dt>b</dt><dd><p>Growth rate (b) for the evaluate_logistics function</p></dd>
+  <dt>v</dt><dd><p>v for the evaluate_logistics function, affects the growth rate near the maximum</p></dd>
+
+</dl>
 
 
   </div>
