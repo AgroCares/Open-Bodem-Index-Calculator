@@ -19,7 +19,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 ```{r setup, include = FALSE}
 
   # load packages
-  library(OBIC); library(data.table); library(ggplot2);require(patchwork)
+  library(OBIC); library(data.table); library(ggplot2);require(patchwork); library(ggpubr)
 
   # load binnenveld data.table
   binnenveld <- as.data.table(OBIC::binnenveld)
@@ -1017,11 +1017,75 @@ For more details, see `?calc_waterretention`.
 ## Calculate series of biological soil functions
 The open soil index quantifies and evaluates a series of soil biological functions related to the composition of the microbiome, suppression of soil borne pests and plagues and plant parasitic nematodes.
 
-### Potentially mineralizable Nitrogen
+### Potentially mineralizable nitrogen
+The activity of soil fungi and bacteria has been measured via incubation trials for decades. In such incubation trials, the decomposition of soil organic nitrogen is measured over a period of time. The amount of nitrogen that mineralises in such trials is called the 'potential mineralisable nitrogen'(PMN). This indicates the ability of the soil to provide a crop with readily available nitrogen. In the Netherlands, this parameter is also used as an indicator for activity of soil microbes. This is possible because during the incubation, a soil sample is submerged in water, creating an anerobic enviroment, killing aerobic bacteria and fungi, which, together with some labile organic matter, are decomposed by anerobic soil microbes.
+
+
+
+For more information see `?calc_pmn`.
+
+```{r, results = FALSE, eval = FALSE}
+
+  # calculate the index for the potential mineralisable nitrogen pool
+  dt[, D_PMN := calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)]
+
+
+```
+
+The PMN measured by routine laboratories in the Netherlands may be overestimated. Therefore, a landusedependent correction factor is used. The PMN index is capped at 500. Below an example of this function is given.
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # define test data table with increasing PMN and different land uses
+  dt.test <- data.table(B_LU_BRP = c(rep(265,12), rep(234,12)), B_SOILTYPE_AGR = 'rivierklei',A_N_PMN = rep(seq(0,550,50),2), A_N_PMN2 = rep(seq(0,220,20),2))
+  dt.test2 <- data.table(B_LU_BRP = c(rep(265,12), rep(234,12)), B_SOILTYPE_AGR = 'dekzand',A_N_PMN = rep(seq(0,550,50),2), A_N_PMN2 = rep(seq(0,220,20),2))
+  dt.test <- rbindlist(list(dt.test, dt.test2))
+  
+  # Add unique identifyer
+  id <- as.data.table(unique(dt.test[,.(B_LU_BRP, B_SOILTYPE_AGR)]))
+  id <- id[,landuse := fifelse(B_LU_BRP == 265 & B_SOILTYPE_AGR == 'rivierklei', 'grass or maize on clay', fifelse(
+    B_LU_BRP == 265 & B_SOILTYPE_AGR == 'dekzand', 'grass or maize on sand', fifelse(
+      B_LU_BRP == 234 & B_SOILTYPE_AGR == 'rivierklei', 'arable on clay', 'arable on sand')
+  ))]
+  dt.test <- merge.data.table(dt.test, id, by = c('B_LU_BRP', 'B_SOILTYPE_AGR'))
+  
+  # Calculate PMN index
+  dt.test <- dt.test[,D_PMN := calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)]
+
+  # plot output
+  p1 <- ggplot(data = dt.test,
+               aes(y = D_PMN, x = A_N_PMN, group = landuse, colour = landuse)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10),
+              legend.position = c(0.75,0.15))+
+        ylab('PMN index') + xlab('Microbial actitivy') +
+        ggtitle('Relationship between measured PMN and\n adjusted PMN index') 
+
+  # calculate indicator with A_PMN2 (which has lower numbers)
+  dt.test <- dt.test[, I_PMN2 := ind_pmn(calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN2))]
+  
+  # Plot indicator
+    p2 <- ggplot(data = dt.test,
+               aes(y = I_PMN2, x = A_N_PMN2, group = landuse, colour = landuse)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10),
+              legend.position = c(0.75,0.15))+
+        ylab('PMN indicator score') + xlab('Microbial actitivy') +
+        ggtitle('Relationship between measured PMN and PMN\n indicator score') 
+    
+  # plot side by side
+  p <- ggarrange(p1, p2, ncol = 2, common.legend = TRUE)
+  p
+  
+```
 
 ### Disease resistance
 
 ### Nematodes
+
+
 
 ### Earthworm density (from VSA)
 
