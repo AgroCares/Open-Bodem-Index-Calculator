@@ -4,10 +4,10 @@
 \alias{calc_organic_carbon}
 \title{Calculate amount of organic carbon}
 \usage{
-calc_organic_carbon(A_OS_GV, D_BDS, D_RD)
+calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)
 }
 \arguments{
-\item{A_OS_GV}{(numeric) The percentage organic matter in the soil}
+\item{A_SOM_LOI}{(numeric) The percentage organic matter in the soil}
 
 \item{D_BDS}{(numeric) The bulk density of the soil}
 

@@ -1,0 +1,162 @@
+﻿column;type;description_nl;description_en;unit;method
+A_CLAY_MI;measurement;Kleigehalte;Clay content;%;
+A_SAND_MI;measurement;Zandgehalte;Sand content;%;
+A_SILT_MI;measurement;Siltgehalte;Silt content;%;
+A_CACO3_IF;measurement;Koolzure kalk;Carbonated lime;%;
+A_SOM_LOI;measurement;Organische stof;Organic matter;%;
+A_COM_FR;measurement;C-fractie Organische stof;C fraction organic matter;-;
+A_CN_FR;measurement;CN ratio;CN ratio;-;
+A_PH_CC;measurement;zuurgraad (pH);acidity (pH);-;
+A_CEC_CO;measurement;kationomwisselcapaciteit;Cation exchange capacity;mmol+/kg;
+A_K_CO_PO;measurement;K-bezetting CEC;K occupancy CEC;%;
+A_K_CC;measurement;K-CaCl2;K-CaCl2;mg K /kg;CaCl2 extraction
+A_CA_CO_PO;measurement;Ca-bezetting CEC;Ca occupancy CEC;%;
+A_MG_CO_PO;measurement;Mg-bezetting CEC;Mg occupancy CEC;%;
+A_MN_CC;measurement;Mn-plantbeschikbaar;Mn plant available;ug Mn/ kg;CaCl2 extraction
+A_CU_CC;measurement;Cu-plantbeschikbaar;Cu plant available;ug Cu/ kg;CaCl2 extraction
+A_ZN_CC;measurement;Zn-plantbeschikbaar;Zn plant available;ug Zn/ kg;CaCl2 extraction
+A_N_RT;measurement;N-totaal bodemvoorraad;N soil reserves ;mg N/ kg;
+A_P_AL;measurement;P-bodemvoorraad;P soil reserves;mg P2O5/100 g;
+A_P_CC;measurement;P-plantbeschikbaar;P plant available;mg P/kg;CaCl2 extraction
+A_P_WA;measurement;P-water;P water;mg P2O5/L;
+A_MG_CC;measurement;Mg-plantbeschikbaar;Mg plant available;mg Mg/kg;
+A_S_RT;measurement;S-totaal bodemvoorraad;S soil reserves;mg S/kg;
+A_N_PMN;measurement;Microbiele activiteit;Microbial activity;mg N/ kg;
+A_C_MB;measurement;Microbiele Biomassa;Microbial biomass;mg C/kg;
+A_FB_FR;measurement;Ratio schimmels en bacterien;Ratio of fungi and bacteria;-;
+A_EW_BCS;measurement;Regenwormen;Earth worms;score 1-10;BodemConditieScore
+A_C_BCS;measurement;Aanwezigheid van scheuren;Cracks;score 1-10;BodemConditieScore
+A_CC_BCS;measurement;Gewasbedekking;Crop cover;score 1-10;BodemConditieScore
+A_GS_BCS;measurement;Aantal gekleurde vlekken;Gley spots;score 1-10;BodemConditieScore
+A_P_BCS;measurement;Plasvorming;Ponding;score 1-10;BodemConditieScore
+A_RD_BCS;measurement;Beworteling;Root depth;score 1-10;BodemConditieScore
+A_RT_BCS;measurement;Spoorvorming/ vertrapping;Rutting / trampling;score 1-10;BodemConditieScore
+A_SC_BCS;measurement;Verdichting ondergrond;Subsoil compaction;score 1-10;BodemConditieScore
+A_SS_BCS;measurement;Bodemstructuur;Soil structure;score 1-10;BodemConditieScore
+B_GWL_CLASS;measurement;Grondwatertrap;Groundwater level;-;
+B_BT_BK;measurement;Bodemtype;Bodemtype;-;bodemkaart 1:50000
+B_SOILTYPE_AGR;measurement;Bodemtype Agronomische Classificering;Bodemtype Agronomische Classificering;-;
+B_LU_BRP;measurement;Gewascode;Crop cod;-;BRP
+B_LU;measurement;Bouwland of Grasland;Arable land or Grassland;-;
+B_AER_CBS;measurement;Landbouweconomisch kerngebied 2016;Key agricultural area 2016;-;CBS
+B_SC_WENR;measurement;Risico op ondergrondverdichting;Risk of soil compaction;-;WENR
+B_HELP_WENR;measurement;Grondsoortcode HELP-tabel;Ground type code HELP table;-;WENR
+D_BDS;derivative;Dichtheid;The bulk density of the soil;kg / m3;
+D_RD;derivative;Bemonsteringsdiepte;The agronomic used sampling depth for soil analysis;m;
+D_OC;derivative;Koolstofvoorraad;The amount of organic carbon;kg C /ha;
+D_SOM_BAL;derivative;EOS-balans;net Effective Organic Matter balance;kg EOS / ha;
+D_GA;derivative;Leeftijd grasland;The average age of the grass;yr;
+D_CP_STARCH;derivative;Fractie zetmeelaardappelen in rotatie;The fraction of starch in crop rotation;-;
+D_CP_POTATO;derivative;Fractie consumptieaardappelen in rotatie;The fraction of potato in crop rotation;-;
+D_CP_SUGARBEET;derivative;Fractie suikerbiet in rotatie;The fraction of sugarbeet in crop rotation;-;
+D_CP_GRASS;derivative;Fractie grasland in rotatie;The fraction of grass in crop rotation;-;
+D_CP_MAIS;derivative;Fractie maïs in rotatie;The fraction of mais in crop rotation;-;
+D_CP_OTHER;derivative;Fractie overige gewassen in rotatie;The fraction of other in crop rotaton;-;
+D_CP_RUST;derivative;Fractie rustgewassen;"The fraction ""crops improving soil quality""";-;
+D_CP_RUSTDEEP;derivative;Fractie diep wortelende rustgewassen;The fraction of deep rooting crops;-;
+D_PH_DELTA;derivative;De advies-pH;The difference with the optimum pH;-;
+D_NLV;derivative;Stikstoflevering;The nitrogen supply capacity;kg N / ha;
+D_CEC;derivative;kationbuffercapaciteit;the cation buffer capacity;mmol+/kg;
+D_PBI;derivative;P-beschikbaarheidsindex;P availability index;-;
+D_SLV;derivative;Zwavellevering;Sulphur;kg S/ha;
+D_K;derivative;Kaliumlevering;potassium availability;index;
+D_MG;derivative;Magnesiumbuffering;Magnesium;index;
+D_CU;derivative;Koperbeschikbaarheid;Copper;index;
+D_ZN;derivative;Zinkbeschikbaarheid;Zinc;index;
+D_PMN;derivative;Activiteit bodemleven;Soil life activity;mg N/kg;
+D_SE;derivative;Versplemping;The risk of soil sealing;-;
+D_CR;derivative;Verkruimelbaarheid;The crumbleability of the soil;-;
+D_WE;derivative;Verstuivingsrisico;Wind erodibility;-;
+D_AS;derivative;Aggregaatstabiliteit;Aggregate stability;-;
+D_WSI_DS;derivative;Droogteschade;Drougthstress;%;
+D_WSI_WS;derivative;Natschade;Wetnessstress;%;
+D_WRI;derivative;Plant beschikbaar water;Water retention;mm;
+D_WO;derivative;Bewerkbaarheid;Workability;-;
+D_MAN;derivative;Evaluatie management conform LDBB;Management evaluation ;-;
+D_BCS;derivative;BodemConditieScore;Visual Soil Assessment Score;-;
+D_NGW;derivative;N  vasthoudend vermogen voor grondwater;Nitrogen retention for ground water;-;
+D_NSW;derivative;N vasthoudend vermogen voor oppervlaktewater;Nitrogen retention for surface water;-;
+I_C_N;indicator;Stikstoflevering;Nitrogen;-;
+I_C_P;indicator;Fosfaatbuffering;Phosphorus;-;
+I_C_K;indicator;Kaliumlevering;Potassium;-;
+I_C_MG;indicator;Magnesiumbuffering;Magnesium;-;
+I_C_S;indicator;Zwavellevering;Sulphur;-;
+I_C_PH;indicator;Zuurgraad;pH;-;
+I_C_CEC;indicator;Kationbuffering;CEC;-;
+I_C_CU;indicator;Koperbeschikbaarheid;Copper;-;
+I_C_ZN;indicator;Zinkbeschikbaarheid;Zinc;-;
+I_P_CR;indicator;Verkruimelbaarheid;Crumbleability;-;
+I_P_SE;indicator;Verslemping;Soil sealing;-;
+I_P_DS;indicator;Droogteschade;Drougthstress;-;
+I_P_WS;indicator;Natschade;Wetnessstress;-;
+I_P_DU;indicator;Verstuifingsrisico;Dustiness;-;
+I_P_CO;indicator;Ondergrondverdichting;Compaction;-;
+I_P_WRI;indicator;Plant beschikbaar water;Water retention;-;
+I_P_CEC;indicator;Aggregaatstabiliteit;Aggregate stability;-;
+I_P_WO;indicator;Bewerkbaarheid;Workability;-;
+I_B_DI;indicator;Ziektewerendheid;Disease / pest resistance;;
+I_B_SF;indicator;Activiteit bodemleven;Soil life activity;;
+I_E_NGW;indicator;N  vasthoudend vermogen voor grondwater;Nitrogen retention for ground water;;
+I_E_NSW;indicator;N vasthoudend vermogen voor oppervlaktewater;Nitrogen retention for surface water;;
+I_M;indicator;Label Duurzaam Bodembeheer;Soil management evaluation;;
+I_BCS;indicator;BodemConditieScore;Visual Soil Condition Score;;
+I_B_EW_BCS;indicator;Regenwormen;Earth worms;;
+I_P_C_BCS;indicator;Aanwezigheid van scheuren;Cracks;;
+I_P_CC_BCS;indicator;Gewasbedekking;Crop cover;;
+I_P_GS_BCS;indicator;Aantal gekleurde vlekken;Gley spots;;
+I_P_P_BCS;indicator;Plasvorming;Ponding;;
+I_P_RD_BCS;indicator;Beworteling;Root depth;;
+I_P_RT_BCS;indicator;Spoorvorming/ vertrapping;Rutting / trampling;;
+I_P_SC_BCS;indicator;Verdichting ondergrond;Subsoil compaction;;
+I_P_SS_BCS;indicator;Bodemstructuur;Soil structure;;
+I_M_LIME;indicator;Is perceel in afgelopen 3 jaar bekalkt;Has field been limed in last three years;;
+I_M_GREEN;indicator;Gebruik groenbemesters;Use of green manure;;
+I_M_COMPOST;indicator;Frequentie compostgebruik;Frequency of compost application;;
+I_M_NONBARE;indicator;Is het perceel 80% van het jaar groen;Field 80% of the year green;;
+I_M_EARLYCROP;indicator;wordt berijding in het najaar vermeden (vroege rassen);Use of early crops;;
+I_M_SLEEPHOSE;indicator;wordt drijfmest toegediend via sleepslangbemesting;Manure application using sleep hoses;;
+I_M_DRAIN;indicator;is er onderwaterdrainage aangelegd (veen);Under water drains available;;
+I_M_DITCH;indicator;worden sloten op diepte gehouden en het bagger benut;Ditch is cleaned and sludge is applied;;
+I_M_UNDERSEED;indicator;is er grasonderzaai in mais toegepast;Underseed of grass at maize;;
+I_M_NONINVTILL;indicator;Niet Kerende Grondbewerking;Non inversion tillage;;
+I_M_SSPM;indicator;worden er bodemstructuur beschermende maatregelen genomen (vaste rijpaden, lage bandenspanning, lage wiellast)?;Soil Structure Protection Measures;;
+I_M_SOLIDMANURE;indicator;gebruik vaste mest boven drijfmest en kunstmest;Use of solid manure;;
+I_M_STRAWRESIDUE;indicator;wordt stro ondergewerkt;Application of straw residues;;
+I_M_MECHWEEDS;indicator;mechanische onkruidbestrijding;Use of mechanical weed protection;;
+I_M_PESTICIDES_DST;indicator;beslissingsondersteunde systemen gewasbescherming;Use of DST for pesticides;;
+M_LIME;measurement;Is perceel in afgelopen 3 jaar bekalkt;Has field been limed in last three years;ja/nee;
+M_GREEN;measurement;Gebruik groenbemesters;Use of green manure;ja/nee;
+M_COMPOST;measurement;Frequentie compostgebruik;Frequency of compost application;;
+M_NONBARE;measurement;Is het perceel 80% van het jaar groen;Field 80% of the year green;ja/nee;
+M_EARLYCROP;measurement;wordt berijding in het najaar vermeden (vroege rassen);Use of early crops;ja/nee;
+M_SLEEPHOSE;measurement;wordt drijfmest toegediend via sleepslangbemesting;Manure application using sleep hoses;ja/nee;
+M_DRAIN;measurement;is er onderwaterdrainage aangelegd (veen);Under water drains available;ja/nee;
+M_DITCH;measurement;worden sloten op diepte gehouden en het bagger benut;Ditch is cleaned and sludge is applied;ja/nee;
+M_UNDERSEED;measurement;is er grasonderzaai in mais toegepast;Underseed of grass at maize;ja/nee;
+M_NONINVTILL;measurement;Niet Kerende Grondbewerking;Non inversion tillage;ja/nee;
+M_SSPM;measurement;worden er bodemstructuur beschermende maatregelen genomen (vaste rijpaden, lage bandenspanning, lage wiellast)?;Soil Structure Protection Measures;ja/nee;
+M_SOLIDMANURE;measurement;gebruik vaste mest boven drijfmest en kunstmest;Use of solid manure;ja/nee;
+M_STRAWRESIDUE;measurement;wordt stro ondergewerkt;Application of straw residues;ja/nee;
+M_MECHWEEDS;measurement;mechanische onkruidbestrijding;Use of mechanical weed protection;ja/nee;
+M_PESTICIDES_DST;measurement;beslissingsondersteunde systemen gewasbescherming;Use of DST for pesticides;ja/nee;
+S_C_OBI_A;score;Bodemchemische score;Chemical OBI score absolute;-;
+S_P_OBI_A;score;Bodemfysische score;Physical OBI score absolute;-;
+S_B_OBI_A;score;Bodembiologische score;Biological OBI score absolute;-;
+S_M_OBI_A;score;Management score;Management OBI score absolute;-;
+S_E_OBI_A;score;Milieu score;Environment OBI score absolute;-;
+S_T_OBI_A;score;Totale OBI-score;OBI score absolute;-;
+S_C_OBI_R;score;Bodemchemische score;Chemical OBI score relative;-;
+S_P_OBI_R;score;Bodemfysische score;Physical OBI score relative;-;
+S_B_OBI_R;score;Bodembiologische score;Biological OBI score relative;-;
+S_M_OBI_R;score;Management score;Management OBI score relative;-;
+S_E_OBI_R;score;Milieu score;Environment OBI score relative;-;
+S_T_OBI_R;score;Totale OBI-score;OBI score relative;-;
+RM_C_1;recommendation;Advies 1;First chemical recommended measure ID;;
+RM_C_2;recommendation;Advies 2;Second chemical recommended measure ID;;
+RM_C_3;recommendation;Advies 3;Third chemical recommended measure ID;;
+RM_P_1;recommendation;Advies 1;First physical recommended measure ID;;
+RM_P_2;recommendation;Advies 2;Second physical recommended measure ID;;
+RM_P_3;recommendation;Advies 3;Third physical recommended measure ID;;
+RM_B_1;recommendation;Advies 1;First biological recommended ID;;
+RM_B_2;recommendation;Advies 2;Second biological recommended ID;;
+RM_B_3;recommendation;Advies 3;Third biological recommended ID;;

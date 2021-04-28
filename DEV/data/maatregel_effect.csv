@@ -1,0 +1,313 @@
+maatregel_nr,omschrijving,Prio_M,Dremp_S,Order,Bodemfunctie / indicator,OBICvariable,Ef_M_pre,Ef_M,filter,melkveehouderij_alleen_gras,melkveehouderij_incl_mais_naast_gras,akkerbouw,groente,boomteelt,klei,veen,zand,loss
+1,bodem bekalken tot advies-pH,1,NA,1,chemie algemeen,S_C,++,++,2,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,NA,1,biologie algemeen,S_B,+,+,2,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,NA,1,structuur algemeen,S_P,+,+,2,1,1,1,1,1,1,0,0,0
+1,bodem bekalken tot advies-pH,1,NA,1,structuur algemeen,S_P,+,+,2,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.6,1,N-levering,I_C_N,+,+,2,1,1,0,0,0,0,1,0,0
+1,bodem bekalken tot advies-pH,1,0.6,1,N-levering,I_C_N,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,NA,1,organischestof,NA,(-),-,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.6,1,P-beschikbaarheid,I_C_P,+,+,2,1,1,0,0,0,0,1,0,0
+1,bodem bekalken tot advies-pH,1,0.6,1,P-beschikbaarheid,I_C_P,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.6,1,K-beschikbaarheid,I_C_K,-,-,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.6,1,Mg-beschikbaarheid,I_C_MG,(-/+),0,1,0,0,1,1,1,0,0,0,0
+1,bodem bekalken tot advies-pH,1,0.6,1,S-levering,I_C_S,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.6,1,pH,I_C_PH,+++,+++,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.6,1,CEC,I_C_CEC,0,0,1,0,0,0,0,0,0,0,0,0
+1,bodem bekalken tot advies-pH,1,NA,1,metalen,"I_C_CU, I_C_ZN",+,+,2,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.6,1,metalen Cu,I_C_CU,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.6,1,metalen Zn,I_C_ZN,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,verkruimelbaarheid,I_P_CR,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,slempgevoeligheid,I_P_SE,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,vochtvoorziening,I_P_MS,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,vochtvoorziening2,I_P_WRI,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,draagkracht,I_P_BC,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,stuifgevoeligheid,I_P_DU,0,0,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,verdichting,I_P_CO,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,ziekteplaagwering,I_B_DI,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,NA,1,bodemgezondheid,NA,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,bodemleven,I_B_SF,+,+,1,1,1,0,0,0,0,1,0,0
+1,bodem bekalken tot advies-pH,1,0.7,1,bodembiodiversiteit,I_B_SB,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,NA,1,regenwormen,I_B_X,+,+,2,1,1,0,0,0,0,1,0,0
+1,bodem bekalken tot advies-pH,1,NA,1,regenwormen,I_B_X,+,+,1,1,1,1,1,1,1,1,1,1
+1,bodem bekalken tot advies-pH,1,0.7,1,aggregatstabiliteit,I_P_CEC,+,+,1,1,1,1,1,1,1,1,1,1
+2,Compost aanvoeren,1,NA,3,chemie algemeen,S_C,+,+,2,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,NA,3,chemie algemeen,S_C,0,0,2,0,0,0,1,0,0,0,0,1
+2,Compost aanvoeren,1,NA,3,biologie algemeen,S_B,++,++,2,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,NA,3,biologie algemeen,S_B,0,0,2,0,0,0,1,0,0,0,0,1
+2,Compost aanvoeren,1,NA,3,structuur algemeen,S_P,+,+,2,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.6,3,N-levering,I_C_N,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.6,3,N-levering,I_C_N,0,0,2,0,0,0,1,0,0,0,0,1
+2,Compost aanvoeren,1,NA,3,organischestof,NA,++,++,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,NA,3,organischestof,NA,++,++,2,0,0,0,1,0,0,0,0,1
+2,Compost aanvoeren,1,0.6,3,P-beschikbaarheid,I_C_P,0,0,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.6,3,P-beschikbaarheid,I_C_P,0,0,2,0,0,0,1,0,0,0,0,1
+2,Compost aanvoeren,1,0.6,3,K-beschikbaarheid,I_C_K,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.6,3,K-beschikbaarheid,I_C_K,0/-,0,2,0,0,0,1,0,0,0,0,1
+2,Compost aanvoeren,1,0.6,3,Mg-beschikbaarheid,I_C_MG,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.6,3,Mg-beschikbaarheid,I_C_MG,0/+,0,2,0,0,0,1,0,0,0,0,1
+2,Compost aanvoeren,1,0.6,3,S-levering,I_C_S,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.6,3,pH,I_C_PH,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.6,3,CEC,I_C_CEC,+,+,1,1,1,1,1,1,0,0,1,0
+2,Compost aanvoeren,1,NA,3,metalen,"I_C_CU, I_C_ZN",+,+,2,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.6,3,metalen Cu,I_C_CU,+,0,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.6,3,metalen Zn,I_C_ZN,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.7,3,verkruimelbaarheid,I_P_CR,+,+,1,0,1,1,1,1,1,0,0,0
+2,Compost aanvoeren,1,0.7,3,slempgevoeligheid,I_P_SE,+,+,1,0,1,1,1,1,0,0,0,1
+2,Compost aanvoeren,1,0.7,3,vochtvoorziening,I_P_MS,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.7,3,vochtvoorziening2,I_P_WRI,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.7,3,draagkracht,I_P_BC,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.7,3,stuifgevoeligheid,I_P_DU,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.7,3,verdichting,I_P_CO,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.7,3,ziekteplaagwering,I_B_DI,++,++,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,NA,3,bodemgezondheid,NA,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.7,3,bodemleven,I_B_SF,++,++,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,0.7,3,bodembiodiversiteit,I_B_SB,+,+,1,,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,NA,3,regenwormen,I_B_X,+,+,1,0,1,1,1,1,1,0,1,1
+2,Compost aanvoeren,1,NA,3,regenwormen,I_B_X,0,0,2,0,0,0,1,0,0,0,0,1
+2,Compost aanvoeren,1,0.7,3,aggregatstabiliteit,I_P_CEC,0/+,0,1,0,1,1,1,0,1,1,1,1
+3,niet-kerende grondbewerking,1,NA,10,chemie algemeen,S_C,+,+,2,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,NA,10,biologie algemeen,S_B,++,++,2,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,NA,10,structuur algemeen,S_P,+,+,2,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.6,10,N-levering,I_C_N,"""+""-""",0,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,NA,10,organischestof,NA,"""+ toplaag, - diepte""",+,0,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.6,10,P-beschikbaarheid,I_C_P,"""+ toplaag""",+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.6,10,K-beschikbaarheid,I_C_K,++,++,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.6,10,Mg-beschikbaarheid,I_C_MG,0,0,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.6,10,S-levering,I_C_S,0,0,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.6,10,pH,I_C_PH,0,0,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.6,10,CEC,I_C_CEC,+,+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,NA,10,metalen,"I_C_CU, I_C_ZN",+,+,2,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.6,10,metalen Cu,I_C_CU,+,+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.6,10,metalen Zn,I_C_ZN,+,+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,verkruimelbaarheid,I_P_CR,+,+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,slempgevoeligheid,I_P_SE,+,+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,vochtvoorziening,I_P_MS,+,+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,vochtvoorziening2,I_P_WRI,+,+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,draagkracht,I_P_BC,0,0,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,stuifgevoeligheid,I_P_DU,+,+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,verdichting,I_P_CO,+/-,0,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,aggregatstabiliteit,I_P_CEC,++,++,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,ziekteplaagwering,I_B_DI,"""- korte termijn, + lange termijn""",0,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,NA,10,bodemgezondheid,NA,+,+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,bodemleven,I_B_SF,++,++,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,0.7,10,bodembiodiversiteit,I_B_SB,"""+/-""; +",+,1,0,1,1,1,0,1,0,1,1
+3,niet-kerende grondbewerking,1,NA,10,regenwormen,I_B_X,++,++,1,0,1,1,1,0,1,0,1,1
+4,afrikaantjes (tagetes) verbouwen,1,NA,11,chemie algemeen,S_C,nr,nr,2,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,NA,11,biologie algemeen,S_B,0,0,2,0,0,1,1,1,1,1,1,1
+4,afrikaantjes (tagetes) verbouwen,1,NA,11,structuur algemeen,S_P,+,+,2,0,0,1,1,0,1,1,1,1
+4,afrikaantjes (tagetes) verbouwen,1,0.6,11,N-levering,I_C_N,0; +,0,1,0,0,1,1,0,1,1,1,1
+4,afrikaantjes (tagetes) verbouwen,1,NA,11,organischestof,NA,0; +,0,1,0,0,1,1,0,1,1,1,1
+4,afrikaantjes (tagetes) verbouwen,1,0.6,11,P-beschikbaarheid,I_C_P,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.6,11,K-beschikbaarheid,I_C_K,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.6,11,Mg-beschikbaarheid,I_C_MG,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.6,11,S-levering,I_C_S,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.6,11,pH,I_C_PH,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.6,11,CEC,I_C_CEC,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,NA,11,metalen,"I_C_CU, I_C_ZN",nr,nr,2,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.6,11,metalen Cu,I_C_CU,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.6,11,metalen Zn,I_C_ZN,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,verkruimelbaarheid,I_P_CR,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,slempgevoeligheid,I_P_SE,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,vochtvoorziening,I_P_MS,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,vochtvoorziening2,I_P_WRI,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,draagkracht,I_P_BC,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,stuifgevoeligheid,I_P_DU,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,verdichting,I_P_CO,nr,nr,1,0,0,0,0,0,0,0,0,0
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,ziekteplaagwering,I_B_DI,+,+,1,0,0,1,1,1,1,1,1,1
+4,afrikaantjes (tagetes) verbouwen,1,NA,11,bodemgezondheid,NA,+,+,1,0,0,1,1,1,1,1,1,1
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,bodemleven,I_B_SF,0/-,-,1,0,0,1,1,1,1,1,1,1
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,bodembiodiversiteit,I_B_SB,+,+,1,,,1,1,1,0,0,1,1
+4,afrikaantjes (tagetes) verbouwen,1,NA,11,regenwormen,I_B_X,0,0,1,0,0,1,1,1,1,1,1,1
+4,afrikaantjes (tagetes) verbouwen,1,0.7,11,aggregatstabiliteit,I_P_CEC,0,0,1,0,0,1,1,0,0,1,1,1
+5,diepwortelende gewassen verbouwen,1,NA,5,chemie algemeen,S_C,nr,nr,2,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,NA,5,biologie algemeen,S_B,nr,nr,2,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,NA,5,structuur algemeen,S_P,+,+,2,0,0,1,1,0,1,1,1,1
+5,diepwortelende gewassen verbouwen,1,0.6,5,N-levering,I_C_N,+,+,1,0,0,1,1,0,1,0,1,1
+5,diepwortelende gewassen verbouwen,1,NA,5,organischestof,NA,+,+,1,0,0,1,1,0,1,0,1,1
+5,diepwortelende gewassen verbouwen,1,0.6,5,P-beschikbaarheid,I_C_P,+,+,1,0,0,1,1,0,1,0,1,1
+5,diepwortelende gewassen verbouwen,1,0.6,5,K-beschikbaarheid,I_C_K,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.6,5,Mg-beschikbaarheid,I_C_MG,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.6,5,S-levering,I_C_S,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.6,5,pH,I_C_PH,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.6,5,CEC,I_C_CEC,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,NA,5,metalen,"I_C_CU, I_C_ZN",nr,nr,2,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.6,5,metalen Cu,I_C_CU,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.6,5,metalen Zn,I_C_ZN,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.7,5,verkruimelbaarheid,I_P_CR,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.7,5,slempgevoeligheid,I_P_SE,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.7,5,vochtvoorziening,I_P_MS,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.7,5,vochtvoorziening2,I_P_WRI,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.7,5,draagkracht,I_P_BC,+,+,1,0,0,1,1,0,1,0,1,1
+5,diepwortelende gewassen verbouwen,1,0.7,5,stuifgevoeligheid,I_P_DU,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.7,5,verdichting,I_P_CO,+,+,1,0,0,1,1,0,1,0,1,1
+5,diepwortelende gewassen verbouwen,1,0.7,5,ziekteplaagwering,I_B_DI,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,NA,5,bodemgezondheid,NA,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,0.7,5,bodemleven,I_B_SF,+,+,1,0,0,1,1,0,1,0,1,1
+5,diepwortelende gewassen verbouwen,1,0.7,5,bodembiodiversiteit,I_B_SB,nr,nr,1,0,0,0,0,0,0,0,0,0
+5,diepwortelende gewassen verbouwen,1,NA,5,regenwormen,I_B_X,+,+,1,0,0,1,1,0,1,0,1,1
+5,diepwortelende gewassen verbouwen,1,0.7,5,aggregatstabiliteit,I_P_CEC,0,0,1,0,0,0,0,0,0,0,0,0
+6,groenbemester verbouwen,1,NA,6,chemie algemeen,S_C,+,+,2,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,NA,6,biologie algemeen,S_B,++,++,2,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,NA,6,structuur algemeen,S_P,++,++,2,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.6,6,N-levering,I_C_N,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,NA,6,organischestof,NA,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.6,6,P-beschikbaarheid,I_C_P,"""+/-""",0,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.6,6,K-beschikbaarheid,I_C_K,0,0,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.6,6,Mg-beschikbaarheid,I_C_MG,,nr,1,0,0,0,0,0,0,0,0,0
+6,groenbemester verbouwen,1,0.6,6,S-levering,I_C_S,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.6,6,pH,I_C_PH,0,0,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.6,6,CEC,I_C_CEC,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,NA,6,metalen,"I_C_CU, I_C_ZN",,nr,2,0,0,0,0,0,0,0,0,0
+6,groenbemester verbouwen,1,0.6,6,metalen Cu,I_C_CU,,nr,1,0,0,0,0,0,0,0,0,0
+6,groenbemester verbouwen,1,0.6,6,metalen Zn,I_C_ZN,,nr,1,0,0,0,0,0,0,0,0,0
+6,groenbemester verbouwen,1,0.7,6,verkruimelbaarheid,I_P_CR,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,slempgevoeligheid,I_P_SE,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,vochtvoorziening,I_P_MS,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,vochtvoorziening2,I_P_WRI,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,draagkracht,I_P_BC,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,stuifgevoeligheid,I_P_DU,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,verdichting,I_P_CO,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,aggregatstabiliteit,I_P_CEC,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,ziekteplaagwering,I_B_DI,"""+/-""",0,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,NA,6,bodemgezondheid,NA,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,bodemleven,I_B_SF,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,0.7,6,bodembiodiversiteit,I_B_SB,+,+,1,0,1,1,1,0,1,0,1,1
+6,groenbemester verbouwen,1,NA,6,regenwormen,I_B_X,++,++,1,0,1,1,1,0,1,0,1,1
+7,leeftijd grasland verlengen,1,NA,7,chemie algemeen,S_C,+,+,2,1,1,0,0,0,1,0,1,1
+7,leeftijd grasland verlengen,1,NA,7,biologie algemeen,S_B,+,+,2,1,1,0,0,0,1,0,1,1
+7,leeftijd grasland verlengen,1,NA,7,structuur algemeen,S_P,+,+,2,1,1,0,0,0,1,0,1,1
+7,leeftijd grasland verlengen,1,0.6,7,N-levering,I_C_N,+,+,1,1,1,0,0,0,1,0,1,1
+7,leeftijd grasland verlengen,1,NA,7,organischestof,NA,++,++,1,1,1,0,0,0,1,0,1,1
+7,leeftijd grasland verlengen,1,0.6,7,P-beschikbaarheid,I_C_P,+,+,1,1,1,0,0,0,1,0,1,1
+7,leeftijd grasland verlengen,1,0.6,7,K-beschikbaarheid,I_C_K,,nr,1,0,0,0,0,0,0,0,0,0
+7,leeftijd grasland verlengen,1,0.6,7,Mg-beschikbaarheid,I_C_MG,,nr,1,0,0,0,0,0,0,0,0,0
+7,leeftijd grasland verlengen,1,0.6,7,S-levering,I_C_S,,nr,1,0,0,0,0,0,0,0,0,0
+7,leeftijd grasland verlengen,1,0.6,7,pH,I_C_PH,+,+,1,1,1,0,0,0,1,0,1,1
+7,leeftijd grasland verlengen,1,0.6,7,CEC,I_C_CEC,+,+,1,1,1,0,0,0,1,0,1,1
+7,leeftijd grasland verlengen,1,NA,7,metalen,"I_C_CU, I_C_ZN",,nr,2,0,0,0,0,0,0,0,0,0
+7,leeftijd grasland verlengen,1,0.6,7,metalen Cu,I_C_CU,,nr,1,0,0,0,0,0,0,0,0,0
+7,leeftijd grasland verlengen,1,0.6,7,metalen Zn,I_C_ZN,,nr,1,0,0,0,0,0,0,0,0,0
+7,leeftijd grasland verlengen,1,0.7,7,verkruimelbaarheid,I_P_CR,0,0,2,1,1,0,0,0,0,0,1,0
+7,leeftijd grasland verlengen,1,0.7,7,verkruimelbaarheid,I_P_CR,++,++,1,1,1,0,0,0,1,1,0,0
+7,leeftijd grasland verlengen,1,0.7,7,slempgevoeligheid,I_P_SE,0,0,1,1,1,0,0,0,1,1,1,0
+7,leeftijd grasland verlengen,1,0.7,7,vochtvoorziening,I_P_MS,-,-,1,1,1,0,0,0,0,0,1,0
+7,leeftijd grasland verlengen,1,0.7,7,vochtvoorziening,I_P_MS,0,0,2,1,1,0,0,0,1,1,0,0
+7,leeftijd grasland verlengen,1,0.7,7,vochtvoorziening2,I_P_WRI,-,-,1,1,1,0,0,0,0,0,1,0
+7,leeftijd grasland verlengen,1,0.7,7,draagkracht,I_P_BC,0,0,2,1,1,0,0,0,0,0,1,0
+7,leeftijd grasland verlengen,1,0.7,7,draagkracht,I_P_BC,+,+,1,1,1,0,0,0,1,1,1,0
+7,leeftijd grasland verlengen,1,0.7,7,stuifgevoeligheid,I_P_DU,+,+,1,1,1,0,0,0,1,1,0,0
+7,leeftijd grasland verlengen,1,0.7,7,verdichting,I_P_CO,+,+,1,1,1,0,0,0,1,1,0,1
+7,leeftijd grasland verlengen,1,0.7,7,ziekteplaagwering,I_B_DI,+,+,1,1,1,0,0,0,1,1,1,1
+7,leeftijd grasland verlengen,1,NA,7,bodemgezondheid,NA,+,+,1,1,1,0,0,0,1,1,1,1
+7,leeftijd grasland verlengen,1,0.7,7,bodemleven,I_B_SF,+,+,1,1,1,0,0,0,1,0,1,1
+7,leeftijd grasland verlengen,1,0.7,7,bodembiodiversiteit,I_B_SB,+,+,1,1,1,0,0,0,1,1,1,1
+7,leeftijd grasland verlengen,1,NA,7,regenwormen,I_B_X,+,+,1,1,1,0,0,0,1,1,1,1
+7,leeftijd grasland verlengen,1,0.7,7,aggregatstabiliteit,I_P_CEC,+,+,1,1,1,0,0,0,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,NA,4,chemie algemeen,S_C,++,++,2,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,NA,4,biologie algemeen,S_B,+,+,2,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,NA,4,structuur algemeen,S_P,0,0,2,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.6,4,N-levering,I_C_N,++,++,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,NA,4,organischestof,NA,+,+,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.6,4,P-beschikbaarheid,I_C_P,++,++,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.6,4,K-beschikbaarheid,I_C_K,++,++,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.6,4,Mg-beschikbaarheid,I_C_MG,++,++,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.6,4,S-levering,I_C_S,++,++,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.6,4,pH,I_C_PH,++,++,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.6,4,CEC,I_C_CEC,++,++,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,NA,4,metalen,"I_C_CU, I_C_ZN",++,++,2,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.6,4,metalen Cu,I_C_CU,++,++,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.6,4,metalen Zn,I_C_ZN,++,++,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,verkruimelbaarheid,I_P_CR,+,+,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,slempgevoeligheid,I_P_SE,+,+,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,vochtvoorziening,I_P_MS,0,0,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,vochtvoorziening2,I_P_WRI,0,0,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,draagkracht,I_P_BC,0,0,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,stuifgevoeligheid,I_P_DU,nr,nr,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,verdichting,I_P_CO,nr,nr,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,ziekteplaagwering,I_B_DI,0,0,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,NA,4,bodemgezondheid,NA,0,0,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,bodemleven,I_B_SF,+,+,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,bodembiodiversiteit,I_B_SB,0,0,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,NA,4,regenwormen,I_B_X,0,0,1,1,1,1,1,1,1,1,1,1
+8,Bemesten conform bemestingsadvies,1,0.7,4,aggregatstabiliteit,I_P_CEC,0,0,1,0,0,0,0,0,0,0,0,0
+9,Gras/klaver verbouwen,1,NA,8,chemie algemeen,S_C,+,+,2,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,NA,8,biologie algemeen,S_B,++,++,2,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,NA,8,structuur algemeen,S_P,++,++,2,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.6,8,N-levering,I_C_N,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,NA,8,organischestof,NA,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.6,8,P-beschikbaarheid,I_C_P,0,0,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.6,8,K-beschikbaarheid,I_C_K,0,0,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.6,8,Mg-beschikbaarheid,I_C_MG,0,0,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.6,8,S-levering,I_C_S,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.6,8,pH,I_C_PH,0,0,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.6,8,CEC,I_C_CEC,nr,nr,1,0,0,0,0,0,0,0,0,0
+9,Gras/klaver verbouwen,1,NA,8,metalen,"I_C_CU, I_C_ZN",nr,nr,2,0,0,0,0,0,0,0,0,0
+9,Gras/klaver verbouwen,1,0.6,8,metalen Cu,I_C_CU,nr,nr,1,0,0,0,0,0,0,0,0,0
+9,Gras/klaver verbouwen,1,0.6,8,metalen Zn,I_C_ZN,nr,nr,1,0,0,0,0,0,0,0,0,0
+9,Gras/klaver verbouwen,1,0.7,8,verkruimelbaarheid,I_P_CR,nr,nr,1,0,0,0,0,0,0,0,0,0
+9,Gras/klaver verbouwen,1,0.7,8,slempgevoeligheid,I_P_SE,nr,nr,1,0,0,0,0,0,0,0,0,0
+9,Gras/klaver verbouwen,1,0.7,8,vochtvoorziening,I_P_MS,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.7,8,vochtvoorziening2,I_P_WRI,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.7,8,draagkracht,I_P_BC,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.7,8,stuifgevoeligheid,I_P_DU,nr,nr,1,0,0,0,0,0,0,0,0,0
+9,Gras/klaver verbouwen,1,0.7,8,verdichting,I_P_CO,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.7,8,ziekteplaagwering,I_B_DI,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,NA,8,bodemgezondheid,NA,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.7,8,bodemleven,I_B_SF,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.7,8,bodembiodiversiteit,I_B_SB,++,++,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,NA,8,regenwormen,I_B_X,+,+,1,1,1,0,0,0,1,1,1,1
+9,Gras/klaver verbouwen,1,0.7,8,aggregatstabiliteit,I_P_CEC,0,0,1,0,0,0,0,0,0,0,0,0
+10,Botanische samenstelling grasland verbreden,1,NA,9,chemie algemeen,S_C,0,0,2,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,NA,9,biologie algemeen,S_B,0,0,2,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,NA,9,structuur algemeen,S_P,+,+,2,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.6,9,N-levering,I_C_N,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,NA,9,organischestof,NA,+,+,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.6,9,P-beschikbaarheid,I_C_P,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.6,9,K-beschikbaarheid,I_C_K,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.6,9,Mg-beschikbaarheid,I_C_MG,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.6,9,S-levering,I_C_S,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.6,9,pH,I_C_PH,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.6,9,CEC,I_C_CEC,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,NA,9,metalen,"I_C_CU, I_C_ZN",0,0,2,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.6,9,metalen Cu,I_C_CU,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.6,9,metalen Zn,I_C_ZN,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.7,9,verkruimelbaarheid,I_P_CR,nr,nr,1,0,0,0,0,0,0,0,0,0
+10,Botanische samenstelling grasland verbreden,1,0.7,9,slempgevoeligheid,I_P_SE,nr,nr,1,0,0,0,0,0,0,0,0,0
+10,Botanische samenstelling grasland verbreden,1,0.7,9,vochtvoorziening,I_P_MS,+,+,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.7,9,vochtvoorziening2,I_P_WRI,+,+,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.7,9,draagkracht,I_P_BC,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.7,9,stuifgevoeligheid,I_P_DU,nr,nr,1,0,0,0,0,0,0,0,0,0
+10,Botanische samenstelling grasland verbreden,1,0.7,9,verdichting,I_P_CO,0,0,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.7,9,ziekteplaagwering,I_B_DI,++,++,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,NA,9,bodemgezondheid,NA,++,++,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.7,9,bodemleven,I_B_SF,+,+,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.7,9,bodembiodiversiteit,I_B_SB,++,++,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,NA,9,regenwormen,I_B_X,+,+,1,1,1,0,0,0,1,1,1,1
+10,Botanische samenstelling grasland verbreden,1,0.7,9,aggregatstabiliteit,I_P_CEC,0,0,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,NA,2,chemie algemeen,S_C,nr,nr,2,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,NA,2,biologie algemeen,S_B,nr,nr,2,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,NA,2,structuur algemeen,S_P,+,+,2,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.6,2,N-levering,I_C_N,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,NA,2,organischestof,NA,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.6,2,P-beschikbaarheid,I_C_P,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,0.6,2,K-beschikbaarheid,I_C_K,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,0.6,2,Mg-beschikbaarheid,I_C_MG,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,0.6,2,S-levering,I_C_S,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.6,2,pH,I_C_PH,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,0.6,2,CEC,I_C_CEC,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,NA,2,metalen,"I_C_CU, I_C_ZN",nr,nr,2,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,0.6,2,metalen Cu,I_C_CU,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,0.6,2,metalen Zn,I_C_ZN,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,0.7,2,verkruimelbaarheid,I_P_CR,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.7,2,slempgevoeligheid,I_P_SE,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,0.7,2,vochtvoorziening,I_P_MS,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.7,2,vochtvoorziening2,I_P_WRI,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.7,2,draagkracht,I_P_BC,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.7,2,stuifgevoeligheid,I_P_DU,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,0.7,2,verdichting,I_P_CO,++,++,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.7,2,ziekteplaagwering,I_B_DI,nr,nr,1,0,0,0,0,0,0,0,0,0
+11,Herstel ondergrondsverdichting,1,NA,2,bodemgezondheid,NA,0,0,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.7,2,bodemleven,I_B_SF,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.7,2,bodembiodiversiteit,I_B_SB,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,NA,2,regenwormen,I_B_X,+,+,1,1,1,1,1,1,1,1,1,1
+11,Herstel ondergrondsverdichting,1,0.7,2,aggregatstabiliteit,I_P_CEC,0,0,1,0,0,0,0,0,0,0,0,0

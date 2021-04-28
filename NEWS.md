@@ -1,5 +1,56 @@
 # Changelog OBIC
 
+## Version 1.0.0 2021-04-28
+### Added
+* column crops_season to crops.obic
+* column scientific_names to crops.obic
+* preparation crops.obic in dev
+* function format_gwt to reformat input for groundwater table 
+* function format_soilcompaction to reformat input for subsoil compaction
+* season.obic added as data.table
+* new function and tests for workability indicator
+* nema.obic added as data.table
+* new function and tests for nematode indicator
+* preparation nema.obic in dev
+* preparation season.obic in dev
+* obic_field is added to run obic score for one field
+* ppr_column_description plus column_descriptons_obic.Rdata
+* ppr_maatregel plus recom_obic.Rdata
+* ppr_weights plus weights.obic
+* I_P_DS and I_P_WS added (drought and wetness stress separately)
+* add_management added to estimate default values for measures when not given 
+* set of eight I_M_XX indicators for measures are added
+* set of nine I_X_BCS indicators are added (optional)
+* new M_codes added: M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE, M_MECHWEEDS, M_PESTICIDES_DST, issue #107
+* obic_field_dt to run obic_field() for a data.table input 
+
+### Changed
+* calculation PBI updated for grassland
+* PBI input is flexible for both grassland and arable
+* calculation SLV updated
+* update element_names for A_P_CC, A_P_AL in phosphate_availability.R
+* update element_names for A_S_RT, A_SOM_LOI, B_AER_CBS, B_SOILTYPE_AGR in sulpher.R
+* update element_names for B_GWL_CLASS in wateravailability.R
+* update element_names for B_GWL_CLASS and B_AER_CBS in nretention.R
+* correct weighing for S_C_A
+* all element names are updated to english ones
+* weighing for score calculated is changed into a more generic approach
+* structure for running obi is changed into one function
+* weights.obic is extended and used to distinguish for relevant/non-relevant indicators
+* grass_age function is updated: count actual years
+* BCS is optional input, and when given it overwrite risk indicators compaction / aggregate stability
+* M codes for no advice, issue #62
+* directory dev is updated and cleaned, issue #104
+* lower and upper limits for soil properties updated
+* allow unknown B_HELP_WENR in checkmate water_availability, issue 65
+* very low Mg indicator values for maize are changed, plus tests updated
+* very low Mg indicator values for grassland on clay and peat, issue 84
+* evaluation and calculation for Cu are updated
+
+### Fixed
+* setorder in winderodibility
+
+
 ## Version 0.11.1 2020-09-02
 ### Changed
 * The water holding capacity is now between 0 and 1 (as theta should be) and uses new evaluation function #67

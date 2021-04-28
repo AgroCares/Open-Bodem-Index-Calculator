@@ -1,19 +1,19 @@
 test_that("calc_bodemconditiescore works", {
   expect_equal(
     calc_bcs(
-      A_RW_BC = c(0,1,2), 
-      A_BS_BC = c(0,1,2), 
-      A_GV_BC = c(0,1,2), 
-      A_PV_BC = c(0,1,2), 
-      A_AS_BC = c(0,1,2), 
-      A_SV_BC = c(0,1,2), 
-      A_RD_BC = c(0,1,2), 
-      A_SS_BC = c(0,1,2), 
-      A_CO_BC = c(0,1,2),
-      A_OS_GV = c(4,5,5),
+      A_EW_BCS = c(0,1,2), 
+      A_SC_BCS = c(0,1,2), 
+      A_GS_BCS = c(0,1,2), 
+      A_P_BCS = c(0,1,2), 
+      A_C_BCS = c(0,1,2), 
+      A_RT_BCS = c(0,1,2), 
+      A_RD_BCS = c(0,1,2), 
+      A_SS_BCS = c(0,1,2), 
+      A_CC_BCS = c(0,1,2),
+      A_SOM_LOI = c(4,5,5),
       D_PH_DELTA = c(0.5,0.5,0.5),
       B_LU_BRP = rep(3732,3),
-      B_BT_AK = rep('dekzand',3)
+      B_SOILTYPE_AGR = rep('dekzand',3)
       ),
     expected = c(6,20,31),
     tolerance = 0.01
@@ -21,21 +21,21 @@ test_that("calc_bodemconditiescore works", {
   
   expect_equal(
     calc_bcs(
-      A_RW_BC = c(0,1,2), 
-      A_BS_BC = c(0,1,2), 
-      A_GV_BC = c(0,1,2), 
-      A_PV_BC = c(0,1,0), 
-      A_AS_BC = c(0,1,0), 
-      A_SV_BC = c(0,1,0), 
-      A_RD_BC = c(0,1,2), 
-      A_SS_BC = c(0,1,2), 
-      A_CO_BC = c(0,1,2),
-      A_OS_GV = c(7.5,7.5,7.5),
+      A_EW_BCS = c(0,1,2), 
+      A_SC_BCS = c(0,1,2), 
+      A_GS_BCS = c(0,1,2), 
+      A_P_BCS = c(0,1,2), 
+      A_C_BCS = c(0,1,2), 
+      A_RT_BCS = c(0,1,2), 
+      A_RD_BCS = c(0,1,2), 
+      A_SS_BCS = c(0,1,2), 
+      A_CC_BCS = c(0,1,2),
+      A_SOM_LOI = c(7.5,7.5,7.5),
       D_PH_DELTA = c(0,0,0),
       B_LU_BRP = rep(265,3),
-      B_BT_AK = rep('dekzand',3)
+      B_SOILTYPE_AGR = rep('dekzand',3)
     ),
-    expected = c(12, 23, 42),
+    expected = c(12, 23, 34),
     tolerance = 0.01
   )
   

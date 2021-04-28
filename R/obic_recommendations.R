@@ -2,7 +2,7 @@
 #' 
 #' This function quantifies the effects of 11 soil measures on the OBI score
 #' 
-#' @param dt.score (data.table) The results from \code{\link{obic_score}}
+#' @param dt.score (data.table) containing all indicators and scores of a single field
 #' @param extensive (boolean) whether the output table includes evaluation scores of each  measures (TRUE)
 #' 
 #' @import data.table
@@ -17,22 +17,20 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
   soiltype = soiltype.m = crop_measure = crop_code = ID = m_sector = m_soiltype = NULL
   indicator = var = score = m_threshold = m_applicability = NULL
   m_effect = threshold = score.m = weight = grp = score.mp = m_prio = m.effect = FS = TH = NULL
+  cf = ncat = NULL
   
   # make local copy of dt.score
   dt.score <- copy(dt.score)
   
   # add local databases for joining properties -----
   
-    # load weighing factors needed for integration
-    w <- as.data.table(OBIC::weight.obic)
-    
     # load db for measures, crop and soil categories
     m.obic <- as.data.table(OBIC::recom.obic)
     crops.obic <- as.data.table(OBIC::crops.obic)
     soils.obic <- as.data.table(OBIC::soils.obic)
     
     # merge dt.score with soils.obic and crops.obic
-    dt.score <- merge(dt.score, soils.obic[, list(soiltype, soiltype.m)], by.x = "B_BT_AK", by.y = "soiltype")
+    dt.score <- merge(dt.score, soils.obic[, list(soiltype, soiltype.m)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
     dt.score <- merge(dt.score, crops.obic[, list(crop_code, crop_measure)], by.x = "B_LU_BRP", by.y = "crop_code")
     
   # redesign measures db to make it suitable for joining -----
@@ -45,6 +43,7 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
     
     # check if there is missing data for any indicator
     cols <- colnames(dt.score)[grepl('^I_C_|^I_B_|^I_P_',colnames(dt.score))]
+    cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     cols <- cols[!cols %in% unique(mdb1$indicator)]
     checkmate::assert_character(cols, len = 0)
     
@@ -61,9 +60,17 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
     cols_i <- colnames(dt.recom)[grepl('^B_|^ID$|soil|crop',colnames(dt.recom))]
     dt.recom <- melt(dt.recom,id.vars = cols_i,measure.vars = cols_m,variable.name = 'indicator', value.name='score')
     
-    # join with weighing factor
-    w[,indicator := gsub('W_','I_',var)]
-    dt.recom <- merge(dt.recom,w[,c('indicator','weight')],by='indicator',all.x = TRUE)
+    # add weighing factor based on number of indicators
+    dt.recom[,cat := tstrsplit(indicator,'_',keep = 2)]
+    
+    # Determine amount of indicators per category
+    dt.recom.ncat <- dt.recom[,list(ncat = .N),by='cat']
+    
+    # add number of indicators per category
+    dt.recom <- merge(dt.recom,dt.recom.ncat,by='cat',all.x = TRUE)
+    
+    # calculate weighing factor depending on number of indicators
+    dt.recom[,cf := log(ncat + 1)]
     
     # reset names and set key
     setnames(dt.recom,c('crop_measure','soiltype.m'),c('m_sector','m_soiltype'))
@@ -78,7 +85,7 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
     dt.recom2[, threshold := fifelse(score <= m_threshold & score >= 0,1,0)]
     
     # calculate the score of the measure for each indicator
-    dt.recom2[, score.m := weight * m_applicability * (pmax(0,m_effect) * threshold + pmin(0,m_effect))]
+    dt.recom2[, score.m := cf * m_applicability * (pmax(0,m_effect) * threshold + pmin(0,m_effect))]
     
     # add three groups of soil functions
     dt.recom2[grepl('^I_C_',indicator), grp := 'M_S_C']
@@ -87,6 +94,9 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
     
     # add priority to the score, just before calculating score per group
     dt.recom2[,score.mp := m_prio * score.m]
+    
+    # add field
+    dt.recom2[,ID := 1]
     
     # extract relevant columns and dcast effect of measures on indices per parcel
     cols <- c('ID','m_nr','indicator','score.m')
@@ -151,9 +161,9 @@ obic_recommendations <- function(dt.recom) {
   # add a character for the recommended measure
   dt.chem[,m.adv := paste0('M',m_nr)]
   # when the score of selected measures is <=0, discard the advice 
-  dt.chem[FS_M_S_C==0, m.adv := 'no suitable advice']
+  dt.chem[FS_M_S_C==0, m.adv := 'M100']
   # when no indicator is below the threshold level, give no advice.
-  dt.chem[TH_M_S_C==0, m.adv := 'no advice needed']
+  dt.chem[TH_M_S_C==0, m.adv := 'M0']
   # dcast the recommended measures for each parcel
   dt.chem <- dcast(dt.chem, ID ~ sid, value.var = 'm.adv')
   # rename the columns with recommeded measures
@@ -164,8 +174,8 @@ obic_recommendations <- function(dt.recom) {
   dt.phys[,sid := seq_len(.N),by='ID']
   dt.phys <- dt.phys[sid<4]
   dt.phys[,m.adv := paste0('M',m_nr)]
-  dt.phys[FS_M_S_P==0, m.adv := 'no suitable advice']
-  dt.phys[TH_M_S_P==0, m.adv := 'no advice needed']
+  dt.phys[FS_M_S_P==0, m.adv := 'M100']
+  dt.phys[TH_M_S_P==0, m.adv := 'M0']
   dt.phys <- dcast(dt.phys, ID ~ sid, value.var = 'm.adv')
   setnames(dt.phys,c('ID',paste0('RM_P_',1:3)))   
   
@@ -174,8 +184,8 @@ obic_recommendations <- function(dt.recom) {
   dt.biol[,sid := seq_len(.N),by='ID']
   dt.biol <- dt.biol[sid<4]
   dt.biol[,m.adv := paste0('M',m_nr)]
-  dt.biol[FS_M_S_B==0, m.adv := 'no suitable advice']
-  dt.biol[TH_M_S_B==0, m.adv := 'no advice needed']
+  dt.biol[FS_M_S_B==0, m.adv := 'M100']
+  dt.biol[TH_M_S_B==0, m.adv := 'M0']
   dt.biol <- dcast(dt.biol, ID ~ sid, value.var = 'm.adv')
   setnames(dt.biol,c('ID',paste0('RM_B_',1:3)))   
   

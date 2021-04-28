@@ -4,14 +4,14 @@
 \alias{calc_pmn}
 \title{Calculate the index for the microbial biological activity}
 \usage{
-calc_pmn(A_N_PMN, B_LU_BRP, B_BT_AK)
+calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)
 }
 \arguments{
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
+
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
+
 \item{A_N_PMN}{(numeric) The potentially mineralizable N pool (mg N / kg soil)}
-
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
-
-\item{B_BT_AK}{(character) The type of soil}
 }
 \description{
 This function assesses the microbial biological activity (of microbes and fungi) via the Potentially Mineralizable N pool, also called PMN (or SoilLife by Eurofins in the past).

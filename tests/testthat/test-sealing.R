@@ -2,7 +2,7 @@ test_that("calc_sealing works", {
   expect_equal(
     calc_sealing_risk(
       A_CLAY_MI = 20, 
-      A_OS_GV = 5
+      A_SOM_LOI = 5
     ),
     expected = 8.4375,
     tolerance = 0.001
@@ -10,7 +10,7 @@ test_that("calc_sealing works", {
   expect_equal(
     calc_sealing_risk(
       A_CLAY_MI = c(25, 20),
-      A_OS_GV = c(1.5, 8)
+      A_SOM_LOI = c(1.5, 8)
     ),
     expected = c(8.6, 10),
     tolerance = 0.001

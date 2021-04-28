@@ -5,14 +5,29 @@
 \alias{crops.obic}
 \title{Linking table between crops and different functions in OBIC}
 \format{
-A data.frame with 405 rows and 12 columns:
+A data.frame with 465 rows and 21 columns:
 \describe{
-  \item{crop_name}{The name of the crop}
   \item{crop_code}{The BRP gewascode of the crop}
+  \item{crop_name}{The name of the crop, in lower case}
+  \item{crop_waterstress}{Classification linking for linking crops to waterstress.obic}
+  \item{crop_intensity}{Whether crop is root/tuber crop, rest crop, or other.}
+  \item{crop_eos}{Effective soil organic matter produced by the crop in kg/ha}
+  \item{crop_eos_residue}{Effective soil organic matter from plant residues in kg/ha}
+  \item{crop_category}{Classification of crop per land use type (arable, maize, grass, nature)}
+  \item{crop_rotation}{Classification of crop to determine function within crop rotations}
   \item{crop_crumbleability}{The category for this crop at crumbleablity}
-  \item{crop_phosphate}{The category for this crop at phosphate availability}
+  \item{crop_phosphate}{The category for this crop for evaluation phosphate availability}
   \item{crop_sealing}{The category for this crop at soil sealing}
-  \item{crop_n}{The category for this crop at nitrogen}
+  \item{crop_n}{The category for this crop for evaluation nitrogen}
+  \item{crop_k}{The category for this crop for evaluation potassium}
+  \item{crop_measure}{The category for this crop for evaluating measures}
+  \item{nf_clay}{Allowed effective N dose on clay soils}
+  \item{nf_sand.other}{Allowed effective N dose on sanndy soils}
+  \item{nf_sand.sout}{Allowed effective N dose on sandy soils sensitive to leaching}
+  \item{nf_loess}{Allowed effective N dose on loess soils}
+  \item{nf_peat}{Allowed effective N dose on peat soils}
+  \item{crop_name_scientific}{All-lower-case scientific name of the crop species. When crop is not species specific the genus of the crop is given}
+  \item{crop_season}{Crop category for length growing season}
 }
 }
 \usage{

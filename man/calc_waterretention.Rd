@@ -8,7 +8,7 @@ calc_waterretention(
   A_CLAY_MI,
   A_SAND_MI,
   A_SILT_MI,
-  A_OS_GV,
+  A_SOM_LOI,
   type = "plant available water",
   ptf = "Wosten1999"
 )
@@ -20,7 +20,7 @@ calc_waterretention(
 
 \item{A_SILT_MI}{(numeric) The silt content of the soil (\%)}
 
-\item{A_OS_GV}{(numeric) The organic matter content of the soil (\%)}
+\item{A_SOM_LOI}{(numeric) The organic matter content of the soil (\%)}
 
 \item{type}{(character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')}
 

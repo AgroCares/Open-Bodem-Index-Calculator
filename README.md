@@ -1,17 +1,17 @@
 # Open Bodem Index Calculator (OBIC)
 
 <!-- badges: start -->
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
 <!-- badges: end -->
 
 This R package can be used to calculate the Open Bodem Index (OBI). 
-The OBI is a tool that evaluate the soil of agricultural fields based on four main criteria: chemical, physical, biological and managment. 
-These four criteria consist of more than 15 indicators to get a comprehensive picture of the soil. 
+The OBI is a tool that evaluate the soil of agricultural fields based on four main criteria: chemical, physical, biological and management. 
+These four criteria consist of more than 21 indicators to get a comprehensive picture of the soil. 
 More information about the Open Bodem Index can be found at [Open Bodem Index](https://www.openbodemindex.nl).
 
 ## Installation
 
-OBIC can be installed from GitHub using `remotes`. This will install the current developement version from master branch. Stable versions can found at `releases`.
+OBIC can be installed from GitHub using `remotes`. This will install the current development version from master branch. Stable versions can found at `releases`.
 ```
 remotes::install_github("AgroCares/Open-Bodem-Index-Calculator")
 library("OBIC")
