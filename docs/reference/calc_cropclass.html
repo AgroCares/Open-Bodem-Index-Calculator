@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -132,18 +132,18 @@
     <p>This function determines crop classes given crop response to P, K and S fertilizers</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_cropclass</span>(<span class='no'>B_LU_BRP</span>, <span class='no'>B_BT_AK</span>, <span class='kw'>nutrient</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_cropclass</span><span class='op'>(</span><span class='va'>B_LU_BRP</span>, <span class='va'>B_SOILTYPE_AGR</span>, nutrient <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
+      <td><p>(numeric) The crop code from the BRP</p></td>
     </tr>
     <tr>
-      <th>B_BT_AK</th>
-      <td><p>(character) The type of soil</p></td>
+      <th>B_SOILTYPE_AGR</th>
+      <td><p>(character) The agricultural type of soil</p></td>
     </tr>
     <tr>
       <th>nutrient</th>
@@ -167,7 +167,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

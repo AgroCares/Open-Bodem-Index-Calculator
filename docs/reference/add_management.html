@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Table with water retention properties of 'bouwstenen' — bouwsteen_tb • OBIC</title>
+<title>Estimate default values for management — add_management • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Table with water retention properties of 'bouwstenen' — bouwsteen_tb" />
-<meta property="og:description" content="This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'" />
+<meta property="og:title" content="Estimate default values for management — add_management" />
+<meta property="og:description" content="This function adds default management input variables given soil type and land use" />
 
 
 
@@ -123,37 +123,112 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Table with water retention properties of 'bouwstenen'</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/waterretention.R'><code>R/waterretention.R</code></a></small>
-    <div class="hidden name"><code>bouwsteen_tb.Rd</code></div>
+    <h1>Estimate default values for management</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/management_defaults.R'><code>R/management_defaults.R</code></a></small>
+    <div class="hidden name"><code>add_management.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'</p>
+    <p>This function adds default management input variables given soil type and land use</p>
     </div>
 
-    <pre class="usage"><span class='va'>bouwsteen_tb</span></pre>
+    <pre class="usage"><span class='fu'>add_management</span><span class='op'>(</span>
+  <span class='va'>ID</span>,
+  <span class='va'>B_LU_BRP</span>,
+  <span class='va'>B_SOILTYPE_AGR</span>,
+  M_GREEN <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_NONBARE <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_EARLYCROP <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_COMPOST <span class='op'>=</span> <span class='cn'>NA_real_</span>,
+  M_SLEEPHOSE <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_DRAIN <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_DITCH <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_UNDERSEED <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_LIME <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_NONINVTILL <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_SSPM <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_SOLIDMANURE <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_STRAWRESIDUE <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_MECHWEEDS <span class='op'>=</span> <span class='cn'>NA</span>,
+  M_PESTICIDES_DST <span class='op'>=</span> <span class='cn'>NA</span>
+<span class='op'>)</span></pre>
 
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A data.frame with 36 rows and 14 columns:</p><dl>
-  <dt>bouwsteen</dt><dd><p>soil type bouwsteen</p></dd>
-  <dt>omschrijving</dt><dd><p>description of 'bouwsteen'</p></dd>
-  <dt>thres</dt><dd><p>residual water content (cm3/cm3). Table 3 of Wosten 2001</p></dd>
-  <dt>thsat</dt><dd><p>water content at saturation (cm3/cm3). Table 3 of Wosten 2001</p></dd>
-  <dt>Ks</dt><dd><p>saturated hydraulic conductivity (cm/d). Table 3 of Wosten 2001</p></dd>
-  <dt>alpha</dt><dd><p>parameter alpha of pF curve (1/cm) Table 3 of Wosten 2001</p></dd>
-  <dt>l</dt><dd><p>parameter l of pF curve (-). Table 3 of Wosten 2001</p></dd>
-  <dt>n</dt><dd><p>parameter n of pF curve (-). Table 3 of Wosten 2001</p></dd>
-  <dt>sand%</dt><dd><p>sand content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001</p></dd>
-  <dt>silt%</dt><dd><p>silt content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001</p></dd>
-  <dt>clay%</dt><dd><p>clay content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001</p></dd>
-  <dt>OM%</dt><dd><p>organic matter content (%). Middle value of Table 1 of Wosten 2001</p></dd>
-  <dt>bulkdensity</dt><dd><p>soil bulk density (g/cm3). Middle value of Table 2 of Wosten 2001</p></dd>
-  <dt>M50</dt><dd><p>size of sand particles (um). Middle value of Table 2 of Wosten 2001</p></dd>
-
-</dl>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>ID</th>
+      <td><p>(character) A field id</p></td>
+    </tr>
+    <tr>
+      <th>B_LU_BRP</th>
+      <td><p>(numeric) The crop code from the BRP</p></td>
+    </tr>
+    <tr>
+      <th>B_SOILTYPE_AGR</th>
+      <td><p>(character) The agricultural type of soil</p></td>
+    </tr>
+    <tr>
+      <th>M_GREEN</th>
+      <td><p>(boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_NONBARE</th>
+      <td><p>(boolean) A soil measure. Is parcel for 80 percent of the year cultivated and 'green' (optional, option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_EARLYCROP</th>
+      <td><p>(boolean) A soil measure. Use of early crop varieties to avoid late harvesting (optional, option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_COMPOST</th>
+      <td><p>(numeric) The frequency that compost is applied (optional, every x years)</p></td>
+    </tr>
+    <tr>
+      <th>M_SLEEPHOSE</th>
+      <td><p>(boolean) A soil measure. Is sleephose used for slurry application (optional, option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_DRAIN</th>
+      <td><p>(boolean) A soil measure. Are under water drains installed in peaty soils (optional, option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_DITCH</th>
+      <td><p>(boolean) A soil measure. Are ditched maintained carefully and slib applied on the land (optional, option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_UNDERSEED</th>
+      <td><p>(boolean) A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_LIME</th>
+      <td><p>(boolean) measure. Has field been limed in last three years (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_NONINVTILL</th>
+      <td><p>(boolean) measure. Non inversion tillage (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_SSPM</th>
+      <td><p>(boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_SOLIDMANURE</th>
+      <td><p>(boolean) measure. Use of solid manure (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_STRAWRESIDUE</th>
+      <td><p>(boolean) measure. Application of straw residues (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_MECHWEEDS</th>
+      <td><p>(boolean) measure. Use of mechanical weed protection (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_PESTICIDES_DST</th>
+      <td><p>(boolean) measure. Use of DST for pesticides (option: yes or no)</p></td>
+    </tr>
+    </table>
 
 
   </div>

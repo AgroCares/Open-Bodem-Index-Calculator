@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Table with water retention properties of 'bouwstenen' — bouwsteen_tb • OBIC</title>
+<title>Desired growing season period for maximum yield — season.obic • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Table with water retention properties of 'bouwstenen' — bouwsteen_tb" />
-<meta property="og:description" content="This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'" />
+<meta property="og:title" content="Desired growing season period for maximum yield — season.obic" />
+<meta property="og:description" content="This table gives the required number of days before and after August 15 required for optimal yield or usability and has categories to determine yield loss having a shorter workable growing season based on Tabel 2 and several formulas from Huinink (2018)" />
 
 
 
@@ -123,35 +123,26 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Table with water retention properties of 'bouwstenen'</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/waterretention.R'><code>R/waterretention.R</code></a></small>
-    <div class="hidden name"><code>bouwsteen_tb.Rd</code></div>
+    <h1>Desired growing season period for maximum yield</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/tables.R'><code>R/tables.R</code></a></small>
+    <div class="hidden name"><code>season.obic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'</p>
+    <p>This table gives the required number of days before and after August 15 required for optimal yield or usability and has categories to determine yield loss having a shorter workable growing season based on Tabel 2 and several formulas from Huinink (2018)</p>
     </div>
 
-    <pre class="usage"><span class='va'>bouwsteen_tb</span></pre>
+    <pre class="usage"><span class='va'>season.obic</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data.frame with 36 rows and 14 columns:</p><dl>
-  <dt>bouwsteen</dt><dd><p>soil type bouwsteen</p></dd>
-  <dt>omschrijving</dt><dd><p>description of 'bouwsteen'</p></dd>
-  <dt>thres</dt><dd><p>residual water content (cm3/cm3). Table 3 of Wosten 2001</p></dd>
-  <dt>thsat</dt><dd><p>water content at saturation (cm3/cm3). Table 3 of Wosten 2001</p></dd>
-  <dt>Ks</dt><dd><p>saturated hydraulic conductivity (cm/d). Table 3 of Wosten 2001</p></dd>
-  <dt>alpha</dt><dd><p>parameter alpha of pF curve (1/cm) Table 3 of Wosten 2001</p></dd>
-  <dt>l</dt><dd><p>parameter l of pF curve (-). Table 3 of Wosten 2001</p></dd>
-  <dt>n</dt><dd><p>parameter n of pF curve (-). Table 3 of Wosten 2001</p></dd>
-  <dt>sand%</dt><dd><p>sand content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001</p></dd>
-  <dt>silt%</dt><dd><p>silt content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001</p></dd>
-  <dt>clay%</dt><dd><p>clay content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001</p></dd>
-  <dt>OM%</dt><dd><p>organic matter content (%). Middle value of Table 1 of Wosten 2001</p></dd>
-  <dt>bulkdensity</dt><dd><p>soil bulk density (g/cm3). Middle value of Table 2 of Wosten 2001</p></dd>
-  <dt>M50</dt><dd><p>size of sand particles (um). Middle value of Table 2 of Wosten 2001</p></dd>
+    <p>A data.table with 29 rows and 5 columns:</p><dl>
+  <dt>landuse</dt><dd><p>The name of the crop or landuse category, used to link to crops.obic$crop_season</p></dd>
+  <dt>req_days_pre_glg</dt><dd><p>Required number of workable days before August 15 assuming this coincides with GLG, lowest groundwater</p></dd>
+  <dt>req_days_post_glg</dt><dd><p>Required number of workable days after August 15 assuming this coincides with GLG, lowest groundwater</p></dd>
+  <dt>total_days</dt><dd><p>Total number of days required for optimal growth or use</p></dd>
+  <dt>derving</dt><dd><p>Category to determine yield loss due to having a sub-optimal relative growing season length or RLG</p></dd>
 
 </dl>
 

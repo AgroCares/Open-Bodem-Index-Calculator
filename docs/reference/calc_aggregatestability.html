@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -132,30 +132,36 @@
     <p>This function calculates an aggregate stability index given the CEC and its occupation with major cations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_aggregatestability</span>(<span class='no'>B_BT_AK</span>, <span class='no'>A_OS_GV</span>, <span class='no'>A_K_CEC</span>, <span class='no'>A_CA_CEC</span>, <span class='no'>A_MG_CEC</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_aggregatestability</span><span class='op'>(</span>
+  <span class='va'>B_SOILTYPE_AGR</span>,
+  <span class='va'>A_SOM_LOI</span>,
+  <span class='va'>A_K_CO_PO</span>,
+  <span class='va'>A_CA_CO_PO</span>,
+  <span class='va'>A_MG_CO_PO</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>B_BT_AK</th>
+      <th>B_SOILTYPE_AGR</th>
       <td><p>(character) The type of soil</p></td>
     </tr>
     <tr>
-      <th>A_OS_GV</th>
+      <th>A_SOM_LOI</th>
       <td><p>(numeric) The organic matter content of soil in percentage</p></td>
     </tr>
     <tr>
-      <th>A_K_CEC</th>
+      <th>A_K_CO_PO</th>
       <td><p>(numeric) The occupation of the CEC with K (%)</p></td>
     </tr>
     <tr>
-      <th>A_CA_CEC</th>
-      <td><p>(numeric) The occupation of the CEC with Mg (%)</p></td>
+      <th>A_CA_CO_PO</th>
+      <td><p>(numeric) The occupation of the CEC with Ca (%)</p></td>
     </tr>
     <tr>
-      <th>A_MG_CEC</th>
-      <td><p>(numeric) The occupation of the CEC with Ca (%)</p></td>
+      <th>A_MG_CO_PO</th>
+      <td><p>(numeric) The occupation of the CEC with Mg (%)</p></td>
     </tr>
     </table>
 
@@ -175,7 +181,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
