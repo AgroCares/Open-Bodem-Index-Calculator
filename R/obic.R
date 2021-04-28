@@ -163,6 +163,9 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, B_SC_WENR := format_soilcompaction(B_SC_WENR)]
     dt[, B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
   
+    # check format B_AER_CBS
+    dt[, B_AER_CBS := format_aer(B_AER_CBS)]
+    
     # add management when input is missing
     cols <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_COMPOST','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED',
               'M_LIME', 'M_NONINVTILL', 'M_SSPM', 'M_SOLIDMANURE','M_STRAWRESIDUE','M_MECHWEEDS','M_PESTICIDES_DST')
