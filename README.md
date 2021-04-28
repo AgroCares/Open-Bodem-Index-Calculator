@@ -1,7 +1,7 @@
 # Open Bodem Index Calculator (OBIC)
 
 <!-- badges: start -->
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
 <!-- badges: end -->
 
 This R package can be used to calculate the Open Bodem Index (OBI). 
