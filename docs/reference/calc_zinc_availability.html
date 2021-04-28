@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -132,26 +132,26 @@
     <p>This function calculates the availability of Zn for plant uptake</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_zinc_availability</span>(<span class='no'>A_ZN_CC</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_BT_AK</span>, <span class='no'>A_PH_CC</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_zinc_availability</span><span class='op'>(</span><span class='va'>B_LU_BRP</span>, <span class='va'>B_SOILTYPE_AGR</span>, <span class='va'>A_PH_CC</span>, <span class='va'>A_ZN_CC</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A_ZN_CC</th>
-      <td><p>The plant available Zn content, extracted with 0.01M CaCl2 (mg / kg)</p></td>
-    </tr>
-    <tr>
       <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
+      <td><p>(numeric) The crop code from the BRP</p></td>
     </tr>
     <tr>
-      <th>B_BT_AK</th>
-      <td><p>(character) The type of soil</p></td>
+      <th>B_SOILTYPE_AGR</th>
+      <td><p>(character) The agricultural type of soil</p></td>
     </tr>
     <tr>
       <th>A_PH_CC</th>
       <td><p>(numeric) The acidity of the soil, determined in 0.01M CaCl2 (-)</p></td>
+    </tr>
+    <tr>
+      <th>A_ZN_CC</th>
+      <td><p>The plant available Zn content, extracted with 0.01M CaCl2 (mg / kg)</p></td>
     </tr>
     </table>
 
@@ -171,7 +171,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

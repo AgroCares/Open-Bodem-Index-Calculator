@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate using parabolic function with — evaluate_parabolic • OBIC</title>
+<title>Helper function to weight and correct the risk and scores — cf_ind_importance • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Evaluate using parabolic function with — evaluate_parabolic" />
-<meta property="og:description" content="This function evaluates the calculated values from an indicator using a parabolic function. After the optimum is reached the it stays at its plateau." />
+<meta property="og:title" content="Helper function to weight and correct the risk and scores — cf_ind_importance" />
+<meta property="og:description" content="Helper function to weight and correct the risk and scores" />
 
 
 
@@ -123,27 +123,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate using parabolic function with</h1>
+    <h1>Helper function to weight and correct the risk and scores</h1>
     <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/evaluate.R'><code>R/evaluate.R</code></a></small>
-    <div class="hidden name"><code>evaluate_parabolic.Rd</code></div>
+    <div class="hidden name"><code>cf_ind_importance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function evaluates the calculated values from an indicator using a parabolic function. After the optimum is reached the it stays at its plateau.</p>
+    <p>Helper function to weight and correct the risk and scores</p>
     </div>
 
-    <pre class="usage"><span class='fu'>evaluate_parabolic</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>x.top</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>cf_ind_importance</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>(numeric) The values of a calc function to be converted to an evaluation</p></td>
-    </tr>
-    <tr>
-      <th>x.top</th>
-      <td><p>(numeric) The value at which x reaches the plateau</p></td>
+      <td><p>The risk or score value to be weighted</p></td>
     </tr>
     </table>
 
