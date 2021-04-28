@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate indicator for wind erodibility — calc_winderodibility • OBIC</title>
+<title>Calculate indicator for plant parasitic nematodes — ind_nematodes_list • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Calculate indicator for wind erodibility — calc_winderodibility" />
-<meta property="og:description" content="This function calculates the risk for wind erodibility of soils, derived from Van Kerckhoven et al. (2009) and Ros &amp;amp; Bussink (2013)" />
+<meta property="og:title" content="Calculate indicator for plant parasitic nematodes — ind_nematodes_list" />
+<meta property="og:description" content="This function calculates the indicator for the presence of plant parasitic nematodes. All nematodes present in a sample are used.
+A subset of nematodes is weighted in the set regardless of their presence." />
 
 
 
@@ -123,31 +124,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate indicator for wind erodibility</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/winderodibility.R'><code>R/winderodibility.R</code></a></small>
-    <div class="hidden name"><code>calc_winderodibility.Rd</code></div>
+    <h1>Calculate indicator for plant parasitic nematodes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/nematode.R'><code>R/nematode.R</code></a></small>
+    <div class="hidden name"><code>ind_nematodes_list.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the risk for wind erodibility of soils, derived from Van Kerckhoven et al. (2009) and Ros &amp; Bussink (2013)</p>
+    <p>This function calculates the indicator for the presence of plant parasitic nematodes. All nematodes present in a sample are used.
+A subset of nematodes is weighted in the set regardless of their presence.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_winderodibility</span><span class='op'>(</span><span class='va'>B_LU_BRP</span>, <span class='va'>A_CLAY_MI</span>, <span class='va'>A_SILT_MI</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ind_nematodes_list</span><span class='op'>(</span><span class='va'>A_NEMA</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code from the BRP</p></td>
-    </tr>
-    <tr>
-      <th>A_CLAY_MI</th>
-      <td><p>(numeric) The clay content of the soil (%)</p></td>
-    </tr>
-    <tr>
-      <th>A_SILT_MI</th>
-      <td><p>(numeric) The silt content of the soil (%)</p></td>
+      <th>A_NEMA</th>
+      <td><p>(data.table) Long data table with the counted nematodes of a parcel.</p></td>
     </tr>
     </table>
 
