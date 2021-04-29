@@ -1294,8 +1294,37 @@ p.ar+p.gr
 
 
 ### Recommendations
-The Open Soil Index (OBI), gives a rating to soil parameters and soil functions. When a score is sub-optimal (score < 1), it is important to advise what measures can be taken to improve soil quality. For this purpose, a list of measures has been developed which had a positive effect on soil quality in field trials. Within the OBI, soil quality is assessed at the level of aggregate soil functions: soil chemistry and nutrient supply, soil physics and rooting, soil biology and disease resistance, and management). Within each group there are several soil parameters and functions, which can be specifically improved through soil management measures.
+The Open Soil Index (OBI), gives a rating to soil parameters and soil functions. When a score is sub-optimal (score < 1), it is important to advise what measures can be taken to improve soil quality. For this purpose, a list of measures has been developed which had a positive effect on soil quality in field trials. Within the OBI, soil quality is assessed at the level of aggregate soil functions: soil chemistry and nutrient supply, soil physics and rooting, soil biology and disease resistance, and management). Within each group there are several soil parameters and functions, which can be specifically improved through soil management measures. Up to three out of the eleven measures may be recommended based on the performance of all soil parameters and functions. 
+The following aspects play a role in compiling the top three measures that a user is given as inspiration for sustainable soil management:
 
+* At what threshold value is an action desirable? A soil is totally unsuitable for sustainable agricultural production when the OBI score equals zero, and a soil is perfectly suitable when the OBI score equals one. A measure only makes sense if a substantial improvement in soil quality can be expected through these measures.
+* Are the available measures for improvement collected from the scientific literature equally important in the case of sub-optimal soil quality? For example, is the correction of a low pH more important than the correction of a low phosphate status?
+* When recommending measures, is it possible to take into account positive or negative side effects which may occur once the measure is implemented?
+* Measures that are advised must be practical and to the point: not "follow fertilisation advice", but specifically tailored to the element of which there is a deficiency.
+
+The measures included in this package are:
+
+* M1: liming of soil to advisory pH
+* M2: more compost 
+* M3: apply non-inversion tillage
+* M4: cultivate tagetes
+* M5: introduce more deep-rooting crops 
+* M6: use more green manure crops
+* M7: extend the age of grassland
+* M8: fertilise in accordance with fertiliser recommendations (broken down by applicable element)
+* M9: grow a grass/clover mixture
+* M10: broaden the botanical composition of grassland
+* M11: restore subsoil compaction
+
+Deciding which measures are presented is controlled by two functions nested inside `obic_field()` (which itself is wrapped by `obic_field_dt()`). For the recommendations to be given, the output argument of `obic_field()` or `obic_field_dt()` should be *'all'* or *'recommendations'*. The functions that decide the recommendations are `obic_evalmeasure()` and `obic_recommendations()`. The first takes a data table as input containing the OBI and indicator scores calculated by other functions in the package. Its output is a data table with measures which is passed to `obic_recommendations()`. This second function selects the three most appropriate measures to recommend. For more information on these functions see `?obic_evalmeasure`, `?obic_recommendations` or `?recom.obic`.
+
+```{r, results = FALSE, eval = FALSE}
+      # evaluate measures
+    dt.measure <- OBIC::obic_evalmeasure(dt.score, extensive = FALSE)
+    
+    # make recommendations of top 3 measures
+    out.recom <- OBIC::obic_recommendations(dt.measure)
+````
 
 ## Integrating Soil Functions into OBIC scores
 
