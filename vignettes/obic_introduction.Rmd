@@ -1236,11 +1236,62 @@ p2+p5
 
 
 ## Evaluate Soil Management
-Add text of LDBB.
+Unlike other soil functions, soil management is hard to evaluate quantitatively. We introduced the expert-judgement driven framework of the Sustainable Soil Management label. This label was designed in 2016 by a group of soil scientists and consultancy workers in the Netherlands to implement sustainable soil management within certification protocols of relevant chain parties in the agricultural sector. A team of soil experts from research and practice made a selection of measurable and verifiable soil management measures that positively contribute to the ecosystem functions of the soil, and qualitatively assessed their impact on the soil quality while accounting for two land use categories and three soil type categories. Using this expert driven management label, the soil management can be systematically and quantitatively evaluated on field scale. Besides the current management practices, explicit attention is given to measures supporting soil organic matter build-up in soils, supporting the key role of soil organic matter for soil fertility and other ecosystem services. Because changes in soil organic matter are difficult to measure, an estimate is made of the net supply or removal of Effective Organic Matter based on the crop rotation plan and the current manure practices according the regulations present. This balance is indicative of the expected developments in the organic matter content of the soil.
 
 ### Measures
+The measures taken on a parcel are evaluated according to a point system. For arable, maize and grassland, different measures are applicable. For arable, measures include; 80% of year green cover, >40% rest crop in rotation, >40% deep rooting dormant crop in rotation, <25% potato in rotation, use of early cultivars, net positive organic matter balance.
+Specifically for maize, measures include: undersowing of grass, use of catchcrop after harvest (only on clay).
+For grass, points can be gained for the grassland age, use of drag hose fertilisation, use of grass/clover mixtures. For grass on peat points can also be received for using underwaterdrainage and maintenance of ditches.
 
 ### Crop rotation and SOM balance
+A field can receive points for having a positive soil organic matter balance. A function is included to estimate the organic matter input and decomposition. For the calculation of the organic matter balance the parcels' crops, organic matter concentration and P status are required, as well as the management aspects compost application frequency and sowing of catchcrops after main crop. 
+
+Below, examples are give of how to calculate the organic matter balance and the management index.
+
+```{r, results = FALSE, eval = FALSE}
+    # Calculate organic matter balance
+    dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
+
+    # Calculate series of management actions
+    dt[, D_MAN := calc_management(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
+                                  D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
+                                  M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN,
+                                  M_DITCH, M_UNDERSEED, M_LIME, M_NONINVTILL, M_SSPM,
+                                  M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
+                                  )]
+    
+    # Calculate integrated management indicator
+    dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
+````
+
+The integrated management indicator score for sustainable management increases linearly with the number of points earned.
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # create example data
+  dt.arabl <- data.table(landuse = c(rep('arable on clay',5),rep('arable on peat',5),rep('arable on sand',5),rep('maize',5)),
+                         points = c(rep(c(0,4,9,14,18),3),c(0,3,6,9,12)),
+                         soiltype = c(rep('rivierklei', 5), rep('veen',5), rep('dekzand',10)),
+                         B_LU_BRP = c(rep(234,15),rep(259,5)))
+  dt.gras <- data.table(landuse = c(rep('grass on clay',5),rep('grass on sand',5),rep('grass on peat',5)),
+                        points = c(rep(c(0,3,5,8,11),2),c(0,4,9,14,17)),
+                        soiltype = c(rep('rivierklei',5),rep('dekzand',5),rep('veen',5)))
+  # calculate indicator
+  dt.gras <- dt.gras[,score := ind_management(points, rep(265,15),soiltype)]
+  dt.arabl <- dt.arabl[,score := ind_management(points, B_LU_BRP,soiltype)]
+  
+  # make plots
+  p.ar <- ggplot(data = dt.arabl,
+                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() +
+    ylab('Indicator value') + xlab('Soil management points')+theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10), axis.text = element_text(size=10), legend.position = c(0.75,0.22))
+  p.gr <- ggplot(data = dt.gras,
+                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() +
+    ylab('Indicator value') + xlab('Soil management points')+theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10), axis.text = element_text(size=10), legend.position = c(0.75,0.2))
+p.ar+p.gr
+  
+```
+
 
 ### Recommendations
 
