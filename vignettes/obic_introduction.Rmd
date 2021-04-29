@@ -1086,14 +1086,6 @@ Organic matter serves as a food source for soil life and influences the living e
 
 At low organic matter concentrations, the contribution of organic matter to soil life is negligible. A soil organic matter concentration between 4% and 10% likely creates the best environment for good disease resistance.
 
-The indicator for disease resistance is based on a logistic evaluation of the organic matter concentration and can be calculated as follows.
-```{r, results = FALSE, eval = FALSE}
-
-  # calculate the indicator for the resistance of the soil against diseases and is indicated by the amount of soil life.
-  dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
-
-```
-
 ### Nematodes (WIP)
 Nematodes are small animals occurring in all ecotypes on Earth, so also in soil. There is a large variety of nematodes in soils, they vary amongst other things, in size, feeding habits, reproduction speed and life cycle. Plant parasitic nematodes (PPN) can reproduce in a range of host plants. Some nematodes have a specific host preference while other can reproduce in a large variety of plants. PPN can severely depress crop yields in vulnerable crops. Therefore, farmers can have their fields sampled to analyse which and how many nematodes occur.
 
@@ -1206,13 +1198,6 @@ Example of this function are given for five parcels with different attributes, a
 ```
 
 
-The D_NGW and D_NSW parameters can be passed to ind_nretention() to calculate an indicator score using a logistic evaluation function.
-```{r, results = FALSE, eval = FALSE}
-# calculate indicator for N leaching to groundwater
-dt[,D_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
-
-```
-
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
 
   # create example data
@@ -1259,39 +1244,8 @@ Below, examples are give of how to calculate the organic matter balance and the 
                                   M_DITCH, M_UNDERSEED, M_LIME, M_NONINVTILL, M_SSPM,
                                   M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
                                   )]
-    
-    # Calculate integrated management indicator
-    dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
+
 ````
-
-The integrated management indicator score for sustainable management increases linearly with the number of points earned.
-```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
-  # create example data
-  dt.arabl <- data.table(landuse = c(rep('arable on clay',5),rep('arable on peat',5),rep('arable on sand',5),rep('maize',5)),
-                         points = c(rep(c(0,4,9,14,18),3),c(0,3,6,9,12)),
-                         soiltype = c(rep('rivierklei', 5), rep('veen',5), rep('dekzand',10)),
-                         B_LU_BRP = c(rep(234,15),rep(259,5)))
-  dt.gras <- data.table(landuse = c(rep('grass on clay',5),rep('grass on sand',5),rep('grass on peat',5)),
-                        points = c(rep(c(0,3,5,8,11),2),c(0,4,9,14,17)),
-                        soiltype = c(rep('rivierklei',5),rep('dekzand',5),rep('veen',5)))
-  # calculate indicator
-  dt.gras <- dt.gras[,score := ind_management(points, rep(265,15),soiltype)]
-  dt.arabl <- dt.arabl[,score := ind_management(points, B_LU_BRP,soiltype)]
-  
-  # make plots
-  p.ar <- ggplot(data = dt.arabl,
-                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() +
-    ylab('Indicator value') + xlab('Soil management points')+theme(plot.title = element_text(size=10),
-                  legend.text = element_text(size=10), axis.text = element_text(size=10), legend.position = c(0.75,0.22))
-  p.gr <- ggplot(data = dt.gras,
-                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() +
-    ylab('Indicator value') + xlab('Soil management points')+theme(plot.title = element_text(size=10),
-                  legend.text = element_text(size=10), axis.text = element_text(size=10), legend.position = c(0.75,0.2))
-p.ar+p.gr
-  
-```
-
 
 ### Recommendations
 The Open Soil Index (OBI), gives a rating to soil parameters and soil functions. When a score is sub-optimal (score < 1), it is important to advise what measures can be taken to improve soil quality. For this purpose, a list of measures has been developed which had a positive effect on soil quality in field trials. Within the OBI, soil quality is assessed at the level of aggregate soil functions: soil chemistry and nutrient supply, soil physics and rooting, soil biology and disease resistance, and management). Within each group there are several soil parameters and functions, which can be specifically improved through soil management measures. Up to three out of the eleven measures may be recommended based on the performance of all soil parameters and functions. 
@@ -1327,6 +1281,72 @@ Deciding which measures are presented is controlled by two functions nested insi
 ````
 
 ## Integrating Soil Functions into OBIC scores
+Values calculated for individual chemical, physical, biological and environmental soil functions are not always meaningful to farmer. Nor is it easy to assess whether a given value is good or whether it requires improvement. Therefore, indicator scores for the soil functions are transformed to a value between 0 and 1, 0 being very poor and 1 being excellent. Such scores can easily be turned into scores ranging from 0-10 which is a commonly used scale for grading in the Netherlands, and therefore easy to interpret by Dutch users.
+
+The OBIC package has functions that transform the value of a soil function into a score. Examples of such functions are `ind_nitrogen()`, `ind_sealing()`, `ind_pmn()` and `ind_nretention()`. Some of these functions only require the soil function's value. Others may need soil type or the cultivated crop to as these parameters may warrant different evaluation for specific soil functions.
+
+```{r, results = FALSE, eval = FALSE}
+   # Calculate indicators for soil chemical functions
+    dt[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
+    dt[, I_C_P := ind_phosphate_availability(D_PBI)]
+    dt[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
+    dt[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
+    dt[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
+    dt[, I_C_PH := ind_ph(D_PH_DELTA)]
+    dt[, I_C_CEC := ind_cec(D_CEC)]
+    dt[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
+    dt[, I_C_ZN := ind_zinc(D_ZN)]
+    
+    # Calculate indicators for soil physical functions
+    dt[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
+    dt[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
+    dt[, I_P_DS := ind_waterstressindex(D_WSI_DS)]
+    dt[, I_P_WS := ind_waterstressindex(D_WSI_WS)]
+    dt[, I_P_DU := ind_winderodibility(D_WE)]
+    dt[, I_P_CO := ind_compaction(B_SC_WENR)]
+    dt[, I_P_WRI := ind_waterretention(D_WRI)]
+    dt[, I_P_CEC := ind_aggregatestability(D_AS)]
+    #dt[, I_P_WO := ind_workability(D_WO)] (WIP)
+  
+    # Calculate indicators for soil biological functions
+    dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
+    dt[, I_B_SF := ind_pmn(D_PMN)]
+    
+      # Calculate indicators for environment
+    dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
+    dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
+````
+
+Many of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function).
+
+The indicator for management bases on the point system of the label sustainable soil management has a linear relation between the number of points and the indicator score.
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+
+  # create example data
+  dt.arabl <- data.table(landuse = c(rep('arable on clay',5),rep('arable on peat',5),rep('arable on sand',5),rep('maize',5)),
+                         points = c(rep(c(0,4,9,14,18),3),c(0,3,6,9,12)),
+                         soiltype = c(rep('rivierklei', 5), rep('veen',5), rep('dekzand',10)),
+                         B_LU_BRP = c(rep(234,15),rep(259,5)))
+  dt.gras <- data.table(landuse = c(rep('grass on clay',5),rep('grass on sand',5),rep('grass on peat',5)),
+                        points = c(rep(c(0,3,5,8,11),2),c(0,4,9,14,17)),
+                        soiltype = c(rep('rivierklei',5),rep('dekzand',5),rep('veen',5)))
+  # calculate indicator
+  dt.gras <- dt.gras[,score := ind_management(points, rep(265,15),soiltype)]
+  dt.arabl <- dt.arabl[,score := ind_management(points, B_LU_BRP,soiltype)]
+  
+  # make plots
+  p.ar <- ggplot(data = dt.arabl,
+                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() +
+    ylab('Indicator value') + xlab('Soil management points')+theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10), axis.text = element_text(size=10), legend.position = c(0.75,0.22))
+  p.gr <- ggplot(data = dt.gras,
+                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() +
+    ylab('Indicator value') + xlab('Soil management points')+theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10), axis.text = element_text(size=10), legend.position = c(0.75,0.2))
+p.ar+p.gr
+  
+```
 
 ### Crop and soil dependent applicability of functions
 
