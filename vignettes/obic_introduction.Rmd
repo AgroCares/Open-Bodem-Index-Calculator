@@ -1020,8 +1020,6 @@ The open soil index quantifies and evaluates a series of soil biological functio
 ### Potentially mineralizable nitrogen
 The activity of soil fungi and bacteria has been measured via incubation trials for decades. In such incubation trials, the decomposition of soil organic nitrogen is measured over a period of time. The amount of nitrogen that mineralises in such trials is called the 'potential mineralisable nitrogen'(PMN). This indicates the ability of the soil to provide a crop with readily available nitrogen. In the Netherlands, this parameter is also used as an indicator for activity of soil microbes. This is possible because during the incubation, a soil sample is submerged in water, creating an anerobic enviroment, killing aerobic bacteria and fungi, which, together with some labile organic matter, are decomposed by anerobic soil microbes.
 
-
-
 For more information see `?calc_pmn`.
 
 ```{r, results = FALSE, eval = FALSE}
@@ -1032,7 +1030,7 @@ For more information see `?calc_pmn`.
 
 ```
 
-The PMN measured by routine laboratories in the Netherlands may be overestimated. Therefore, a landusedependent correction factor is used. The PMN index is capped at 500. Below an example of this function is given.
+The PMN measured by routine laboratories in the Netherlands may be overestimated. Therefore, a landuse dependent correction factor is used. The PMN index is capped at 500. Below an example of this function is given.
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
 
@@ -1082,6 +1080,19 @@ The PMN measured by routine laboratories in the Netherlands may be overestimated
 ```
 
 ### Disease resistance
+The activity of the soil life is an indication of the general disease resistance of the soil. When a soil food web is in balance, the soil's resistance to disease and pests is also optimal. The soil's resistance to disease and pests is often cited as a characteristic of a soil with good biological soil quality. The idea behind this is that a soil with a well-developed soil food web will be in balance, which means that strong multiplication of parasitic soil organisms is inhibited by  other soil life. Mechanisms include competition for food or infection sites on the root, eating the pathogens before they have had a chance to multiply (myco-parasitism), or secreting (specific) substances that pathogens cannot tolerate (antibiosis or soil fungistasis). 
+
+Organic matter serves as a food source for soil life and influences the living environment of soil life through its effects on soil structure and water holding capacity. The quantity and quality of organic matter can therefore be used as an indicator for the quantity and activity of soil life, and thus as an indicator for general soil resilience.
+
+At low organic matter concentrations, the contribution of organic matter to soil life is negligible. A soil organic matter concentration between 4% and 10% likely creates the best environment for good disease resistance.
+
+The indicator for disease resistance is based on a logistic evaluation of the organic matter concentration and can be calculated as follows.
+```{r, results = FALSE, eval = FALSE}
+
+  # calculate the indicator for the resistance of the soil against diseases and is indicated by the amount of soil life.
+  dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
+
+```
 
 ### Nematodes (WIP)
 Nematodes are small animals occurring in all ecotypes on Earth, so also in soil. There is a large variety of nematodes in soils, they vary amongst other things, in size, feeding habits, reproduction speed and life cycle. Plant parasitic nematodes (PPN) can reproduce in a range of host plants. Some nematodes have a specific host preference while other can reproduce in a large variety of plants. PPN can severely depress crop yields in vulnerable crops. Therefore, farmers can have their fields sampled to analyse which and how many nematodes occur.
@@ -1104,7 +1115,6 @@ A nematode parameter that is not entered is assumed to be 0. The severity of an 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
    dt <- data.table(nempar = c('A_RLN_PR_FAL', 'A_SN_DI_DES'), nr = 5, nem_ind = c(ind_nematodes(265, A_RLN_PR_FAL=5),ind_nematodes(265, A_SN_DI_DES=5)))
    
-  
 ```
 
 
@@ -1124,7 +1134,7 @@ dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS
 
 ```
 
-Example of this function are given for some parcels with different attributes, as well as for different groundwatertables.
+Example of this function are given for five parcels with different attributes, as well as for field 1 with different groundwatertables.
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
 
   # subset a serie of agricultural fields
@@ -1147,9 +1157,9 @@ Example of this function are given for some parcels with different attributes, a
   
    # plot output
   p1 <- ggplot(data = dt.test, aes(y = D_NGW, x = ID, col = )) + 
-        geom_col() +  theme_bw()+ xlab('field') + ggtitle('Potential for N leaching')
+        geom_col() +  theme_bw()+ xlab('Field') + ggtitle('Potential for N leaching')
   p2 <- ggplot(data = dt.test, aes(y = D_NSW, x = ID, col = )) + 
-        geom_col() +  theme_bw()+ xlab('field') + ggtitle('Potential for N runoff')
+        geom_col() +  theme_bw()+ xlab('Field') + ggtitle('Potential for N runoff')
   p3 <- ggarrange(p1, p2, ncol = 2)
   
   
@@ -1178,10 +1188,25 @@ Example of this function are given for some parcels with different attributes, a
         geom_col() +  theme_bw()+ xlab('B_GWL_CLASS') + ggtitle('Potential for N runoff')
   p6 <- ggarrange(p4, p5, ncol = 2)
     
+  
+  
+  # outp <- ggarrange(p1, p4, tab, ncol = 2, nrow = 2, align = 'v')
   p1+p4
 ```
 
-These parameters are used by ind_nretention() to calculate an indicator score using a logistic evaluation function.
+```{r,fig.width = 7, fig.height = 2.2,fig.fullwidth = TRUE,echo=FALSE}
+# Table of field properties
+  dt.table <- copy(dt.test)
+  setnames(dt.table, 'ID', 'Field')
+  dt.table <- dt.table[,D_NLV := round(D_NLV, 1)]
+
+  tab <- ggtexttable(dt.table[,.(Field,B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS)],rows = NULL) 
+  tab <- tab_add_title(tab,'Field properties to calculate N leaching and runoff')
+  tab
+```
+
+
+The D_NGW and D_NSW parameters can be passed to ind_nretention() to calculate an indicator score using a logistic evaluation function.
 ```{r, results = FALSE, eval = FALSE}
 # calculate indicator for N leaching to groundwater
 dt[,D_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
@@ -1201,7 +1226,9 @@ dt[,D_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
 ```
 
 ### N retention preventing N runoff
-something something runoff
+N-retention to prevent runoff is the ability of a soil to avoid superficial runoff of nitrate to surface water. Calculating runoff with the OBIC package works the same as calculating N leaching described above. Just set leaching_to to 'ow' instead of 'gw'.
+While the same input data is required to calculate leaching and runoff, internally the calculations use different values. Therefore, runoff and leaching may have different values for a parcel as can be seen in the example below where runoff is calculated for the same fields as was done for leaching.
+
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
 p2+p5
 ```
