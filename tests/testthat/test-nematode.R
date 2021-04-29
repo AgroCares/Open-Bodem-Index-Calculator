@@ -129,7 +129,7 @@ test_that("ind_nematodes works with complete input but with missing values", {
 
 
 # remove some measurement from input
-test_that("ind_nematodes works with incomplete", {
+test_that("ind_nematodes works with incomplete input", {
   expect_equal(
     ind_nematodes(B_LU_BRP = B_LU_BRP,
                   A_RLN_PR_TOT = A_RLN_PR_TOT,A_RLN_PR_CREN = A_RLN_PR_CREN,A_RLN_PR_NEG = A_RLN_PR_NEG,
