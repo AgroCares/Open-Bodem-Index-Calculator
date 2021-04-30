@@ -1319,7 +1319,8 @@ The OBIC package has functions that transform the value of a soil function into 
 
 Many of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function).
 
-The indicator for management bases on the point system of the label sustainable soil management has a linear relation between the number of points and the indicator score.
+
+The indicator for management based on the point system of the label sustainable soil management has a linear relation between the number of points and the indicator score.
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
 
@@ -1349,13 +1350,31 @@ p.ar+p.gr
 ```
 
 ### Crop and soil dependent applicability of functions
+Not all soil functions are relevant for all combinations of soil type and crop. For example, `I_P_DU` (wind erodibility) is not relevant on permanent grassland, as wind erosion is not a problem on these parcels. The table `weight.obic` is used to determine whether an indicator is relevant for a given parcel. Crops are differentiated into the categories arable, grassland, maize and nature according to the crop_category from the table `crops.obic`. In soil type a differentiation is made between peat and non peat soils. If an indicator is not relevant for a given parcel, its score will not be used in further aggregation.
 
 ### Integrating over time
 
+
 ### Aggregated soil functions
+Each soil function belongs to one of the soil indicators (chemical, physical, biological, environmental or management). For each indicator, a score is calculated by aggregating the scores of their underlying soil functions, with each function being assigned a specific weight. The weight of a soil function depends on its value; functions with low scores gain a higher weight. In this way, a poorly performing soil function contributes more to determining an indicators value than an excellently performing function.
 
 ### Holistic OBI score
+The integration of different soil functions into one score and their relevance in achieving a specific target (like crop yield) is often ignored in soil quality assessments (i.e., each function contributes equally), is based on expert-judgement or derived from multi-variate statistics analysing linkages among soil functions and soil and field properties within large datasets. Large databases are needed in which all relevant soil properties and functions have been determined as well as (historical) management. Unfortunately, these databases are scarce so that expert driven weighing procedures are introduced. Currently, the soil functions are weighted on the level of function category (35% for chemical, 35% for physical, and 20% for biological indicators) and 10% for management. The individual soil functions are weighted according to their accuracy and known validity range (so uncertain indicators have less impact on the final score).
+In order to calculate the total OBI score `S_T_OBI_A`, an integral assessment of soil quality for the following functions is made: soil chemistry `S_C_OBI`, soil structure `S_P_OBI`, soil biology `S_B_OBI` as well as soil management `S_M_OBI`.
 
+The holistic OBI score is given when the argument output in `obic_field()` or `obic_field_dt()` is set to *'all'*, *'scores'* or *'obic_scores'*
+
+```{r, results = FALSE, eval = FALSE}
+   # For example
+  OBIC::obic_field_dt(binnenveld[ID == 1], output = 'scores')
+
+  OBIC::obic_field_dt(binnenveld[ID == 1], output = 'obic_score')
+````
+Will give:
+```{r, eval = TRUE, echo=FALSE}
+  OBIC::obic_field_dt(binnenveld[ID == 1], output = 'scores')
+  OBIC::obic_field_dt(binnenveld[ID == 1], output = 'obic_score')
+````
 
 
 
