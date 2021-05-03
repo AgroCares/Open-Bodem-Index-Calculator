@@ -4,83 +4,84 @@
 A_CLAY_MI <- 28
 A_SILT_MI <- 20
 B_LU_BRP <- 238
-B_BT_AK <-  'zeeklei'
-B_GLG <- 90
-B_GHG <- 35
-t1 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
+B_SOILTYPE_AGR <-  'zeeklei'
+B_GWL_GLG <- 90
+B_GWL_GHG <- 35
+t1 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_SOILTYPE_AGR = B_SOILTYPE_AGR, B_GWL_GLG = B_GWL_GLG, B_GWL_GHG = B_GWL_GHG)
 
 # 2
 A_CLAY_MI <- 28
 A_SILT_MI <- 20
 B_LU_BRP <- 240  # schokkers
-B_BT_AK <-  'zeeklei'
-B_GLG <- 90
-B_GHG <- 35
-t2  <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
-t2.2 <- calc_workability(A_CLAY_MI = c(28), A_SILT_MI = c(20),  B_LU_BRP = c(240),  B_BT_AK = c('zeeklei'),  B_GLG = c(90),  B_GHG = c(35))
+B_SOILTYPE_AGR <-  'zeeklei'
+B_GWL_GLG <- 90
+B_GWL_GHG <- 35
+t2  <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_SOILTYPE_AGR = B_SOILTYPE_AGR, B_GWL_GLG = B_GWL_GLG, B_GWL_GHG = B_GWL_GHG)
+t2.2 <- calc_workability(A_CLAY_MI = c(28), A_SILT_MI = c(20),  B_LU_BRP = c(240),  B_SOILTYPE_AGR = c('zeeklei'),  B_GWL_GLG = c(90),  B_GWL_GHG = c(35))
 
 # 3
 A_CLAY_MI <- 28
 A_SILT_MI <- 20
 B_LU_BRP <- 370  # Rand grenzend aan....
-B_BT_AK <-  'zeeklei'
-B_GLG <- 90
-B_GHG <- 35
-t3  <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
+B_SOILTYPE_AGR <-  'zeeklei'
+B_GWL_GLG <- 90
+B_GWL_GHG <- 35
+t3  <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_SOILTYPE_AGR = B_SOILTYPE_AGR, B_GWL_GLG = B_GWL_GLG, B_GWL_GHG = B_GWL_GHG)
 
 # 4
 A_CLAY_MI <- 28
 A_SILT_MI <- 20
 B_LU_BRP <- 238
-B_BT_AK <-  'zeeklei'
-B_GLG <- 80
-B_GHG <- 30
-t4 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
+B_SOILTYPE_AGR <-  'zeeklei'
+B_GWL_GLG <- 80
+B_GWL_GHG <- 30
+t4 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_SOILTYPE_AGR = B_SOILTYPE_AGR, B_GWL_GLG = B_GWL_GLG, B_GWL_GHG = B_GWL_GHG)
 
 # 5
 A_CLAY_MI <- 28
 A_SILT_MI <- 20
 B_LU_BRP <- 980  #Lelie droogbloemen
-B_BT_AK <-  'zeeklei'
-B_GLG <- 90
-B_GHG <- 35
-t5  <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
+B_SOILTYPE_AGR <-  'zeeklei'
+B_GWL_GLG <- 90
+B_GWL_GHG <- 35
+t5  <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_SOILTYPE_AGR = B_SOILTYPE_AGR, B_GWL_GLG = B_GWL_GLG, B_GWL_GHG = B_GWL_GHG)
 
 # 6 
 A_CLAY_MI <- 28
 A_SILT_MI <- 20
 B_LU_BRP <- 259  
-B_BT_AK <-  'loess'
-B_GLG <- 80
-B_GHG <- 50
-t6 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
+B_SOILTYPE_AGR <-  'loess'
+B_GWL_GLG <- 80
+B_GWL_GHG <- 50
+t6 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_SOILTYPE_AGR = B_SOILTYPE_AGR, B_GWL_GLG = B_GWL_GLG, B_GWL_GHG = B_GWL_GHG)
 
 # 7 
 A_CLAY_MI <- 10
 A_SILT_MI <- 20
 B_LU_BRP <- 265  
-B_BT_AK <-  'veen'
-B_GLG <- 105
-B_GHG <- 15
-t7 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
+B_SOILTYPE_AGR <-  'veen'
+B_GWL_GLG <- 105
+B_GWL_GHG <- 15
+t7 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_SOILTYPE_AGR = B_SOILTYPE_AGR, B_GWL_GLG = B_GWL_GLG, B_GWL_GHG = B_GWL_GHG)
 
 # 8 zoals Huinink (2018)
 A_CLAY_MI <- 0
 A_SILT_MI <- 14
 B_LU_BRP <- 1929  
-B_BT_AK <-  'dekzand'
-B_GLG <- 150
-B_GHG <- 25
-t8 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)
+B_SOILTYPE_AGR <-  'dekzand'
+B_GWL_GLG <- 150
+B_GWL_GHG <- 25
+B_Z_TWO <-76 
+t8 <- calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP, B_SOILTYPE_AGR = B_SOILTYPE_AGR, B_GWL_GLG = B_GWL_GLG, B_GWL_GHG = B_GWL_GHG)
 
 #9
 t9 <- calc_workability(
   A_CLAY_MI = c(28, 28, 28, 28, 28, 28, 10, 0),
   A_SILT_MI = c(20, 20, 20, 20, 20, 20, 20, 14),
   B_LU_BRP = c(238, 240, 370, 238, 980, 259, 265, 1929),
-  B_BT_AK = c('zeeklei', 'zeeklei', 'zeeklei', 'zeeklei', 'zeeklei', 'loess', 'veen','dekzand'),
-  B_GLG = c(90, 90, 90, 80, 90, 80, 105, 150),
-  B_GHG = c(35, 35, 35, 30, 35, 50, 15, 25)
+  B_SOILTYPE_AGR = c('zeeklei', 'zeeklei', 'zeeklei', 'zeeklei', 'zeeklei', 'loess', 'veen','dekzand'),
+  B_GWL_GLG = c(90, 90, 90, 80, 90, 80, 105, 150),
+  B_GWL_GHG = c(35, 35, 35, 30, 35, 50, 15, 25)
 )
 t9
 calc_workability(28,20,238,'zeeklei',90,35)
@@ -90,42 +91,70 @@ t10 <- calc_workability(
   A_CLAY_MI = c(28, 28),
   A_SILT_MI = c(20, 20),
   B_LU_BRP = c(265, 265),
-  B_BT_AK = c('zeeklei', 'zeeklei'),
-  B_GLG = c(76, -5),
-  B_GHG = c(-233, -448)
+  B_SOILTYPE_AGR = c('zeeklei', 'zeeklei'),
+  B_GWL_GLG = c(76, -5),
+  B_GWL_GHG = c(-233, -448)
 )
 
 # New test values for testthat 7-4-2021 ===================
 tdt <- readRDS('../OBIC functies bodembewerkbaarheid/dev/testdata.rds')
 tdt[,I_WO := OBIC::calc_workability(A_CLAY_MI = A_CLAY_MI, A_SILT_MI = A_SILT_MI, B_LU_BRP = B_LU_BRP,
-                                    B_BT_AK = B_BT_AK, B_GLG = B_GLG, B_GHG = B_GHG)]
+                                    B_SOILTYPE_AGR = B_SOILTYPE_AGR, B_GWL_GLG = B_GWL_GLG, B_GWL_GHG = B_GWL_GHG)]
 tdt <- merge.data.table(tdt,OBIC::crops.obic[,.(crop_code, crop_name)], by.x = 'B_LU_BRP', by.y = 'crop_code')
-tdt_mini <- tdt[,.(crop_name,A_CLAY_MI, A_SILT_MI,B_LU_BRP, B_BT_AK, B_GLG, B_GHG, B_GT,I_WO)]
+zcrit <- st_read('../OBIC functies bodembewerkbaarheid/brp_glg_ghg_zcrit2.gpkg')
+zcritdt <- as.data.table(zcrit)
+tdt <- merge.data.table(tdt, zcritdt[,.(ref_id, profiel_zcrit2)], by.x = 'ID', by.y = 'ref_id')
+setnames(tdt, c('B_GLG', 'B_GHG', 'profiel_zcrit2', 'B_BT_AK'), c('B_GWL_GLG', 'B_GWL_GHG', 'B_Z_TWO', 'B_SOILTYPE_AGR'))
+tdt_mini <- tdt[,.(ID,crop_name,A_CLAY_MI, A_SILT_MI,B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_GT, B_Z_TWO)]
+
+
 
 t12 <- OBIC::calc_workability(
   A_CLAY_MI = c(15.6,13.6, 4.3, 22.6, 1.9, 2.9, 3.1, 4.3, 15.6),
   A_SILT_MI = c(16.7,30.5, 11.8, 36.6, 9.2, 8.6, 10.6, 11.8, 16.7),
   B_LU_BRP = c(233, 234, 236, 256, 259, 265, 265, 317, 2014),
-  B_BT_AK = c('zeeklei','zeeklei', 'dekzand','zeeklei', 'dekzand', 'dekzand', 'veen', 'dekzand', 'zeeklei'),
-  B_GLG = c(173,139, 106, 144, 115, 113, 42, 106, 173),
-  B_GHG = c(21, 18, 62, 70, 49, 81, 9, 62, 21)
+  B_SOILTYPE_AGR = c('zeeklei','zeeklei', 'dekzand','zeeklei', 'dekzand', 'dekzand', 'veen', 'dekzand', 'zeeklei'),
+  B_GWL_GLG = c(173,139, 106, 144, 115, 113, 42, 106, 173),
+  B_GWL_GHG = c(21, 18, 62, 70, 49, 81, 9, 62, 21),
+  B_Z_TWO = c()
+)
+
+t13sel <- tdt_mini[c(1,25,37,41,45,123,139,168,233)]
+t13sel$I_WO <- OBIC::calc_workability(
+  A_CLAY_MI = t13sel$A_CLAY_MI,
+  A_SILT_MI = t13sel$A_SILT_MI,
+  B_LU_BRP = t13sel$B_LU_BRP,
+  B_SOILTYPE_AGR = t13sel$B_SOILTYPE_AGR,
+  B_GWL_GLG = t13sel$B_GWL_GLG,
+  B_GWL_GHG = t13sel$B_GWL_GHG,
+  B_Z_TWO = t13sel$B_Z_TWO
+)
+# Als huinink
+huin <- OBIC::calc_workability(
+  A_CLAY_MI = 0,
+  A_SILT_MI = 14,
+  B_LU_BRP = 1929,  
+  B_SOILTYPE_AGR =  'dekzand',
+  B_GWL_GLG = 150,
+  B_GWL_GHG = 25,
+  B_Z_TWO =76
 )
 
 # Testing build with mock input data =============
 obiin <- readRDS('../OBIC functies bodembewerkbaarheid/dev/obiin_pdf.rds')
 # need to add glg and ghg
 set.seed(5)
-obiin[,B_GLG := sample.int(100, 910, replace = TRUE)]
-obiin[,B_GHG := sample.int(100, 910, replace = TRUE)]
+obiin[,B_GWL_GLG := sample.int(100, 910, replace = TRUE)]
+obiin[,B_GWL_GHG := sample.int(100, 910, replace = TRUE)]
 for(i in 1:nrow(obiin)){
-  if(obiin[i,B_GHG]>obiin[i, B_GLG]) {
-    x <- obiin[i,B_GHG]
-    obiin[i,B_GHG := B_GLG]
-    obiin[i,B_GLG := x]
+  if(obiin[i,B_GWL_GHG]>obiin[i, B_GWL_GLG]) {
+    x <- obiin[i,B_GWL_GHG]
+    obiin[i,B_GWL_GHG := B_GWL_GLG]
+    obiin[i,B_GWL_GLG := x]
   }
 }
 # Values may still be equal
-obiin[,B_GLG := fifelse(B_GLG-B_GHG < 10, B_GLG+10,B_GLG)]
+obiin[,B_GWL_GLG := fifelse(B_GWL_GLG-B_GWL_GHG < 10, B_GWL_GLG+10,B_GWL_GLG)]
 
 # Calculate OBIC
 result <- OBIC::obic(obiin, FALSE)
@@ -155,22 +184,22 @@ bof <- st_read('../OBIC functies bodembewerkbaarheid/dev/BOFEK2020_GIS/GIS/shp_f
 # Ook asin ipv sin (Huinink gebruikt BOOGSIN of ARCSIN in excel denk ik) geeft niet het gewenste resultat
 138-asin((-76-(25-150)/2)/((-25+150)/2))/0.0172024
 # Plotten van de sinosoide geeft ook iets raars
-x <- B_GLG:B_GHG
-B_GHG <- 25
-B_GLG <- 150
+x <- B_GWL_GLG:B_GWL_GHG
+B_GWL_GHG <- 25
+B_GWL_GLG <- 150
 
 png(filename='dev/grondwaterstand_doy.png')
-plot(x, 138-(asin((-x-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024), xlab = "gewenste grondwaterstand onder maaiveld cm", ylab = "doy waarop grondwaterstand wordt bereikt")
+plot(x, 138-(asin((-x-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024), xlab = "gewenste grondwaterstand onder maaiveld cm", ylab = "doy waarop grondwaterstand wordt bereikt")
 dev.off()
 png(filename = 'dev/plot.png')
-plot(138-(asin((-x-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024), x, xlab = "doy waarop grondwaterstand wordt bereikt", ylab = "gewenste grondwaterstand onder maaiveld cm")
+plot(138-(asin((-x-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024), x, xlab = "doy waarop grondwaterstand wordt bereikt", ylab = "gewenste grondwaterstand onder maaiveld cm")
 dev.off()
 
 library(ggpubr)
-B_GHG <- 25
-B_GLG <- 150
-x <- B_GLG:B_GHG
-gg <- ggplot(data = data.frame(x = B_GLG:B_GHG, B_GHG = B_GHG, B_GLG = B_GHG, y = 138-(asin((-x-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024)),
+B_GWL_GHG <- 25
+B_GWL_GLG <- 150
+x <- B_GWL_GLG:B_GWL_GHG
+gg <- ggplot(data = data.frame(x = B_GWL_GLG:B_GWL_GHG, B_GWL_GHG = B_GWL_GHG, B_GWL_GLG = B_GWL_GHG, y = 138-(asin((-x-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024)),
              mapping = aes(x = x, y =y ))+
   theme_pubr() + geom_point()+
   xlab("gewenste grondwaterstand onder maaiveld cm") +
@@ -179,7 +208,7 @@ show(gg)
 ggsave('dev/grondwater_doy.png')
 
 # Plot van lengte van het groeiseizoen============
-gg <- ggplot(data = data.frame(x = B_GLG:B_GHG, B_GHG = B_GHG, B_GLG = B_GHG, y = 2*(228-(138-(asin((-x-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024)))),
+gg <- ggplot(data = data.frame(x = B_GWL_GLG:B_GWL_GHG, B_GWL_GHG = B_GWL_GHG, B_GWL_GLG = B_GWL_GHG, y = 2*(228-(138-(asin((-x-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024)))),
              mapping = aes(x = x, y =y ))+
   theme_pubr() + geom_point()+
   xlab("gewenste grondwaterstand onder maaiveld cm") +
@@ -277,25 +306,25 @@ m4 <- rbindlist(fieldprop)
 sf.dt <- as.data.table(sf)
 m4 <- merge.data.table(m4, sf.dt[,.(ref_id, glg, ghg)], by.x = 'field', by.y = 'ref_id')
 setnames(m4, names(m4), toupper(names(m4)))
-setnames(m4, c('REF_ID', 'GLG', 'GHG'), c('ID', 'B_GLG', 'B_GHG'))
+setnames(m4, c('REF_ID', 'GLG', 'GHG'), c('ID', 'B_GWL_GLG', 'B_GWL_GHG'))
 # GLG en GHG omzetten van m naar cm
-m4[,B_GLG := B_GLG*100]
-m4[,B_GHG := B_GHG*100]
+m4[,B_GWL_GLG := B_GWL_GLG*100]
+m4[,B_GWL_GHG := B_GWL_GHG*100]
 
 saveRDS(m4, '../OBIC functies bodembewerkbaarheid/dev/testdata.rds')
 testdt <- m4[YEAR == 2019]
 test <- calc_workability(A_CLAY_MI = testdt$A_CLAY_MI, A_SILT_MI = testdt$A_SILT_MI, B_LU_BRP = testdt$B_LU_BRP,
-                         B_BT_AK = testdt$B_BT_AK, B_GLG = testdt$B_GLG, B_GHG = testdt$B_GHG)
-# NaN's worden geproduceerd wanneer (-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024) kleiner is dan -1 of groter dan 1
-# in regels 144 en 145: dt[,req_spring_depth_day := round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))]
+                         B_SOILTYPE_AGR = testdt$B_SOILTYPE_AGR, B_GWL_GLG = testdt$B_GWL_GLG, B_GWL_GHG = testdt$B_GWL_GHG)
+# NaN's worden geproduceerd wanneer (-req_depth_spring-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024) kleiner is dan -1 of groter dan 1
+# in regels 144 en 145: dt[,req_spring_depth_day := round(138-(asin((-req_depth_spring-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))]
 # Zoek uit waarom dit zo kan zijn
 testdt$I_WO <- test
 
 #plot waardes
-round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024)) # Formule waar het mis gaat
+round(138-(asin((-req_depth_spring-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024)) # Formule waar het mis gaat
 mokghg <- seq(1,201, 4)
 req_depth_spring <- 60
-plot(mokghg, (-req_depth_spring-0.5*(-mokghg-testdt$B_GLG))/(0.5*(-mokghg+testdt$B_GLG))/0.0172024)
+plot(mokghg, (-req_depth_spring-0.5*(-mokghg-testdt$B_GWL_GLG))/(0.5*(-mokghg+testdt$B_GWL_GLG))/0.0172024)
 plot(mokghg, (-req_depth_spring-0.5*(-mokghg-150))/(0.5*(-mokghg+150))/0.0172024)              
 
 plot(145, (-req_depth_spring-0.5*(-145-150))/(0.5*(-145+150))/0.0172024) 
@@ -305,41 +334,41 @@ plot(x, (-req_depth_spring-0.5*(-x-150))/(0.5*(-x+150))/0.0172024)
 
 # constante glg, toenemende ghg
 req_depth_day <- c()
-for(B_GHG in 1:149) {
-  B_GLG <- 150
+for(B_GWL_GHG in 1:149) {
+  B_GWL_GLG <- 150
   req_depth_spring <- 60
-  req_depth_day[B_GHG] <- round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))
+  req_depth_day[B_GWL_GHG] <- round(138-(asin((-req_depth_spring-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))
 }
 plot(1:149,req_depth_day)
 # toenemende glg en ghg
 req_depth_day <- c()
-for(B_GHG in 1:149) {
-  B_GLG <- 150 +B_GHG
+for(B_GWL_GHG in 1:149) {
+  B_GWL_GLG <- 150 +B_GWL_GHG
   req_depth_spring <- 60
-  req_depth_day[B_GHG] <- round(138-(asin((-req_depth_spring-0.5*(-B_GHG-B_GLG))/(0.5*(-B_GHG+B_GLG)))/0.0172024))
+  req_depth_day[B_GWL_GHG] <- round(138-(asin((-req_depth_spring-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024))
 }
 plot(1:149,req_depth_day)
 
 # De grondwaterstand op de y-as op dagnr x kan worden berekend uit 0.5*amplitude * SIN(x*0.0172024) of
-# GWSdagx = -(-B_GHG-B_GLG)/2+(-B_GHG+B_GLG)/2*sin(0.0172142*(dagx +46))
-GWSdagx <- -(-B_GHG-B_GLG)/2+(-B_GHG+B_GLG)/2*sin(0.0172142*(dagx +46))
+# GWSdagx = -(-B_GWL_GHG-B_GWL_GLG)/2+(-B_GWL_GHG+B_GWL_GLG)/2*sin(0.0172142*(dagx +46))
+GWSdagx <- -(-B_GWL_GHG-B_GWL_GLG)/2+(-B_GWL_GHG+B_GWL_GLG)/2*sin(0.0172142*(dagx +46))
 gws_jaar <- c()
 for(dagx in 1:365){
-  gws_jaar[dagx] <- -(-B_GHG-B_GLG)/2+(-B_GHG+B_GLG)/2*sin(0.0172142*(dagx +46))
+  gws_jaar[dagx] <- -(-B_GWL_GHG-B_GWL_GLG)/2+(-B_GWL_GHG+B_GWL_GLG)/2*sin(0.0172142*(dagx +46))
 }
 plot(1:365,gws_jaar)
 # De dag x te waarop tussen 15 februari en 15 augustus een gegeven grondwaterstand y gemiddeld voor komt volgt uit:
 # Dag x = - arcsin [ -(gwsy – gemiddelde gws) / amplitude van de golf] /0,0172142 + 138
-B_GHG <- 20
-B_GLG <- 120
+B_GWL_GHG <- 20
+B_GWL_GLG <- 120
 req_depth_spring <- 20:121
-# dagx <- - asin(-(req_depth_spring-(B_GHG+B_GLG)/2/(-B_GHG+B_GLG)/2))/0.0172142+138
-dagx <- 138-(asin((-req_depth_spring-(-B_GHG-B_GLG)/2)/((-B_GHG+B_GLG)/2))/0.0172142) # the proper formula
+# dagx <- - asin(-(req_depth_spring-(B_GWL_GHG+B_GWL_GLG)/2/(-B_GWL_GHG+B_GWL_GLG)/2))/0.0172142+138
+dagx <- 138-(asin((-req_depth_spring-(-B_GWL_GHG-B_GWL_GLG)/2)/((-B_GWL_GHG+B_GWL_GLG)/2))/0.0172142) # the proper formula
 plot(min(req_depth_spring):max(req_depth_spring),dagx)
-# perhaps req_depth_spring is sometimes outside bounds of B_GLG and B_GHG
+# perhaps req_depth_spring is sometimes outside bounds of B_GWL_GLG and B_GWL_GHG
 debug(calc_workability)
 test <- calc_workability(A_CLAY_MI = testdt$A_CLAY_MI, A_SILT_MI = testdt$A_SILT_MI, B_LU_BRP = testdt$B_LU_BRP,
-                         B_BT_AK = testdt$B_BT_AK, B_GLG = testdt$B_GLG, B_GHG = testdt$B_GHG)
+                         B_SOILTYPE_AGR = testdt$B_SOILTYPE_AGR, B_GWL_GLG = testdt$B_GWL_GLG, B_GWL_GHG = testdt$B_GWL_GHG)
 
 # yield loss voor overig heeft een formule nodig:
 rsltest <- seq(0,1,0.01)

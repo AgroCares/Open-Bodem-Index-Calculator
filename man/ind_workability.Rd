@@ -4,10 +4,12 @@
 \alias{ind_workability}
 \title{Calculate indicator for workability}
 \usage{
-ind_workability(D_P_WO)
+ind_workability(D_WO, B_LU_BRP)
 }
 \arguments{
-\item{D_P_WO}{(numeric) The value of workability calculated by \code{\link{calc_workability}}}
+\item{D_WO}{(numeric) The value of the relative (workable) season length calculated by \code{\link{calc_workability}}}
+
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 }
 \description{
 This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without

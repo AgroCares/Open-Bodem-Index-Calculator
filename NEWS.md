@@ -1,5 +1,15 @@
 # Changelog OBIC
 
+## Version 1.1.0 2021-05-03
+### Added
+* argument B_GWL_GHG, B_GWL_GLG and B_Z_TWO to obic_field and obic_field_dt
+* function calc_workability is active now
+
+### Changed
+* updated documentation, weight.obic for workability
+* update calc_workability
+* update column_descriptons_obic.Rdata
+
 ## Version 1.0.0 2021-04-28
 ### Added
 * column crops_season to crops.obic
