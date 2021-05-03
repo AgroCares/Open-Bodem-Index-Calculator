@@ -328,7 +328,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
     
-    # Determine amount of indicators per category
+    # Determine number of indicators per category
     dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']
     
     # add weighing factor to indicator values

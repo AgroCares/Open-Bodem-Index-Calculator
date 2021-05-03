@@ -1261,7 +1261,7 @@ The following aspects play a role in compiling the top three measures that a use
 * When recommending measures, is it possible to take into account positive or negative side effects which may occur once the measure is implemented?
 * Measures that are advised must be practical and to the point: not "follow fertilisation advice", but specifically tailored to the element of which there is a deficiency.
 
-The measures included in this package are:
+The measures included in OBIC are:
 
 * M1: liming of soil to advisory pH
 * M2: more compost 
@@ -1286,13 +1286,14 @@ Deciding which measures are presented is controlled by two functions nested insi
 ````
 
 ## Integrating Soil Functions into OBIC scores
-The Open Soil Index is a score number ranging between 0 and 10, that holistically represents the soil quality as well as its management. The score is field specific, accounting for the soil type, geohydrological site properties and the crop rotation sequence of the last decade. The final score can be decomposed to sub scores for different categories reflecting major soil functions (chemical, physical, biological, and management), and these sub scores can further be decomposed to soil function levels. For each soil function, an indicator value ranging between 0 and 100 reflects the current situation given its deviation from a target condition of that specific soil function. With this hierarchical structure, the OBI offers both integral assessment (i.e. whether a soil is overall good or not) and specific assessment (i.e. which soil functions are poorly evaluated and to what extent these soil functions need to be adapted to improve the overall soil quality to the “optimum situation”). 
+The Open Soil Index is a score number ranging between 0 and 10, that holistically represents the soil quality as well as its management. The score is field specific, accounting for the soil type, geohydrological site properties and the crop rotation sequence of the last decade. The final score can be decomposed to sub scores for different categories reflecting major soil functions (chemical, physical, biological, and management), and these sub scores can further be decomposed to soil function levels. For each soil function, an indicator value ranging between 0 and 1 reflects the current situation given its deviation from a target condition of that specific soil function. With this hierarchical structure, the OBI offers both integral assessment (i.e. whether a soil is overall good or not) and specific assessment (i.e. which soil functions are poorly evaluated and to what extent these soil functions need to be adapted to improve the overall soil quality to the “optimum situation”). 
 
 
-Values calculated for individual chemical, physical, biological and environmental soil functions are not always meaningful to farmer. Nor is it easy to assess whether a given value is good or whether it requires improvement. Therefore, indicator scores for the soil functions are transformed to a value between 0 and 1, 0 being very poor and 1 being excellent. Such scores can easily be turned into scores ranging from 0-10 which is a commonly used scale for grading in the Netherlands, and therefore easy to interpret by Dutch users.
+### Transforming indicator values
+Many of the indicator values calculated in the OBIC have a unit and a target value. D_NLV for example is the nitrogen producing capacity of the soil and should have a value between -30 and 250. However,Values calculated for individual indicators of chemical, physical, biological and environmental soil functions are not always meaningful to farmers. Nor is it easy to assess whether a given value is good or whether it requires improvement. Therefore, indicator scores for the soil functions are transformed to a value between 0 and 1, 0 being very poor and 1 being excellent (optimal for agricultural production). This way, the target value is clear and its easy to see whether an indicator on a parcel warrants a lot of improvement or not. Additionally, such scores can easily be turned into scores ranging from 0-10 which is a commonly used scale for grading in the Netherlands, and therefore easy to interpret by Dutch users.
 
 
-The OBIC package has functions that transform the value of a soil function into a score. Examples of such functions are `ind_nitrogen()`, `ind_sealing()`, `ind_pmn()` and `ind_nretention()`. Some of these functions only require the soil function's value. Others may need soil type or the cultivated crop to as these parameters may warrant different evaluation for specific soil functions.
+The OBIC package has functions that transform the value of a soil function into a score. Examples of such functions are `ind_nitrogen()`, `ind_sealing()`, `ind_pmn()` and `ind_nretention()`. Some of these functions only require the soil function's value. Others may need soil type or the cultivated crop to as these parameters may require different evaluation for specific soil functions.
 
 ```{r, results = FALSE, eval = FALSE}
    # Calculate indicators for soil chemical functions
@@ -1326,7 +1327,15 @@ The OBIC package has functions that transform the value of a soil function into 
     dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
 ````
 
-Many of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function).
+Some of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function). When logistic evaluation is used, there is no linear relation between the an indicators value and its score. Often the evaluation is set up so that lower values gain increasingly lower scores. In other words, poor performance is evaluated more stringent than good performance. This is illustrated below with the example of the waterstressindex.
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+  dt <- data.table(D_WRI = seq(0,100,1))
+  dt[, I_P_WRI := ind_waterretention(D_WRI)]
+  gg <- ggscatter(dt, x = 'D_WRI', y = 'I_P_WRI', title = 'Waterstress evaluation') +xlab('Indicator value') + ylab('Indicator score') +theme_bw()
+  gg
+
+```
 
 
 The indicator for management based on the point system of the label sustainable soil management has a linear relation between the number of points and the indicator score.
@@ -1359,13 +1368,66 @@ p.ar+p.gr
 ```
 
 ### Crop and soil dependent applicability of functions
-Not all soil functions are relevant for all combinations of soil type and crop. For example, `I_P_DU` (wind erodibility) is not relevant on permanent grassland, as wind erosion is not a problem on these parcels. The table `weight.obic` is used to determine whether an indicator is relevant for a given parcel. Crops are differentiated into the categories arable, grassland, maize and nature according to the crop_category from the table `crops.obic`. In soil type a differentiation is made between peat and non peat soils. If an indicator is not relevant for a given parcel, its score will not be used in further aggregation.
+Not all indicators are relevant for all combinations of soil type and crop. For example, `I_P_DU` (wind erodibility) is not relevant on permanent grassland, as wind erosion is not a problem on these parcels. The table `weight.obic` is used to determine whether an indicator is relevant for a given parcel. Crops are differentiated into the categories arable, grassland, maize and nature according to the crop_category from the table `crops.obic`. In soil type a differentiation is made between peat and non peat soils. If an indicator is not relevant for a given parcel, its score will not be used in further aggregation.
 
+```{r, results = FALSE, eval = FALSE}
+     # load weights.obic (set indicator to zero when not applicable)
+    w <- as.data.table(OBIC::weight.obic)
+    
+    # Add years per field
+    dt[,year := .I, by = ID]
+    
+    # Select all indicators used for scoring
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT',colnames(dt))]
+
+    # Melt dt and assign main categories for OBI
+    dt.melt <- melt(dt[,mget(cols)],
+                    id.vars = c('B_SOILTYPE_AGR','crop_category','year'), 
+                    variable.name = 'indicator')
+    
+    # add categories relevant for aggregating
+    # C = chemical, P = physics, B = biological, BCS = visual soil assessment
+    # indicators not used for integrating: IBCS and IM
+    dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
+    dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
+    dt.melt[grepl('^I_M_',indicator), cat := 'IM']
+    
+    # Determine number of indicators per category
+    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']
+    
+    # add weighing factor to indicator values
+    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator,weight_nonpeat,weight_peat)], 
+                     by = c('crop_category','indicator'), all.x = TRUE)
+    
+    # calculate correction factor for indicator values (low values have more impact than high values, a factor 5)
+    dt.melt[,cf := cf_ind_importance(value)]
+    
+    # calculate weighted value for crop category
+    dt.melt[,value.w := value]
+    dt.melt[grepl('veen',B_SOILTYPE_AGR) & weight_peat < 0,value.w := -999]
+    dt.melt[!grepl('veen',B_SOILTYPE_AGR) & weight_nonpeat < 0,value.w := -999]
+```
+   
+    
 ### Integrating over time
+Till this point, all values and indicators have been calculated for a range of years (typically ten). Before aggregating values over years, a correction factor is calculated to give a weight so that recent years count more than long gone years. After aggregating indicator scores over years, a single score for each indicator remains. These are the scores presented to a user when indicators are included in the output of `obic_field()`. 
 
+```{r, results = FALSE, eval = FALSE}
+      # subset dt.melt for relevant columns only
+    out.ind <-  dt.melt[,list(indicator,year,value = value.w)]
+    
+    # calculate correction factor per year; recent years are more important
+    out.ind[,cf := log(12 - pmin(10,year))]
+    
+    # calculate weighted average per indicator over the year
+    out.ind <- out.ind[,list(value = round(sum(cf * pmax(0,value) / sum(cf[value >= 0])),3)), by = indicator]
+       
+    # non relevant indicators, set to -999
+    out.ind[is.na(value), value := -999]
+```
 
 ### Aggregated soil functions
-Each soil function belongs to one of the soil indicators (chemical, physical, biological, environmental or management). For each indicator, a score is calculated by aggregating the scores of their underlying soil functions, with each function being assigned a specific weight. The weight of a soil function depends on its value; functions with low scores gain a higher weight. In this way, a poorly performing soil function contributes more to determining an indicators value than an excellently performing function.
+Each soil indicator belongs to one of the major soil functions (chemical, physical, biological, environmental or management). For each function, a score is calculated by aggregating the scores of their underlying soil indicators, with each indicator being assigned a specific weight. The weight of a soil function depends on its value; functions with low scores gain a higher weight. In this way, a poorly performing soil function contributes more to determining an indicators value than an excellently performing function.
 
 ### Holistic OBI score
 The integration of different soil functions into one score and their relevance in achieving a specific target (like crop yield) is often ignored in soil quality assessments (i.e., each function contributes equally), is based on expert-judgement or derived from multi-variate statistics analysing linkages among soil functions and soil and field properties within large datasets. Large databases are needed in which all relevant soil properties and functions have been determined as well as (historical) management. Unfortunately, these databases are scarce so that expert driven weighing procedures are introduced. Currently, the soil functions are weighted on the level of function category (35% for chemical, 35% for physical, and 20% for biological indicators) and 10% for management. The individual soil functions are weighted according to their accuracy and known validity range (so uncertain indicators have less impact on the final score).
