@@ -186,35 +186,38 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
 #' This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
 #' inflicting structural damage that cannot be restored by the regular management on the farm.
 #'  
-#' @param D_P_WO (numeric) The value of the relative (workable) season length calculated by \code{\link{calc_workability}}
-#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param D_WO (numeric) The value of the relative (workable) season length calculated by \code{\link{calc_workability}}
+#' @param B_LU_BRP (numeric) The crop code from the BRP
 #'  
 #' @export
-ind_workability <- function(D_P_WO, B_LU_BRP) {
+ind_workability <- function(D_WO, B_LU_BRP) {
+  
+  # add visual bindings
   id = arg.length = crop_code = crop_season = rsl = . = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
   setkey(crops.obic, crop_code)
   
-  arg.length <- max(length(D_P_WO), length(B_LU_BRP))
+  # length of inputs
+  arg.length <- max(length(D_WO), length(B_LU_BRP))
   
   # Check inputs
-  checkmate::assert_numeric(D_P_WO, lower = 0, upper = 1, any.missing = FALSE)
+  checkmate::assert_numeric(D_WO, lower = 0, upper = 1, any.missing = FALSE)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
   # Form data table
   dt <- data.table(id = 1:arg.length,
-                   rsl = D_P_WO,
+                   rsl = D_WO,
                    B_LU_BRP = B_LU_BRP)
   
   # Merge crop_season into data table
   dt <- merge.data.table(dt, crops.obic[,.(crop_code, crop_season)], by.x = 'B_LU_BRP', by.y = 'crop_code')
   
   # evaluate relative season length
-  dt[!crop_season == 'beweid bemaaid gras',score := OBIC::evaluate_logistic(x = rsl, b = 15, x0 = 0.75, v = 1, increasing = TRUE)]
-  dt[crop_season == 'beweid bemaaid gras',score := OBIC::evaluate_logistic(x = rsl, b = 9, x0 = 0.5, v = 1, increasing = TRUE)]
+  dt[!grepl('^beweid', crop_season),score := evaluate_logistic(x = rsl, b = 15, x0 = 0.75, v = 1, increasing = TRUE)]
+  dt[grepl('^beweid', crop_season),score := evaluate_logistic(x = rsl, b = 9, x0 = 0.5, v = 1, increasing = TRUE)]
   
   # overwrite score when rsl = 1
   dt[rsl == 1, score := 1]
@@ -222,7 +225,7 @@ ind_workability <- function(D_P_WO, B_LU_BRP) {
   # setorder
   setorder(dt, id)
   
-  # Return value
+  # Return score
   score <- dt[,score]
   
   return(score)
