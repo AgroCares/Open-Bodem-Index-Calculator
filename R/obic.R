@@ -462,13 +462,14 @@ obic_field_dt <- function(dt,output = 'all') {
   
   # column names mandatory
   dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 'B_LU_BRP', 
+              'B_GWL_GLG','B_GWL_GHG','B_Z_TWO',
               'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC','A_CACO3_IF',
               'A_N_RT','A_CN_FR','A_COM_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
   
   # check input
-  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 29
+  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 32
   
   # check type of dt
   checkmate::assert_true(dt.check)
@@ -492,7 +493,9 @@ obic_field_dt <- function(dt,output = 'all') {
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
   
   # calculate obic_field
-  out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,dt$B_LU_BRP, 
+  out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
+                    dt$B_GWL_GLG,dt$B_GWL_GHG,dt$B_Z_TWO,
+                    dt$B_LU_BRP, 
                     dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,dt$A_CACO3_IF,
                     dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
                     dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
