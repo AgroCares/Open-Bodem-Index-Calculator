@@ -2,20 +2,23 @@
 #'
 #' This function calculates the workability of soils, given as potential length of the growing season. Based on Huinink (2018)
 #' 
-#' @param A_CLAY_MI (numeric) The clay content of the soil (in procent)
-#' @param A_SILT_MI (numeric) The silt content of the soil (in procent)
-#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
-#' @param B_SOILTYPE_AGR (character) The type of soil
+#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
+#' @param A_SILT_MI (numeric) The silt content of the soil (\%)
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param B_GWL_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
 #' @param B_GWL_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
 #' @param B_Z_TWO  (numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)
+#' @param calcyieldloss (boolean) whether the function includes yield loss, options: TRUE or FALSE (default).
 #' 
 #' @import data.table
 #' 
 #' @references Huinink (2018) Bodem/perceel geschiktheidsbeoordeling voor Landbouw, Bosbouw en Recreatie. BodemConsult-Arnhem
 #'  
 #' @export
-calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO) {
+calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, 
+                             B_GWL_GLG, B_GWL_GHG, B_Z_TWO,
+                             calcyieldloss = FALSE) {
   
   # define variables used within the function
   id =crop_code = soiltype = landuse = crop_waterstress = crop_season = NULL
@@ -127,36 +130,52 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   # Calculate relative season length
   dt[,rsl := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
   
-  # # # Calculate percentage yield loss non-grassland by sub-optimal season length
-  # dt[derving == 'zaai groenten' , yl := 538*rsl^2-1144*rsl+606]
-  # dt[derving == 'zomergranen'   , yl := 232*rsl^2- 475*rsl+243]
-  # dt[derving == 'plant groenten', yl := 392*rsl^2- 785*rsl+393]
-  # dt[derving == 'wintergranen'  , yl :=(232*rsl^2- 475*rsl+243)*0.85/2]
-  # dt[derving == 'boomteelt'     , yl :=(538*rsl^2-1144*rsl+606)/2]
-  # dt[derving == 'overig'        , yl := 100*rsl^2- 200*rsl+100]
-  # 
-  # # helper functions to determine yield loss in grass given soiltype
-  # ylveen <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
-  #                     y = c(23, 25, 28, 36, 38, 41, 54, 59, 100), method = 'linear',
-  #                     yleft = NA_integer_, yright = NA_integer_)
-  # ylsoil <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
-  #                     y = c(23, 25, 29, 41, 43, 51, 68, 72, 100), method = 'linear',
-  #                     yleft = NA_integer_, yright = NA_integer_)
-  # 
-  # dt[derving == 'grasland' & soiltype.m == 'veen', yl := ylveen(rsl)]
-  # dt[derving == 'grasland' & !soiltype.m == 'veen', yl := ylsoil(rsl)]
-  # 
-  # # Calculate yield fraction, always above zero
-  # dt[,yield := pmax(0, 1 - 0.01 * yl)] 
-  # # Correct grasland yield with logistic evaluation
-  # dt[derving == 'grasland', yield := 
-  #      OBIC::evaluate_logistic(x = yield, b = 16, x0 = 0.5, v = 0.5,increasing = TRUE)]
+  # Calculate percentage yield loss non-grassland by sub-optimal season length
+  if(calcyieldloss == TRUE){
+    
+    # add yield loss per category
+    dt[derving == 'zaai groenten' , yl := 538 * rsl^2-1144 * rsl + 606]
+    dt[derving == 'zomergranen'   , yl := 232 * rsl^2- 475 * rsl + 243]
+    dt[derving == 'plant groenten', yl := 392 * rsl^2- 785 * rsl + 393]
+    dt[derving == 'wintergranen'  , yl :=(232 * rsl^2- 475 * rsl + 243)*0.85/2]
+    dt[derving == 'boomteelt'     , yl :=(538 * rsl^2-1144 * rsl + 606)/2]
+    dt[derving == 'overig'        , yl := 100 * rsl^2- 200 * rsl + 100]
+    
+    # # helper functions to determine yield loss in grass given soil type
+    ylveen <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
+                        y = c(23, 25, 28, 36, 38, 41, 54, 59, 100), method = 'linear',
+                        yleft = NA_integer_, yright = NA_integer_)
+    ylsoil <- approxfun(x = c(1, 0.9, 0.8, 0.6, 0.55, 0.43, 0.22, 0.08, 0),
+                        y = c(23, 25, 29, 41, 43, 51, 68, 72, 100), method = 'linear',
+                        yleft = NA_integer_, yright = NA_integer_)
+ 
+    # add yield reduction for grassland
+    dt[derving == 'grasland' & soiltype.m == 'veen', yl := ylveen(rsl)]
+    dt[derving == 'grasland' & !soiltype.m == 'veen', yl := ylsoil(rsl)]
+
+    # Calculate yield fraction, always above zero
+    dt[,yield := pmax(0, 1 - 0.01 * yl)] 
+    dt[derving == 'grasland', yield := evaluate_logistic(x = yield, b = 16, x0 = 0.5, 
+                                                         v = 0.5,increasing = TRUE)]
+    
+  }
+    
   
   # setorder
   setorder(dt, id)
   
-  # Return relative season length
-  value <- dt[,rsl]
+  # Return output
+  if(calcyieldloss == TRUE){
+    
+    # return yield decline
+    value <- dt[,yield]
+    
+  } else {
+    
+    # return relative length season
+    value <- dt[,rsl]  
+  }
+  
   
   # return value
   return(value)
