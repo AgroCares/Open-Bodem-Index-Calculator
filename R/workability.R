@@ -25,6 +25,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
   soiltype.m = spring_depth =  gws_sub_workingdepth = NULL
   early_season_day_deficit = late_season_day_deficit = NULL
   req_days_pre_glg = req_days_post_glg = total_days = NULL
+  derving = yield = yl = NULL
+  
   # parameters related to required depth (rd): required depth for capilairy (rdc), for hydrostatic equilibrium (rdh)
   rdh = rdc = rd_spring = rd_fall = NULL
   rdh_spring = rdh_fall = req_spring_depth_day = req_fall_depth_day = NULL

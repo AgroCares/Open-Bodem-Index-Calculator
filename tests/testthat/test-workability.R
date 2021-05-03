@@ -17,7 +17,7 @@ test_that("calc_workability works", {
 test_that("ind_workability works", {
   expect_equal(
     ind_workability(
-      D_P_WO = c(0, 0.75, 1, 0, 0.5, 1),
+      D_WO = c(0, 0.75, 1, 0, 0.5, 1),
       B_LU_BRP = c(256, 256, 256, 265, 265, 265)
     ),
     expected = c(0, 0.5, 1, 0, 0.5, 1),
