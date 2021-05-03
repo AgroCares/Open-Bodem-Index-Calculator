@@ -34,6 +34,9 @@ A_RT_BCS;measurement;Spoorvorming/ vertrapping;Rutting / trampling;score 1-10;Bo
 A_SC_BCS;measurement;Verdichting ondergrond;Subsoil compaction;score 1-10;BodemConditieScore
 A_SS_BCS;measurement;Bodemstructuur;Soil structure;score 1-10;BodemConditieScore
 B_GWL_CLASS;measurement;Grondwatertrap;Groundwater level;-;
+B_GWL_GLG;measurement;Gemiddeld Laagste Grondwaterstand;The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level;;
+B_GWL_GHG;measurement;Gemiddeld Hoogste Grondwaterstand;The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level;;
+B_Z_TWO;measurement;;The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm);;
 B_BT_BK;measurement;Bodemtype;Bodemtype;-;bodemkaart 1:50000
 B_SOILTYPE_AGR;measurement;Bodemtype Agronomische Classificering;Bodemtype Agronomische Classificering;-;
 B_LU_BRP;measurement;Gewascode;Crop cod;-;BRP
