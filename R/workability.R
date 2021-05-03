@@ -127,9 +127,6 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   # Calculate relative season length
   dt[,rsl := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
   
-  # evaluate relative season length
-  dt[,score := OBIC::evaluate_logistic(x = rsl, b = 15, x0 = 0.75, v = 1, increasing = TRUE)]
-  
   # # # Calculate percentage yield loss non-grassland by sub-optimal season length
   # dt[derving == 'zaai groenten' , yl := 538*rsl^2-1144*rsl+606]
   # dt[derving == 'zomergranen'   , yl := 232*rsl^2- 475*rsl+243]
@@ -158,8 +155,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
   # setorder
   setorder(dt, id)
   
-  # Return yield
-  value <- dt[,score]
+  # Return relative season length
+  value <- dt[,rsl]
   
   # return value
   return(value)
@@ -170,14 +167,44 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_G
 #' This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
 #' inflicting structural damage that cannot be restored by the regular management on the farm.
 #'  
-#' @param D_P_WO (numeric) The value of workability calculated by \code{\link{calc_workability}}
+#' @param D_P_WO (numeric) The value of the relative (workable) season length calculated by \code{\link{calc_workability}}
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #'  
 #' @export
-ind_workability <- function(D_P_WO) {
+ind_workability <- function(D_P_WO, B_LU_BRP) {
+  id = arg.length = crop_code = crop_season = rsl = . = NULL
+  
+  # Load in the datasets
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  setkey(crops.obic, crop_code)
+  
+  arg.length <- max(length(D_P_WO), length(B_LU_BRP))
   
   # Check inputs
   checkmate::assert_numeric(D_P_WO, lower = 0, upper = 1, any.missing = FALSE)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   
-  # Maybe insert logistic function
-  return(D_P_WO)
+  # Form data table
+  dt <- data.table(id = 1:arg.length,
+                   rsl = D_P_WO,
+                   B_LU_BRP = B_LU_BRP)
+  
+  # Merge crop_season into data table
+  dt <- merge.data.table(dt, crops.obic[,.(crop_code, crop_season)], by.x = 'B_LU_BRP', by.y = 'crop_code')
+  
+  # evaluate relative season length
+  dt[!crop_season == 'beweid bemaaid gras',score := OBIC::evaluate_logistic(x = rsl, b = 15, x0 = 0.75, v = 1, increasing = TRUE)]
+  dt[crop_season == 'beweid bemaaid gras',score := OBIC::evaluate_logistic(x = rsl, b = 9, x0 = 0.5, v = 1, increasing = TRUE)]
+  
+  # overwrite score when rsl = 1
+  dt[rsl == 1, score := 1]
+  
+  # setorder
+  setorder(dt, id)
+  
+  # Return value
+  score <- dt[,score]
+  
+  return(score)
 }
