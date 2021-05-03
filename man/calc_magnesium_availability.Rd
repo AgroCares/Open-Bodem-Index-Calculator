@@ -5,35 +5,35 @@
 \title{Calculate the capacity of soils to supply Magnesium}
 \usage{
 calc_magnesium_availability(
-  A_MG_CC,
-  A_PH_CC,
-  A_OS_GV,
-  A_CEC_CO,
-  A_K_CC,
-  A_K_CEC,
+  B_LU_BRP,
+  B_SOILTYPE_AGR,
+  A_SOM_LOI,
   A_CLAY_MI,
-  B_BT_AK,
-  B_LU_BRP
+  A_PH_CC,
+  A_CEC_CO,
+  A_K_CO_PO,
+  A_MG_CC,
+  A_K_CC
 )
 }
 \arguments{
-\item{A_MG_CC}{(numeric) The plant available content of Mg in the soil (mg  Mg per kg) extracted by 0.01M CaCl2}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
+
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
+
+\item{A_SOM_LOI}{(numeric) The percentage organic matter in the soil (\%)}
+
+\item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
 
 \item{A_PH_CC}{(numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)}
 
-\item{A_OS_GV}{(numeric) The organic matter content of the soil (in procent)}
-
 \item{A_CEC_CO}{(numeric) The cation exchange capacity of the soil (mmol+ per kg), analysed via Cobalt-hexamine extraction}
 
+\item{A_K_CO_PO}{(numeric) The occupation of the CEC with potassium (\%)}
+
+\item{A_MG_CC}{(numeric) The plant available content of Mg in the soil (mg  Mg per kg) extracted by 0.01M CaCl2}
+
 \item{A_K_CC}{(numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg per kg),}
-
-\item{A_K_CEC}{(numeric) The occupation of the CEC with potassium (in procent)}
-
-\item{A_CLAY_MI}{(numeric) The clay content of the soil (in procent)}
-
-\item{B_BT_AK}{(character) The type of soil}
-
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 }
 \description{
 This function calculates an index for the availability of Magnesium in soil

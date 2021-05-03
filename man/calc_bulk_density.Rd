@@ -4,12 +4,12 @@
 \alias{calc_bulk_density}
 \title{Calculate the bulk density}
 \usage{
-calc_bulk_density(A_OS_GV, B_BT_AK, A_CLAY_MI = NULL)
+calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI = NULL)
 }
 \arguments{
-\item{A_OS_GV}{(numeric) The percentage organic matter in the soil}
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
-\item{B_BT_AK}{(character) The agricultural type of soil}
+\item{A_SOM_LOI}{(numeric) The percentage organic matter in the soil (\%)}
 
 \item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
 }

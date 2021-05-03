@@ -28,15 +28,18 @@ calc_grass_age <- function(ID, B_LU_BRP) {
     ID = ID,
     B_LU_BRP = B_LU_BRP
   )
+  
+  # merge with crops.obic to get crop_category
   dt <- merge(dt, crops.obic[, list(crop_code, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
   setorder(dt, this_id)
   
-  # Calculate the average grass age
+  # Calculate the age of the grassland
   dt[, grass := ifelse(crop_category == "grasland", 1, 0)]
-  dt[, grass_count := sum(grass), by = ID]
-  dt[, all_count := .N, by = ID] 
-  dt[, grass_age := (grass_count / all_count) * all_count]
-  
+  dt[, grass_age := rev(cumsum(grass)),by = rleid(grass)]
+ 
+  # extract grass age 
   value <- dt[, grass_age]
+  
+  # return grass age
   return(value)
 }

@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,8 +104,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/springgbv/Open-Bodem-Index-Calculator/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,6 +146,12 @@
       
       
       <tr>
+        
+        <td>
+          <p><code><a href="add_management.html">add_management()</a></code> </p>
+        </td>
+        <td><p>Estimate default values for management</p></td>
+      </tr><tr>
         
         <td>
           <p><code><a href="bouwsteen_tb.html">bouwsteen_tb</a></code> </p>
@@ -310,15 +316,27 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="calc_workability.html">calc_workability()</a></code> </p>
+        </td>
+        <td><p>Calculate indicator for workability</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="calc_zinc_availability.html">calc_zinc_availability()</a></code> </p>
         </td>
         <td><p>Calculate the availability of the metal Zinc</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="cf_ind_importance.html">cf_ind_importance()</a></code> </p>
+        </td>
+        <td><p>Helper function to weight and correct the risk and scores</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="column_description.obic.html">column_description.obic</a></code> </p>
         </td>
-        <td><p>Column description for the OIC</p></td>
+        <td><p>Column description for the OBIC</p></td>
       </tr><tr>
         
         <td>
@@ -343,6 +361,24 @@
           <p><code><a href="evaluate_parabolic.html">evaluate_parabolic()</a></code> </p>
         </td>
         <td><p>Evaluate using parabolic function with</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="format_aer.html">format_aer()</a></code> </p>
+        </td>
+        <td><p>Convert possible B_AER_CBS values to standardized values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="format_gwt.html">format_gwt()</a></code> </p>
+        </td>
+        <td><p>Convert possible B_GT values to standardized values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="format_soilcompaction.html">format_soilcompaction()</a></code> </p>
+        </td>
+        <td><p>Convert possible B_SC_WENR values to standardized values</p></td>
       </tr><tr>
         
         <td>
@@ -391,6 +427,18 @@
           <p><code><a href="ind_management.html">ind_management()</a></code> </p>
         </td>
         <td><p>Calculate the indicator for sustainable management</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ind_nematodes.html">ind_nematodes()</a></code> </p>
+        </td>
+        <td><p>Calculate indicator for plant parasitic nematodes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ind_nematodes_list.html">ind_nematodes_list()</a></code> </p>
+        </td>
+        <td><p>Calculate indicator for plant parasitic nematodes</p></td>
       </tr><tr>
         
         <td>
@@ -466,9 +514,21 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="ind_workability.html">ind_workability()</a></code> </p>
+        </td>
+        <td><p>Calculate indicator for workability</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="ind_zinc.html">ind_zinc()</a></code> </p>
         </td>
         <td><p>Calculate the indicator for Zn-availability</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="nema.obic.html">nema.obic</a></code> </p>
+        </td>
+        <td><p>Nematode table</p></td>
       </tr><tr>
         
         <td>
@@ -478,39 +538,27 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="obic.html">obic()</a></code> </p>
-        </td>
-        <td><p>Calculate the Open Bodem Index score</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="obic_evalmeasure.html">obic_evalmeasure()</a></code> </p>
         </td>
         <td><p>Evaluate effects of measures</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="obic_indicators.html">obic_indicators()</a></code> </p>
+          <p><code><a href="obic_field.html">obic_field()</a></code> </p>
         </td>
-        <td><p>Calculate the indicators for the OBI</p></td>
+        <td><p>Calculate the Open Bodem Index score for one field</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="obic_preprocessing.html">obic_preprocessing()</a></code> </p>
+          <p><code><a href="obic_field_dt.html">obic_field_dt()</a></code> </p>
         </td>
-        <td><p>Preprocess for the OBI</p></td>
+        <td><p>Calculate the Open Bodem Index score for a single field</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="obic_recommendations.html">obic_recommendations()</a></code> </p>
         </td>
         <td><p>Recommend measurements for better soil managment</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="obic_score.html">obic_score()</a></code> </p>
-        </td>
-        <td><p>Score the indicators for the OBI</p></td>
       </tr><tr>
         
         <td>
@@ -544,15 +592,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="score_absolute.html">score_absolute()</a></code> </p>
+          <p><code><a href="season.obic.html">season.obic</a></code> </p>
         </td>
-        <td><p>Score the indicators for the OBI on an absolute scale</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="score_relative.html">score_relative()</a></code> </p>
-        </td>
-        <td><p>Score the scoring for the OBI on a relative scale</p></td>
+        <td><p>Desired growing season period for maximum yield</p></td>
       </tr><tr>
         
         <td>
@@ -574,7 +616,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="weight.obic.html">weight.obic</a></code> <code><a href="weight.obic.html">weight.obic</a></code> </p>
+          <p><code><a href="weight.obic.html">weight.obic</a></code> </p>
         </td>
         <td><p>Weight of indicators to calculate integrated scores</p></td>
       </tr>
@@ -596,7 +638,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

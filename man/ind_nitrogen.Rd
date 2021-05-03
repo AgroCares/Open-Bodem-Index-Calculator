@@ -9,7 +9,7 @@ ind_nitrogen(D_NLV, B_LU_BRP)
 \arguments{
 \item{D_NLV}{(numeric) The value of NLV  calculated by \code{\link{calc_nlv}}}
 
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 }
 \description{
 This function calculates the indicator for the the nitrogen content of the soil by using the NLV calculated by \code{\link{calc_nlv}}

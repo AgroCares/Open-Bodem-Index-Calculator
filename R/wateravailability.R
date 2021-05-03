@@ -23,14 +23,17 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wat
   waterstress.obic <- as.data.table(OBIC::waterstress.obic)
   setkey(waterstress.obic, cropname, soilunit)
   
+  # update B_GWL_CLASS to more generic ones
+  B_GWL_CLASS.wi <- gsub("b$","", B_GWL_CLASS)
+  
   # Check input
   arg.length <- max(length(B_HELP_WENR), length(B_LU_BRP), length(B_GWL_CLASS))
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_GWL_CLASS,any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_GWL_CLASS, choices = c('unknown',unique(waterstress.obic$gt)), empty.ok = FALSE)
+  checkmate::assert_subset(B_GWL_CLASS, choices = c('-',unique(waterstress.obic$gt)), empty.ok = FALSE)
   checkmate::assert_character(B_HELP_WENR, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_HELP_WENR, choices = unique(waterstress.obic$soilunit), empty.ok = FALSE)
+  checkmate::assert_subset(B_HELP_WENR, choices = c('unknown',unique(waterstress.obic$soilunit)), empty.ok = FALSE)
   checkmate::assert_character(WSI, any.missing = FALSE, min.len = 1, len = 1)
   checkmate::assert_subset(WSI, choices = c('droughtstress','wetnessstress','waterstress'), empty.ok = FALSE)
   
@@ -39,7 +42,7 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wat
     id = 1:arg.length,
     B_HELP_WENR = B_HELP_WENR,
     B_LU_BRP = B_LU_BRP,
-    B_GWL_CLASS = B_GWL_CLASS
+    B_GWL_CLASS = B_GWL_CLASS.wi
   )
   
   # merge with crop and waterstress tables
@@ -52,7 +55,7 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wat
   # water stress risks included
   cols <- c('droughtstress','wetnessstress','waterstress')
   
-  # no WSI calculated for 'nature' and 'catchcrops'
+  # no WSI calculated for 'nature' and 'catchcrops', as well for situation where HELP code is unknown
   dt[is.na(droughtstress),(cols) := 0]
   
   # add checks : average estimated risk indicators when multiple situation occur
@@ -83,7 +86,7 @@ ind_waterstressindex <- function(D_WSI) {
   checkmate::assert_numeric(D_WSI, lower = 0, upper = 100, any.missing = FALSE)
   
   # Evaluate the WSI
-  value <- c(100 - D_WSI)/100
+  value <- evaluate_logistic(D_WSI / 100,20,0.18,0.78,increasing = F)
   
   # return output
   return(value)

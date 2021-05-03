@@ -4,14 +4,14 @@
 \alias{calc_winderodibility}
 \title{Calculate indicator for wind erodibility}
 \usage{
-calc_winderodibility(A_CLAY_MI, A_SILT_MI, B_LU_BRP)
+calc_winderodibility(B_LU_BRP, A_CLAY_MI, A_SILT_MI)
 }
 \arguments{
-\item{A_CLAY_MI}{(numeric) The clay content of the soil (in procent)}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
-\item{A_SILT_MI}{(numeric) The silt content of the soil (in procent)}
+\item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
 
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
+\item{A_SILT_MI}{(numeric) The silt content of the soil (\%)}
 }
 \description{
 This function calculates the risk for wind erodibility of soils, derived from Van Kerckhoven et al. (2009) and Ros & Bussink (2013)

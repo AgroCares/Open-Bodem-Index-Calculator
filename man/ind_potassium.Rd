@@ -4,16 +4,16 @@
 \alias{ind_potassium}
 \title{Calculate the indicator for Potassium Availability}
 \usage{
-ind_potassium(D_K, B_LU_BRP, B_BT_AK, A_OS_GV)
+ind_potassium(D_K, B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI)
 }
 \arguments{
 \item{D_K}{(numeric) The value of K-index calculated by \code{\link{calc_potassium_availability}}}
 
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
-\item{A_OS_GV}{(numeric) The organic matter content of the soil (\%)}
+\item{A_SOM_LOI}{(numeric) The organic matter content of the soil (\%)}
 }
 \description{
 This function calculates the indicator for the the Potassium Availability of the soil by using the K-availability calculated by \code{\link{calc_potassium_availability}}

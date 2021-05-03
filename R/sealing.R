@@ -2,46 +2,46 @@
 #' 
 #' This function calculates the risks of soil sealing.  This value can be evaluated by \code{\link{ind_sealing}}
 #' 
-#' @param A_CLAY_MI (numeric) The percentage A_CLAY_MI present in the soil
-#' @param A_OS_GV (numeric) The organic matter content of soil in percentage
+#' @param A_SOM_LOI (numeric) The organic matter content of soil (\%)
+#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' 
 #' @import data.table
 #' 
 #' @importFrom stats approxfun
 #' 
 #' @export
-calc_sealing_risk <- function(A_CLAY_MI, A_OS_GV) {
+calc_sealing_risk <- function(A_SOM_LOI, A_CLAY_MI) {
   
   # Check input
-  arg.length <- max(length(A_CLAY_MI), length(A_OS_GV))
+  arg.length <- max(length(A_CLAY_MI), length(A_SOM_LOI))
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE, min.len = 1, len = arg.length)
   
   # Setup a table with all the information
-  value.A_CLAY_MI = cor.A_OS_GV = value.A_CLAY_MI = NULL
+  value.A_CLAY_MI = cor.A_SOM_LOI = value.A_CLAY_MI = NULL
   dt <- data.table(
     A_CLAY_MI = A_CLAY_MI,
-    A_OS_GV = A_OS_GV, 
+    A_SOM_LOI = A_SOM_LOI, 
     value.A_CLAY_MI = NA_real_,
-    cor.A_OS_GV = NA_real_,
+    cor.A_SOM_LOI = NA_real_,
     value = NA_real_
   )
   df.lookup <- data.frame(
     A_CLAY_MI = c(4, 6, 9, 10, 17, 25, 30, 100),
     value.A_CLAY_MI = c(7, 6, 3, 2, 4, 8, 9, 10),
-    cor.A_OS_GV = c(0.4, 0.6, 0.8, 1, 0.7, 0.4, 0.3, 0)
+    cor.A_SOM_LOI = c(0.4, 0.6, 0.8, 1, 0.7, 0.4, 0.3, 0)
   )
   
   # Calculate value.A_CLAY_MI
   fun.A_CLAY_MI <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$value.A_CLAY_MI, rule = 2)
   dt[is.na(value), value.A_CLAY_MI := fun.A_CLAY_MI(A_CLAY_MI)]
   
-  # Create organic matter correction function and calculate correction for A_OS_GV
-  fun.cor.A_OS_GV <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_OS_GV, rule = 2)
-  dt[is.na(value), cor.A_OS_GV := fun.cor.A_OS_GV(A_CLAY_MI)]
+  # Create organic matter correction function and calculate correction for A_SOM_LOI
+  fun.cor.A_SOM_LOI <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_SOM_LOI, rule = 2)
+  dt[is.na(value), cor.A_SOM_LOI := fun.cor.A_SOM_LOI(A_CLAY_MI)]
   
   # Calculate the value
-  dt[is.na(value), value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV]
+  dt[is.na(value), value := value.A_CLAY_MI + cor.A_SOM_LOI * A_SOM_LOI]
   dt[value > 10, value := 10]
   value <- dt[, value]
     

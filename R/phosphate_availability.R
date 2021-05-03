@@ -2,15 +2,15 @@
 #' 
 #' This function calculates the phosphate availability. This value can be evaluated by \code{\link{ind_phosphate_availability}}
 #' 
+#' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_CC (numeric) The P-CaCl2 content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water
-#' @param B_LU_BRP (numeric) The crop code from the BRP
 #' 
 #' @import data.table
 #' 
 #' @export
-calc_phosphate_availability <- function(A_P_AL = NULL, A_P_CC = NULL, A_P_WA = NULL, B_LU_BRP) {
+calc_phosphate_availability <- function(B_LU_BRP, A_P_AL = NULL, A_P_CC = NULL, A_P_WA = NULL) {
   
   # Load in the crops data set
   crop_code = crop_phosphate = id = NULL
@@ -23,14 +23,14 @@ calc_phosphate_availability <- function(A_P_AL = NULL, A_P_CC = NULL, A_P_WA = N
   # check P input parameters for grassland 
   arg.length.grass <- max(length(A_P_AL),length(A_P_CC))
   if(arg.length.grass > 0){
-    checkmate::assert_numeric(A_P_AL, lower = 1, upper = 200, any.missing = FALSE, len = arg.length.grass)
-    checkmate::assert_numeric(A_P_CC, lower = 0.1, upper = 50, any.missing = FALSE, len = arg.length.grass)
+    checkmate::assert_numeric(A_P_AL, lower = 1, upper = 250, any.missing = FALSE, len = arg.length.grass)
+    checkmate::assert_numeric(A_P_CC, lower = 0.1, upper = 100, any.missing = FALSE, len = arg.length.grass)
   }
   
   # check P input parameters for arable soils
   arg.length.arable <- length(A_P_WA)
   if(arg.length.arable > 0){
-    checkmate::assert_numeric(A_P_WA, lower = 0.1, upper = 200, any.missing = FALSE, len = arg.length.arable)  
+    checkmate::assert_numeric(A_P_WA, lower = 1, upper = 250, any.missing = FALSE, len = arg.length.arable)  
   }
   
   # check crop input
@@ -82,7 +82,7 @@ calc_phosphate_availability <- function(A_P_AL = NULL, A_P_CC = NULL, A_P_WA = N
 ind_phosphate_availability <- function(D_PBI) {
   
   # Check inputs
-  checkmate::assert_numeric(D_PBI, lower = 0, upper = 40, any.missing = FALSE)
+  checkmate::assert_numeric(D_PBI, lower = 0, upper = 100, any.missing = FALSE)
   
   # Evaluate the phosphate availability
   value <- OBIC::evaluate_logistic(D_PBI, b = 1.3, x0 = 1.3, v = 0.35)
