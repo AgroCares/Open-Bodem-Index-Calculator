@@ -34,7 +34,7 @@
   if(length(cols.super)==0) {
     print('all indicators in weights.obic are also in column description')
   } else {
-      print(paste0('some indicators are in weights.obic but do not have a column description', paste0(cols.super, collapse= ', ')))
+      print(paste0('some indicators are in weights.obic but do not have a column description: ', paste0(cols.super, collapse= ', ')))
   }
   
 save(weight.obic, file = "data/weight_obic.RData")
