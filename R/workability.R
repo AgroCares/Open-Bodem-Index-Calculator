@@ -9,7 +9,7 @@
 #' @param B_GWL_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
 #' @param B_GWL_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
 #' @param B_Z_TWO  (numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)
-#' @param calcyieldloss (boolean) whether the function includes yield loss, options: TRUE or FALSE (default).
+#' @param calcyield (boolean) whether the function outputs yield (fraction) instead of relative season length, options: TRUE or FALSE (default).
 #' 
 #' @import data.table
 #' 
@@ -18,7 +18,7 @@
 #' @export
 calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, 
                              B_GWL_GLG, B_GWL_GHG, B_Z_TWO,
-                             calcyieldloss = FALSE) {
+                             calcyield = FALSE) {
   
   # define variables used within the function
   id =crop_code = soiltype = landuse = crop_waterstress = crop_season = NULL
@@ -133,7 +133,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
   dt[,rsl := (total_days-late_season_day_deficit-early_season_day_deficit)/total_days]
   
   # Calculate percentage yield loss non-grassland by sub-optimal season length
-  if(calcyieldloss == TRUE){
+  if(calcyield == TRUE){
     
     # add yield loss per category
     dt[derving == 'zaai groenten' , yl := 538 * rsl^2-1144 * rsl + 606]
@@ -157,9 +157,6 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
 
     # Calculate yield fraction, always above zero
     dt[,yield := pmax(0, 1 - 0.01 * yl)] 
-    dt[derving == 'grasland', yield := evaluate_logistic(x = yield, b = 16, x0 = 0.5, 
-                                                         v = 0.5,increasing = TRUE)]
-    
   }
     
   
@@ -167,7 +164,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
   setorder(dt, id)
   
   # Return output
-  if(calcyieldloss == TRUE){
+  if(calcyield == TRUE){
     
     # return yield decline
     value <- dt[,yield]

@@ -12,7 +12,7 @@ calc_workability(
   B_GWL_GLG,
   B_GWL_GHG,
   B_Z_TWO,
-  calcyieldloss = FALSE
+  calcyield = FALSE
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ calc_workability(
 
 \item{B_Z_TWO}{(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)}
 
-\item{calcyieldloss}{(boolean) whether the function includes yield loss, options: TRUE or FALSE (default).}
+\item{calcyield}{(boolean) whether the function outputs yield (fraction) instead of relative season length, options: TRUE or FALSE (default).}
 }
 \description{
 This function calculates the workability of soils, given as potential length of the growing season. Based on Huinink (2018)
