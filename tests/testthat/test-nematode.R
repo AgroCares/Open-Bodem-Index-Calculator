@@ -16,22 +16,21 @@ testspecies = c("Ditylenchus spp."             ,"Ditylenchus dipsaci"          ,
                 "Pratylenchus fallax"          ,"Pratylenchus pinguicaudatus"  ,"Pratylenchus pseudopratensis" ,"Pratylenchus vulnus"      ,   
                 "Pratylenchus dunensis"        ,"Pratylenchus zeae")
 
+# Make data tables to test ind_nematodes_list
+nem.dt1 <- data.table(species = testspecies, count = rep(0,54))
+nem.dt2 <- data.table(species = testspecies, count = rep(10000,54))
+
 # test function for ind_nematodes_list
-test_that("ind_nematodes works", {
+test_that("ind_nematodes_list works", {
   expect_equal(
-    ind_nematodes_list(
-      data.table(species = testspecies,
-                 count = rep(0,54))
-      ),
+    ind_nematodes_list(A_NEMA = nem.dt1),
     expected = 1,
     tolecance = 0.01
   )
-  expect_lt(
-    ind_nematodes_list(
-      data.table(species = testspecies,
-                 count = rep(10000,54))
-    ),
-    expected = 0.0011
+  expect_equal(
+    ind_nematodes_list(A_NEMA = nem.dt2),
+    expected = 0,
+    tolerance = 0.0001
   )
 })
 

@@ -152,7 +152,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = B_GWL_GLG = B_GWL_GHG = B_Z_TWO = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
-  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
+  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_B_NEM = I_M = NULL
   I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_NGW = I_E_NSW = NULL
   I_M_GREEN = I_M_COMPOST = I_M_NONBARE = I_M_EARLYCROP = I_M_SLEEPHOSE = I_M_DRAIN = I_M_DITCH = I_M_UNDERSEED = NULL
   I_M_LIME = I_M_NONINVTILL = I_M_SSPM = I_M_SOLIDMANURE = I_M_STRAWRESIDUE = I_M_MECHWEEDS = I_M_PESTICIDES_DST = NULL
@@ -633,7 +633,7 @@ obic_field_dt <- function(dt,output = 'all') {
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
-  if(length(nema.missing)>0{dt[,c(nema.missing) := NA_integer_]})
+  if(length(nema.missing)>0){dt[,c(nema.missing) := NA_integer_]}
   
   # calculate obic_field
   out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
