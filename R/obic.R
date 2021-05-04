@@ -618,10 +618,22 @@ obic_field_dt <- function(dt,output = 'all') {
   smc.all <- 'M_COMPOST'
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
+  # chek if nematodes are missing
+  nema.all <- c('A_RLN_PR_TOT', 'A_RLN_PR_CREN', 'A_RLN_PR_NEG', 'A_RLN_PR_PEN', 'A_RLN_PR_PRA', 'A_RLN_PR_THO', 'A_RLN_PR_FLA', 
+                'A_RLN_PR_FAL', 'A_RLN_PR_PIN', 'A_RLN_PR_PSE', 'A_RLN_PR_VUL', 'A_RLN_PR_DUN', 'A_RLN_PR_ZEA', 'A_RKN_ME_TOT', 
+                'A_RKN_ME_HAP', 'A_RKN_ME_CHIFAL', 'A_RKN_ME_CHI', 'A_RKN_ME_NAA', 'A_RKN_ME_FAL', 'A_RKN_ME_MIN', 'A_RKN_ME_INC', 
+                'A_RKN_ME_JAV', 'A_RKN_ME_ART', 'A_RKN_ME_ARE', 'A_RKN_ME_ARD', 'A_DSN_TR_TOT', 'A_DSN_TR_SIM', 'A_DSN_TR_PRI', 
+                'A_DSN_TR_VIR', 'A_DSN_TR_SPA', 'A_DSN_TR_CYL', 'A_DSN_TR_HOO', 'A_DSN_PA_TER', 'A_DSN_PA_PAC', 'A_DSN_PA_ANE', 
+                'A_DSN_PA_NAN', 'A_DSN_TY_TOT', 'A_DSN_RO_TOT', 'A_DSN_XI_TOT', 'A_DSN_LO_TOT', 'A_DSN_HEM_TOT', 'A_DSN_HEL_TOT', 
+                'A_SN_DI_TOT', 'A_SN_DI_DIP', 'A_SN_DI_DES', 'A_OPN_PA_TOT', 'A_OPN_PA_BUK', 'A_OPN_CY_TOT', 'A_OPN_AP_TOT', 
+                'A_OPN_AP_FRA', 'A_OPN_AP_RIT', 'A_OPN_AP_SUB', 'A_OPN_CR_TOT', 'A_OPN_SU_TOT', 'A_NPN_SA_TOT')
+  nema.missing <- nema.all[!nema.all %in% colnames(dt)]
+  
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
+  if(length(nema.missing)>0{dt[,c(nema.missing) := NA_integer_]})
   
   # calculate obic_field
   out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
@@ -638,6 +650,14 @@ obic_field_dt <- function(dt,output = 'all') {
                     dt$M_SLEEPHOSE,dt$M_DRAIN,dt$M_DITCH,dt$M_UNDERSEED,
                     dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
                     dt$M_STRAWRESIDUE,dt$M_MECHWEEDS,dt$M_PESTICIDES_DST,
+                    dt$A_RLN_PR_TOT, dt$A_RLN_PR_CREN, dt$A_RLN_PR_NEG, dt$A_RLN_PR_PEN, dt$A_RLN_PR_PRA, dt$A_RLN_PR_THO, dt$A_RLN_PR_FLA, 
+                    dt$A_RLN_PR_FAL, dt$A_RLN_PR_PIN, dt$A_RLN_PR_PSE, dt$A_RLN_PR_VUL, dt$A_RLN_PR_DUN, dt$A_RLN_PR_ZEA, dt$A_RKN_ME_TOT, 
+                    dt$A_RKN_ME_HAP, dt$A_RKN_ME_CHIFAL, dt$A_RKN_ME_CHI, dt$A_RKN_ME_NAA, dt$A_RKN_ME_FAL, dt$A_RKN_ME_MIN, dt$A_RKN_ME_INC, 
+                    dt$A_RKN_ME_JAV, dt$A_RKN_ME_ART, dt$A_RKN_ME_ARE, dt$A_RKN_ME_ARD, dt$A_DSN_TR_TOT, dt$A_DSN_TR_SIM, dt$A_DSN_TR_PRI, 
+                    dt$A_DSN_TR_VIR, dt$A_DSN_TR_SPA, dt$A_DSN_TR_CYL, dt$A_DSN_TR_HOO, dt$A_DSN_PA_TER, dt$A_DSN_PA_PAC, dt$A_DSN_PA_ANE, 
+                    dt$A_DSN_PA_NAN, dt$A_DSN_TY_TOT, dt$A_DSN_RO_TOT, dt$A_DSN_XI_TOT, dt$A_DSN_LO_TOT, dt$A_DSN_HEM_TOT, dt$A_DSN_HEL_TOT, 
+                    dt$A_SN_DI_TOT, dt$A_SN_DI_DIP, dt$A_SN_DI_DES, dt$A_OPN_PA_TOT, dt$A_OPN_PA_BUK, dt$A_OPN_CY_TOT, dt$A_OPN_AP_TOT, 
+                    dt$A_OPN_AP_FRA, dt$A_OPN_AP_RIT, dt$A_OPN_AP_SUB, dt$A_OPN_CR_TOT, dt$A_OPN_SU_TOT, dt$A_NPN_SA_TOT,
                     ID = 1,output = output)
   
   # return output
