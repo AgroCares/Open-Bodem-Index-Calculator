@@ -292,11 +292,16 @@ nema.crop.rot.obic <- nema.crop.rot.obic[grepl('zwaardherik', crop), crop_name_s
 # 
 # unique(nema.crop.rot.obic[is.na(crop_name_scientific),.(crop_name_scientific,crop)])
 
+# Format scientific species names to be aligned with nema.obic
+nema.crop.rot.obic <- nema.crop.rot.obic[,name_scientific := gsub('spp$', 'spp\\.',name_scientific)]
+# nema.crop.rot.obic <- nema.crop.rot.obic[name_scientific == 'Globodera rostochiensis of pallida',name_scientific := 'Cysteaaltjes']
+# Heterodera are cystnematodes and may require extra input information for nema.obic
+# Longidorus elongatus (as well as Xiphinema) are very large and do not appear in a typical analysis
+# aaltjesschema has Rotylenchus uniformis obic only has Rotylenchus spp. similair with Xiphinema diversicaudatum and Xiphinema spp.
+# 
 
 # Write to OBIC
 write.csv(nema.crop.rot.obic, 'dev/aaltjes_gewas_schema.csv')
 save(nema.crop.rot.obic, file = 'data/nema_crop_rot_obic.RData')
-
-# check wether crops ending in _xx are different
 
 
