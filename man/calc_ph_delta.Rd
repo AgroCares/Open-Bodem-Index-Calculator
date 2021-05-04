@@ -5,27 +5,29 @@
 \title{Calculate the difference between pH and optimum}
 \usage{
 calc_ph_delta(
-  A_PH_CC,
-  B_BT_AK,
+  B_LU_BRP,
+  B_SOILTYPE_AGR,
+  A_SOM_LOI,
   A_CLAY_MI,
-  A_OS_GV,
+  A_PH_CC,
   D_CP_STARCH,
   D_CP_POTATO,
   D_CP_SUGARBEET,
   D_CP_GRASS,
   D_CP_MAIS,
-  D_CP_OTHER,
-  B_LU_BRP
+  D_CP_OTHER
 )
 }
 \arguments{
-\item{A_PH_CC}{(numeric) The pH-CaCl2 of the soil}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
+
+\item{A_SOM_LOI}{(numeric) The organic matter content of soil in percentage}
 
 \item{A_CLAY_MI}{(numeric) The percentage A_CLAY_MI present in the soil}
 
-\item{A_OS_GV}{(numeric) The organic matter content of soil in percentage}
+\item{A_PH_CC}{(numeric) The pH-CaCl2 of the soil}
 
 \item{D_CP_STARCH}{(numeric) The fraction of starch potatoes in the crop plan}
 
@@ -38,8 +40,6 @@ calc_ph_delta(
 \item{D_CP_MAIS}{(numeric) The fraction of mais in the crop plan}
 
 \item{D_CP_OTHER}{(numeric) The fraction of other crops in the crop plan}
-
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 }
 \description{
 This functions calculates the difference between the measured pH and the optimal pH according to the Bemestingsadvies

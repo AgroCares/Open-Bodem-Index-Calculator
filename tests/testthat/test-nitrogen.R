@@ -1,12 +1,12 @@
 test_that("calc_nlv works", {
   expect_equal(
     calc_nlv(
-      A_N_TOT = 5000,
+      A_N_RT = 5000,
       D_OC = 86000,
       B_LU_BRP = 265,
-      B_BT_AK = "rivierklei",
+      B_SOILTYPE_AGR = "rivierklei",
       D_BDS = 1300,
-      A_CN_RAT = 4,
+      A_CN_FR = 4,
       D_GA = 2
     ),
     expected = 204.22254,
@@ -14,12 +14,12 @@ test_that("calc_nlv works", {
   )
   expect_equal(
     calc_nlv(
-      A_N_TOT = c(5000, 10000, 25000, 8000),
+      A_N_RT = c(5000, 10000, 25000, 8000),
       D_OC = c(86000, 86000, 86000,86000),
       B_LU_BRP = c(265, 265, 235, 235),
-      B_BT_AK = c("rivierklei", "veen", "veen", "dekzand"),
+      B_SOILTYPE_AGR = c("rivierklei", "veen", "veen", "dekzand"),
       D_BDS = c(1300, 800, 850, 1100),
-      A_CN_RAT = c(12, 12, 12, 12),
+      A_CN_FR = c(12, 12, 12, 12),
       D_GA = c(2, 8, 0, 0)
     ),
     expected = c(204.22254, 250, 90,  90),

@@ -4,18 +4,24 @@
 \alias{calc_aggregatestability}
 \title{Calculate aggregate stability index based on occupation CEC}
 \usage{
-calc_aggregatestability(B_BT_AK, A_OS_GV, A_K_CEC, A_CA_CEC, A_MG_CEC)
+calc_aggregatestability(
+  B_SOILTYPE_AGR,
+  A_SOM_LOI,
+  A_K_CO_PO,
+  A_CA_CO_PO,
+  A_MG_CO_PO
+)
 }
 \arguments{
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The type of soil}
 
-\item{A_OS_GV}{(numeric) The organic matter content of soil in percentage}
+\item{A_SOM_LOI}{(numeric) The organic matter content of soil in percentage}
 
-\item{A_K_CEC}{(numeric) The occupation of the CEC with K (\%)}
+\item{A_K_CO_PO}{(numeric) The occupation of the CEC with K (\%)}
 
-\item{A_CA_CEC}{(numeric) The occupation of the CEC with Mg (\%)}
+\item{A_CA_CO_PO}{(numeric) The occupation of the CEC with Ca (\%)}
 
-\item{A_MG_CEC}{(numeric) The occupation of the CEC with Ca (\%)}
+\item{A_MG_CO_PO}{(numeric) The occupation of the CEC with Mg (\%)}
 }
 \description{
 This function calculates an aggregate stability index given the CEC and its occupation with major cations.

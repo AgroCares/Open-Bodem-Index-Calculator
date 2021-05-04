@@ -4,20 +4,20 @@
 \alias{ind_management}
 \title{Calculate the indicator for sustainable management}
 \usage{
-ind_management(D_MAN, B_LU_BRP, B_BT_AK)
+ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)
 }
 \arguments{
 \item{D_MAN}{(numeric) The value of Sustainable Management  calculated by \code{\link{calc_management}}}
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The type of soil}
 }
 \description{
 This function calculates the the sustainability of strategic management options as calculated by \code{\link{calc_management}}
 The main source of this indicator is developed for Label Duurzaam Bodembeheer (Van der Wal, 2016)
 }
 \details{
-The current function allows a maximum score of 9 points for arable systems, 7 for maize 
-and 7 for grass (non-peat) and 11 for grass on peat.
+The current function allows a maximum score of 16 points for arable systems, 12 for maize 
+and 9 for grass (non-peat) and 17 for grass on peat.
 }

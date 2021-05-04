@@ -7,7 +7,7 @@
 obic_evalmeasure(dt.score, extensive = FALSE)
 }
 \arguments{
-\item{dt.score}{(data.table) The results from \code{\link{obic_score}}}
+\item{dt.score}{(data.table) containing all indicators and scores of a single field}
 
 \item{extensive}{(boolean) whether the output table includes evaluation scores of each  measures (TRUE)}
 }
