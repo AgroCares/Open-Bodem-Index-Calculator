@@ -1,16 +1,16 @@
 measure;description;I_M_SOILFERTILITY;I_M_CLIMATE;I_M_WATERQUALITY;I_M_BIODIVERSITY
-M_COMPOST;Frequency of compost application;1;1;;1
-M_DITCH;Ditch is cleaned and sludge is applied;;;1;
-M_DRAIN;Drains available;;1;1;
+M_COMPOST;Frequency of compost application;1;1;0;1
+M_DITCH;Ditch is cleaned and sludge is applied;0;0;1;0
+M_DRAIN;Drains available;0;1;1;0
 M_EARLYCROP;Use of early crops;1;1;1;1
 M_GREEN;Use of green manure;1;1;1;1
-M_LIME;Has field been limed in last three years;1;;;
-M_MECHWEEDS;Use of mechanical weed protection;;;1;
-M_NONBARE;Field 80% of the year green;;1;1;
-M_NONINVTILL;Non inversion tillage;1;1;;1
-M_PESTICIDES_DST;Use of DST for pesticides;;;1;1
-M_SLEEPHOSE;Manure application using sleep hoses;1;;;
-M_SOLIDMANURE;Use of solid manure;1;1;;1
-M_SSPM;Soil Structure Protection Measures;1;;1;1
-M_STRAWRESIDUE;Application of straw residues;1;1;;1
-M_UNDERSEED;Underseed of grass at maize;;1;1;
+M_LIME;Has field been limed in last three years;1;0;0;0
+M_MECHWEEDS;Use of mechanical weed protection;0;0;1;0
+M_NONBARE;Field 80% of the year green;0;1;1;0
+M_NONINVTILL;Non inversion tillage;1;1;0;1
+M_PESTICIDES_DST;Use of DST for pesticides;0;0;1;1
+M_SLEEPHOSE;Manure application using sleep hoses;1;0;0;0
+M_SOLIDMANURE;Use of solid manure;1;1;0;1
+M_SSPM;Soil Structure Protection Measures;1;0;1;1
+M_STRAWRESIDUE;Application of straw residues;1;1;0;1
+M_UNDERSEED;Underseed of grass at maize;0;1;1;0
