@@ -955,7 +955,58 @@ For more details, see `?calc_crumbleability` and `?calc_aggregatestability`.
 
 ```
 
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
 
+  # make a data.table for crumbleability
+  dt.test1 <- data.table(A_CLAY_MI = c(seq(1,25,length.out = 10), seq(1,25,length.out = 10)),
+                        A_SOM_LOI = c(rep(3.5,10),rep(3.5,10)),
+                        A_PH_CC = rep(6,20))
+
+  # make a data.table for aggregate stability
+  dt.test2 <- data.table(B_SOILTYPE_AGR = rep('dekzand', 8), A_SOM_LOI = rep(3.5,8), A_K_CO_PO = seq(28,0,-4),
+                         A_CA_CO_PO = seq(30,100,10), A_MG_CO_PO = seq(28,0,-4))
+
+  # make second data.table for aggregate stability with clay soil
+  dt.test3 <- data.table(B_SOILTYPE_AGR = rep('rivierklei', 8), A_SOM_LOI = rep(3.5,8), A_K_CO_PO = seq(28,0,-4),
+                         A_CA_CO_PO = seq(30,100,10), A_MG_CO_PO = seq(28,0,-4))
+
+  dt2 <- rbindlist(list(dt.test2, dt.test3))
+  
+  # Make a random aggragate stabilty data table with variying cec values
+  dt4 <- data.table(B_SOILTYPE_AGR = rep('rivierklei', 460), A_SOM_LOI = rep(3.5,460),
+                    A_CA_CO_PO = rep(seq(50,95,1),10), A_K_CO_PO = c(runif(460, min = 0, max = 10)))
+  dt4 <- dt4[A_K_CO_PO+ A_CA_CO_PO >= 100, A_K_CO_PO := 100 - A_CA_CO_PO]
+  dt4 <- dt4[,A_MG_CO_PO := 100 - A_CA_CO_PO - A_K_CO_PO]
+
+  # crumbleability and aggregatestability
+  dt.test1[, D_CR := calc_crumbleability(A_SOM_LOI, A_CLAY_MI,A_PH_CC)]
+  dt4 <- dt4[, D_AS := calc_aggregatestability(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO)]
+ 
+   
+  # plot output crumbleabilty
+  p1 <- ggplot(data = dt.test1,
+               aes(x = A_CLAY_MI, y = D_CR)) + 
+        geom_line() + geom_point(size=3) +  theme_bw() + 
+        ylab('Crumbleability') + xlab('Clay content (%)') + ylim(4,12)+
+        theme(legend.position = c(0.4,0.8),
+              plot.title = element_text(size=10),
+              legend.text = element_text(size=10)) + 
+    ggtitle('Soil crumbleability given SOM and clay content')   
+
+  # plot output aggregate stability
+    p4 <- ggplot(data = dt4,
+               aes(x = A_CA_CO_PO, y = D_AS, color = B_SOILTYPE_AGR)) + 
+        geom_point(size=3) +  theme_bw() + 
+        ylab('Aggregate stability') + xlab('Calcium ocupation') + ylim(0,1)+
+        theme(plot.title = element_text(size=10),
+              legend.position = 'none') +
+    ggtitle('Aggregate stability with given Ca occupation and\nrandom Mg and K occupation')
+    
+  
+  # plot side by side
+  p1 + p4
+  
+```
 
 ### Subsoil compaction
 The risk of subsoil compaction for each field was assessed using soil texture, land use and a soil compaction model SOCOMO. The model determines whether the usual wheel loads for that land use exceed the strength of the subsurface in wet or humid conditions. Subsequently it was determined on the basis of the soil properties and groundwater levels whether the subsurface is extra sensitive to compaction or whether natural recovery is possible due to, for example, drought shrinkage. Strength, land use and soil properties together determine the risk of subsoil compaction. The presence of subsoil compaction is derived from a national map with the estimated risk. As such, there is not calculation used. Recent field experimental data support the accuracy of this risk assessment map.
@@ -1132,6 +1183,14 @@ dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS
 ```
 
 Example of this function are given for five parcels with different attributes, as well as for field 1 with different groundwatertables.
+The properties of fields one to five are as follows: 
+
+* soiltype (B_SOILTYPE_AGR): rivierklei, rivierklei, moerige_klei, dekzand, dekzand
+* crop_code/crop_name (B_LU_BRP): 229 (trees), 233 (winter wheat), 265 (permanent grassland), 259 (silage maize), 265
+* groundwaterclass (B_GWL_CLASS): GtVII, GtVI, GtII, GtIII, GtVI
+* nitrogen producing capacity (D_NLV): 103.2, 116.8, 250.0, 24.1, 122.6
+* agricultural area (B_AER_CBS): Rivierengebied, Rivierengebied, Centraal Veehouderijgebied, Centraal Veehouderijgebied, Riverierengebied
+
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
 
   # subset a serie of agricultural fields
@@ -1191,7 +1250,7 @@ Example of this function are given for five parcels with different attributes, a
   p1+p4
 ```
 
-```{r,fig.width = 7, fig.height = 2.2,fig.fullwidth = TRUE,echo=FALSE}
+```{r,fig.width = 7, fig.height = 2.2,fig.fullwidth = TRUE,echo=FALSE, eval = FALSE}
 # Table of field properties
   dt.table <- copy(dt.test)
   setnames(dt.table, 'ID', 'Field')
