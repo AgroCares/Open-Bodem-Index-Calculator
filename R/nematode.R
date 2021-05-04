@@ -11,27 +11,31 @@
 ind_nematodes_list <- function(A_NEMA){
   nema.obic <- as.data.table(OBIC::nema.obic)
   
-  geel = rood = species = standaard = b = v = count = nem_score = NULL
+  geel = rood = species = standaard = b = v = count = nem_score = id = NULL
   
   checkmate::assert_data_table(A_NEMA)
   checkmate::assert_numeric(A_NEMA[,count])
   checkmate::assert_subset(x = A_NEMA[,species],choices = nema.obic[,species])
   
+  # Add id to data.table
+  dd[,id := 1:nrow(dd)]
+  
   # merge dd and nema.obic and remove non standard non counted nematodes from dd
   dd <- merge.data.table(nema.obic, A_NEMA, by = 'species', all.x = TRUE)
   dd <- dd[standaard == TRUE|!is.na(count)]
   
-  # Check if all standard nematodes are present
-  if(checkmate::anyMissing(dd[,count])){
-    errorCondition('at least one of the "standard" nematodes seems to be a missing value, its assumed this nematode is counted and is equal to 0.')
-  } 
   # Calculate score for each individual nematode species
   dd[,nem_score := OBIC::evaluate_logistic(dd[,count], b = dd[,b], x0 = dd[,geel], v = dd[,v], increasing = FALSE)]
   # Set scores where count = 0 to 1
   dd[count == 0, nem_score:=1]
   
-  value <- mean(dd[,nem_score])
-  return(value)
+  # round indicator value
+  dd[, nem_score := round(pmin(value),3)]
+  
+  # select the lowest score per field being the limiting value for soil quality
+  out <- dd[order(nem_score),.SD[1L],by = id]
+  
+  return(out)
 } 
 
 #' Calculate indicator for plant parasitic nematodes
