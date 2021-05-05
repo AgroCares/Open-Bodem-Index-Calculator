@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Recommend measurements for better soil managment — obic_recommendations • OBIC</title>
+<title>Relational table linking soil management measures to ecosystem services — management.obic • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Recommend measurements for better soil managment — obic_recommendations" />
-<meta property="og:description" content="This function gives recommendations better soil management based on the OBI score" />
+<meta property="og:title" content="Relational table linking soil management measures to ecosystem services — management.obic" />
+<meta property="og:description" content="This table assigns which measures positively contribute to the ecosystem services included" />
 
 
 
@@ -123,25 +123,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Recommend measurements for better soil managment</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/obic_recommendations.R'><code>R/obic_recommendations.R</code></a></small>
-    <div class="hidden name"><code>obic_recommendations.Rd</code></div>
+    <h1>Relational table linking soil management measures to ecosystem services</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/tables.R'><code>R/tables.R</code></a></small>
+    <div class="hidden name"><code>management.obic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function gives recommendations better soil management based on the OBI score</p>
+    <p>This table assigns which measures positively contribute to the ecosystem services included</p>
     </div>
 
-    <pre class="usage"><span class='fu'>obic_recommendations</span><span class='op'>(</span><span class='va'>dt.recom</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>management.obic</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>dt.recom</th>
-      <td><p>(data.table) The results from <code><a href='obic_evalmeasure.html'>obic_evalmeasure</a></code></p></td>
-    </tr>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data.table with 16 rows and 6 columns:</p><dl>
+  <dt>measure</dt><dd><p>The name of measure</p></dd>
+  <dt>I_M_SOILFERTILITY</dt><dd><p>integrated soil management indicator for soil fertility</p></dd>
+  <dt>I_M_CLIMATE</dt><dd><p>integrated soil management indicator for soil carbon sequestration</p></dd>
+  <dt>I_M_WATERQUALITY</dt><dd><p>integrated soil management indicator for water quality</p></dd>
+  <dt>I_M_BIODIVERSITY</dt><dd><p>Integrated soil management indicator for soil biodiversity</p></dd>
+
+</dl>
 
 
   </div>

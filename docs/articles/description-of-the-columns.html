@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -65,7 +65,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
-    <span class="fab fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -79,12 +79,13 @@
 
       
 
-      </header><script src="description-of-the-columns_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="description-of-the-columns_files/header-attrs-2.5/header-attrs.js"></script><link href="description-of-the-columns_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="description-of-the-columns_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Description of the columns for OBIC</h1>
             
-            <h4 class="date">2021-04-28</h4>
+            <h4 class="date">2021-05-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/vignettes/description-of-the-columns.Rmd"><code>vignettes/description-of-the-columns.Rmd</code></a></small>
       <div class="hidden name"><code>description-of-the-columns.Rmd</code></div>
@@ -101,12 +102,12 @@
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">desc</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="8%">
+<col width="7%">
 <col width="6%">
-<col width="48%">
-<col width="22%">
-<col width="6%">
-<col width="8%">
+<col width="45%">
+<col width="27%">
+<col width="5%">
+<col width="7%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">column</th>
@@ -926,194 +927,34 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">I_B_EW_BCS</td>
+<td align="left">I_M_SOILFERTILITY</td>
 <td align="left">indicator</td>
-<td align="left">Regenwormen</td>
-<td align="left">Earth worms</td>
+<td align="left">bodemmanagementscore voor bodemvruchtbaarheid</td>
+<td align="left">integrated soil management indicator for soil fertility</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">I_P_C_BCS</td>
+<td align="left">I_M_CLIMATE</td>
 <td align="left">indicator</td>
-<td align="left">Aanwezigheid van scheuren</td>
-<td align="left">Cracks</td>
+<td align="left">bodemmanagementscore voor klimaatmitigatie</td>
+<td align="left">integrated soil management indicator for soil carbon sequestration</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">I_P_CC_BCS</td>
+<td align="left">I_M_WATERQUALITY</td>
 <td align="left">indicator</td>
-<td align="left">Gewasbedekking</td>
-<td align="left">Crop cover</td>
+<td align="left">bodemmanagementscore voor waterkwaliteit</td>
+<td align="left">integrated soil management indicator for waterquality</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">I_P_GS_BCS</td>
+<td align="left">I_M_BIODIVERSITY</td>
 <td align="left">indicator</td>
-<td align="left">Aantal gekleurde vlekken</td>
-<td align="left">Gley spots</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_P_P_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Plasvorming</td>
-<td align="left">Ponding</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_P_RD_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Beworteling</td>
-<td align="left">Root depth</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_P_RT_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Spoorvorming/ vertrapping</td>
-<td align="left">Rutting / trampling</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_P_SC_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Verdichting ondergrond</td>
-<td align="left">Subsoil compaction</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_P_SS_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Bodemstructuur</td>
-<td align="left">Soil structure</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_LIME</td>
-<td align="left">indicator</td>
-<td align="left">Is perceel in afgelopen 3 jaar bekalkt</td>
-<td align="left">Has field been limed in last three years</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_GREEN</td>
-<td align="left">indicator</td>
-<td align="left">Gebruik groenbemesters</td>
-<td align="left">Use of green manure</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_COMPOST</td>
-<td align="left">indicator</td>
-<td align="left">Frequentie compostgebruik</td>
-<td align="left">Frequency of compost application</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_NONBARE</td>
-<td align="left">indicator</td>
-<td align="left">Is het perceel 80% van het jaar groen</td>
-<td align="left">Field 80% of the year green</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_EARLYCROP</td>
-<td align="left">indicator</td>
-<td align="left">wordt berijding in het najaar vermeden (vroege rassen)</td>
-<td align="left">Use of early crops</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_SLEEPHOSE</td>
-<td align="left">indicator</td>
-<td align="left">wordt drijfmest toegediend via sleepslangbemesting</td>
-<td align="left">Manure application using sleep hoses</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_DRAIN</td>
-<td align="left">indicator</td>
-<td align="left">is er onderwaterdrainage aangelegd (veen)</td>
-<td align="left">Under water drains available</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_DITCH</td>
-<td align="left">indicator</td>
-<td align="left">worden sloten op diepte gehouden en het bagger benut</td>
-<td align="left">Ditch is cleaned and sludge is applied</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_UNDERSEED</td>
-<td align="left">indicator</td>
-<td align="left">is er grasonderzaai in mais toegepast</td>
-<td align="left">Underseed of grass at maize</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_NONINVTILL</td>
-<td align="left">indicator</td>
-<td align="left">Niet Kerende Grondbewerking</td>
-<td align="left">Non inversion tillage</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_SSPM</td>
-<td align="left">indicator</td>
-<td align="left">worden er bodemstructuur beschermende maatregelen genomen (vaste rijpaden, lage bandenspanning, lage wiellast)?</td>
-<td align="left">Soil Structure Protection Measures</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_SOLIDMANURE</td>
-<td align="left">indicator</td>
-<td align="left">gebruik vaste mest boven drijfmest en kunstmest</td>
-<td align="left">Use of solid manure</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_STRAWRESIDUE</td>
-<td align="left">indicator</td>
-<td align="left">wordt stro ondergewerkt</td>
-<td align="left">Application of straw residues</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_MECHWEEDS</td>
-<td align="left">indicator</td>
-<td align="left">mechanische onkruidbestrijding</td>
-<td align="left">Use of mechanical weed protection</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_PESTICIDES_DST</td>
-<td align="left">indicator</td>
-<td align="left">beslissingsondersteunde systemen gewasbescherming</td>
-<td align="left">Use of DST for pesticides</td>
+<td align="left">bodemmanagementscore voor bodembiodiversiteit</td>
+<td align="left">integrated soil management indicator for soil biodiversity</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
