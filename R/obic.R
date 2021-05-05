@@ -228,6 +228,28 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                                   M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
                                   )]
   
+    # Calculate grouped management scores for specific ecosystem services
+    dt[, D_M_SOILFERTILITY := calc_man_ess(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
+                                           D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
+                                           M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
+                                           M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST,
+                                           type = 'I_M_SOILFERTILITY')]
+    dt[, D_M_CLIMATE := calc_man_ess(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
+                                     D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
+                                     M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
+                                     M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST,
+                                     type = 'I_M_CLIMATE')]
+    dt[, D_M_WATERQUALITY := calc_man_ess(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
+                                          D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
+                                          M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
+                                          M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST,
+                                          type = 'I_M_WATERQUALITY')]
+    dt[, D_M_BIODIVERSITY := calc_man_ess(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
+                                          D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
+                                          M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
+                                          M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST,
+                                          type = 'I_M_BIODIVERSITY')]
+    
     # Calculate the score of the BodemConditieScore
     dt[, D_BCS := calc_bcs(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, D_PH_DELTA, 
                            A_EW_BCS, A_SC_BCS, A_GS_BCS,A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS)]
@@ -280,24 +302,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   
     # Calculate Visual Soil Assessment Indicator
     dt[, I_BCS := ind_bcs(D_BCS)]
-    
-    # Calculate indicators for soil management
-    dt[, I_M_GREEN := fifelse(M_GREEN == TRUE, 1,0)]
-    dt[, I_M_COMPOST := fifelse(M_COMPOST > 0,1,0)]
-    dt[, I_M_NONBARE := fifelse(M_NONBARE == TRUE, 1,0)]
-    dt[, I_M_EARLYCROP := fifelse(M_EARLYCROP == TRUE, 1,0)]
-    dt[, I_M_SLEEPHOSE := fifelse(M_SLEEPHOSE == TRUE & B_SOILTYPE_AGR != 'veen' & crop_category == 'mais',1,0)]
-    dt[, I_M_SLEEPHOSE := fifelse(M_SLEEPHOSE == TRUE & crop_category == 'grasland',1,I_M_SLEEPHOSE)]
-    dt[, I_M_DRAIN := fifelse(M_DRAIN == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
-    dt[, I_M_DITCH := fifelse(M_DITCH == TRUE & B_SOILTYPE_AGR == 'veen',1,0)]
-    dt[, I_M_UNDERSEED := fifelse(M_UNDERSEED == TRUE,1,0)]
-    dt[, I_M_LIME := fifelse(M_LIME == TRUE,1,0)]
-    dt[, I_M_NONINVTILL := fifelse(M_NONINVTILL == TRUE,1,0)]
-    dt[, I_M_SSPM := fifelse(M_SSPM == TRUE,1,0)]
-    dt[, I_M_SOLIDMANURE := fifelse(M_SOLIDMANURE == TRUE,1,0)]
-    dt[, I_M_STRAWRESIDUE := fifelse(M_STRAWRESIDUE == TRUE,1,0)]
-    dt[, I_M_MECHWEEDS := fifelse(M_MECHWEEDS == TRUE,1,0)]
-    dt[, I_M_PESTICIDES_DST := fifelse(M_PESTICIDES_DST == TRUE,1,0)]
     
     # Calculate integrated management indicator
     dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
