@@ -32,7 +32,7 @@ ind_nematodes_list <- function(A_NEMA){
   dd[, nem_score := round(pmin(nem_score),3)]
   
   # select the lowest score per field being the limiting value for soil quality
-  out <- min(dd[,nem_score])
+  out <- min(dd[,nem_score], na.rm = TRUE)
   
   return(out)
 } 

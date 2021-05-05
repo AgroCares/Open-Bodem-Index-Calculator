@@ -34,6 +34,38 @@ test_that("ind_nematodes_list works", {
   )
 })
 
+# test that ind_nematodes_list works with missing values
+nem.dt1 <- nem.dt1[5:10, count:= NA]
+nem.dt2 <- nem.dt2[5:10, count:= NA]
+test_that("ind_nematodes_list works when some values are missing", {
+  expect_equal(
+    ind_nematodes_list(A_NEMA = nem.dt1),
+    expected = 1,
+    tolecance = 0.01
+  )
+  expect_equal(
+    ind_nematodes_list(A_NEMA = nem.dt2),
+    expected = 0,
+    tolerance = 0.0001
+  )
+})
+
+# test that ind_nematodes_list works with missing nematodes
+nem.dt1 <- nem.dt1[5:15]
+nem.dt2 <- nem.dt2[5:15]
+test_that("ind_nematodes_list works when some species missing", {
+  expect_equal(
+    ind_nematodes_list(A_NEMA = nem.dt1),
+    expected = 1,
+    tolecance = 0.01
+  )
+  expect_equal(
+    ind_nematodes_list(A_NEMA = nem.dt2),
+    expected = 0,
+    tolerance = 0.0001
+  )
+})
+
 # number of fields
 nfields = 15
 
