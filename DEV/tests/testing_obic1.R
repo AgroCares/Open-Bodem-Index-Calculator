@@ -508,6 +508,31 @@ close(pb)
 out
 
 
-# test when BSC contains NA
+# test for management
 
+     A_SOM_LOI = seq(2.1,24.5,length.out = 10)
+     B_LU_BRP = c(rep(265,3),rep(259,2),rep(1934,5))
+     B_SOILTYPE_AGR = c(rep('dekzand',5),'veen','duinzand','rivierklei','zeeklei','dalgrond')
+     B_GWL_CLASS = c(rep('GtIV',4),'GtII','GtI','GtVII',rep('GtIV',3))
+     D_SOM_BAL = rep(1115,10)
+     D_CP_GRASS = c(rep(0.2,5),0.9,0,0.2,0.2,.1)
+     D_CP_POTATO = c(rep(0.5,5),0,rep(0.3,4))
+     D_CP_RUST = c(rep(0.3,5),0.1,0.7,0.5,0.5,0.6)
+     D_CP_RUSTDEEP = rep(0,10)
+     D_GA = c(rep(5,5),9,0,2,2,1)
+     M_COMPOST = rep(25,10)
+     M_GREEN = rep(TRUE,10)
+     M_NONBARE = rep(TRUE,10)
+     M_EARLYCROP = rep(TRUE,10)
+     M_SLEEPHOSE = rep(TRUE,10)
+     M_DRAIN = c(rep(FALSE,5),TRUE,rep(FALSE,4))
+     M_DITCH = rep(TRUE,10)
+     M_UNDERSEED = rep(TRUE,10)
+     M_LIME = rep(TRUE,10) 
+     M_NONINVTILL = rep(TRUE,10)
+     M_SSPM = rep(TRUE,10)
+     M_SOLIDMANURE = rep(TRUE,10)
+     M_STRAWRESIDUE = c(rep(FALSE,5),TRUE,rep(FALSE,4))
+     M_MECHWEEDS = c(rep(FALSE,5),TRUE,rep(FALSE,4))
+     M_PESTICIDES_DST = c(rep(FALSE,5),TRUE,rep(FALSE,4))
 
