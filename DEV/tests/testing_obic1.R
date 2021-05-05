@@ -407,6 +407,7 @@ dt <- data.table(ID = 362662,
                  )
 
 require(OBIC)
+require(data.table)
 
 nsim = 50
 out.list = list()
