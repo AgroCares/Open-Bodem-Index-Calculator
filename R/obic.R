@@ -400,10 +400,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
     # dcast output
     out.ind[,id:=1]
+    out.ind[value== -999, value := NA]
     out.ind <- dcast(out.ind,id~indicator)[,id:=NULL]
     
     # dcast output
     out.score[,id:=1]
+    out.score[value== -999, value := NA]
     out.score <- dcast(out.score,id~cat)[,id:=NULL]
     
     # get most occurring soil type and crop type
