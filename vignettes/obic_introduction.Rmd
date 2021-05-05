@@ -1064,7 +1064,7 @@ Below is illustrated how the obic_field wrapper deals with the parameters derive
         theme(legend.position = c('none'),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10),
-              axis.text = element_text(size=10)) + ggtitle('Soil compaction when BSC parameters are all 0, 1 or 2\nincluding parameters thatn\effect the score negatively')
+              axis.text = element_text(size=10)) + ggtitle('Soil compaction when BSC parameters are all 0, 1 or 2\nincluding parameters that\neffect the score negatively')
     p1
     
     p2 <- ggplot(data = dt,aes(y = I_P_CEC, x = id, fill = id)) + geom_col() +  theme_bw() + 
@@ -1208,9 +1208,9 @@ The PMN measured by routine laboratories in the Netherlands may be overestimated
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10),
-              legend.position = c(0.75,0.15))+
+              legend.position = c(0.8,0.18))+
         ylab('PMN index') + xlab('Microbial activity') +
-        ggtitle('Relationship between measured PMN and\n adjusted PMN index') 
+        ggtitle('Relationship between measured PMN and\nadjusted PMN index') 
 
   # calculate indicator with A_PMN2 (which has lower numbers)
   dt.test <- dt.test[, I_PMN2 := ind_pmn(calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN2))]
@@ -1223,11 +1223,12 @@ The PMN measured by routine laboratories in the Netherlands may be overestimated
                   axis.text = element_text(size=10),
               legend.position = c(0.75,0.15))+
         ylab('PMN indicator score') + xlab('Microbial activity') +
-        ggtitle('Relationship between measured PMN and PMN\n indicator score') 
+        ggtitle('Relationship between measured PMN and PMN\nindicator score') 
     
   # plot side by side
-  p <- ggarrange(p1, p2, ncol = 2, common.legend = TRUE)
-  p
+  # p <- ggarrange(p1, p2, ncol = 2, common.legend = TRUE)
+  # p
+    p1
   
 ```
 
@@ -1403,7 +1404,6 @@ p2+p5
 ```
 
 
-
 ## Evaluate Soil Management
 Unlike other soil functions, soil management is hard to evaluate quantitatively. We introduced the expert-judgement driven framework of the Sustainable Soil Management label. This label was designed in 2016 by a group of soil scientists and consultancy workers in the Netherlands to implement sustainable soil management within certification protocols of relevant chain parties in the agricultural sector. A team of soil experts from research and practice made a selection of measurable and verifiable soil management measures that positively contribute to the ecosystem functions of the soil, and qualitatively assessed their impact on the soil quality while accounting for two land use categories and three soil type categories. Using this expert driven management label, the soil management can be systematically and quantitatively evaluated on field scale. Besides the current management practices, explicit attention is given to measures supporting soil organic matter build-up in soils, supporting the key role of soil organic matter for soil fertility and other ecosystem services. Because changes in soil organic matter are difficult to measure, an estimate is made of the net supply or removal of Effective Organic Matter based on the crop rotation plan and the current manure practices according the regulations present. This balance is indicative of the expected developments in the organic matter content of the soil.
 
@@ -1430,6 +1430,22 @@ Below, examples are give of how to calculate the organic matter balance and the 
                                   )]
 
 ````
+
+Example of the soil organic matter balance on five fields in 2010 from the Binnenveld dataset
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+    dt <- binnenveld[ID %in% head(unique(binnenveld$ID),5)&YEAR == 2010]
+    dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
+    
+    p2 <- ggplot(data = dt,aes(y = D_SOM_BAL, x = ID, fill = ID)) + geom_col() +  theme_bw() + 
+        ylab('SOM balnce') + xlab('Field') + 
+        theme(legend.position = c('none'),
+              plot.title = element_text(size=10),
+              legend.text = element_text(size=10),
+              axis.text = element_text(size=10)) + ggtitle('Soil organic matter balance for five fields')
+    
+    p2
+```
 
 ### Recommendations
 The Open Soil Index (OBI), gives a rating to soil parameters and soil functions. When a score is sub-optimal (score < 1), it is important to advise what measures can be taken to improve soil quality. For this purpose, a list of measures has been developed which had a positive effect on soil quality in field trials. Within the OBI, soil quality is assessed at the level of aggregate soil functions: soil chemistry and nutrient supply, soil physics and rooting, soil biology and disease resistance, and management). Within each group there are several soil parameters and functions, which can be specifically improved through soil management measures. Up to three out of the eleven measures may be recommended based on the performance of all soil parameters and functions. 
@@ -1465,13 +1481,15 @@ Deciding which measures are presented is controlled by two functions nested insi
 ````
 
 ## Integrating Soil Functions into OBIC scores
-The Open Soil Index is a score number ranging between 0 and 10, that holistically represents the soil quality as well as its management. The score is field specific, accounting for the soil type, geohydrological site properties and the crop rotation sequence of the last decade. The final score can be decomposed to sub scores for different categories reflecting major soil functions (chemical, physical, biological, and management), and these sub scores can further be decomposed to soil function levels. For each soil function, an indicator value ranging between 0 and 1 reflects the current situation given its deviation from a target condition of that specific soil function. With this hierarchical structure, the OBI offers both integral assessment (i.e. whether a soil is overall good or not) and specific assessment (i.e. which soil functions are poorly evaluated and to what extent these soil functions need to be adapted to improve the overall soil quality to the “optimum situation”). 
+The Open Soil Index is a score number ranging between 0 to 1, that holistically represents the soil quality as well as its management. The score is field specific, accounting for the soil type, geohydrological site properties and the crop rotation sequence of the last decade. The final score can be decomposed to sub scores for different categories reflecting major soil functions (chemical, physical, biological, and management), and these sub scores can further be decomposed to soil function levels. For each soil function, an indicator value ranging between 0 to 1 reflects the current situation given its deviation from a target condition of that specific soil function. With this hierarchical structure, the OBI offers both integral assessment (i.e. whether a soil is overall good or not) and specific assessment (i.e. which soil functions are poorly evaluated and to what extent these soil functions need to be adapted to improve the overall soil quality to the “optimum situation”). 
 
 
 ### Transforming indicator values
 Many of the indicator values calculated in the OBIC have a unit and a target value. D_NLV for example is the nitrogen producing capacity of the soil and should have a value between -30 and 250. However,Values calculated for individual indicators of chemical, physical, biological and environmental soil functions are not always meaningful to farmers. Nor is it easy to assess whether a given value is good or whether it requires improvement. Therefore, indicator scores for the soil functions are transformed to a value between 0 and 1, 0 being very poor and 1 being excellent (optimal for agricultural production). This way, the target value is clear and its easy to see whether an indicator on a parcel warrants a lot of improvement or not. Additionally, such scores can easily be turned into scores ranging from 0-10 which is a commonly used scale for grading in the Netherlands, and therefore easy to interpret by Dutch users.
 
-
+```{r, results= TRUE, eval= FALSE}
+include_graphics('vignettes/OBIC_score_integratie.png')
+```
 The OBIC package has functions that transform the value of a soil function into a score. Examples of such functions are `ind_nitrogen()`, `ind_sealing()`, `ind_pmn()` and `ind_nretention()`. Some of these functions only require the soil function's value. Others may need soil type or the cultivated crop to as these parameters may require different evaluation for specific soil functions.
 
 ```{r, results = FALSE, eval = FALSE}
