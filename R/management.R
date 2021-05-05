@@ -387,9 +387,10 @@ ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
 #' 
 #' @export
 calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
-                                   D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
-                                   M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
-                                   M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST) {
+                         D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
+                         M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
+                         M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST,
+                         type) {
   
   id = crop_code = crop_name = soiltype = soiltype.n = crop_n = crop_category = NULL
   
@@ -500,11 +501,13 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   
   # estimate management scores for arable systems given specific soil ecosystem functions
     
-    # melt data.table to join with management table
-  
+    if(nrow(dt.arable) > 0) {
+      
+      # melt data.table to join with management table
+      
       # which columns are in id.vars
       cols <- c('id','crop_name','crop_category','M_COMPOST')
-  
+      
       # which columsn are in measure.vars
       colsm <- colnames(dt)[grepl('^M_',colnames(dt)) & !grepl('COMPOST',colnames(dt))]
       
@@ -512,54 +515,61 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       dt.man <- melt(dt, id.vars = cols, 
                      measure.vars = colsm,
                      variable.name = 'measure', value.name = 'm_value')
-  
-    # merge with management.obic
-    dt.man <- merge(dt.man,management.obic[,list(measure,type = get(type))], by = 'measure', all.x = TRUE)
+      
+      # merge with management.obic
+      dt.man <- merge(dt.man,management.obic[,list(measure,type = get(type))], by = 'measure', all.x = TRUE)
+      
+      # subset data.table
+      dt.arable.man = dt.man[crop_category == 'akkerbouw']
+      
+      # filter on the relevant measures
+      dt.arable.man[type==0, m_value := NA]
+      
+      # dcast 
+      dt.arable.man <- dcast(dt.arable.man,id + crop_name + crop_category + M_COMPOST ~ measure,value.var = 'm_value')
+      
+      # management specific score
+      dt.arable.man[, value_ms := 0]
+      
+      # measure 1. is the parcel for 80% of the year grown by a crop (add 3 points)
+      dt.arable.man[M_NONBARE == TRUE, value_ms := value_ms + 3] 
+      
+      # measure 4. use of early varieties in relevant cultures to avoid harvesting after september (stimulating catch crop too)
+      dt.arable.man[grepl('aardappel|bieten, suiker',crop_name) & M_EARLYCROP == TRUE, value_ms := value_ms + 1]
+      
+      # measure 8. are soil protection measures taken?
+      dt.arable.man[M_SSPM == TRUE | M_SLEEPHOSE == TRUE, value_ms := value_ms + 1]
+      
+      # measure 9. are soils frequently limed?
+      dt.arable.man[M_LIME == TRUE, value_ms := value_ms + 1]
+      
+      # measure 10. are soils receiving preferential solid manure above slurry
+      dt.arable.man[M_SOLIDMANURE == TRUE | M_COMPOST > 0 | M_GREEN ==TRUE, value_ms := value_ms + 1]
+      
+      # measure 11. is straw incorporated when straw residues are present
+      dt.arable.man[M_STRAWRESIDUE == TRUE, value_ms := value_ms + 1]
+      
+      # measure 12. are weeds removed with mechanical machinery rather than chemicals
+      dt.arable.man[M_MECHWEEDS == TRUE, value_ms := value_ms + 1]
+      
+      # measure 13. are pesticides used with decision supporting tools to minimize dose
+      dt.arable.man[M_PESTICIDES_DST == TRUE, value_ms := value_ms + 1]
+      
+      # measure 15. is NKG applied to minimize tillage?
+      dt.arable.man[M_NONINVTILL == TRUE, value_ms := value_ms + 1]
+      
+      # merge with baseline for carbon
+      dt.arable <- merge(dt.arable,dt.arable.man[,list(id,value_ms)],by='id')
+      
+      # add final value for arable systems
+      dt.arable[,fvalue := value + value_ms]
+      
+    } else {
+      
+      # if no arable crops are present, add column fvalue
+      dt.arable[,fvalue := value]
+    }
     
-    # subset data.table
-    dt.arable.man = dt.man[crop_category == 'akkerbouw']
-  
-    # filter on the relevant measures
-    dt.arable.man[type==0, m_value := NA]
-    
-    # dcast 
-    dt.arable.man <- dcast(dt.arable.man,id + crop_name + crop_category + M_COMPOST ~ measure,value.var = 'm_value')
-    
-    # management specific score
-    dt.arable.man[, value_ms := 0]
-    
-    # measure 1. is the parcel for 80% of the year grown by a crop (add 3 points)
-    dt.arable.man[M_NONBARE == TRUE, value_ms := value_ms + 3] 
-  
-    # measure 4. use of early varieties in relevant cultures to avoid harvesting after september (stimulating catch crop too)
-    dt.arable.man[grepl('aardappel|bieten, suiker',crop_name) & M_EARLYCROP == TRUE, value_ms := value_ms + 1]
-  
-    # measure 8. are soil protection measures taken?
-    dt.arable.man[M_SSPM == TRUE | M_SLEEPHOSE == TRUE, value_ms := value_ms + 1]
-    
-    # measure 9. are soils frequently limed?
-    dt.arable.man[M_LIME == TRUE, value_ms := value_ms + 1]
-    
-    # measure 10. are soils receiving preferential solid manure above slurry
-    dt.arable.man[M_SOLIDMANURE == TRUE | M_COMPOST > 0 | M_GREEN ==TRUE, value_ms := value_ms + 1]
-  
-    # measure 11. is straw incorporated when straw residues are present
-    dt.arable.man[M_STRAWRESIDUE == TRUE, value_ms := value_ms + 1]
-    
-    # measure 12. are weeds removed with mechanical machinery rather than chemicals
-    dt.arable.man[M_MECHWEEDS == TRUE, value_ms := value_ms + 1]
-    
-    # measure 13. are pesticides used with decision supporting tools to minimize dose
-    dt.arable.man[M_PESTICIDES_DST == TRUE, value_ms := value_ms + 1]
-    
-    # measure 15. is NKG applied to minimize tillage?
-    dt.arable.man[M_NONINVTILL == TRUE, value_ms := value_ms + 1]
-    
-  # merge with baseline for carbon
-  dt.arable <- merge(dt.arable,dt.arable.man[,list(id,value_ms)],by='id')
-  
-  # add final value for arable systems
-  dt.arable[,fvalue := value + value_ms]
   
   # negative scores may not occur for default
   dt.arable[fvalue < 0, fvalue := 0]
@@ -589,6 +599,7 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       }
   
     # estimate management scores for maize systems given specific soil ecosystem functions
+    if(nrow(dt.maize) > 0){
       
       # melt data.table to join with management table
       
@@ -617,8 +628,8 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       
       # management specific score
       dt.maize.man[, value_ms := 0]
-  
-    # evaluate the impact of measures
+      
+      # evaluate the impact of measures
       
       # measure 1. maize crop in combination with grassland
       dt.maize.man[M_UNDERSEED == TRUE | M_NONBARE == TRUE, value_ms := value_ms + 1]
@@ -649,12 +660,19 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       
       # measure 12. are weeds removed with mechanical machinery rather than chemicals
       dt.maize.man[M_MECHWEEDS == TRUE, value_ms := value_ms + 1]
-  
-    # merge with baseline for carbon
-    dt.maize <- merge(dt.maize,dt.maize.man[,list(id,value_ms)],by='id')
+      
+      # merge with baseline for carbon
+      dt.maize <- merge(dt.maize,dt.maize.man[,list(id,value_ms)],by='id')
+      
+      # add final value for arable systems
+      dt.maize[,fvalue := value + value_ms]
+      
+    }  else {
+      
+      # if no maize present, add column fvalue
+      dt.maize[,fvalue := value]
+    }
     
-    # add final value for arable systems
-    dt.maize[,fvalue := value + value_ms]
     
     # negative scores may not occur for default
     dt.maize[fvalue < 0, fvalue := 0]
@@ -683,8 +701,10 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     
    # estimate management scores for maize systems given specific soil ecosystem functions
     
-    # melt data.table to join with management table
+    if(nrow(dt.grass) > 0){
     
+      # melt data.table to join with management table
+      
       # which columns are in id.vars
       cols <- c('id','soiltype.n','crop_category','M_COMPOST')
       
@@ -698,21 +718,21 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       
       # merge with management.obic
       dt.man <- merge(dt.man,management.obic[,list(measure,type = get(type))], by = 'measure', all.x = TRUE)
-    
-    # subset data.table
-    dt.grass.man = dt.man[crop_category == 'grasland']
-    
-    # filter on the relevant measures
-    dt.grass.man[type==0, m_value := NA]
-    
-    # dcast 
-    dt.grass.man <- dcast(dt.grass.man,id + soiltype.n + crop_category + M_COMPOST ~ measure,value.var = 'm_value')
-    
-    # management specific score
-    dt.grass.man[, value_ms := 0]
-    
-    # evaluate the impact of measures specific for an ecosystem service
-    
+      
+      # subset data.table
+      dt.grass.man = dt.man[crop_category == 'grasland']
+      
+      # filter on the relevant measures
+      dt.grass.man[type==0, m_value := NA]
+      
+      # dcast 
+      dt.grass.man <- dcast(dt.grass.man,id + soiltype.n + crop_category + M_COMPOST ~ measure,value.var = 'm_value')
+      
+      # management specific score
+      dt.grass.man[, value_ms := 0]
+      
+      # evaluate the impact of measures specific for an ecosystem service
+      
       # measure 4. make use of under water drains
       dt.grass.man[soiltype.n =='veen' & M_DRAIN == TRUE, value_ms := value_ms + 3]
       
@@ -730,12 +750,20 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       
       # measure 9. are soils frequently limed?
       dt.grass.man[M_LIME == TRUE, value_ms := value_ms + 1]
-  
-    # merge with baseline for carbon
-    dt.grass <- merge(dt.grass,dt.grass.man[,list(id,value_ms)],by='id')
+      
+      # merge with baseline for carbon
+      dt.grass <- merge(dt.grass,dt.grass.man[,list(id,value_ms)],by='id')
+      
+      # add final value for arable systems
+      dt.grass[,fvalue := value + value_ms]
+      
+    } else{
+      
+      # if no grassland is present, add column fvalue
+      dt.grass[,fvalue := value]
+      
+    }
     
-    # add final value for arable systems
-    dt.grass[,fvalue := value + value_ms]
     
     # negative scores may not occur for default
     dt.grass[fvalue < 0, fvalue := 0]
