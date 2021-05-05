@@ -8,11 +8,11 @@ test_that("calc_cec works", {
   )
   expect_equal(
     calc_aggregatestability(
-      A_K_CEC = rep(5,5),
-      A_MG_CEC = rep(2.8,5),
-      A_CA_CEC = seq(35,92,length.out = 5),
-      A_OS_GV = rep(5, 5), 
-      B_BT_AK = rep('dekzand', 5)
+      A_K_CO_PO = rep(5,5),
+      A_MG_CO_PO = rep(2.8,5),
+      A_CA_CO_PO = seq(35,92,length.out = 5),
+      A_SOM_LOI = rep(5, 5), 
+      B_SOILTYPE_AGR = rep('dekzand', 5)
     ),
     expected = c(0.3625942, 0.2497810, 0.1389193, 0.0468888, 0.1053117),
     tolerance = 0.01

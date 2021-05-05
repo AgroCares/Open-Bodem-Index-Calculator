@@ -4,10 +4,10 @@
 \alias{ind_compaction}
 \title{Calculate indicator for subsoil compaction}
 \usage{
-ind_compaction(B_OV_WENR)
+ind_compaction(B_SC_WENR)
 }
 \arguments{
-\item{B_OV_WENR}{(numeric) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)}
+\item{B_SC_WENR}{(numeric) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)}
 }
 \description{
 This function calculats the indicator for the risk for soil compaction of the subsoil.

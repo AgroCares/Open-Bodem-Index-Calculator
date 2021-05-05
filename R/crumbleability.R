@@ -2,37 +2,37 @@
 #'
 #' This function calculates the crumbleability. This value can be evaluated by \code{\link{ind_crumbleability}}
 #' 
-#' @param A_CLAY_MI (numeric) The percentage A_CLAY_MI available of the soil
-#' @param A_OS_GV (numeric) The organic matter content of soil in percentage
-#' @param A_PH_CC (numeric) The pH of the soil
+#' @param A_SOM_LOI (numeric) The organic matter content of soil (\%)
+#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
+#' @param A_PH_CC (numeric) The pH of the soil, measured in 0.01M CaCl2
 #' 
 #' @import data.table
 #' 
 #' @importFrom stats approxfun
 #'
 #' @export
-calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
+calc_crumbleability <- function(A_SOM_LOI, A_CLAY_MI, A_PH_CC) {
   
   # Check input
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
-  checkmate::assert_numeric(A_OS_GV, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
+  checkmate::assert_numeric(A_SOM_LOI, lower = 0, upper = 100, any.missing = FALSE, min.len = 1)
   checkmate::assert_numeric(A_PH_CC, lower = 0, upper = 14, any.missing = FALSE, min.len = 1)
 
   # Setup a table with all the information
-  cor.A_OS_GV = cor.A_PH_CC = value = value.A_CLAY_MI = NULL
+  cor.A_SOM_LOI = cor.A_PH_CC = value = value.A_CLAY_MI = NULL
   dt <- data.table(
     A_CLAY_MI = A_CLAY_MI,
-    A_OS_GV = A_OS_GV, 
+    A_SOM_LOI = A_SOM_LOI, 
     A_PH_CC = A_PH_CC,
     value.A_CLAY_MI = NA_real_,
-    cor.A_OS_GV = NA_real_,
+    cor.A_SOM_LOI = NA_real_,
     cor.A_PH_CC = NA_real_,
     value = NA_real_
   )
   df.lookup <- data.frame(
     A_CLAY_MI = c(4, 10, 17, 24, 30, 40, 100),
     value.A_CLAY_MI = c(10, 9, 8, 6.5, 5, 3.5, 1),
-    cor.A_OS_GV = c(0, 0.06, 0.09, 0.12, 0.25, 0.35, 0.46),
+    cor.A_SOM_LOI = c(0, 0.06, 0.09, 0.12, 0.25, 0.35, 0.46),
     cor.A_PH_CC = c(0, 0, 0.15, 0.3, 0.7, 1, 1.5)
   )
   
@@ -40,9 +40,9 @@ calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
   fun.A_CLAY_MI <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$value.A_CLAY_MI, rule = 2)
   dt[, value.A_CLAY_MI := fun.A_CLAY_MI(A_CLAY_MI)]
     
-  # Create organic matter correction function and calculate correction for A_OS_GV
-  fun.cor.A_OS_GV <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_OS_GV, rule = 2)
-  dt[, cor.A_OS_GV := fun.cor.A_OS_GV(A_CLAY_MI)]
+  # Create organic matter correction function and calculate correction for A_SOM_LOI
+  fun.cor.A_SOM_LOI <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_SOM_LOI, rule = 2)
+  dt[, cor.A_SOM_LOI := fun.cor.A_SOM_LOI(A_CLAY_MI)]
     
   # Create pH correction function and calculate correction for pH
   fun.cor.A_PH_CC <- approxfun(x = df.lookup$A_CLAY_MI, y = df.lookup$cor.A_PH_CC, rule = 2)
@@ -50,7 +50,7 @@ calc_crumbleability <- function(A_CLAY_MI, A_OS_GV, A_PH_CC) {
   dt[A_PH_CC >= 7, cor.A_PH_CC := 0]
   
   # Calculate the value
-  dt[, value := value.A_CLAY_MI + cor.A_OS_GV * A_OS_GV - cor.A_PH_CC * pmax(0, 7 - A_PH_CC)]
+  dt[, value := value.A_CLAY_MI + cor.A_SOM_LOI * A_SOM_LOI - cor.A_PH_CC * pmax(0, 7 - A_PH_CC)]
   
   # Limit the value to 1 - 10
   dt[value > 10, value := 10]

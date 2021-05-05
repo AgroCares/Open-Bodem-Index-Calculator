@@ -5,47 +5,50 @@
 \title{Calculate the BodemConditieScore}
 \usage{
 calc_bcs(
-  A_RW_BC,
-  A_BS_BC,
-  A_GV_BC,
-  A_PV_BC,
-  A_AS_BC,
-  A_SV_BC,
-  A_RD_BC,
-  A_SS_BC,
-  A_CO_BC,
-  A_OS_GV,
-  D_PH_DELTA,
   B_LU_BRP,
-  B_BT_AK
+  B_SOILTYPE_AGR,
+  A_SOM_LOI,
+  D_PH_DELTA,
+  A_EW_BCS = NA,
+  A_SC_BCS = NA,
+  A_GS_BCS = NA,
+  A_P_BCS = NA,
+  A_C_BCS = NA,
+  A_RT_BCS = NA,
+  A_RD_BCS = NA,
+  A_SS_BCS = NA,
+  A_CC_BCS = NA,
+  type = "score"
 )
 }
 \arguments{
-\item{A_RW_BC}{(numeric) The presence of earth worms (score 0-1-2)}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
-\item{A_BS_BC}{(numeric) The presence of compaction of soil structure (score 0-1-2)}
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
-\item{A_GV_BC}{(numeric) The presence of waterlogged conditions (score 0-1-2)}
-
-\item{A_PV_BC}{(numeric) The presence / occurence of water puddles on the land (score 0-1-2)}
-
-\item{A_AS_BC}{(numeric) The presence of visible cracks in the top layer (score 0-1-2)}
-
-\item{A_SV_BC}{(numeric) The presence of visible tracks on the land (score 0-1-2)}
-
-\item{A_RD_BC}{(integer) The rooting depth (score 0-1-2)}
-
-\item{A_SS_BC}{(integer) The soil structure (score 0-1-2)}
-
-\item{A_CO_BC}{(integer) The crop density (score 0-1-2)}
-
-\item{A_OS_GV}{(numeric) The organic matter content of the soil (\%)}
+\item{A_SOM_LOI}{(numeric) The percentage organic matter in the soil (\%)}
 
 \item{D_PH_DELTA}{(numeric) The pH difference with the optimal pH.}
 
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
+\item{A_EW_BCS}{(numeric) The presence of earth worms (score 0-1-2)}
 
-\item{B_BT_AK}{(character) The type of soil}
+\item{A_SC_BCS}{(numeric) The presence of compaction of subsoil (score 0-1-2)}
+
+\item{A_GS_BCS}{(numeric) The presence of waterlogged conditions, gley spots (score 0-1-2)}
+
+\item{A_P_BCS}{(numeric) The presence / occurrence of water puddles on the land, ponding (score 0-1-2)}
+
+\item{A_C_BCS}{(numeric) The presence of visible cracks in the top layer (score 0-1-2)}
+
+\item{A_RT_BCS}{(numeric) The presence of visible tracks / rutting or trampling on the land (score 0-1-2)}
+
+\item{A_RD_BCS}{(integer) The rooting depth (score 0-1-2)}
+
+\item{A_SS_BCS}{(integer) The soil structure (score 0-1-2)}
+
+\item{A_CC_BCS}{(integer) The crop cover on the surface (score 0-1-2)}
+
+\item{type}{(character) Define output of the function. Options: score (integrated score) and indicator (score per indicator)}
 }
 \description{
 This function calculates the BodemConditieScore given input from manual observations made in the field.

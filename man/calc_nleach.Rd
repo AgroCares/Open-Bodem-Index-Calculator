@@ -4,10 +4,17 @@
 \alias{calc_nleach}
 \title{Calculate the N leaching}
 \usage{
-calc_nleach(B_BT_AK, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to)
+calc_nleach(
+  B_SOILTYPE_AGR,
+  B_LU_BRP,
+  B_GWL_CLASS,
+  D_NLV,
+  B_AER_CBS,
+  leaching_to
+)
 }
 \arguments{
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The type of soil}
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 

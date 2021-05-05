@@ -5,35 +5,43 @@
 \title{Calculate the 'performance' of sustainable soil management}
 \usage{
 calc_management(
-  A_OS_GV,
+  A_SOM_LOI,
   B_LU_BRP,
-  B_BT_AK,
-  B_GT,
-  D_OS_BAL,
+  B_SOILTYPE_AGR,
+  B_GWL_CLASS,
+  D_SOM_BAL,
   D_CP_GRASS,
   D_CP_POTATO,
   D_CP_RUST,
   D_CP_RUSTDEEP,
   D_GA,
-  M_M6,
-  M_M10,
-  M_M11,
-  M_M12,
-  M_M13,
-  M_M14,
-  M_M15
+  M_COMPOST,
+  M_GREEN,
+  M_NONBARE,
+  M_EARLYCROP,
+  M_SLEEPHOSE,
+  M_DRAIN,
+  M_DITCH,
+  M_UNDERSEED,
+  M_LIME,
+  M_NONINVTILL,
+  M_SSPM,
+  M_SOLIDMANURE,
+  M_STRAWRESIDUE,
+  M_MECHWEEDS,
+  M_PESTICIDES_DST
 )
 }
 \arguments{
-\item{A_OS_GV}{(numeric) The organic matter content of the soil (in procent)}
+\item{A_SOM_LOI}{(numeric) The percentage organic matter in the soil (\%)}
 
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
-\item{B_BT_AK}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
-\item{B_GT}{(character) The groundwater table class}
+\item{B_GWL_CLASS}{(character) The groundwater table class}
 
-\item{D_OS_BAL}{(numeric) The organic matter balance of the soil (in kg EOS per ha)}
+\item{D_SOM_BAL}{(numeric) The organic matter balance of the soil (in kg EOS per ha)}
 
 \item{D_CP_GRASS}{(numeric) The fraction grassland in crop rotation}
 
@@ -45,19 +53,35 @@ calc_management(
 
 \item{D_GA}{(numeric) The age of the grassland (years)}
 
-\item{M_M6}{(boolean) measure 6. are catchcrops sown after main crop (option: yes or no)}
+\item{M_COMPOST}{(numeric) The frequency that compost is applied (optional, every x years)}
 
-\item{M_M10}{(boolean) measure 10. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)}
+\item{M_GREEN}{(boolean) measure. are catchcrops sown after main crop (option: yes or no)}
 
-\item{M_M11}{(boolean) measure 11. use of early crop varieties to avoid late harvesting (option: yes or no)}
+\item{M_NONBARE}{(boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)}
 
-\item{M_M12}{(boolean) measure 12. is sleepslangbemester used for slurry application (option: yes or no)}
+\item{M_EARLYCROP}{(boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)}
 
-\item{M_M13}{(boolean) measure 13. are under water drains installed in peaty soils (option: yes or no)}
+\item{M_SLEEPHOSE}{(boolean) measure. is sleepslangbemester used for slurry application (option: yes or no)}
 
-\item{M_M14}{(boolean) measure 14. are ditched maintained carefully and slib applied on the land (option: yes or no)}
+\item{M_DRAIN}{(boolean) measure. are under water drains installed in peaty soils (option: yes or no)}
 
-\item{M_M15}{(boolean) measure 15. is grass used as second crop in between maize rows (option: yes or no)}
+\item{M_DITCH}{(boolean) measure. are ditched maintained carefully and slib applied on the land (option: yes or no)}
+
+\item{M_UNDERSEED}{(boolean) measure. is maize grown with grass underseeded (option: yes or no)}
+
+\item{M_LIME}{(boolean) measure. Has field been limed in last three years (option: yes or no)}
+
+\item{M_NONINVTILL}{(boolean) measure. Non inversion tillage (option: yes or no)}
+
+\item{M_SSPM}{(boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)}
+
+\item{M_SOLIDMANURE}{(boolean) measure. Use of solid manure (option: yes or no)}
+
+\item{M_STRAWRESIDUE}{(boolean) measure. Application of straw residues (option: yes or no)}
+
+\item{M_MECHWEEDS}{(boolean) measure. Use of mechanical weed protection (option: yes or no)}
+
+\item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
 }
 \description{
 This function evaluates the contribution of sustainable soil management following the Label Sustainable Soil Management.

@@ -4,12 +4,12 @@
 \alias{calc_sealing_risk}
 \title{Calculate soil sealing risk}
 \usage{
-calc_sealing_risk(A_CLAY_MI, A_OS_GV)
+calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)
 }
 \arguments{
-\item{A_CLAY_MI}{(numeric) The percentage A_CLAY_MI present in the soil}
+\item{A_SOM_LOI}{(numeric) The organic matter content of soil (\%)}
 
-\item{A_OS_GV}{(numeric) The organic matter content of soil in percentage}
+\item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
 }
 \description{
 This function calculates the risks of soil sealing.  This value can be evaluated by \code{\link{ind_sealing}}

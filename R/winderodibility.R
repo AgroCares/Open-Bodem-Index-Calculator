@@ -2,12 +2,12 @@
 #'
 #' This function calculates the risk for wind erodibility of soils, derived from Van Kerckhoven et al. (2009) and Ros & Bussink (2013)
 #' 
-#' @param A_CLAY_MI (numeric) The clay content of the soil (in procent)
-#' @param A_SILT_MI (numeric) The silt content of the soil (in procent)
-#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
+#' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #'  
 #' @export
-calc_winderodibility <- function(A_CLAY_MI,A_SILT_MI,B_LU_BRP) {
+calc_winderodibility <- function(B_LU_BRP,A_CLAY_MI,A_SILT_MI) {
   
   id = crop_code = crop_n = loam = NULL
   
@@ -25,9 +25,9 @@ calc_winderodibility <- function(A_CLAY_MI,A_SILT_MI,B_LU_BRP) {
   # Collect data in a table
   dt <- data.table(
     id = 1:arg.length,
+    B_LU_BRP = B_LU_BRP,
     A_CLAY_MI = A_CLAY_MI,
     A_SILT_MI = A_SILT_MI,
-    B_LU_BRP = B_LU_BRP,
     value = NA_real_
   )
   

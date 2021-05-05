@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 ```{r setup}
@@ -20,8 +21,8 @@ library(OBIC)
 ```
 
 
-The main function of the package `obic()` requires as input a `data.table` with specific columns.
-These columns are specified in `OBIC::column_description.obic` and can also be seen in the table below
+The main function of the package `obic_field()` requires as input a series of soil properties required to assess the soil quality. Alternatively, the function `obic_field_dt()` can be used, requiring a `data.table` with specific columns as input.
+These required input columns are specified in `OBIC::column_description.obic` and can also be seen in the table below
 
 
 ```{r table}

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -105,8 +105,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/springgbv/Open-Bodem-Index-Calculator/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -124,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate the 'performance' of sustainable soil management</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/management.R'><code>R/management.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/management.R'><code>R/management.R</code></a></small>
     <div class="hidden name"><code>calc_management.Rd</code></div>
     </div>
 
@@ -132,47 +132,55 @@
     <p>This function evaluates the contribution of sustainable soil management following the Label Sustainable Soil Management.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_management</span>(
-  <span class='no'>A_OS_GV</span>,
-  <span class='no'>B_LU_BRP</span>,
-  <span class='no'>B_BT_AK</span>,
-  <span class='no'>B_GT</span>,
-  <span class='no'>D_OS_BAL</span>,
-  <span class='no'>D_CP_GRASS</span>,
-  <span class='no'>D_CP_POTATO</span>,
-  <span class='no'>D_CP_RUST</span>,
-  <span class='no'>D_CP_RUSTDEEP</span>,
-  <span class='no'>D_GA</span>,
-  <span class='no'>M_M6</span>,
-  <span class='no'>M_M10</span>,
-  <span class='no'>M_M11</span>,
-  <span class='no'>M_M12</span>,
-  <span class='no'>M_M13</span>,
-  <span class='no'>M_M14</span>,
-  <span class='no'>M_M15</span>
-)</pre>
+    <pre class="usage"><span class='fu'>calc_management</span><span class='op'>(</span>
+  <span class='va'>A_SOM_LOI</span>,
+  <span class='va'>B_LU_BRP</span>,
+  <span class='va'>B_SOILTYPE_AGR</span>,
+  <span class='va'>B_GWL_CLASS</span>,
+  <span class='va'>D_SOM_BAL</span>,
+  <span class='va'>D_CP_GRASS</span>,
+  <span class='va'>D_CP_POTATO</span>,
+  <span class='va'>D_CP_RUST</span>,
+  <span class='va'>D_CP_RUSTDEEP</span>,
+  <span class='va'>D_GA</span>,
+  <span class='va'>M_COMPOST</span>,
+  <span class='va'>M_GREEN</span>,
+  <span class='va'>M_NONBARE</span>,
+  <span class='va'>M_EARLYCROP</span>,
+  <span class='va'>M_SLEEPHOSE</span>,
+  <span class='va'>M_DRAIN</span>,
+  <span class='va'>M_DITCH</span>,
+  <span class='va'>M_UNDERSEED</span>,
+  <span class='va'>M_LIME</span>,
+  <span class='va'>M_NONINVTILL</span>,
+  <span class='va'>M_SSPM</span>,
+  <span class='va'>M_SOLIDMANURE</span>,
+  <span class='va'>M_STRAWRESIDUE</span>,
+  <span class='va'>M_MECHWEEDS</span>,
+  <span class='va'>M_PESTICIDES_DST</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A_OS_GV</th>
-      <td><p>(numeric) The organic matter content of the soil (in procent)</p></td>
+      <th>A_SOM_LOI</th>
+      <td><p>(numeric) The percentage organic matter in the soil (%)</p></td>
     </tr>
     <tr>
       <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
+      <td><p>(numeric) The crop code from the BRP</p></td>
     </tr>
     <tr>
-      <th>B_BT_AK</th>
-      <td><p>(character) The type of soil</p></td>
+      <th>B_SOILTYPE_AGR</th>
+      <td><p>(character) The agricultural type of soil</p></td>
     </tr>
     <tr>
-      <th>B_GT</th>
+      <th>B_GWL_CLASS</th>
       <td><p>(character) The groundwater table class</p></td>
     </tr>
     <tr>
-      <th>D_OS_BAL</th>
+      <th>D_SOM_BAL</th>
       <td><p>(numeric) The organic matter balance of the soil (in kg EOS per ha)</p></td>
     </tr>
     <tr>
@@ -196,32 +204,64 @@
       <td><p>(numeric) The age of the grassland (years)</p></td>
     </tr>
     <tr>
-      <th>M_M6</th>
-      <td><p>(boolean) measure 6. are catchcrops sown after main crop (option: yes or no)</p></td>
+      <th>M_COMPOST</th>
+      <td><p>(numeric) The frequency that compost is applied (optional, every x years)</p></td>
     </tr>
     <tr>
-      <th>M_M10</th>
-      <td><p>(boolean) measure 10. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)</p></td>
+      <th>M_GREEN</th>
+      <td><p>(boolean) measure. are catchcrops sown after main crop (option: yes or no)</p></td>
     </tr>
     <tr>
-      <th>M_M11</th>
-      <td><p>(boolean) measure 11. use of early crop varieties to avoid late harvesting (option: yes or no)</p></td>
+      <th>M_NONBARE</th>
+      <td><p>(boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)</p></td>
     </tr>
     <tr>
-      <th>M_M12</th>
-      <td><p>(boolean) measure 12. is sleepslangbemester used for slurry application (option: yes or no)</p></td>
+      <th>M_EARLYCROP</th>
+      <td><p>(boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)</p></td>
     </tr>
     <tr>
-      <th>M_M13</th>
-      <td><p>(boolean) measure 13. are under water drains installed in peaty soils (option: yes or no)</p></td>
+      <th>M_SLEEPHOSE</th>
+      <td><p>(boolean) measure. is sleepslangbemester used for slurry application (option: yes or no)</p></td>
     </tr>
     <tr>
-      <th>M_M14</th>
-      <td><p>(boolean) measure 14. are ditched maintained carefully and slib applied on the land (option: yes or no)</p></td>
+      <th>M_DRAIN</th>
+      <td><p>(boolean) measure. are under water drains installed in peaty soils (option: yes or no)</p></td>
     </tr>
     <tr>
-      <th>M_M15</th>
-      <td><p>(boolean) measure 15. is grass used as second crop in between maize rows (option: yes or no)</p></td>
+      <th>M_DITCH</th>
+      <td><p>(boolean) measure. are ditched maintained carefully and slib applied on the land (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_UNDERSEED</th>
+      <td><p>(boolean) measure. is maize grown with grass underseeded (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_LIME</th>
+      <td><p>(boolean) measure. Has field been limed in last three years (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_NONINVTILL</th>
+      <td><p>(boolean) measure. Non inversion tillage (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_SSPM</th>
+      <td><p>(boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_SOLIDMANURE</th>
+      <td><p>(boolean) measure. Use of solid manure (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_STRAWRESIDUE</th>
+      <td><p>(boolean) measure. Application of straw residues (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_MECHWEEDS</th>
+      <td><p>(boolean) measure. Use of mechanical weed protection (option: yes or no)</p></td>
+    </tr>
+    <tr>
+      <th>M_PESTICIDES_DST</th>
+      <td><p>(boolean) measure. Use of DST for pesticides (option: yes or no)</p></td>
     </tr>
     </table>
 
@@ -241,7 +281,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

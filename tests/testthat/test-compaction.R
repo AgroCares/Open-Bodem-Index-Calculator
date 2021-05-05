@@ -1,14 +1,14 @@
 test_that("ind_compaction works", {
   expect_equal(
     ind_compaction(
-      B_OV_WENR = c('Zeer beperkt')
+      B_SC_WENR = c('Zeer beperkt')
     ),
     expected = 1,
     tolerance = 0.001
   )
   expect_equal(
     ind_compaction(
-      B_OV_WENR = c("Bebouwing en infrastructuur","Groot","Zeer groot","Matig","Water",
+      B_SC_WENR = c("Bebouwing en infrastructuur","Groot","Zeer groot","Matig","Water",
                     "Glastuinbouw, niet beoordeeld","Beperkt door veenlagen","Van nature dicht" ,
                     "Beperkt", "Zeer beperkt")
     ),
