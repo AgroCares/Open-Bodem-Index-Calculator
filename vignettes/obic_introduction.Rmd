@@ -1009,11 +1009,22 @@ For more details, see `?calc_crumbleability` and `?calc_aggregatestability`.
 ```
 
 ### Subsoil compaction
-The risk of subsoil compaction for each field was assessed using soil texture, land use and a soil compaction model SOCOMO. The model determines whether the usual wheel loads for that land use exceed the strength of the subsurface in wet or humid conditions. Subsequently it was determined on the basis of the soil properties and groundwater levels whether the subsurface is extra sensitive to compaction or whether natural recovery is possible due to, for example, drought shrinkage. Strength, land use and soil properties together determine the risk of subsoil compaction. The presence of subsoil compaction is derived from a national map with the estimated risk. As such, there is not calculation used. Recent field experimental data support the accuracy of this risk assessment map.
+The risk of subsoil compaction for each field was assessed using soil texture, land use and a soil compaction model SOCOMO. The model determines whether the usual wheel loads for that land use exceed the strength of the subsurface in wet or humid conditions. Subsequently it was determined on the basis of the soil properties and groundwater levels whether the subsurface is extra sensitive to compaction or whether natural recovery is possible due to, for example, drought shrinkage. Strength, land use and soil properties together determine the risk of subsoil compaction. The presence of subsoil compaction is derived from a national map with the estimated risk. As such, there is no calculation used. Recent field experimental data support the accuracy of this risk assessment map.
 
-Within the OBIC, this estimate can be adapted to local site specific insights derived from the Visual Soil Assessment Methodology. Visual soil assessments (VSA) asses soil quality in the field, by digging a hole and assess several soil quality indicators visually. Soil quality indicators are grass cover, number of roots, number of biopores, soil color, soil structure, soil compaction and number of gray spots. Visual soil assessments are more and more used by farmers in the Netherlands, but not specifically developed for various soil types. 
+obic_field wraps a function to format the information from the soil compaction risk assessment map. This is required because the risk assessment map data can be numeric or string. The format_soilcompaction function checks the inputs and converts them to the correct strings when the inputs are okay. The possible risks for compaction a parcel can have are: "zeer beperkt" (very limited), "beperkt" (limited), "matig" (average), "groot" (large) and "zeer groot" (very large). Other possible values which are not typically found on agricultural parcels are: "bebouw" (built up), "water" and "glastuinbouw" (greenhouse horticulture) 
 
-Below is illustrated how the obic_field wrapper deals with the parameters derived from the VSA methodology. When scores are present for the presence of earthworms (A_EW_BCS), the occurence of subsurface compaction (A_SC_BCS), limited root development (A_RD_BCS), ponding in the spring (wet conditions after rainfall, A_P_BCS) and clear presence of visible tracks / rutting or trampling on the land (A_RT_BCS), then the original risk assessment map for subsoil compaction is overwritten the score for the relevant VSA indicators. Similarly, the soil aggregate stability is adapted when VSA indicators are available for earthworm density (A_EW_BCS), soil structure (A_SS_BCS) and presence of cracks in the topsoil (A_C_BCS).
+```{r, results = FALSE, eval = FALSE}
+
+    # check format B_SC_WENR
+    dt[, B_SC_WENR := format_soilcompaction(B_SC_WENR)]
+
+```
+
+
+### Visual soil assessment
+Within the OBIC, the estimates of aggregate stability and risk of subsoil compaction can be adapted to local site specific insights derived from the Visual Soil Assessment Methodology. Visual soil assessments (VSA) asses soil quality in the field, by digging a hole and assess several soil quality indicators visually. Soil quality indicators are: grass cover, number of roots, number of biopores, soil colour, soil structure, soil compaction and number of gray spots. Visual soil assessments are more and more used by farmers in the Netherlands, but not specifically developed for various soil types. 
+
+Below is illustrated how the obic_field wrapper deals with the parameters derived from the VSA methodology. The score derived from the origignal risk assessment map for subsoil compaction is overwritten with the relevant VSA indicators when When scores are present for the presence of earthworms (A_EW_BCS), the occurrence of subsurface compaction (A_SC_BCS), limited root development (A_RD_BCS), ponding in the spring (wet conditions after rainfall, A_P_BCS) and clear presence of visible tracks / rutting or trampling on the land (A_RT_BCS). Similarly, the soil aggregate stability is adapted when VSA indicators are available for earthworm density (A_EW_BCS), soil structure (A_SS_BCS) and presence of cracks in the topsoil (A_C_BCS).
 
 ```{r, results = FALSE, eval = FALSE}
 
@@ -1028,6 +1039,43 @@ Below is illustrated how the obic_field wrapper deals with the parameters derive
     dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]
 ```
 
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+    # make a data table with some BCS values
+    dt <- binnenveld[1:3,]
+    bcscols <- names(dt)[grep('_BCS$',names(dt))]
+    dt <- dt[,id := 1:nrow(dt)]
+    dt <- dt[,c(bcscols) := id-1]
+    
+    # calculate soil compaction and aggregate stability
+    dt[, I_P_CO:= -999]
+    dt[, I_P_CEC:= -999]
+    # overwrite soil physical functions for compaction when BCS is available
+    dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
+    dt[,D_P_CO := pmax(0, D_P_CO)]
+    dt[,I_P_CO := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
+    
+    # overwrite soil physical functions for aggregate stability when BCS is available
+    dt[,D_P_CEC := (3 * A_EW_BCS + 3 * A_SS_BCS - A_C_BCS)/12]
+    dt[,D_P_CEC := pmax(0, D_P_CEC)]
+    dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]
+    
+    p1 <- ggplot(data = dt,aes(y = I_P_CO, x = id, fill = id)) + geom_col() +  theme_bw() + 
+        ylab('Soil compaction') + xlab('Field') + 
+        theme(legend.position = c('none'),
+              plot.title = element_text(size=10),
+              legend.text = element_text(size=10),
+              axis.text = element_text(size=10)) + ggtitle('Soil compaction when BSC parameters are all 0, 1 or 2\nincluding parameters thatn\effect the score negatively')
+    p1
+    
+    p2 <- ggplot(data = dt,aes(y = I_P_CEC, x = id, fill = id)) + geom_col() +  theme_bw() + 
+        ylab('Aggregate stability') + xlab('Field') + 
+        theme(legend.position = c('none'),
+              plot.title = element_text(size=10),
+              legend.text = element_text(size=10),
+              axis.text = element_text(size=10)) + ggtitle('Aggregate stability when BSC parameters are all 0, 1 or 2\nincluding parameters that\neffect the score negatively')
+    p1+p2
+    
+```
 
 ### Water retention in topsoil
 The review study of various soil health instruments (Buneman et al., 2016) identifies a variety of indicators that can be used to gain more insight into the water retaining capacity of a soil. Frequently used indicators are the amount of plant-available water (14 x), the water holding capacity (11 x), the moisture content at field capacity (11 x) and the saturated permeability (10 x). These indicators can be measured or estimated indirectly via so-called pedotransfer functions (Wosten et al., 2001).  
@@ -1061,6 +1109,60 @@ For more details, see `?calc_waterretention`.
   # estimate the saturated permeability in topsoil
   dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'Ksat')]
 
+```
+
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+    # Create data
+    dt <- data.table(A_CLAY_MI = c(seq(1,36,2.5), rep(5,45)),
+                     plot = c(rep('klei',15), rep('zand',15), rep('silt', 15), rep('som',15)),
+                     A_SAND_MI = c(rep(20,15), seq(1,36,2.5), rep(20,30)),
+                     A_SILT_MI = c(rep(20,30), seq(1,36,2.5), rep(20,15)),
+                     A_SOM_LOI = c(rep(2, 45), seq(0.1,5.7,0.4))
+                     )
+
+    # Calculate water retention values
+    dt <- dt[, paw := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
+    dt <- dt[, whc := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'water holding capacity')]
+    dt <- dt[, wp := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'wilting point')]
+    dt <- dt[, fc := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'field capacity')]
+    dt <- dt[, ksat:= calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'Ksat')]
+
+    
+    pclay <- ggplot(data = dt[plot == 'klei'],
+               aes(x = A_CLAY_MI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('Plant available water') + xlab('Clay content (%)') +
+        ggtitle('Relation between plant water \navailability and clay content') 
+
+    pcsand <- ggplot(data = dt[plot == 'zand'],
+               aes(x = A_SAND_MI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('Plant available water') + xlab('Sand content (%)') +
+        ggtitle('Relation between plant water \navailability and sand content')
+    
+    pcsilt <- ggplot(data = dt[plot == 'silt'],
+               aes(x = A_SILT_MI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('Plant available water') + xlab('Silt content (%)') +
+        ggtitle('Relation between plant water \navailability and silt content')
+    
+    pcsom <- ggplot(data = dt[plot == 'som'],
+               aes(x = A_SOM_LOI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10))+
+        ylab('Plant available water') + xlab('Soil organic matter content (%)') +
+        ggtitle('Relation between plant water \navailability and SOM content')
+    
+    p1 <- ggarrange(pclay, pcsand, pcsilt, pcsom, ncol = 2, nrow = 2)
+    p1
+    
 ```
 
 
@@ -1141,6 +1243,24 @@ At low organic matter concentrations, the contribution of organic matter to soil
  dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
 ```
 
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+    # Make data table
+    dt <- data.table(A_SOM_LOI = seq(0.1, 6.9,0.4))
+
+    # Calculate disease resistance indicator
+    dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
+    
+    # make a plot
+    p1 <- ggplot(data = dt,
+               aes(y = I_B_DI, x = A_SOM_LOI)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+        theme(plot.title = element_text(size=10),
+                  legend.text = element_text(size=10),
+                  axis.text = element_text(size=10),
+              legend.position = c(0.75,0.15))+
+        ylab('Disease resistance indicator score') + xlab('Soil organic matter content (%)') +
+        ggtitle('Relationship between soil organic matter\nand disease resistance indicator score') 
+    p1
+```
 
 ### Nematodes (WIP)
 Nematodes are small animals occurring in all ecotypes on Earth, so also in soil. There is a large variety of nematodes in soils, they vary amongst other things, in size, feeding habits, reproduction speed and life cycle. Plant parasitic nematodes (PPN) can reproduce in a range of host plants. Some nematodes have a specific host preference while other can reproduce in a large variety of plants. PPN can severely depress crop yields in vulnerable crops. Therefore, farmers can have their fields sampled to analyse which and how many nematodes occur.
