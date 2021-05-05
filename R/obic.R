@@ -283,13 +283,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
-    # Calculate indicators for soil visual assessment (optional)
-    bcs.par <- c('I_B_EW_BCS', 'I_P_SC_BCS', 'I_P_GS_BCS', 'I_P_P_BCS', 'I_P_C_BCS', 'I_P_RT_BCS', 'I_P_RD_BCS',
-                 'I_P_SS_BCS', 'I_P_CC_BCS')
-    dt[,c(bcs.par) := calc_bcs(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
-                              A_EW_BCS, A_SC_BCS, A_GS_BCS, A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS,
-                              type = 'indicator')]
-  
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
     dt[,D_P_CO := pmax(0, D_P_CO)]
@@ -306,6 +299,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # Calculate integrated management indicator
     dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
   
+    # Calculate management indicator for ecosystemservices
+    dt[, I_M_SOILFERTILITY := ind_management(D_M_SOILFERTILITY, B_LU_BRP, B_SOILTYPE_AGR)]
+    dt[, I_M_CLIMATE := ind_management(D_M_CLIMATE, B_LU_BRP, B_SOILTYPE_AGR)]
+    dt[, I_M_WATERQUALITY := ind_management(D_M_WATERQUALITY, B_LU_BRP, B_SOILTYPE_AGR)]
+    dt[, I_M_BIODIVERSITY := ind_management(D_M_BIODIVERSITY, B_LU_BRP, B_SOILTYPE_AGR)]
+    
     # Calculate indicators for environment
     dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
     dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
@@ -332,14 +331,13 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # C = chemical, P = physics, B = biological, BCS = visual soil assessment
     # indicators not used for integrating: IBCS and IM
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
-    dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
     
     # Determine amount of indicators per category
-    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']
+    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by='cat']
     
     # add weighing factor to indicator values
-    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator,weight_nonpeat,weight_peat)], 
+    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator = variable,weight_nonpeat,weight_peat)], 
                      by = c('crop_category','indicator'), all.x = TRUE)
     
     # calculate correction factor for indicator values (low values have more impact than high values, a factor 5)

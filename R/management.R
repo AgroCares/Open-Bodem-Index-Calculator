@@ -265,93 +265,6 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
 }
 
 
-#' Calculate the indicator for sustainable management
-#' 
-#' This function calculates the the sustainability of strategic management options as calculated by \code{\link{calc_management}}
-#' The main source of this indicator is developed for Label Duurzaam Bodembeheer (Van der Wal, 2016)
-#' 
-#' The current function allows a maximum score of 16 points for arable systems, 12 for maize 
-#' and 9 for grass (non-peat) and 17 for grass on peat. 
-#' 
-#' @param D_MAN (numeric) The value of Sustainable Management  calculated by \code{\link{calc_management}}
-#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
-#' @param B_SOILTYPE_AGR (character) The type of soil
-#' 
-#' @export
-ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
-  
-  # add visible bindings
-  id = crop_code = soiltype = soiltype.n = crop_n = crop_name = crop_category = NULL
-  indicator = weight_nonpeat = weight_peat = NULL
-  
-  # Load in the datasets
-  crops.obic <- as.data.table(OBIC::crops.obic)
-  setkey(crops.obic, crop_code)
-  soils.obic <- as.data.table(OBIC::soils.obic)
-  setkey(soils.obic, soiltype)
-  
-  # load weights.obic (set indicator to zero when not applicable)
-  w <- as.data.table(OBIC::weight.obic)
-  w <- w[grepl('^I_M_',indicator)]
-  
-  # Check inputs
-  arg.length <- max(length(D_MAN), length(B_LU_BRP), length(B_SOILTYPE_AGR))
-  checkmate::assert_numeric(D_MAN, lower = 0, upper = 18, any.missing = FALSE)
-  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
-  
-  # Collect data in a table
-  dt <- data.table(
-    id = 1:arg.length,
-    D_MAN = D_MAN,
-    B_LU_BRP = B_LU_BRP,
-    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
-    value = NA_real_
-  )
-  
-  # merge crop table with data.table
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_n,crop_name, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
-  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
-  
-  # find maximum score
-  w.max <- w[, list(weight_nonpeat = sum(weight_nonpeat[weight_nonpeat>0]),
-                    weight_peat = sum(weight_peat[weight_peat>0])), by = 'crop_category']
-  
-  # add default scores 
-  # due to i) corrections due to OR-OR statements, ii) points for crop rotation plan/clover, and iii) extra points (>+1 )  (see calc_management)
-  w.max[crop_category=='akkerbouw',weight_nonpeat := weight_nonpeat - 2 + 6 + 2]
-  w.max[crop_category=='akkerbouw',weight_peat := weight_peat - 2 + 6 + 2]
-  w.max[crop_category=='mais', weight_nonpeat := weight_nonpeat - 2 + 2 + 0]
-  w.max[crop_category=='mais', weight_peat := weight_peat - 2 + 2 + 0]
-  w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat - 1 + 6 + 0]
-  w.max[crop_category=='grasland', weight_peat := weight_peat - 1 + 8 + 3]
-
-  # merge max score to actual dt
-  dt <- merge(dt, w.max, by='crop_category')
-  
-  # evaluate the Sustainability of Soil Management
-  dt[, value := D_MAN / fifelse(B_SOILTYPE_AGR == 'veen',weight_peat,weight_nonpeat)]
-  
-  # Ensure no vales above 1
-  dt[value > 1, value := 1]
-  
-  # values exact zero not desired (due to non relevance zero in scoring method)
-  dt[value==0, value := 0.05]
-  
-  # round value
-  dt[,value := round(value,2)]
-  
-  # prepare output
-  setorder(dt, id)
-  value <- dt[, value]
-  
-  # return Evaluation of Soil Management
-  return(value)
-}
-
-
 #' Calculate the 'performance' of sustainable soil management given a required ecosystem service
 #' 
 #' This function evaluates the contribution of sustainable soil management for a given ecosystem service
@@ -797,5 +710,91 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   value <- dt[, fvalue]
   
   # return Evaluation of Soil Management for a given Ecosystem Service
+  return(value)
+}
+
+#' Calculate the indicator for sustainable management
+#' 
+#' This function calculates the the sustainability of strategic management options as calculated by \code{\link{calc_management}}
+#' The main source of this indicator is developed for Label Duurzaam Bodembeheer (Van der Wal, 2016)
+#' 
+#' The current function allows a maximum score of 16 points for arable systems, 12 for maize 
+#' and 9 for grass (non-peat) and 17 for grass on peat. 
+#' 
+#' @param D_MAN (numeric) The value of Sustainable Management  calculated by \code{\link{calc_management}}
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param B_SOILTYPE_AGR (character) The type of soil
+#' 
+#' @export
+ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
+  
+  # add visible bindings
+  id = crop_code = soiltype = soiltype.n = crop_n = crop_name = crop_category = NULL
+  indicator = weight_nonpeat = weight_peat = NULL
+  
+  # Load in the datasets
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  setkey(crops.obic, crop_code)
+  soils.obic <- as.data.table(OBIC::soils.obic)
+  setkey(soils.obic, soiltype)
+  
+  # load weights.obic (set indicator to zero when not applicable)
+  w <- as.data.table(OBIC::weight.obic)
+  w <- w[grepl('^M_',variable)]
+  
+  # Check inputs
+  arg.length <- max(length(D_MAN), length(B_LU_BRP), length(B_SOILTYPE_AGR))
+  checkmate::assert_numeric(D_MAN, lower = 0, upper = 18, any.missing = FALSE)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  
+  # Collect data in a table
+  dt <- data.table(
+    id = 1:arg.length,
+    D_MAN = D_MAN,
+    B_LU_BRP = B_LU_BRP,
+    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
+    value = NA_real_
+  )
+  
+  # merge crop table with data.table
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_n,crop_name, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
+  
+  # find maximum score
+  w.max <- w[, list(weight_nonpeat = sum(weight_nonpeat[weight_nonpeat>0]),
+                    weight_peat = sum(weight_peat[weight_peat>0])), by = 'crop_category']
+  
+  # add default scores 
+  # due to i) corrections due to OR-OR statements, ii) points for crop rotation plan/clover, and iii) extra points (>+1 )  (see calc_management)
+  w.max[crop_category=='akkerbouw',weight_nonpeat := weight_nonpeat - 2 + 6 + 2]
+  w.max[crop_category=='akkerbouw',weight_peat := weight_peat - 2 + 6 + 2]
+  w.max[crop_category=='mais', weight_nonpeat := weight_nonpeat - 2 + 2 + 0]
+  w.max[crop_category=='mais', weight_peat := weight_peat - 2 + 2 + 0]
+  w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat - 1 + 6 + 0]
+  w.max[crop_category=='grasland', weight_peat := weight_peat - 1 + 8 + 3]
+  
+  # merge max score to actual dt
+  dt <- merge(dt, w.max, by='crop_category')
+  
+  # evaluate the Sustainability of Soil Management
+  dt[, value := D_MAN / fifelse(B_SOILTYPE_AGR == 'veen',weight_peat,weight_nonpeat)]
+  
+  # Ensure no vales above 1
+  dt[value > 1, value := 1]
+  
+  # values exact zero not desired (due to non relevance zero in scoring method)
+  dt[value==0, value := 0.05]
+  
+  # round value
+  dt[,value := round(value,2)]
+  
+  # prepare output
+  setorder(dt, id)
+  value <- dt[, value]
+  
+  # return Evaluation of Soil Management
   return(value)
 }
