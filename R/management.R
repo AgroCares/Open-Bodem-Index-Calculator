@@ -306,6 +306,7 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
                          type) {
   
   id = crop_code = crop_name = soiltype = soiltype.n = crop_n = crop_category = NULL
+  measure = m_value = value_ms = fvalue = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -730,7 +731,7 @@ ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
   
   # add visible bindings
   id = crop_code = soiltype = soiltype.n = crop_n = crop_name = crop_category = NULL
-  indicator = weight_nonpeat = weight_peat = NULL
+  variable = weight_nonpeat = weight_peat = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
