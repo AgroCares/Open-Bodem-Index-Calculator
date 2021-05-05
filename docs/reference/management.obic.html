@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate effects of measures — obic_evalmeasure • OBIC</title>
+<title>Relational table linking soil management measures to ecosystem services — management.obic • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Evaluate effects of measures — obic_evalmeasure" />
-<meta property="og:description" content="This function quantifies the effects of 11 soil measures on the OBI score" />
+<meta property="og:title" content="Relational table linking soil management measures to ecosystem services — management.obic" />
+<meta property="og:description" content="This table assigns which measures positively contribute to the ecosystem services included" />
 
 
 
@@ -123,29 +123,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate effects of measures</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/obic_recommendations.R'><code>R/obic_recommendations.R</code></a></small>
-    <div class="hidden name"><code>obic_evalmeasure.Rd</code></div>
+    <h1>Relational table linking soil management measures to ecosystem services</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/tables.R'><code>R/tables.R</code></a></small>
+    <div class="hidden name"><code>management.obic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function quantifies the effects of 11 soil measures on the OBI score</p>
+    <p>This table assigns which measures positively contribute to the ecosystem services included</p>
     </div>
 
-    <pre class="usage"><span class='fu'>obic_evalmeasure</span><span class='op'>(</span><span class='va'>dt.score</span>, extensive <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>management.obic</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>dt.score</th>
-      <td><p>(data.table) containing all indicators and scores of a single field</p></td>
-    </tr>
-    <tr>
-      <th>extensive</th>
-      <td><p>(boolean) whether the output table includes evaluation scores of each  measures (TRUE)</p></td>
-    </tr>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data.table with 16 rows and 6 columns:</p><dl>
+  <dt>measure</dt><dd><p>The name of measure</p></dd>
+  <dt>I_M_SOILFERTILITY</dt><dd><p>integrated soil management indicator for soil fertility</p></dd>
+  <dt>I_M_CLIMATE</dt><dd><p>integrated soil management indicator for soil carbon sequestration</p></dd>
+  <dt>I_M_WATERQUALITY</dt><dd><p>integrated soil management indicator for water quality</p></dd>
+  <dt>I_M_BIODIVERSITY</dt><dd><p>Integrated soil management indicator for soil biodiversity</p></dd>
+
+</dl>
 
 
   </div>

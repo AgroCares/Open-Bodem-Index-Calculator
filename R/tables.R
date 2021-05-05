@@ -115,6 +115,7 @@
 #'   \item{v}{v for the evaluate_logistics function, affects the growth rate near the maximum}
 #' }
 "nema.obic"
+
 #' Desired growing season period for maximum yield
 #' 
 #' This table gives the required number of days before and after August 15 required for optimal yield or usability and has categories to determine yield loss having a shorter workable growing season based on Tabel 2 and several formulas from Huinink (2018)
@@ -128,3 +129,17 @@
 #'   \item{derving}{Category to determine yield loss due to having a sub-optimal relative growing season length or RLG}
 #' }
 "season.obic"
+
+#' Relational table linking soil management measures to ecosystem services
+#' 
+#' This table assigns which measures positively contribute to the ecosystem services included
+#' 
+#' @format A data.table with 16 rows and 6 columns:
+#' \describe{
+#'   \item{measure}{The name of measure}
+#'   \item{I_M_SOILFERTILITY}{integrated soil management indicator for soil fertility}
+#'   \item{I_M_CLIMATE}{integrated soil management indicator for soil carbon sequestration}
+#'   \item{I_M_WATERQUALITY}{integrated soil management indicator for water quality}
+#'   \item{I_M_BIODIVERSITY}{Integrated soil management indicator for soil biodiversity}
+#' }
+"management.obic"
