@@ -205,6 +205,8 @@ An example of these functions is illustrated below.
 The open soil index quantifies and evaluates the capacity of the soil to supply nitrogen, phosphorus, potassium, magnesium, copper and zinc as well as the capacity of the soil to buffer cations and the pH. The different functions are illustrated and explained below.
 
 ### Nitrogen supplying capacity
+Nitrogen is the nutrient that plants need most and is often the first limiting factor for growth. Plants take up nitrogen in mineral form as nitrate and ammonium. However, nitrogen is largely present in the soil in organic compounds. The availability of N to plants during the growing season therefore depends on the extent and rate of mineralisation from the organic matter.
+
 Nitrogen supply on grassland is derived from empirical datasets relating total N levels in soil to the N supply, depending on sampling depth, soil texture and the age of the grassland. For arable fields, the N supply is derived from a simple first order decomposition model, calibrated for Dutch circumstances and depending on soil texture, organic matter and total N content. 
 
 To estimate the N supplying capacity of the soil, one can make use of the function `calc_nlv`. For more details, see `?calc_nlv`. 
@@ -280,7 +282,12 @@ The total N supply is evaluated via a parabolic scoring function with an optimum
 <br />
 
 ### Phosphorus Availability Index
-The phosphorus supply of an agricultural soil can be derived from methods measuring either a capacity or an intensity P pools in soil or a combination of both. The latter approach is followed for grassland and maize fields, where the optimum P supply is derived from multiple field experiments across the Netherlands. For arable farming systems, the phosphorus supply is derived from one measured P pool reflecting the P status as well as controlling the crop response to P inputs. The availability is highly controlled by chemical sorption and desorption equilibria, and affected by the iron and aluminum oxides content of soils as well as the availability of oxygen. A phosphorus supply around 4.8 (unitless index, for maize and grassland fields) and 45 (mg P2O5 per liter, for arable fields)  is optimal for crop production.
+Phosphate (P) is present in the soil in both inorganic and organic. Inorganic P present in the soil solution is directly available for plant uptake. The amount of P in the soil solution is small compared to the total P supply of the soil. Organic P is only available to the plant after decomposition by micro-organisms. The undissolved inorganic and organic P compounds can be divided into labile and stable compounds:
+
+* The labile P fraction is in equilibrium with the P in solution and is the main source of P re-supply to the soil solution. Labile inorganic P compounds include P bound to the surface of iron and aluminium (hydr-) oxides, and iron (Fe), aluminium (Al) and calcium phosphates. In acid and neutral soils, P availability is mainly determined by its binding to Fe and Al (hydr-) oxides. In calcareous soils, P is usually associated with calcium (Ca).
+* The stable P compounds are usually poorly soluble and therefore poorly available to plants. Stable inorganic P compounds include P-containing soil minerals (e.g. apatite).
+
+The phosphorus supply of an agricultural soil can be derived from methods measuring either a capacity or an intensity of P pools in soil or a combination of both. The latter approach is followed for grassland and maize fields, where the optimum P supply is derived from multiple field experiments across the Netherlands. For arable farming systems, the phosphorus supply is derived from one measured P pool reflecting the P status as well as controlling the crop response to P inputs. The availability is highly controlled by chemical sorption and desorption equilibria, and affected by the iron and aluminum oxides content of soils as well as the availability of oxygen. A phosphorus supply around 4.8 (unitless index, for maize and grassland fields) and 45 (mg P2O5 per liter, for arable fields)  is optimal for crop production.
 
 To estimate the P availability of the soil, one can make use of the function `calc_phosphate_availability`. The function requires the following input: the BRP crop code, and the concentration of P measured via extraction of ammonium lactate (A_P_AL), water (A_P_WA) or 0.01M CaCl2 (A_P_CC). 
 
@@ -346,7 +353,13 @@ An example of this function is illustrated below for both an arable and a grassl
 
 
 ### Potassium supply
-The potassium supply is strongly controlled by the distribution of K over the possible K pools in soil, being controlled by sorption and desorption processes, the cation exchange capacity of the soil and competing ions in soil solution and present at the exchange complex. Building upon agronomic research done in last decade, the K supply is quantified for grasslands using the plant available K fraction (measured via CaCl2-extraction, K-CaCl2) as well as the CEC. For maize it is quantified using K-CaCl2 and for arable fields its quantified from K-CaCl2 and the CEC while accounting for the clay content, the organic matter content and the pH of the soil. 
+Like N and P, potassium (K) an important element for crop growth. Potassium is almost exclusively present in the soil in mineral form. The amount of K in the soil can be divided into 4 fractions:
+* K^+- ions in the soil solution; completely and directly available to the plant, but insufficient to cover the needs of the crop
+* K-exchangeable; K adsorbed to the clay and humus particles (adsorption complex; CEC). The exchange between K in the soil solution and K adsorbed occurs rapidly: within minutes to 24 hours
+* K-fixed or bound (in clay soils); the K enclosed in the clay plates. Exchange between K-fixed and K-soil solution takes days to months
+* K-mineral or K rock; becomes available through weathering. The amount of K that becomes available through weathering during a growing season is too small to be of agricultural interest.
+
+The K supply is strongly controlled by the distribution of K over the possible K pools in soil, being controlled by sorption and desorption processes, the cation exchange capacity of the soil and competing ions in soil solution and present at the exchange complex. Building on agronomic research from the last decade, the K supply is quantified for grasslands using the plant available K fraction (measured via CaCl2-extraction, K-CaCl2) as well as the CEC. For maize it is quantified using K-CaCl2 and for arable fields its quantified from K-CaCl2 and the CEC while accounting for the clay content, the organic matter content and the pH of the soil. 
 
 To estimate the K supplying capacity of the soil, one can make use of the function `calc_potassium_availability`. The function requires the following input: the BRP crop code, the soil type, the organic matter content, the clay content, the pH, the cation exchange capacity (CEC), the occupation of the CEC with potassium (%) and the directly available concentration of K as determined with a soil extraction with 0.01M CaCl2. 
 
@@ -415,6 +428,8 @@ An example of this function is illustrated below for both an arable and a grassl
 
 
 ### Sulpher supply
+Sulphur (S) is needed - along with nitrogen - for the formation of proteins in the plant. Whether S supply from the soil is sufficient for optimal production and quality depends on the crop's S requirements and the S supply in the soil. The S supply is  determined by soil processes and external sulphur supplies to the soil.
+
 The amount of sulphur in the soil that is available for crop uptake is determined by the mineral sulphur supply remaining in the soil after winter (Smin), mineralisation of sulphur in the soil during the growing season (sulphur supply capacity), sulphur deposition, sulphur supply by irrigation during cultivation, capillary rise of sulphur-containing groundwater and by possible losses. Sulphur supply, capillary rise and Smin are quantitatively the most important inputs of sulphur. However, all three can vary considerably. The contribution from sulphur deposition is only minor throughout the Netherlands. A substantial amount of sulphur can also be supplied through irrigation with sulphurous spring water. This supply, however, varies greatly, depending on the amount sprayed and the sulphur content of the water.
 
 To estimate the S supplying capacity of the soil, one can make use of the function `calc_slv`. The function requires the following input: the BRP crop code, the soil type, the agricultural region within the Netherlands (used to estimate default S deposition rates), the organic matter content, the total S content of the soil and the bulk density. 
@@ -484,8 +499,8 @@ An example of this function is illustrated below for both an arable and a grassl
 ```
 
 
-
 ### Magnesium supply
+Magnesium is an important element for crop growth and livestock health and productivity.
 Deficiencies for magnesium often occur on sandy soils with low organic matter and low pH. The supply of Mg for arable fields as well as grassland fields on sandy soils is directly related to the plant available Mg-content (Mg-CaCl2). For grassland fields on clay and peat soils the Mg-supply is indirectly quantified given the required composition of the grass (for intake by cows) and depends on the CEC, the organic matter and clay content, pH, as well as the K-availability assessed by K-CaCl2 and K-CEC. 
 
 To estimate the Mg supplying capacity of the soil, one can make use of the function `calc_magnesium_availability`. The function requires the following input: the BRP crop code, the soil type, the organic matter content, the clay content, the pH, the cation exchange capacity (CEC), the occupation of the CEC with potassium (%) and the directly available concentration of both Mg and K as determined with a soil extraction with 0.01M CaCl2. 
@@ -625,9 +640,9 @@ An example of this function is illustrated below for both an arable and a grassl
 
 
 ### Zinc supply
-The processes involved in the behavior of zinc (Zn) in soil are the same as for Cu. Besides Zn2+, Zn occurs in the soil solution in a complex form with dissolved organic matter. Binding of Zn to solid soil constituents occurs to clay minerals, metal (hydr)oxides and solid organic matter. The affinity of Zn for binding to these materials is lower than that of Cu. Zinc is taken up by plant roots as Zn2+. Because the concentration of Zn2+ in the soil solution is low and Zn is not very mobile, it is only transported over short distances. Therefore, a sufficiently large root system is very important for a good Zn uptake. The development of the root system is strongly influenced by the phosphate supply of the crop. In herbaceous crops, the secretion of phytosiderophores in response to a Fe or Zn deficiency strongly increases Zn uptake. These organic compounds complex Zn and increase Zn mobility in the soil, which facilitates Zn transport to the root and uptake as Zn2+. A high pH, cold and wet conditions and a lot of organic matter in the soil decrease the availability of Zn.
+The processes involved in the behaviour of zinc (Zn) in soil are the same as for Cu. Besides Zn2+, Zn occurs in the soil solution in complex form with dissolved organic matter. Binding of Zn to solid soil constituents occurs to clay minerals, metal (hydr)oxides and solid organic matter. The affinity of Zn for binding to these materials is lower than that of Cu. Zinc is taken up by plant roots as Zn2+. Because the concentration of Zn2+ in the soil solution is low and Zn is not very mobile, it is only transported over short distances. Therefore, a sufficiently large root system is very important for a good Zn uptake. The development of the root system is strongly influenced by the phosphate supply of the crop. In herbaceous crops, the secretion of phytosiderophores in response to a Fe or Zn deficiency strongly increases Zn uptake. These organic compounds complex Zn and increase Zn mobility in the soil, which facilitates Zn transport to the root and uptake as Zn2+. A high pH, cold and wet conditions and a lot of organic matter in the soil decrease the availability of Zn.
 
-The supply of zinc depends on the plant availability of Zn such as determined via CaCl2 extraction method (Zn-CaCl2), while accounting for soil type, land use and pH.Critical threshold values for Zn has been derived from optimum Zn contents of the growing crop. In OBIC, one can make use of the function `calc_zinc_availability`. The function requires the following input: land use, soil type, pH and the bioavailable Zn-content as measured via n extraction with 0.01M CaCl2. 
+The supply of zinc depends on the plant availability of Zn such as determined via CaCl2 extraction method (Zn-CaCl2), while accounting for soil type, land use and pH. Critical threshold values for Zn has been derived from optimum Zn contents of the growing crop. In OBIC, one can make use of the function `calc_zinc_availability`. The function requires the following input: land use, soil type, pH and the bioavailable Zn-content as measured via n extraction with 0.01M CaCl2. 
 
 For more details, see `?calc_zinc_availability`. 
 
@@ -692,7 +707,7 @@ An example of this function is illustrated below for both an arable and a grassl
 
 
 ### Soil Acidity
-The pH is a measure of the acidity of the soil. The pH influences the soil quality and crop growth, among others through availability of nutrients and (heavy) metals and activity of soil life. In addition, the pH influences also various soil functions such as nutrient buffering and aggregate stability. The optimum soil pH for crop growth differs per crop. Potatoes prefer a lower pH and cereals, maize, sugar beet and field vegetables a higher pH. Organic matter reduces the negative effect of pH on crop growth. On sandy soils with an organic matter content of 15%, the desired pH can be up to half a unit lower than on low organic matter content soils. On clay soils the desired pH is higher than on sandy soils. With a clay percentage above 10, the desired pH is half a unit higher than with low clay percentages.
+The pH is a measure of the acidity of the soil. The pH influences the soil quality and crop growth, among others through availability of nutrients and (heavy) metals and activity of soil life. In addition, the pH also influences various soil functions such as nutrient buffering and aggregate stability. The optimum soil pH for crop growth differs per crop. Potatoes prefer a lower pH and cereals, maize, sugar beet and field vegetables a higher pH. Organic matter reduces the negative effect of pH on crop growth. On sandy soils with an organic matter content of 15%, the desired pH can be up to half a unit lower than on low organic matter content soils. On clay soils the desired pH is higher than on sandy soils. With a clay percentage above 10, the desired pH is half a unit higher than with low clay percentages.
 
 The optimum pH is determined in historical field experiments given crop rotation plan, soil texture, soil organic matter and initial pH. The derivation of the optimum pH can be estimated via the OBIC using the function `calc_ph_delta`. This function estimates how much the pH has to increase by liming to be optimum for crop development. The original empirical relationships are based on pH measurements done in KCl-extraction. Since the current pH analysis methods all make use of 0.01M CaCl2, this pH value can easily be transformed to pH-KCl given an empirical relationship between both. 
 
@@ -770,10 +785,9 @@ An example of this function is illustrated below for both an arable and a grassl
 
 
 ### Soil Cation Buffering
-For good crop growth, sufficient nutrients must be available. Besides the actual nutrient availability in soil solution, the capacity of a soil to buffer nutrients is important to identify potential bottlenecks for crop production. Fertilisation is needed when the buffer capacity or speed of replenishment is insufficient. Soils can vary greatly in their buffer capacity.  To supply a crop with cations (K, Mg, Na, Ca etc.), the buffer capacity is strongly determined by the cation exchange complex (CEC). Cations are adsorbed to negatively charged soil particles (clay, organic matter and oxides) and these cations may become available through exchange. For example, a growing plant extracts K+ from the soil solution. The adsorption complex will start to resupply because the amount of K+ in the soil solution has decreased. Once again, a balance is established between the K+ concentration in the soil solution and the quantity of K+ adsorbed. In practice, soil with a higher CEC are usually more fertilize and there is a lower risk of cation deficiencies during growing season. A general rule of thumb for the optimum CEC in soil has been established around a CEC value of about 100 mmol+/kg. CEC levels below 30-40 mmol+/kg are characterized by substantial crop limitation whereas values above 100 has no positive impact any more. The scientific underpinning of these guidelines is still poor. In OBIC the soil fertility is positively assessed in relation to the CEC, whereas this can be evaluated with the OBIC function `calc_cec`.
+For good crop growth, sufficient nutrients must be available. Besides the actual nutrient availability in soil solution, the capacity of a soil to buffer nutrients is important to identify potential bottlenecks for crop production. Fertilisation is needed when the buffering capacity or speed of replenishment is insufficient. Soils can vary greatly in their buffer capacity.  Cations are adsorbed to negatively charged soil particles (clay, organic matter and oxides) and these cations may become available through exchange. For example, a growing plant extracts K+ from the soil solution. The adsorption complex will start to resupply because the amount of K+ in the soil solution has decreased. Once again, a balance is established between the K+ concentration in the soil solution and the quantity of K+ adsorbed. In practice, soils with a higher CEC are usually more fertilised and there is a lower risk of cation deficiencies during the growing season. In general, the optimum CEC value is around 100 mmol+/kg. CEC levels below 30-40 mmol+/kg are characterized by substantial crop limitation whereas values above 100 have no positive impact any more. The scientific underpinning of these guidelines is still poor. In OBIC the soil fertility is positively assessed in relation to the CEC and can be evaluated with the OBIC function `calc_cec`.
 
 For more details, see `?calc_cec`. 
-
 
 
 ```{r, results = FALSE, eval = FALSE}
@@ -783,7 +797,23 @@ For more details, see `?calc_cec`.
 
 ```
 
-
+```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE, eval=FALSE}
+    # Make data
+    dt <- data.table(A_CEC_CO = seq(1,100,1))
+    
+    # Add D_CEC
+    dt <- dt[,D_CEC := calc_cec(A_CEC_CO)]
+    
+    # plot output
+   p1 <- ggplot(data = dt,aes(y = D_CEC, x = A_CEC_CO)) + 
+        geom_point(show.legend = FALSE) + geom_line()+ theme_bw() + 
+        ylab('CEC evaluation') + xlab('Cation exchange capacity') + 
+        theme(plot.title = element_text(size=10),
+              axis.text = element_text(size=10)) + 
+        ggtitle('')
+    
+   p1
+```
 
 ## Calculate series of physical soil functions
 The open soil index quantifies and evaluates a series of physical soil functions related to the supply of water and the rootability of the top and subsoil. The different soil physical functions are illustrated and explained below. Soil physical functions include the capacity of soils to retain and supply, to resist wind erosion, topsoil sealing, subsoil compaction, and to deliver bearing capacity for machinal activities 
@@ -868,6 +898,10 @@ An example of this function is illustrated below for both an sandy and a clay so
 ```
 
 ### Sealing Soil Surface and Wind Erodibility
+Sealing is the process whereby soil aggregates disintegrate under the influence of rain. The impact of raindrops causes a shifting of soil particles (Locher and de Bakker, 1992). In the process, clay and silt particles clog the pores between the sand particles or the soil aggregates. This creates a slurry layer that forms a crust after drying. This hinders the gas exchange and increases the resistance of germinating seed.
+
+Wind erosion can occur in a dry spring or autumn when the soil is (partly) bare. Wind erosion causes a decrease in organic matter content, moisture retention capacity, chemical soil fertility and biological activity in a soil. Furthermore, wind erosion can spread diseases and weeds, expose germinating seeds and damage young plants by sandblasting.
+
 The vulnerability of soils to sealing and wind erosion is derived from those properties controlling the susceptibility for both risks. These include the clay content as well as the organic matter content, where the vulnerability for sealing is derived from field expert-based observations and associated yield depression (Huinink, 2018; Heeres en Van Erp, 1999) in particular for some arable crops. The presence of soil sealing can be estimated via the function `calc_sealing_risk` whereas the risk for soil erosion due to wind is estimated via the function `calc_winderodibility`. The wind erodibility can be estimated from the inputs land use, clay and silt content of the topsoil whereas the risk for sealing depends on the clay content as well as the organic matter content of the soil.
 
 Wind erosion is highly controlled by the mineralogical composition and texture as well as the presence of growing crops. Using laboratory experiments from wind tunnels, a exponential function has been developed to estimate the erodibility risk for soils, given the clay and silt content of a field. Grasslands are not susceptible for these two risks.
@@ -941,6 +975,8 @@ An example of these functions is illustrated below for an arable soil with varia
 
 
 ### Aggregate Stability and Crumbleability
+Crumbleability is an indication of the ease with which the soil can be broken up or crumbled and of the moisture range within which this is possible. The crumbleability of a soil is determined by the binding between soil aggregates. The lower the degree of crumbling, the more energy is required and the heavier tractors and equipment are needed for working the soil. This requires (additional) investments and higher fuel consumption, while the end result - even after additional tillage - is poorer.
+
 Similarly to the vulnerability to sealing and wind erodiblity, the crumbleability of a soil (a measure for aggregate stability) as well as the potential risk for yield depressions (crop specific) can be derived from the clay content, the organic matter content and the pH (Huinink, 2011). Aggregate stability is additionally evaluated given the cation occupation of the cation exchange capacity. Clayey soils with 80% Ca, 8% Mg and about 3.5% K are recognized as soils with more stable aggregates due to the influence of electrostatic bindings of divalent cations. Within OBIC these two soil functions are calculated using `calc_crumbleability` and `calc_aggregatestability`.
 
 For more details, see `?calc_crumbleability` and `?calc_aggregatestability`. 
@@ -1009,6 +1045,8 @@ For more details, see `?calc_crumbleability` and `?calc_aggregatestability`.
 ```
 
 ### Subsoil compaction
+Soil compaction is caused by the use of excessively heavy machinery or by driving over and/or tilling soil with insufficient bearing capacity. Compaction can lead to poor rooting of the soil, limiting the absorption of water and nutrients. On heavy soils, compaction mainly occurs in the soil surface, while on lighter soils there is a risk of subsoil compaction, such as plough-soil formation. Compaction decreases the workability of soils and can reduce the water retention capacity of the soil and impede water transport to deeper layers. This can lead to an increased risk of surface run-off of nutrients and soil particles. Soil compaction in the soil can be eliminated by ploughing. Subsoil compaction is almost impossible to eliminate.
+
 The risk of subsoil compaction for each field was assessed using soil texture, land use and a soil compaction model SOCOMO. The model determines whether the usual wheel loads for that land use exceed the strength of the subsurface in wet or humid conditions. Subsequently it was determined on the basis of the soil properties and groundwater levels whether the subsurface is extra sensitive to compaction or whether natural recovery is possible due to, for example, drought shrinkage. Strength, land use and soil properties together determine the risk of subsoil compaction. The presence of subsoil compaction is derived from a national map with the estimated risk. As such, there is no calculation used. Recent field experimental data support the accuracy of this risk assessment map.
 
 obic_field wraps a function to format the information from the soil compaction risk assessment map. This is required because the risk assessment map data can be numeric or string. The format_soilcompaction function checks the inputs and converts them to the correct strings when the inputs are okay. The possible risks for compaction a parcel can have are: "zeer beperkt" (very limited), "beperkt" (limited), "matig" (average), "groot" (large) and "zeer groot" (very large). Other possible values which are not typically found on agricultural parcels are: "bebouw" (built up), "water" and "glastuinbouw" (greenhouse horticulture) 
@@ -1078,6 +1116,8 @@ Below is illustrated how the obic_field wrapper deals with the parameters derive
 ```
 
 ### Water retention in topsoil
+The moisture characteristic of a soil depends on its physical properties, texture and structure. The texture of a soil is determined by its clay, loam and sand content. In addition, almost all soils contain organic matter. The fine soil particles, together with the organic matter, contribute to aggregate formation (and thus to the soil structure). The size, shape and arrangement of the soil particles and aggregates, and the resulting voids, determine the soil's capacity to retain water. Large pores are able to conduct more water faster than small pores, and moreover, removing water from large pores will require less energy than removing water from small pores. When a soil is at field capacity, the moisture state is such that all the water in the macro pores has been replaced by air under the influence of the gravitational potential. The water that is still present in the soil is retained in micro pores. The prevailing potential at field capacity can vary from soil to soil but usually varies between -0.1 bar (sandy soil) to -0.3 bar (loamy soil). When water is retained to such an extent that it is no longer available for crop uptake, this is known as the wilting point. The water is mainly present as a film around individual soil particles. The potential under these conditions is around -18 bar. The amount of moisture present between field capacity and wilting point is defined as the amount of plant-available water.
+
 The review study of various soil health instruments (Buneman et al., 2016) identifies a variety of indicators that can be used to gain more insight into the water retaining capacity of a soil. Frequently used indicators are the amount of plant-available water (14 x), the water holding capacity (11 x), the moisture content at field capacity (11 x) and the saturated permeability (10 x). These indicators can be measured or estimated indirectly via so-called pedotransfer functions (Wosten et al., 2001).  
 
 The OBIC includes functions to derive the following water-related indicators in function `calc_waterretention`:
@@ -1289,6 +1329,7 @@ A nematode parameter that is not entered is assumed to be 0. The severity of an 
 
 ### Earthworm density
 Earthworms are some of the largest fauna found in agricultural soils and through their tunnelling affect nutrient cycling and soil structure. Analysis and interpretation of earthworm diversity is not regularly done on Dutch agricultural soils. Earth worm density, the number of individual worms in a volume of soil, is one of the things studied in the Visual Soil Assessment (see Visual Soil Assessment for more information).
+
 
 ## Calculate series of environmental soil functions
 The open soil index quantifies and evaluates a series of environmental soil functions related to buffering. Soil environmental functions include nitrogen leaching and nitrogen runoff.
