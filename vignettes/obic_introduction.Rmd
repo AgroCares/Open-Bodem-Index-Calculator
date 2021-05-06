@@ -19,7 +19,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 ```{r setup, include = FALSE}
 
   # load packages
-  library(OBIC); library(data.table); library(ggplot2);require(patchwork); library(ggpubr)
+  library(OBIC); library(data.table); library(ggplot2);require(patchwork); library(ggpubr); library(ggradar)
 
   # load binnenveld data.table
   binnenveld <- as.data.table(OBIC::binnenveld)
@@ -1725,8 +1725,15 @@ Till this point, all values and indicators have been calculated for a range of y
 Each soil indicator belongs to one of the major soil functions (chemical, physical, biological, environmental or management). For each function, a score is calculated by aggregating the scores of their underlying soil indicators, with each indicator being assigned a specific weight. The weight of a soil function depends on its value; functions with low scores gain a higher weight. In this way, a poorly performing soil function contributes more to determining an indicators value than an excellently performing function.
 
 ### Holistic OBI score
-The integration of different soil functions into one score and their relevance in achieving a specific target (like crop yield) is often ignored in soil quality assessments (i.e., each function contributes equally), is based on expert-judgement or derived from multi-variate statistics analysing linkages among soil functions and soil and field properties within large datasets. Large databases are needed in which all relevant soil properties and functions have been determined as well as (historical) management. Unfortunately, these databases are scarce so that expert driven weighing procedures are introduced. Currently, the soil functions are weighted on the level of function category (35% for chemical, 35% for physical, and 20% for biological indicators) and 10% for management. The individual soil functions are weighted according to their accuracy and known validity range (so uncertain indicators have less impact on the final score).
-In order to calculate the total OBI score `S_T_OBI_A`, an integral assessment of soil quality for the following functions is made: soil chemistry `S_C_OBI`, soil structure `S_P_OBI`, soil biology `S_B_OBI` as well as soil management `S_M_OBI`.
+The integration of different soil functions into one score and their relevance in achieving a specific target (like crop yield) is often ignored in soil quality assessments (i.e., each function contributes equally), is based on expert-judgement or derived from multi-variate statistics analysing linkages among soil functions and soil and field properties within large datasets. Large databases are needed in which all relevant soil properties and functions have been determined as well as (historical) management. Unfortunately, these databases are scarce so that expert driven weighing procedures are introduced. Currently, the total OBIC score is a weighted average of the major soil functions where the weight of each major soil function is determined by the number of indicators underlying the major soil function.
+
+```{r, echo=FALSE, out.width = '75%', out.height = '75%'}
+# ![](OBIC_score_integratie.png){widht = 25%, height = 20%}
+knitr::include_graphics('OBIC_score_integratie.png')
+
+```
+
+In order to calculate the total OBI score `S_T_OBI_A`, an integral assessment of soil quality for the following functions is made: soil chemistry `S_C_OBI_A`, soil structure `S_P_OBI_A`, soil biology `S_B_OBI_A` as well as soil management `S_M_OBI_A`.
 
 The holistic OBI score is given when the argument output in `obic_field()` or `obic_field_dt()` is set to *'all'*, *'scores'* or *'obic_scores'*
 
@@ -1740,8 +1747,59 @@ Will give:
 ```{r, eval = TRUE, echo=FALSE}
   OBIC::obic_field_dt(binnenveld[ID == 1], output = 'scores')
   OBIC::obic_field_dt(binnenveld[ID == 1], output = 'obic_score')
-````
+```
 
+## Some examples of outputs
+Below OBI scores are presented for the Binnenveld dataset per major soil function.
+
+```{r, echo=FALSE, fig.height= 8, fig.width=7}
+    # Load data
+    dt <- binnenveld
+    
+    dts <- obic_field_dt(dt[ID== unique(dt$ID)[1]])
+    dts <- dts[,field :=  unique(dt$ID)[1]]
+    for(i in unique(dt$ID)[2:11]){
+      dts2 <- obic_field_dt(dt[ID==i])
+      dts2 <- dts2[,field := i]
+      dts <- rbindlist(list(dts, dts2))
+    }
+    dts <- dts[, field := as.factor(field)]
+    
+    # g1 <- ggradar(dts[,.(field,S_T_OBI_A, S_C_OBI_A, S_P_OBI_A, S_B_OBI_A, S_M_OBI_A)], values.radar = c(0,0.5,1),
+    #           axis.label.size = 4, legend.position = "bottom", legend.title = 'field',
+    #           legend.text.size = 12,
+    #           grid.label.size = 4,
+    #           plot.extent.x.sf = 1.2,
+    #           axis.label.offset = 1.2)
+    
+    # pre prepare for lollipop chart
+    cols <- colnames(dts)[grepl('^S_T_|^S_C_|^S_P_|^S_B_|^S_E_|^S_M_|^field', colnames(dts))]
+dts2 = dts[,mget(cols)]
+bar <- melt(dts2, id.vars = 'field')
+bar[grepl('^S_T_', variable), cat := "Total"]
+bar[grepl('^S_C_', variable), cat := "Chemical"]
+bar[grepl('^S_B_', variable), cat := "Biological"]
+bar[grepl('^S_P_', variable), cat := "Physical"]
+bar[grepl('^S_M_', variable), cat := "Management"]
+bar[grepl('^S_E_', variable), cat := "Environmental"]
+
+    # make lollipop chart
+   g2 <- ggdotchart(
+      bar, x = "cat", y = "value", 
+      # order = c("Totaal", "Milieu", "Beheer", "Biologie", "Structuur", "Chemie"),
+      order = c("Total", 'Management',"Environmental", "Biological", "Physical", "Chemical"),
+      group = "cat", color = "cat", palette = c("#33CCFF",'#666666', "#513000", "#3B6B20", "#FF6600", "#7CC144" ),
+      # group = "cat", color = "cat", palette = c("#3333CC","#33CCFF", "#513000", "#3B6B20", "#FF6600", "#7CC144"), # c('#7CC144', '#FF6600','#3B6B20', '#513000', '#33CCFF', "#3333CC", "#5A5A5A"), # orgineel palette "jco"
+      add = "segment", size=3,
+      add.params = list(color = "lightgray", size = 0.5),
+      position = position_dodge(0.5),
+      facet.by = "field",
+      rotate = TRUE, legend = "none",
+      ylab ='OBI-score',xlab=''
+)
+ 
+ g2
+```
 
 # References
 
