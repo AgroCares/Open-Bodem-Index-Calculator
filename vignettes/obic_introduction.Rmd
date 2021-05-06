@@ -1021,7 +1021,7 @@ obic_field wraps a function to format the information from the soil compaction r
 ```
 
 
-### Visual soil assessment
+### Visual Soil Assessment 
 Within the OBIC, the estimates of aggregate stability and risk of subsoil compaction can be adapted to local site specific insights derived from the Visual Soil Assessment Methodology. Visual soil assessments (VSA) asses soil quality in the field, by digging a hole and assess several soil quality indicators visually. Soil quality indicators are: grass cover, number of roots, number of biopores, soil colour, soil structure, soil compaction and number of gray spots. Visual soil assessments are more and more used by farmers in the Netherlands, but not specifically developed for various soil types. 
 
 Below is illustrated how the obic_field wrapper deals with the parameters derived from the VSA methodology. The score derived from the origignal risk assessment map for subsoil compaction is overwritten with the relevant VSA indicators when When scores are present for the presence of earthworms (A_EW_BCS), the occurrence of subsurface compaction (A_SC_BCS), limited root development (A_RD_BCS), ponding in the spring (wet conditions after rainfall, A_P_BCS) and clear presence of visible tracks / rutting or trampling on the land (A_RT_BCS). Similarly, the soil aggregate stability is adapted when VSA indicators are available for earthworm density (A_EW_BCS), soil structure (A_SS_BCS) and presence of cracks in the topsoil (A_C_BCS).
@@ -1287,8 +1287,8 @@ A nematode parameter that is not entered is assumed to be 0. The severity of an 
 ```
 
 
-### Earthworm density (from VSA)
-
+### Earthworm density
+Earthworms are some of the largest fauna found in agricultural soils and through their tunnelling affect nutrient cycling and soil structure. Analysis and interpretation of earthworm diversity is not regularly done on Dutch agricultural soils. Earth worm density, the number of individual worms in a volume of soil, is one of the things studied in the Visual Soil Assessment (see Visual Soil Assessment for more information).
 
 ## Calculate series of environmental soil functions
 The open soil index quantifies and evaluates a series of environmental soil functions related to buffering. Soil environmental functions include nitrogen leaching and nitrogen runoff.
@@ -1415,11 +1415,31 @@ For grass, points can be gained for the grassland age, use of drag hose fertilis
 ### Crop rotation and SOM balance
 A field can receive points for having a positive soil organic matter balance. A function is included to estimate the organic matter input and decomposition. For the calculation of the organic matter balance the parcels' crops, organic matter concentration and P status are required, as well as the management aspects compost application frequency and sowing of catchcrops after main crop. 
 
-Below, examples are give of how to calculate the organic matter balance and the management index.
+Below, examples are give of how to calculate the organic matter balance and the management index. The management index requires inputs that are not obligatory for the wrapper function obic_field. The function add_management will check the presence of management parameter values and give defaults based on soiltype and crop when values are missing. Furthermore, information on the crop rotation and on the age of grassland are calculated by cacl_rotation_fraction and calc_grass_age respectively.
 
 ```{r, results = FALSE, eval = FALSE}
     # Calculate organic matter balance
     dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
+
+    # add management when input is missing
+    cols <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_COMPOST','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED',
+              'M_LIME', 'M_NONINVTILL', 'M_SSPM', 'M_SOLIDMANURE','M_STRAWRESIDUE','M_MECHWEEDS','M_PESTICIDES_DST')
+    dt[, c(cols) := add_management(ID,B_LU_BRP, B_SOILTYPE_AGR,
+                                   M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED,
+                                   M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
+
+    # calculate grass age
+     dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
+     
+     # Calculate the crop rotation fraction
+    dt[, D_CP_STARCH := calc_rotation_fraction(ID, B_LU_BRP, crop = "starch")]
+    dt[, D_CP_POTATO := calc_rotation_fraction(ID, B_LU_BRP, crop = "potato")]
+    dt[, D_CP_SUGARBEET := calc_rotation_fraction(ID, B_LU_BRP, crop = "sugarbeet")]
+    dt[, D_CP_GRASS := calc_rotation_fraction(ID, B_LU_BRP, crop = "grass")]
+    dt[, D_CP_MAIS := calc_rotation_fraction(ID, B_LU_BRP, crop = "mais")]
+    dt[, D_CP_OTHER := calc_rotation_fraction(ID, B_LU_BRP, crop = "other")]
+    dt[, D_CP_RUST := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewas")]
+    dt[, D_CP_RUSTDEEP := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewasdiep")]
 
     # Calculate series of management actions
     dt[, D_MAN := calc_management(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
@@ -1431,20 +1451,57 @@ Below, examples are give of how to calculate the organic matter balance and the 
 
 ````
 
-Example of the soil organic matter balance on five fields in 2010 from the Binnenveld dataset
+Example of the soil organic matter balance and management on five fields from the Binnenveld dataset
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-    dt <- binnenveld[ID %in% head(unique(binnenveld$ID),5)&YEAR == 2010]
+    dt <- binnenveld[ID %in% c(1:5)]
+    dt <- dt[,ID := as.factor(ID)]
     dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
     
     p2 <- ggplot(data = dt,aes(y = D_SOM_BAL, x = ID, fill = ID)) + geom_col() +  theme_bw() + 
-        ylab('SOM balnce') + xlab('Field') + 
+        ylab('SOM balance') + xlab('Field') + 
         theme(legend.position = c('none'),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10),
               axis.text = element_text(size=10)) + ggtitle('Soil organic matter balance for five fields')
     
-    p2
+    # add management when input is missing
+    cols <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_COMPOST','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED',
+              'M_LIME', 'M_NONINVTILL', 'M_SSPM', 'M_SOLIDMANURE','M_STRAWRESIDUE','M_MECHWEEDS','M_PESTICIDES_DST')
+    dt[, c(cols) := add_management(ID,B_LU_BRP, B_SOILTYPE_AGR,
+                                   M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED,
+                                   M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
+    
+    # calculate grass age
+    dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
+
+    # Calculate the crop rotation fraction
+    dt[, D_CP_STARCH := calc_rotation_fraction(ID, B_LU_BRP, crop = "starch")]
+    dt[, D_CP_POTATO := calc_rotation_fraction(ID, B_LU_BRP, crop = "potato")]
+    dt[, D_CP_SUGARBEET := calc_rotation_fraction(ID, B_LU_BRP, crop = "sugarbeet")]
+    dt[, D_CP_GRASS := calc_rotation_fraction(ID, B_LU_BRP, crop = "grass")]
+    dt[, D_CP_MAIS := calc_rotation_fraction(ID, B_LU_BRP, crop = "mais")]
+    dt[, D_CP_OTHER := calc_rotation_fraction(ID, B_LU_BRP, crop = "other")]
+    dt[, D_CP_RUST := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewas")]
+    dt[, D_CP_RUSTDEEP := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewasdiep")]
+    
+    # calculate management
+        dt[, D_MAN := calc_management(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
+                                  D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
+                                  M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN,
+                                  M_DITCH, M_UNDERSEED, M_LIME, M_NONINVTILL, M_SSPM,
+                                  M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
+                                  )]
+
+    p3 <- ggplot(data = dt,aes(y = D_MAN, x = ID, fill = ID)) + geom_col() +  theme_bw() + 
+        ylab('Management score') + xlab('Field') + 
+        theme(legend.position = c('none'),
+              plot.title = element_text(size=10),
+              legend.text = element_text(size=10),
+              axis.text = element_text(size=10)) + ggtitle('Management')
+    
+    p2 + p3
+    
 ```
 
 ### Recommendations
@@ -1645,6 +1702,7 @@ Will give:
 ````
 
 
+# References
 
 
-
+Wienhold, B.J., Andrews, S.S., Karlen, D.L. 2004. Soil quality: a review of the science and experiences in the USA. Environmental Geochemistry and Health, 26(2-3), 89-95. Wienhold, B.J., Karlen, D.L., Andrews, S.S., Stott, D.E. 2009. Protocol for indicator scoring in the soil management assessment framework (SMAF). Renewable Agriculture and Food Systems, 24(4), 260-266.
