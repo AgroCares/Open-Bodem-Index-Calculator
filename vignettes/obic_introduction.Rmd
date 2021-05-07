@@ -164,7 +164,7 @@ Soil Bulk density is estimated via a pedotransferfunction using 'calc_bulk_densi
   # plot output
   ggplot(data = dt.test,
          aes(x = A_SOM_LOI, y = D_BDS, group = B_SOILTYPE_AGR, color = B_SOILTYPE_AGR)) + 
-    geom_line() + geom_point(size=3) +  theme_bw() + 
+    geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
     ylab('Bulk density (kg / m3)') + xlab('Soil organic matter content (%)') + 
     theme(legend.position = c(0.8,0.8)) + ggtitle('Estimate bulk density from SOM and clay content') 
   
@@ -246,7 +246,7 @@ An example of this function is illustrated below for both an arable and a grassl
   
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = D_NLV, x = luse, fill = luse)) + geom_col() +  theme_bw() + 
-        ylab('N supplying capacity (kg N / ha)') + xlab('Landuse') + 
+        ylab('N supplying capacity (kg N / ha)') + xlab('Landuse') + scale_fill_viridis_d()+ scale_color_viridis_d()+
         theme(legend.position = c(0.2,0.8),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10),
@@ -264,7 +264,8 @@ An example of this function is illustrated below for both an arable and a grassl
     
   # plot output
   p2 <- ggplot(data = dt.test2,
-               aes(x = A_N_RT, y = D_NLV)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_N_RT, y = D_NLV)) + geom_line() + geom_point(size=3) + 
+    theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
     theme(plot.title = element_text(size=10),
               legend.text = element_text(size=10),
               axis.text = element_text(size=10))+
@@ -322,7 +323,7 @@ An example of this function is illustrated below for both an arable and a grassl
   
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = D_PBI, x = luse, fill = luse)) + 
-        geom_col(show.legend = FALSE) +  theme_bw() + 
+        geom_col(show.legend = FALSE) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         ylab('P availability index (-)') + xlab('Landuse') + ylim(0,7)+
         theme(plot.title = element_text(size=10),
               axis.text = element_text(size=10)) + 
@@ -339,7 +340,8 @@ An example of this function is illustrated below for both an arable and a grassl
     
   # plot output
   p2 <- ggplot(data = dt.test2,
-               aes(x = A_P_CC, y = D_PBI)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_P_CC, y = D_PBI)) + geom_line() + geom_point(size=3) +
+    theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -396,7 +398,7 @@ An example of this function is illustrated below for both an arable and a grassl
   
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = D_K, x = luse, fill = luse)) + 
-        geom_col(show.legend = FALSE) +  theme_bw() + 
+        geom_col(show.legend = FALSE) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         ylab('K availability index (-)') + xlab('Landuse') + 
         theme(plot.title = element_text(size=10),
               axis.text = element_text(size=10)) + 
@@ -414,7 +416,8 @@ An example of this function is illustrated below for both an arable and a grassl
     
   # plot output
   p2 <- ggplot(data = dt.test2,
-               aes(x = A_K_CC, y = D_K)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_K_CC, y = D_K)) + geom_line() + geom_point(size=3) + 
+    theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -469,7 +472,7 @@ An example of this function is illustrated below for both an arable and a grassl
   
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = D_SLV, x = luse, fill = luse)) + 
-        geom_col(show.legend = FALSE) +  theme_bw() + 
+        geom_col(show.legend = FALSE) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         ylab('S supplying capacity (kg S / ha)') + xlab('Landuse') + 
         theme(plot.title = element_text(size=10),
               axis.text = element_text(size=10)) + 
@@ -486,7 +489,8 @@ An example of this function is illustrated below for both an arable and a grassl
     
   # plot output
   p2 <- ggplot(data = dt.test2,
-               aes(x = A_S_RT, y = D_SLV)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_S_RT, y = D_SLV)) + geom_line() + geom_point(size=3) + 
+    theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -540,7 +544,7 @@ An example of this function is illustrated below for both an arable and a grassl
   
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = D_MG, x = luse, fill = luse)) + 
-        geom_col(show.legend = FALSE) +  theme_bw() + 
+        geom_col(show.legend = FALSE) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         ylab('Mg availability index (-)') + xlab('Landuse') + 
         theme(plot.title = element_text(size=10),
               axis.text = element_text(size=10)) + 
@@ -559,7 +563,8 @@ An example of this function is illustrated below for both an arable and a grassl
     
   # plot output
   p2 <- ggplot(data = dt.test2,
-               aes(x = A_MG_CC, y = D_MG)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_MG_CC, y = D_MG)) + geom_line() + geom_point(size=3) + 
+    theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -609,7 +614,7 @@ An example of this function is illustrated below for both an arable and a grassl
   
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = D_CU, x = luse, fill = luse)) + 
-        geom_col(show.legend = FALSE) +  theme_bw() + 
+        geom_col(show.legend = FALSE) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         ylab('Cu availability index (-)') + xlab('Landuse') + 
         theme(plot.title = element_text(size=10),
               axis.text = element_text(size=10)) + 
@@ -626,7 +631,8 @@ An example of this function is illustrated below for both an arable and a grassl
     
   # plot output
   p2 <- ggplot(data = dt.test2,
-               aes(x = A_CU_CC, y = D_CU)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_CU_CC, y = D_CU)) + geom_line() + geom_point(size=3) + 
+    theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -676,7 +682,7 @@ An example of this function is illustrated below for both an arable and a grassl
   
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = D_ZN, x = luse, fill = luse)) + 
-        geom_col(show.legend = FALSE) +  theme_bw() + 
+        geom_col(show.legend = FALSE) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         ylab('Zn availability index (-)') + xlab('Landuse') + 
         theme(plot.title = element_text(size=10),
               axis.text = element_text(size=10)) + 
@@ -693,7 +699,8 @@ An example of this function is illustrated below for both an arable and a grassl
     
   # plot output
   p2 <- ggplot(data = dt.test2,
-               aes(x = A_ZN_CC, y = D_ZN)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_ZN_CC, y = D_ZN)) + geom_line() + geom_point(size=3) + 
+    theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -752,7 +759,7 @@ An example of this function is illustrated below for both an arable and a grassl
   
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = D_PH_DELTA, x = luse, fill = luse)) + 
-        geom_col(show.legend = FALSE) +  theme_bw() + 
+        geom_col(show.legend = FALSE) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         ylab('desired pH-change (-)') + xlab('Landuse') + 
         theme(plot.title = element_text(size=10),
               axis.text = element_text(size=10)) + 
@@ -770,7 +777,8 @@ An example of this function is illustrated below for both an arable and a grassl
     
   # plot output
   p2 <- ggplot(data = dt.test2,
-               aes(y = D_PH_DELTA, x = A_PH_CC)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(y = D_PH_DELTA, x = A_PH_CC)) + geom_line() + geom_point(size=3) +  
+    theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -806,7 +814,7 @@ For more details, see `?calc_cec`.
     
     # plot output
    p1 <- ggplot(data = dt,aes(y = D_CEC, x = A_CEC_CO)) + 
-        geom_point(show.legend = FALSE) + geom_line()+ theme_bw() + 
+        geom_point(show.legend = FALSE) + geom_line()+ theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
         ylab('CEC evaluation') + xlab('Cation exchange capacity') + 
         theme(plot.title = element_text(size=10),
               axis.text = element_text(size=10)) + 
@@ -856,7 +864,7 @@ An example of this function is illustrated below for both an sandy and a clay so
   
    # plot output
   p1 <- ggplot(data = dt.test1,aes(y = value, x = ID, fill = stresstype)) + 
-        geom_bar(stat='identity') +  theme_bw() + ylim(0,50)+
+        geom_bar(stat='identity') +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ ylim(0,50)+
         theme(legend.position = c(0.3,0.8),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10)) +
@@ -885,7 +893,7 @@ An example of this function is illustrated below for both an sandy and a clay so
     
   # plot output
   p2 <- ggplot(data = dt.test2,aes(y = value, x = B_GWL_CLASS, fill = stresstype)) + 
-        geom_bar(stat='identity') +  theme_bw() + ylim(0,30)+
+        geom_bar(stat='identity') +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ ylim(0,30)+
         theme(legend.position = c(0.3,0.8),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10)) +
@@ -951,7 +959,7 @@ An example of these functions is illustrated below for an arable soil with varia
   # plot output sealing
   p1 <- ggplot(data = dt.test,
                aes(x = A_CLAY_MI, y = D_SE, color = luse,group = luse)) + 
-        geom_line() + geom_point(size=3) +  theme_bw() + 
+        geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         ylab('Soil Sealing (-)') + xlab('Clay content (%)') + ylim(4,12)+
         theme(legend.position = c(0.4,0.8),
               plot.title = element_text(size=10),
@@ -961,7 +969,7 @@ An example of these functions is illustrated below for an arable soil with varia
   # plot output wind erodibility
   p2 <- ggplot(data = dt.test,
                aes(x = A_CLAY_MI, y = D_WE, color = luse)) + 
-        geom_line() + geom_point(size=3) +  theme_bw() + 
+        geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         ylab('Wind Erodibility (-)') + xlab('Clay content (%)') + ylim(0,1)+
         theme(legend.position = c(0.7,0.8),
               plot.title = element_text(size=10),
@@ -1022,7 +1030,7 @@ For more details, see `?calc_crumbleability` and `?calc_aggregatestability`.
   # plot output crumbleabilty
   p1 <- ggplot(data = dt.test1,
                aes(x = A_CLAY_MI, y = D_CR)) + 
-        geom_line() + geom_point(size=3) +  theme_bw() + 
+        geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         ylab('Crumbleability') + xlab('Clay content (%)') + ylim(4,12)+
         theme(legend.position = c(0.4,0.8),
               plot.title = element_text(size=10),
@@ -1032,7 +1040,7 @@ For more details, see `?calc_crumbleability` and `?calc_aggregatestability`.
   # plot output aggregate stability
     p4 <- ggplot(data = dt4,
                aes(x = A_CA_CO_PO, y = D_AS, color = B_SOILTYPE_AGR)) + 
-        geom_point(size=3) +  theme_bw() + 
+        geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         ylab('Aggregate stability') + xlab('Calcium ocupation') + ylim(0,1)+
         theme(plot.title = element_text(size=10),
               legend.position = 'none') +
@@ -1097,7 +1105,8 @@ Below is illustrated how the obic_field wrapper deals with the parameters derive
     dt[,D_P_CEC := pmax(0, D_P_CEC)]
     dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]
     
-    p1 <- ggplot(data = dt,aes(y = I_P_CO, x = id, fill = id)) + geom_col() +  theme_bw() + 
+    p1 <- ggplot(data = dt,aes(y = I_P_CO, x = id, fill = id)) + geom_col() +  
+      theme_bw() +  scale_fill_viridis_c()+ scale_color_viridis_c()+ 
         ylab('Soil compaction') + xlab('Field') + 
         theme(legend.position = c('none'),
               plot.title = element_text(size=10),
@@ -1105,7 +1114,8 @@ Below is illustrated how the obic_field wrapper deals with the parameters derive
               axis.text = element_text(size=10)) + ggtitle('Soil compaction when BSC parameters are all 0, 1 or 2\nincluding parameters that\neffect the score negatively')
     p1
     
-    p2 <- ggplot(data = dt,aes(y = I_P_CEC, x = id, fill = id)) + geom_col() +  theme_bw() + 
+    p2 <- ggplot(data = dt,aes(y = I_P_CEC, x = id, fill = id)) + geom_col() +  
+      theme_bw() + scale_fill_viridis_c()+ scale_color_viridis_c()+ 
         ylab('Aggregate stability') + xlab('Field') + 
         theme(legend.position = c('none'),
               plot.title = element_text(size=10),
@@ -1169,7 +1179,7 @@ For more details, see `?calc_waterretention`.
 
     
     pclay <- ggplot(data = dt[plot == 'klei'],
-               aes(x = A_CLAY_MI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_CLAY_MI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -1177,7 +1187,7 @@ For more details, see `?calc_waterretention`.
         ggtitle('Relation between plant water \navailability and clay content') 
 
     pcsand <- ggplot(data = dt[plot == 'zand'],
-               aes(x = A_SAND_MI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_SAND_MI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -1185,7 +1195,7 @@ For more details, see `?calc_waterretention`.
         ggtitle('Relation between plant water \navailability and sand content')
     
     pcsilt <- ggplot(data = dt[plot == 'silt'],
-               aes(x = A_SILT_MI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_SILT_MI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -1193,7 +1203,7 @@ For more details, see `?calc_waterretention`.
         ggtitle('Relation between plant water \navailability and silt content')
     
     pcsom <- ggplot(data = dt[plot == 'som'],
-               aes(x = A_SOM_LOI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(x = A_SOM_LOI, y = paw)) + geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10))+
@@ -1244,7 +1254,7 @@ The PMN measured by routine laboratories in the Netherlands may be overestimated
 
   # plot output
   p1 <- ggplot(data = dt.test,
-               aes(y = D_PMN, x = A_N_PMN, group = landuse, colour = landuse)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(y = D_PMN, x = A_N_PMN, group = landuse, colour = landuse)) + geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10),
@@ -1257,7 +1267,7 @@ The PMN measured by routine laboratories in the Netherlands may be overestimated
   
   # Plot indicator
     p2 <- ggplot(data = dt.test,
-               aes(y = I_PMN2, x = A_N_PMN2, group = landuse, colour = landuse)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(y = I_PMN2, x = A_N_PMN2, group = landuse, colour = landuse)) + geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10),
@@ -1293,7 +1303,7 @@ At low organic matter concentrations, the contribution of organic matter to soil
     
     # make a plot
     p1 <- ggplot(data = dt,
-               aes(y = I_B_DI, x = A_SOM_LOI)) + geom_line() + geom_point(size=3) +  theme_bw() + 
+               aes(y = I_B_DI, x = A_SOM_LOI)) + geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10),
@@ -1432,7 +1442,7 @@ The properties of fields one to five are as follows:
   
     # plot output
   p <- ggplot(data = dt.test, aes(y = I_NGW, x = ngw)) + geom_line()  +
-    theme_bw() + xlab('Potential N leaching')
+    theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ xlab('Potential N leaching')
   
 ```
 
@@ -1499,7 +1509,7 @@ Example of the soil organic matter balance and management on five fields from th
     dt <- dt[,ID := as.factor(ID)]
     dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
     
-    p2 <- ggplot(data = dt,aes(y = D_SOM_BAL, x = ID, fill = ID)) + geom_col() +  theme_bw() + 
+    p2 <- ggplot(data = dt,aes(y = D_SOM_BAL, x = ID, fill = ID)) + geom_col() +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         ylab('SOM balance') + xlab('Field') + 
         theme(legend.position = c('none'),
               plot.title = element_text(size=10),
@@ -1534,7 +1544,7 @@ Example of the soil organic matter balance and management on five fields from th
                                   M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
                                   )]
 
-    p3 <- ggplot(data = dt,aes(y = D_MAN, x = ID, fill = ID)) + geom_col() +  theme_bw() + 
+    p3 <- ggplot(data = dt,aes(y = D_MAN, x = ID, fill = ID)) + geom_col() +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         ylab('Management score') + xlab('Field') + 
         theme(legend.position = c('none'),
               plot.title = element_text(size=10),
@@ -1651,11 +1661,11 @@ The indicator for management based on the point system of the label sustainable 
   
   # make plots
   p.ar <- ggplot(data = dt.arabl,
-                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() +
+                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
     ylab('Indicator value') + xlab('Soil management points')+theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10), axis.text = element_text(size=10), legend.position = c(0.75,0.22))
   p.gr <- ggplot(data = dt.gras,
-                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() +
+                 aes(points,score, col = landuse, group = landuse, shape = landuse)) + geom_point(size = 3)+ geom_line() + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
     ylab('Indicator value') + xlab('Soil management points')+theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10), axis.text = element_text(size=10), legend.position = c(0.75,0.2))
 p.ar+p.gr
@@ -1727,7 +1737,7 @@ Each soil indicator belongs to one of the major soil functions (chemical, physic
 ### Holistic OBI score
 The integration of different soil functions into one score and their relevance in achieving a specific target (like crop yield) is often ignored in soil quality assessments (i.e., each function contributes equally), is based on expert-judgement or derived from multi-variate statistics analysing linkages among soil functions and soil and field properties within large datasets. Large databases are needed in which all relevant soil properties and functions have been determined as well as (historical) management. Unfortunately, these databases are scarce so that expert driven weighing procedures are introduced. Currently, the total OBIC score is a weighted average of the major soil functions where the weight of each major soil function is determined by the number of indicators underlying the major soil function.
 
-```{r, echo=FALSE, out.width = '75%', out.height = '75%'}
+```{r, echo=FALSE, out.width = '85%', out.height = '85%'}
 # ![](OBIC_score_integratie.png){widht = 25%, height = 20%}
 knitr::include_graphics('OBIC_score_integratie.png')
 
@@ -1752,13 +1762,13 @@ Will give:
 ## Some examples of outputs
 Below OBI scores are presented for the Binnenveld dataset per major soil function.
 
-```{r, echo=FALSE, fig.height= 8, fig.width=7}
+```{r, echo=FALSE, fig.height= 6, fig.width=6.8}
     # Load data
     dt <- binnenveld
     
     dts <- obic_field_dt(dt[ID== unique(dt$ID)[1]])
     dts <- dts[,field :=  unique(dt$ID)[1]]
-    for(i in unique(dt$ID)[2:11]){
+    for(i in unique(dt$ID)[2:4]){
       dts2 <- obic_field_dt(dt[ID==i])
       dts2 <- dts2[,field := i]
       dts <- rbindlist(list(dts, dts2))
@@ -1788,15 +1798,14 @@ bar[grepl('^S_E_', variable), cat := "Environmental"]
       bar, x = "cat", y = "value", 
       # order = c("Totaal", "Milieu", "Beheer", "Biologie", "Structuur", "Chemie"),
       order = c("Total", 'Management',"Environmental", "Biological", "Physical", "Chemical"),
-      group = "cat", color = "cat", palette = c("#33CCFF",'#666666', "#513000", "#3B6B20", "#FF6600", "#7CC144" ),
-      # group = "cat", color = "cat", palette = c("#3333CC","#33CCFF", "#513000", "#3B6B20", "#FF6600", "#7CC144"), # c('#7CC144', '#FF6600','#3B6B20', '#513000', '#33CCFF', "#3333CC", "#5A5A5A"), # orgineel palette "jco"
-      add = "segment", size=3,
-      add.params = list(color = "lightgray", size = 0.5),
+      group = "cat", color = "cat",
+      add = "segment", size=4.5,
+      add.params = list(color = "gray", size = 0.75),
       position = position_dodge(0.5),
       facet.by = "field",
       rotate = TRUE, legend = "none",
-      ylab ='OBI-score',xlab=''
-)
+      ylab ='OBI-score',xlab='', panel.labs = list(field = c('Field 1','Field 2','Field 3', 'Field 4'))
+) + scale_fill_viridis_d()+ scale_color_viridis_d()+ theme_bw(base_size = 12) + theme(legend.position = 'none')
  
  g2
 ```
