@@ -2,6 +2,7 @@
 title: "The Open Soil Index"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: [packages.bib, vignettes_references.bib]
 vignette: >
   %\VignetteIndexEntry{the-open-soil-index}
   %\VignetteEngine{knitr::rmarkdown}
@@ -19,12 +20,16 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 ```{r setup, include = FALSE}
 
   # load packages
-  library(OBIC); library(data.table); library(ggplot2);require(patchwork); library(ggpubr); library(ggradar)
+  library(OBIC); library(data.table); library(ggplot2);require(patchwork); library(ggpubr)
 
   # load binnenveld data.table
   binnenveld <- as.data.table(OBIC::binnenveld)
 ```
 
+---
+nocite: |
+  @Rinot2019, @Bunemann2018, @R-base, @R-data.table, @R-ggplot2, @R-ggpubr, @R-OBIC, @R-patchwork
+---
 
 ## an introduction
 
@@ -32,7 +37,7 @@ To meet the demands of a growing population, agriculture continues to intensify,
 
 Many attempts have been made to develop indices to assess soil quality as well as related ecosystem services (reviewed by Bünemann et al., 2018; Rinot et al., 2019). To date, most of this knowledge has not been implemented in decision support tools assisting farmers for monitoring and evaluation of soil quality on farm and field level. Explicit evaluation of soil quality with respect to soil threats, soil functions and ecosystem services has rarely been implemented, and few approaches provide clear interpretation schemes of measured indicator values. The main reason for this lack of valorisation, is that soil is a complex interplay of chemical, biological and physical processes and that the objectives for which the soil is used, have an enormous influence on the evaluation of soil quality. However, there is broad consensus that soil chemistry, soil structure, as well as soil biology, need to be considered for a good interpretation of soil quality. 
 
-In order to improve and maintain soil quality while supporting sustainable agronomic production as well as other soil ecosystems services, the Open Soil Index was initiated in 2018, an open source framework for assessing and valorising soil quality and sustainable soil management. Experts from universities, consultancy companies, soil experts and farmer groups collaborated to bring together existing data from routine soil laboratories, smart data retrieval from satellites, insights from fundamental and applied research in a transparent and scientifically underpinned soil assessment framework. The framework is highly influenced by the Soil Management Assessment Framework (Andrews & Carroll, 2001;Wienhold et al. 2004, 2009) and the proposed holistic, multivariate soil health framework from Rinot et al. (2019). 
+In order to improve and maintain soil quality while supporting sustainable agronomic production as well as other soil ecosystems services, the Open Soil Index was initiated in 2018, an open source framework for assessing and valorising soil quality and sustainable soil management. Experts from universities, consultancy companies, soil experts and farmer groups collaborated to bring together existing data from routine soil laboratories, smart data retrieval from satellites, insights from fundamental and applied research in a transparent and scientifically underpinned soil assessment framework. The framework is highly influenced by the Soil Management Assessment Framework [@Andrews2001;@Wienhold2004;@Wienhold2009] and the proposed holistic, multivariate soil health framework from Rinot et al. (2019). 
 
 ## the Open Soil Index Framework
 Soil quality is defined as the capacity of a soil to fulfil the desired soil functions under varying conditions for a combination of purposes (and services) such as food production, efficient nutrient cycling and preservation of biodiversity. Soil ecosystem services are the different ecosystem services that soils can provide, being categorized as production, support, regulation and information services. Soil functions are quantitative relationships evaluating how soil properties alone or in combination with each other contribute to the aforementioned ecosystem services. Soil indicators are the result of an evaluation scoring methodology transforming the output of soil functions to a qualitative category (low to high) or a numeric grade (1-10). Soil and field properties are characteristics of a soil (or field) that are used to quantify the soil functions. These characteristics may have been analysed in the laboratory as well as those resulting from the location of the field in the landscape. For example, the groundwater level, the variation in ground level, the slope, and the presence of drainage are soil properties, similar to the organic matter content, pH and clay content. Soil management includes all measures that land users or farmers can take to improve or adapt soil quality for a specific purpose. This has a direct influence on (measurable) soil properties. 
@@ -906,11 +911,11 @@ An example of this function is illustrated below for both an sandy and a clay so
 ```
 
 ### Sealing Soil Surface and Wind Erodibility
-Sealing is the process whereby soil aggregates disintegrate under the influence of rain. The impact of raindrops causes a shifting of soil particles (Locher and de Bakker, 1992). In the process, clay and silt particles clog the pores between the sand particles or the soil aggregates. This creates a slurry layer that forms a crust after drying. This hinders the gas exchange and increases the resistance of germinating seed.
+Sealing is the process whereby soil aggregates disintegrate under the influence of rain. The impact of raindrops causes a shifting of soil particles [@Locher1992]. In the process, clay and silt particles clog the pores between the sand particles or the soil aggregates. This creates a slurry layer that forms a crust after drying. This hinders the gas exchange and increases the resistance of germinating seed.
 
 Wind erosion can occur in a dry spring or autumn when the soil is (partly) bare. Wind erosion causes a decrease in organic matter content, moisture retention capacity, chemical soil fertility and biological activity in a soil. Furthermore, wind erosion can spread diseases and weeds, expose germinating seeds and damage young plants by sandblasting.
 
-The vulnerability of soils to sealing and wind erosion is derived from those properties controlling the susceptibility for both risks. These include the clay content as well as the organic matter content, where the vulnerability for sealing is derived from field expert-based observations and associated yield depression (Huinink, 2018; Heeres en Van Erp, 1999) in particular for some arable crops. The presence of soil sealing can be estimated via the function `calc_sealing_risk` whereas the risk for soil erosion due to wind is estimated via the function `calc_winderodibility`. The wind erodibility can be estimated from the inputs land use, clay and silt content of the topsoil whereas the risk for sealing depends on the clay content as well as the organic matter content of the soil.
+The vulnerability of soils to sealing and wind erosion is derived from those properties controlling the susceptibility for both risks. These include the clay content as well as the organic matter content, where the vulnerability for sealing is derived from field expert-based observations and associated yield depression [@Huinink2018;@Heeres1999] in particular for some arable crops. The presence of soil sealing can be estimated via the function `calc_sealing_risk` whereas the risk for soil erosion due to wind is estimated via the function `calc_winderodibility`. The wind erodibility can be estimated from the inputs land use, clay and silt content of the topsoil whereas the risk for sealing depends on the clay content as well as the organic matter content of the soil.
 
 Wind erosion is highly controlled by the mineralogical composition and texture as well as the presence of growing crops. Using laboratory experiments from wind tunnels, a exponential function has been developed to estimate the erodibility risk for soils, given the clay and silt content of a field. Grasslands are not susceptible for these two risks.
 
@@ -985,7 +990,7 @@ An example of these functions is illustrated below for an arable soil with varia
 ### Aggregate Stability and Crumbleability
 Crumbleability is an indication of the ease with which the soil can be broken up or crumbled and of the moisture range within which this is possible. The crumbleability of a soil is determined by the binding between soil aggregates. The lower the degree of crumbling, the more energy is required and the heavier tractors and equipment are needed for working the soil. This requires (additional) investments and higher fuel consumption, while the end result - even after additional tillage - is poorer.
 
-Similarly to the vulnerability to sealing and wind erodiblity, the crumbleability of a soil (a measure for aggregate stability) as well as the potential risk for yield depressions (crop specific) can be derived from the clay content, the organic matter content and the pH (Huinink, 2011). Aggregate stability is additionally evaluated given the cation occupation of the cation exchange capacity. Clayey soils with 80% Ca, 8% Mg and about 3.5% K are recognized as soils with more stable aggregates due to the influence of electrostatic bindings of divalent cations. Within OBIC these two soil functions are calculated using `calc_crumbleability` and `calc_aggregatestability`.
+Similarly to the vulnerability to sealing and wind erodiblity, the crumbleability of a soil (a measure for aggregate stability) as well as the potential risk for yield depressions (crop specific) can be derived from the clay content, the organic matter content and the pH [@Huinink2011]. Aggregate stability is additionally evaluated given the cation occupation of the cation exchange capacity. Clayey soils with 80% Ca, 8% Mg and about 3.5% K are recognized as soils with more stable aggregates due to the influence of electrostatic bindings of divalent cations. Within OBIC these two soil functions are calculated using `calc_crumbleability` and `calc_aggregatestability`.
 
 For more details, see `?calc_crumbleability` and `?calc_aggregatestability`. 
 
@@ -1128,7 +1133,7 @@ Below is illustrated how the obic_field wrapper deals with the parameters derive
 ### Water retention in topsoil
 The moisture characteristic of a soil depends on its physical properties, texture and structure. The texture of a soil is determined by its clay, loam and sand content. In addition, almost all soils contain organic matter. The fine soil particles, together with the organic matter, contribute to aggregate formation (and thus to the soil structure). The size, shape and arrangement of the soil particles and aggregates, and the resulting voids, determine the soil's capacity to retain water. Large pores are able to conduct more water faster than small pores, and moreover, removing water from large pores will require less energy than removing water from small pores. When a soil is at field capacity, the moisture state is such that all the water in the macro pores has been replaced by air under the influence of the gravitational potential. The water that is still present in the soil is retained in micro pores. The prevailing potential at field capacity can vary from soil to soil but usually varies between -0.1 bar (sandy soil) to -0.3 bar (loamy soil). When water is retained to such an extent that it is no longer available for crop uptake, this is known as the wilting point. The water is mainly present as a film around individual soil particles. The potential under these conditions is around -18 bar. The amount of moisture present between field capacity and wilting point is defined as the amount of plant-available water.
 
-The review study of various soil health instruments (Buneman et al., 2016) identifies a variety of indicators that can be used to gain more insight into the water retaining capacity of a soil. Frequently used indicators are the amount of plant-available water (14 x), the water holding capacity (11 x), the moisture content at field capacity (11 x) and the saturated permeability (10 x). These indicators can be measured or estimated indirectly via so-called pedotransfer functions (Wosten et al., 2001).  
+The review study of various soil health instruments [@Bunemann2016)] identifies a variety of indicators that can be used to gain more insight into the water retaining capacity of a soil. Frequently used indicators are the amount of plant-available water (14 x), the water holding capacity (11 x), the moisture content at field capacity (11 x) and the saturated permeability (10 x). These indicators can be measured or estimated indirectly via so-called pedotransfer functions [Wosten2001].  
 
 The OBIC includes functions to derive the following water-related indicators in function `calc_waterretention`:
 
@@ -1810,7 +1815,14 @@ bar[grepl('^S_E_', variable), cat := "Environmental"]
  g2
 ```
 
+#Packages
+
+```{r, include=FALSE}
+knitr::write_bib(c(.packages()), "packages.bib")
+knitr::write_bib(file = 'packages.bib')
+```
+
 # References
 
 
-Wienhold, B.J., Andrews, S.S., Karlen, D.L. 2004. Soil quality: a review of the science and experiences in the USA. Environmental Geochemistry and Health, 26(2-3), 89-95. Wienhold, B.J., Karlen, D.L., Andrews, S.S., Stott, D.E. 2009. Protocol for indicator scoring in the soil management assessment framework (SMAF). Renewable Agriculture and Food Systems, 24(4), 260-266.
+
