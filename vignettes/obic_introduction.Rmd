@@ -100,11 +100,14 @@ The main function to evaluate the quality of the soil is `obic_field()` as well 
    * for soil chemical, physical, biological and environmental soil quality (absolute)
    * for benchmarking (not yet implemented)
 
-```{r, echo=FALSE, out.width = '85%', out.height = '85%'}
+
+```{r, echo=FALSE, out.width = '85%', out.height = '85%', fig.cap = 'Figure 1. Graphic representation of how measured soil properties are aggregated to scores.'}
 # ![](OBIC_score_integratie.png){widht = 25%, height = 20%}
 knitr::include_graphics('OBIC_score_integratie.png')
 
 ```
+
+<br />
 
 An example of both wrapper functions is illustrated below. The soil has an OBIC score of 0.81 indicating a relatively good quality to continue the current crop rotation plan. A value of one means that the soil quality is optimum for the continuation of the cropping plan whereas a value of zero means that there are substantial bottlenecks that need to be solved.
 
