@@ -9,4 +9,3 @@ dev/*.tif
 dev/*.gpkg
 dev/*brp19.Rdata
 dev/brp*.rds
-vignettes/packages.bib
