@@ -100,11 +100,14 @@ The main function to evaluate the quality of the soil is `obic_field()` as well 
    * for soil chemical, physical, biological and environmental soil quality (absolute)
    * for benchmarking (not yet implemented)
 
-```{r, echo=FALSE, out.width = '85%', out.height = '85%'}
+
+```{r, echo=FALSE, out.width = '85%', out.height = '85%', fig.cap = 'Figure 1. Graphic representation of how measured soil properties are aggregated to scores.'}
 # ![](OBIC_score_integratie.png){widht = 25%, height = 20%}
 knitr::include_graphics('OBIC_score_integratie.png')
 
 ```
+
+<br />
 
 An example of both wrapper functions is illustrated below. The soil has an OBIC score of 0.81 indicating a relatively good quality to continue the current crop rotation plan. A value of one means that the soil quality is optimum for the continuation of the cropping plan whereas a value of zero means that there are substantial bottlenecks that need to be solved.
 
@@ -1642,7 +1645,6 @@ Some of these indicator functions internally use an evaluation function such as 
                    D_WSI_DS = S,
                    D_WSI_WS = S,
                    D_WE = rep(seq(0,1,0.01)),
-                   B_SC_WENR = S,
                    D_WRI = S,
                    D_AS = rep(seq(0,1,0.01)),
                    D_PMN = S,
@@ -1651,6 +1653,7 @@ Some of these indicator functions internally use an evaluation function such as 
                    B_LU_BRP = c(rep(265,101),rep(256,101)),
                    B_SOILTYPE_AGR = rep('dekzand',202),
                    A_SOM_LOI = rep(3.5,202),
+                   D_DUMMY_SOM_LOI = rep(seq(0,35,0.35),2),
                    B_AER_CBS = rep("Centraal Veehouderijgebied",202)
                    )
     dd <- dd[,id:= 1:nrow(dd)]
@@ -1678,7 +1681,7 @@ Some of these indicator functions internally use an evaluation function such as 
     #dd[, I_P_WO := ind_workability(D_WO)] (WIP)
   
     # Calculate indicators for soil biological functions
-    dd[, I_B_DI := ind_resistance(A_SOM_LOI)]
+    dd[, I_B_DI := ind_resistance(D_DUMMY_SOM_LOI)]
     dd[, I_B_SF := ind_pmn(D_PMN)]
     
       # Calculate indicators for environment
@@ -1694,18 +1697,49 @@ Some of these indicator functions internally use an evaluation function such as 
     # Reset blubrp to something readable
     dd.melt <- dd.melt[, B_LU_BRP := as.character(fifelse(B_LU_BRP == 265,'grass','arable'))]
     
-    # ggplot2 way
-    ggs <- ggplot(data = dd.melt, aes(x= function_value, y = index_value, group = B_LU_BRP, 
-                                      facet_wrap(facets = indicator, ncol = 4))) +
-      geom_point() + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()
-
-    # ggpubr way
-    ggs <- ggscatter(dd.melt, x = 'function_value', y = 'index_value', color = 'B_LU_BRP',
-                     facet.by = 'indicator') + theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-      
+    # Select correct rows from dd.melt
+    dd.melt.select <- dd.melt[(funct == 'D_NLV'& indicator == 'I_C_N')|
+                                (funct == 'D_PBI'& indicator == 'I_C_P')|
+                                (funct == 'D_K'& indicator == 'I_C_K')|
+                                (funct == 'D_MG'& indicator == 'I_C_MG')|
+                                (funct == 'D_SLV'& indicator == 'I_C_S')|
+                                (funct == 'D_PH_DELTA'& indicator == 'I_C_PH')|
+                                (funct == 'D_CEC'& indicator == 'I_C_CEC')|
+                                (funct == 'D_CU'& indicator == 'I_C_CU')|
+                                (funct == 'D_ZN'& indicator == 'I_C_ZN')|
+                                (funct == 'D_WSI_DS'& indicator == 'I_P_DS')|
+                                (funct == 'D_WSI_WS'& indicator == 'I_P_WS')|
+                                (funct == 'D_WRI'& indicator == 'I_P_WRI')|
+                                (funct == 'D_CEC'& indicator == 'I_P_AS')|
+                                (funct == 'D_PMN'& indicator == 'I_B_SF')|
+                                (funct == 'D_NGW'& indicator == 'I_E_NGW')|
+                                (funct == 'D_NSW'& indicator == 'I_E_NSW')]
     
+    # select indicators for which function values do not run from 0 to 100
+    dd.melt.select.other <- dd.melt[(funct == 'D_CR'& indicator == 'I_P_CR')|
+                                      (funct == 'D_SE'& indicator == 'I_P_SE')|
+                                      (funct == 'D_WE'& indicator == 'I_P_DU')|
+                                      (funct == 'D_DUMMY_SOM_LOI'& indicator == 'I_B_DI')]
+    
+    # ggpubr way
+    ggs <- ggscatter(dd.melt.select, x = 'function_value', y = 'index_value', color = 'B_LU_BRP',
+                     facet.by = 'indicator') + theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
+
+    # make seperate graphs for indicators whose function values do not run from 0 to 100
+    PCR <- ggscatter(dd.melt.select.other[indicator == 'I_P_CR'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP') + 
+      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
+    PSE <- ggscatter(dd.melt.select.other[indicator == 'I_P_SE'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP') + 
+      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
+    PDU <- ggscatter(dd.melt.select.other[indicator == 'I_P_DU'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP') + 
+      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
+    BDI <- ggscatter(dd.melt.select.other[indicator == 'I_B_DI'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP') + 
+      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
+    # arrange these graphs with common legend
+    ggs2 <- ggarrange(PCR, PSE, PDU, BDI, ncol = 2, nrow = 2, common.legend = TRUE)
+    
+    # show plots
     ggs    
-  
+    ggs2
     
 ```
 
@@ -1871,7 +1905,6 @@ bar[grepl('^S_E_', variable), cat := "Environmental"]
  g2
 ```
 
-#Packages
 
 ```{r, include=FALSE}
 knitr::write_bib(c(.packages()), "packages.bib")
