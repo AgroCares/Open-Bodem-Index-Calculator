@@ -348,7 +348,8 @@ plot(rsltest, 100*rsltest^2-200*rsltest+100)
 
 # testobject
 require(data.table)
-field <- jsonlite::fromJSON("dev/tests/obi2.json")
+require(OBIC)
+field <- jsonlite::fromJSON("dev/tests/input.json")
 
 dt <- data.table(ID = 362662,
                  B_SOILTYPE_AGR = field$b_soiltype_agr,
