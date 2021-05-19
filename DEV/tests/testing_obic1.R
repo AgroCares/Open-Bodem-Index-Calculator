@@ -406,6 +406,13 @@ dt <- data.table(ID = 362662,
                  M_PESTICIDES_DST = TRUE
                  )
 
+# set al management to TRUE
+dt[, M_DRAIN := TRUE]
+dt[, M_DITCH := TRUE]
+dt[,M_EARLYCROP := TRUE]
+dt[,M_GREEN := TRUE]
+dt[,M_COMPOST := 5]
+
 require(OBIC)
 require(data.table)
 
@@ -526,14 +533,14 @@ out
      M_NONBARE = rep(TRUE,10)
      M_EARLYCROP = rep(TRUE,10)
      M_SLEEPHOSE = rep(TRUE,10)
-     M_DRAIN = c(rep(FALSE,5),TRUE,rep(FALSE,4))
+     M_DRAIN = c(rep(TRUE,5),TRUE,rep(TRUE,4))
      M_DITCH = rep(TRUE,10)
      M_UNDERSEED = rep(TRUE,10)
      M_LIME = rep(TRUE,10) 
      M_NONINVTILL = rep(TRUE,10)
      M_SSPM = rep(TRUE,10)
      M_SOLIDMANURE = rep(TRUE,10)
-     M_STRAWRESIDUE = c(rep(FALSE,5),TRUE,rep(FALSE,4))
-     M_MECHWEEDS = c(rep(FALSE,5),TRUE,rep(FALSE,4))
-     M_PESTICIDES_DST = c(rep(FALSE,5),TRUE,rep(FALSE,4))
+     M_STRAWRESIDUE = c(rep(TRUE,5),TRUE,rep(TRUE,4))
+     M_MECHWEEDS = c(rep(TRUE,5),TRUE,rep(TRUE,4))
+     M_PESTICIDES_DST = c(rep(TRUE,5),TRUE,rep(TRUE,4))
 
