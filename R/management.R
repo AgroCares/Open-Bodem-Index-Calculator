@@ -400,7 +400,7 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     dt.arable[D_CP_RUST > 0.4 & D_CP_RUSTDEEP > 0.4, value := value + 1]
     
     # measure 3. crop rotation of potato is at minimum 1:4 (add two points)
-    dt.arable[D_CP_POTATO > 0.15 & D_CP_POTATO <= 0.25, value := value + 2]
+    dt.arable[D_CP_POTATO <= 0.25, value := value + 2]
     
     # measure 7. add minus points when arable crops are grown on wet peat soils
     dt.arable[B_GWL_CLASS %in% gt_wet & soiltype.n == 'veen', value := value - 5]
@@ -444,9 +444,6 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       
       # management specific score
       dt.arable.man[, value_ms := 0]
-      
-      # measure 1. is the parcel for 80% of the year grown by a crop (add 3 points)
-      dt.arable.man[M_NONBARE == TRUE, value_ms := value_ms + 3] 
       
       # measure 4. use of early varieties in relevant cultures to avoid harvesting after september (stimulating catch crop too)
       dt.arable.man[grepl('aardappel|bieten, suiker',crop_name) & M_EARLYCROP == TRUE, value_ms := value_ms + 1]
@@ -776,6 +773,129 @@ ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
   w.max[crop_category=='mais', weight_peat := weight_peat - 2 + 2 + 0]
   w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat - 1 + 6 + 0]
   w.max[crop_category=='grasland', weight_peat := weight_peat - 1 + 8 + 3]
+  
+  # merge max score to actual dt
+  dt <- merge(dt, w.max, by='crop_category')
+  
+  # evaluate the Sustainability of Soil Management
+  dt[, value := D_MAN / fifelse(B_SOILTYPE_AGR == 'veen',weight_peat,weight_nonpeat)]
+  
+  # Ensure no vales above 1
+  dt[value > 1, value := 1]
+  
+  # values exact zero not desired (due to non relevance zero in scoring method)
+  dt[value==0, value := 0.05]
+  
+  # round value
+  dt[,value := round(value,2)]
+  
+  # prepare output
+  setorder(dt, id)
+  value <- dt[, value]
+  
+  # return Evaluation of Soil Management
+  return(value)
+}
+
+#' Calculate the indicator for sustainable management given a required ecoystem service
+#' 
+#' This function calculates the the sustainability of strategic management options for a given ecoystem service as calculated by \code{\link{calc_man_ess}}
+#' The main source of this indicator is developed for Label Duurzaam Bodembeheer (Van der Wal, 2016)
+#' 
+#' @param D_MAN (numeric) The value of Sustainable Management calculated by \code{\link{calc_man_ess}}
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param B_SOILTYPE_AGR (character) The type of soil
+#' @param type (character) type of ecosystem service to evaluate the impact of soil management. Options: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY, and I_M_BIODIVERSITY
+#' 
+#' @export
+ind_man_ess <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR,type) {
+  
+  # add visible bindings
+  id = crop_code = soiltype = soiltype.n = crop_n = crop_name = crop_category = NULL
+  variable = weight_nonpeat = weight_peat = NULL
+  
+  # Load in the datasets
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  setkey(crops.obic, crop_code)
+  soils.obic <- as.data.table(OBIC::soils.obic)
+  setkey(soils.obic, soiltype)
+  
+  # load weights.obic (set indicator to zero when not applicable)
+  w <- as.data.table(OBIC::weight.obic)
+  w <- w[grepl('^M_',variable)]
+  
+  # load management measure table
+  man.obic <- as.data.table(OBIC::management.obic)
+  man.obic <- melt(man.obic,
+                   id.vars = c('measure'),
+                   measure.vars = c('I_M_SOILFERTILITY','I_M_CLIMATE','I_M_WATERQUALITY','I_M_BIODIVERSITY'),
+                   variable.name = 'meas_group', value.name = 'value')
+  
+  w2 <- merge(w,man.obic,by.x = 'variable', by.y = 'measure',allow.cartesian = TRUE)
+  w2 <- w2[value > 0]
+  w2[, value := as.numeric(value)]
+  
+  # add corrections for OR-OR counting in calc_man_ess
+  w2[,ortype := 0]
+  w2[grepl('COMPOST|GREEN|SOLID',variable) & crop_category=='akkerbouw', ortype := 1]
+  w2[grepl('SLEEP|SSPM',variable) & crop_category=='akkerbouw', ortype := 2]
+  w2[grepl('COMPOST|SOLID',variable) & crop_category != 'akkerbouw', ortype := 3]
+  w2[grepl('UNDERSEED|NONBARE',variable) & crop_category=='mais', ortype := 4]
+  w2[, value := value / max(1,sum(value[ortype > 0])),by = .(crop_category,meas_group,ortype)]
+  
+  # add extra points for measures that have always more than +1 impact
+  w2[,value_peat := value]
+  w2[grepl('DRAIN',variable) & crop_category == 'grasland', value_peat := value + 2]
+  w2[grepl('DITCH',variable) & crop_category == 'grasland', value_peat := value + 1]
+  w2[crop_category=='akkerbouw' & grepl('NONBARE',variable), value := value + 2]
+  w2[crop_category=='natuur' & grepl('MANURE',variable), value := value + 1]
+  
+  # add extra points for measures that have more than +1 impact peat soil
+  w2[, weight_peat := weight_peat * value_peat]
+  w2[, weight_nonpeat := weight_nonpeat * value]
+  
+  
+  # Check inputs
+  arg.length <- max(length(D_MAN), length(B_LU_BRP), length(B_SOILTYPE_AGR))
+  checkmate::assert_numeric(D_MAN, lower = 0, upper = 18, any.missing = FALSE)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  
+  # Collect data in a table
+  dt <- data.table(
+    id = 1:arg.length,
+    D_MAN = D_MAN,
+    B_LU_BRP = B_LU_BRP,
+    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
+    value = NA_real_
+  )
+  
+  # merge crop table with data.table
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_n,crop_name, crop_category)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
+  
+  # find maximum score per measure-soil-land use combination
+  w.max <- w2[, list(weight_nonpeat = sum(weight_nonpeat[weight_nonpeat>0]),
+                     weight_peat = sum(weight_peat[weight_peat>0])), by = c('crop_category','meas_group')]
+  
+  # add extra points due to general crop rotation and soil properties as well as SOM balance for non peat soils
+  w.max[grepl('FERTILI|CLIMA',meas_group) & grepl('mais|akkerb',crop_category), weight_nonpeat := weight_nonpeat + 2]
+  w.max[crop_category=='akkerbouw', weight_nonpeat := weight_nonpeat + 4]
+  w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat + 2]
+  w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat + 7]
+  w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat + 4]
+  
+  # add extra points due to general crop rotation and soil properties as well as SOM balance for non peat soils
+  w.max[grepl('FERTILI|CLIMA',meas_group) & grepl('mais|akkerb',crop_category), weight_peat := weight_peat + 2]
+  w.max[crop_category=='akkerbouw', weight_peat := weight_peat + 4]
+  w.max[crop_category=='grasland', weight_peat := weight_peat + 2]
+  w.max[crop_category=='grasland', weight_peat := weight_peat + 7]
+  w.max[crop_category=='grasland', weight_peat := weight_peat + 4]
+  
+  # filter w.max for the relevant ecosystem service
+  w.max <- w.max[meas_group==type]
   
   # merge max score to actual dt
   dt <- merge(dt, w.max, by='crop_category')
