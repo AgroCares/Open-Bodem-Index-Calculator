@@ -813,6 +813,7 @@ ind_man_ess <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR,type) {
   # add visible bindings
   id = crop_code = soiltype = soiltype.n = crop_n = crop_name = crop_category = NULL
   variable = weight_nonpeat = weight_peat = NULL
+  ortype = meas_group = value_peat = NULL
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
@@ -841,7 +842,7 @@ ind_man_ess <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR,type) {
   w2[grepl('SLEEP|SSPM',variable) & crop_category=='akkerbouw', ortype := 2]
   w2[grepl('COMPOST|SOLID',variable) & crop_category != 'akkerbouw', ortype := 3]
   w2[grepl('UNDERSEED|NONBARE',variable) & crop_category=='mais', ortype := 4]
-  w2[, value := value / max(1,sum(value[ortype > 0])),by = .(crop_category,meas_group,ortype)]
+  w2[, value := value / max(1,sum(value[ortype > 0])),by = c('crop_category','meas_group','ortype')]
   
   # add extra points for measures that have always more than +1 impact
   w2[,value_peat := value]
