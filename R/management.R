@@ -607,8 +607,8 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       dt.grass[soiltype.n !='veen' & grepl('klaver',crop_name), value := value +1]
       
       # measure 3. permanent grass for GtI, GtII and GtIII
-      dt.grass[D_GA > 8 & B_GWL_CLASS %in% gt_wet, value := value + 5]
-      dt.grass[D_GA > 8 & B_GWL_CLASS %in% gt_wet & soiltype.n =='veen', value := value + 3]
+      dt.grass[(D_GA > 8 | D_CP_GRASS == 1) & B_GWL_CLASS %in% gt_wet, value := value + 5]
+      dt.grass[(D_GA > 8 | D_CP_GRASS == 1) & B_GWL_CLASS %in% gt_wet & soiltype.n =='veen', value := value + 3]
     
    # estimate management scores for maize systems given specific soil ecosystem functions
     
