@@ -885,7 +885,6 @@ ind_man_ess <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR,type) {
   w.max[grepl('FERTILI|CLIMA',meas_group) & grepl('mais|akkerb',crop_category), weight_nonpeat := weight_nonpeat + 2]
   w.max[crop_category=='akkerbouw', weight_nonpeat := weight_nonpeat + 4]
   w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat + 2]
-  w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat + 7]
   w.max[crop_category=='grasland', weight_nonpeat := weight_nonpeat + 4]
   
   # add extra points due to general crop rotation and soil properties as well as SOM balance for non peat soils
@@ -893,8 +892,7 @@ ind_man_ess <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR,type) {
   w.max[crop_category=='akkerbouw', weight_peat := weight_peat + 4]
   w.max[crop_category=='grasland', weight_peat := weight_peat + 2]
   w.max[crop_category=='grasland', weight_peat := weight_peat + 7]
-  w.max[crop_category=='grasland', weight_peat := weight_peat + 4]
-  
+
   # filter w.max for the relevant ecosystem service
   w.max <- w.max[meas_group==type]
   
