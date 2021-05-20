@@ -1,5 +1,15 @@
 # Changelog OBIC
 
+## Version 1.0.2 2021-05-20
+### Added
+* ind_man_ess.R and tests are added for update aggregated management scores, issue #131
+
+### Changed
+* obic_field() makes use of ind_man_ess
+
+### Fixed
+* check B_GWL_CLASS in calc_waterstressindex(), issue #129
+
 ## Version 1.0.1 2021-05-05
 ### Added
 * management.obic table added to link management measures to ecosystem services
