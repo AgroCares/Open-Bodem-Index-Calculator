@@ -17,7 +17,6 @@
 * updated weights.obic
 * update column_descriptions_obic.Rdata
 
-
 ## Version 1.1.0 2021-05-03
 ### Added
 * argument B_GWL_GHG, B_GWL_GLG and B_Z_TWO to obic_field and obic_field_dt
