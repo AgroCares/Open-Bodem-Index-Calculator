@@ -279,7 +279,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    A_NPN_SA_TOT = A_NPN_SA_TOT)
   
   # Copy I_NEMA table when present
-  if(!is.na(I_NEMA)) {I_NEMA <- copy(I_NEMA)}
+  if(!is.na(A_NEMA)) {A_NEMA <- copy(A_NEMA)}
   
   # Merge dt with crops.obic
   dt <- merge(dt,OBIC::crops.obic[,list(crop_code,crop_category)], by.x = 'B_LU_BRP', by.y = 'crop_code') 
