@@ -1,5 +1,11 @@
 # Changelog OBIC
 
+## Version 1.1.1 2021-05-21
+### Added
+* table nema.crop.rot.obic added
+* ppr_bouwplan_tables.r in dev/scripts
+* merge_nema_tables.r in dev/scripts
+
 ## Version 1.1.0 2021-05-03
 ### Added
 * argument B_GWL_GHG, B_GWL_GLG and B_Z_TWO to obic_field and obic_field_dt
