@@ -17,7 +17,7 @@ ind_nematodes_list <- function(A_NEMA){
   checkmate::assert_numeric(A_NEMA[,count])
   checkmate::assert_subset(x = A_NEMA[,species],choices = nema.obic[,species])
   
-  # merge dd and nema.obic and remove non standard non counted nematodes from dd
+  # merge dd and nema.obic and remove non counted nematodes from dd
   dd <- merge.data.table(nema.obic, A_NEMA, by = 'species', all.x = TRUE)
 
   # Add id to data.table
