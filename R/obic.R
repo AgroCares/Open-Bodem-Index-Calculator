@@ -300,10 +300,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
   
     # Calculate management indicator for ecosystemservices
-    dt[, I_M_SOILFERTILITY := ind_management(D_M_SOILFERTILITY, B_LU_BRP, B_SOILTYPE_AGR)]
-    dt[, I_M_CLIMATE := ind_management(D_M_CLIMATE, B_LU_BRP, B_SOILTYPE_AGR)]
-    dt[, I_M_WATERQUALITY := ind_management(D_M_WATERQUALITY, B_LU_BRP, B_SOILTYPE_AGR)]
-    dt[, I_M_BIODIVERSITY := ind_management(D_M_BIODIVERSITY, B_LU_BRP, B_SOILTYPE_AGR)]
+    dt[, I_M_SOILFERTILITY := ind_man_ess(D_M_SOILFERTILITY, B_LU_BRP, B_SOILTYPE_AGR,type = 'I_M_SOILFERTILITY')]
+    dt[, I_M_CLIMATE := ind_man_ess(D_M_CLIMATE, B_LU_BRP, B_SOILTYPE_AGR,type = 'I_M_CLIMATE')]
+    dt[, I_M_WATERQUALITY := ind_man_ess(D_M_WATERQUALITY, B_LU_BRP, B_SOILTYPE_AGR,type = 'I_M_WATERQUALITY')]
+    dt[, I_M_BIODIVERSITY := ind_man_ess(D_M_BIODIVERSITY, B_LU_BRP, B_SOILTYPE_AGR,type = 'I_M_BIODIVERSITY')]
     
     # Calculate indicators for environment
     dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
