@@ -167,8 +167,13 @@ nema.crop.rot.obic <- nema.crop.rot.obic[,name_scientific := gsub('spp$', 'spp\\
 # Longidorus elongatus (as well as Xiphinema) are very large and do not appear in a typical analysis
 # aaltjesschema has Rotylenchus uniformis obic only has Rotylenchus spp. similair with Xiphinema diversicaudatum and Xiphinema spp.
 
+# replace non ascii ï with i
+nema.crop.rot.obic <- nema.crop.rot.obic[,nema_name := gsub('ï', "i", nema_name)]
+nema.crop.rot.obic <- nema.crop.rot.obic[,name_common := gsub('ï', "i", name_common)]
+nema.crop.rot.obic <- nema.crop.rot.obic[,name_scientific := gsub('ï', "i", name_scientific)]
+
 # Write to OBIC
 write.csv(nema.crop.rot.obic, 'DEV/data/aaltjes_gewas_schema.csv')
-save(nema.crop.rot.obic, file = 'data/nema_crop_rot_obic.RData')
+usethis::use_data(names = nema.crop.rot.obic, overwrite = TRUE)
 
 
