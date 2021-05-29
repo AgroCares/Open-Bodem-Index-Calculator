@@ -876,7 +876,7 @@ An example of this function is illustrated below for both an sandy and a clay so
   # melt dt.test1
   dt.test1 <- melt(dt.test1,id.vars = 'ID', variable.name = 'stresstype')
   
-   # plot output
+  # plot output
   p1 <- ggplot(data = dt.test1,aes(y = value, x = ID, fill = stresstype)) + 
         geom_bar(stat='identity') +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ ylim(0,50)+
         theme(legend.position = c(0.3,0.8),
@@ -887,12 +887,8 @@ An example of this function is illustrated below for both an sandy and a clay so
      
   
   # estimate moisture stress with variable Gt for an arable field
-  dt.test2a <- dt.test[ID==1]
-  dt.test2b <- copy(dt.test2a)[,B_GWL_CLASS := 'GtIII']
-  dt.test2c <- copy(dt.test2a)[,B_GWL_CLASS := 'GtIV']
-  dt.test2d <- copy(dt.test2a)[,B_GWL_CLASS := 'GtV']
-  dt.test2e <- copy(dt.test2a)[,B_GWL_CLASS := 'GtVI']
-  dt.test2 <- rbind(dt.test2a,dt.test2b,dt.test2c,dt.test2d,dt.test2e)
+  dt.test2 <- dt.test[ID==1][,ID := .I]
+  dt.test2 <- dt.test2[rep(ID,4)][,B_GWL_CLASS := rep(c('GtIII','GtIV','GtV','GtVI'),each = max(ID))]
   
   # update WSI
   dt.test2[, D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
@@ -907,7 +903,9 @@ An example of this function is illustrated below for both an sandy and a clay so
     
   # plot output
   p2 <- ggplot(data = dt.test2,aes(y = value, x = B_GWL_CLASS, fill = stresstype)) + 
-        geom_bar(stat='identity') +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ ylim(0,30)+
+        geom_bar(stat='identity') +  
+        theme_bw() + 
+        scale_fill_viridis_d()+ scale_color_viridis_d()+ ylim(0,30)+
         theme(legend.position = c(0.3,0.8),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10)) +
@@ -953,7 +951,7 @@ An example of these functions is illustrated below for an arable soil with varia
                         A_SOM_LOI = c(rep(3.5,10),rep(3.5,10)),
                         A_SILT_MI = c(rep(5,10),rep(5,10)))
 
-  # make a data.table for sandy and clay soil with grasland
+  # make a data.table for sandy and clay soil with grassland
   dt.test2 <- data.table(B_LU_BRP = rep(265,20),
                         A_CLAY_MI = c(seq(1,25,length.out = 10), seq(1,25,length.out = 10)),
                         A_SOM_LOI = c(rep(5,10),rep(5,10)),
@@ -978,7 +976,8 @@ An example of these functions is illustrated below for an arable soil with varia
         theme(legend.position = c(0.4,0.8),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10)) + 
-    ggtitle('Soil sealing given SOM and clay content')   
+        ggtitle('Soil sealing given SOM and clay content') +
+        guides(color = guide_legend(title="land use"))
 
   # plot output wind erodibility
   p2 <- ggplot(data = dt.test,
@@ -988,7 +987,8 @@ An example of these functions is illustrated below for an arable soil with varia
         theme(legend.position = c(0.7,0.8),
               plot.title = element_text(size=10),
               legend.text = element_text(size=10)) + 
-    ggtitle('Wind erodibility given soil texture and landuse') 
+        ggtitle('Wind erodibility given soil texture and landuse') +
+        guides(color = guide_legend(title="land use"))
   
   # plot side by side
   p1 + p2
@@ -1054,7 +1054,7 @@ For more details, see `?calc_crumbleability` and `?calc_aggregatestability`.
   # plot output aggregate stability
     p4 <- ggplot(data = dt4,
                aes(x = A_CA_CO_PO, y = D_AS, color = B_SOILTYPE_AGR)) + 
-        geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
+        geom_point(size=.3) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
         ylab('Aggregate stability') + xlab('Calcium ocupation') + ylim(0,1)+
         theme(plot.title = element_text(size=10),
               legend.position = 'none') +
@@ -1075,7 +1075,7 @@ The risk of subsoil compaction for each field was assessed using soil texture, l
 ### Visual Soil Assessment 
 Within the OBIC, the estimates of aggregate stability and risk of subsoil compaction can be adapted to local site specific insights derived from the Visual Soil Assessment Methodology [@Sonneveld2014]. Visual soil assessments (VSA) is an assessment of soil quality in the field, by digging a hole and assessing several soil quality indicators visually. Soil quality indicators are: grass cover, number of roots, number of biopores, soil colour, soil structure, soil compaction, and number of gray spots. Visual soil assessments are more and more used by farmers in the Netherlands, but not specifically developed for various soil types. 
 
-Below is illustrated how the obic_field wrapper deals with the parameters derived from the VSA methodology. The score derived from the origignal risk assessment map for subsoil compaction is overwritten with the relevant VSA indicators when When scores are present for the presence of earthworms (A_EW_BCS), the occurrence of subsurface compaction (A_SC_BCS), limited root development (A_RD_BCS), ponding in the spring (wet conditions after rainfall, A_P_BCS) and clear presence of visible tracks / rutting or trampling on the land (A_RT_BCS). Similarly, the soil aggregate stability is adapted when VSA indicators are available for earthworm density (A_EW_BCS), soil structure (A_SS_BCS), and presence of cracks in the topsoil (A_C_BCS).
+Below is illustrated how the obic_field wrapper deals with the parameters derived from the VSA methodology. The score derived from the original risk assessment map for subsoil compaction is overwritten with the relevant VSA indicators when When scores are present for the presence of earthworms (A_EW_BCS), the occurrence of subsurface compaction (A_SC_BCS), limited root development (A_RD_BCS), ponding in the spring (wet conditions after rainfall, A_P_BCS) and clear presence of visible tracks / rutting or trampling on the land (A_RT_BCS). Similarly, the soil aggregate stability is adapted when VSA indicators are available for earthworm density (A_EW_BCS), soil structure (A_SS_BCS), and presence of cracks in the topsoil (A_C_BCS).
 
 ```{r, results = FALSE, eval = FALSE}
 
@@ -1091,41 +1091,65 @@ Below is illustrated how the obic_field wrapper deals with the parameters derive
 ```
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+    
     # make a data table with some BCS values
-    dt <- binnenveld[1:3,]
-    bcscols <- names(dt)[grep('_BCS$',names(dt))]
-    dt <- dt[,id := 1:nrow(dt)]
-    dt <- dt[,c(bcscols) := id-1]
+    dt <- binnenveld[ID == 1 & YEAR==2015]
     
     # calculate soil compaction and aggregate stability
-    dt[, I_P_CO:= -999]
-    dt[, I_P_CEC:= -999]
+    dt[, I_P_CO := ind_compaction(B_SC_WENR)]
+    dt[, D_AS := calc_aggregatestability(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO)]
+    dt[, I_P_CEC:= ind_aggregatestability(D_AS)]
+
+    # make three duplicates
+    dt <- dt[rep(1,3)][,id:=.I]
+    
+    # set BCS all from bad quality to good quality
+    
+      # colnames
+      bcscols <- names(dt)[grep('_BCS$',names(dt))]
+    
+      # set BCS
+      dt[id==1, c(bcscols) := 0][,c('A_P_BCS','A_C_BCS','A_RT_BCS') := 2]
+      dt[id==2, c(bcscols) := 1][,c('A_P_BCS','A_C_BCS','A_RT_BCS') := 1]
+      dt[id==3, c(bcscols) := 2][,c('A_P_BCS','A_C_BCS','A_RT_BCS') := 0]
+   
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
-    dt[,D_P_CO := pmax(0, D_P_CO)]
-    dt[,I_P_CO := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
+    dt[,D_P_CO := pmax(0.05, D_P_CO)]
+    dt[,I_P_CO2 := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
     
     # overwrite soil physical functions for aggregate stability when BCS is available
     dt[,D_P_CEC := (3 * A_EW_BCS + 3 * A_SS_BCS - A_C_BCS)/12]
-    dt[,D_P_CEC := pmax(0, D_P_CEC)]
-    dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]
+    dt[,D_P_CEC := pmax(0.05, D_P_CEC)]
+    dt[,I_P_CEC2 := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]
     
-    p1 <- ggplot(data = dt,aes(y = I_P_CO, x = id, fill = id)) + geom_col() +  
-      theme_bw() +  scale_fill_viridis_c()+ scale_color_viridis_c()+ 
-        ylab('Soil compaction') + xlab('Field') + 
-        theme(legend.position = c('none'),
-              plot.title = element_text(size=10),
-              legend.text = element_text(size=10),
-              axis.text = element_text(size=10)) + ggtitle('Soil compaction when BSC parameters are all 0, 1 or 2\nincluding parameters that\neffect the score negatively')
-    p1
+    # melt 
+    dt2 <- melt(dt[,.(id,I_P_CEC,I_P_CO,I_P_CEC2,I_P_CO2)],
+                id.vars = c('id'))
+    dt2[,treatment := fifelse(grepl('2$',variable),'corrected','uncorrected')]
     
-    p2 <- ggplot(data = dt,aes(y = I_P_CEC, x = id, fill = id)) + geom_col() +  
-      theme_bw() + scale_fill_viridis_c()+ scale_color_viridis_c()+ 
-        ylab('Aggregate stability') + xlab('Field') + 
-        theme(legend.position = c('none'),
-              plot.title = element_text(size=10),
-              legend.text = element_text(size=10),
-              axis.text = element_text(size=10)) + ggtitle('Aggregate stability when BSC parameters are all 0, 1 or 2\nincluding parameters that\neffect the score negatively')
+    p1 <- ggplot(data = dt2[grepl('CEC',variable)],
+          aes(y = value, x = id-1, fill = treatment)) + 
+          geom_bar(stat='identity',position=position_dodge())+
+          theme_bw() + scale_fill_viridis_d()+ 
+          ylab('Soil compaction') + xlab('Fieldscore VSA')+
+          theme(legend.position = 'none',
+                plot.title = element_text(size=8),
+                legend.text = element_text(size=10),
+                axis.text = element_text(size=10)) + 
+          ggtitle('Soil compaction before and after correction with VSA data\noriginally evaluated as a soil with low compaction')
+    
+    p2 <- ggplot(data = dt2[grepl('CO',variable)],
+          aes(y = value, x = id-1, fill = treatment)) + 
+          geom_bar(stat='identity',position=position_dodge())+
+          theme_bw() + scale_fill_viridis_d()+ 
+          ylab('Aggregate stability') + xlab('Fieldscore VSA')+
+          theme(legend.position = c(0.2,0.8),
+                plot.title = element_text(size=8),
+                axis.text = element_text(size=10)) + 
+          ggtitle('Aggregate stability before and after correction withVSA data\noriginally evaluated as a soil with a moderate aggregate stability')
+        
+    # print both figures
     p1+p2
     
 ```
