@@ -1215,8 +1215,8 @@ For more details, see `?calc_waterretention`.
         ylab('Plant available water') + xlab('Soil organic matter content (%)') +
         ggtitle('Relation between plant water \navailability and SOM content')
     
-    p1 <- ggarrange(pclay, pcsand, pcsilt, pcsom, ncol = 2, nrow = 2)
-    p1
+    # compose figure in 2 x 2 layout
+    (pclay + pcsand) / (pcsilt + pcsom)
     
 ```
 
@@ -1263,7 +1263,7 @@ The PMN measured by routine laboratories in the Netherlands may be overestimated
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10),
-              legend.position = c(0.8,0.18))+
+              legend.position = c(0.25,0.8))+
         ylab('PMN index') + xlab('Microbial activity') +
         ggtitle('Relationship between measured PMN and\nadjusted PMN index') 
 
@@ -1276,14 +1276,12 @@ The PMN measured by routine laboratories in the Netherlands may be overestimated
         theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10),
                   axis.text = element_text(size=10),
-              legend.position = c(0.75,0.15))+
-        ylab('PMN indicator score') + xlab('Microbial activity') +
-        ggtitle('Relationship between measured PMN and PMN\nindicator score') 
+              legend.position = c(0.75,0.3))+ xlim(0,150)+
+        ylab('PMN indicator score') + xlab('Measured Microbial activity') +
+        ggtitle('Conversion of measured PMN to OBI score') 
     
   # plot side by side
-  # p <- ggarrange(p1, p2, ncol = 2, common.legend = TRUE)
-  # p
-    p1
+  p1 + p2
   
 ```
 
@@ -1300,6 +1298,7 @@ At low organic matter concentrations, the contribution of organic matter to soil
 ```
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+    
     # Make data table
     dt <- data.table(A_SOM_LOI = seq(0.1, 6.9,0.4))
 
@@ -1307,14 +1306,20 @@ At low organic matter concentrations, the contribution of organic matter to soil
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     
     # make a plot
-    p1 <- ggplot(data = dt,
-               aes(y = I_B_DI, x = A_SOM_LOI)) + geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
-        theme(plot.title = element_text(size=10),
-                  legend.text = element_text(size=10),
-                  axis.text = element_text(size=10),
-              legend.position = c(0.75,0.15))+
-        ylab('Disease resistance indicator score') + xlab('Soil organic matter content (%)') +
-        ggtitle('Relationship between soil organic matter\nand disease resistance indicator score') 
+    p1 <- ggplot(data = dt,aes(y = I_B_DI, x = A_SOM_LOI)) + 
+          geom_line() + 
+          geom_point(size=3) +  
+          theme_bw() + 
+          scale_fill_viridis_d() + scale_color_viridis_d()+ 
+          theme(plot.title = element_text(size=10),
+                legend.text = element_text(size=10),
+                axis.text = element_text(size=10),
+                legend.position = c(0.75,0.15))+
+          ylab('Disease resistance indicator score') + 
+          xlab('Soil organic matter content (%)') +
+          ggtitle('Relationship between SOM and disease resistance indicator') 
+    
+    # plot figure
     p1
 ```
 
@@ -1344,8 +1349,9 @@ The capacity of the soil to hold or move nitrogen in the form of nitrate (NO3^-)
 The potential for N leaching to groundwater for a soil can be calculated with calc_nleach(). For more details, see ?calc_nleach.
 
 ```{r, results = FALSE, eval = FALSE}
-# calculate potential for N leaching to groundwater
-dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
+
+  # calculate potential for N leaching to groundwater
+  dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
 
 ```
 
@@ -1360,10 +1366,10 @@ The properties of fields one to five are as follows:
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
 
-  # subset a serie of agricultural fields
-  dt.test <- binnenveld[ID %in% c(1,2,3,4,5)& YEAR == 2010]
+  # subset a series of agricultural fields
+  dt.test <- binnenveld[ID %in% c(1,2,3,4,5) & YEAR == 2010]
   
-    # estimate default properties needed to estimate NLV
+  # estimate default properties needed to estimate NLV
   dt.test[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]
   dt.test[, D_RD := calc_root_depth(B_LU_BRP)]
   dt.test[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
@@ -1375,22 +1381,20 @@ The properties of fields one to five are as follows:
   # estimate potential for N leaching
   dt.test[, D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
   
-    # estimate potential for N runoff
+  # estimate potential for N runoff
   dt.test[, D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
   
-   # plot output
+  # plot output
   p1 <- ggplot(data = dt.test, aes(y = D_NGW, x = ID, col = )) + 
         geom_col() +  theme_bw()+ xlab('Field') + ggtitle('Potential for N leaching')
   p2 <- ggplot(data = dt.test, aes(y = D_NSW, x = ID, col = )) + 
         geom_col() +  theme_bw()+ xlab('Field') + ggtitle('Potential for N runoff')
-  p3 <- ggarrange(p1, p2, ncol = 2)
-  
   
   # Make example with different gwt's
-  dt.test2 <- rbindlist(list(OBIC::binnenveld[1],OBIC::binnenveld[1],OBIC::binnenveld[1],OBIC::binnenveld[1],OBIC::binnenveld[1]))
+  dt.test2 <- binnenveld[c(1,1,1,1,1)]
   dt.test2 <- dt.test2[,B_GWL_CLASS := c('GtIII','GtIV', 'GtV', 'GtVI', 'GtVII')]
 
-      # estimate default properties needed to estimate NLV
+  # estimate default properties needed to estimate NLV
   dt.test2[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]
   dt.test2[, D_RD := calc_root_depth(B_LU_BRP)]
   dt.test2[, D_OC := calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)]
@@ -1402,30 +1406,39 @@ The properties of fields one to five are as follows:
   # estimate potential for N leaching
   dt.test2[, D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
   
-    # estimate potential for N runoff
+  # estimate potential for N runoff
   dt.test2[, D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
   
   p4 <- ggplot(data = dt.test2, aes(y = D_NGW, x = B_GWL_CLASS)) + 
         geom_col() +  theme_bw()+ xlab('B_GWL_CLASS') + ggtitle('Potential for N leaching')
   p5 <- ggplot(data = dt.test2, aes(y = D_NSW, x = B_GWL_CLASS)) + 
         geom_col() +  theme_bw()+ xlab('B_GWL_CLASS') + ggtitle('Potential for N runoff')
-  p6 <- ggarrange(p4, p5, ncol = 2)
-    
   
-  
-  # outp <- ggarrange(p1, p4, tab, ncol = 2, nrow = 2, align = 'v')
-  p1+p4
+  # plot figures
+  p1 + p4
 ```
 
 ```{r,fig.width = 7, fig.height = 2.2,fig.fullwidth = TRUE,echo=FALSE, eval = FALSE}
-# Table of field properties
+
+  # Table of field properties
   dt.table <- copy(dt.test)
-  setnames(dt.table, 'ID', 'Field')
+  setnames(dt.table, 'ID', 'field')
+  
+  # estimate N supplying capacity
   dt.table <- dt.table[,D_NLV := round(D_NLV, 1)]
 
-  tab <- ggtexttable(dt.table[,.(Field,B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS)],rows = NULL) 
-  tab <- tab_add_title(tab,'Field properties to calculate N leaching and runoff')
-  tab
+  # select only relevant columns
+  dt.table <- dt.table[,.(Field,
+                          soiltype = B_SOILTYPE_AGR, 
+                          crop = B_LU_BRP, 
+                          groundwaterclass = B_GWL_CLASS, 
+                          nlv = D_NLV, 
+                          regio = B_AER_CBS)]
+  
+  knitr::kable(dt.table,
+               caption = 'Examples of Field properties to calculate N leaching and runoff')
+  
+
 ```
 
 
