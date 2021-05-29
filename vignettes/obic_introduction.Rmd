@@ -1053,12 +1053,14 @@ For more details, see `?calc_crumbleability` and `?calc_aggregatestability`.
 
   # plot output aggregate stability
     p4 <- ggplot(data = dt4,
-               aes(x = A_CA_CO_PO, y = D_AS, color = B_SOILTYPE_AGR)) + 
-        geom_point(size=.3) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
-        ylab('Aggregate stability') + xlab('Calcium ocupation') + ylim(0,1)+
+               aes(x = A_CA_CO_PO, y = D_AS, colour = A_MG_CO_PO)) + 
+        geom_point(size=2) + theme_bw() + scale_fill_viridis_d()+ scale_colour_viridis_b()+ 
+        ylab('Aggregate stability') + xlab('Calcium ocuppation') + ylim(0,1)+
         theme(plot.title = element_text(size=10),
-              legend.position = 'none') +
-    ggtitle('Aggregate stability with given Ca occupation and\nrandom Mg and K occupation')
+              legend.position = c(0.2,0.8),
+              legend.text = element_text(size=10)) +
+    ggtitle('Aggregate stability with given Ca occupation and\nrandom Mg and K occupation')+
+      guides(colour = guide_legend(title="Mg occupation (%)"))
     
   
   # plot side by side
