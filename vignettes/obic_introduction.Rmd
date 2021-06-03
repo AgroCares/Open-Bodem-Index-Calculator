@@ -1683,46 +1683,48 @@ Deciding which measures are presented is controlled by two functions nested insi
     out.recom <- OBIC::obic_recommendations(dt.measure)
 ````
 
-## Integrating Soil Functions into OBIC scores
-The Open Soil Index is a  number ranging between 0 to 1, that holistically represents the soil quality as well as its management. The score is field specific, accounting for the soil type, geohydrological site properties and the crop rotation sequence of the last decade. The final score can be decomposed to aggregated indicators for different themes (chemical, physical, biological, and management), these can be further broken down in to indicators, representing an weighted evaluation of soil functions over a period of time. The indicator (or soil function score) for each soil function, ranges between 0 to 1 and reflects the current situation given its deviation from a target condition of that specific soil function. With this hierarchical structure, the OBI offers both integral assessment (i.e. whether a soil is overall good or not) and specific assessment (i.e. which soil functions are poorly evaluated and to what extent these soil functions need to be adapted to improve the overall soil quality to the “optimum situation”). 
+### Integrating Soil Functions into OBIC scores
+The Open Soil Index is a number ranging between 0 to 1, that holistically represents the soil quality as well as its management. The score is field specific, accounting for the soil type, geohydrological site properties and the crop rotation sequence of the last decade. The final score can be decomposed to aggregated indicators for different themes (chemical, physical, biological, and management), and these can be further broken down in to indicators, representing an weighted evaluation of soil functions over a period of time. The indicator (or soil function score) for each soil function, ranges between 0 to 1 and reflects the current situation given its deviation from a target condition of that specific soil function. With this hierarchical structure, the OBI offers both integral assessment (i.e. whether a soil is overall good or not) and specific assessment (i.e. which soil functions are poorly evaluated and to what extent these soil functions need to be adapted to improve the overall soil quality to the “optimum situation”). 
 
 
-### Evaluating soil functions
-Many of the soil function values calculated in the OBIC have a unit and a target value. D_NLV for example is the nitrogen producing capacity of the soil and should have a value between -30 and 250. However, values calculated for individual soil functions are not always meaningful to farmers. Nor is it easy to assess whether a given value is good or whether it requires improvement. Therefore, soil functions are evaluated to and transformed into a soil function score or index. These indicators have a value between 0 and 1, 0 being very poor and 1 being excellent (optimal for agricultural production). This way, the target value is clear and its easy to see whether an indicator on a parcel warrants a lot of improvement or not. Additionally, such scores can easily be turned into scores ranging from 0-10 which is a commonly used scale for grading in the Netherlands, and therefore easy to interpret by Dutch users.
+#### Evaluating soil functions
+Many of the soil function values calculated in the OBIC have a unit and a target value. D_NLV for example is the nitrogen producing capacity of the soil and should have a value between -30 and 250. However, values calculated for individual soil functions have different units making it complex to integrate into one holistic value. Nor is it easy to assess whether a given value is good or whether it requires improvement. Therefore, soil functions are evaluated to and transformed into an index reflecting the distance to target. These indicators have a value between 0 and 1, 0 being very poor and 1 being excellent (optimal for agricultural production). This way, the target value is clear and its easy to see whether an indicator on a field warrants a lot of improvement or not. Additionally, such scores can easily be turned into scores ranging from 0-10 which is a commonly used scale for grading, and therefore easy to interpret.
 
 
-The OBIC package has functions that transform the value of a soil function into a score. Examples of such functions are `ind_nitrogen()`, `ind_sealing()`, `ind_pmn()` and `ind_nretention()`. Some of these functions only require the soil function's value. Others may need soil type or the cultivated crop as these parameters may require different evaluation for specific soil functions.
+The OBIC package has functions that transform the value of a soil function into a score. Examples of such functions are `ind_nitrogen()`, `ind_sealing()`, `ind_pmn()` and `ind_nretention()`. Some of these functions only require the soil function's value. Others may need soil type or the cultivated crop as these parameters may require different evaluation for specific soil types or crops rotation schemes.
 
 ```{r, results = FALSE, eval = FALSE}
-   # Calculate indicators for soil chemical functions
-    dt[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
-    dt[, I_C_P := ind_phosphate_availability(D_PBI)]
-    dt[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
-    dt[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
-    dt[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
-    dt[, I_C_PH := ind_ph(D_PH_DELTA)]
-    dt[, I_C_CEC := ind_cec(D_CEC)]
-    dt[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
-    dt[, I_C_ZN := ind_zinc(D_ZN)]
+   
+  # Calculate indicators for soil chemical functions
+  dt[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
+  dt[, I_C_P := ind_phosphate_availability(D_PBI)]
+  dt[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
+  dt[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
+  dt[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
+  dt[, I_C_PH := ind_ph(D_PH_DELTA)]
+  dt[, I_C_CEC := ind_cec(D_CEC)]
+  dt[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
+  dt[, I_C_ZN := ind_zinc(D_ZN)]
     
-    # Calculate indicators for soil physical functions
-    dt[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
-    dt[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
-    dt[, I_P_DS := ind_waterstressindex(D_WSI_DS)]
-    dt[, I_P_WS := ind_waterstressindex(D_WSI_WS)]
-    dt[, I_P_DU := ind_winderodibility(D_WE)]
-    dt[, I_P_CO := ind_compaction(B_SC_WENR)]
-    dt[, I_P_WRI := ind_waterretention(D_WRI)]
-    dt[, I_P_CEC := ind_aggregatestability(D_AS)]
-    #dt[, I_P_WO := ind_workability(D_WO)] (WIP)
+  # Calculate indicators for soil physical functions
+  dt[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
+  dt[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
+  dt[, I_P_DS := ind_waterstressindex(D_WSI_DS)]
+  dt[, I_P_WS := ind_waterstressindex(D_WSI_WS)]
+  dt[, I_P_DU := ind_winderodibility(D_WE)]
+  dt[, I_P_CO := ind_compaction(B_SC_WENR)]
+  dt[, I_P_WRI := ind_waterretention(D_WRI)]
+  dt[, I_P_CEC := ind_aggregatestability(D_AS)]
+  #dt[, I_P_WO := ind_workability(D_WO)] (WIP)
   
-    # Calculate indicators for soil biological functions
-    dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
-    dt[, I_B_SF := ind_pmn(D_PMN)]
-    
-      # Calculate indicators for environment
-    dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
-    dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
+  # Calculate indicators for soil biological functions
+  dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
+  dt[, I_B_SF := ind_pmn(D_PMN)]
+  
+  # Calculate indicators for environment
+  dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
+  dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
+  
 ````
 
 Some of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function). When logistic evaluation is used, there is no linear relation between the an indicators value and its score. Often the evaluation is set up so that lower values gain increasingly lower scores. In other words, poor performance is evaluated more stringent than good performance. Below, the relation between a soil function values and their scores (index values) is given. An example of logistic evaluation can be found in I_P_WS (waterstress)
