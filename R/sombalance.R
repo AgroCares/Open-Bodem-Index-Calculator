@@ -52,7 +52,7 @@ calc_sombalance <- function(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GRE
   dt[A_SOM_LOI <= 23, c.diss := A_SOM_LOI * 0.1 * 0.3 * (-0.37 * log(A_SOM_LOI) + 1.8398) * (10 ^ 6) * 0.0487 * A_SOM_LOI ^ -0.453 * 0.57]
   
   # EOS input (kg / ha) via crop roots and residues
-  dt[,cropinput := crop_eos + crop_eos_residue]
+  dt[,cropinput := pmax(0,crop_eos,na.rm=T) + pmax(0,crop_eos_residue,na.rm=T)]
   
   # EOS input (kg / ha) via manure, maximized given allowed p-dose from manure policy
   # assuming slurry from dairy (50 g EOS/kg en 1.5 g P2O5/kg) and pigs (26 g EOS/kg; 3.9 g P/kg)
