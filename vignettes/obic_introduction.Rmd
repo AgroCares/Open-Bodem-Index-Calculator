@@ -1401,7 +1401,9 @@ The open soil index quantifies and evaluates a series of environmental soil func
 
 #### N retention preventing N leaching
 The capacity of the soil to hold or move nitrogen in the form of nitrate so that leaching of nitrate to groundwater is prevented is determined by the landuse, soiltype, groundwatertable, N application, and nitrogen supply capacity. Nitrate is either taken up by a crop, denitrified (under anaerobic conditions), leached or washed away (runoff).
-The potential for N leaching to groundwater for a soil can be calculated with `calc_nleach()`. For more details, see `?calc_nleach`.
+The potential for N leaching to groundwater for a soil can be calculated with `calc_nleach()`. 
+
+For more details, see `?calc_nleach`.
 
 ```{r, results = FALSE, eval = FALSE}
 
@@ -1410,7 +1412,7 @@ The potential for N leaching to groundwater for a soil can be calculated with `c
 
 ```
 
-Examples of this function are given for five parcels with different attributes, as well as for one field with different groundwater levels, being derived from so-called groundwatertable. 
+Examples of this function are given for five parcels with different attributes, as well as for one field with different groundwater levels, being derived from so-called groundwatertable. Below is visualised how for a single field the potential for N leaching and N runoff will change with the groundwater depth (derived from the groundwater table, B_GWL_CLASS). Be aware, since these derivative scores on the y-axis are not yet scaled as distance to target, both scores for leaching and runoff cannot be compared directly. 
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
 
@@ -1472,10 +1474,12 @@ Examples of this function are given for five parcels with different attributes, 
         xlab('B_GWL_CLASS') + ggtitle('Potential for N runoff')
   
   # plot figures
-  p1 + p2 + p3 + p4
+  p3 + p4
 ```
 
-The properties of fields one to five are summerized in the table below. 
+<br />
+
+The properties of the five fields used to illustrate the functions for N leaching and runoff are summarized in the table below. 
 
 ```{r,fig.width = 7, fig.height = 2.2,fig.fullwidth = TRUE,echo=FALSE, eval = TRUE}
 
@@ -1513,27 +1517,30 @@ The properties of fields one to five are summerized in the table below.
   
 ```
 
-### N retention preventing N runoff
+#### N retention preventing N runoff
 N-retention to prevent runoff is the ability of a soil to avoid superficial runoff of nitrate to surface water. Calculating runoff with the OBIC package works the same as calculating N leaching described above. Just set leaching_to to 'ow' instead of 'gw'.
-While the same input data is required to calculate leaching and runoff, internally the calculations use different values. Therefore, runoff and leaching may have different values for a parcel as can be seen in the example below where runoff is calculated for the same fields as was done for leaching.
+While the same input data is required to calculate leaching and runoff, internally the calculations use different values. Therefore, runoff and leaching may have different values for a parcel as can be seen in the example below where runoff is calculated for the same fields as was done for leaching. Be aware, since these derivative scores on the y-axis are not yet scaled as distance to target, both scores for leaching and runoff cannot be compared directly, but the relative differences among fields are possible to compare. 
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-p2+p5
+
+  # print figures p2 and p5
+  p1 + p2
+
 ```
 
 
-## Evaluate Soil Management
-Unlike other soil functions, soil management is hard to evaluate quantitatively. We introduced the expert-judgement driven framework of the Sustainable Soil Management label. This label was designed in 2016 by a group of soil scientists and consultancy workers in the Netherlands to implement sustainable soil management within certification protocols of relevant chain parties in the agricultural sector. A team of soil experts from research and practice made a selection of measurable and verifiable soil management measures that positively contribute to the ecosystem functions of the soil, and qualitatively assessed their impact on the soil quality while accounting for two land use categories and three soil type categories. Using this expert driven management label, the soil management can be systematically and quantitatively evaluated on field scale. Besides the current management practices, explicit attention is given to measures supporting soil organic matter build-up in soils, supporting the key role of soil organic matter for soil fertility and other ecosystem services. Because changes in soil organic matter are difficult to measure, an estimate is made of the net supply or removal of Effective Organic Matter based on the crop rotation plan and the current manure practices according the regulations present. This balance is indicative of the expected developments in the organic matter content of the soil.
+### Evaluate Soil Management
+Unlike other soil functions, soil management is hard to evaluate quantitatively. We introduced the expert-judgement driven framework of the Sustainable Soil Management label (Van der Wal, 2016). This label was designed in 2016 by a group of soil scientists and consultancy workers in the Netherlands to implement sustainable soil management within certification protocols of relevant chain parties in the agricultural sector. A team of soil experts from research and practice made a selection of measurable and verifiable soil management measures that positively contribute to the ecosystem functions of the soil, and qualitatively assessed their impact on the soil quality while accounting for two land use categories and three soil type categories. Using this expert driven management label, the soil management can be systematically and quantitatively evaluated on field scale. Besides the current management practices, explicit attention is given to measures supporting soil organic matter build-up in soils, supporting the key role of soil organic matter for soil fertility and other ecosystem services. Because changes in soil organic matter are difficult to measure, an estimate is made of the net supply or removal of Effective Organic Matter based on the crop rotation plan and the current manure practices according the regulations present. This balance is indicative of the expected developments in the organic matter content of the soil.
 
-### Measures
-The measures taken on a parcel are evaluated according to a point system. For arable, maize, and grassland, different measures are applicable. For arable, measures include; 80% of year green cover, >40% rest crop in rotation, >40% deep rooting dormant crop in rotation, <25% potato in rotation, use of early cultivars, net positive organic matter balance.
+#### Measures
+The measures taken on a parcel are evaluated according to a grading system. For arable, maize, and grassland, different measures are applicable reflecting the sustainability of soil management. For arable, measures include; 80% of year green cover, >40% rest crop in rotation, >40% deep rooting dormant crop in rotation, <25% potato in rotation, use of early cultivars, net positive organic matter balance.
 Specifically for maize, measures include: undersowing of grass, use of catchcrop after harvest (only on clay).
 For grass, points can be gained for the grassland age, use of drag hose fertilisation, use of grass/clover mixtures. For grass on peat points can also be received for using underwaterdrainage and maintenance of ditches.
 
-### Crop rotation and SOM balance
+#### Crop rotation and SOM balance
 A field can receive points for having a positive soil organic matter balance. A function is included to estimate the organic matter input and decomposition. For the calculation of the organic matter balance the parcels' crops, organic matter concentration and P status are required, as well as the management aspects compost application frequency and sowing of catchcrops after main crop. 
 
-Below, examples are give of how to calculate the organic matter balance and the management index. The management index requires inputs that are not obligatory for the wrapper function obic_field. The function add_management will check the presence of management parameter values and give defaults based on soiltype and crop when values are missing. Furthermore, information on the crop rotation and on the age of grassland are calculated by cacl_rotation_fraction and calc_grass_age respectively.
+Below, examples are give of how to calculate the organic matter balance and the management index. The management index requires inputs that are not obligatory for the wrapper function `obic_field`. The function `add_management` will check the presence of management parameter values and give defaults based on soiltype and crop when values are missing. Furthermore, information on the crop rotation and on the age of grassland are calculated by `calc_rotation_fraction` and `calc_grass_age` respectively.
 
 ```{r, results = FALSE, eval = FALSE}
     # Calculate organic matter balance
@@ -1569,26 +1576,39 @@ Below, examples are give of how to calculate the organic matter balance and the 
 
 ````
 
-Example of the soil organic matter balance and management on five fields from the Binnenveld dataset
+Example of the soil organic matter balance and management on five fields from the Binnenveld dataset.
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+    
+    # subset binnenveld for first 5 fields
     dt <- binnenveld[ID %in% c(1:5)]
     dt <- dt[,ID := as.factor(ID)]
+    
+    # calculate SOM balance for all crops in crop rotation plan
     dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
     
-    p2 <- ggplot(data = dt,aes(y = D_SOM_BAL, x = ID, fill = ID)) + geom_col() +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
-        ylab('SOM balance') + xlab('Field') + 
-        theme(legend.position = c('none'),
-              plot.title = element_text(size=10),
-              legend.text = element_text(size=10),
-              axis.text = element_text(size=10)) + ggtitle('Soil organic matter balance for five fields')
+    # calculate the sum per field
+    dt2 <- dt[,list(D_SOM_BAL = sum(D_SOM_BAL)), by = ID]
+    
+    # plot figure
+    p2 <- ggplot(data = dt2,aes(y = D_SOM_BAL, x = ID, fill = ID)) + 
+          geom_col() +  
+          theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
+          ylab('SOM balance') + xlab('Field') + 
+          theme(legend.position = c('none'),
+                plot.title = element_text(size=10),
+                legend.text = element_text(size=10),
+                axis.text = element_text(size=10)) + 
+          ggtitle('Soil organic matter balance for five fields')
     
     # add management when input is missing
     cols <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_COMPOST','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED',
               'M_LIME', 'M_NONINVTILL', 'M_SSPM', 'M_SOLIDMANURE','M_STRAWRESIDUE','M_MECHWEEDS','M_PESTICIDES_DST')
     dt[, c(cols) := add_management(ID,B_LU_BRP, B_SOILTYPE_AGR,
-                                   M_GREEN, M_NONBARE, M_EARLYCROP,M_COMPOST,M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED,
-                                   M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
+                                   M_GREEN, M_NONBARE,M_EARLYCROP,M_COMPOST,
+                                   M_SLEEPHOSE,M_DRAIN,M_DITCH,M_UNDERSEED,
+                                   M_LIME, M_NONINVTILL, M_SSPM,M_SOLIDMANURE,
+                                   M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST)]
     
     # calculate grass age
     dt[, D_GA := calc_grass_age(ID, B_LU_BRP)]
@@ -1603,21 +1623,29 @@ Example of the soil organic matter balance and management on five fields from th
     dt[, D_CP_RUST := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewas")]
     dt[, D_CP_RUSTDEEP := calc_rotation_fraction(ID, B_LU_BRP, crop = "rustgewasdiep")]
     
-    # calculate management
-        dt[, D_MAN := calc_management(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
+    # calculate management per field per year
+    dt[, D_MAN := calc_management(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
                                   D_SOM_BAL,D_CP_GRASS,D_CP_POTATO,D_CP_RUST,D_CP_RUSTDEEP,D_GA,
                                   M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN,
                                   M_DITCH, M_UNDERSEED, M_LIME, M_NONINVTILL, M_SSPM,
                                   M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
                                   )]
-
-    p3 <- ggplot(data = dt,aes(y = D_MAN, x = ID, fill = ID)) + geom_col() +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
-        ylab('Management score') + xlab('Field') + 
-        theme(legend.position = c('none'),
-              plot.title = element_text(size=10),
-              legend.text = element_text(size=10),
-              axis.text = element_text(size=10)) + ggtitle('Management')
     
+    # calculate mean management score per field     
+    dt2 <- dt[,list(D_MAN = mean(D_MAN)), by = ID]
+
+    # make plot
+    p3 <- ggplot(data = dt2,aes(y = D_MAN, x = ID, fill = ID)) + 
+          geom_col() +  
+          theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ 
+          ylab('Management score') + xlab('Field') + 
+          theme(legend.position = c('none'),
+                plot.title = element_text(size=10),
+                legend.text = element_text(size=10),
+                axis.text = element_text(size=10)) + 
+          ggtitle('Management')
+    
+    # print figures
     p2 + p3
     
 ```
