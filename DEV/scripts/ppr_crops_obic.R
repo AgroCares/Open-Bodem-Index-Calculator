@@ -483,7 +483,66 @@
 
   # Correction on Spelt waterstress
   cr[crop_name == 'spelt', crop_waterstress := 'granen']
-
+  
+  
+  ## add makkink factor to crop table
+  # bloembollen
+  cr[grepl('adonis|amaryl|beemdlang|bloembol|dahlia|echinacea|gladiool|goudsbloem|iris|krokus',crop_name), crop_makkink := 'bloembollen']
+  cr[grepl('kuifhyacint|leeuwenbek|lelie|narcis|bloemen|pioenroos|sierui|tagetes|teunisbloem|tulp|vergeet|zantedesch',crop_name), crop_makkink := 'bloembollen']
+  
+  # bloemkool
+  cr[grepl('kool|brocol',crop_name), crop_makkink := 'bloemkool']
+  
+  # bos en natuur
+  cr[grepl('natuur|^bos',crop_name), crop_makkink := 'bos']
+  
+  # fruit
+  cr[grepl('aardbei|^appelen|bessen|bramen|cranber|framboz|hazelnot|kersen|notenbomen|kleinfruit|perziken|peren|pruimen|walnoten|druiven|fruit', crop_name), crop_makkink := 'fruit']
+  
+  # granen
+  cr[grepl('boekwei|gierst|graan|granen|tarwe|triticale|vlas|rogge|teff|gerst',crop_name), crop_makkink := 'graan']
+  cr[grepl('tarwe, winter|gerst, winter', crop_name), crop_makkink := "wintertarwe"]
+  
+  # grasklaver
+  cr[grepl('bufferstrook|klaver',crop_name),crop_makkink := 'grasklaver']
+  
+  # grasland
+  cr[grepl('grasland|rietzwenk|timothee|veldbeemd|gras|graszaad|graszode',crop_name), crop_makkink := 'grasland']
+  
+  # groenten
+  cr[grepl('augurk|courgette|komkom|meloen|groenten|pompoen|bladgewassen|spinaz|andijvie',crop_name), crop_makkink := 'groenten']
+  
+  # jong bos
+  cr[grepl('boomkwekerij|haagplanten|braak met bos|buxus|ericaceae|kerstbomen|laanbomen|overige natuur|rozenstruiken|coniferen|heesters|vaste planten|vruchtbomen|wilgenhakhout|woudbomen',crop_name), crop_makkink := 'jong bos']
+  
+  # natuurlijk grasland
+  cr[grepl('onttrokken cultuurgrond|faunarand|geen landbouwproductie'), crop_makkink := 'natuurlijk grasland']
+  
+  # overige bol en knolgewassen
+  cr[grepl('aardperen|bieten|knoflook|knolvenkel|koolraap|koolrabi|kroten|pastinaak|stoppelknol|cichor',crop_name), crop_makkink := 'bol en knolgewassen']
+  
+  # kleine groepen
+  cr[grepl('selderij',crop_name), crop_makkink := 'selderij']
+  cr[grepl('^sla|paksoi',crop_name), crop_makkink := 'sla']
+  cr[grepl('prei',crop_name), crop_makkink := 'prei']
+  cr[grepl('mais',crop_name), crop_makkink := 'snijmais']
+  cr[grepl('chinese kool|witlof',crop_name), crop_makkink := 'spitskool']
+  cr[grepl('^bonen|^erwten|bruine bonen|kapucijners|sojabonen|peulen|pronkbonen|stoksnijbonen|sperziebon',crop_name), crop_makkink := 'tuinbonen']
+  cr[grepl('bospeen|waspeen|peen',crop_name), crop_makkink := 'peen']
+  cr[grepl('^uien|plantui|winterui',crop_name), crop_makkink := 'zaaiuien']
+  cr[grepl('^aardappelen|^aardappel',crop_name), crop_makkink := 'aardappels']
+  cr[grepl('braak|onbeteelde grond',crop_name), crop_makkink := 'braak']
+  
+  # groenbemesters
+  cr[grepl('groenbemesters|bladraap|bladram',crop_name), crop_makkink := 'bladrammenas']
+  
+  # wintergewassen
+  cr[grepl('bloemkool|kool|prei',crop_name) & grepl('winter',crop_name), crop_makkink := 'overig']
+  
+  # overige gewassn
+  cr[is.na(crop_makkink), crop_makkink := 'overig']
+  
+  
   # update the csv and Rdata file
   crops.obic <- copy(cr)
   save(crops.obic, file = 'data/crops_obic.RData')
