@@ -56,11 +56,14 @@
   dt.gws[M_GREEN ==TRUE & month == 10, mcf := 0.72]
   dt.gws[M_GREEN ==TRUE & month == 11, mcf := 0.64]
   
+  # Add crop cover
+  dt.gws[,crop_cover := fifelse(mcf>0.36,1,0)]
+  
   # sort dt on the original order
-  setorder(dt,id)
+  out <- setorder(dt.gws,id)
   
   # return value
-  value <- out[,psp]
+  value <- out
   
   # return 
   return(value)
