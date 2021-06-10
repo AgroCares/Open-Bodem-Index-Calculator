@@ -1737,68 +1737,58 @@ Some of these indicator functions internally use an evaluation function such as 
   # gg <- ggscatter(dt, x = 'D_WRI', y = 'I_P_WRI', title = 'Waterstress evaluation') +xlab('Indicator value') + ylab('Indicator score') +theme_bw()
   # gg
 
-  S <- rep(seq(0,100,1),2)
-  dd <- data.table(D_NLV = S,
-                   D_PBI = S,
-                   D_K = S,
-                   D_MG = S,
-                   D_SLV = S,
-                   D_PH_DELTA = rep(seq(0,5,0.05),2),
-                   D_CEC = S,
-                   D_CU = S,
-                   D_ZN = S,
-                   D_CR = rep(seq(0,10,0.1),2),
-                   D_SE = rep(seq(0,50,0.5),2),
-                   D_WSI_DS = S,
-                   D_WSI_WS = S,
-                   D_WE = rep(seq(0,1,0.01)),
-                   D_WRI = S,
-                   D_AS = rep(seq(0,1,0.01)),
-                   D_PMN = S,
-                   D_NGW = S,
-                   D_NSW = S,
-                   B_LU_BRP = c(rep(265,101),rep(256,101)),
-                   B_SOILTYPE_AGR = rep('dekzand',202),
-                   A_SOM_LOI = rep(3.5,202),
-                   D_DUMMY_SOM_LOI = rep(seq(0,35,0.35),2),
-                   B_AER_CBS = rep("Centraal Veehouderijgebied",202)
-                   )
-    dd <- dd[,id:= 1:nrow(dd)]
+  # define a series with numbers reflecting variation in derivatives
+  dt <- data.table(id = 1:202)
+
+  # add all derivatives
+  dt[,D_PH_DELTA := rep(seq(0,5,0.05),2)]
+  dt[,c('D_NLV','D_PBI','D_K','D_MG','D_SLV','D_CEC','D_CU','D_ZN','D_PMN') := rep(seq(0,100,1),2)]
+  dt[,c('D_WSI_DS','D_WSI_WS','D_WRI','D_NGW','D_NSW') := rep(seq(0,100,1),2)]
+  dt[,c('D_WE','D_AS') := seq(0,1,length.out = 202)]
+  dt[,D_CR := rep(seq(0,10,0.1),2)]
+  dt[,D_SE := rep(seq(0,50,0.5),2)]
+  dt[,B_LU_BRP := c(rep(265,101),rep(256,101))]
+  dt[,B_SOILTYPE_AGR := rep('dekzand',202)]
+  dt[,A_SOM_LOI := rep(3.5,202)]
+  dt[,D_DUMMY_SOM_LOI := rep(seq(0,35,0.35),2)]
+  dt[,B_AER_CBS := rep("Centraal Veehouderijgebied",202)]
+ 
+  # Calculate indicators for soil chemical functions
+  dt[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
+  dt[, I_C_P := ind_phosphate_availability(D_PBI)]
+  dt[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
+  dt[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
+  dt[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
+  dt[, I_C_PH := ind_ph(D_PH_DELTA)]
+  dt[, I_C_CEC := ind_cec(D_CEC)]
+  dt[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
+  dt[, I_C_ZN := ind_zinc(D_ZN)]
+    
+  # Calculate indicators for soil physical functions
+  dt[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
+  dt[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
+  dt[, I_P_DS := ind_waterstressindex(D_WSI_DS)]
+  dt[, I_P_WS := ind_waterstressindex(D_WSI_WS)]
+  dt[, I_P_DU := ind_winderodibility(D_WE)]
+  # dt[, I_P_CO := ind_compaction(B_SC_WENR)] # is categorical
+  dt[, I_P_WRI := ind_waterretention(D_WRI)]
+  dt[, I_P_CEC := ind_aggregatestability(D_AS)]
+  #dt[, I_P_WO := ind_workability(D_WO)] (WIP)
   
-     # Calculate indicators for soil chemical functions
-    dd[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
-    dd[, I_C_P := ind_phosphate_availability(D_PBI)]
-    dd[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
-    dd[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
-    dd[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
-    dd[, I_C_PH := ind_ph(D_PH_DELTA)]
-    dd[, I_C_CEC := ind_cec(D_CEC)]
-    dd[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
-    dd[, I_C_ZN := ind_zinc(D_ZN)]
+  # Calculate indicators for soil biological functions
+  dt[, I_B_DI := ind_resistance(D_DUMMY_SOM_LOI)]
+  dt[, I_B_SF := ind_pmn(D_PMN)]
     
-    # Calculate indicators for soil physical functions
-    dd[, I_P_CR := ind_crumbleability(D_CR, B_LU_BRP)]
-    dd[, I_P_SE := ind_sealing(D_SE, B_LU_BRP)]
-    dd[, I_P_DS := ind_waterstressindex(D_WSI_DS)]
-    dd[, I_P_WS := ind_waterstressindex(D_WSI_WS)]
-    dd[, I_P_DU := ind_winderodibility(D_WE)]
-    # dd[, I_P_CO := ind_compaction(B_SC_WENR)] # is categorical
-    dd[, I_P_WRI := ind_waterretention(D_WRI)]
-    dd[, I_P_CEC := ind_aggregatestability(D_AS)]
-    #dd[, I_P_WO := ind_workability(D_WO)] (WIP)
+  # Calculate indicators for environment
+  dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
+  dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
+    
+  indcols <- colnames(dt)[grep('^I_',colnames(dt))]
+  cols <- colnames(dt)[grep('^I_|^B_|^A_|^id$',colnames(dt))]
   
-    # Calculate indicators for soil biological functions
-    dd[, I_B_DI := ind_resistance(D_DUMMY_SOM_LOI)]
-    dd[, I_B_SF := ind_pmn(D_PMN)]
-    
-      # Calculate indicators for environment
-    dd[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
-    dd[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
-    
-    indcols <- colnames(dd)[grep('^I_',colnames(dd))]
-    cols <- colnames(dd)[grep('^I_|^B_|^A_|^id$',colnames(dd))]
-    dd.melt <- melt.data.table(dd, id.vars = cols,variable.name = 'funct', value.name = 'function_value')
-    dd.melt <- melt.data.table(dd.melt, id.vars = c(cols[!cols%in%indcols],'funct', 'function_value'),
+  dd.melt <- melt.data.table(dt, id.vars = cols,variable.name = 'funct', value.name = 'function_value')
+  
+  dd.melt <- melt.data.table(dd.melt, id.vars = c(cols[!cols%in%indcols],'funct', 'function_value'),
                                measure.vars = indcols, variable.name = 'indicator', value.name = 'index_value')
     
     # Reset blubrp to something readable
