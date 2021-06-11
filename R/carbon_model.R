@@ -4,8 +4,8 @@
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param A_P_AL (numeric)
-#' @param A_P_WA (numeric)
+#' @param A_P_AL (numeric) The P-AL content of the soil
+#' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #'     
 #' @export
@@ -18,7 +18,7 @@ ind_carbon_sequestration <- function(){
   
   carbon_input <- calc_carbon_input(ID,B_LU_BRP,A_P_AL,A_P_WA,M_GREEN,manure_type)
   
-  
+  calc_crop_rotation(ID,B_LU_BRP,M_GREEN)
   
 }
 
@@ -30,15 +30,15 @@ ind_carbon_sequestration <- function(){
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param A_P_AL (numeric)
-#' @param A_P_WA (numeric)
+#' @param A_P_AL (numeric) The P-AL content of the soil
+#' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid'
 #'     
 #' @export
 calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, manure_type){
   
-  id = manure_in = manure_OC_Pration = slurry_OC_Pratio = crops.obic = NULL
+  year = manure_in = manure_OC_Pration = slurry_OC_Pratio = crops.obic = NULL
   
   # Check inputs
   arg.length <- max(length(B_LU_BRP),  length(A_P_AL),length(A_P_WA), length(M_GREEN))
@@ -46,13 +46,13 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, manure_type)
   
   # Collect data in a table
   dt <- data.table(ID = ID,
-                   id = 1:arg.length,
+                   year = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
                    A_P_AL = A_P_AL,
                    A_P_WA = A_P_WA,
                    M_GREEN = M_GREEN,
-                   manure_type = manure_type
-                   )
+                   manure_type = manure_type)
+  
   
   # Import and merge with crops.obic
   crops.obic <- OBIC::crops.obic
@@ -109,15 +109,20 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, manure_type)
   dt[M_GREEN != TRUE, catchcrop := 0]
   
   # After cultivation of maize or potato, it is compulsory to plant a catch crop
-  dt[grepl('Mais|Aardappel',crop_name), catchcrop := 850]
+  dt[grepl('mais|aardappel',crop_name), catchcrop := 850]
   
   
   ## Compost?
   
   
   # Format output
-  out <- setorder(dt,id)
-  
+  out <- setorder(dt,year)
+  out <- out[,list(year,manure_in,catchcrop)]
   
   return(out)
 }
+
+
+
+
+

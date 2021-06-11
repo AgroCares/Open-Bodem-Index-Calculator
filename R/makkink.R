@@ -29,7 +29,7 @@ calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   dt.mak[,month := as.integer(month)]
   
   # Collect input data in a table
-  dt <- data.table(id = 1:arg.length,
+  dt <- data.table(year = 1:arg.length,
                    ID = ID,
                    B_LU_BRP = B_LU_BRP,
                    M_GREEN = M_GREEN
@@ -39,10 +39,10 @@ calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   dt <- merge(dt, crops.obic[, list(crop_code, crop_makkink)], by.x = "B_LU_BRP", by.y = "crop_code")
   
   # extend data.table for 
-  dt.gws <- CJ(id = dt$id,month = 1:12)
+  dt.gws <- CJ(year = dt$year,month = 1:12)
   
   # add crop category
-  dt.gws <- merge(dt.gws, dt[,list(id,crop_makkink,M_GREEN)], by = "id")
+  dt.gws <- merge(dt.gws, dt[,list(year,crop_makkink,M_GREEN)], by = "year")
   
   ## Add weather data here?
   # merge with weather data using month
@@ -60,7 +60,7 @@ calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   dt.gws[,crop_cover := fifelse(mcf>0.36,1,0)]
   
   # sort dt on the original order
-  out <- setorder(dt.gws,id)
+  out <- setorder(dt.gws,year)
   
   # return value
   value <- out
