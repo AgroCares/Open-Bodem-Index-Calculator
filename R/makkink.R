@@ -7,7 +7,7 @@
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #'     
 #' @export
-  calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
+calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
