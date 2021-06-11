@@ -36,9 +36,12 @@ calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   )
   
   # merge with OBIC crop
-  dt <- merge(dt, crops.obic[, list(crop_code, crop_makkink)], by.x = "B_LU_BRP", by.y = "crop_code")
+  dt <- merge(dt, crops.obic[, list(crop_code, crop_name, crop_makkink)], by.x = "B_LU_BRP", by.y = "crop_code")
   
-  # extend data.table for 
+  # Set M_GREEN to TRUE for Mais and potato cultivation
+  dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
+  
+  # extend data.table for 12 months
   dt.gws <- CJ(year = dt$year,month = 1:12)
   
   # add crop category
@@ -49,12 +52,13 @@ calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   #dt.gws <- merge(dt.gws,dt.weather, by = 'month')
   
   # merge makkink data by month and crop_cat
-  # be aware: some crops grow from summer up to spring next year... to be done
+  # be aware: some crops grow from summer up to spring next year... -> dealt with in calc_crop_rotation
   dt.gws <- merge(dt.gws,dt.mak, by = c("crop_makkink", "month"), all.x = TRUE)
   
   # adjust makkink when catch crop (or green manure) is used (values of bladrammenas)
-  dt.gws[M_GREEN ==TRUE & month == 10, mcf := 0.72]
-  dt.gws[M_GREEN ==TRUE & month == 11, mcf := 0.64]
+  # Extend period to spring of the next year?
+  dt.gws[M_GREEN == TRUE & month == 10, mcf := 0.72]
+  dt.gws[M_GREEN == TRUE & month == 11, mcf := 0.64]
   
   # Add crop cover
   dt.gws[,crop_cover := fifelse(mcf>0.36,1,0)]
