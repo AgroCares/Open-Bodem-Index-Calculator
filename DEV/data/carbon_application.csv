@@ -1,6 +1,6 @@
 ﻿crop_makkink;t_manure;t_residue
 aardappels;0.33;0.75
-bladrammenas;0.50;0.92
+bladrammenas;0.5;0.92
 bloembollen;0.33;0.92
 bloemkool;0.33;0.75
 bol en knolgewassen;0.33;0.75
@@ -21,5 +21,5 @@ sla;0.25;0.58
 snijmais;0.33;0.75
 spitskool;0.33;0.75
 tuinbonen;0.25;0.58
-wintertarwe;0.67;0.67
+wintertarwe;0.83;0.67
 zaaiuien;0.25;0.75
