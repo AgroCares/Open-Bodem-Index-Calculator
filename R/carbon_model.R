@@ -1,3 +1,29 @@
+#' Evaluate the carbon sequestration rate
+#' 
+#' This function is a wrapper function that calculates the score for carbon sequestration
+#' 
+#' @param ID (numeric) The ID of the field
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param A_P_AL (numeric)
+#' @param A_P_WA (numeric)
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
+#'     
+#' @export
+ind_carbon_sequestration <- function(){
+  
+  
+  
+  # Check inputs
+  
+  
+  carbon_input <- calc_carbon_input(ID,B_LU_BRP,A_P_AL,A_P_WA,M_GREEN,manure_type)
+  
+  
+  
+}
+
+
+
 #' Calculate the carbon inputs on a field
 #' 
 #' This function calculates the carbon inputs to the field based on manure type, P status of the soil and management practices
