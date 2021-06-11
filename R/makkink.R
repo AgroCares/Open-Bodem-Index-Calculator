@@ -1,6 +1,6 @@
 #' Add Makkink correction factors and crop cover to crop rotation table
 #' 
-#' This function adds Makkink correction factors for ET and crop cover to the crop roration table
+#' This function adds Makkink correction factors for ET and crop cover to the crop rotation table
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
