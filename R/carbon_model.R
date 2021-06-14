@@ -110,7 +110,7 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effe
   
   ##### Effectiveness of the catch crop?
   # C input from catch crop
-  dt[M_GREEN == TRUE, catchcrop := 850]
+  dt[M_GREEN == TRUE, catchcrop := 2800]
   dt[M_GREEN != TRUE, catchcrop := 0]
   
   # Correction for effectiveness of catch crop
@@ -211,9 +211,192 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){
   dt[,month:=1:120]
   
   # Format output
-  out <- dt[,list(year, month, B_LU_BRP, mcf, crop_cover, t_manure, t_residue)]
+  out <- dt[,list(year, month, B_LU_BRP, mcf, crop_cover)]
   
   return(out)
 }
+
+
+#' Determine the carbon application events for current managment
+#' 
+#' This function determines the carbon application events for current management
+#' 
+#' @param ID (numeric) The ID of the field
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
+#'     
+#' @export
+calc_events_current <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
+  
+  
+  # Check inputs
+  arg.length <- max(length(B_LU_BRP),  length(year), length(M_GREEN), length(manure_in), length(catchcrop))
+  
+  # Collect data in a table
+  dt <- data.table(ID = ID,
+                   year = year,
+                   B_LU_BRP = B_LU_BRP,
+                   manure_in = manure_in,
+                   catchcrop = catchcrop)
+  
+  
+  # Add hc for manure types
+  crops.obic <- OBIC::crops.obic
+  
+  dt <- merge(dt,crops.obic[,list(crop_code,hc,crop_makkink,crop_eos,crop_eos_residue)], by.x = 'B_LU_BRP', by.y = 'crop_code')
+  
+  # Import and merge with carbon application data
+  carbon_application <- OBIC::carbon_application
+  
+  dt <- merge(dt, carbon_application, by = 'crop_makkink')
+  
+  
+  
+  ## Carbon from crops ---
+  # Set NA values to 0
+  dt[,crop_eos := fifelse(is.na(crop_eos),0,crop_eos)][,crop_eos_residue := fifelse(is.na(crop_eos_residue),0,crop_eos_residue)]
+  
+  # Calculate total C input from crops
+  dt[,res_in := (crop_eos + crop_eos_residue)/hc]
+  
+  # Calculate DPM/RPM ratio
+  dt[,ratio := -2.174 * hc + 2.20]
+  
+  # Calculate inputs for DPM and RPM pools
+  dt.residue <- dt[,list(year,ratio,res_in,t_residue)]
+  dt.residue[, c("CDPM","CRPM") := list(res_in * ratio / (1 + ratio), res_in * 1 / (1 + ratio))]
+    
+  # Moment of application
+  dt.residue[, time := year - 1  + t_residue]
+    
+  # Event for plant residue application
+  dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
+  event.res <- melt(dt.residue,id.vars = "time", variable.name = "pool")
+    
+  
+    
+  ## Carbon from manure ---
+  # Make manure table
+  dt.manure <- dt[,list(B_LU_BRP,year,t_manure,manure_in)]
+  
+  # Calculate carbon pools
+  dt.manure[,c("CDPM","CRPM","CHUM") := list(manure_in * 0.49, manure_in * 0.49, manure_in * 0.02)]
+    
+  # Moment of application
+  dt.manure[,time := year - 1  + t_manure]
+  dt.manure[B_LU_BRP == 233|B_LU_BRP == 235,time := year - 2 + t_manure]
+  
+  # Event for manure application
+  dt.manure <- dt.manure[,.(CDPM,CRPM,CHUM,time)]
+  event.manure <- melt(dt.manure,id.vars = "time", variable.name = "pool")
+    
+  
+    
+  ## Carbon from Compost ---
+  # Make compost table
+  dt.compost <- dt[,list(B_LU_BRP,year,t_manure,compost_in)]
+  
+  # Calculate carbon pools
+  dt.compost[,c("CDPM","CRPM") := list(compost_in * 0.15 / (1 + 0.15), compost_in * 1 / (1 + 0.15))]
+  
+  # Moment of application
+  dt.compost[,time := year - 1  + t_manure]
+  dt.compost[B_LU_BRP == 233|B_LU_BRP == 235,time := year - 2 + t_manure]
+  
+  # Event for manure application
+  dt.compost <- dt.compost[,.(CDPM,CRPM,CHUM,time)]
+  event.compost <- melt(dt.compost,id.vars = "time", variable.name = "pool")
+  
+    
+  
+  ## Carbon  from catch crops ---
+  # Make catch crop table
+  dt.catchcrop <- dt[,list(B_LU_BRP,year,t_manure,catchcrop)]
+  
+  # Calculate carbon pools
+  dt.catchcrop[,c("CDPM","CRPM") := list(catchcrop * 1.37 / (1 + 1.37), catchcrop * 1 / (1 + 1.37))]
+  
+  # Moment of application
+  dt.catchcrop[,time := year - 1  + t_manure]
+  dt.catchcrop[B_LU_BRP == 233|B_LU_BRP == 235,time := year - 2 + t_manure]
+  
+  # Event for manure application
+  dt.catchcrop <- dt.catchcrop[,.(CDPM,CRPM,CHUM,time)]
+  event.catchcrop <- melt(dt.catchcrop,id.vars = "time", variable.name = "pool")
+  
+  
+  # Event total application
+  dt.event <- rbind(event.residue,event.manure,event.compost,event.catchcrop)
+  setorder(dt.event,time)
+  dt.event[,method := "add"]
+
+  return(dt.event)
+    
+  }
+
+
+  
+#' Determine the carbon application events for minimal management
+#' 
+#' This function determines the carbon application events for minimal management
+#' 
+#' @param ID (numeric) The ID of the field
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
+#'     
+#' @export
+calc_events_minimal <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
+  
+  
+  # Check inputs
+  arg.length <- max(length(B_LU_BRP),  length(year), length(M_GREEN), length(manure_in), length(catchcrop))
+  
+  # Collect data in a table
+  dt <- data.table(ID = ID,
+                   year = year,
+                   B_LU_BRP = B_LU_BRP,
+                   manure_in = manure_in,
+                   catchcrop = catchcrop)
+  
+  
+  # Add hc for manure types
+  crops.obic <- OBIC::crops.obic
+  
+  dt <- merge(dt,crops.obic[,list(crop_code,hc,crop_makkink,crop_eos,crop_eos_residue)], by.x = 'B_LU_BRP', by.y = 'crop_code')
+  
+  # Import and merge with carbon application data
+  carbon_application <- OBIC::carbon_application
+  
+  dt <- merge(dt, carbon_application, by = 'crop_makkink')
+  
+  
+  
+  ## Carbon from crops ---
+  # Set NA values to 0
+  dt[,crop_eos := fifelse(is.na(crop_eos),0,crop_eos)]
+  
+  # Calculate total C input from crops
+  dt[,res_in := (crop_eos + crop_eos_residue)/hc]
+  
+  # Calculate DPM/RPM ratio
+  dt[,ratio := -2.174 * hc + 2.20]
+  
+  # Calculate inputs for DPM and RPM pools
+  dt.residue <- dt[,list(year,ratio,res_in,t_residue)]
+  dt.residue[, c("CDPM","CRPM") := list(res_in * ratio / (1 + ratio), res_in * 1 / (1 + ratio))]
+  
+  # Moment of application
+  dt.residue[, time := year - 1  + t_residue]
+  
+  # Event for plant residue application
+  dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
+  dt.event <- melt(dt.residue,id.vars = "time", variable.name = "pool")
+  
+  
+  setorder(dt.event,time)
+  dt.event[,method := "add"]
+  
+  return(dt.event)
+  }
 
 
