@@ -38,9 +38,6 @@ calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   # merge with OBIC crop
   dt <- merge(dt, crops.obic[, list(crop_code, crop_name, crop_makkink)], by.x = "B_LU_BRP", by.y = "crop_code")
   
-  # Set M_GREEN to TRUE for Mais and potato cultivation
-  dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
-  
   # extend data.table for 12 months
   dt.gws <- CJ(year = dt$year,month = 1:12)
   
