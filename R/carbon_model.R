@@ -16,7 +16,7 @@ ind_carbon_sequestration <- function(){
   # Check inputs
   
   
-  carbon_input <- calc_carbon_input(ID,B_LU_BRP,A_P_AL,A_P_WA,M_GREEN,manure_type)
+  carbon_input <- calc_carbon_input(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effective, manure_type, manure_in)
   
   rotation <- calc_crop_rotation(ID,B_LU_BRP,M_GREEN)
   
@@ -33,10 +33,12 @@ ind_carbon_sequestration <- function(){
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
-#' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid'
+#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), (optional, option: yes or no)
+#' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with value per year
+#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with value per year
 #'     
 #' @export
-calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, manure_type){
+calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effective = TRUE, manure_type = 'slurry', manure_in = NULL){
   
   year = manure_in = manure_OC_Pration = slurry_OC_Pratio = crops.obic = NULL
   
@@ -51,7 +53,9 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, manure_type)
                    A_P_AL = A_P_AL,
                    A_P_WA = A_P_WA,
                    M_GREEN = M_GREEN,
-                   manure_type = manure_type)
+                   effective = effective,
+                   manure_type = manure_type,
+                   manure_in = manure_in)
   
   
   # Import and merge with crops.obic
@@ -60,57 +64,57 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, manure_type)
   dt <- merge(dt, crops.obic, by.x = 'B_LU_BRP', by.y = 'crop_code')
   
   
-  # C input from manure
-  # Variate per year?
+  if(is.null(manure_in)){
   
-  if(manure_type == 'slurry'){
-    ## Cropland
-    # manure input in arable systems, assuming 70% dairy slurry and 30% pig slurry, 85% organic
+   if(manure_type == 'slurry'){
+      ## Cropland
+      # manure input in arable systems, assuming 70% dairy slurry and 30% pig slurry, 85% organic
     
-    slurry_OC_Pratio <- ((0.3 * 7 / 0.33 + 0.7 * 33 / 0.7) * 0.5)
-    dt[crop_n == 'akkerbouw' & A_P_WA <= 25, manure_in := 0.85 * 120 * slurry_OC_Pratio]
-    dt[crop_n == 'akkerbouw' & A_P_WA > 25 & A_P_WA <= 36, manure_in := 0.85 * 75 * slurry_OC_Pratio]
-    dt[crop_n == 'akkerbouw' & A_P_WA > 36 & A_P_WA <= 55, manure_in := 0.85 * 60 * slurry_OC_Pratio]
-    dt[crop_n == 'akkerbouw' & A_P_WA > 55, manure_in := 0.85 * 50 * slurry_OC_Pratio]
+      slurry_OC_Pratio <- ((0.3 * 7 / 0.33 + 0.7 * 33 / 0.7) * 0.5)
+      dt[crop_n == 'akkerbouw' & A_P_WA <= 25, manure_in := 0.85 * 120 * slurry_OC_Pratio]
+      dt[crop_n == 'akkerbouw' & A_P_WA > 25 & A_P_WA <= 36, manure_in := 0.85 * 75 * slurry_OC_Pratio]
+      dt[crop_n == 'akkerbouw' & A_P_WA > 36 & A_P_WA <= 55, manure_in := 0.85 * 60 * slurry_OC_Pratio]
+      dt[crop_n == 'akkerbouw' & A_P_WA > 55, manure_in := 0.85 * 50 * slurry_OC_Pratio]
     
-    ## Grassland
-    # manure input in grassland systems, assuming 100% dairy slurry
+      ## Grassland
+      # manure input in grassland systems, assuming 100% dairy slurry
     
-    slurry_OC_Pratio <- 33 / 0.7 * 0.5
-    dt[crop_n=='gras' & A_P_AL <= 16,manure_in := 120 * slurry_OC_Pratio]
-    dt[crop_n=='gras' & A_P_AL > 16 & A_P_AL <= 27,manure_in := 100 * slurry_OC_Pratio]
-    dt[crop_n=='gras' & A_P_AL > 27 & A_P_AL <= 50,manure_in := 90 * slurry_OC_Pratio]
-    dt[crop_n=='gras' & A_P_AL > 50,manure_in := 80 * slurry_OC_Pratio]
+      slurry_OC_Pratio <- 33 / 0.7 * 0.5
+      dt[crop_n=='gras' & A_P_AL <= 16,manure_in := 120 * slurry_OC_Pratio]
+      dt[crop_n=='gras' & A_P_AL > 16 & A_P_AL <= 27,manure_in := 100 * slurry_OC_Pratio]
+      dt[crop_n=='gras' & A_P_AL > 27 & A_P_AL <= 50,manure_in := 90 * slurry_OC_Pratio]
+      dt[crop_n=='gras' & A_P_AL > 50,manure_in := 80 * slurry_OC_Pratio]
+    }
+  
+    if(manure_type == 'solid'){
+      ## Cropland 
+      # manure input in arable systems, assuming 70% dairy FYM and 30% pig FYM, 85% organic  
+      manure_OC_Pratio <- ((0.3 * 6 / 0.33 + 0.7 * 25 / 0.7) * 0.5)
+      dt[crop_n == 'akkerbouw' & A_P_WA <= 25, manure_in := 0.85 * 120 * manure_OC_Pratio]
+      dt[crop_n == 'akkerbouw' & A_P_WA > 25 & A_P_WA <= 36, manure_in := 0.85 * 75 * manure_OC_Pratio]
+      dt[crop_n == 'akkerbouw' & A_P_WA > 36 & A_P_WA <= 55, manure_in := 0.85 * 60 * manure_OC_Pratio]
+      dt[crop_n == 'akkerbouw' & A_P_WA > 55, manure_in := 0.85 * 50 * manure_OC_Pratio]
+    
+      ## Grassland 
+      # manure input in grassland systems, assuming 100% dairy FYM
+      manure_OC_Pratio <- 25 / 0.7 * 0.5
+      dt[crop_n=='gras' & A_P_AL <= 16,manure_in := 120 * manure_OC_Pratio]
+      dt[crop_n=='gras' & A_P_AL > 16 & A_P_AL <= 27,manure_in := 100 * manure_OC_Pratio]
+      dt[crop_n=='gras' & A_P_AL > 27 & A_P_AL <= 50,manure_in := 90 * manure_OC_Pratio]
+      dt[crop_n=='gras' & A_P_AL > 50,manure_in := 80 * manure_OC_Pratio]
+    }
   }
   
-  if(manure_type == 'solid'){
-    ## Cropland 
-    # manure input in arable systems, assuming 70% dairy FYM and 30% pig FYM, 85% organic  
-    manure_OC_Pratio <- ((0.3 * 6 / 0.33 + 0.7 * 25 / 0.7) * 0.5)
-    dt[crop_n == 'akkerbouw' & A_P_WA <= 25, manure_in := 0.85 * 120 * manure_OC_Pratio]
-    dt[crop_n == 'akkerbouw' & A_P_WA > 25 & A_P_WA <= 36, manure_in := 0.85 * 75 * manure_OC_Pratio]
-    dt[crop_n == 'akkerbouw' & A_P_WA > 36 & A_P_WA <= 55, manure_in := 0.85 * 60 * manure_OC_Pratio]
-    dt[crop_n == 'akkerbouw' & A_P_WA > 55, manure_in := 0.85 * 50 * manure_OC_Pratio]
-    
-    ## Grassland 
-    # manure input in grassland systems, assuming 100% dairy FYM
-    manure_OC_Pratio <- 25 / 0.7 * 0.5
-    dt[crop_n=='gras' & A_P_AL <= 16,manure_in := 120 * manure_OC_Pratio]
-    dt[crop_n=='gras' & A_P_AL > 16 & A_P_AL <= 27,manure_in := 100 * manure_OC_Pratio]
-    dt[crop_n=='gras' & A_P_AL > 27 & A_P_AL <= 50,manure_in := 90 * manure_OC_Pratio]
-    dt[crop_n=='gras' & A_P_AL > 50,manure_in := 80 * manure_OC_Pratio]
-  }
-
-  
+  # Set M_GREEN to TRUE for mais and potato cultivation
+  dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
   
   ##### Effectiveness of the catch crop?
   # C input from catch crop
   dt[M_GREEN == TRUE, catchcrop := 850]
   dt[M_GREEN != TRUE, catchcrop := 0]
   
-  # After cultivation of maize or potato, it is compulsory to plant a catch crop
-  dt[grepl('mais|aardappel',crop_name), catchcrop := 850]
-  
+  # Correction for effectiveness of catch crop
+  dt[effective == FALSE, catchcrop := 0.4 * catchcrop]
   
   ## Compost?
   
@@ -126,28 +130,27 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, manure_type)
 
 #' Determine the crop rotation of a field
 #' 
-#' This function determnies crop cover and makkink correction factors based on the cultivated crops
+#' This function determines crop cover and makkink correction factors based on the cultivated crops
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param A_P_AL (numeric) The P-AL content of the soil
-#' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
-#' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid'
+#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), (optional, option: yes or no)
 #'     
 #' @export
-calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN){ 
+calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){ 
   
   
   
   # Check inputs
-  arg.length <- max(length(B_LU_BRP),  length(A_P_AL),length(A_P_WA), length(M_GREEN))
+  arg.length <- max(length(B_LU_BRP), length(M_GREEN))
   
   
   # Collect data in a table
   dt <- data.table(ID = ID,
                    year = 1:arg.length,
-                   B_LU_BRP = B_LU_BRP)
+                   B_LU_BRP = B_LU_BRP,
+                   effective = effective)
   
   # Import and merge with crops.obic
   crops.obic <- OBIC::crops.obic
@@ -161,7 +164,6 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN){
   dt <- merge(dt.mak,dt,by = 'year')
   
   
-  
   # Select years with wintercereals
   year_wc <- unique(dt[B_LU_BRP == 233|B_LU_BRP == 235, year])
     
@@ -170,44 +172,48 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN){
       dt[year == i-1 & month == 10|
          year == i-1 & month == 11|
          year == i-1 & month == 12, c("crop_name","crop_cover","mcf") := list("winter cereal", 1, c(0.5,0.6,0.6))]
-    }
-    
-  # Extend crop cover and mcf to spring next year for cover crop?
-  # What to do in rotation maize/grass
-    
-    ## Add catch crops
- #   year_cc <- unique(dt[M_GREEN == TRUE, year])
       
-#  for(i in year_cc){
-#        
-#      dt[year == i-1 & month == 10|
-#         year == i-1 & month == 11|
-#         year == i-1 & month == 12|
-#         year == i & month == 1|
-#         year == i & month == 2|
-#         year == i & month == 3, c("crop_name","crop_cover","mcf"):=list("Cover_crop",1,c(0.6))]
-#      }
+      }
+  
+  
+  # Set M_GREEN to TRUE for mais and potato cultivation
+  dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
     
-#    if(Rotation[1,M_M6] != TRUE){
-#      year_cc <- Field[grepl('Mais|Aardappel',crop_name), year]
-#      
-#      for(i in year_cc){
-#        Rotation[year == i & month == 10|
-#                   year == i & month == 11|
-#                   year == i & month == 12|
-#                   year == i+1 & month == 1|
-#                   year == i+1 & month == 2|
-#                   year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("Cover_crop",1,c(0.6))]
-#     }}
-#  }
+ 
+  ## Select years with catch crops
+  year_cc <- unique(dt[M_GREEN == TRUE & effective == TRUE, year])
+  year_cc_ne <- unique(dt[M_GREEN == TRUE & effective == FALSE, year])
   
+  # Add catch crops that were effective 
+  for(i in year_cc){
+        
+      dt[year == i & month == 10|
+         year == i & month == 11|
+         year == i & month == 12|
+         year == i+1 & month == 1|
+         year == i+1 & month == 2|
+         year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("catch crop",1,c(0.74,0.64,0.6,0.6,0.6,0.6))]
+  }
   
+  # Add catch crops that were not effective  
+  for(i in year_cc_ne){
+        
+    dt[year == i & month == 10|
+       year == i & month == 11|
+       year == i & month == 12|
+       year == i+1 & month == 1|
+       year == i+1 & month == 2|
+       year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("catch crop",1,0.5)]
+      }  
+    
+
   # Standerdize months
   dt[,month:=1:120]
   
   # Format output
-  out <- dt[,.list(year, month, B_LU_BRP, mcf, crop_cover)]
+  out <- dt[,list(year, month, B_LU_BRP, mcf, crop_cover, t_manure, t_residue)]
   
   return(out)
 }
+
 

@@ -543,6 +543,21 @@
   cr[is.na(crop_makkink), crop_makkink := 'overig']
   
   
+  # Add humification factors
+  cr[grepl("spinazie|valeriaan|marjolein|meekrap|lavas|peterselie|andijvie|selderij|kruiden|radijs|prei|sla|lisdodde|bladrammenas|vrouwenmantel",crop_name),hc := 0.2]  # DPM/RPM ratio 1.59
+  cr[grepl("facelia|zonnekroon|raketblad|esparcette|goudsbloem|raapstelen|bladraap|seradelle|spurrie|niger|deder|saffloer|teunis|brandnetel|lupine",crop_name),hc := 0.2]  # DPM/RPM ratio 1.59
+  cr[grepl("aardappel|wikke|groenten",crop_name),hc := 0.22]  # DPM/RPM ratio 1.54
+  cr[grepl("cichorei|mosterd|groenbemester|peen|pompoen|meloen|uien|sierui|knoflook|dille|pastinaak|bonen|schokkers|bieten|raai|peulen",crop_name),hc := 0.24]  # DPM/RPM ratio 1.5
+  cr[grepl("pompoen|meloen|rabarber|paksoi|schorseneren|witlof|zonnebloem|zantedeschia|overige bloem|blauw druif|bollen|knollen|onbekend",crop_name),hc := 0.24]  # DPM/RPM ratio 1.5
+  cr[grepl("anemoon|boliris|gladiool|hyacint|begonia|krokus|lelie|narcis|tulp|iris|amaryllis|pioenroos|chrysant|adonis|vergeet|papaver|angelica|leeuwen",crop_name),hc := 0.24]  # DPM/RPM ratio 1.5
+  cr[grepl("koolraap|dahlia|venkel|cranberry|aardbeien|courgette|augurk|komkommer",crop_name),hc := 0.28]  # DPM/RPM ratio 1.41
+  cr[grepl("zwenk|klaver|tagetes",crop_name), hc := 0.3] # DPM/RPM ratio 1.37
+  cr[grepl("tarwe|rogge|haver|gerst|teff|spelt|gierst|granen|quinoa|boekweit|graan|triticale|riet|rijst|azolla|hop|sorghum",crop_name),hc := 0.31] # DPM/RPM ration 1.35  
+  cr[grepl("mais|blauwmaan|kapuc|erwt|kool|zaad|zaden|broccoli|heide",crop_name),hc := 0.32]  # DPM/RPM ratio 1.32
+  cr[grepl("mais, snij|vlas|luzerne|hennep|olifant|timothee|veldbeemdgras",crop_name),hc := 0.33] # DPM/RPM ratio 1.30
+  cr[grepl("karwij|grasland|graszden|aardperen|asperge|festulolium",crop_name),hc := 0.35] # DPM/RPM ratio 1.25
+  
+  
   # update the csv and Rdata file
   crops.obic <- copy(cr)
   save(crops.obic, file = 'data/crops_obic.RData')
