@@ -95,6 +95,11 @@ ind_carbon_sequestration <- function(){
                                event = event_minimal, cor_factors = factors_minimal ,k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
   
   
+  # Calculate index score
+  relative_score <- (result_current[length(time),OSm] - result_minimal[length(time),OSm]) / (result_optimal[length(time),OSm] - result_minimal[length(time),OSm])
+  index_score <- OBIC::evaluate_logistic(relative_score,11,0.6,1.5)
+  
+  return(index_score) 
   
 }
 
