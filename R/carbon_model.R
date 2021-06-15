@@ -309,7 +309,23 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   setorder(dt.event,time)
   dt.event[,method := "add"]
 
-  return(dt.event)
+  
+  # Extend event to 50 years
+  dt.event2 <- copy(dt.event)
+  dt.event2[,id := .I]
+  
+  Blok = CJ(blok = seq(0,40,10),id = dt.event2$id)
+  dt.event2 <- dt.event2[rep(id,5)]
+  
+  dt.event2[,id := .I]
+  Blok[,id := .I]  
+  
+  dt.event3 = merge(Blok,dt.event2,by="id",allow.cartesian = T)
+  dt.event3[,time := time + blok][,c("blok","id") := NULL]
+  dt.event3 <- dt.event3[time > 0]
+  setorder(dt.event3,time)
+  
+  return(dt.event3)
     
   }
 
@@ -369,13 +385,28 @@ calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   # Event for plant residue application
   dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
+  
   dt.event <- melt(dt.residue,id.vars = "time", variable.name = "pool")
-  
-  
   setorder(dt.event,time)
   dt.event[,method := "add"]
   
-  return(dt.event)
+  
+  # Extend event to 50 years
+  dt.event2 <- copy(dt.event)
+  dt.event2[,id := .I]
+  
+  Blok = CJ(blok = seq(0,40,10),id = dt.event2$id)
+  dt.event2 <- dt.event2[rep(id,5)]
+  
+  dt.event2[,id := .I]
+  Blok[,id := .I]  
+  
+  dt.event3 = merge(Blok,dt.event2,by="id",allow.cartesian = T)
+  dt.event3[,time := time + blok][,c("blok","id") := NULL]
+  dt.event3 <- dt.event3[time > 0]
+  setorder(dt.event3,time)
+  
+  return(dt.event3)
 }
 
 
