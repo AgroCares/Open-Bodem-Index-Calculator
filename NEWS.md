@@ -1,5 +1,11 @@
 # Changelog OBIC
 
+## Version 1.1.2 2021-06-15
+### Changed
+* increased required days post GLG for maize on sand or loess to match October 1
+* increased required days post GLG for maize on other soils to match October 20
+* season.obic can now be merged on both landuse and soiltype.m
+
 ## Version 1.1.1 2021-05-21
 ### Added
 * table nema.crop.rot.obic added
