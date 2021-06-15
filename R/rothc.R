@@ -5,7 +5,7 @@
 #' @param B_LU_BRP (numeric) a series with crop codes given the crop rotation plan (source: the BRP)
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
-#' @param IOM0 (numeric) Initial size of the inert matter pool (kg C/ha)
+#' @param IOM0 (numeric) Initial size of the inert organic matter pool (kg C/ha)
 #' @param CDPM0 (numeric) Initial size of the decomposable plant material pool (kg C/ha)
 #' @param CRPM0 (numeric) Initial size of the resistant plant material pool (kg C/ha)
 #' @param CBIO0 (numeric) Initial size of the microbial biomass pool (kg C/ha)
@@ -116,4 +116,63 @@ calc_cor_factors <- function(Temp, Prec, ETact, crop_cover, A_CLAY_MI, renewal =
   return(data.table(a=a, b=b, c=c, d=d))
 }
 
+
+
+
+#' Initialization of the RothC carbon pools 
+#' 
+#' This function calculates the initial size of the carbon pools of the RothC model
+#' 
+#' @param B_LU_BRP (numeric) a series with crop codes given the crop rotation plan (source: the BRP)
+#' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
+#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
+#' @param history (character) The manure history of the soil (optional, options: default, grass_rn for grassland renewal, manure for intensive manure application and manual)
+#' @param a (numeric) Fraction of total carbon in the inert organic matter pool (-)
+#' @param b (numeric) Fraction of total carbon in the decomposable plant material pool (-)
+#' @param c (numeric) Fraction of total carbon in the resistant plant material pool (-)
+#' @param d (numeric) Fraction of total carbon in the microbial biomass pool (-)
+#' @param depth (numeric) Depth of the soil layer (m)
+#'     
+#' @export
+calc_cpools <- function(A_SOM_LOI, A_CLAY_MI, B_LU_BRP, history = "default", depth = 0.3, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
+  
+  BD = calc_bulk_density(A_SOM_LOI = A_SOM_LOI, B_LU_BRP = B_LU_BRP, A_CLAY_MI = A_CLAY_MI)
+  TOC =   A_SOM_LOI*0.58*(BD)*(depth*100*100)/100
+  
+  if(history == "default"){ 
+    IOM0      = 0.049*(TOC^1.139)
+    CDPM0     = 0.015*(TOC-IOM0)
+    CRPM0     = 0.125*(TOC-IOM0)
+    CBIO0     = 0.015*(TOC-IOM0)
+    CHUM0     = TOC-IOM0-CDPM0-CRPM0-CBIO0
+  }
+  
+  if(history == "grass_rn"){
+    IOM0      = a*TOC
+    CDPM0     = 0.01*(TOC-IOM0)
+    CRPM0     = 0.47*(TOC-IOM0)
+    CBIO0     = 0.01*(TOC-IOM0)
+    CHUM0     = TOC-IOM0-CDPM0-CRPM0-CBIO0
+  }
+  
+  if(history == "manure"){
+    IOM0      = a*TOC
+    CDPM0     = 0.01*(TOC-IOM0)
+    CRPM0     = 0.2*(TOC-IOM0)
+    CBIO0     = 0.015*(TOC-IOM0)
+    CHUM0     = TOC-IOM0-CDPM0-CRPM0-CBIO0
+  }
+  
+  if(history == "manual"){
+    IOM0      = a*TOC
+    CDPM0     = b*(TOC-IOM0)
+    CRPM0     = c*(TOC-IOM0)
+    CBIO0     = d*(TOC-IOM0)
+    CHUM0     = TOC-IOM0-CDPM0-CRPM0-CBIO0
+  }
+  
+  
+  out <- c(IOM0,CDPM0,CRPM0,CBIO0,CHUM0)
+  return(out)
+}
 
