@@ -27,4 +27,6 @@
                                fifelse(soiltype.m %in% c('zand', 'loess'), 274-227, 293-227)] # where numbers are doy resulting in number of days after glg (doy = 227)
   
   # save table
-  save(season.obic,file = 'data/season.obic.RData')
+  usethis::use_data(name = season.obic, overwrite = TRUE)
+  # save as csv for tracking
+  write.csv(season.obic, 'DEV/data/season.obic.csv')
