@@ -53,7 +53,39 @@ ind_carbon_sequestration <- function(){
   
   rotation_minimal <- calc_crop_rotation(ID,B_LU_BRP,M_GREEN = M_GREEN_minimal)
   
- 
+  
+  # Calculate correction factors
+  factors_current <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_current$crop_cover, 
+                                      mcf = rotation_current$mcf, renwal, depth)
+  
+  factors_optimal <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_optimal$crop_cover, 
+                                      mcf = rotation_optimal$mcf, renwal, depth)
+  
+  factors_minimal <- calc_cor_factors(AA_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_minimal$crop_cover, 
+                                      mcf = rotation_minimal$mcf, renwal, depth)
+  
+  
+  # Initialize C pools
+  cpools <- calc_cpools(B_SOILTYPE_AGR,A_SOM_LOI, A_CLAY_MI, history = history, depth = depth, a = a, b = b, c = c, d = d)
+  
+  
+  # Run RothC
+  result_current <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
+                               IOM0 = Cpools[1], CDPM0 = Cpools[2], CRPM0 = Cpools[3], CBIO0 = Cpools [4], CHUM0 = Cpools[5], 
+                               event = event_current, cor_factors = factors_current, k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
+  
+  result_optimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
+                               IOM0 = Cpools[1], CDPM0 = Cpools[2], CRPM0 = Cpools[3], CBIO0 = Cpools [4], CHUM0 = Cpools[5], 
+                               event = event_optimal, cor_factors = factors_optimal, k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
+  
+  result_minimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
+                               IOM0 = Cpools[1], CDPM0 = Cpools[2], CRPM0 = Cpools[3], CBIO0 = Cpools [4], CHUM0 = Cpools[5],
+                               event = event_minimal, cor_factors = factors_minimal ,k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
+  
+  
+  
+  
+  
 }
 
 
@@ -427,7 +459,7 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){
   }  
   
   
-  # Standerdize months
+  # Standardize months
   dt[,month:=1:120]
   
   # Format output
@@ -435,6 +467,12 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){
   
   return(rotation)
 }
+
+
+
+
+
+
 
 
 
