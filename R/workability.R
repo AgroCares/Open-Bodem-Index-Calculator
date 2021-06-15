@@ -68,7 +68,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
   dt <- merge(dt, crops.obic[, list(crop_code, crop_waterstress, crop_season)], 
               by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, soils.obic[, list(soiltype, soiltype.m)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
-  dt <- merge(dt, season.obic, by.x = 'crop_season', by.y = 'landuse')
+  dt <- merge(dt, season.obic, by.x = c('crop_season','soiltype.m'), by.y = c('landuse', 'soiltype.m'))
   
   ## determine workability key numbers
 
