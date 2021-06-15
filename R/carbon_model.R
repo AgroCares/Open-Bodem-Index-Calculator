@@ -30,6 +30,18 @@ ind_carbon_sequestration <- function(){
   catchcrop_minimal <- rep(0,10)
   
   
+  # If not provided, load weather data
+  if(any(is.null(A_T_MEAN)|is.null(A_PREC_MEAN)|is.null(A_ET_MEAN))){
+    
+    weather <- OBIC::weather.obic
+    
+    if(is.null(A_T_MEAN)){A_T_MEAN <- weather$A_T_MEAN}
+    if(is.null(A_PREC_MEAN)){A_PREC_MEAN <- weather$A_PREC_MEAN}
+    if(is.null(A_ET_MEAN)){A_ET_MEAN <- weather$A_ET_MEAN}
+    
+  }
+  
+  
   # Calculate carbon input
   carbon_input <- calc_carbon_input(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effective, manure_type, manure_in, compost_in)
   
@@ -56,13 +68,13 @@ ind_carbon_sequestration <- function(){
   
   # Calculate correction factors
   factors_current <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_current$crop_cover, 
-                                      mcf = rotation_current$mcf, renwal, depth)
+                                      mcf = rotation_current$mcf, renewal = renewal, depth)
   
   factors_optimal <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_optimal$crop_cover, 
-                                      mcf = rotation_optimal$mcf, renwal, depth)
+                                      mcf = rotation_optimal$mcf, renewal = renewal, depth)
   
-  factors_minimal <- calc_cor_factors(AA_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_minimal$crop_cover, 
-                                      mcf = rotation_minimal$mcf, renwal, depth)
+  factors_minimal <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_minimal$crop_cover, 
+                                      mcf = rotation_minimal$mcf, renewal = renewal, depth)
   
   
   # Initialize C pools
@@ -71,18 +83,16 @@ ind_carbon_sequestration <- function(){
   
   # Run RothC
   result_current <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
-                               IOM0 = Cpools[1], CDPM0 = Cpools[2], CRPM0 = Cpools[3], CBIO0 = Cpools [4], CHUM0 = Cpools[5], 
+                               IOM0 = cpools[1], CDPM0 = cpools[2], CRPM0 = cpools[3], CBIO0 = cpools [4], CHUM0 = cpools[5], 
                                event = event_current, cor_factors = factors_current, k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
   
   result_optimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
-                               IOM0 = Cpools[1], CDPM0 = Cpools[2], CRPM0 = Cpools[3], CBIO0 = Cpools [4], CHUM0 = Cpools[5], 
+                               IOM0 = cpools[1], CDPM0 = cpools[2], CRPM0 = cpools[3], CBIO0 = cpools [4], CHUM0 = cpools[5], 
                                event = event_optimal, cor_factors = factors_optimal, k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
   
   result_minimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
-                               IOM0 = Cpools[1], CDPM0 = Cpools[2], CRPM0 = Cpools[3], CBIO0 = Cpools [4], CHUM0 = Cpools[5],
+                               IOM0 = cpools[1], CDPM0 = cpools[2], CRPM0 = cpools[3], CBIO0 = cpools [4], CHUM0 = cpools[5],
                                event = event_minimal, cor_factors = factors_minimal ,k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
-  
-  
   
   
   
@@ -250,7 +260,7 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
     
   # Event for plant residue application
   dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
-  event.residue <- melt(dt.residue,id.vars = "time", variable.name = "pool")
+  event.residue <- melt(dt.residue,id.vars = "time", variable.name = "var")
     
   
     
@@ -267,7 +277,7 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   # Event for manure application
   dt.manure <- dt.manure[,.(CDPM,CRPM,CHUM,time)]
-  event.manure <- melt(dt.manure,id.vars = "time", variable.name = "pool")
+  event.manure <- melt(dt.manure,id.vars = "time", variable.name = "var")
     
   
     
@@ -284,7 +294,7 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   # Event for manure application
   dt.compost <- dt.compost[,.(CDPM,CRPM,time)]
-  event.compost <- melt(dt.compost,id.vars = "time", variable.name = "pool")
+  event.compost <- melt(dt.compost,id.vars = "time", variable.name = "var")
   
     
   
@@ -301,7 +311,7 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   # Event for manure application
   dt.catchcrop <- dt.catchcrop[,.(CDPM,CRPM,time)]
-  event.catchcrop <- melt(dt.catchcrop,id.vars = "time", variable.name = "pool")
+  event.catchcrop <- melt(dt.catchcrop,id.vars = "time", variable.name = "var")
   
   
   # Event total application
@@ -386,7 +396,7 @@ calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   # Event for plant residue application
   dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
   
-  dt.event <- melt(dt.residue,id.vars = "time", variable.name = "pool")
+  dt.event <- melt(dt.residue,id.vars = "time", variable.name = "var")
   setorder(dt.event,time)
   dt.event[,method := "add"]
   
@@ -453,8 +463,8 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){
   for(i in year_wc){
     
     dt[year == i-1 & month == 10|
-         year == i-1 & month == 11|
-         year == i-1 & month == 12, c("crop_name","crop_cover","mcf") := list("winter cereal", 1, c(0.5,0.6,0.6))]
+       year == i-1 & month == 11|
+       year == i-1 & month == 12, c("crop_name","crop_cover","mcf") := list("winter cereal", 1, c(0.5,0.6,0.6))]
     
   }
   
@@ -467,26 +477,37 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){
   year_cc <- unique(dt[M_GREEN == TRUE & effective == TRUE, year])
   year_cc_ne <- unique(dt[M_GREEN == TRUE & effective == FALSE, year])
   
-  # Add catch crops that were effective 
-  for(i in year_cc){
+  
+  # Add catch crops that were effective
+  # Add catch crops for year 10 separatly 
+  if(year_cc[length(year_cc)] == 10){
+   
+    dt[year == 10 & month %in% 10:12, c("crop_name","crop_cover","mcf"):=list("catch crop",1,c(0.74,0.64,0.6))]
     
-    dt[year == i & month == 10|
+    year_cc <- year_cc[! year_cc %in% c(10)] 
+    
+  }  
+  
+  # Add catch crops to other years  
+    for(i in year_cc){
+    
+      dt[year == i & month == 10|
          year == i & month == 11|
          year == i & month == 12|
          year == i+1 & month == 1|
          year == i+1 & month == 2|
          year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("catch crop",1,c(0.74,0.64,0.6,0.6,0.6,0.6))]
-  }
+    }
   
   # Add catch crops that were not effective  
   for(i in year_cc_ne){
     
     dt[year == i & month == 10|
-         year == i & month == 11|
-         year == i & month == 12|
-         year == i+1 & month == 1|
-         year == i+1 & month == 2|
-         year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("catch crop",1,0.5)]
+       year == i & month == 11|
+       year == i & month == 12|
+       year == i+1 & month == 1|
+       year == i+1 & month == 2|
+       year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("catch crop",1,0.5)]
   }  
   
   
@@ -498,13 +519,6 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){
   
   return(rotation)
 }
-
-
-
-
-
-
-
 
 
 
