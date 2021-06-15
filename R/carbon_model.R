@@ -16,10 +16,44 @@ ind_carbon_sequestration <- function(){
   # Check inputs
   
   
-  carbon_input <- calc_carbon_input(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effective, manure_type, manure_in)
+  # Create optimal input
+  B_LU_BRP_optimal <- rep(233,10)
+  M_GREEN_optimal <- rep(FALSE,10)
+  compost_in_optimal <- rep(55,10)
+  catchcrop_optimal <- rep(0,10)
   
-  rotation <- calc_crop_rotation(ID,B_LU_BRP,M_GREEN)
   
+  # Create minimal input
+  M_GREEN_minimal <- rep(FALSE,10)
+  manure_in_minimal <- rep(0,10)
+  compost_in_minimal <- rep(0,10)
+  catchcrop_minimal <- rep(0,10)
+  
+  
+  # Calculate carbon input
+  carbon_input <- calc_carbon_input(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effective, manure_type, manure_in, compost_in)
+  
+  carbon_input_optimal <- calc_carbon_input(ID, B_LU_BRP = B_LU_BRP_optimal, A_P_AL, A_P_WA, M_GREEN = FALSE, effective = TRUE, manure_type = 'slurry', 
+                                    manure_in = NULL, compost_in = compost_in_optimal)
+  
+  # Determine carbon application events
+  event_current <- calc_events_current(ID, B_LU_BRP = B_LU_BRP, manure_in = carbon_input$manure_in, compost_in = carbon_input$compost_in,
+                                       catchcrop = carbon_input$catchcrop)
+  
+  event_optimal <- calc_events_current(ID, B_LU_BRP = B_LU_BRP, manure_in = carbon_input_optimal$manure_in, compost_in = carbon_input_optimal$compost_in,
+                                       catchcrop = carbon_input_optimal$catchcrop)
+  
+  event_minimal <- calc_events_current(ID, B_LU_BRP = B_LU_BRP, manure_in = manure_in_minimal, compost_in = compost_in_minimal,
+                                       catchcrop = catchcrop_minimal)
+  
+  # Determine rotations
+  rotation_current <- calc_crop_rotation(ID,B_LU_BRP,M_GREEN)
+  
+  rotation_optimal <- calc_crop_rotation(ID,B_LU_BRP = B_LU_BRP_optimal, M_GREEN = M_GREEN_optimal)
+  
+  rotation_minimal <- calc_crop_rotation(ID,B_LU_BRP,M_GREEN = M_GREEN_minimal)
+  
+ 
 }
 
 
@@ -38,7 +72,7 @@ ind_carbon_sequestration <- function(){
 #' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with value per year
 #'     
 #' @export
-calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effective = TRUE, manure_type = 'slurry', manure_in = NULL){
+calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effective = TRUE, manure_type = 'slurry', manure_in = NULL, compost_in = NULL){
   
   year = manure_in = manure_OC_Pration = slurry_OC_Pratio = crops.obic = NULL
   
@@ -108,7 +142,7 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effe
   # Set M_GREEN to TRUE for mais and potato cultivation
   dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
   
-  ##### Effectiveness of the catch crop?
+  
   # C input from catch crop
   dt[M_GREEN == TRUE, catchcrop := 2800]
   dt[M_GREEN != TRUE, catchcrop := 0]
@@ -116,108 +150,21 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effe
   # Correction for effectiveness of catch crop
   dt[effective == FALSE, catchcrop := 0.4 * catchcrop]
   
-  ## Compost?
+  
+  ## Input compost
+  dt[,compost_in := compost_in]
   
   
   # Format output
   out <- setorder(dt,year)
-  out <- out[,list(year,manure_in,catchcrop)]
+  carbon_input <- out[,list(year,manure_in,compost_in,catchcrop)]
   
-  return(out)
+  return(carbon_input)
 }
 
 
 
-#' Determine the crop rotation of a field
-#' 
-#' This function determines crop cover and makkink correction factors based on the cultivated crops
-#' 
-#' @param ID (numeric) The ID of the field
-#' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
-#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), (optional, option: yes or no)
-#'     
-#' @export
-calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){ 
-  
-  
-  
-  # Check inputs
-  arg.length <- max(length(B_LU_BRP), length(M_GREEN))
-  
-  
-  # Collect data in a table
-  dt <- data.table(ID = ID,
-                   year = 1:arg.length,
-                   B_LU_BRP = B_LU_BRP,
-                   effective = effective)
-  
-  # Import and merge with crops.obic
-  crops.obic <- OBIC::crops.obic
-  
-  dt <- merge(dt, crops.obic[,list(crop_code,crop_name)], by.x = 'B_LU_BRP', by.y = 'crop_code')
-  
-  # Add Makkink data
-  dt.mak <- calc_makkink(ID, B_LU_BRP, M_GREEN)
-  
-  # Merge Makkink data with field data
-  dt <- merge(dt.mak,dt,by = 'year')
-  
-  
-  # Select years with wintercereals
-  year_wc <- unique(dt[B_LU_BRP == 233|B_LU_BRP == 235, year])
-    
-    for(i in year_wc){
-        
-      dt[year == i-1 & month == 10|
-         year == i-1 & month == 11|
-         year == i-1 & month == 12, c("crop_name","crop_cover","mcf") := list("winter cereal", 1, c(0.5,0.6,0.6))]
-      
-      }
-  
-  
-  # Set M_GREEN to TRUE for mais and potato cultivation
-  dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
-    
- 
-  ## Select years with catch crops
-  year_cc <- unique(dt[M_GREEN == TRUE & effective == TRUE, year])
-  year_cc_ne <- unique(dt[M_GREEN == TRUE & effective == FALSE, year])
-  
-  # Add catch crops that were effective 
-  for(i in year_cc){
-        
-      dt[year == i & month == 10|
-         year == i & month == 11|
-         year == i & month == 12|
-         year == i+1 & month == 1|
-         year == i+1 & month == 2|
-         year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("catch crop",1,c(0.74,0.64,0.6,0.6,0.6,0.6))]
-  }
-  
-  # Add catch crops that were not effective  
-  for(i in year_cc_ne){
-        
-    dt[year == i & month == 10|
-       year == i & month == 11|
-       year == i & month == 12|
-       year == i+1 & month == 1|
-       year == i+1 & month == 2|
-       year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("catch crop",1,0.5)]
-      }  
-    
-
-  # Standerdize months
-  dt[,month:=1:120]
-  
-  # Format output
-  out <- dt[,list(year, month, B_LU_BRP, mcf, crop_cover)]
-  
-  return(out)
-}
-
-
-#' Determine the carbon application events for current managment
+#' Determine the carbon application events for current management
 #' 
 #' This function determines the carbon application events for current management
 #' 
@@ -226,7 +173,7 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #'     
 #' @export
-calc_events_current <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
+calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   
   # Check inputs
@@ -234,7 +181,7 @@ calc_events_current <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
   
   # Collect data in a table
   dt <- data.table(ID = ID,
-                   year = year,
+                   year = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
                    manure_in = manure_in,
                    catchcrop = catchcrop)
@@ -271,7 +218,7 @@ calc_events_current <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
     
   # Event for plant residue application
   dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
-  event.res <- melt(dt.residue,id.vars = "time", variable.name = "pool")
+  event.residue <- melt(dt.residue,id.vars = "time", variable.name = "pool")
     
   
     
@@ -304,7 +251,7 @@ calc_events_current <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
   dt.compost[B_LU_BRP == 233|B_LU_BRP == 235,time := year - 2 + t_manure]
   
   # Event for manure application
-  dt.compost <- dt.compost[,.(CDPM,CRPM,CHUM,time)]
+  dt.compost <- dt.compost[,.(CDPM,CRPM,time)]
   event.compost <- melt(dt.compost,id.vars = "time", variable.name = "pool")
   
     
@@ -321,7 +268,7 @@ calc_events_current <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
   dt.catchcrop[B_LU_BRP == 233|B_LU_BRP == 235,time := year - 2 + t_manure]
   
   # Event for manure application
-  dt.catchcrop <- dt.catchcrop[,.(CDPM,CRPM,CHUM,time)]
+  dt.catchcrop <- dt.catchcrop[,.(CDPM,CRPM,time)]
   event.catchcrop <- melt(dt.catchcrop,id.vars = "time", variable.name = "pool")
   
   
@@ -345,15 +292,15 @@ calc_events_current <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #'     
 #' @export
-calc_events_minimal <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
+calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   
   # Check inputs
-  arg.length <- max(length(B_LU_BRP),  length(year), length(M_GREEN), length(manure_in), length(catchcrop))
+  arg.length <- max(length(B_LU_BRP),  length(M_GREEN), length(manure_in), length(catchcrop))
   
   # Collect data in a table
   dt <- data.table(ID = ID,
-                   year = year,
+                   year = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
                    manure_in = manure_in,
                    catchcrop = catchcrop)
@@ -397,6 +344,98 @@ calc_events_minimal <- function(ID, year, B_LU_BRP, manure_in, catchcrop){
   dt.event[,method := "add"]
   
   return(dt.event)
+}
+
+
+
+#' Determine the crop rotation of a field
+#' 
+#' This function determines crop cover and makkink correction factors based on the cultivated crops
+#' 
+#' @param ID (numeric) The ID of the field
+#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
+#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), (optional, option: yes or no)
+#'     
+#' @export
+calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){ 
+  
+  
+  
+  # Check inputs
+  arg.length <- max(length(B_LU_BRP), length(M_GREEN))
+  
+  
+  # Collect data in a table
+  dt <- data.table(ID = ID,
+                   year = 1:arg.length,
+                   B_LU_BRP = B_LU_BRP,
+                   effective = effective)
+  
+  # Import and merge with crops.obic
+  crops.obic <- OBIC::crops.obic
+  
+  dt <- merge(dt, crops.obic[,list(crop_code,crop_name)], by.x = 'B_LU_BRP', by.y = 'crop_code')
+  
+  # Add Makkink data
+  dt.mak <- calc_makkink(ID, B_LU_BRP, M_GREEN)
+  
+  # Merge Makkink data with field data
+  dt <- merge(dt.mak,dt,by = 'year')
+  
+  
+  # Select years with wintercereals
+  year_wc <- unique(dt[B_LU_BRP == 233|B_LU_BRP == 235, year])
+  
+  for(i in year_wc){
+    
+    dt[year == i-1 & month == 10|
+         year == i-1 & month == 11|
+         year == i-1 & month == 12, c("crop_name","crop_cover","mcf") := list("winter cereal", 1, c(0.5,0.6,0.6))]
+    
   }
+  
+  
+  # Set M_GREEN to TRUE for mais and potato cultivation
+  dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
+  
+  
+  ## Select years with catch crops
+  year_cc <- unique(dt[M_GREEN == TRUE & effective == TRUE, year])
+  year_cc_ne <- unique(dt[M_GREEN == TRUE & effective == FALSE, year])
+  
+  # Add catch crops that were effective 
+  for(i in year_cc){
+    
+    dt[year == i & month == 10|
+         year == i & month == 11|
+         year == i & month == 12|
+         year == i+1 & month == 1|
+         year == i+1 & month == 2|
+         year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("catch crop",1,c(0.74,0.64,0.6,0.6,0.6,0.6))]
+  }
+  
+  # Add catch crops that were not effective  
+  for(i in year_cc_ne){
+    
+    dt[year == i & month == 10|
+         year == i & month == 11|
+         year == i & month == 12|
+         year == i+1 & month == 1|
+         year == i+1 & month == 2|
+         year == i+1 & month == 3, c("crop_name","crop_cover","mcf"):=list("catch crop",1,0.5)]
+  }  
+  
+  
+  # Standerdize months
+  dt[,month:=1:120]
+  
+  # Format output
+  rotation <- dt[,list(year, month, B_LU_BRP, mcf, crop_cover)]
+  
+  return(rotation)
+}
+
+
 
 
