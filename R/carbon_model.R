@@ -43,19 +43,19 @@ ind_carbon_sequestration <- function(){
   
   
   # Calculate carbon input
-  carbon_input <- calc_carbon_input(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effective, manure_type, manure_in, compost_in)
+  carbon_input_current <- calc_carbon_input(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effective, manure_type, manure_in, compost_in)
   
   carbon_input_optimal <- calc_carbon_input(ID, B_LU_BRP = B_LU_BRP_optimal, A_P_AL, A_P_WA, M_GREEN = FALSE, effective = TRUE, manure_type = 'slurry', 
-                                    manure_in = NULL, compost_in = compost_in_optimal)
+                                            manure_in = NULL, compost_in = compost_in_optimal)
   
   # Determine carbon application events
-  event_current <- calc_events_current(ID, B_LU_BRP = B_LU_BRP, manure_in = carbon_input$manure_in, compost_in = carbon_input$compost_in,
-                                       catchcrop = carbon_input$catchcrop)
+  event_current <- calc_events_current(ID, B_LU_BRP = B_LU_BRP, manure_in = carbon_input_current$manure_in, compost_in = carbon_input_current$compost_in,
+                                       catchcrop = carbon_input_current$catchcrop)
   
-  event_optimal <- calc_events_current(ID, B_LU_BRP = B_LU_BRP, manure_in = carbon_input_optimal$manure_in, compost_in = carbon_input_optimal$compost_in,
+  event_optimal <- calc_events_current(ID, B_LU_BRP = B_LU_BRP_optimal, manure_in = carbon_input_optimal$manure_in, compost_in = carbon_input_optimal$compost_in,
                                        catchcrop = carbon_input_optimal$catchcrop)
   
-  event_minimal <- calc_events_current(ID, B_LU_BRP = B_LU_BRP, manure_in = manure_in_minimal, compost_in = compost_in_minimal,
+  event_minimal <- calc_events_minimal(ID, B_LU_BRP = B_LU_BRP, manure_in = manure_in_minimal, compost_in = compost_in_minimal,
                                        catchcrop = catchcrop_minimal)
   
   # Determine rotations
@@ -68,13 +68,13 @@ ind_carbon_sequestration <- function(){
   
   # Calculate correction factors
   factors_current <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_current$crop_cover, 
-                                      mcf = rotation_current$mcf, renewal = renewal, depth)
+                                      mcf = rotation_current$mcf, renewal, depth)
   
   factors_optimal <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_optimal$crop_cover, 
-                                      mcf = rotation_optimal$mcf, renewal = renewal, depth)
+                                      mcf = rotation_optimal$mcf, renewal, depth)
   
   factors_minimal <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_minimal$crop_cover, 
-                                      mcf = rotation_minimal$mcf, renewal = renewal, depth)
+                                      mcf = rotation_minimal$mcf, renewal, depth)
   
   
   # Initialize C pools
@@ -386,7 +386,7 @@ calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   dt[,crop_eos := fifelse(is.na(crop_eos),0,crop_eos)]
   
   # Calculate total C input from crops
-  dt[,res_in := (crop_eos + crop_eos_residue)/hc]
+  dt[,res_in := crop_eos/hc]
   
   # Calculate DPM/RPM ratio
   dt[,ratio := -2.174 * hc + 2.20]
@@ -484,14 +484,16 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){
   
   
   # Add catch crops that were effective
-  # Add catch crops for year 10 separatly 
-  if(year_cc[length(year_cc)] == 10){
+  # Add catch crops for year 10 separately
+  if(length(year_cc) != 0){
+    if(year_cc[length(year_cc)] == 10){
    
-    dt[year == 10 & month %in% 10:12, c("crop_name","crop_cover","mcf"):=list("catch crop",1,c(0.74,0.64,0.6))]
+      dt[year == 10 & month %in% 10:12, c("crop_name","crop_cover","mcf"):=list("catch crop",1,c(0.74,0.64,0.6))]
+      year_cc <- year_cc[! year_cc %in% c(10)] 
     
-    year_cc <- year_cc[! year_cc %in% c(10)] 
-    
-  }  
+      }
+  }
+      
   
   # Add catch crops to other years  
     for(i in year_cc){
