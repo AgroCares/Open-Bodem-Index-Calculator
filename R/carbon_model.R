@@ -231,7 +231,8 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
                    year = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
                    manure_in = manure_in,
-                   catchcrop = catchcrop)
+                   catchcrop = catchcrop,
+                   grass_fertilization = grass_fertilization)
   
   
   # Add hc for manure types
@@ -244,6 +245,70 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   dt <- merge(dt, carbon_application, by = 'crop_makkink')
   
+  
+  ## Carbon from manure on grassland ---
+  if(length(dt[crop_makkink == 'grasland', year])){
+    
+    # Make manure table for grassland  
+    dt.manure_grass <- dt[crop_makkink == 'grasland',list(year,manure_in)]
+  
+    # Make fertilizer timing table
+    application_grass <- dt[,list(year,grass_fertilization)]
+  
+    # Add different timings for manure application
+    dt.manure_grass[,c('t1','t2','t3','t4','t5') := list(year - 1 + 3/12, year - 1 + 5/12, year - 1 + 6.5/12, year - 1 + 7.5/12, year - 1 + 9/12)]
+  
+    dt.manure_grass <- melt.data.table(dt.manure_grass, id.vars = c('year','manure_in'), variable.name = 'application', value.name = 'time')
+  
+    # Merge year with fertilizer timing
+    dt.manure_grass <- merge(dt.manure_grass,application_grass,by = 'year')
+  
+    ## Determine fertilizer distribution
+    # Fertilization in March, half June and September
+    dt.manure_grass[grass_fertilization == 1 & application == "t1", c("CDPM","CRPM","CHUM") := list(manure_in * 0.49 * 0.417, manure_in * 0.49 * 0.417, manure_in * 0.02 * 0.417)]
+    dt.manure_grass[grass_fertilization == 1 & application == "t3", c("CDPM","CRPM","CHUM") := list(manure_in * 0.49 * 0.333, manure_in * 0.49 * 0.333, manure_in * 0.02 * 0.333)]        
+    dt.manure_grass[grass_fertilization == 1 & application == "t5", c("CDPM","CRPM","CHUM") := list(manure_in * 0.49 * 0.25, manure_in * 0.49 * 0.25, manure_in * 0.02 * 0.25)]
+    
+    # Fertilization in March and half July
+    dt.manure_grass[grass_fertilization == 2 & application == "t1", c("CDPM","CRPM","CHUM") := list(manure_in * 0.49 * 0.5, manure_in * 0.49 * 0.5, manure_in * 0.02 * 0.5)]
+    dt.manure_grass[grass_fertilization == 2 & application == "t4", c("CDPM","CRPM","CHUM") := list(manure_in * 0.49 * 0.5, manure_in * 0.49 * 0.5, manure_in * 0.02 * 0.5)]        
+  
+    # Fertilization in May and September
+    dt.manure_grass[grass_fertilization == 3 & application == "t2", c("CDPM","CRPM","CHUM") := list(manure_in * 0.49 * 0.5, manure_in * 0.49 * 0.5, manure_in * 0.02 * 0.5)]
+    dt.manure_grass[grass_fertilization == 3 & application == "t5", c("CDPM","CRPM","CHUM") := list(manure_in * 0.49 * 0.5, manure_in * 0.49 * 0.5, manure_in * 0.02 * 0.5)]        
+    
+    # Make an event table
+    event.manure_grass <- dt.manure_grass[,list(CDPM,CRPM,CHUM,time)]
+  
+    event.manure_grass <- melt.data.table(event_manure_grass, id.vars = 'time', na.rm = TRUE)
+  
+  }else{ 
+      
+    event.manure_grass <- data.table(time = 1, variable = 'CDPM', value = 0) 
+    }
+  
+  
+  ## Carbon from manure for other crops ---
+  if(length(dt[crop_makkink != 'grasland', year])){
+    
+    # Make manure table for other crops
+    dt.manure <- dt[crop_makkink != 'grasland',list(B_LU_BRP,year,t_manure,manure_in)]
+  
+    # Calculate carbon pools
+    dt.manure[,c("CDPM","CRPM","CHUM") := list(manure_in * 0.49, manure_in * 0.49, manure_in * 0.02)]
+  
+    # Moment of application
+    dt.manure[,time := year - 1  + t_manure]
+    dt.manure[B_LU_BRP == 233|B_LU_BRP == 235,time := year - 2 + t_manure]
+  
+    # Event for manure application
+    dt.manure <- dt.manure[,list(CDPM,CRPM,CHUM,time)]
+    event.manure <- melt(dt.manure,id.vars = "time")
+  
+  }else{ 
+    
+    event_manure <- data.table(time = 1, variable = 'CDPM', value = 0) 
+  }
   
   
   ## Carbon from crops ---
@@ -265,27 +330,10 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
     
   # Event for plant residue application
   dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
-  event.residue <- melt(dt.residue,id.vars = "time", variable.name = "var")
-    
-  
-    
-  ## Carbon from manure ---
-  # Make manure table
-  dt.manure <- dt[,list(B_LU_BRP,year,t_manure,manure_in)]
-  
-  # Calculate carbon pools
-  dt.manure[,c("CDPM","CRPM","CHUM") := list(manure_in * 0.49, manure_in * 0.49, manure_in * 0.02)]
-    
-  # Moment of application
-  dt.manure[,time := year - 1  + t_manure]
-  dt.manure[B_LU_BRP == 233|B_LU_BRP == 235,time := year - 2 + t_manure]
-  
-  # Event for manure application
-  dt.manure <- dt.manure[,.(CDPM,CRPM,CHUM,time)]
-  event.manure <- melt(dt.manure,id.vars = "time", variable.name = "var")
-    
-  
-    
+  event.residue <- melt(dt.residue,id.vars = "time")
+
+      
+
   ## Carbon from Compost ---
   # Make compost table
   dt.compost <- dt[,list(B_LU_BRP,year,t_manure,compost_in)]
@@ -298,8 +346,8 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   dt.compost[B_LU_BRP == 233|B_LU_BRP == 235,time := year - 2 + t_manure]
   
   # Event for manure application
-  dt.compost <- dt.compost[,.(CDPM,CRPM,time)]
-  event.compost <- melt(dt.compost,id.vars = "time", variable.name = "var")
+  dt.compost <- dt.compost[,list(CDPM,CRPM,time)]
+  event.compost <- melt(dt.compost,id.vars = "time")
   
     
   
@@ -314,13 +362,13 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   dt.catchcrop[,time := year - 1  + t_manure]
   dt.catchcrop[B_LU_BRP == 233|B_LU_BRP == 235,time := year - 2 + t_manure]
   
-  # Event for manure application
-  dt.catchcrop <- dt.catchcrop[,.(CDPM,CRPM,time)]
-  event.catchcrop <- melt(dt.catchcrop,id.vars = "time", variable.name = "var")
+  # Event for catch crop application
+  dt.catchcrop <- dt.catchcrop[,list(CDPM,CRPM,time)]
+  event.catchcrop <- melt(dt.catchcrop,id.vars = "time")
   
   
   # Event total application
-  dt.event <- rbind(event.residue,event.manure,event.compost,event.catchcrop)
+  dt.event <- rbind(event.manure_grass,event.manure,event.residue,event.compost,event.catchcrop)
   setorder(dt.event,time)
   dt.event[,method := "add"]
 
