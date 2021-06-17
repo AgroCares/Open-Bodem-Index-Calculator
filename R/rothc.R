@@ -71,13 +71,13 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO
 #' @param crop_cover (numeric) Crop cover of the soil (options: 1 of 0)
 #' @param mcf (numeric) Makkink correction factor for evapo-transpiration
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
-#' @param renewal (numeric) The frequency of grassland renewal (optional,every x years)
+#' @param renewal (numeric) A vector with the years in which grassland renewal takes place (optional)
 #' @param depth (numeric) Depth of the soil layer (m)
 #' 
 #' @reference Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'     
 #' @export
-calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover, mcf, renewal = 0, depth = 0.3){
+calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover, mcf, renewal = NULL, depth = 0.3){
   
   # RothC correction factors for temperature
   a         = 47.9/(1+exp(106/(A_T_MEAN+18.3)))
@@ -104,16 +104,18 @@ calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_c
     }}
   
   # RothC correction factor for soil cover
-  c = ifelse(CG==1,0.6,1)
+  c <- ifelse(CG==1,0.6,1)
   
   a <- rep(a,10)
   b <- rep(b,10)
   c <- rep(c,10)
   
-  if(renewal > 0){
-    # Correction factor for grassland renewal
+  
+  # Correction factor for grassland renewal
+  if(length(renewal) > 0){
+    
     d <- data.table(time = round(seq(1/12,10,by = 1/12),digits = 5))
-    time_renewal <- round(seq(renewal,10,by = renewal) - 1 + 2/12,digits = 5)
+    time_renewal <- round(renewal - 1 + 2/12,digits = 5)
     d[,d := fifelse(time %in% time_renewal,1,0)]
     
     d <- rep(d[,d],5)

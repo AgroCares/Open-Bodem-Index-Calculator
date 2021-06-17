@@ -15,6 +15,7 @@ ind_carbon_sequestration <- function(){
   
   # Check inputs
   
+  # Check if renewal only occurs in years with grass
   
   # Create optimal input
   B_LU_BRP_optimal <- rep(233,10)
@@ -247,7 +248,7 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   
   ## Carbon from manure on grassland ---
-  if(length(dt[crop_makkink == 'grasland', year])){
+  if(length(dt[crop_makkink == 'grasland', year])>0){
     
     # Make manure table for grassland  
     dt.manure_grass <- dt[crop_makkink == 'grasland',list(year,manure_in)]
@@ -280,7 +281,7 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
     # Make an event table
     event.manure_grass <- dt.manure_grass[,list(CDPM,CRPM,CHUM,time)]
   
-    event.manure_grass <- melt.data.table(event_manure_grass, id.vars = 'time', na.rm = TRUE)
+    event.manure_grass <- melt.data.table(event.manure_grass, id.vars = 'time', na.rm = TRUE)
   
   }else{ 
       
@@ -307,7 +308,7 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   }else{ 
     
-    event_manure <- data.table(time = 1, variable = 'CDPM', value = 0) 
+    event.manure <- data.table(time = 1, variable = 'CDPM', value = 0) 
   }
   
   
@@ -331,8 +332,25 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   # Event for plant residue application
   dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
   event.residue <- melt(dt.residue,id.vars = "time")
-
-      
+  
+  
+  
+  ## Carbon from clippings ---
+  if(length(dt[crop_makkink == 'grasland', year])>0){
+    
+  # Make table for grassland  
+  dt.clip_grass <- dt[crop_makkink == 'grasland',list(year)]
+  dt.clip_grass <- dt.clip_grass[,c('time',"CDPM","CRPM") :=  list(year - 1 + 0.83,346,354)]
+  
+  # Remove unnecessary columns and melt table
+  dt.clip_grass[,year := NULL]
+  event.clip_grass <- melt(dt.clip_grass, id.vars = "time")
+  
+  }else{ 
+    
+    event.clip <- data.table(time = 1, variable = 'CDPM', value = 0) 
+  }
+  
 
   ## Carbon from Compost ---
   # Make compost table
@@ -368,7 +386,7 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
   
   # Event total application
-  dt.event <- rbind(event.manure_grass,event.manure,event.residue,event.compost,event.catchcrop)
+  dt.event <- rbind(event.manure_grass,event.manure,event.residue,event.clip_grass,event.compost,event.catchcrop)
   setorder(dt.event,time)
   dt.event[,method := "add"]
 
