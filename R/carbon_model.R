@@ -4,13 +4,34 @@
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param B_SOILTYPE_AGR (character) The agricultural type of soil
+#' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
+#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
-#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
+#' @param A_T_MEAN (numeric) Mean monthly temperature (dC), should be a vector of 12 elements, optional
+#' @param A_PREC_MEAN (numeric) Mean monthly precipitation (mm), should be a vector of 12 elements, optional
+#' @param A_ET_MEAN (numeric) Mean actual evapo-transpiration (mm), should be a vector of 12 elements, optional
+#' @param A_DEPTH (numeric) Depth of the soil layer (m)
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
+#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
+#' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optional
+#' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with a value per year, optional
+#' @param history (character) The manure history of the soil, optional (options: default, grass_rn for grassland renewal, manure for intensive manure application and manual)
+#' @param renewal (numeric) The years in which grassland renewal takes place (vector of years), optional
+#' @param a (numeric) Fraction of total carbon in the inert organic matter pool (-), optional
+#' @param b (numeric) Fraction of total carbon in the decomposable plant material pool (-), optional
+#' @param c (numeric) Fraction of total carbon in the resistant plant material pool (-), optional
+#' @param d (numeric) Fraction of total carbon in the microbial biomass pool (-), optional
+#' @param k1 (numeric) Decomposition rate constant for the CPM pool (/year), optional
+#' @param k2 (numeric) Decomposition rate constant for the RPM pool (/year), optional
+#' @param k3 (numeric) Decomposition rate constant for the BIO pool (/year), optional
+#' @param k4 (numeric) Decomposition rate constant for the HUM pool (/year), optional
 #'     
 #' @export
-ind_carbon_sequestration <- function(){
-  
+ind_carbon_sequestration <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_T_MEAN = NULL, A_PREC_MEAN = NULL, A_DEPTH = 0.3, A_ET_MEAN = NULL, 
+                                     M_GREEN = NULL, manure_in = NULL, compost_in = NULL, manure_type = 'slurry', history = 'default', renewal = NULL, 
+                                     k1 = 10, k2 = 0.3, k3 = 0.66, k4 = 0.02, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
   
   
   # Check inputs
@@ -69,31 +90,31 @@ ind_carbon_sequestration <- function(){
   
   # Calculate correction factors
   factors_current <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_current$crop_cover, 
-                                      mcf = rotation_current$mcf, renewal, depth)
+                                      mcf = rotation_current$mcf, renewal, A_DEPTH)
   
   factors_optimal <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_optimal$crop_cover, 
-                                      mcf = rotation_optimal$mcf, renewal, depth)
+                                      mcf = rotation_optimal$mcf, renewal, A_DEPTH)
   
   factors_minimal <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_minimal$crop_cover, 
-                                      mcf = rotation_minimal$mcf, renewal, depth)
+                                      mcf = rotation_minimal$mcf, renewal, A_DEPTH)
   
   
   # Initialize C pools
-  cpools <- calc_cpools(B_SOILTYPE_AGR,A_SOM_LOI, A_CLAY_MI, history = history, depth = depth, a = a, b = b, c = c, d = d)
+  cpools <- calc_cpools(B_SOILTYPE_AGR,A_SOM_LOI, A_CLAY_MI, history = history, A_DEPTH = A_DEPTH, a = a, b = b, c = c, d = d)
   
   
   # Run RothC
   result_current <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
                                IOM0 = cpools[1], CDPM0 = cpools[2], CRPM0 = cpools[3], CBIO0 = cpools [4], CHUM0 = cpools[5], 
-                               event = event_current, cor_factors = factors_current, k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
+                               event = event_current, cor_factors = factors_current, k1 = k1, k2 = k2, k3 = k3, k4 = k4, A_DEPTH = A_DEPTH)
   
   result_optimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
                                IOM0 = cpools[1], CDPM0 = cpools[2], CRPM0 = cpools[3], CBIO0 = cpools [4], CHUM0 = cpools[5], 
-                               event = event_optimal, cor_factors = factors_optimal, k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
+                               event = event_optimal, cor_factors = factors_optimal, k1 = k1, k2 = k2, k3 = k3, k4 = k4, A_DEPTH = A_DEPTH)
   
   result_minimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
                                IOM0 = cpools[1], CDPM0 = cpools[2], CRPM0 = cpools[3], CBIO0 = cpools [4], CHUM0 = cpools[5],
-                               event = event_minimal, cor_factors = factors_minimal ,k1 = k1, k2 = k2, k3 = k3, k4 = k4, depth = depth)
+                               event = event_minimal, cor_factors = factors_minimal ,k1 = k1, k2 = k2, k3 = k3, k4 = k4, A_DEPTH = A_DEPTH)
   
   
   # Calculate index score
@@ -114,10 +135,11 @@ ind_carbon_sequestration <- function(){
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
-#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
-#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), (optional, option: yes or no)
-#' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with value per year
-#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with value per year
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
+#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
+#' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with a value per year
+#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
+#' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #'     
 #' @export
 calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effective = TRUE, manure_type = 'slurry', manure_in = NULL, compost_in = NULL){
@@ -137,7 +159,8 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effe
                    M_GREEN = M_GREEN,
                    effective = effective,
                    manure_type = manure_type,
-                   manure_in = manure_in)
+                   manure_in = manure_in,
+                   compost_in = compost_in)
   
   
   # Import and merge with crops.obic
@@ -218,7 +241,10 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effe
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
+#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
+#' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optional
+#' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
 #'     
 #' @export
 calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
@@ -418,7 +444,9 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
+#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
+#' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optioanl
+#' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
 #'     
 #' @export
 calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
@@ -494,12 +522,12 @@ calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
 
 #' Determine the crop rotation of a field
 #' 
-#' This function determines crop cover and makkink correction factors based on the cultivated crops
+#' This function determines crop cover and Makkink correction factors based on the cultivated crops
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
-#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), (optional, option: yes or no)
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
+#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
 #'     
 #' @export
 calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){ 

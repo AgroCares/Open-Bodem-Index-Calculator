@@ -12,17 +12,17 @@
 #' @param CHUM0 (numeric) Initial size of the humified organic matter pool (kg C/ha)
 #' @param event (numeric) The carbon application events as calculated in calc_events_current, calc_events_minimal
 #' @param cor_factors (numeric) Correction factors for temperature (a), soil moisture (b), crop cover (c) and grassland renewal (d)
-#' @param k1 (numeric) Decomposition rate constant for the CPM pool (/year)
-#' @param k2 (numeric) Decomposition rate constant for the RPM pool (/year)
-#' @param k3 (numeric) Decomposition rate constant for the BIO pool (/year)
-#' @param k4 (numeric) Decomposition rate constant for the HUM pool (/year)
-#' @param depth (numeric) Depth of the soil layer (m)
+#' @param k1 (numeric) Decomposition rate constant for the CPM pool (/year), optional
+#' @param k2 (numeric) Decomposition rate constant for the RPM pool (/year), optional
+#' @param k3 (numeric) Decomposition rate constant for the BIO pool (/year), optional
+#' @param k4 (numeric) Decomposition rate constant for the HUM pool (/year), optional
+#' @param A_DEPTH (numeric) Depth of the soil layer (m)
 #' 
 #' @reference Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'     
 #' @export
 calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO0,CHUM0,event,cor_factors, 
-                        k1 = 10, k2 = 0.3, k3 = 0.66, k4 = 0.02, depth = 0.3){
+                        k1 = 10, k2 = 0.3, k3 = 0.66, k4 = 0.02, A_DEPTH = 0.3){
   
   a <- cor_factors[,a]
   b <- cor_factors[,b]
@@ -50,7 +50,7 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO
   out = ode(y,times,rothC,parms,events=list(data=event))
   
   BD = calc_bulk_density(A_SOM_LOI = A_SOM_LOI, B_SOILTYPE_AGR = B_SOILTYPE_AGR, A_CLAY_MI = A_CLAY_MI)  
-  CF4 = 10*0.58*(depth*100*100)*BD/1000
+  CF4 = 10*0.58*(A_DEPTH*100*100)*BD/1000
  
   OSm = (out[,2]+out[,3]+out[,4]+out[,5]+IOM0)/CF4
   
@@ -65,19 +65,19 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO
 #' 
 #' This function calculates the correction factors for the RothC model
 #' 
-#' @param A_T_MEAN (numeric) Mean monthly temperature (dC), should be a vector of 12 elements
-#' @param A_PREC_MEAN (numeric) Mean monthly precipitation (mm), should be a vector of 12 elements
-#' @param A_ET_MEAN (numeric) Mean actual evapo-transpiration (mm), should be a vector of 12 elements
+#' @param A_T_MEAN (numeric) Mean monthly temperature (dC), should be a vector of 12 elements, optional
+#' @param A_PREC_MEAN (numeric) Mean monthly precipitation (mm), should be a vector of 12 elements, optional
+#' @param A_ET_MEAN (numeric) Mean actual evapo-transpiration (mm), should be a vector of 12 elements, optional
+#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param crop_cover (numeric) Crop cover of the soil (options: 1 of 0)
 #' @param mcf (numeric) Makkink correction factor for evapo-transpiration
-#' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
-#' @param renewal (numeric) A vector with the years in which grassland renewal takes place (optional)
-#' @param depth (numeric) Depth of the soil layer (m)
+#' @param renewal (numeric) A vector with the years in which grassland renewal takes place, optional
+#' @param A_DEPTH (numeric) Depth of the soil layer (m)
 #' 
 #' @reference Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'     
 #' @export
-calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover, mcf, renewal = NULL, depth = 0.3){
+calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover, mcf, renewal = NULL, A_DEPTH = 0.3){
   
   # RothC correction factors for temperature
   a         = 47.9/(1+exp(106/(A_T_MEAN+18.3)))
@@ -88,7 +88,7 @@ calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_c
   PWL       = A_PREC_MEAN-ET_ACT
   CG        = crop_cover
   
-  TSMDmax   = -(20+1.3*A_CLAY_MI-0.01*(A_CLAY_MI^2))*depth/0.23
+  TSMDmax   = -(20+1.3*A_CLAY_MI-0.01*(A_CLAY_MI^2))*A_DEPTH/0.23
   BareSMD   = TSMDmax/1.8
   
   # RothC correction factor for soil moisture
@@ -136,20 +136,20 @@ calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_c
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
-#' @param history (character) The manure history of the soil (optional, options: default, grass_rn for grassland renewal, manure for intensive manure application and manual)
+#' @param history (character) The manure history of the soil, optional (options: default, grass_rn for grassland renewal, manure for intensive manure application and manual)
 #' @param a (numeric) Fraction of total carbon in the inert organic matter pool (-)
 #' @param b (numeric) Fraction of total carbon in the decomposable plant material pool (-)
 #' @param c (numeric) Fraction of total carbon in the resistant plant material pool (-)
 #' @param d (numeric) Fraction of total carbon in the microbial biomass pool (-)
-#' @param depth (numeric) Depth of the soil layer (m)
+#' @param A_DEPTH (numeric) Depth of the soil layer (m)
 #'     
 #' @reference Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'          
 #' @export
-calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, history = "default", depth = 0.3, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
+calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, history = "default", A_DEPTH = 0.3, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
   
   BD = calc_bulk_density(A_SOM_LOI = A_SOM_LOI, B_SOILTYPE_AGR =  B_SOILTYPE_AGR, A_CLAY_MI = A_CLAY_MI)
-  TOC =   A_SOM_LOI*0.58*(BD)*(depth*100*100)/100
+  TOC =   A_SOM_LOI*0.58*(BD)*(A_DEPTH*100*100)/100
   
   if(history == "default"){ 
     IOM0      = 0.049*(TOC^1.139)
