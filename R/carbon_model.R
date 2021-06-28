@@ -9,7 +9,7 @@
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
-#' @param A_T_MEAN (numeric) Mean monthly temperature (dC), should be a vector of 12 elements, optional
+#' @param A_TEMP_MEAN (numeric) Mean monthly temperature (dC), should be a vector of 12 elements, optional
 #' @param A_PREC_MEAN (numeric) Mean monthly precipitation (mm), should be a vector of 12 elements, optional
 #' @param A_ET_MEAN (numeric) Mean actual evapo-transpiration (mm), should be a vector of 12 elements, optional
 #' @param A_DEPTH (numeric) Depth of the soil layer (m)
@@ -30,11 +30,11 @@
 #' @param k4 (numeric) Decomposition rate constant for the HUM pool (/year), optional
 #'     
 #' @export
-ind_carbon_sequestration <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_T_MEAN = NULL, A_PREC_MEAN = NULL, A_DEPTH = 0.3, A_ET_MEAN = NULL, 
+ind_carbon_sequestration <- function(ID, B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_TEMP_MEAN = NULL, A_PREC_MEAN = NULL, A_DEPTH = 0.3, A_ET_MEAN = NULL, 
                                      M_GREEN = NULL, manure_in = NULL, compost_in = NULL, manure_type = 'slurry', history = 'default', effectivity = TRUE, 
                                      renewal = NULL, k1 = 10, k2 = 0.3, k3 = 0.66, k4 = 0.02, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
   
-  
+  ID = crops.obic = soils.obic = B_SOILTYPE_AGR = time = OSm = NULL
   
   
   # Check inputs
@@ -49,7 +49,7 @@ ind_carbon_sequestration <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P
   checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE) # Add lenght?
   checkmate::assert_numeric(A_DEPTH, lower = 0, upper = 2, any.missing = FALSE)
   
-  checkmate::assert_numeric(A_T_MEAN, lower = -30, upper = 50, any.missing = FALSE, len = 12)
+  checkmate::assert_numeric(A_TEMP_MEAN, lower = -30, upper = 50, any.missing = FALSE, len = 12)
   checkmate::assert_numeric(A_PREC_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
   checkmate::assert_numeric(A_ET_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
   
@@ -92,11 +92,11 @@ ind_carbon_sequestration <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P
   
   
   # If not provided, load weather data
-  if(any(is.null(A_T_MEAN)|is.null(A_PREC_MEAN)|is.null(A_ET_MEAN))){
+  if(any(is.null(A_TEMP_MEAN)|is.null(A_PREC_MEAN)|is.null(A_ET_MEAN))){
     
     weather <- OBIC::weather.obic
     
-    if(is.null(A_T_MEAN)){A_T_MEAN <- weather$A_T_MEAN}
+    if(is.null(A_TEMP_MEAN)){A_TEMP_MEAN <- weather$A_TEMP_MEAN}
     if(is.null(A_PREC_MEAN)){A_PREC_MEAN <- weather$A_PREC_MEAN}
     if(is.null(A_ET_MEAN)){A_ET_MEAN <- weather$A_ET_MEAN}
     
@@ -128,13 +128,13 @@ ind_carbon_sequestration <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P
   
   
   # Calculate correction factors
-  factors_current <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_current$crop_cover, 
+  factors_current <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_current$crop_cover, 
                                       mcf = rotation_current$mcf, renewal, A_DEPTH)
   
-  factors_optimal <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_optimal$crop_cover, 
+  factors_optimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_optimal$crop_cover, 
                                       mcf = rotation_optimal$mcf, renewal, A_DEPTH)
   
-  factors_minimal <- calc_cor_factors(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_minimal$crop_cover, 
+  factors_minimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_minimal$crop_cover, 
                                       mcf = rotation_minimal$mcf, renewal, A_DEPTH)
   
   
@@ -291,24 +291,27 @@ calc_carbon_input <- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, eff
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
 #' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
 #' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
+#' @param grass_fertilization (numeric) Timing of fertilization application, optional (options: 1, 2, 3)
 #'     
 #' @export
-calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
+calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop,grass_fertilization){
   
+  grass_fertilization = crop_code = hc = crop_makkink = crop_eos = crop_eos_residue = crop_eos_ressidue = application = NULL
   CDPM = CRPM = CHUM = CBIO = time = t_manure = t_residue = res_in = ratio = method = id = blok = NULL
   
   # Check inputs
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = 10)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = 10)
   
   checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE) # Check upper
   checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE) # Check 
   
+  # Subset for grassland -> check subset
+  checkmate::assert_numeric(grass_fertilization, any.missing = FALSE, len = 10)
+  checkmate::assert_subset(grass_fertilization, choices = c(1,2,3), empty.ok = FALSE)
   
   # Check catchcrop?
   
@@ -611,7 +614,7 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effectivity = TRUE){
   
   # Collect data in a table
   dt <- data.table(ID = ID,
-                   year = 1:arg.length,
+                   year = 1:10, # check argument length
                    B_LU_BRP = B_LU_BRP,
                    effectivity = effectivity)
   

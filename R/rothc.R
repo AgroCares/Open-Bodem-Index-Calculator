@@ -18,7 +18,7 @@
 #' @param k4 (numeric) Decomposition rate constant for the HUM pool (/year), optional
 #' @param A_DEPTH (numeric) Depth of the soil layer (m)
 #' 
-#' @reference Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
+#' @references Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'     
 #' @export
 calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO0,CHUM0,event,cor_factors, 
@@ -27,15 +27,26 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO
   crops.obic = B_SOILTYPE_AGR = soils.obic = ID = effectivity = time = OSm = NULL
   
   # Check inputs
-  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = 10)
-  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = 10)
+  checkmate::assert_numeric(B_SOILTYPE_AGR, any.missing = FALSE, len = 1) # Length 1 ok?
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(crops.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = 1) # Length 1 ok?
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0.5, upper = 75, any.missing = FALSE, len = 1) # Length 1 ok?
+  checkmate::assert_numeric(A_DEPTH, lower = 0, upper = 2, any.missing = FALSE, len = 1) # Length 1 ok?
   
+  checkmate::assert_numeric(IOM0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1) # check max
+  checkmate::assert_numeric(CDPM0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1) # check max
+  checkmate::assert_numeric(CRPM0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1) # check max
+  checkmate::assert_numeric(CBIO0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1) # check max
+  checkmate::assert_numeric(CBIO0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1) # check max
+  checkmate::assert_numeric(CHUM0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1) # check max
   
-  checkmate::assert_numeric(k1, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
-  checkmate::assert_numeric(k2, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
-  checkmate::assert_numeric(k3, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
-  checkmate::assert_numeric(k4, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
+  # Check for event
+  # Check cor_factors
+  
+  checkmate::assert_numeric(k1, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
+  checkmate::assert_numeric(k2, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
+  checkmate::assert_numeric(k3, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
+  checkmate::assert_numeric(k4, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
   
   
   # Import
@@ -65,7 +76,7 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO
   out = ode(y,times,rothC,parms,events=list(data=event))
   
   BD = calc_bulk_density(A_SOM_LOI = A_SOM_LOI, B_SOILTYPE_AGR = B_SOILTYPE_AGR, A_CLAY_MI = A_CLAY_MI)  
-  CF4 = 10*0.58*(A_DEPTH*100*100)*BD/1000
+  CF4 = 10*0.5*(A_DEPTH*100*100)*BD/1000
  
   OSm = (out[,2]+out[,3]+out[,4]+out[,5]+IOM0)/CF4
   
@@ -80,7 +91,7 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO
 #' 
 #' This function calculates the correction factors for the RothC model
 #' 
-#' @param A_T_MEAN (numeric) Mean monthly temperature (dC), should be a vector of 12 elements, optional
+#' @param A_TEMP_MEAN (numeric) Mean monthly temperature (dC), should be a vector of 12 elements, optional
 #' @param A_PREC_MEAN (numeric) Mean monthly precipitation (mm), should be a vector of 12 elements, optional
 #' @param A_ET_MEAN (numeric) Mean actual evapo-transpiration (mm), should be a vector of 12 elements, optional
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
@@ -89,15 +100,15 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO
 #' @param renewal (numeric) A vector with the years in which grassland renewal takes place, optional
 #' @param A_DEPTH (numeric) Depth of the soil layer (m)
 #' 
-#' @reference Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
+#' @references Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'     
 #' @export
-calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover, mcf, renewal = NULL, A_DEPTH = 0.3){
+calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover, mcf, renewal = NULL, A_DEPTH = 0.3){
   
   time = NULL
   
   # Check inputs
-  checkmate::assert_numeric(A_T_MEAN, lower = -30, upper = 50, any.missing = FALSE, len = 12)
+  checkmate::assert_numeric(A_TEMP_MEAN, lower = -30, upper = 50, any.missing = FALSE, len = 12)
   checkmate::assert_numeric(A_PREC_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
   checkmate::assert_numeric(A_ET_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE)
@@ -111,7 +122,7 @@ calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_c
   checkmate::assert_subset(renewal, choices = 1:10, empty.ok = FALSE)
   
   # RothC correction factors for temperature
-  a         = 47.9/(1+exp(106/(A_T_MEAN+18.3)))
+  a         = 47.9/(1+exp(106/(A_TEMP_MEAN+18.3)))
   
   # Calculate actual evapo-transpiration
   ET_ACT <- A_ET_MEAN * mcf
@@ -174,12 +185,13 @@ calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_c
 #' @param d (numeric) Fraction of total carbon in the microbial biomass pool (-)
 #' @param A_DEPTH (numeric) Depth of the soil layer (m)
 #'     
-#' @reference Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
+#' @references Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'          
 #' @export
 calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, history = "default", A_DEPTH = 0.3, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
   
-  
+  soils.obic = NULL
+    
   # Check inputs
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = 10)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
@@ -198,7 +210,7 @@ calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, history = "default
   
   # Calculate bulk density and total organic carbon
   BD = calc_bulk_density(A_SOM_LOI = A_SOM_LOI, B_SOILTYPE_AGR =  B_SOILTYPE_AGR, A_CLAY_MI = A_CLAY_MI)
-  TOC =   A_SOM_LOI*0.58*(BD)*(A_DEPTH*100*100)/100
+  TOC =   A_SOM_LOI*0.5*(BD)*(A_DEPTH*100*100)/100
   
   if(history == "default"){ 
     IOM0      = 0.049*(TOC^1.139)

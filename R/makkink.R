@@ -9,6 +9,8 @@
 #' @export
 calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   
+  crop_code = crop_name = crop_makkink = mcf = crop_cover = NULL
+  
   # Load in the datasets
   crops.obic <- as.data.table(OBIC::crops.obic)
   crops.makkink <- as.data.table(OBIC::crops.makkink)
@@ -16,7 +18,6 @@ calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   # Check input
   arg.length <- max(length(ID), length(B_LU_BRP), length(M_GREEN))
   
-  # check inputs
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length)
