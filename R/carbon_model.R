@@ -17,7 +17,8 @@
 #' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
 #' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with a value per year, optional
-#' @param history (character) The manure history of the soil, optional (options: default, grass_rn for grassland renewal, manure for intensive manure application and manual)
+#' @param history (character) The manure history of the soil, optional (options: 'default', 'grass_rn' for grassland renewal, 'manure' for intensive manure application and 'manual')
+#' @param effectivity (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
 #' @param renewal (numeric) The years in which grassland renewal takes place (vector of years), optional
 #' @param a (numeric) Fraction of total carbon in the inert organic matter pool (-), optional
 #' @param b (numeric) Fraction of total carbon in the decomposable plant material pool (-), optional
@@ -30,11 +31,49 @@
 #'     
 #' @export
 ind_carbon_sequestration <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_T_MEAN = NULL, A_PREC_MEAN = NULL, A_DEPTH = 0.3, A_ET_MEAN = NULL, 
-                                     M_GREEN = NULL, manure_in = NULL, compost_in = NULL, manure_type = 'slurry', history = 'default', renewal = NULL, 
-                                     k1 = 10, k2 = 0.3, k3 = 0.66, k4 = 0.02, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
+                                     M_GREEN = NULL, manure_in = NULL, compost_in = NULL, manure_type = 'slurry', history = 'default', effectivity = TRUE, 
+                                     renewal = NULL, k1 = 10, k2 = 0.3, k3 = 0.66, k4 = 0.02, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
+  
+  
   
   
   # Check inputs
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = 10)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = 10)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = 10)
+  
+  checkmate::assert_numeric(A_P_AL, lower = 1, upper = 250, any.missing = FALSE, len = 10) # Add length?
+  checkmate::assert_numeric(A_P_WA, lower = 1, upper = 250, any.missing = FALSE, len = 10) # Add length?
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE) # Add lenght?
+  checkmate::assert_numeric(A_DEPTH, lower = 0, upper = 2, any.missing = FALSE)
+  
+  checkmate::assert_numeric(A_T_MEAN, lower = -30, upper = 50, any.missing = FALSE, len = 12)
+  checkmate::assert_numeric(A_PREC_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
+  checkmate::assert_numeric(A_ET_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
+  
+  checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = 10)
+  checkmate::assert_logical(effectivity,any.missing = FALSE, len = 10)
+  
+  checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE) # Check upper
+  checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE) # Check upper
+  checkmate::assert_character(manure_type,any.missing = FALSE, len = 10)
+  checkmate::assert_subset(manure_type, choices = c('slurry','solid'), empty.ok = FALSE)
+  checkmate::assert_character(history,any.missing = FALSE, len = 10)
+  checkmate::assert_subset(history, choices = c('defautl','grass_rn','manure','manual'), empty.ok = FALSE)
+  
+  checkmate::assert_numeric(renewal, any.missing = FALSE, min.len = 1, max.len = 10)
+  checkmate::assert_subset(renewal, choices = 1:10, empty.ok = FALSE)
+  
+  checkmate::assert_numeric(a, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(b, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(c, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(d, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(k1, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(k2, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(k3, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(k4, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
   
   # Check if renewal only occurs in years with grass
   
@@ -65,9 +104,9 @@ ind_carbon_sequestration <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P
   
   
   # Calculate carbon input
-  carbon_input_current <- calc_carbon_input(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effective, manure_type, manure_in, compost_in)
+  carbon_input_current <- calc_carbon_input(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effectivity, manure_type, manure_in, compost_in)
   
-  carbon_input_optimal <- calc_carbon_input(ID, B_LU_BRP = B_LU_BRP_optimal, A_P_AL, A_P_WA, M_GREEN = FALSE, effective = TRUE, manure_type = 'slurry', 
+  carbon_input_optimal <- calc_carbon_input(ID, B_LU_BRP = B_LU_BRP_optimal, A_P_AL, A_P_WA, M_GREEN = FALSE, effectivity = TRUE, manure_type = 'slurry', 
                                             manure_in = NULL, compost_in = compost_in_optimal)
   
   # Determine carbon application events
@@ -136,28 +175,39 @@ ind_carbon_sequestration <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
-#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
+#' @param effectivity (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
 #' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with a value per year
 #' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
 #' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #'     
 #' @export
-calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effective = TRUE, manure_type = 'slurry', manure_in = NULL, compost_in = NULL){
+calc_carbon_input <- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effectivity = TRUE, manure_type = 'slurry', manure_in = NULL, compost_in = NULL){
   
-  year = manure_in = manure_OC_Pration = slurry_OC_Pratio = crops.obic = NULL
+  crop_n = crop_name = crops.obic = catchcrop = manure_OC_Pration = slurry_OC_Pratio =  NULL
   
   # Check inputs
-  arg.length <- max(length(B_LU_BRP),  length(A_P_AL),length(A_P_WA), length(M_GREEN))
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = 10)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_numeric(A_P_AL, lower = 1, upper = 250, any.missing = FALSE, len = 10) # Add length?
+  checkmate::assert_numeric(A_P_WA, lower = 1, upper = 250, any.missing = FALSE, len = 10) # Add length?
+  
+  checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = 10)
+  checkmate::assert_logical(effectivity,any.missing = FALSE, len = 10)
+  
+  checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE) # Check upper
+  checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE) # Check upper
+  checkmate::assert_character(manure_type,any.missing = FALSE, len = 10)
+  checkmate::assert_subset(manure_type, choices = c('slurry','solid'), empty.ok = FALSE)
   
   
   # Collect data in a table
   dt <- data.table(ID = ID,
-                   year = 1:arg.length,
+                   year = 1:10,
                    B_LU_BRP = B_LU_BRP,
                    A_P_AL = A_P_AL,
                    A_P_WA = A_P_WA,
                    M_GREEN = M_GREEN,
-                   effective = effective,
+                   effectivity = effectivity,
                    manure_type = manure_type,
                    manure_in = manure_in,
                    compost_in = compost_in)
@@ -219,7 +269,7 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effe
   dt[M_GREEN != TRUE, catchcrop := 0]
   
   # Correction for effectiveness of catch crop
-  dt[effective == FALSE, catchcrop := 0.4 * catchcrop]
+  dt[effectivity == FALSE, catchcrop := 0.4 * catchcrop]
   
   
   ## Input compost
@@ -249,13 +299,22 @@ calc_carbon_input<- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effe
 #' @export
 calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
+  CDPM = CRPM = CHUM = CBIO = time = t_manure = t_residue = res_in = ratio = method = id = blok = NULL
   
   # Check inputs
-  arg.length <- max(length(B_LU_BRP),  length(year), length(M_GREEN), length(manure_in), length(catchcrop))
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = 10)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = 10)
+  
+  checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE) # Check upper
+  checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE) # Check 
+  
+  
+  # Check catchcrop?
   
   # Collect data in a table
   dt <- data.table(ID = ID,
-                   year = 1:arg.length,
+                   year = 1:10,
                    B_LU_BRP = B_LU_BRP,
                    manure_in = manure_in,
                    catchcrop = catchcrop,
@@ -451,13 +510,21 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
 #' @export
 calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   
+  crop_code = hc = crop_makkink = crop_eos = crop_eos_residue = res_in = ratio = t_residue = time = CDPM = CRPM = method = id = blok = NULL
   
   # Check inputs
-  arg.length <- max(length(B_LU_BRP),  length(M_GREEN), length(manure_in), length(catchcrop))
+  
+  
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = 10)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE) # Check upper
+  checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE) # Check upper
+  
+  # Catchcrop?
   
   # Collect data in a table
   dt <- data.table(ID = ID,
-                   year = 1:arg.length,
+                   year = 1:10,
                    B_LU_BRP = B_LU_BRP,
                    manure_in = manure_in,
                    catchcrop = catchcrop)
@@ -527,22 +594,26 @@ calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
-#' @param effective (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
+#' @param effectivity (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
 #'     
 #' @export
-calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){ 
+calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effectivity = TRUE){ 
   
-  
+  crop_code = crop_name = crop_makkink = mcf = crop_cover = ode = NULL
   
   # Check inputs
-  arg.length <- max(length(B_LU_BRP), length(M_GREEN))
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = 10)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  
+  checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = 10)
+  checkmate::assert_logical(effectivity,any.missing = FALSE, len = 10)
   
   
   # Collect data in a table
   dt <- data.table(ID = ID,
                    year = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
-                   effective = effective)
+                   effectivity = effectivity)
   
   # Import and merge with crops.obic
   crops.obic <- OBIC::crops.obic
@@ -573,8 +644,8 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effective = TRUE){
   
   
   ## Select years with catch crops
-  year_cc <- unique(dt[M_GREEN == TRUE & effective == TRUE, year])
-  year_cc_ne <- unique(dt[M_GREEN == TRUE & effective == FALSE, year])
+  year_cc <- unique(dt[M_GREEN == TRUE & effectivity == TRUE, year])
+  year_cc_ne <- unique(dt[M_GREEN == TRUE & effectivity == FALSE, year])
   
   
   # Add catch crops that were effective

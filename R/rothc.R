@@ -1,6 +1,6 @@
 #' RothC model
 #' 
-#' This function contains the Rothemsted carbon model that calcualtes C decomposition over time
+#' This function contains the Rothemsted carbon model that calculates C decomposition over time
 #' 
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
@@ -24,6 +24,21 @@
 calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO0,CHUM0,event,cor_factors, 
                         k1 = 10, k2 = 0.3, k3 = 0.66, k4 = 0.02, A_DEPTH = 0.3){
   
+  crops.obic = B_SOILTYPE_AGR = soils.obic = ID = effectivity = time = OSm = NULL
+  
+  # Check inputs
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = 10)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = 10)
+  
+  
+  checkmate::assert_numeric(k1, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(k2, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(k3, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(k4, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
+  
+  
+  # Import
   a <- cor_factors[,a]
   b <- cor_factors[,b]
   c <- cor_factors[,c]
@@ -78,6 +93,22 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,IOM0,CDPM0,CRPM0,CBIO
 #'     
 #' @export
 calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover, mcf, renewal = NULL, A_DEPTH = 0.3){
+  
+  time = NULL
+  
+  # Check inputs
+  checkmate::assert_numeric(A_T_MEAN, lower = -30, upper = 50, any.missing = FALSE, len = 12)
+  checkmate::assert_numeric(A_PREC_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
+  checkmate::assert_numeric(A_ET_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE)
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE)
+  checkmate::assert_numeric(A_DEPTH, lower = 0, upper = 2, any.missing = FALSE)
+  
+  checkmate::assert_integer(crop_cover, lower = 0, upper = 1, any.missing = FALSE, len = 600)
+  checkmate::assert_numeric(mcf, lower = 0, upper = 2, any.missing = FALSE, len = 600)
+  
+  checkmate::assert_numeric(renewal, any.missing = FALSE, min.len = 1, max.len = 10)
+  checkmate::assert_subset(renewal, choices = 1:10, empty.ok = FALSE)
   
   # RothC correction factors for temperature
   a         = 47.9/(1+exp(106/(A_T_MEAN+18.3)))
@@ -148,6 +179,24 @@ calc_cor_factors <- function(A_T_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_c
 #' @export
 calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, history = "default", A_DEPTH = 0.3, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
   
+  
+  # Check inputs
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = 10)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = 10)
+  checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE)
+  checkmate::assert_numeric(A_DEPTH, lower = 0, upper = 2, any.missing = FALSE)
+  
+  checkmate::assert_character(history,any.missing = FALSE, len = 10)
+  checkmate::assert_subset(history, choices = c('default','grass_rn','manure','manual'), empty.ok = FALSE)
+  
+  checkmate::assert_numeric(a, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(b, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(c, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(d, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  
+  
+  # Calculate bulk density and total organic carbon
   BD = calc_bulk_density(A_SOM_LOI = A_SOM_LOI, B_SOILTYPE_AGR =  B_SOILTYPE_AGR, A_CLAY_MI = A_CLAY_MI)
   TOC =   A_SOM_LOI*0.58*(BD)*(A_DEPTH*100*100)/100
   
