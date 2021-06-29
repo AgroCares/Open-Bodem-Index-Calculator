@@ -8,10 +8,10 @@
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
+#' @param A_DEPTH (numeric) Depth of the soil layer (m)
 #' @param A_TEMP_MEAN (numeric) Mean monthly temperature (dC), should be a vector of 12 elements, optional
 #' @param A_PREC_MEAN (numeric) Mean monthly precipitation (mm), should be a vector of 12 elements, optional
 #' @param A_ET_MEAN (numeric) Mean actual evapo-transpiration (mm), should be a vector of 12 elements, optional
-#' @param A_DEPTH (numeric) Depth of the soil layer (m)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
 #' @param manure_in (numeric) Annual amount of C applied to the soil via manure (kg C/ha), should be a vector with a value per year, optional
 #' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
@@ -19,21 +19,29 @@
 #' @param history (character) The manure history of the soil, optional (options: 'default', 'grass_rn' for grassland renewal, 'manure' for intensive manure application and 'manual')
 #' @param effectivity (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
 #' @param renewal (numeric) The years in which grassland renewal takes place (vector of years), optional
-#' @param a (numeric) Fraction of total carbon in the inert organic matter pool (-), optional
-#' @param b (numeric) Fraction of total carbon in the decomposable plant material pool (-), optional
-#' @param c (numeric) Fraction of total carbon in the resistant plant material pool (-), optional
-#' @param d (numeric) Fraction of total carbon in the microbial biomass pool (-), optional
-#' @param k1 (numeric) Decomposition rate constant for the CPM pool (/year), optional
-#' @param k2 (numeric) Decomposition rate constant for the RPM pool (/year), optional
-#' @param k3 (numeric) Decomposition rate constant for the BIO pool (/year), optional
-#' @param k4 (numeric) Decomposition rate constant for the HUM pool (/year), optional
-#'     
+#' @param c_fractions (numeric) A vector of the fractions of total carbon in the IOM, DPM, RPM and BIO pool (-), the fraction of the HUM pool is derived form these values; if not provided, default values are used, optional
+#' @param dec_rates (numeric) A vector of the decomposition rate constants for the DPM, RPM, BIO and HUM pool (/year); if not provided, default values are used, optional
+#' 
 #' @export
-ind_carbon_sequestration <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_TEMP_MEAN = NULL, A_PREC_MEAN = NULL, A_DEPTH = 0.3, A_ET_MEAN = NULL, 
-                                     M_GREEN = NULL, manure_in = NULL, compost_in = NULL, manure_type = 'slurry', history = 'default', effectivity = TRUE, 
-                                     renewal = NULL, k1 = 10, k2 = 0.3, k3 = 0.66, k4 = 0.02, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
+ind_carbon_sequestration <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_DEPTH = 0.3,
+                                     A_TEMP_MEAN = NULL, A_PREC_MEAN = NULL, A_ET_MEAN = NULL, M_GREEN = NULL, 
+                                     manure_in = NULL, compost_in = NULL, manure_type = 'slurry', history = 'default', effectivity = TRUE, renewal = NULL, 
+                                     c_fractions = c(0.0558,0.015,0.125,0.015), dec_rates = c(10,0.3,0.66,0.02)){
   
- crops.obic = soils.obic = time = OSm = NULL
+  crops.obic = soils.obic = time = OSm = NULL
+  
+  
+  # Import RothC correction factors
+  a <- cor_factors[1]
+  b <- cor_factors[2]
+  c <- cor_factors[3]
+  d <- cor_factors[4]
+ 
+  # Import decomposition rate constants
+  k1 <- dec_rates[1]
+  k2 <- dec_rates[2]
+  k3 <- dec_rates[3]
+  k4 <- dec_rates[4]
   
   
   # Check inputs
@@ -69,6 +77,7 @@ ind_carbon_sequestration <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY
   checkmate::assert_numeric(b, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
   checkmate::assert_numeric(c, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
   checkmate::assert_numeric(d, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  
   checkmate::assert_numeric(k1, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
   checkmate::assert_numeric(k2, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
   checkmate::assert_numeric(k3, lower = 0.001, upper = 50, any.missing = FALSE, min.len = 1, max.len = 1)
@@ -127,32 +136,29 @@ ind_carbon_sequestration <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY
   
   
   # Calculate correction factors
-  factors_current <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_current$crop_cover, 
-                                      mcf = rotation_current$mcf, renewal, A_DEPTH)
+  factors_current <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH, 
+                                      crop_cover = rotation_current$crop_cover, mcf = rotation_current$mcf, renewal)
   
-  factors_optimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_optimal$crop_cover, 
-                                      mcf = rotation_optimal$mcf, renewal, A_DEPTH)
+  factors_optimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH,
+                                      crop_cover = rotation_optimal$crop_cover, mcf = rotation_optimal$mcf, renewal)
   
-  factors_minimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, crop_cover = rotation_minimal$crop_cover, 
-                                      mcf = rotation_minimal$mcf, renewal, A_DEPTH)
+  factors_minimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH, 
+                                      crop_cover = rotation_minimal$crop_cover, mcf = rotation_minimal$mcf, renewal)
   
   
   # Initialize C pools
-  cpools <- calc_cpools(B_SOILTYPE_AGR,A_SOM_LOI, A_CLAY_MI, history = history, A_DEPTH = A_DEPTH, a = a, b = b, c = c, d = d)
+  cpools <- calc_cpools(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH, history, c_fractions)
   
   
   # Run RothC
-  result_current <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
-                               IOM0 = cpools[1], CDPM0 = cpools[2], CRPM0 = cpools[3], CBIO0 = cpools [4], CHUM0 = cpools[5], 
-                               event = event_current, cor_factors = factors_current, k1 = k1, k2 = k2, k3 = k3, k4 = k4, A_DEPTH = A_DEPTH)
+  result_current <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH, event = event_current, 
+                               pool_size = cpools, cor_factors = factors_current, dec_rates)
   
-  result_optimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
-                               IOM0 = cpools[1], CDPM0 = cpools[2], CRPM0 = cpools[3], CBIO0 = cpools [4], CHUM0 = cpools[5], 
-                               event = event_optimal, cor_factors = factors_optimal, k1 = k1, k2 = k2, k3 = k3, k4 = k4, A_DEPTH = A_DEPTH)
+  result_optimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH, event = event_optimal,
+                               pool_size = cpools, cor_factors = factors_optimal, dec_rates)
   
-  result_minimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
-                               IOM0 = cpools[1], CDPM0 = cpools[2], CRPM0 = cpools[3], CBIO0 = cpools [4], CHUM0 = cpools[5],
-                               event = event_minimal, cor_factors = factors_minimal ,k1 = k1, k2 = k2, k3 = k3, k4 = k4, A_DEPTH = A_DEPTH)
+  result_minimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH, event = event_minimal,
+                               pools_size = cpools, cor_factors = factors_minimal, dec_rates)
   
   
   # Calculate index score
@@ -592,7 +598,7 @@ calc_events_minimal <- function(B_LU_BRP, manure_in, compost_in, catchcrop){
 #' @param effectivity (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
 #'     
 #' @export
-calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effectivity = TRUE){ 
+calc_crop_rotation <- function(B_LU_BRP,M_GREEN = FALSE, effectivity = TRUE){ 
   
   crop_code = crop_name = crop_makkink = mcf = crop_cover = ode = NULL
   
