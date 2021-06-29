@@ -17,7 +17,8 @@ Depends:
     R (>= 3.5.0)
 Imports: 
     checkmate,
-    data.table
+    data.table,
+    deSolve
 License: GPL-3 | file LICENSE
 URL: https://github.com/AgroCares/Open-Bodem-Index-Calculator
 BugReports: https://github.com/AgroCares/Open-Bodem-Index-Calculator/issues
