@@ -1,6 +1,6 @@
 #' Evaluate the carbon sequestration rate
 #' 
-#' This function is a wrapper function that calculates the score for carbon sequestration
+#' This function is a wrapper function that calculates the evaluation of the C pools over time for the different management types and produces a score for carbon sequestration
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
@@ -23,7 +23,7 @@
 #' @param dec_rates (numeric) A vector of the decomposition rate constants for the DPM, RPM, BIO and HUM pool (/year); if not provided, default values are used, optional
 #' 
 #' @export
-ind_carbon_sequestration <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_DEPTH = 0.3,
+calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_DEPTH = 0.3,
                                      A_TEMP_MEAN = NULL, A_PREC_MEAN = NULL, A_ET_MEAN = NULL, M_GREEN = NULL, 
                                      manure_in = NULL, compost_in = NULL, manure_type = 'slurry', history = 'default', effectivity = TRUE, renewal = NULL, 
                                      c_fractions = c(0.0558,0.015,0.125,0.015), dec_rates = c(10,0.3,0.66,0.02)){
@@ -162,10 +162,15 @@ ind_carbon_sequestration <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY
   
   
   # Calculate index score
-  relative_score <- (result_current[length(time),OSm] - result_minimal[length(time),OSm]) / (result_optimal[length(time),OSm] - result_minimal[length(time),OSm])
+  relative_score <- (result_current[length(time),OM] - result_minimal[length(time),OM]) / (result_optimal[length(time),OM] - result_minimal[length(time),OM])
   index_score <- OBIC::evaluate_logistic(relative_score,11,0.6,1.5)
   
-  return(index_score) 
+  out <- list(result_current,
+              result_optimal,
+              result_minimal,
+              index_score)
+  
+  return(out) 
   
 }
 
@@ -507,7 +512,7 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop,grass
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param manure_in (numeric) Annual amount of C applied to the soil via manure (kg C/ha), should be a vector with a value per year, optional
-#' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optioanl
+#' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
 #'     
 #' @export

@@ -82,17 +82,20 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   R1 = 1/((1.67*(1.85+1.6*exp(-0.0786*A_CLAY_MI)))+1)  
   y  = c(CDPM=CDPM0, CRPM=CRPM0, CBIO=CBIO0, CHUM=CHUM0)  
   
-  # Model paramteres
+  # Load model paramteres
   parms = c(k1=k1,k2=k2,k3=k3,k4=k4,R1=R1);times=seq(0,50,1/12)
   
+  # Run the model
   out = ode(y,times,rothC,parms,events=list(data=event))
   
+  # Convert kg C/ha to % OM
   BD = calc_bulk_density(A_SOM_LOI = A_SOM_LOI, B_SOILTYPE_AGR = B_SOILTYPE_AGR, A_CLAY_MI = A_CLAY_MI)  
-  CF4 = 10*0.5*(A_DEPTH*100*100)*BD/1000
+  CF = 10*0.5*(A_DEPTH*100*100)*BD/1000
  
-  OSm = (out[,2]+out[,3]+out[,4]+out[,5]+IOM0)/CF4
+  OM = (out[,2]+out[,3]+out[,4]+out[,5]+IOM0)/CF
   
-  OMdynamic = data.table(time=out[,1],OSm)
+  # Format output
+  OMdynamic = data.table(time=out[,1],OM)
   
   return(OMdynamic)
 }
