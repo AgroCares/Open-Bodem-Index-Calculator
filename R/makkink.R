@@ -2,12 +2,11 @@
 #' 
 #' This function adds Makkink correction factors for ET and crop cover to the crop rotation table
 #' 
-#' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #'     
 #' @export
-calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
+calc_makkink <- function(B_LU_BRP,M_GREEN){
   
   crop_code = crop_name = crop_makkink = mcf = crop_cover = NULL
   
@@ -31,7 +30,6 @@ calc_makkink <- function(ID, B_LU_BRP,M_GREEN){
   
   # Collect input data in a table
   dt <- data.table(year = 1:arg.length,
-                   ID = ID,
                    B_LU_BRP = B_LU_BRP,
                    M_GREEN = M_GREEN
   )

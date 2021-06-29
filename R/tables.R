@@ -160,3 +160,52 @@
 #' }
 "nema.crop.rot.obic"
 
+
+#' Carbon application table
+#' 
+#' This table contains the timing of carbon application via manure and plant residue for the Makkink crop categories
+#' 
+#' @format A data.table with 24 rows and 3 columns:
+#' \describe{
+#'   \item{crop_makkink}{Makkink crop category}
+#'   \item{t_manure}{Month in which manure application takes plave, as fraction of a year}
+#'   \item{t_residue}{Month in which the growing period ends and the crop residue enters the soil, as fraction of a year}
+#' }
+"carbon.application.obic"
+
+
+#' Weather table
+#' 
+#' This table contains the climatic weather data of the Netherlands for the period 1990-2020
+#' 
+#' @format A data.table with 12 rows and 4 columns:
+#' \describe{
+#'   \item{month}{Month of the year}
+#'   \item{A_TEMP_MEAN}{Mean monthly temperature}
+#'   \item{A_PREC_MEAN}{Mean monthly precipitation}
+#'   \item{A_ET_MEAN}{Mean monthly evapo-transpiration}
+#' }
+"weather.obic"
+
+
+#' Makkink correction factor table
+#' 
+#' This table contains the makkink correction factors for evapo-transpiration per month
+#' 
+#' @format A data.table with 12 rows and 4 columns:
+#' \describe{
+#'   \item{crop_makkink}{Makkink crop categroy}
+#'   \item{1}{Evapotranspiration correction factors for January}
+#'   \item{2}{Evapotranspiration correction factors for February}
+#'   \item{3}{Evapotranspiration correction factors for March}
+#'   \item{4}{Evapotranspiration correction factors for April}
+#'   \item{5}{Evapotranspiration correction factors for May}
+#'   \item{6}{Evapotranspiration correction factors for June}
+#'   \item{7}{Evapotranspiration correction factors for July}
+#'   \item{8}{Evapotranspiration correction factors for August}
+#'   \item{9}{Evapotranspiration correction factors for September}
+#'   \item{10}{Evapotranspiration correction factors for October}
+#'   \item{11}{Evapotranspiration correction factors for November}
+#'   \item{12}{Evapotranspiration correction factors for December}
+#' }
+"crops.makkink"

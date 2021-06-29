@@ -10,7 +10,7 @@
 #' @param CRPM0 (numeric) Initial size of the resistant plant material pool (kg C/ha)
 #' @param CBIO0 (numeric) Initial size of the microbial biomass pool (kg C/ha)
 #' @param CHUM0 (numeric) Initial size of the humified organic matter pool (kg C/ha)
-#' @param event (numeric) The carbon application events as calculated in calc_events_current, calc_events_minimal
+#' @param event (data.table) The carbon application events as calculated in calc_events_current, calc_events_minimal
 #' @param cor_factors (numeric) Correction factors for temperature (a), soil moisture (b), crop cover (c) and grassland renewal (d)
 #' @param k1 (numeric) Decomposition rate constant for the CPM pool (/year), optional
 #' @param k2 (numeric) Decomposition rate constant for the RPM pool (/year), optional

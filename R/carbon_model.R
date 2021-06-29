@@ -2,7 +2,6 @@
 #' 
 #' This function is a wrapper function that calculates the score for carbon sequestration
 #' 
-#' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
@@ -14,8 +13,8 @@
 #' @param A_ET_MEAN (numeric) Mean actual evapo-transpiration (mm), should be a vector of 12 elements, optional
 #' @param A_DEPTH (numeric) Depth of the soil layer (m)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
-#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
-#' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optional
+#' @param manure_in (numeric) Annual amount of C applied to the soil via manure (kg C/ha), should be a vector with a value per year, optional
+#' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with a value per year, optional
 #' @param history (character) The manure history of the soil, optional (options: 'default', 'grass_rn' for grassland renewal, 'manure' for intensive manure application and 'manual')
 #' @param effectivity (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
@@ -30,11 +29,11 @@
 #' @param k4 (numeric) Decomposition rate constant for the HUM pool (/year), optional
 #'     
 #' @export
-ind_carbon_sequestration <- function(ID, B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_TEMP_MEAN = NULL, A_PREC_MEAN = NULL, A_DEPTH = 0.3, A_ET_MEAN = NULL, 
+ind_carbon_sequestration <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_TEMP_MEAN = NULL, A_PREC_MEAN = NULL, A_DEPTH = 0.3, A_ET_MEAN = NULL, 
                                      M_GREEN = NULL, manure_in = NULL, compost_in = NULL, manure_type = 'slurry', history = 'default', effectivity = TRUE, 
                                      renewal = NULL, k1 = 10, k2 = 0.3, k3 = 0.66, k4 = 0.02, a = 0.0558, b = 0.015, c = 0.125, d = 0.015){
   
-  ID = crops.obic = soils.obic = B_SOILTYPE_AGR = time = OSm = NULL
+ crops.obic = soils.obic = time = OSm = NULL
   
   
   # Check inputs
@@ -104,27 +103,27 @@ ind_carbon_sequestration <- function(ID, B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_
   
   
   # Calculate carbon input
-  carbon_input_current <- calc_carbon_input(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effectivity, manure_type, manure_in, compost_in)
+  carbon_input_current <- calc_carbon_input(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effectivity, manure_type, manure_in, compost_in)
   
-  carbon_input_optimal <- calc_carbon_input(ID, B_LU_BRP = B_LU_BRP_optimal, A_P_AL, A_P_WA, M_GREEN = FALSE, effectivity = TRUE, manure_type = 'slurry', 
+  carbon_input_optimal <- calc_carbon_input(B_LU_BRP = B_LU_BRP_optimal, A_P_AL, A_P_WA, M_GREEN = FALSE, effectivity = TRUE, manure_type = 'slurry', 
                                             manure_in = NULL, compost_in = compost_in_optimal)
   
   # Determine carbon application events
-  event_current <- calc_events_current(ID, B_LU_BRP = B_LU_BRP, manure_in = carbon_input_current$manure_in, compost_in = carbon_input_current$compost_in,
+  event_current <- calc_events_current(B_LU_BRP = B_LU_BRP, manure_in = carbon_input_current$manure_in, compost_in = carbon_input_current$compost_in,
                                        catchcrop = carbon_input_current$catchcrop)
   
-  event_optimal <- calc_events_current(ID, B_LU_BRP = B_LU_BRP_optimal, manure_in = carbon_input_optimal$manure_in, compost_in = carbon_input_optimal$compost_in,
+  event_optimal <- calc_events_current(B_LU_BRP = B_LU_BRP_optimal, manure_in = carbon_input_optimal$manure_in, compost_in = carbon_input_optimal$compost_in,
                                        catchcrop = carbon_input_optimal$catchcrop)
   
-  event_minimal <- calc_events_minimal(ID, B_LU_BRP = B_LU_BRP, manure_in = manure_in_minimal, compost_in = compost_in_minimal,
+  event_minimal <- calc_events_minimal(B_LU_BRP = B_LU_BRP, manure_in = manure_in_minimal, compost_in = compost_in_minimal,
                                        catchcrop = catchcrop_minimal)
   
   # Determine rotations
-  rotation_current <- calc_crop_rotation(ID,B_LU_BRP,M_GREEN)
+  rotation_current <- calc_crop_rotation(B_LU_BRP,M_GREEN)
   
-  rotation_optimal <- calc_crop_rotation(ID,B_LU_BRP = B_LU_BRP_optimal, M_GREEN = M_GREEN_optimal)
+  rotation_optimal <- calc_crop_rotation(B_LU_BRP = B_LU_BRP_optimal, M_GREEN = M_GREEN_optimal)
   
-  rotation_minimal <- calc_crop_rotation(ID,B_LU_BRP,M_GREEN = M_GREEN_minimal)
+  rotation_minimal <- calc_crop_rotation(B_LU_BRP,M_GREEN = M_GREEN_minimal)
   
   
   # Calculate correction factors
@@ -170,18 +169,17 @@ ind_carbon_sequestration <- function(ID, B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_
 #' 
 #' This function calculates the carbon inputs to the field based on manure type, P status of the soil and management practices
 #' 
-#' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
 #' @param effectivity (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
 #' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with a value per year
-#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
-#' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optional
+#' @param manure_in (numeric) Annual amount of C applied to the soil via manure (kg C/ha), should be a vector with a value per year, optional, if NU
+#' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #'     
 #' @export
-calc_carbon_input <- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effectivity = TRUE, manure_type = 'slurry', manure_in = NULL, compost_in = NULL){
+calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effectivity = TRUE, manure_type = 'slurry', manure_in = NULL, compost_in = NULL){
   
   crop_n = crop_name = crops.obic = catchcrop = manure_OC_Pration = slurry_OC_Pratio =  NULL
   
@@ -201,8 +199,7 @@ calc_carbon_input <- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, eff
   
   
   # Collect data in a table
-  dt <- data.table(ID = ID,
-                   year = 1:10,
+  dt <- data.table(year = 1:10,
                    B_LU_BRP = B_LU_BRP,
                    A_P_AL = A_P_AL,
                    A_P_WA = A_P_WA,
@@ -289,15 +286,14 @@ calc_carbon_input <- function(ID, B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, eff
 #' 
 #' This function determines the carbon application events for current management
 #' 
-#' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
-#' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optional
+#' @param manure_in (numeric) Annual amount of C applied to the soil via manure (kg C/ha), should be a vector with a value per year, optional
+#' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
 #' @param grass_fertilization (numeric) Timing of fertilization application, optional (options: 1, 2, 3)
 #'     
 #' @export
-calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop,grass_fertilization){
+calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop,grass_fertilization){
   
   grass_fertilization = crop_code = hc = crop_makkink = crop_eos = crop_eos_residue = crop_eos_ressidue = application = NULL
   CDPM = CRPM = CHUM = CBIO = time = t_manure = t_residue = res_in = ratio = method = id = blok = NULL
@@ -316,8 +312,7 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop,g
   # Check catchcrop?
   
   # Collect data in a table
-  dt <- data.table(ID = ID,
-                   year = 1:10,
+  dt <- data.table(year = 1:10,
                    B_LU_BRP = B_LU_BRP,
                    manure_in = manure_in,
                    catchcrop = catchcrop,
@@ -330,9 +325,9 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop,g
   dt <- merge(dt,crops.obic[,list(crop_code,hc,crop_makkink,crop_eos,crop_eos_residue)], by.x = 'B_LU_BRP', by.y = 'crop_code')
   
   # Import and merge with carbon application data
-  carbon_application <- OBIC::carbon_application
+  carbon.application.obic <- OBIC::carbon.application.obic
   
-  dt <- merge(dt, carbon_application, by = 'crop_makkink')
+  dt <- merge(dt, carbon.application.obic, by = 'crop_makkink')
   
   
   ## Carbon from manure on grassland ---
@@ -504,14 +499,13 @@ calc_events_current <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop,g
 #' 
 #' This function determines the carbon application events for minimal management
 #' 
-#' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param manure_in (numeric) Amount of C applied on the soil via manure (kg C/ha), should be a vector with a value per year, optional
-#' @param compost_in (numeric) Amount of C applied on the soil via compost (kg C/ha), should be a vector with a value per year, optioanl
+#' @param manure_in (numeric) Annual amount of C applied to the soil via manure (kg C/ha), should be a vector with a value per year, optional
+#' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optioanl
 #' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
 #'     
 #' @export
-calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
+calc_events_minimal <- function(B_LU_BRP, manure_in, compost_in, catchcrop){
   
   crop_code = hc = crop_makkink = crop_eos = crop_eos_residue = res_in = ratio = t_residue = time = CDPM = CRPM = method = id = blok = NULL
   
@@ -526,8 +520,7 @@ calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   # Catchcrop?
   
   # Collect data in a table
-  dt <- data.table(ID = ID,
-                   year = 1:10,
+  dt <- data.table(year = 1:10,
                    B_LU_BRP = B_LU_BRP,
                    manure_in = manure_in,
                    catchcrop = catchcrop)
@@ -539,9 +532,9 @@ calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
   dt <- merge(dt,crops.obic[,list(crop_code,hc,crop_makkink,crop_eos,crop_eos_residue)], by.x = 'B_LU_BRP', by.y = 'crop_code')
   
   # Import and merge with carbon application data
-  carbon_application <- OBIC::carbon_application
+  carbon.application.obic <- OBIC::carbon.application.obic
   
-  dt <- merge(dt, carbon_application, by = 'crop_makkink')
+  dt <- merge(dt, carbon.application.obic, by = 'crop_makkink')
   
   
   
@@ -594,7 +587,6 @@ calc_events_minimal <- function(ID, B_LU_BRP, manure_in, compost_in, catchcrop){
 #' 
 #' This function determines crop cover and Makkink correction factors based on the cultivated crops
 #' 
-#' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
 #' @param effectivity (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
@@ -613,8 +605,7 @@ calc_crop_rotation <- function(ID,B_LU_BRP,M_GREEN = FALSE, effectivity = TRUE){
   
   
   # Collect data in a table
-  dt <- data.table(ID = ID,
-                   year = 1:10, # check argument length
+  dt <- data.table(year = 1:10, # check argument length
                    B_LU_BRP = B_LU_BRP,
                    effectivity = effectivity)
   
