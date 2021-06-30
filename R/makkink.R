@@ -15,7 +15,7 @@ calc_makkink <- function(B_LU_BRP,M_GREEN){
   crops.makkink <- as.data.table(OBIC::crops.makkink)
   
   # Check input
-  arg.length <- max(length(ID), length(B_LU_BRP), length(M_GREEN))
+  arg.length <- max(length(B_LU_BRP), length(M_GREEN))
   
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
