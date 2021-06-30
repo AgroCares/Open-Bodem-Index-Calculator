@@ -342,6 +342,7 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   dt <- data.table(year = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
                    manure_in = manure_in,
+                   compost_in = compost_in,
                    catchcrop = catchcrop,
                    grass_fertilization = grass_fertilization)
   
@@ -505,18 +506,22 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   dt.event2 <- copy(dt.event)
   dt.event2[,id := .I]
   
-  Blok = CJ(blok = seq(0,40,10),id = dt.event2$id)
-  dt.event2 <- dt.event2[rep(id,5)]
+  # extend crop table for the number of years
+  dt.event2 <- dt.event2[rep(id, each = ceiling(50 / arg.length))]
   
-  dt.event2[,id := .I]
-  Blok[,id := .I]  
+  # add year
+  dt.event2[,yr_rep := 1:.N,by=.(id)]
+  dt.event2[,year := (yr_rep - 1) * (max(arg.length)),by=.(yr_rep)]
+  dt.event2[,time := year + time]
   
-  dt.event3 = merge(Blok,dt.event2,by="id",allow.cartesian = T)
-  dt.event3[,time := time + blok][,c("blok","id") := NULL]
-  dt.event3 <- dt.event3[time > 0]
-  setorder(dt.event3,time)
+  setorder(dt.event2,year)
   
-  return(dt.event3)
+  # remove columns not needed any more
+  dt.event2[,c('year','yr_rep','id') := NULL]
+  
+  out <- dt.event2[time > 0 & time < 50]
+  
+  return(out)
     
   }
 
