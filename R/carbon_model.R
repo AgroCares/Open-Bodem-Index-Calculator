@@ -30,15 +30,14 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
                              renewal = NULL, grass_fertilization = 1,
                              c_fractions = c(0.0558,0.015,0.125,0.015), dec_rates = c(10,0.3,0.66,0.02)){
   
-  crops.obic = soils.obic = time = OM = NULL
+  crops.obic = soils.obic = crop_makkink = time = OM = NULL
   
+  # Load C fraction values
+  IOM_fr <- c_fractions[1]
+  DPM_fr <- c_fractions[2]
+  RPM_fr <- c_fractions[3]
+  BIO_fr <- c_fractions[4]
   
-  # Import RothC correction factors
-  a <- cor_factors[1]
-  b <- cor_factors[2]
-  c <- cor_factors[3]
-  d <- cor_factors[4]
- 
   # Import decomposition rate constants
   k1 <- dec_rates[1]
   k2 <- dec_rates[2]
@@ -49,23 +48,27 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   # Check inputs
   arg.length <- length(B_LU_BRP)
   
+  ## Check soil parameters
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = 1)
-  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(OBIC::soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_P_AL, lower = 1, upper = 250, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_P_WA, lower = 1, upper = 250, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_DEPTH, lower = 0, upper = 2, any.missing = FALSE, len = 1)
   
+  ## Check weather data
   checkmate::assert_numeric(A_TEMP_MEAN, lower = -30, upper = 50, any.missing = FALSE, null.ok = TRUE, len = 12)
   checkmate::assert_numeric(A_PREC_MEAN, lower = 0, upper = 10000, any.missing = FALSE, null.ok = TRUE, len = 12)
   checkmate::assert_numeric(A_ET_MEAN, lower = 0, upper = 10000, any.missing = FALSE, null.ok = TRUE, len = 12)
   
+  ## Chech catchcrops
   if(length(M_GREEN) != 1){ checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length) }
   if(length(effectivity) != 1){ checkmate::assert_logical(effectivity,any.missing = FALSE, len = arg.length) }
   
+  ## Check carbon inputs
   checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE, null.ok = TRUE, len = arg.length) # Check upper
   checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, null.ok = TRUE, len = arg.length) # Check upper
   if(length(manure_type) != 1){ checkmate::assert_character(manure_type, any.missing = FALSE, len = arg.length)}
@@ -73,28 +76,34 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   checkmate::assert_character(history, any.missing = FALSE, len = 1)
   checkmate::assert_subset(history, choices = c('defautl','grass_rn','manure','manual'), empty.ok = FALSE)
   
+  ## Check grassland renewal and fertilization
   checkmate::assert_numeric(renewal, any.missing = FALSE, null.ok = TRUE, max.len = arg.length)
   if(!is.null(renewal)){
-    checkmate::assert_subset(renewal, choices = 1:10, empty.ok = FALSE) # subset for 50 years?
+    checkmate::assert_subset(renewal, choices = 1:arg,length, empty.ok = FALSE) # subset for 50 years?
     
-    dt <- data.table(year = 1:10,
+    # Make data.table and merge it with crops.obic
+    dt <- data.table(year = 1:arg.length,
                      B_LU_BRP = B_LU_BRP)
     
     crops.obic <- OBIC::crops.obic
     dt <- merge(dt,crops.obic, by.x = 'B_LU_BRP', by.y = 'crop_code')
-    gras_years <- dt[crop_makkink %in% 'grasland',year]
     
+    # Check if grassland renewal only occurs in years that grass is grown
+    gras_years <- dt[crop_makkink %in% 'grasland',year]
     checkmate::assert_subset(renewal,choices = gras_years)
     }
   
   if(length(grass_fertilization) != 1){ checkmate::assert_numeric(grass_fertilization, any.missing = FALSE, max.len = arg.length) }
   checkmate::assert_subset(grass_fertilization, choices = c(1,2,3), empty.ok = FALSE)
   
-  checkmate::assert_numeric(a, lower = 0, upper = 1, any.missing = FALSE, len = 1)
-  checkmate::assert_numeric(b, lower = 0, upper = 1, any.missing = FALSE, len = 1)
-  checkmate::assert_numeric(c, lower = 0, upper = 1, any.missing = FALSE, len = 1)
-  checkmate::assert_numeric(d, lower = 0, upper = 1, any.missing = FALSE, len = 1)
+  ## Check C distribution fractions
+  checkmate::assert_numeric(IOM_fr, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(DPM_fr, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(RPM_fr, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
+  checkmate::assert_numeric(BIO_fr, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
   
+  ## Check decomposition rates
+  checkmate::assert_vector(dec_rates, any.missing = FALSE, len = 4)
   checkmate::assert_numeric(k1, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(k2, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(k3, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
@@ -102,29 +111,24 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   
   
   # Create optimal input
-  B_LU_BRP_optimal <- rep(233,10)
-  M_GREEN_optimal <- rep(FALSE,10)
-  compost_in_optimal <- rep(55,10)
-  catchcrop_optimal <- rep(0,10)
-  # Check grassland renewal and fertilization
+  B_LU_BRP_optimal <- rep(233,arg.length)
+  M_GREEN_optimal <- rep(FALSE,arg.length)
+  compost_in_optimal <- rep(55,arg.length)
+  catchcrop_optimal <- rep(0,arg.length)
   
   # Create minimal input
-  M_GREEN_minimal <- rep(FALSE,10)
-  manure_in_minimal <- rep(0,10)
-  compost_in_minimal <- rep(0,10)
-  catchcrop_minimal <- rep(0,10)
-  # Check grassland renewal and fertilization
+  M_GREEN_minimal <- rep(FALSE,arg.length)
+  catchcrop_minimal <- rep(0,arg.length)
+  renewal_minimal <- 1:arg.length
   
   
   # If not provided, load weather data
   if(any(is.null(A_TEMP_MEAN)|is.null(A_PREC_MEAN)|is.null(A_ET_MEAN))){
     
     weather <- OBIC::weather.obic
-    
     if(is.null(A_TEMP_MEAN)){A_TEMP_MEAN <- weather$A_TEMP_MEAN}
     if(is.null(A_PREC_MEAN)){A_PREC_MEAN <- weather$A_PREC_MEAN}
     if(is.null(A_ET_MEAN)){A_ET_MEAN <- weather$A_ET_MEAN}
-    
   }
   
   
@@ -139,10 +143,10 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
                                        catchcrop = carbon_input_current$catchcrop)
   
   event_optimal <- calc_events_current(B_LU_BRP = B_LU_BRP_optimal, manure_in = carbon_input_optimal$manure_in, compost_in = carbon_input_optimal$compost_in,
-                                       catchcrop = carbon_input_optimal$catchcrop)
+                                       catchcrop = carbon_input_optimal$catchcrop, grass_fertilization = 3)
   
-  event_minimal <- calc_events_minimal(B_LU_BRP = B_LU_BRP, manure_in = manure_in_minimal, compost_in = compost_in_minimal,
-                                       catchcrop = catchcrop_minimal)
+  event_minimal <- calc_events_minimal(B_LU_BRP = B_LU_BRP, catchcrop = catchcrop_minimal, grass_fertilization = 1)
+  
   
   # Determine rotations
   rotation_current <- calc_crop_rotation(B_LU_BRP,M_GREEN, effectivity)
@@ -157,10 +161,10 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
                                       crop_cover = rotation_current$crop_cover, mcf = rotation_current$mcf, renewal)
   
   factors_optimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH,
-                                      crop_cover = rotation_optimal$crop_cover, mcf = rotation_optimal$mcf, renewal)
+                                      crop_cover = rotation_optimal$crop_cover, mcf = rotation_optimal$mcf, renewal = NULL)
   
   factors_minimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH, 
-                                      crop_cover = rotation_minimal$crop_cover, mcf = rotation_minimal$mcf, renewal)
+                                      crop_cover = rotation_minimal$crop_cover, mcf = rotation_minimal$mcf, renewal = renewal_minimal)
   
   
   # Initialize C pools
@@ -214,18 +218,22 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
   # Check inputs
   arg.length <- length(B_LU_BRP)
   
+  # Check soil parameters
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_numeric(A_P_AL, lower = 1, upper = 250, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_P_WA, lower = 1, upper = 250, any.missing = FALSE, len = 1)
   
+  # Check catchcrop
   if(length(M_GREEN) != 1){ checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length) }
   if(length(effectivity) != 1){ checkmate::assert_logical(effectivity,any.missing = FALSE, len = arg.length) }
   
+  # Check carbon input parameters
   if(length(manure_type) != 1){ checkmate::assert_character(manure_type,any.missing = FALSE, len = arg.length) }
   checkmate::assert_subset(manure_type, choices = c('slurry','solid'), empty.ok = FALSE)
   checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE, null.ok = TRUE, len = arg.length) # Check upper
   checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, null.ok = TRUE, len = arg.length) # Check upper
+  
   
   # Collect data in a table
   dt <- data.table(year = 1:arg.length,
@@ -244,7 +252,7 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
   
   dt <- merge(dt, crops.obic, by.x = 'B_LU_BRP', by.y = 'crop_code')
   
-  
+  # Determine manure application if not provided
   if(is.null(manure_in)){
       
     # Slurry
@@ -321,14 +329,16 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
 calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, grass_fertilization = 1){
   
   crop_code = hc = crop_makkink = crop_eos = crop_eos_residue = crop_eos_ressidue = application = NULL
-  CDPM = CRPM = CHUM = CBIO = time = t_manure = t_residue = res_in = ratio = method = id = blok = NULL
+  CDPM = CRPM = CHUM = CBIO = time = t_manure = t_residue = res_in = ratio = method = id = yr_rep = NULL
   
   # Check inputs
   arg.length <- length(B_LU_BRP)
   
+  # Check soil parameters
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
   
+  # Check carbon input parameters
   checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length) # Check upper
   checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length) # Check upper
   checkmate::assert_numeric(catchcrop, lower = 0, upper = 2800, any.missing = FALSE, len = arg.length)
@@ -357,6 +367,8 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   
   dt <- merge(dt, carbon.application.obic, by = 'crop_makkink')
   
+  # Make not %in% parameter
+  "%nin%" <- Negate("%in%")
   
   ## Carbon from manure on grassland ---
   if('grasland' %in% dt$crop_makkink){
@@ -392,16 +404,16 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
     # Make an event table
     event.manure_grass <- dt.manure_grass[,list(CDPM,CRPM,CHUM,time)]
   
-    event.manure_grass <- melt.data.table(event.manure_grass, id.vars = 'time', na.rm = TRUE)
+    event.manure_grass <- melt(event.manure_grass, id.vars = 'time', variable.name = "var", na.rm = TRUE)
   
   }else{ 
       
-    event.manure_grass <- data.table(time = 1, variable = 'CDPM', value = 0) 
+    event.manure_grass <- data.table(time = 1, var = 'CDPM', value = 0) 
     }
   
   
   ## Carbon from manure for other crops ---
-  if(length(dt[crop_makkink != 'grasland', year]) > 1){
+  if('grasland' %nin% dt$crop_makkink){
     
     # Make manure table for other crops
     dt.manure <- dt[crop_makkink != 'grasland',list(B_LU_BRP,year,t_manure,manure_in)]
@@ -415,11 +427,11 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   
     # Event for manure application
     dt.manure <- dt.manure[,list(CDPM,CRPM,CHUM,time)]
-    event.manure <- melt(dt.manure,id.vars = "time")
+    event.manure <- melt(dt.manure,id.vars = "time", variable.name = "var")
   
   }else{ 
     
-    event.manure <- data.table(time = 1, variable = 'CDPM', value = 0) 
+    event.manure <- data.table(time = 1, var = 'CDPM', value = 0) 
   }
   
   
@@ -442,12 +454,12 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
     
   # Event for plant residue application
   dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
-  event.residue <- melt(dt.residue,id.vars = "time")
+  event.residue <- melt(dt.residue,id.vars = "time", variable.name = "var")
   
   
   
   ## Carbon from clippings ---
-  if(length(dt[crop_makkink == 'grasland', year])>0){
+  if('grasland' %in% dt$crop_makkink){
     
   # Make table for grassland  
   dt.clip_grass <- dt[crop_makkink == 'grasland',list(year)]
@@ -455,11 +467,11 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   
   # Remove unnecessary columns and melt table
   dt.clip_grass[,year := NULL]
-  event.clip_grass <- melt(dt.clip_grass, id.vars = "time")
+  event.clip_grass <- melt(dt.clip_grass, id.vars = "time", variable.name = "var")
   
   }else{ 
     
-    event.clip_grass <- data.table(time = 1, variable = 'CDPM', value = 0) 
+    event.clip_grass <- data.table(time = 1, var = 'CDPM', value = 0) 
   }
   
 
@@ -476,7 +488,7 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   
   # Event for manure application
   dt.compost <- dt.compost[,list(CDPM,CRPM,time)]
-  event.compost <- melt(dt.compost,id.vars = "time")
+  event.compost <- melt(dt.compost,id.vars = "time", variable.name = "var")
   
     
   
@@ -493,7 +505,7 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   
   # Event for catch crop application
   dt.catchcrop <- dt.catchcrop[,list(CDPM,CRPM,time)]
-  event.catchcrop <- melt(dt.catchcrop,id.vars = "time")
+  event.catchcrop <- melt(dt.catchcrop,id.vars = "time", variable.name = "var")
   
   
   # Event total application
@@ -503,15 +515,16 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
 
   
   # Extend event to 50 years
+  ## Make copy of dt.event
   dt.event2 <- copy(dt.event)
   dt.event2[,id := .I]
   
-  # extend crop table for the number of years
+  ## extend crop table for the number of years
   dt.event2 <- dt.event2[rep(id, each = ceiling(50 / arg.length))]
   
-  # add year
-  dt.event2[,yr_rep := 1:.N,by=.(id)]
-  dt.event2[,year := (yr_rep - 1) * (max(arg.length)),by=.(yr_rep)]
+  ## add year
+  dt.event2[,yr_rep := 1:.N, by = id]
+  dt.event2[,year := (yr_rep - 1) * (max(arg.length)), by = yr_rep]
   dt.event2[,time := year + time]
   
   setorder(dt.event2,year)
@@ -532,30 +545,30 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
 #' This function determines the carbon application events for minimal management
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param manure_in (numeric) Annual amount of C applied to the soil via manure (kg C/ha), should be a vector with a value per year, optional
-#' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
+#' @param grass_fertilization (numeric) Vector with the timing of fertilization application per year (options: 1: March, half June and September , 2: March and half July, 3: May and September), optional
 #'     
 #' @export
-calc_events_minimal <- function(B_LU_BRP, manure_in, compost_in, catchcrop){
+calc_events_minimal <- function(B_LU_BRP, catchcrop, grass_fertilization){
   
-  crop_code = hc = crop_makkink = crop_eos = crop_eos_residue = res_in = ratio = t_residue = time = CDPM = CRPM = method = id = blok = NULL
+  crop_code = hc = crop_makkink = crop_eos = crop_eos_residue = res_in = ratio = t_residue = time = CDPM = CRPM = method = id = yr_rep = NULL
   
   # Check inputs
   arg.length = length(B_LU_BRP)
   
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length) # Check upper
-  checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length) # Check upper
   checkmate::assert_numeric(catchcrop, lower = 0, upper = 2800, any.missing = FALSE, len = arg.length)
   
+  # Subset for grassland -> check subset
+  if(length(grass_fertilization) != 1){ checkmate::assert_numeric(grass_fertilization, any.missing = FALSE, max.len = arg.length) }
+  checkmate::assert_subset(grass_fertilization, choices = c(1,2,3), empty.ok = FALSE)
   
   # Collect data in a table
-  dt <- data.table(year = 1:10,
+  dt <- data.table(year = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
-                   manure_in = manure_in,
-                   catchcrop = catchcrop)
+                   catchcrop = catchcrop,
+                   grass_fertilization = grass_fertilization)
   
   
   # Add hc for manure types
@@ -588,28 +601,51 @@ calc_events_minimal <- function(B_LU_BRP, manure_in, compost_in, catchcrop){
   
   # Event for plant residue application
   dt.residue <- dt.residue[,list(CDPM,CRPM,time)]
+  event.residue <- melt(dt.residue,id.vars = "time", variable.name = "var")
   
-  dt.event <- melt(dt.residue,id.vars = "time", variable.name = "var")
+  
+  ## Carbon from clippings ---
+  if('grasland' %in% dt$crop_makkink){
+    
+    # Make table for grassland  
+    dt.clip_grass <- dt[crop_makkink == 'grasland',list(year)]
+    dt.clip_grass <- dt.clip_grass[,c('time',"CDPM","CRPM") :=  list(year - 1 + 0.83,346,354)]
+    
+    # Remove unnecessary columns and melt table
+    dt.clip_grass[,year := NULL]
+    event.clip_grass <- melt(dt.clip_grass, id.vars = "time", variable.name = "var")
+    
+  }else{ 
+    
+    event.clip_grass <- data.table(time = 1, var = 'CDPM', value = 0) 
+  }
+  
+  # Combine event tables
+  dt.event <- rbind(event.residue, event.clip_grass)
   setorder(dt.event,time)
   dt.event[,method := "add"]
   
-  
   # Extend event to 50 years
+  ## Make copy of dt.event
   dt.event2 <- copy(dt.event)
   dt.event2[,id := .I]
   
-  Blok = CJ(blok = seq(0,40,10),id = dt.event2$id)
-  dt.event2 <- dt.event2[rep(id,5)]
+  ## extend crop table for the number of years
+  dt.event2 <- dt.event2[rep(id, each = ceiling(50 / arg.length))]
   
-  dt.event2[,id := .I]
-  Blok[,id := .I]  
+  ## add year
+  dt.event2[,yr_rep := 1:.N, by=id]
+  dt.event2[,year := (yr_rep - 1) * (max(arg.length)), by=yr_rep]
+  dt.event2[,time := year + time]
   
-  dt.event3 = merge(Blok,dt.event2,by="id",allow.cartesian = T)
-  dt.event3[,time := time + blok][,c("blok","id") := NULL]
-  dt.event3 <- dt.event3[time > 0]
-  setorder(dt.event3,time)
+  setorder(dt.event2,year)
   
-  return(dt.event3)
+  # remove columns not needed any more
+  dt.event2[,c('year','yr_rep','id') := NULL]
+  
+  out <- dt.event2[time > 0 & time < 50]
+  
+  return(out)
 }
 
 
@@ -638,7 +674,7 @@ calc_crop_rotation <- function(B_LU_BRP, M_GREEN = FALSE, effectivity = TRUE){
   
   
   # Collect data in a table
-  dt <- data.table(year = 1:10, # check argument length
+  dt <- data.table(year = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
                    effectivity = effectivity)
   
@@ -676,12 +712,12 @@ calc_crop_rotation <- function(B_LU_BRP, M_GREEN = FALSE, effectivity = TRUE){
   
   
   # Add catch crops that were effective
-  # Add catch crops for year 10 separately
+  # First add catch crops for last year separately
   if(length(year_cc) != 0){
-    if(year_cc[length(year_cc)] == 10){
+    if(year_cc[length(year_cc)] == arg.length){
    
-      dt[year == 10 & month %in% 10:12, c("crop_name","crop_cover","mcf"):=list("catch crop",1,c(0.74,0.64,0.6))]
-      year_cc <- year_cc[! year_cc %in% c(10)] 
+      dt[year == arg.length & month %in% 10:12, c("crop_name","crop_cover","mcf"):=list("catch crop",1,c(0.74,0.64,0.6))]
+      year_cc <- year_cc[! year_cc %in% arg.length] 
     
       }
   }
@@ -710,11 +746,8 @@ calc_crop_rotation <- function(B_LU_BRP, M_GREEN = FALSE, effectivity = TRUE){
   }  
   
   
-  # Standardize months
-  dt[,month:=1:120]
-  
   # Format output
-  rotation <- dt[,list(year, month, B_LU_BRP, mcf, crop_cover)]
+  rotation <- dt[,list(year, B_LU_BRP, mcf, crop_cover)]
   
   return(rotation)
 }

@@ -10,7 +10,7 @@ calc_cpools(
   A_CLAY_MI,
   A_DEPTH = 0.3,
   history = "default",
-  c_fraction
+  c_fractions
 )
 }
 \arguments{

@@ -27,10 +27,11 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   CHUM0 <- pool_size[5]
   
   # Import RothC correction factors
-  a <- cor_factors[1]
-  b <- cor_factors[2]
-  c <- cor_factors[3]
-  d <- cor_factors[4]
+  checkmate::assertDataTable(cor_factors, any.missing = FALSE, ncols = 4, nrows = 600)
+  a <- cor_factors[,a]
+  b <- cor_factors[,b]
+  c <- cor_factors[,c]
+  d <- cor_factors[,d]
   
   # Import decomposition rate constants
   k1 <- dec_rates[1]
@@ -41,14 +42,17 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   # Check inputs
   # Additional check event and correction factors?
   
-  checkmate::assert_numeric(B_SOILTYPE_AGR, any.missing = FALSE, len = 1)
-  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(crops.obic$soiltype), empty.ok = FALSE)
+  # Check Soil parameters
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = 1)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(OBIC::soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0.5, upper = 75, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_DEPTH, lower = 0, upper = 2, any.missing = FALSE, len = 1)
   
-  checkmate::assertDataTable(event, ncols = 4, col.names = c('time','variable', 'value','method'))
+  checkmate::assertDataTable(event, ncols = 4)
+  checkmate::assert_subset(colnames(event), choices = c('time','var','value','method'), empty.ok = FALSE)
   
+  # Check pool sizes
   checkmate::assert_vector(pool_size, any.missing = FALSE, len = 5)
   checkmate::assert_numeric(IOM0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(CDPM0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1)
@@ -56,12 +60,15 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   checkmate::assert_numeric(CBIO0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(CHUM0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1)
   
-  checkmate::assert_vector(cor_factors, any.missing = FALSE, len = 4)
-  checkmate::assert_numeric(a, lower = 0, upper = 1, any.missing = FALSE, len = 1) # Check length
-  checkmate::assert_numeric(b, lower = 0, upper = 1, any.missing = FALSE, len = 1)
-  checkmate::assert_numeric(c, lower = 0, upper = 1, any.missing = FALSE, len = 1)
-  checkmate::assert_numeric(d, lower = 0, upper = 1, any.missing = FALSE, len = 1)
+  # Check correction factors
+  checkmate::assert_numeric(a, lower = 0, upper = 5, any.missing = FALSE, len = 600)
+  checkmate::assert_numeric(b, lower = 0.2, upper = 1, any.missing = FALSE, len = 600)
+  checkmate::assert_numeric(c, lower = 0.6, upper = 1, any.missing = FALSE, len = 600)
+  checkmate::assert_subset(c, choices = c(0.6,1), empty.ok = FALSE)
+  checkmate::assert_numeric(d, lower = 0, upper = 1, any.missing = FALSE, len = 600)
+  checkmate::assert_subset(d, choices = c(0,1), empty.ok = FALSE)
   
+  # Check decomposition rates
   checkmate::assert_vector(dec_rates, any.missing = FALSE, len = 4)
   checkmate::assert_numeric(k1, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(k2, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
@@ -81,12 +88,13 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
     dCHUM   <- abc(time)*-k4*CHUM - (abc(time)*-k4*CHUM*R1*0.54)-(dCDPM*R1*0.54)-(dCRPM*R1*0.54)-(abc(time)*-k3*CBIO*R1*0.54) - (d(time) * CHUM * 0.33)
     list(c(dCDPM,dCRPM,dCBIO,dCHUM))})}
   
-  
+  # Calculate correction factor for soil structure
   R1 = 1/((1.67*(1.85+1.6*exp(-0.0786*A_CLAY_MI)))+1)
-  y  = c(CDPM=CDPM0, CRPM=CRPM0, CBIO=CBIO0, CHUM=CHUM0)  
   
-  # Load model paramteres
-  parms = c(k1=k1,k2=k2,k3=k3,k4=k4,R1=R1);times=seq(0,50,1/12)
+  # Load model parameters
+  parms = c(k1=k1,k2=k2,k3=k3,k4=k4,R1=R1)
+  times=seq(0,50,1/12)
+  y  = c(CDPM=CDPM0, CRPM=CRPM0, CBIO=CBIO0, CHUM=CHUM0)  
   
   # Run the model
   out = ode(y,times,rothC,parms,events=list(data=event))
@@ -94,7 +102,8 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   # Convert kg C/ha to % OM
   BD = calc_bulk_density(A_SOM_LOI = A_SOM_LOI, B_SOILTYPE_AGR = B_SOILTYPE_AGR, A_CLAY_MI = A_CLAY_MI)  
   CF = 10*0.5*(A_DEPTH*100*100)*BD/1000
- 
+  
+  # Calculate total carbon content
   OM = (out[,2]+out[,3]+out[,4]+out[,5]+IOM0)/CF
   
   # Format output
@@ -129,6 +138,7 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
   arg.length <- max(length(crop_cover),length(mcf))
   years <- 1:(arg.length/12)
   
+  ## Check weather and soil parameters
   checkmate::assert_numeric(A_TEMP_MEAN, lower = -30, upper = 50, any.missing = FALSE, len = 12)
   checkmate::assert_numeric(A_PREC_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
   checkmate::assert_numeric(A_ET_MEAN, lower = 0, upper = 10000, any.missing = FALSE, len = 12)
@@ -136,10 +146,12 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
   checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_DEPTH, lower = 0, upper = 2, any.missing = FALSE, len = 1)
   
+  ## Check crop cover and Makkink correction factor
   checkmate::assert_numeric(crop_cover, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(crop_cover, choices = c(0,1), empty.ok = FALSE)
   checkmate::assert_numeric(mcf, lower = 0, upper = 2, any.missing = FALSE, len = arg.length)
   
+  ## Check grassland renewal
   if(!is.null(renewal)){ checkmate::assert_numeric(renewal, any.missing = FALSE, min.len = 1, max.len = arg.length/12) 
                          checkmate::assert_subset(renewal, choices = years, empty.ok = FALSE) }
   
@@ -148,25 +160,28 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
   # RothC correction factors for temperature
   a         = 47.9/(1+exp(106/(A_TEMP_MEAN+18.3)))
   
+  # RothC correction factors for soil moisture
   # Calculate actual evapo-transpiration
   ET_ACT <- A_ET_MEAN * mcf
   
-  PWL       = A_PREC_MEAN-ET_ACT
-  CG        = crop_cover
+  # Calculate soil moisture deficit
+  SMD       = A_PREC_MEAN-ET_ACT
+  CC        = crop_cover
   
+  # Calculate maximal top soil moisture deficit (TSMD) and bare soil moisture deficit
   TSMDmax   = -(20+1.3*A_CLAY_MI-0.01*(A_CLAY_MI^2))*A_DEPTH/0.23
   BareSMD   = TSMDmax/1.8
   
   # RothC correction factor for soil moisture
-  TSMD      = matrix();b=matrix();TSMD[1]=0;b[1]=1;TSMDmaxc=matrix()
+  TSMD = matrix(); b=matrix(); TSMD[1]=0; b[1]=1; TSMDmaxc=matrix()
   
   for (i in 2:arg.length){
-    if (CG[i]==1){ TSMD[i]=pmax(TSMDmax,pmin(0,(TSMD[i-1] + PWL[i])))
-    } else if (TSMD[i-1]<BareSMD){ TSMD[i]=pmin(0,(TSMD[i-1] + pmax(0,PWL[i])))
-    } else { TSMD[i]=pmax(BareSMD,pmin(0,TSMD[i-1]+PWL[i]))
+    if (CC[i]==1){ TSMD[i]=pmax(TSMDmax, pmin(0,(TSMD[i-1] + SMD[i])))
+    } else if (TSMD[i-1]<BareSMD){ TSMD[i] = pmin(0,(TSMD[i-1] + pmax(0,SMD[i])))
+    } else { TSMD[i]=pmax(BareSMD, pmin(0, TSMD[i-1] + SMD[i]))
     }
     
-    TSMDmaxc[i]=(TSMDmax*CG[i]+BareSMD*ifelse(CG[i]==0,1,0))
+    TSMDmaxc[i]=(TSMDmax*CC[i]+BareSMD*ifelse(CC[i]==0,1,0))
     
     if (TSMD[i]>0.444*TSMDmax){ b[i]=1
     }else{
@@ -175,7 +190,7 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
     }
   
   # RothC correction factor for soil cover
-  c <- ifelse(CG==1,0.6,1)
+  c <- ifelse(CC==1,0.6,1)
   
   # Extend b and c to 50 years
   extend <- ceiling(50/(arg.length/12))
@@ -186,7 +201,10 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
   # Correction factor for grassland renewal
   if(!is.null(renewal)){
     
+    # Make data.table with all months of crop rotation plan
     d <- data.table(time = round(seq(1/12,arg.length/12,by = 1/12),digits = 5))
+    
+    # Select February for the years in which grassland renewal is applied 
     time_renewal <- round(renewal - 1 + 2/12,digits = 5)
     d[,d := fifelse(time %in% time_renewal,1,0)]
     
@@ -195,7 +213,7 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
   }else{ d <- rep(0,600)}
   
   # Format output
-  cor_factors <- c(a,b,c,d)
+  cor_factors <- data.table(a=a, b=b, c=c, d=d)
   return(cor_factors)
 }
 
@@ -215,7 +233,7 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
 #' @references Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'          
 #' @export
-calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH = 0.3, history = "default", c_fraction){
+calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH = 0.3, history = "default", c_fractions){
   
   soils.obic = NULL
   
@@ -227,15 +245,18 @@ calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH = 0.3, his
   
     
   # Check inputs
+  ## Check soil parameters
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = 1)
-  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(OBIC::soils.obic$soiltype), empty.ok = FALSE)
   checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(A_DEPTH, lower = 0, upper = 2, any.missing = FALSE, len = 1)
   
+  ## Check manure history
   checkmate::assert_character(history,any.missing = FALSE, len = 1)
   checkmate::assert_subset(history, choices = c('default','grass_rn','manure','manual'), empty.ok = FALSE)
   
+  ## Check C distribution fractions
   checkmate::assert_numeric(IOM_fr, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
   checkmate::assert_numeric(DPM_fr, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
   checkmate::assert_numeric(RPM_fr, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
