@@ -227,7 +227,7 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_DEPTH (numeric) Depth of the soil layer (m)
-#' @param history (character) The manure history of the soil, optional (options: default, grass_rn for grassland renewal, manure for intensive manure application and manual)
+#' @param history (character) The manure history of the soil, optional (options: default, grass_renewal for grassland renewal, manure for intensive manure application and manual)
 #' @param c_fractions (numeric) A vector of the fractions of total carbon in the IOM, DPM, RPM and BIO pool (-), the fraction of the HUM pool is derived form these values; if not provided, default values are used, optional
 #'     
 #' @references Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
@@ -254,7 +254,7 @@ calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH = 0.3, his
   
   ## Check manure history
   checkmate::assert_character(history,any.missing = FALSE, len = 1)
-  checkmate::assert_subset(history, choices = c('default','grass_rn','manure','manual'), empty.ok = FALSE)
+  checkmate::assert_subset(history, choices = c('default','grass_renewal','manure','manual'), empty.ok = FALSE)
   
   ## Check C distribution fractions
   checkmate::assert_numeric(IOM_fr, lower = 0, upper = 1, any.missing = FALSE, min.len = 1, max.len = 1)
@@ -277,7 +277,7 @@ calc_cpools <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH = 0.3, his
   }
   
   # Distribution after grassland renewal
-  if(history == "grass_rn"){
+  if(history == "grass_renewal"){
     IOM0      = IOM_fr*TOC
     CDPM0     = 0.01*(TOC-IOM0)
     CRPM0     = 0.47*(TOC-IOM0)

@@ -19,10 +19,8 @@ calc_makkink <- function(B_LU_BRP,M_GREEN){
   
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length)
+  if(length(M_GREEN) != 1){ checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length) }
   
-  # Add weather data here?
-
 
   # melt makkink
   dt.mak <- melt(crops.makkink,id.vars = 'crop_makkink', variable.name = 'month',value.name = "mcf")

@@ -17,7 +17,7 @@
 #' @param manure_in (numeric) Annual amount of C applied to the soil via manure (kg C/ha), should be a vector with a value per year, optional
 #' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with a value per year, optional
-#' @param history (character) The manure history of the soil, optional (options: 'default', 'grass_rn' for grassland renewal, 'manure' for intensive manure application and 'manual')
+#' @param history (character) The manure history of the soil, optional (options: 'default', 'grass_renewal' for grassland renewal, 'manure' for intensive manure application and 'manual')
 #' @param renewal (numeric) The years in which grassland renewal takes place (vector of years), optional
 #' @param grass_fertilization (numeric) Timing of fertilization application, optional (options: 1, 2, 3)
 #' @param c_fractions (numeric) A vector of the fractions of total carbon in the IOM, DPM, RPM and BIO pool (-), the fraction of the HUM pool is derived form these values; if not provided, default values are used, optional
@@ -26,7 +26,7 @@
 #' @export
 calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_DEPTH = 0.3,
                              A_TEMP_MEAN = NULL, A_PREC_MEAN = NULL, A_ET_MEAN = NULL, M_GREEN = FALSE, effectivity = TRUE, 
-                             manure_in = NULL, compost_in = NULL, manure_type = 'slurry', history = 'default', 
+                             manure_in = NULL, compost_in = 0, manure_type = 'slurry', history = 'default', 
                              renewal = NULL, grass_fertilization = 1,
                              c_fractions = c(0.0558,0.015,0.125,0.015), dec_rates = c(10,0.3,0.66,0.02)){
   
@@ -70,16 +70,16 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   
   ## Check carbon inputs
   checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE, null.ok = TRUE, len = arg.length) # Check upper
-  checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, null.ok = TRUE, len = arg.length) # Check upper
+  if(length(compost_in) != 1){ checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length) } # Check upper
   if(length(manure_type) != 1){ checkmate::assert_character(manure_type, any.missing = FALSE, len = arg.length)}
   checkmate::assert_subset(manure_type, choices = c('slurry','solid'), empty.ok = FALSE)
   checkmate::assert_character(history, any.missing = FALSE, len = 1)
-  checkmate::assert_subset(history, choices = c('defautl','grass_rn','manure','manual'), empty.ok = FALSE)
+  checkmate::assert_subset(history, choices = c('default','grass_renewal','manure','manual'), empty.ok = FALSE)
   
   ## Check grassland renewal and fertilization
   checkmate::assert_numeric(renewal, any.missing = FALSE, null.ok = TRUE, max.len = arg.length)
   if(!is.null(renewal)){
-    checkmate::assert_subset(renewal, choices = 1:arg,length, empty.ok = FALSE) # subset for 50 years?
+    checkmate::assert_subset(renewal, choices = 1:arg.length, empty.ok = FALSE)
     
     # Make data.table and merge it with crops.obic
     dt <- data.table(year = 1:arg.length,
@@ -113,11 +113,22 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   # Create optimal input
   B_LU_BRP_optimal <- rep(233,arg.length)
   M_GREEN_optimal <- rep(FALSE,arg.length)
-  compost_in_optimal <- rep(55,arg.length)
   catchcrop_optimal <- rep(0,arg.length)
   
+  # Calculate compost and manure input optimal management assuming 50/50 use of slurry and compost
+  slurry_OC_Pratio <- (0.3 * 79 / 3.9 + 0.7 * 71 / 1.5) * 0.5
+  comp_OC_Pratio <- 179 / 2.2 * 0.5
+  if(A_P_WA <= 25){ manure_in_optimal  = 0.5 * 120 * slurry_OC_Pratio 
+                    compost_in_optimal = 0.5 * 120 * comp_OC_Pratio }
+  if(A_P_WA > 25 & A_P_WA <= 36){ manure_in_optimal  = 0.5 * 75 * slurry_OC_Pratio
+                                  compost_in_optimal = 0.5 * 75 * comp_OC_Pratio}
+  if(A_P_WA > 36 & A_P_WA <= 55){ manure_in_optimal  = 0.5 * 60 * slurry_OC_Pratio
+                                  compost_in_optimal = 0.5 * 60 * comp_OC_Pratio }
+  if(A_P_WA > 55){ manure_in_optimal  = 0.5 * 50 * slurry_OC_Pratio
+                   compost_in_optimal = 0.5 * 50 * comp_OC_Pratio}
+  
+
   # Create minimal input
-  M_GREEN_minimal <- rep(FALSE,arg.length)
   catchcrop_minimal <- rep(0,arg.length)
   renewal_minimal <- 1:arg.length
   
@@ -136,7 +147,7 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   carbon_input_current <- calc_carbon_input(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN, effectivity, manure_type, manure_in, compost_in)
   
   carbon_input_optimal <- calc_carbon_input(B_LU_BRP = B_LU_BRP_optimal, A_P_AL, A_P_WA, M_GREEN = FALSE, effectivity = TRUE, manure_type = 'slurry', 
-                                            manure_in = NULL, compost_in = compost_in_optimal)
+                                            manure_in = manure_in_optimal, compost_in = compost_in_optimal)
   
   # Determine carbon application events
   event_current <- calc_events_current(B_LU_BRP = B_LU_BRP, manure_in = carbon_input_current$manure_in, compost_in = carbon_input_current$compost_in,
@@ -153,7 +164,7 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   
   rotation_optimal <- calc_crop_rotation(B_LU_BRP = B_LU_BRP_optimal, M_GREEN = M_GREEN_optimal, effectivity = TRUE)
   
-  rotation_minimal <- calc_crop_rotation(B_LU_BRP,M_GREEN = M_GREEN_minimal, effectivity = FALSE)
+  rotation_minimal <- calc_crop_rotation(B_LU_BRP,M_GREEN = FALSE, effectivity = FALSE)
   
   
   # Calculate correction factors
@@ -213,7 +224,7 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
 #' @export
 calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effectivity = TRUE, manure_type = 'slurry', manure_in = NULL, compost_in = NULL){
   
-  crop_n = crop_name = crops.obic = catchcrop = manure_OC_Pration = slurry_OC_Pratio =  NULL
+  crop_n = crop_name = crops.obic = crop_makkink = catchcrop = manure_OC_Pration = slurry_OC_Pratio =  NULL
   
   # Check inputs
   arg.length <- length(B_LU_BRP)
@@ -231,8 +242,8 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
   # Check carbon input parameters
   if(length(manure_type) != 1){ checkmate::assert_character(manure_type,any.missing = FALSE, len = arg.length) }
   checkmate::assert_subset(manure_type, choices = c('slurry','solid'), empty.ok = FALSE)
-  checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE, null.ok = TRUE, len = arg.length) # Check upper
-  checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, null.ok = TRUE, len = arg.length) # Check upper
+  if(length(compost_in) != 1){ checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE, null.ok = TRUE, len = arg.length) } # Check upper
+  if(length(compost_in) != 1){ checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length) } # Check upper
   
   
   # Collect data in a table
@@ -253,12 +264,14 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
   dt <- merge(dt, crops.obic, by.x = 'B_LU_BRP', by.y = 'crop_code')
   
   # Determine manure application if not provided
+  ## Based on Termorshuizen, A.J., Postma, R. 2021. Effecten van toevoer van organische stof op bodemgezondheid en bodemvruchtbaarheid. Aad Termorshuizen Consultancy en NMI.
+  ## Values for OM (not EOM) were used and converted to OC
   if(is.null(manure_in)){
       
     # Slurry
       ## Cropland
-      ### manure input in arable systems, assuming 70% dairy slurry and 30% pig slurry, 85% organ
-      slurry_OC_Pratio <- ((0.3 * 7 / 0.33 + 0.7 * 33 / 0.7) * 0.5)
+      ### manure input in arable systems, assuming 70% dairy slurry and 30% pig slurry, 85% organic
+      slurry_OC_Pratio <- (0.3 * 79 / 3.9 + 0.7 * 71 / 1.5) * 0.5
       dt[manure_type == 'slurry' & crop_n == 'akkerbouw' & A_P_WA <= 25, manure_in := 0.85 * 120 * slurry_OC_Pratio]
       dt[manure_type == 'slurry' & crop_n == 'akkerbouw' & A_P_WA > 25 & A_P_WA <= 36, manure_in := 0.85 * 75 * slurry_OC_Pratio]
       dt[manure_type == 'slurry' & crop_n == 'akkerbouw' & A_P_WA > 36 & A_P_WA <= 55, manure_in := 0.85 * 60 * slurry_OC_Pratio]
@@ -266,7 +279,7 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
     
       ## Grassland
       ### manure input in grassland systems, assuming 100% dairy slurry
-      slurry_OC_Pratio <- 33 / 0.7 * 0.5
+      slurry_OC_Pratio <- 71 / 1.5 * 0.5
       dt[manure_type == 'slurry' & crop_n=='gras' & A_P_AL <= 16,manure_in := 120 * slurry_OC_Pratio]
       dt[manure_type == 'slurry' & crop_n=='gras' & A_P_AL > 16 & A_P_AL <= 27,manure_in := 100 * slurry_OC_Pratio]
       dt[manure_type == 'slurry' & crop_n=='gras' & A_P_AL > 27 & A_P_AL <= 50,manure_in := 90 * slurry_OC_Pratio]
@@ -275,7 +288,7 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
    # Solid manure
       ## Cropland 
       ### manure input in arable systems, assuming 70% dairy FYM and 30% pig FYM, 85% organic  
-      manure_OC_Pratio <- ((0.3 * 6 / 0.33 + 0.7 * 25 / 0.7) * 0.5)
+      manure_OC_Pratio <- (0.3 * 153 / 7.9 + 0.7 * 155 / 4.3) * 0.5
       dt[manure_type == 'solid' & crop_n == 'akkerbouw' & A_P_WA <= 25, manure_in := 0.85 * 120 * manure_OC_Pratio]
       dt[manure_type == 'solid' & crop_n == 'akkerbouw' & A_P_WA > 25 & A_P_WA <= 36, manure_in := 0.85 * 75 * manure_OC_Pratio]
       dt[manure_type == 'solid' & crop_n == 'akkerbouw' & A_P_WA > 36 & A_P_WA <= 55, manure_in := 0.85 * 60 * manure_OC_Pratio]
@@ -283,7 +296,7 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
     
       ## Grassland 
       ### manure input in grassland systems, assuming 100% dairy FYM
-      manure_OC_Pratio <- 25 / 0.7 * 0.5
+      manure_OC_Pratio <- 155 / 4.3 * 0.5
       dt[manure_type == 'solid' & crop_n=='gras' & A_P_AL <= 16,manure_in := 120 * manure_OC_Pratio]
       dt[manure_type == 'solid' & crop_n=='gras' & A_P_AL > 16 & A_P_AL <= 27,manure_in := 100 * manure_OC_Pratio]
       dt[manure_type == 'solid' & crop_n=='gras' & A_P_AL > 27 & A_P_AL <= 50,manure_in := 90 * manure_OC_Pratio]
@@ -295,8 +308,8 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
   dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
   
   # C input from catch crop
-  dt[M_GREEN == TRUE, catchcrop := 2800]
-  dt[M_GREEN != TRUE, catchcrop := 0]
+  dt[M_GREEN == TRUE & crop_makkink != 'grasland', catchcrop := 2800]
+  dt[M_GREEN != TRUE | crop_makkink == 'grasland', catchcrop := 0]
   
   # Correction for effectiveness of catch crop
   dt[effectivity == FALSE, catchcrop := 0.4 * catchcrop]

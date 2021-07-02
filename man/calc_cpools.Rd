@@ -22,7 +22,7 @@ calc_cpools(
 
 \item{A_DEPTH}{(numeric) Depth of the soil layer (m)}
 
-\item{history}{(character) The manure history of the soil, optional (options: default, grass_rn for grassland renewal, manure for intensive manure application and manual)}
+\item{history}{(character) The manure history of the soil, optional (options: default, grass_renewal for grassland renewal, manure for intensive manure application and manual)}
 
 \item{c_fractions}{(numeric) A vector of the fractions of total carbon in the IOM, DPM, RPM and BIO pool (-), the fraction of the HUM pool is derived form these values; if not provided, default values are used, optional}
 }

@@ -18,7 +18,7 @@ calc_c_seq_field(
   M_GREEN = FALSE,
   effectivity = TRUE,
   manure_in = NULL,
-  compost_in = NULL,
+  compost_in = 0,
   manure_type = "slurry",
   history = "default",
   renewal = NULL,
@@ -58,7 +58,7 @@ calc_c_seq_field(
 
 \item{manure_type}{(character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with a value per year, optional}
 
-\item{history}{(character) The manure history of the soil, optional (options: 'default', 'grass_rn' for grassland renewal, 'manure' for intensive manure application and 'manual')}
+\item{history}{(character) The manure history of the soil, optional (options: 'default', 'grass_renewal' for grassland renewal, 'manure' for intensive manure application and 'manual')}
 
 \item{renewal}{(numeric) The years in which grassland renewal takes place (vector of years), optional}
 
