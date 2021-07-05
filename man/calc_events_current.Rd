@@ -26,3 +26,6 @@ calc_events_current(
 \description{
 This function determines the carbon application events for current management
 }
+\details{
+The input parameters manure_in, compost_in and grass_fertilization should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+}

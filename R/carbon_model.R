@@ -23,6 +23,10 @@
 #' @param c_fractions (numeric) A vector of the fractions of total carbon in the IOM, DPM, RPM and BIO pool (-), the fraction of the HUM pool is derived form these values; if not provided, default values are used, optional
 #' @param dec_rates (numeric) A vector of the decomposition rate constants for the DPM, RPM, BIO and HUM pool (/year); if not provided, default values are used, optional
 #' 
+#' @details The output of this function is a list containing the data.tables with time and OM levels for current, optimal and minimal management, respectively. The last item in the list is the index score for carbon sequestration.
+#' 
+#' The input parameters M_GREEN, effectivity, manure_in, compost_in and grass_fertilization should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+#' 
 #' @export
 calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P_AL, A_P_WA, A_DEPTH = 0.3,
                              A_TEMP_MEAN = NULL, A_PREC_MEAN = NULL, A_ET_MEAN = NULL, M_GREEN = FALSE, effectivity = TRUE, 
@@ -220,7 +224,9 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
 #' @param manure_type (character) The type of manure applied on the field, options: 'slurry' or 'solid', should be a vector with a value per year
 #' @param manure_in (numeric) Annual amount of C applied to the soil via manure (kg C/ha), should be a vector with a value per year, optional, if NU
 #' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
-#'     
+#'
+#' @details The input parameters M_GREEN, effectivity, manure_in and compost_in should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+#'      
 #' @export
 calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effectivity = TRUE, manure_type = 'slurry', manure_in = NULL, compost_in = NULL){
   
@@ -337,7 +343,9 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
 #' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
 #' @param grass_fertilization (numeric) Vector with the timing of fertilization application per year (options: 1: March, half June and September , 2: March and half July, 3: May and September), optional
-#'     
+#'
+#' @details The input parameters manure_in, compost_in and grass_fertilization should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+#'        
 #' @export
 calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, grass_fertilization = 1){
   
@@ -352,8 +360,8 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
   
   # Check carbon input parameters
-  checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length) # Check upper
-  checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length) # Check upper
+  checkmate::assert_numeric(manure_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(compost_in, lower = 0, upper = 20000, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(catchcrop, lower = 0, upper = 2800, any.missing = FALSE, len = arg.length)
   
   # Subset for grassland -> check subset
@@ -560,7 +568,9 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
 #' @param grass_fertilization (numeric) Vector with the timing of fertilization application per year (options: 1: March, half June and September , 2: March and half July, 3: May and September), optional
-#'     
+#' 
+#' @details The input parameter grass_fertilization should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+#'    
 #' @export
 calc_events_minimal <- function(B_LU_BRP, catchcrop, grass_fertilization){
   
@@ -670,7 +680,9 @@ calc_events_minimal <- function(B_LU_BRP, catchcrop, grass_fertilization){
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop, optional
 #' @param effectivity (boolean) A vector that tells whether the catch crop was effective (i.e. did it grow sufficiently), optional
-#'     
+#' 
+#' @details The input parameters M_GREEN and effectivity should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+#'   
 #' @export
 calc_crop_rotation <- function(B_LU_BRP, M_GREEN = FALSE, effectivity = TRUE){ 
   
@@ -689,6 +701,7 @@ calc_crop_rotation <- function(B_LU_BRP, M_GREEN = FALSE, effectivity = TRUE){
   # Collect data in a table
   dt <- data.table(year = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
+                   M_GREEN = M_GREEN,
                    effectivity = effectivity)
   
   # Import and merge with crops.obic
@@ -697,7 +710,7 @@ calc_crop_rotation <- function(B_LU_BRP, M_GREEN = FALSE, effectivity = TRUE){
   dt <- merge(dt, crops.obic[,list(crop_code,crop_name)], by.x = 'B_LU_BRP', by.y = 'crop_code')
   
   # Add Makkink data
-  dt.mak <- calc_makkink(B_LU_BRP, M_GREEN)
+  dt.mak <- calc_makkink(B_LU_BRP)
   
   # Merge Makkink data with field data
   dt <- merge(dt.mak,dt,by = 'year')

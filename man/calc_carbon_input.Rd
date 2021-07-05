@@ -35,3 +35,6 @@ calc_carbon_input(
 \description{
 This function calculates the carbon inputs to the field based on manure type, P status of the soil and management practices
 }
+\details{
+The input parameters M_GREEN, effectivity, manure_in and compost_in should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+}

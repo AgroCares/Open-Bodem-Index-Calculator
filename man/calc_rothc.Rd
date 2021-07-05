@@ -35,6 +35,9 @@ calc_rothc(
 \description{
 This function contains the Rothemsted carbon model that calculates C decomposition over time
 }
+\details{
+The input parameter event should be a data.table containing the columns time, var, value and method. See ?deSolve::events for the exact format options.
+}
 \references{
 Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 }

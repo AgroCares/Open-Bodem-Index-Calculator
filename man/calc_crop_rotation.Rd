@@ -16,3 +16,6 @@ calc_crop_rotation(B_LU_BRP, M_GREEN = FALSE, effectivity = TRUE)
 \description{
 This function determines crop cover and Makkink correction factors based on the cultivated crops
 }
+\details{
+The input parameters M_GREEN and effectivity should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+}

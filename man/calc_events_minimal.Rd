@@ -16,3 +16,6 @@ calc_events_minimal(B_LU_BRP, catchcrop, grass_fertilization)
 \description{
 This function determines the carbon application events for minimal management
 }
+\details{
+The input parameter grass_fertilization should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+}

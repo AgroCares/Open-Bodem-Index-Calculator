@@ -11,6 +11,8 @@
 #' @param cor_factors (numeric) A vector with the correction required for RothC, should be in order: temperature, soil moisture, crop cover, grassland renewal
 #' @param dec_rates rates (numeric) A vector of the decomposition rate constants for the C pools (/year), order: DPM, RPM, BIO and HUM pool; if not provided, default values are used, optional
 #' 
+#' @details The input parameter event should be a data.table containing the columns time, var, value and method. See ?deSolve::events for the exact format options.
+#' 
 #' @references Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'     
 #' @export
@@ -94,10 +96,15 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   # Load model parameters
   parms = c(k1=k1,k2=k2,k3=k3,k4=k4,R1=R1)
   times=seq(0,50,1/12)
-  y  = c(CDPM=CDPM0, CRPM=CRPM0, CBIO=CBIO0, CHUM=CHUM0)  
+  y  = c(CDPM=CDPM0, CRPM=CRPM0, CBIO=CBIO0, CHUM=CHUM0)
+  
+  # Add intermediate timesteps
+  event.times <- unique(event$time)
+  times <- unique(c(times,event.times))
+  times <- sort(times)
   
   # Run the model
-  out = ode(y,times,rothC,parms,events=list(data=event))
+  out = deSolve::ode(y,times,rothC,parms,events=list(data=event))
   
   # Convert kg C/ha to % OM
   BD = calc_bulk_density(A_SOM_LOI = A_SOM_LOI, B_SOILTYPE_AGR = B_SOILTYPE_AGR, A_CLAY_MI = A_CLAY_MI)  

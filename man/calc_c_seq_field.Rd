@@ -71,3 +71,8 @@ calc_c_seq_field(
 \description{
 This function is a wrapper function that calculates the evaluation of the C pools over time for the different management types and produces a score for carbon sequestration
 }
+\details{
+The output of this function is a list containing the data.tables with time and OM levels for current, optimal and minimal management, respectively. The last item in the list is the index score for carbon sequestration.
+
+The input parameters M_GREEN, effectivity, manure_in, compost_in and grass_fertilization should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
+}

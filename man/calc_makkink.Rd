@@ -4,12 +4,10 @@
 \alias{calc_makkink}
 \title{Add Makkink correction factors and crop cover to crop rotation table}
 \usage{
-calc_makkink(B_LU_BRP, M_GREEN)
+calc_makkink(B_LU_BRP)
 }
 \arguments{
 \item{B_LU_BRP}{(numeric) The crop code from the BRP}
-
-\item{M_GREEN}{(boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)}
 }
 \description{
 This function adds Makkink correction factors for ET and crop cover to the crop rotation table
