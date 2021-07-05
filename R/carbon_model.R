@@ -22,6 +22,7 @@
 #' @param grass_fertilization (numeric) Timing of fertilization application, optional (options: 1, 2, 3)
 #' @param c_fractions (numeric) A vector of the fractions of total carbon in the IOM, DPM, RPM and BIO pool (-), the fraction of the HUM pool is derived form these values; if not provided, default values are used, optional
 #' @param dec_rates (numeric) A vector of the decomposition rate constants for the DPM, RPM, BIO and HUM pool (/year); if not provided, default values are used, optional
+#' @param simyears (numeric) Amount of years for which the simulation should run
 #' 
 #' @details The output of this function is a list containing the data.tables with time and OM levels for current, optimal and minimal management, respectively. The last item in the list is the index score for carbon sequestration.
 #' 
@@ -32,7 +33,7 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
                              A_TEMP_MEAN = NULL, A_PREC_MEAN = NULL, A_ET_MEAN = NULL, M_GREEN = FALSE, effectivity = TRUE, 
                              manure_in = NULL, compost_in = 0, manure_type = 'slurry', history = 'default', 
                              renewal = NULL, grass_fertilization = 1,
-                             c_fractions = c(0.0558,0.015,0.125,0.015), dec_rates = c(10,0.3,0.66,0.02)){
+                             c_fractions = c(0.0558,0.015,0.125,0.015), dec_rates = c(10,0.3,0.66,0.02), simyears = 50){
   
   crops.obic = soils.obic = crop_makkink = time = OM = NULL
   
@@ -113,6 +114,9 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   checkmate::assert_numeric(k3, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(k4, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
   
+  ## Check simyears
+  checkmate::assert_int(simyears, upper = 1000)
+  
   
   # Create optimal input
   B_LU_BRP_optimal <- rep(233,arg.length)
@@ -155,12 +159,12 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   
   # Determine carbon application events
   event_current <- calc_events_current(B_LU_BRP = B_LU_BRP, manure_in = carbon_input_current$manure_in, compost_in = carbon_input_current$compost_in,
-                                       catchcrop = carbon_input_current$catchcrop)
+                                       catchcrop = carbon_input_current$catchcrop, grass_fertilization, simyears)
   
   event_optimal <- calc_events_current(B_LU_BRP = B_LU_BRP_optimal, manure_in = carbon_input_optimal$manure_in, compost_in = carbon_input_optimal$compost_in,
-                                       catchcrop = carbon_input_optimal$catchcrop, grass_fertilization = 3)
+                                       catchcrop = carbon_input_optimal$catchcrop, grass_fertilization = 3, simyears)
   
-  event_minimal <- calc_events_minimal(B_LU_BRP = B_LU_BRP, catchcrop = catchcrop_minimal, grass_fertilization = 1)
+  event_minimal <- calc_events_minimal(B_LU_BRP = B_LU_BRP, catchcrop = catchcrop_minimal, grass_fertilization = 1, simyears)
   
   
   # Determine rotations
@@ -173,13 +177,13 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   
   # Calculate correction factors
   factors_current <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH, 
-                                      crop_cover = rotation_current$crop_cover, mcf = rotation_current$mcf, renewal)
+                                      crop_cover = rotation_current$crop_cover, mcf = rotation_current$mcf, renewal, simyears)
   
   factors_optimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH,
-                                      crop_cover = rotation_optimal$crop_cover, mcf = rotation_optimal$mcf, renewal = NULL)
+                                      crop_cover = rotation_optimal$crop_cover, mcf = rotation_optimal$mcf, renewal = NULL, simyears)
   
   factors_minimal <- calc_cor_factors(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH, 
-                                      crop_cover = rotation_minimal$crop_cover, mcf = rotation_minimal$mcf, renewal = renewal_minimal)
+                                      crop_cover = rotation_minimal$crop_cover, mcf = rotation_minimal$mcf, renewal = renewal_minimal, simyears)
   
   
   # Initialize C pools
@@ -188,13 +192,13 @@ calc_c_seq_field <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_P
   
   # Run RothC
   result_current <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH, event = event_current, 
-                               pool_size = cpools, cor_factors = factors_current, dec_rates)
+                               pool_size = cpools, cor_factors = factors_current, dec_rates, simyears)
   
   result_optimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH, event = event_optimal,
-                               pool_size = cpools, cor_factors = factors_optimal, dec_rates)
+                               pool_size = cpools, cor_factors = factors_optimal, dec_rates, simyears)
   
   result_minimal <- calc_rothc(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_DEPTH, event = event_minimal,
-                               pool_size = cpools, cor_factors = factors_minimal, dec_rates)
+                               pool_size = cpools, cor_factors = factors_minimal, dec_rates, simyears)
   
   
   # Calculate index score
@@ -343,11 +347,12 @@ calc_carbon_input <- function(B_LU_BRP, A_P_AL, A_P_WA, M_GREEN = FALSE, effecti
 #' @param compost_in (numeric) Annual amount of C applied to the soil via compost (kg C/ha), should be a vector with a value per year, optional
 #' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
 #' @param grass_fertilization (numeric) Vector with the timing of fertilization application per year (options: 1: March, half June and September , 2: March and half July, 3: May and September), optional
+#' @param simyears (numeric) Amount of years for which the simulation should run
 #'
 #' @details The input parameters manure_in, compost_in and grass_fertilization should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
 #'        
 #' @export
-calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, grass_fertilization = 1){
+calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, grass_fertilization = 1, simyears){
   
   crop_code = hc = crop_makkink = crop_eos = crop_eos_residue = crop_eos_ressidue = application = NULL
   CDPM = CRPM = CHUM = CBIO = time = t_manure = t_residue = res_in = ratio = method = id = yr_rep = NULL
@@ -367,6 +372,9 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   # Subset for grassland -> check subset
   if(length(grass_fertilization) != 1){ checkmate::assert_numeric(grass_fertilization, any.missing = FALSE, max.len = arg.length) }
   checkmate::assert_subset(grass_fertilization, choices = c(1,2,3), empty.ok = FALSE)
+  
+  ## Check simyears
+  checkmate::assert_int(simyears, upper = 1000)
   
   
   # Collect data in a table
@@ -535,13 +543,13 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   dt.event[,method := "add"]
 
   
-  # Extend event to 50 years
+  # Extend event to simulation length
   ## Make copy of dt.event
   dt.event2 <- copy(dt.event)
   dt.event2[,id := .I]
   
   ## extend crop table for the number of years
-  dt.event2 <- dt.event2[rep(id, each = ceiling(50 / arg.length))]
+  dt.event2 <- dt.event2[rep(id, each = ceiling(simyears / arg.length))]
   
   ## add year
   dt.event2[,yr_rep := 1:.N, by = id]
@@ -553,7 +561,7 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
   # remove columns not needed any more
   dt.event2[,c('year','yr_rep','id') := NULL]
   
-  out <- dt.event2[time > 0 & time < 50]
+  out <- dt.event2[time > 0 & time < simyears]
   
   return(out)
     
@@ -568,11 +576,12 @@ calc_events_current <- function(B_LU_BRP, manure_in, compost_in, catchcrop, gras
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param catchcrop (numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional
 #' @param grass_fertilization (numeric) Vector with the timing of fertilization application per year (options: 1: March, half June and September , 2: March and half July, 3: May and September), optional
-#' 
+#' @param simyears (numeric) Amount of years for which the simulation should run
+#'
 #' @details The input parameter grass_fertilization should contain a vector with a value for each year of the supplied crop rotation in B_LU_BRP. If only one value is provided, this value will be assigned to each year.
 #'    
 #' @export
-calc_events_minimal <- function(B_LU_BRP, catchcrop, grass_fertilization){
+calc_events_minimal <- function(B_LU_BRP, catchcrop, grass_fertilization, simyears){
   
   crop_code = hc = crop_makkink = crop_eos = crop_eos_residue = res_in = ratio = t_residue = time = CDPM = CRPM = method = id = yr_rep = NULL
   
@@ -586,6 +595,9 @@ calc_events_minimal <- function(B_LU_BRP, catchcrop, grass_fertilization){
   # Subset for grassland -> check subset
   if(length(grass_fertilization) != 1){ checkmate::assert_numeric(grass_fertilization, any.missing = FALSE, max.len = arg.length) }
   checkmate::assert_subset(grass_fertilization, choices = c(1,2,3), empty.ok = FALSE)
+  
+  # Check simyears
+  checkmate::assert_int(simyears, upper = 1000)
   
   # Collect data in a table
   dt <- data.table(year = 1:arg.length,
@@ -654,7 +666,7 @@ calc_events_minimal <- function(B_LU_BRP, catchcrop, grass_fertilization){
   dt.event2[,id := .I]
   
   ## extend crop table for the number of years
-  dt.event2 <- dt.event2[rep(id, each = ceiling(50 / arg.length))]
+  dt.event2 <- dt.event2[rep(id, each = ceiling(simyears / arg.length))]
   
   ## add year
   dt.event2[,yr_rep := 1:.N, by=id]
@@ -666,7 +678,7 @@ calc_events_minimal <- function(B_LU_BRP, catchcrop, grass_fertilization){
   # remove columns not needed any more
   dt.event2[,c('year','yr_rep','id') := NULL]
   
-  out <- dt.event2[time > 0 & time < 50]
+  out <- dt.event2[time > 0 & time < simyears]
   
   return(out)
 }

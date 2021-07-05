@@ -17,7 +17,8 @@ test_that("calc_cor_factors works", {
       A_DEPTH = 0.3, 
       crop_cover = input$crop_cover,
       mcf = input$mcf,
-      renewal = NULL),
+      renewal = NULL,
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -35,7 +36,8 @@ test_that("calc_cor_factors works", {
       A_DEPTH = 0.3, 
       crop_cover = input$crop_cover,
       mcf = input$mcf,
-      renewal = NULL),
+      renewal = NULL,
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -53,7 +55,8 @@ test_that("calc_cor_factors works", {
       A_DEPTH = 0.3, 
       crop_cover = input$crop_cover,
       mcf = input$mcf,
-      renewal = NULL),
+      renewal = NULL,
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -71,7 +74,8 @@ test_that("calc_cor_factors works", {
       A_DEPTH = 0.3, 
       crop_cover = input$crop_cover,
       mcf = input$mcf,
-      renewal = c(2,4)),
+      renewal = c(2,4),
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -131,7 +135,8 @@ test_that("calc_rothc works", {
       event = event,
       pool_size = cpools,
       cor_factors = cor_factors,
-      dec_rates = c(10, 0.3, 0.66, 0.02)),
+      dec_rates = c(10, 0.3, 0.66, 0.02),
+      simyears = 50),
     expected = sample,
     tolerance = 0.01
   )
@@ -151,7 +156,8 @@ test_that("calc_rothc works", {
       event = event,
       pool_size = cpools,
       cor_factors = cor_factors,
-      dec_rates = c(10, 0.3, 0.66, 0.02)),
+      dec_rates = c(10, 0.3, 0.66, 0.02),
+      simyears = 50),
     expected = sample,
     tolerance = 0.01
   )
@@ -171,7 +177,8 @@ test_that("calc_rothc works", {
       event = event,
       pool_size = cpools,
       cor_factors = cor_factors,
-      dec_rates = c(10, 0.3, 0.66, 0.02)),
+      dec_rates = c(10, 0.3, 0.66, 0.02),
+      simyears = 50),
     expected = sample,
     tolerance = 0.01
   )

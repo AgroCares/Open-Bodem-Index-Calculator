@@ -4,7 +4,7 @@
 \alias{calc_events_minimal}
 \title{Determine the carbon application events for minimal management}
 \usage{
-calc_events_minimal(B_LU_BRP, catchcrop, grass_fertilization)
+calc_events_minimal(B_LU_BRP, catchcrop, grass_fertilization, simyears)
 }
 \arguments{
 \item{B_LU_BRP}{(numeric) The crop code from the BRP}
@@ -12,6 +12,8 @@ calc_events_minimal(B_LU_BRP, catchcrop, grass_fertilization)
 \item{catchcrop}{(numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional}
 
 \item{grass_fertilization}{(numeric) Vector with the timing of fertilization application per year (options: 1: March, half June and September , 2: March and half July, 3: May and September), optional}
+
+\item{simyears}{(numeric) Amount of years for which the simulation should run}
 }
 \description{
 This function determines the carbon application events for minimal management

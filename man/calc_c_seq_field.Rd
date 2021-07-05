@@ -24,7 +24,8 @@ calc_c_seq_field(
   renewal = NULL,
   grass_fertilization = 1,
   c_fractions = c(0.0558, 0.015, 0.125, 0.015),
-  dec_rates = c(10, 0.3, 0.66, 0.02)
+  dec_rates = c(10, 0.3, 0.66, 0.02),
+  simyears = 50
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ calc_c_seq_field(
 \item{c_fractions}{(numeric) A vector of the fractions of total carbon in the IOM, DPM, RPM and BIO pool (-), the fraction of the HUM pool is derived form these values; if not provided, default values are used, optional}
 
 \item{dec_rates}{(numeric) A vector of the decomposition rate constants for the DPM, RPM, BIO and HUM pool (/year); if not provided, default values are used, optional}
+
+\item{simyears}{(numeric) Amount of years for which the simulation should run}
 }
 \description{
 This function is a wrapper function that calculates the evaluation of the C pools over time for the different management types and produces a score for carbon sequestration

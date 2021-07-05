@@ -70,7 +70,9 @@ test_that("calc_event_current works", {
       B_LU_BRP = c(256,259,2014,233,234,256,259,2014),
       manure_in = input$manure_in,
       compost_in = input$compost_in,
-      catchcrop = input$catchcrop),
+      catchcrop = input$catchcrop,
+      grass_fertilization = 1,
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -84,7 +86,9 @@ test_that("calc_event_current works", {
       B_LU_BRP = c(256,259,2014,233,234,265,259,2014,233,234),
       manure_in = input$manure_in,
       compost_in = input$compost_in,
-      catchcrop = input$catchcrop),
+      catchcrop = input$catchcrop,
+      grass_fertilization = 1,
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -98,7 +102,9 @@ test_that("calc_event_current works", {
       B_LU_BRP = c(259,266,265,266,259),
       manure_in = input$manure_in,
       compost_in = input$compost_in,
-      catchcrop = input$catchcrop),
+      catchcrop = input$catchcrop,
+      grass_fertilization = 1,
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -114,7 +120,8 @@ test_that("calc_event_minimal works", {
     calc_events_minimal(
       B_LU_BRP = c(256,259,2014,233,234,256,259,2014),
       catchcrop = rep(0,8),
-      grass_fertilization = 1),
+      grass_fertilization = 1,
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -126,7 +133,8 @@ test_that("calc_event_minimal works", {
     calc_events_minimal(
       B_LU_BRP = c(259,266,265,266,259),
       catchcrop = rep(0,5),
-      grass_fertilization = 3),
+      grass_fertilization = 3,
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -200,7 +208,8 @@ test_that("calc_c_seq_field works", {
       renewal = NULL,
       grass_fertilization = 1,
       c_fractions = c(0.0558, 0.015, 0.125, 0.015),
-      dec_rates = c(10, 0.3, 0.66, 0.02)),
+      dec_rates = c(10, 0.3, 0.66, 0.02),
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -229,7 +238,8 @@ test_that("calc_c_seq_field works", {
       renewal = NULL,
       grass_fertilization = 1,
       c_fractions = c(0.0558, 0.015, 0.125, 0.015),
-      dec_rates = c(10, 0.3, 0.66, 0.02)),
+      dec_rates = c(10, 0.3, 0.66, 0.02),
+      simyears = 50),
     sample,
     tolerance = 0.01
   )
@@ -259,7 +269,8 @@ test_that("calc_c_seq_field works", {
       renewal = c(2,4),
       grass_fertilization = 3,
       c_fractions = c(0.0558, 0.015, 0.125, 0.015),
-      dec_rates = c(10, 0.3, 0.66, 0.02)),
+      dec_rates = c(10, 0.3, 0.66, 0.02),
+      simyears = 50),
     sample,
     tolerance = 0.01
   )

@@ -12,7 +12,8 @@ calc_rothc(
   event,
   pool_size,
   cor_factors,
-  dec_rates = c(10, 0.3, 0.66, 0.02)
+  dec_rates = c(10, 0.3, 0.66, 0.02),
+  simyears
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ calc_rothc(
 \item{cor_factors}{(numeric) A vector with the correction required for RothC, should be in order: temperature, soil moisture, crop cover, grassland renewal}
 
 \item{dec_rates}{rates (numeric) A vector of the decomposition rate constants for the C pools (/year), order: DPM, RPM, BIO and HUM pool; if not provided, default values are used, optional}
+
+\item{simyears}{(numeric) Amount of years for which the simulation should run}
 }
 \description{
 This function contains the Rothemsted carbon model that calculates C decomposition over time

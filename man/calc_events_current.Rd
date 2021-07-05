@@ -9,7 +9,8 @@ calc_events_current(
   manure_in,
   compost_in,
   catchcrop,
-  grass_fertilization = 1
+  grass_fertilization = 1,
+  simyears
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ calc_events_current(
 \item{catchcrop}{(numeric) Amount of C applied to the soil via catch crop (kg C/ha), should be a vector with a value per year, optional}
 
 \item{grass_fertilization}{(numeric) Vector with the timing of fertilization application per year (options: 1: March, half June and September , 2: March and half July, 3: May and September), optional}
+
+\item{simyears}{(numeric) Amount of years for which the simulation should run}
 }
 \description{
 This function determines the carbon application events for current management

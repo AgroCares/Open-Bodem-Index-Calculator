@@ -10,13 +10,14 @@
 #' @param pool_size (numeric) Vector with the initial sizes of the C pools (kg C/ha), order: IOM, CDPM, CRPM, CBIO, CHUM
 #' @param cor_factors (numeric) A vector with the correction required for RothC, should be in order: temperature, soil moisture, crop cover, grassland renewal
 #' @param dec_rates rates (numeric) A vector of the decomposition rate constants for the C pools (/year), order: DPM, RPM, BIO and HUM pool; if not provided, default values are used, optional
-#' 
+#' @param simyears (numeric) Amount of years for which the simulation should run
+#'
 #' @details The input parameter event should be a data.table containing the columns time, var, value and method. See ?deSolve::events for the exact format options.
 #' 
 #' @references Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'     
 #' @export
-calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event, pool_size, cor_factors, dec_rates = c(10,0.3,0.66,0.02)){
+calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event, pool_size, cor_factors, dec_rates = c(10,0.3,0.66,0.02), simyears){
   
   crops.obic = soils.obic = time = OSm = NULL
   
@@ -29,7 +30,7 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   CHUM0 <- pool_size[5]
   
   # Import RothC correction factors
-  checkmate::assertDataTable(cor_factors, any.missing = FALSE, ncols = 4, nrows = 600)
+  checkmate::assertDataTable(cor_factors, any.missing = FALSE, ncols = 4, nrows = 12*simyears)
   a <- cor_factors[,a]
   b <- cor_factors[,b]
   c <- cor_factors[,c]
@@ -42,8 +43,6 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   k4 <- dec_rates[4]
   
   # Check inputs
-  # Additional check event and correction factors?
-  
   # Check Soil parameters
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = 1)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(OBIC::soils.obic$soiltype), empty.ok = FALSE)
@@ -77,6 +76,8 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   checkmate::assert_numeric(k3, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
   checkmate::assert_numeric(k4, lower = 0.001, upper = 50, any.missing = FALSE, len = 1)
   
+  # Check simyears
+  checkmate::assert_int(simyears, upper = 1000)
   
   # Calculate interpolation for correction factors
   abc <- approxfun (x=seq(1:length(a))/12,y=a*b*c,method="linear",rule=2)
@@ -95,7 +96,7 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   
   # Load model parameters
   parms = c(k1=k1,k2=k2,k3=k3,k4=k4,R1=R1)
-  times=seq(0,50,1/12)
+  times=seq(0,simyears,1/12)
   y  = c(CDPM=CDPM0, CRPM=CRPM0, CBIO=CBIO0, CHUM=CHUM0)
   
   # Add intermediate timesteps
@@ -133,11 +134,12 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
 #' @param crop_cover (numeric) A vector with crop cover of the soil per month (options: 1 or 0)
 #' @param mcf (numeric) A vector with Makkink correction factor for evapo-transpiration per month (between 0 and 2)
 #' @param renewal (numeric) A vector with the years in which grassland renewal takes place, optional
-#' 
+#' @param simyears (numeric) Amount of years for which the simulation should run
+#'
 #' @references Coleman & Jenkinson (1996) RothC - A model for the turnover of carbon in soil
 #'     
 #' @export
-calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH = 0.3, crop_cover, mcf, renewal = NULL){
+calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_DEPTH = 0.3, crop_cover, mcf, renewal = NULL, simyears){
   
   time = NULL
   
@@ -162,7 +164,8 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
   if(!is.null(renewal)){ checkmate::assert_numeric(renewal, any.missing = FALSE, min.len = 1, max.len = arg.length/12) 
                          checkmate::assert_subset(renewal, choices = years, empty.ok = FALSE) }
   
-  # Insert some kind of year check -> usefull for extension
+  # Check simyears
+  checkmate::assert_int(simyears, upper = 1000)
   
   # RothC correction factors for temperature
   a         = 47.9/(1+exp(106/(A_TEMP_MEAN+18.3)))
@@ -199,10 +202,10 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
   # RothC correction factor for soil cover
   c <- ifelse(CC==1,0.6,1)
   
-  # Extend b and c to 50 years
-  extend <- ceiling(50/(arg.length/12))
-  b <- rep(b,extend, length.out = 600)
-  c <- rep(c,extend, length.out = 600)
+  # Extend b and c to simulation length
+  extend <- ceiling(simyears/(arg.length/12))
+  b <- rep(b,extend, length.out = 12*simyears)
+  c <- rep(c,extend, length.out = 12*simyears)
   
   
   # Correction factor for grassland renewal
@@ -215,9 +218,9 @@ calc_cor_factors <- function(A_TEMP_MEAN, A_PREC_MEAN, A_ET_MEAN, A_CLAY_MI, A_D
     time_renewal <- round(renewal - 1 + 2/12,digits = 5)
     d[,d := fifelse(time %in% time_renewal,1,0)]
     
-    d <- rep(d[,d],extend, length.out = 600)
+    d <- rep(d[,d],extend, length.out = 12*simyears)
     
-  }else{ d <- rep(0,600)}
+  }else{ d <- rep(0,12*simyears)}
   
   # Format output
   cor_factors <- data.table(a=a, b=b, c=c, d=d)

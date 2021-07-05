@@ -12,7 +12,8 @@ calc_cor_factors(
   A_DEPTH = 0.3,
   crop_cover,
   mcf,
-  renewal = NULL
+  renewal = NULL,
+  simyears
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ calc_cor_factors(
 \item{mcf}{(numeric) A vector with Makkink correction factor for evapo-transpiration per month (between 0 and 2)}
 
 \item{renewal}{(numeric) A vector with the years in which grassland renewal takes place, optional}
+
+\item{simyears}{(numeric) Amount of years for which the simulation should run}
 }
 \description{
 This function calculates the correction factors for the RothC model
