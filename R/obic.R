@@ -262,7 +262,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_P_CO := ind_compaction(B_SC_WENR)]
     dt[, I_P_WRI := ind_waterretention(D_WRI)]
     dt[, I_P_CEC := ind_aggregatestability(D_AS)]
-    dt[, I_P_WO := ind_workability(D_WO)]
+    dt[, I_P_WO := ind_workability(D_WO, B_LU_BRP)]
   
     # Calculate indicators for soil biological functions
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
