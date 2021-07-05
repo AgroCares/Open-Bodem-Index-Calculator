@@ -19,7 +19,7 @@ test_that("calc_cor_factors works", {
       mcf = input$mcf,
       renewal = NULL),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 2
@@ -37,7 +37,7 @@ test_that("calc_cor_factors works", {
       mcf = input$mcf,
       renewal = NULL),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 3
@@ -55,7 +55,7 @@ test_that("calc_cor_factors works", {
       mcf = input$mcf,
       renewal = NULL),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 4
@@ -73,7 +73,7 @@ test_that("calc_cor_factors works", {
       mcf = input$mcf,
       renewal = c(2,4)),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
 })
@@ -93,7 +93,7 @@ test_that("calc_cpools works", {
       history = 'default',
       c_fractions = c(0.0558,0.015,0.125,0.015)),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 2
@@ -108,7 +108,7 @@ test_that("calc_cpools works", {
       history = 'manure',
       c_fractions = c(0.0558,0.015,0.125,0.015)),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
 })
@@ -133,7 +133,7 @@ test_that("calc_rothc works", {
       cor_factors = cor_factors,
       dec_rates = c(10, 0.3, 0.66, 0.02)),
     expected = sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 2
@@ -153,7 +153,7 @@ test_that("calc_rothc works", {
       cor_factors = cor_factors,
       dec_rates = c(10, 0.3, 0.66, 0.02)),
     expected = sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 3
@@ -173,7 +173,7 @@ test_that("calc_rothc works", {
       cor_factors = cor_factors,
       dec_rates = c(10, 0.3, 0.66, 0.02)),
     expected = sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
 })
 

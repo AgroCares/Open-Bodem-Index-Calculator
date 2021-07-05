@@ -18,7 +18,7 @@ test_that("calc_carbon_input works", {
       manure_in = NULL,
       compost_in = c(0,1500,1500,0,0,1500,1500,0)),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 2
@@ -35,7 +35,7 @@ test_that("calc_carbon_input works", {
       manure_in = NULL,
       compost_in = c(0,1500,1500,0,0,1500,1500,1500,0,0)),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   
@@ -53,7 +53,7 @@ test_that("calc_carbon_input works", {
       manure_in = NULL,
       compost_in = 0),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
 })
@@ -72,7 +72,7 @@ test_that("calc_event_current works", {
       compost_in = input$compost_in,
       catchcrop = input$catchcrop),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 2
@@ -86,7 +86,7 @@ test_that("calc_event_current works", {
       compost_in = input$compost_in,
       catchcrop = input$catchcrop),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 3
@@ -100,7 +100,7 @@ test_that("calc_event_current works", {
       compost_in = input$compost_in,
       catchcrop = input$catchcrop),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
 })
 
@@ -116,7 +116,7 @@ test_that("calc_event_minimal works", {
       catchcrop = rep(0,8),
       grass_fertilization = 1),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 2
@@ -128,7 +128,7 @@ test_that("calc_event_minimal works", {
       catchcrop = rep(0,5),
       grass_fertilization = 3),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
 })
@@ -145,7 +145,7 @@ test_that("calc_rotation works", {
       M_GREEN = FALSE,
       effectivity = FALSE),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 2
@@ -157,7 +157,7 @@ test_that("calc_rotation works", {
       M_GREEN = TRUE,
       effectivity = c(TRUE,TRUE,FALSE,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,FALSE)),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 3
@@ -169,7 +169,7 @@ test_that("calc_rotation works", {
       M_GREEN = TRUE,
       effectivity = TRUE),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
 })
 
@@ -202,7 +202,7 @@ test_that("calc_c_seq_field works", {
       c_fractions = c(0.0558, 0.015, 0.125, 0.015),
       dec_rates = c(10, 0.3, 0.66, 0.02)),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   # retreive sample 2
@@ -231,7 +231,7 @@ test_that("calc_c_seq_field works", {
       c_fractions = c(0.0558, 0.015, 0.125, 0.015),
       dec_rates = c(10, 0.3, 0.66, 0.02)),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
   
@@ -261,7 +261,7 @@ test_that("calc_c_seq_field works", {
       c_fractions = c(0.0558, 0.015, 0.125, 0.015),
       dec_rates = c(10, 0.3, 0.66, 0.02)),
     sample,
-    tolerance = 0.001
+    tolerance = 0.01
   )
   
 })
