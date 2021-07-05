@@ -26,7 +26,11 @@
   season.obic <- season.obic[landuse == 'snijmais',req_days_post_glg := 
                                fifelse(soiltype.m %in% c('zand', 'loess'), 274-227, 293-227)] # where numbers are doy resulting in number of days after glg (doy = 227)
   
+  # set negative required days to 0 but preserve this data in csv
+  season.obic_orig <- season.obic
+  season.obic <- season.obic[req_days_post_glg < 0,req_days_post_glg := 1]
+  
   # save table
   usethis::use_data(name = season.obic, overwrite = TRUE)
   # save as csv for tracking
-  write.csv(season.obic, 'DEV/data/season.obic.csv')
+  write.csv(season.obic_orig, 'DEV/data/season.obic.csv')
