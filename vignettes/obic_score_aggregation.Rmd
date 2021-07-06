@@ -1,0 +1,102 @@
+---
+title: "Note on OBI score aggregation"
+author: "W.H. Riechelman (NMI)"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: [packages.bib, vignettes_references.bib]
+vignette: >
+  %\VignetteIndexEntry{the-open-soil-index}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+# Introduction
+The OBIC is a framework that takes a multitude of soil parameters and variables from agricultural fields and ultimately gives a single value expressing the soil quality of that field. To take this multitude of measured, modelled and calulated values to a single value between 0 and 1, three aggregation steps take place as illustrated below.
+
+```{r include score integration image, echo=FALSE, out.width = '85%', out.height = '85%', fig.cap = 'Figure 1. Graphic representation of how measured soil properties are aggregated to scores.'}
+# include graphic
+knitr::include_graphics('OBIC_score_integratie.png')
+```
+
+There is no scientific principle dictating how this aggregation should be done and there are several ways to do the aggregation. For example; averaging, linearly weighted averaging, logistically weighted averaging.
+This document dives deeper into the three aggregation steps within the framework and will explain the why a certain method of aggregation was used. We will also explore alternative methods of aggregation and compare these with the chosen method to illustrate the influence the aggregation method has on the final score and act as a kind of sensitivity analysis.
+Demonstration of aggregation will be performed using  the dataset `binnenveld`. The dataset contains soil properties from 11 agricultural fields in the surroundings of Wageningen, with different soil texture and land use, and is documented in `?binnenveld`.
+
+```{r load binnenveld}
+dt <- OBIC::binnenveld[ID==1]
+```
+
+# Aggregation
+Between calculating soil function scores and aggregating a reformatting step takes place.
+
+```{r}
+  # Step 3 Reformat dt given weighing per indicator and prepare for aggregation  ------------------
+    
+    # load weights.obic (set indicator to zero when not applicable)
+    w <- as.data.table(OBIC::weight.obic)
+    
+    # Add years per field
+    dt[,year := .I, by = ID]
+    
+    # Select all indicators used for scoring
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT',colnames(dt))]
+    #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
+    #cols <- cols[!grepl('^I_M_',cols)]
+    
+    # Melt dt and assign main categories for OBI
+    dt.melt <- melt(dt[,mget(cols)],
+                    id.vars = c('B_SOILTYPE_AGR','crop_category','year'), 
+                    variable.name = 'indicator')
+    
+    # add categories relevant for aggregating
+    # C = chemical, P = physics, B = biological, BCS = visual soil assessment
+    # indicators not used for integrating: IBCS and IM
+    dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
+    dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
+    dt.melt[grepl('^I_M_',indicator), cat := 'IM']
+    
+    # Determine number of indicators per category
+    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']
+    
+    # add weighing factor to indicator values
+    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator,weight_nonpeat,weight_peat)], 
+                     by = c('crop_category','indicator'), all.x = TRUE)
+    
+    # calculate correction factor for indicator values (low values have more impact than high values, a factor 5)
+    dt.melt[,cf := cf_ind_importance(value)]
+    
+    # calculate weighted value for crop category
+    dt.melt[,value.w := value]
+    dt.melt[grepl('veen',B_SOILTYPE_AGR) & weight_peat < 0,value.w := -999]
+    dt.melt[!grepl('veen',B_SOILTYPE_AGR) & weight_nonpeat < 0,value.w := -999]
+```
+
+
+
+## Aggregating over years
+The first aggregation step occurs after calculating soil function scores for each year. Multiple years are used (usually 10) to capture the entire crop rotation (crop rotation in the Netherlands are seldom longer than 10 years).
+
+
+
+
+```{r}
+  obic_field(B_SOILTYPE_AGR =  dt$B_SOILTYPE_AGR, B_GWL_CLASS =  dt$B_GWL_CLASS,
+             B_SC_WENR = dt$B_SC_WENR, B_HELP_WENR = dt$B_HELP_WENR, B_AER_CBS = dt$B_AER_CBS,
+             B_LU_BRP = dt$B_LU_BRP, A_SOM_LOI = dt$A_SOM_LOI, A_SAND_MI = dt$A_SAND_MI,
+             A_SILT_MI = dt$A_SILT_MI, A_CLAY_MI = dt$A_CLAY_MI, A_PH_CC = dt$A_PH_CC,
+             A_CACO3_IF = dt$A_CACO3_IF, A_N_RT = dt$A_N_RT, A_CN_FR = dt$A_CN_FR,
+             A_COM_FR = dt$A_COM_FR, A_S_RT = dt$A_S_RT, A_N_PMN = dt$A_N_PMN,
+             A_P_AL = dt$A_P_AL, A_P_CC = dt$A_P_CC, A_P_WA = dt$A_P_WA, A_CEC_CO = dt$A_CEC_CO,
+             A_CA_CO_PO = dt$A_CA_CO_PO, A_MG_CO_PO = dt$A_MG_CO_PO, A_K_CO_PO = dt$A_K_CO_PO,
+             A_K_CC = dt$A_K_CC, A_MG_CC = dt$A_MG_CC, A_MN_CC = dt$A_MN_CC,
+             A_ZN_CC = dt$A_ZN_CC, A_CU_CC = dt$A_CU_CC, output = 'obic_score')
+```
+
