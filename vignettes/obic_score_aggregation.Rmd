@@ -31,13 +31,27 @@ This document dives deeper into the three aggregation steps within the framework
 Demonstration of aggregation will be performed using  the dataset `binnenveld`. The dataset contains soil properties from 11 agricultural fields in the surroundings of Wageningen, with different soil texture and land use, and is documented in `?binnenveld`.
 
 ```{r load binnenveld}
+# load packages
+library(OBIC); library(data.table); library(ggplot2)
+# load data
 dt <- OBIC::binnenveld[ID==1]
 ```
 
 # Aggregation
-Between calculating soil function scores and aggregating a reformatting step takes place.
+Between calculating soil function scores and aggregating a reformatting step takes place. 
+The following things are done during reformatting:
 
-```{r}
+  * it is assessed which indicators are relevant for a field given its soiltype and crop category using the `weight.obic` table.
+  * year numbers are assigned from 1 to n with one being the most recent year (used for aggregating over years)
+  * a molten data.table is created with all indicators in a single column and soiltype, crop category and year as identifying variables
+  * categories are assigned to indicators (chemical, physical, biological, environmental, management)
+  * a data.table with the number of indicators per category is made (used in the aggregation of indicators)
+  * a correction factor per score is calculated based on the height of the score (used later to give more weight to low scores)
+  * soil function scores irrelevant to the land use are set to -999
+  
+At the beginning of the next step, an indicator data.table is created based on the molten data.table created in the reformatting step. This data.table uses the soil function scores ajusted for their applicability for the soiltype and crop category. 
+
+```{r reformatting code, echo = TRUE, eval=FALSE}
   # Step 3 Reformat dt given weighing per indicator and prepare for aggregation  ------------------
     
     # load weights.obic (set indicator to zero when not applicable)
@@ -48,9 +62,7 @@ Between calculating soil function scores and aggregating a reformatting step tak
     
     # Select all indicators used for scoring
     cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT',colnames(dt))]
-    #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
-    #cols <- cols[!grepl('^I_M_',cols)]
-    
+
     # Melt dt and assign main categories for OBI
     dt.melt <- melt(dt[,mget(cols)],
                     id.vars = c('B_SOILTYPE_AGR','crop_category','year'), 
@@ -77,12 +89,102 @@ Between calculating soil function scores and aggregating a reformatting step tak
     dt.melt[,value.w := value]
     dt.melt[grepl('veen',B_SOILTYPE_AGR) & weight_peat < 0,value.w := -999]
     dt.melt[!grepl('veen',B_SOILTYPE_AGR) & weight_nonpeat < 0,value.w := -999]
+    
 ```
 
+## Weighing values
+To aggregate scores, the relevant columns and rows are taken from the molten data.table.
 
+```{r echo = TRUE, eval=FALSE}
+ # Step 5 Add scores ------------------
+    
+    # subset dt.melt for relevant columns only
+    out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
+  
+    # remove indicator categories that are not used for scoring
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+```    
+
+The values are weighted using the correction factor calculated previously using `cf_ind_importance()`, giving more weight to lower scores. This way the lowest value, supposedly also to most limiting factor for crop production, becomes more important. Consequently, improving a low score by 0.1 is easier than improving a high score by this same amount, making it more worthwhile to invest in the poorest and most limiting theme.
+
+```{r echo = TRUE, eval=FALSE}    
+    # calculate weighted average per indicator category
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), by = list(cat,year)]
+  
+      # for case that a cat has one indicator or one year and has NA
+      out.score[is.na(value), value := -999]
+```
 
 ## Aggregating over years
-The first aggregation step occurs after calculating soil function scores for each year. Multiple years are used (usually 10) to capture the entire crop rotation (crop rotation in the Netherlands are seldom longer than 10 years).
+Multiple years are used (usually 10) to capture the entire crop rotation (crop rotation in the Netherlands are hardly ever longer than 10 years). When aggregating over years, another correction factor is used to give more weight to recent years. Calculation of the correction factor is done with a logistic function.
+
+These would be the correction factors for a period of eleven years:
+```{r output year cf}
+  # create data
+  y <- 1:11
+  cf <- log(12 - pmin(10, y))
+  cat(cf)
+```
+
+The most recent year carries about `r round(cf[1]/cf[10],digits =1)` the weight of the tenth year. Notice that years ten and eleven have the same correction factor value, the minimum cf value for a year is equal to that of year ten.
+
+More priority (weight) is given to recent years because these are more reflective of the current situation. Additionally, changes in management or soil properties take more immediate effect in subsequent years.
+
+Aggregation of scores over years is done with the following two lines of code. Per indicator an average value is calculated with weights from the correction factor described above.  Side note: The function `obic_field()` has similar lines of code for calculating individual indicators which are given as optional outputs when output is set to 'all' or 'indicators'. Aggregating indicators over years is done in the same fashion.
+      
+```{r echo = TRUE, eval=FALSE}
+            
+      # calculate correction factor per year; recent years are more important
+      out.score[,cf := log(12 - pmin(10,year))]
+  
+    # calculate weighted average per indicator category per year
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
+```
+
+This gives us a single score for each of the five indicators (chemical, physical, biological, management, and environmental).
+
+## Aggregating to single OBI score
+To aggregate the five indicators to a single, holistic, OBI-score, they are weighed logistically using the number of soil functions underlying the indicator. The number of soil functions per indicator was retrieved previously with the line `dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']`. Now its merged with our score data.table.
+
+```{r echo = TRUE, eval=FALSE}
+      # merge out with number per category
+      out.score <- merge(out.score,dt.melt.ncat, by='cat')
+```
+
+The correction factor for weighing indicators based on the number of soil functions they are made up of is done like this:
+
+```{r echo = TRUE, eval=FALSE}
+      # calculate weighing factor depending on number of indicators
+      out.score[,cf := log(ncat + 1)]
+```
+
+The weights for indicators with 1 to 10 soil functions are: `r round(log(1:10 +1),2)`. Thus, an indicator based on 10 soil functions affects the total score roughly `r round(log(1:10 +1)[10]/log(1:10 +1)[1],1)` times more than an indicator based on 1 soil function. The idea behind giving more weight to indicators with more underlying soil functions sprouts from the idea that such an indicator is better supported by measurable data or more important. 
+Furthermore, by aggregating soil functions to indicators and then to a score rather than directly from soil functions to a score; soil functions from indicators with few underlying soil functions, affect the holistic score more than soil functions in indicators with many soil functions. For example, if there is one biological soil function, its weight in affecting the holistic score is `r round(log(1+1),2)`, while a soil function within a chemical indicator with nine soil functions individually only weighs `r round(log(9+1)/9,2)` (`cf := log(9+1)`). While this example on indicator level, biology only weighs `r round(log(1+1),2)` and chemical `r round(log(9+1),2)`.
+
+After the aggregation there is just a bit of code to format the names of the scores.
+
+```{r echo = TRUE, eval=FALSE}
+    # calculated final obi score
+    out.score <- rbind(out.score[,list(cat,value)],
+                       out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
+  
+    # update element names
+    out.score[,cat := paste0('S_',cat,'_OBI_A')]
+    out.score[, value := round(value,3)]
+```
+
+## Brief recap
+
+* Soil functions with low values gain more weight than ones with heigh values because these soil functions are supposed to be more limiting and this makes it more worthwhile (both in reality as for the OBI score) to invest in improving low scores
+* Values from recent years count more than values from long ago. Recent years are more reflective of the current situation and it becomes easier to see the effect of changes in management or soil properties in subsequent years
+* Indicators with more underlying soil functions have more weight in determining the total OBI score. This is because these indicators are better understood and supported and may be more important. However, individual soil functions of indicators with few soil functions have more influence on the total OBI score compared to individual soil functions of indicators with many soil functions.
+
+## Comparison with other aggregation methods
+
+
+
+
+
 
 
 
