@@ -8,7 +8,7 @@
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param B_GWL_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
 #' @param B_GWL_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
-#' @param B_Z_TWO  (numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)
+#' @param B_GWL_ZCRIT  (numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)
 #' @param calcyieldloss (boolean) whether the function includes yield loss, options: TRUE or FALSE (default).
 #' 
 #' @import data.table
@@ -17,7 +17,7 @@
 #'  
 #' @export
 calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, 
-                             B_GWL_GLG, B_GWL_GHG, B_Z_TWO,
+                             B_GWL_GLG, B_GWL_GHG, B_GWL_ZCRIT,
                              calcyieldloss = FALSE) {
   
   # define variables used within the function
@@ -42,7 +42,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
 
   # Check inputs
   arg.length <- max(length(A_CLAY_MI), length(A_SILT_MI), length(B_LU_BRP), length(B_SOILTYPE_AGR), 
-                    length(B_GWL_GLG), length(B_GWL_GHG), length(B_Z_TWO))
+                    length(B_GWL_GLG), length(B_GWL_GHG), length(B_GWL_ZCRIT))
   checkmate::assert_numeric(A_CLAY_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_SILT_MI, lower = 0, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -52,7 +52,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
   checkmate::assert_numeric(B_GWL_GLG, lower = 0, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(B_GWL_GHG, lower = 0, any.missing = FALSE, len = arg.length)
   checkmate::assert_true(all(B_GWL_GHG < B_GWL_GLG))
-  checkmate::assert_numeric(B_Z_TWO, lower = 0, upper = 400, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_GWL_ZCRIT, lower = 0, upper = 400, any.missing = FALSE, len = arg.length)
 
   # Collect in data table
   dt <- data.table(id = 1:arg.length,
@@ -62,7 +62,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
                    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
                    B_GWL_GLG = B_GWL_GLG,
                    B_GWL_GHG = B_GWL_GHG,
-                   B_Z_TWO = B_Z_TWO)
+                   B_GWL_ZCRIT = B_GWL_ZCRIT)
   
   # merge with OBIC crop and soil table
   dt <- merge(dt, crops.obic[, list(crop_code, crop_waterstress, crop_season)], 
@@ -101,7 +101,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
   dt[, rdh_fall := gws_sub_workingdepth]
   
   # test 2: At what groundwater level is  capillary rise lower than evaporation (<2mm/d), required depth capilairy abbreviated as rdc
-  dt[, rdc := B_Z_TWO]
+  dt[, rdc := B_GWL_ZCRIT]
 
   # Choose lowest required depth as required depth
   dt[,rd_spring := fifelse(rdh_spring <= rdc, rdh_spring,rdc)]

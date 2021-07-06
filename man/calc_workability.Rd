@@ -11,7 +11,7 @@ calc_workability(
   B_SOILTYPE_AGR,
   B_GWL_GLG,
   B_GWL_GHG,
-  B_Z_TWO,
+  B_GWL_ZCRIT,
   calcyieldloss = FALSE
 )
 }
@@ -28,7 +28,7 @@ calc_workability(
 
 \item{B_GWL_GHG}{(numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level}
 
-\item{B_Z_TWO}{(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)}
+\item{B_GWL_ZCRIT}{(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)}
 
 \item{calcyieldloss}{(boolean) whether the function includes yield loss, options: TRUE or FALSE (default).}
 }
