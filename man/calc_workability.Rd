@@ -33,7 +33,11 @@ calc_workability(
 \item{calcyieldloss}{(boolean) whether the function includes yield loss, options: TRUE or FALSE (default).}
 }
 \description{
-This function calculates the workability of soils, given as potential length of the growing season. Based on Huinink (2018)
+This function calculates the workability of soils, given as a value of relative season length between 0 and 1. 
+A relative season length of 1 indicates that the water table is sufficiently low for the soil to be workable for the entire growing season required by the crop.
+The required ground water table for workability is determined by soil type and soil properties. Hydrological variables determine the groundwater table for each day of the year.
+The option calcyieldloss allows for calculation of yield loss based on the relative season length, differentiating in yield loss between six groups of crops
+Based on Huinink (2018)
 }
 \references{
 Huinink (2018) Bodem/perceel geschiktheidsbeoordeling voor Landbouw, Bosbouw en Recreatie. BodemConsult-Arnhem

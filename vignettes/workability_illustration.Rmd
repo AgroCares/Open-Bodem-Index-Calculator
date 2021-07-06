@@ -3,7 +3,7 @@ title: "Workability illustration"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{description-of-the-columns}
+  %\VignetteIndexEntry{Workability illustration}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
