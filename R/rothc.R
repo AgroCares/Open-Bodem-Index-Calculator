@@ -62,11 +62,11 @@ calc_rothc  <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI, A_DEPTH = 0.3, event
   checkmate::assert_numeric(CHUM0, lower = 0, upper = 15E6, any.missing = FALSE, len = 1)
   
   # Check correction factors
-  checkmate::assert_numeric(a, lower = 0, upper = 5, any.missing = FALSE, len = 600)
-  checkmate::assert_numeric(b, lower = 0.2, upper = 1, any.missing = FALSE, len = 600)
-  checkmate::assert_numeric(c, lower = 0.6, upper = 1, any.missing = FALSE, len = 600)
+  checkmate::assert_numeric(a, lower = 0, upper = 5, any.missing = FALSE, len = 12*simyears)
+  checkmate::assert_numeric(b, lower = 0.2, upper = 1, any.missing = FALSE, len = 12*simyears)
+  checkmate::assert_numeric(c, lower = 0.6, upper = 1, any.missing = FALSE, len = 12*simyears)
   checkmate::assert_subset(c, choices = c(0.6,1), empty.ok = FALSE)
-  checkmate::assert_numeric(d, lower = 0, upper = 1, any.missing = FALSE, len = 600)
+  checkmate::assert_numeric(d, lower = 0, upper = 1, any.missing = FALSE, len = 12*simyears)
   checkmate::assert_subset(d, choices = c(0,1), empty.ok = FALSE)
   
   # Check decomposition rates
