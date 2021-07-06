@@ -7,7 +7,7 @@ test_that("calc_workability works", {
       B_SOILTYPE_AGR = c('zeeklei','zeeklei', 'dekzand','zeeklei', 'dekzand', 'dekzand', 'veen', 'dekzand', 'zeeklei', 'maasklei'),
       B_GWL_GLG = c(173,139, 106, 144, 115, 113, 42, 106, 173, 115),
       B_GWL_GHG = c(21, 18, 62, 70, 49, 81, 9, 62, 21, 49),
-      B_Z_TWO = c(400, 400, 400, 400, 400, 400, 400, 400, 400, 400)
+      B_GWL_ZCRIT = c(400, 400, 400, 400, 400, 400, 400, 400, 400, 400)
     ),
     expected = c(0.57,0.45,0.54,0.84,0.80, 1, 0.00,0.76,0.66, 0.66),
     tolerance = .01
@@ -33,7 +33,7 @@ test_that('diffrenttiation maize on sand vs mais on clay workabilty season works
     B_SOILTYPE_AGR = c( 'dekzand'),
     B_GWL_GLG = c(115),
     B_GWL_GHG = c(49),
-    B_Z_TWO = c(400)
+    B_GWL_ZCRIT = c(400)
   )>
     calc_workability(
       A_CLAY_MI = c( 1.9),
@@ -42,6 +42,6 @@ test_that('diffrenttiation maize on sand vs mais on clay workabilty season works
       B_SOILTYPE_AGR = c( 'zeeklei'),
       B_GWL_GLG = c(115),
       B_GWL_GHG = c(49),
-      B_Z_TWO = c(400)
+      B_GWL_ZCRIT = c(400)
     ))
 })
