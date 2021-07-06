@@ -58,8 +58,12 @@
 #' @param ID (character) A field id
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
 #' 
-#' @import data.table
+#' @details 
+#' It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
 #' 
+#' 
+#' @import data.table
+#'  
 #' @export
 obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CBS,
                        B_LU_BRP, 
