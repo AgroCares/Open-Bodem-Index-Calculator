@@ -342,24 +342,27 @@ dta <- dta[value>1, value := 1]
 dt <- copy(dta)
 
 # log cf
-dt <- dt[,v_cf_log := OBIC::cf_ind_importance(value)]
+dt <- dt[,log := OBIC::cf_ind_importance(value)]
 
 # lin cf
-dt <- dt[,v_cf_lin := 5-4.17*value]
+dt <- dt[,lin := 5-4.17*value]
 
 # non cf
-dt <- dt[,v_cf_non := 1]
+dt <- dt[,non := 1]
+
+# melt dt by cf method
+dt <- melt(dt, measure.vars = c('log', 'lin', 'non'), value.name = 'v_cf', variable.name = 'cf_method')
 
 
 # calculate cf for years =====
 # log cf
-dt <- dt[,y_cf_log := log(12 - pmin(10,year))]
+dt <- dt[cf_method == 'log',y_cf := log(12 - pmin(10,year))]
 
 # lin cf
-dt <- dt[,y_cf_lin := 2.59-0.19*value]
+dt <- dt[cf_method == 'lin',y_cf := 2.59-0.19*value]
 
 # non cf
-dt <- dt[,y_cf_non := 1]
+dt <- dt[cf_method == 'non',y_cf := 1]
 
 
 # calculate cf for cat ====
@@ -371,17 +374,34 @@ for(c in unique(ncat$cat)){
 dt <- merge(dt, ncat, by = c('indicator', 'cat'))
 
 # log cf
-dt <- dt[,c_cf_log := log(ncat + 1)]
+dt <- dt[cf_method == 'log',c_cf := log(ncat + 1)]
 
 # log lin
-dt <- dt[,c_cf_lin := ncat*log(10 + 1)/10]
+dt <- dt[cf_method == 'lin',c_cf := ncat*log(10 + 1)/10]
 
 # non cf
-dt <- dt[,c_cf_non := 1]
+dt <- dt[cf_method == 'non',c_cf := 1]
+
+```
+
+```{r aggregate scores}
+# # get col group vectos
+idcols <- c("indicator", "cat", "field", "year","treatment", "value")
+# logcols <- names(dt)[grepl('log$', names(dt))]
+# lincols <- names(dt)[grepl('lin$', names(dt))]
+# noncols <- names(dt)[grepl('non$', names(dt))]
+# 
+
+# calculate weighted value
+dt <- dt[,w.value := sum(v_cf*pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cat, year, cf_method)]
+
+# calculated weighted average value by year
+dt <- dt[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[value >= 0])), by = .(field, cat, cf_method)]
 
 
 
 ```
+
 
 ```{r, eval=FALSE}
  # Step 5 Add scores ------------------
