@@ -26,8 +26,9 @@ The OBIC is a framework that takes a multitude of soil parameters and variables 
 knitr::include_graphics('OBIC_score_integratie.png')
 ```
 
-There is no scientific principle dictating how this aggregation should be done and there are several ways to do the aggregation. For example; averaging, linearly weighted averaging, logistically weighted averaging.
-This document dives deeper into the three aggregation steps within the framework and will explain the why a certain method of aggregation was used. We will also explore alternative methods of aggregation and compare these with the chosen method to illustrate the influence the aggregation method has on the final score and act as a kind of sensitivity analysis.
+There is no scientific principle dictating how this aggregation should be done and there are several ways to do the aggregation. For example; averaging, linearly weighted averaging, logistically weighted averaging. The last one is used in OBIC.
+This document dives deeper into the three aggregation steps within the framework and will explain  why logistically weighted aggregation is used. We will also explore the two other mentioned methods of aggregation and compare these with the chosen method to illustrate the influence the aggregation method has on the final score and act as a kind of sensitivity analysis.
+The aggregation methods will be compared with a mock dataset of a selection of soil functions.
 Demonstration of aggregation will be performed using  the dataset `binnenveld`. The dataset contains soil properties from 11 agricultural fields in the surroundings of Wageningen, with different soil texture and land use, and is documented in `?binnenveld`.
 
 ```{r load binnenveld}
@@ -180,6 +181,51 @@ After the aggregation there is just a bit of code to format the names of the sco
 * Indicators with more underlying soil functions have more weight in determining the total OBI score. This is because these indicators are better understood and supported and may be more important. However, individual soil functions of indicators with few soil functions have more influence on the total OBI score compared to individual soil functions of indicators with many soil functions.
 
 ## Comparison with other aggregation methods
+In comparing the methods of aggregation we will use three methods to determine a correction factor (cf) for each measurement/value: 
+
+* logarithmically
+* linearly
+* no correction (averaging all values, cf = 1)
+
+The log and linear cf's are illustrated in Figure 2 in the range that they operate. **Value** is the correction factor for the measured soil function values, these range from 0 to 1. **year** is the correction factor for the year a measurement is from, 1 being the most recent year, 10 being ten years earlier. **ncat** is the correction for the number of soil functions within an indicator, for Chemical this typically is `r length(grep('I_C_', names(obic_field_dt(binnenveld, output = 'indicators'))))`
+The no correction method is not presented in Figure 2 as it would be a horizontal line with an arbitrary value.
+
+```{r plot mock cf, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, fig.cap = 'Figure 2. Correction factors calculated with linear or logarithmic methods per aggregation step.'}
+# plot correction factors
+pdtlog <- data.table(x = c(seq(0,1,0.1),rep(0:10,2)),
+                  cf_type = c(rep('value',11),rep('year',11), rep('ncat', 11)))
+# calc cf's log
+pdtlog <- pdtlog[cf_type == 'value', cf := OBIC::cf_ind_importance(x)]
+pdtlog <- pdtlog[cf_type == 'year', cf := log(12 - pmin(10,x))]
+pdtlog <- pdtlog[cf_type == 'ncat', cf := log(x + 1)]
+pdtlog$cf_method <- 'log'
+
+# calc cf's linear
+pdtlin <- data.table(x = c(seq(0,1,0.1),rep(0:10,2)),
+                  cf_type = c(rep('value',11),rep('year',11), rep('ncat', 11)))
+pdtlin <- pdtlin[cf_type == 'value', cf := 5-4.17*x]
+pdtlin <- pdtlin[cf_type == 'year', cf := 2.59-0.19*x]
+pdtlin <- pdtlin[cf_type == 'ncat', cf := x*log(11)/10]
+pdtlin$cf_method <- 'linear'
+
+# combine
+pdt <- rbindlist(list(pdtlog, pdtlin))
+# format pdt
+pdt <- pdt[,cf_type := factor(cf_type, levels = c('value', 'year', 'ncat'))]
+
+# plot
+gg <- ggplot(pdt, aes(x = x, y = cf, color = cf_method, group = cf_type))+
+  geom_point() +
+  theme_bw() + facet_wrap(~cf_type, ncol = 3, scales = 'free') + scale_colour_viridis_d()+
+  xlab('')
+for(i in 1:uniqueN(pdt$cf_method)){
+  gg <- gg + geom_line(data = pdt[cf_method == unique(pdt$cf_method)[i]], color = c('#FDE725FF', '#440154FF')[i])
+}
+
+# plot gg
+gg
+```
+
 ```{r make mock data, eval= TRUE}
 # make mock data and calculate scores with different aggregation methods (averaging without weight and averaging with linearly changing weight)
 # data like:
@@ -226,13 +272,13 @@ dt1 <- dt1[,value := rnorm(n = nrow(dt1),mean = 0.7, sd = 0.1)]
 
 # make treatment where c = 0.3
 dt2 <- copy(dto)
-dt2 <- dt2[,treatment := 'low C scores']
+dt2 <- dt2[,treatment := 'low C values']
 dt2 <- dt2[cat == 'C',value := rnorm(n = nrow(dt2[cat=='C']),mean = 0.3, sd = 0.1)]
 dt2 <- dt2[!cat == 'C',value := rnorm(n = nrow(dt2[!cat=='C']),mean = 0.7, sd = 0.1)]
 
 # make treatment where B = 0.3
 dt3 <- copy(dto)
-dt3 <- dt3[,treatment := 'low B scores']
+dt3 <- dt3[,treatment := 'low B values']
 dt3 <- dt3[cat == 'B',value := rnorm(n = nrow(dt3[cat=='B']),mean = 0.3, sd = 0.1)]
 dt3 <- dt3[!cat == 'B',value := rnorm(n = nrow(dt3[!cat=='B']),mean = 0.7, sd = 0.1)]
 
@@ -269,7 +315,89 @@ dta <- dta[value>1, value := 1]
 
 ```
 
+```{r calc correction factors}
+# Use three ways to calc correction factors (giving weight to each value), log (standard in OBIC), lin (linearly increasing/decreasing), non (everything has the same weight)
 
+# value correction factors ======
+dt <- copy(dta)
+
+# log cf
+dt <- dt[,v_cf_log := OBIC::cf_ind_importance(value)]
+
+# lin cf
+dt <- dt[,v_cf_lin := 5-4.17*value]
+
+# non cf
+dt <- dt[,v_cf_non := 1]
+
+
+# calculate cf for years =====
+# log cf
+dt <- dt[,y_cf_log := log(12 - pmin(10,year))]
+
+# lin cf
+dt <- dt[,y_cf_lin := 2.59-0.19*value]
+
+# non cf
+dt <- dt[,y_cf_non := 1]
+
+
+# calculate cf for cat ====
+ncat <- unique(dt[,.(indicator, cat)])
+for(c in unique(ncat$cat)){
+  n <- nrow(ncat[cat == c])
+  ncat <- ncat[cat == c,ncat := n]
+}
+dt <- merge(dt, ncat, by = c('indicator', 'cat'))
+
+# log cf
+dt <- dt[,c_cf_log := log(ncat + 1)]
+
+# log lin
+dt <- dt[,c_cf_lin := ncat*log(10 + 1)/10]
+
+# non cf
+dt <- dt[,c_cf_non := 1]
+
+
+
+```
+
+```{r, eval=FALSE}
+ # Step 5 Add scores ------------------
+    
+    # subset dt.melt for relevant columns only
+    out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
+  
+    # remove indicator categories that are not used for scoring
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+    
+    # calculate weighted average per indicator category
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), by = list(cat,year)]
+  
+      # for case that a cat has one indicator or one year and has NA
+      out.score[is.na(value), value := -999]
+      
+      # calculate correction factor per year; recent years are more important
+      out.score[,cf := log(12 - pmin(10,year))]
+  
+    # calculate weighted average per indicator category per year
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
+  
+      # merge out with number per category
+      out.score <- merge(out.score,dt.melt.ncat, by='cat')
+    
+      # calculate weighing factor depending on number of indicators
+      out.score[,cf := log(ncat + 1)]
+  
+    # calculated final obi score
+    out.score <- rbind(out.score[,list(cat,value)],
+                       out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
+  
+    # update element names
+    out.score[,cat := paste0('S_',cat,'_OBI_A')]
+    out.score[, value := round(value,3)]
+```
 
 
 
