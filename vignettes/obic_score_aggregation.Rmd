@@ -229,7 +229,7 @@ pdt <- pdt[,cf_type := factor(cf_type, levels = c('value', 'year', 'ncat'))]
 gg <- ggplot(pdt, aes(x = x, y = cf, color = cf_method, group = cf_type))+
   geom_point() +
   theme_bw() + facet_wrap(~cf_type, ncol = 3, scales = 'free') + scale_colour_viridis_d()+
-  xlab('')
+  xlab('') + ylab('cf (weight)')
 for(i in 1:uniqueN(pdt$cf_method)){
   gg <- gg + geom_line(data = pdt[cf_method == unique(pdt$cf_method)[i]], color = c('#FDE725FF', '#440154FF')[i])
 }
@@ -386,58 +386,44 @@ dt <- dt[cf_method == 'non',c_cf := 1]
 
 ```{r aggregate scores}
 # # get col group vectos
-idcols <- c("indicator", "cat", "field", "year","treatment", "value")
+# idcols <- c("indicator", "cat", "field", "year","treatment", "value")
 # logcols <- names(dt)[grepl('log$', names(dt))]
 # lincols <- names(dt)[grepl('lin$', names(dt))]
 # noncols <- names(dt)[grepl('non$', names(dt))]
 # 
 
 # calculate weighted value
-dt <- dt[,w.value := sum(v_cf*pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cat, year, cf_method)]
+dt <- dt[,w.value := sum(v_cf*pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, indicator, year)]
 
 # calculated weighted average value by year
-dt <- dt[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[value >= 0])), by = .(field, cat, cf_method)]
+dt <- dt[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[value >= 0])), by = .(field, cf_method, cat)] # scores per category
+
+# calculate total obi score
+dt <- dt[,S_T := sum(wy.value * c_cf / sum(c_cf)), by = .(field, cf_method)]
 
 
+# select data for scores
+dts <- unique(dt[,.(field, indicator,cat, wy.value, S_T ,treatment, cf_method)])
+
+# reshape dts so total scores are in same column as cat scores (with T being a cat)
+dts1 <- unique(dts[,.(field, cat, wy.value, treatment, cf_method)])
+dts2 <- unique(dts[,.(field, S_T, treatment, cf_method)])
+
+# rename  cols
+setnames(dts1, 'wy.value', 'score')
+setnames(dts2, 'S_T', 'score')
+# add cat column to dts2
+dts2$cat <- 'T'
+
+# bind scores dt's
+dt <- rbindlist(list(dts1, dts2), use.names = TRUE)
+
+# update element names
+dt[,cat := paste0('S_',cat,'_OBI_A')]
+dt[, score := round(score,3)]
 
 ```
 
-
-```{r, eval=FALSE}
- # Step 5 Add scores ------------------
-    
-    # subset dt.melt for relevant columns only
-    out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
-  
-    # remove indicator categories that are not used for scoring
-    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
-    
-    # calculate weighted average per indicator category
-    out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), by = list(cat,year)]
-  
-      # for case that a cat has one indicator or one year and has NA
-      out.score[is.na(value), value := -999]
-      
-      # calculate correction factor per year; recent years are more important
-      out.score[,cf := log(12 - pmin(10,year))]
-  
-    # calculate weighted average per indicator category per year
-    out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
-  
-      # merge out with number per category
-      out.score <- merge(out.score,dt.melt.ncat, by='cat')
-    
-      # calculate weighing factor depending on number of indicators
-      out.score[,cf := log(ncat + 1)]
-  
-    # calculated final obi score
-    out.score <- rbind(out.score[,list(cat,value)],
-                       out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
-  
-    # update element names
-    out.score[,cat := paste0('S_',cat,'_OBI_A')]
-    out.score[, value := round(value,3)]
-```
 
 
 
