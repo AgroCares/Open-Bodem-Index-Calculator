@@ -180,9 +180,108 @@ After the aggregation there is just a bit of code to format the names of the sco
 * Values from recent years count more than values from long ago. Recent years are more reflective of the current situation and it becomes easier to see the effect of changes in management or soil properties in subsequent years
 * Indicators with more underlying soil functions have more weight in determining the total OBI score. This is because these indicators are better understood and supported and may be more important. However, individual soil functions of indicators with few soil functions have more influence on the total OBI score compared to individual soil functions of indicators with many soil functions.
 
+```{r make mock data, eval= TRUE}
+# make mock data and calculate scores with different aggregation methods (averaging without weight and averaging with linearly changing weight)
+# data like:
+# soil_function_value|indicator|group|year|cf_base|cf_noweight|cf_linearweight|score_base|score_noweight|score_linearweight
+
+# visualise differences
+
+# make veldnr
+fieldid <- 1
+
+# define standard deviation 
+std <- 0.2
+
+# make indicator
+inds <- c('I_C_CEC', 'I_C_CU', 'I_C_K', 'I_C_MG', 'I_C_N', 'I_C_P', 'I_C_PH', 'I_C_S', 'I_C_ZN',
+          'I_B_DI', 'I_B_SF', 
+          'I_E_NGW', 'I_E_NSW',
+          'I_P_CEC', 'I_P_CO', 'I_P_CR', 'I_P_DS', 'I_P_DU', 'I_P_SE', 'I_P_WRI', 'I_P_WS')
+# inds <- sort(rep(inds, 10))
+
+# make jaar
+year <- 1:10
+
+# combine in dt
+dt <- data.table(field = sort(rep(fieldid,length(inds)*length(year))),
+                 indicator = sort(rep(inds, length(year)*length(fieldid))),
+                 year = rep(year, length(inds)*length(fieldid))
+                 )
+
+# add category
+dt <- dt[,cat := tstrsplit(indicator,'_',keep = 2)]
+
+# iteratively add fields
+dto <- data.table(field = NULL, indicator = NULL, year = NULL)
+for(i in 1:100){
+  dtn <- dt
+  dtn <- dtn[,field := i]
+  dto <- rbindlist(list(dto, dtn))
+}
+
+# dto is a almost ready set of 100 fields, only values and value description need to be added
+
+# make baseline
+dt1 <- copy(dto)
+dt1 <- dt1[,field := field+100-1]
+dt1 <- dt1[,treatment := 'baseline']
+dt1 <- dt1[,value := rnorm(n = nrow(dt1),mean = 0.7, sd = std)]
+
+# make treatment where c = 0.3
+dt2 <- copy(dto)
+dt2 <- dt2[,field := field+200-1]
+dt2 <- dt2[,treatment := 'low C values']
+dt2 <- dt2[cat == 'C',value := rnorm(n = nrow(dt2[cat=='C']),mean = 0.3, sd = std)]
+dt2 <- dt2[!cat == 'C',value := rnorm(n = nrow(dt2[!cat=='C']),mean = 0.7, sd = std)]
+
+# make treatment where B = 0.3
+dt3 <- copy(dto)
+dt3 <- dt3[,field := field+300-1]
+dt3 <- dt3[,treatment := 'low B values']
+dt3 <- dt3[cat == 'B',value := rnorm(n = nrow(dt3[cat=='B']),mean = 0.3, sd = std)]
+dt3 <- dt3[!cat == 'B',value := rnorm(n = nrow(dt3[!cat=='B']),mean = 0.7, sd = std)]
+
+# make treatment where one C indicator = 0
+dt4 <- copy(dto)
+dt4 <- dt4[,field := field+400-1]
+dt4 <- dt4[,treatment := 'one low C']
+dt4 <- dt4[indicator == 'I_C_CEC',value := 0]
+dt4 <- dt4[!indicator == 'I_C_CEC',value := rnorm(n = nrow(dt4[!indicator == 'I_C_CEC']),mean = 0.7, sd = std)]
+
+# make where one B indicator = 0
+dt5 <- copy(dto)
+dt5 <- dt5[,field := field+500-1]
+dt5 <- dt5[,treatment := 'one low B']
+dt5 <- dt5[indicator == 'I_B_DI',value := 0]
+dt5 <- dt5[!indicator == 'I_B_DI',value := rnorm(n = nrow(dt5[!indicator == 'I_B_DI']),mean = 0.7, sd = std)]
+
+# make treatment where recent years score low and old years high
+dt6 <- copy(dto)
+dt6 <- dt6[,field := field+600-1]
+dt6 <- dt6[,treatment := 'Recent years low']
+dt6 <- dt6[year %in% 1:5, value := rnorm(n = nrow(dt6[year %in% 1:5]), mean = 0.3, sd = std)]
+dt6 <- dt6[!year %in% 1:5, value := rnorm(n = nrow(dt6[!year %in% 1:5]), mean = 0.7, sd = std)]
+
+# make treatment where recent years score high and old years low
+dt7 <- copy(dto)
+dt7 <- dt7[,field := field+700-1]
+dt7 <- dt7[,treatment := 'Recent years high']
+dt7 <- dt7[!year %in% 1:5, value := rnorm(n = nrow(dt7[!year %in% 1:5]), mean = 0.3, sd = std)]
+dt7 <- dt7[year %in% 1:5, value := rnorm(n = nrow(dt7[year %in% 1:5]), mean = 0.7, sd = std)]
+
+# combine all data
+dta <- rbindlist(list(dt1, dt2, dt3, dt4, dt5, dt6, dt7))
+
+# make sure all values are between 0 and 1
+dta <- dta[value<0, value := 0]
+dta <- dta[value>1, value := 1]
+
+```
+
 ## Comparison with other aggregation methods
 ### Data description
-To compare aggregation methods we have made a data.table with mock data similar to a data.table in the obic_field function just before aggregating scores. We will compare the aggregation methods with seven scenarios or treatments. Each treatment has a 100 replicates whose soil function values are randomly drawn from a normal distribution with a standard deviation of 0.1. The mean of the distributions depends on the scenario. 
+To compare aggregation methods we have made a data.table with mock data similar to a data.table in the obic_field function just before aggregating scores. We will compare the aggregation methods with seven scenarios or treatments. Each treatment has a 100 replicates whose soil function values are randomly drawn from a normal distribution with a standard deviation of `r std[1]`. The mean of the distributions depends on the scenario. On rare occasion a value may fall slightly outside the range 0:1, in such cases the values are overwritten to be 0 or 1. 
 
 1. **Baseline** all mean value are 0.7
 2. **Low C values** means of Chemical functions are 0.3, functions in other indicators are 0.7
@@ -237,103 +336,6 @@ for(i in 1:uniqueN(pdt$cf_method)){
 # plot gg
 gg
 ```
-
-```{r make mock data, eval= TRUE}
-# make mock data and calculate scores with different aggregation methods (averaging without weight and averaging with linearly changing weight)
-# data like:
-# soil_function_value|indicator|group|year|cf_base|cf_noweight|cf_linearweight|score_base|score_noweight|score_linearweight
-
-# visualise differences
-
-# make veldnr
-fieldid <- 1
-
-# make indicator
-inds <- c('I_C_CEC', 'I_C_CU', 'I_C_K', 'I_C_MG', 'I_C_N', 'I_C_P', 'I_C_PH', 'I_C_S', 'I_C_ZN',
-          'I_B_DI', 'I_B_SF', 
-          'I_E_NGW', 'I_E_NSW',
-          'I_P_CEC', 'I_P_CO', 'I_P_CR', 'I_P_DS', 'I_P_DU', 'I_P_SE', 'I_P_WRI', 'I_P_WS')
-# inds <- sort(rep(inds, 10))
-
-# make jaar
-year <- 1:10
-
-# combine in dt
-dt <- data.table(field = sort(rep(fieldid,length(inds)*length(year))),
-                 indicator = sort(rep(inds, length(year)*length(fieldid))),
-                 year = rep(year, length(inds)*length(fieldid))
-                 )
-
-# add category
-dt <- dt[,cat := tstrsplit(indicator,'_',keep = 2)]
-
-# iteratively add fields
-dto <- data.table(field = NULL, indicator = NULL, year = NULL)
-for(i in 1:100){
-  dtn <- dt
-  dtn <- dtn[,field := i]
-  dto <- rbindlist(list(dto, dtn))
-}
-
-# dto is a almost ready set of 100 fields, only values and value description need to be added
-
-# make baseline
-dt1 <- copy(dto)
-dt1 <- dt1[,field := field+100-1]
-dt1 <- dt1[,treatment := 'baseline']
-dt1 <- dt1[,value := rnorm(n = nrow(dt1),mean = 0.7, sd = 0.1)]
-
-# make treatment where c = 0.3
-dt2 <- copy(dto)
-dt2 <- dt2[,field := field+200-1]
-dt2 <- dt2[,treatment := 'low C values']
-dt2 <- dt2[cat == 'C',value := rnorm(n = nrow(dt2[cat=='C']),mean = 0.3, sd = 0.1)]
-dt2 <- dt2[!cat == 'C',value := rnorm(n = nrow(dt2[!cat=='C']),mean = 0.7, sd = 0.1)]
-
-# make treatment where B = 0.3
-dt3 <- copy(dto)
-dt3 <- dt3[,field := field+300-1]
-dt3 <- dt3[,treatment := 'low B values']
-dt3 <- dt3[cat == 'B',value := rnorm(n = nrow(dt3[cat=='B']),mean = 0.3, sd = 0.1)]
-dt3 <- dt3[!cat == 'B',value := rnorm(n = nrow(dt3[!cat=='B']),mean = 0.7, sd = 0.1)]
-
-# make treatment where one C indicator = 0
-dt4 <- copy(dto)
-dt4 <- dt4[,field := field+400-1]
-dt4 <- dt4[,treatment := 'one low C']
-dt4 <- dt4[indicator == 'I_C_CEC',value := 0]
-dt4 <- dt4[!indicator == 'I_C_CEC',value := rnorm(n = nrow(dt4[!indicator == 'I_C_CEC']),mean = 0.7, sd = 0.1)]
-
-# make where one B indicator = 0
-dt5 <- copy(dto)
-dt5 <- dt5[,field := field+500-1]
-dt5 <- dt5[,treatment := 'one low B']
-dt5 <- dt5[indicator == 'I_B_DI',value := 0]
-dt5 <- dt5[!indicator == 'I_B_DI',value := rnorm(n = nrow(dt5[!indicator == 'I_B_DI']),mean = 0.7, sd = 0.1)]
-
-# make treatment where recent years score low and old years high
-dt6 <- copy(dto)
-dt6 <- dt6[,field := field+600-1]
-dt6 <- dt6[,treatment := 'Recent years low']
-dt6 <- dt6[year %in% 1:5, value := rnorm(n = nrow(dt6[year %in% 1:5]), mean = 0.3, sd = 0.1)]
-dt6 <- dt6[!year %in% 1:5, value := rnorm(n = nrow(dt6[!year %in% 1:5]), mean = 0.7, sd = 0.1)]
-
-# make treatment where recent years score high and old years low
-dt7 <- copy(dto)
-dt7 <- dt7[,field := field+700-1]
-dt7 <- dt7[,treatment := 'Recent years high']
-dt7 <- dt7[!year %in% 1:5, value := rnorm(n = nrow(dt7[!year %in% 1:5]), mean = 0.3, sd = 0.1)]
-dt7 <- dt7[year %in% 1:5, value := rnorm(n = nrow(dt7[year %in% 1:5]), mean = 0.7, sd = 0.1)]
-
-# combine all data
-dta <- rbindlist(list(dt1, dt2, dt3, dt4, dt5, dt6, dt7))
-
-# make sure all values are between 0 and 1
-dta <- dta[value<0, value := 0]
-dta <- dta[value>1, value := 1]
-
-```
-
 
 ```{r calc correction factors}
 # Use three ways to calc correction factors (giving weight to each value), log (standard in OBIC), lin (linearly increasing/decreasing), non (everything has the same weight)
@@ -422,10 +424,37 @@ dt <- rbindlist(list(dts1, dts2), use.names = TRUE)
 dt[,cat := paste0('S_',cat,'_OBI_A')]
 dt[, score := round(score,3)]
 
+# factorise cat and cf_method
+dt <- dt[, cat := factor(cat, levels = c('S_T_OBI_A', 'S_C_OBI_A', 'S_P_OBI_A', 'S_B_OBI_A', 'S_E_OBI_A'))]
+dt <- dt[, cf_method := factor(cf_method, levels = c('log', 'lin', 'non'))]
+
+```
+
+```{r plot baselines scores, fig.width = 7, fig.height = 12,fig.fullwidth = TRUE, fig.cap = 'Figure 3. Total OBI score boxplots per aggregation method for each scenario.'}
+# plot
+ggplot(dt[cat == 'S_T_OBI_A'], aes(x = score, y = cf_method)) +
+  geom_boxplot() +
+  theme_bw() + scale_colour_viridis_d() + scale_y_discrete(limits = rev) +
+  coord_cartesian(xlim = c(0,1)) +
+  facet_wrap(~treatment, ncol = 1)
+
 ```
 
 
+```{r plot original values, fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 4. Distribution of "measured" values of each soil function per scenario.'}
+# factorise dta cat levels
+dta <- dta[, cat := factor(cat, levels = c('C', 'P', 'B', 'E'))]
+dta <- dta[, indicator := factor(indicator, levels = c("I_C_CEC","I_C_CU", "I_C_K",  "I_C_MG", "I_C_N",  "I_C_P",  "I_C_PH", "I_C_S",  "I_C_ZN", 
+                                                       "I_P_CR", "I_P_DS", "I_P_DU", "I_P_SE", "I_P_WRI", "I_P_WS","I_P_CEC","I_P_CO", 
+                                                       "I_B_DI", "I_B_SF", "I_E_NGW","I_E_NSW"))]
 
+# plot
+ggplot(dta, aes(x = value, y = indicator, color = cat))+
+  geom_boxplot() +
+  theme_bw() + coord_cartesian(xlim = c(0,1)) + scale_y_discrete(limits = rev)+
+  facet_wrap(~treatment, ncol = 1)
+
+```
 
 
 
