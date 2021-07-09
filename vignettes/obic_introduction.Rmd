@@ -20,7 +20,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 ```{r setup, include = FALSE}
 
   # load packages
-  library(OBIC); library(data.table); library(ggplot2);require(patchwork); library(ggpubr)
+  library(OBIC); library(data.table); library(ggplot2);require(patchwork)
 
   # load binnenveld data.table
   binnenveld <- as.data.table(OBIC::binnenveld)
@@ -28,7 +28,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 ---
 nocite: |
-  @Rinot2019, @Bunemann2018, @R-base, @R-data.table, @R-ggplot2, @R-ggpubr, @R-OBIC, @R-patchwork
+  @Rinot2019, @Bunemann2018, @R-base, @R-data.table, @R-ggplot2, @R-OBIC, @R-patchwork
 ---
 
 
@@ -1736,7 +1736,7 @@ The OBIC package has functions that transform the value of a soil function into 
 
 Some of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function). When logistic evaluation is used, there is no linear relation between the an indicators value and its score. Often the evaluation is set up so that lower values gain increasingly lower scores. In other words, poor performance is evaluated more stringent than good performance. Below, the relation between a soil function values and their scores (index values) is given. An example of logistic evaluation can be found in I_P_WS (waterstress)
 
-```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+```{r,fig.width = 7, fig.height = 16,fig.fullwidth = TRUE,echo=FALSE}
   
   # create waterstress index relation figure
   # dt <- data.table(D_WRI = seq(0,100,1))
@@ -2021,21 +2021,22 @@ bar[grepl('^S_P_', variable), cat := "Physical"]
 bar[grepl('^S_M_', variable), cat := "Management"]
 bar[grepl('^S_E_', variable), cat := "Environmental"]
 
-    # make lollipop chart
-   g2 <- ggdotchart(
-      bar, x = "cat", y = "value", 
-      # order = c("Totaal", "Milieu", "Beheer", "Biologie", "Structuur", "Chemie"),
-      order = c("Total", 'Management',"Environmental", "Biological", "Physical", "Chemical"),
-      group = "cat", color = "cat",
-      add = "segment", size=4.5,
-      add.params = list(color = "gray", size = 0.75),
-      position = position_dodge(0.5),
-      facet.by = "field",
-      rotate = TRUE, legend = "none",
-      ylab ='OBI-score',xlab='', panel.labs = list(field = c('Field 1','Field 2','Field 3', 'Field 4'))
-) + scale_fill_viridis_d()+ scale_color_viridis_d()+ theme_bw(base_size = 12) + theme(legend.position = 'none')
- 
- g2
+
+   # change field for plotting
+   bar <- bar[,field:= paste0('Field ', field)]
+   
+   # make lollipop chart (cleveland dotchart) without ggpubr
+   g2p <- ggplot(bar, aes(x= cat, y= value, group = cat, color = cat)) +
+     geom_col(fill = 'grey', color = NA, width = 0.05) + geom_point(size = 2) + ylab('OBI-score') + xlab('') +
+     theme_bw(12) + theme(legend.position = 'none',
+                        panel.grid.major.x = element_blank(),
+                        panel.grid.major.y = element_line(size = 0.5),
+                        panel.grid.minor.x = element_blank()) +
+     coord_flip() +
+     facet_wrap(~field) +
+     scale_fill_viridis_d()+ scale_color_viridis_d()
+   
+ g2p
 ```
 
 
