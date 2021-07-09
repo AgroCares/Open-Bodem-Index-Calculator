@@ -1520,6 +1520,8 @@ The properties of the five fields used to illustrate the functions for N leachin
   p <- ggplot(data = dt.test, aes(y = I_NGW, x = ngw)) + geom_line()  +
     theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ xlab('Potential N leaching')
   
+  # Plot figure
+  p
 ```
 
 #### N retention preventing N runoff
@@ -1833,25 +1835,28 @@ Some of these indicator functions internally use an evaluation function such as 
                                       (funct == 'D_WE'& indicator == 'I_P_DU')|
                                       (funct == 'D_DUMMY_SOM_LOI'& indicator == 'I_B_DI')]
     
-    # ggpubr way
-    ggs <- ggscatter(dd.melt.select, x = 'function_value', y = 'index_value', color = 'B_LU_BRP',
-                     facet.by = 'indicator') + theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-
-    # make seperate graphs for indicators whose function values do not run from 0 to 100
-    PCR <- ggscatter(dd.melt.select.other[indicator == 'I_P_CR'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP', title = 'I_P_CR') + 
-      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-    PSE <- ggscatter(dd.melt.select.other[indicator == 'I_P_SE'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP', title = 'I_P_SE') + 
-      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-    PDU <- ggscatter(dd.melt.select.other[indicator == 'I_P_DU'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP', title = 'I_P_DU') + 
-      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-    BDI <- ggscatter(dd.melt.select.other[indicator == 'I_B_DI'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP', title = 'I_B_DI') + 
-      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-    # arrange these graphs with common legend
-    ggs2 <- ggarrange(PCR, PSE, PDU, BDI, ncol = 2, nrow = 2, common.legend = TRUE)
+    # ggplot2 + patchwork
+    ggsp <- ggplot(dd.melt.select, aes(x= function_value, y= index_value)) +
+      geom_line(mapping = aes(color = B_LU_BRP), size = 1.5) + facet_wrap(facets = 'indicator', ncol = 4) + theme_bw() + 
+      scale_fill_viridis_d()+ scale_color_viridis_d()
     
-    # show plots
-    ggs    
-    ggs2
+    # ggplot2 + patchwork
+    PCRp <- ggplot(dd.melt.select.other[indicator == 'I_P_CR'], aes(x= function_value, y= index_value, color = B_LU_BRP)) +
+      geom_line(size = 1.5) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()
+    
+    PSEp <- ggplot(dd.melt.select.other[indicator == 'I_P_SE'], aes(x= function_value, y= index_value, color = B_LU_BRP)) +
+      geom_line(size = 1.5) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()
+    
+    PDUp <- ggplot(dd.melt.select.other[indicator == 'I_P_DU'], aes(x= function_value, y= index_value, color = B_LU_BRP)) +
+      geom_line(size = 1.5) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()
+      
+    BDIp <- ggplot(dd.melt.select.other[indicator == 'I_B_DI'], aes(x= function_value, y= index_value, color = B_LU_BRP)) +
+      geom_line(size = 1.5) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()
+    
+    # patch plots
+    (ggsp)/(PCRp + PSEp + PDUp + BDIp) + plot_layout(guides = 'collect') + 
+      theme(plot.caption = element_text(hjust = 0))+
+            labs(caption = 'Relation between function values and their corresponding evaluated index values.')
     
 ```
 
