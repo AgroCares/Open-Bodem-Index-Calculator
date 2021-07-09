@@ -12,6 +12,7 @@ vignette: >
 require(data.table)
 require(ggplot2)
 require(OBIC)
+require(patchwork)
 knitr::opts_chunk$set(echo = FALSE,
                       collapse = TRUE,
                       comment = "#>")
@@ -89,8 +90,9 @@ gg2 <- ggplot(data = dt,
         legend.text = element_text(size = 10, color = 'black'),
         plot.title = element_text(size = 11)) + ylab('Workability score')
 
-# gg+gg2 + plot_layout(guides = 'collect') # should work with patchwork but doesnt for some reason
-ggpubr::ggarrange(gg, gg2, common.legend = TRUE)
+(gg|gg2) + plot_layout(guides = 'collect') + plot_annotation(caption = 'Baseline workability scores.',
+                                                             theme = theme(plot.caption = element_text(hjust = 0)))
+
 ```
 
 Both amongst the grassland and the arable fields, we find a poorly performing and a reasonable performing field. If you look closely, you can see that field 1 scores much lower than field 4, despite having a higher relative growing season. This is because there is a more lenient evaluation of relative growing seasons specifically for permanent grassland.
@@ -125,8 +127,9 @@ gg2 <- ggplot(data = dt,
         legend.text = element_text(size = 10, color = 'black'),
         plot.title = element_text(size = 11)) + ylab('Workability score')
 
-# gg+gg2 + plot_layout(guides = 'collect') # should work with patchwork but doesnt for some reason
-ggpubr::ggarrange(gg, gg2, common.legend = TRUE)
+(gg|gg2) + plot_layout(guides = 'collect') + plot_annotation(caption = 'Workability scores when crop is peas.',
+                                                             theme = theme(plot.caption = element_text(hjust = 0)))
+
 ```
 
 It worked! Or at least it did for the arable fields, the fields that used to have grass perform much worse now. So what happend? For the arable fields, the required number of days decreased.
@@ -244,8 +247,9 @@ gg2 <- ggplot(data = dt,
         legend.text = element_text(size = 10, color = 'black'),
         plot.title = element_text(size = 11)) + ylab('Workability score')
 
-# gg+gg2 + plot_layout(guides = 'collect') # should work with patchwork but doesnt for some reason
-ggpubr::ggarrange(gg, gg2, common.legend = TRUE)
+(gg|gg2) + plot_layout(guides = 'collect') + plot_annotation(caption = 'Workability with lowered GLG and GHG.',
+                                                             theme = theme(plot.caption = element_text(hjust = 0)))
+
 ```
 
 As you may have suspected, lower water levels resulted in higher relative growing seasons and workability scores.
@@ -282,8 +286,9 @@ gg2 <- ggplot(data = dt,
         legend.text = element_text(size = 10, color = 'black'),
         plot.title = element_text(size = 11)) + ylab('Workability score')
 
-# gg+gg2 + plot_layout(guides = 'collect') # should work with patchwork but doesnt for some reason
-ggpubr::ggarrange(gg, gg2, common.legend = TRUE)
+(gg|gg2) + plot_layout(guides = 'collect') + plot_annotation(caption = 'Workability scores with B_GWL_ZCRIT set to 50.',
+                                                             theme = theme(plot.caption = element_text(hjust = 0)))
+
 
 ```
 
