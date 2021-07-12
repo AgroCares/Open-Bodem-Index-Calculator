@@ -1736,7 +1736,7 @@ The OBIC package has functions that transform the value of a soil function into 
 
 Some of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function). When logistic evaluation is used, there is no linear relation between the an indicators value and its score. Often the evaluation is set up so that lower values gain increasingly lower scores. In other words, poor performance is evaluated more stringent than good performance. Below, the relation between a soil function values and their scores (index values) is given. An example of logistic evaluation can be found in I_P_WS (waterstress)
 
-```{r,fig.width = 7, fig.height = 16,fig.fullwidth = TRUE,echo=FALSE}
+```{r plot relation function and index values,fig.width = 7, fig.height = 16,fig.fullwidth = TRUE,echo=FALSE}
   
   # create waterstress index relation figure
   # dt <- data.table(D_WRI = seq(0,100,1))
@@ -1746,28 +1746,28 @@ Some of these indicator functions internally use an evaluation function such as 
 
   S <- rep(seq(0,100,1),2)
   dd <- data.table(D_NLV = S,
-                   D_PBI = S,
-                   D_K = S,
+                   D_PBI = rep(seq(0,10,0.1),2),
+                   D_K = rep(seq(0,50,0.5),2),
                    D_MG = S,
                    D_SLV = S,
                    D_PH_DELTA = rep(seq(0,5,0.05),2),
                    D_CEC = S,
-                   D_CU = S,
+                   D_CU = rep(seq(0,10,0.1),2),
                    D_ZN = S,
                    D_CR = rep(seq(0,10,0.1),2),
-                   D_SE = rep(seq(0,50,0.5),2),
-                   D_WSI_DS = S,
-                   D_WSI_WS = S,
+                   D_SE = rep(seq(0,25,0.25),2),
+                   D_WSI_DS = rep(seq(0,50,0.5),2),
+                   D_WSI_WS = rep(seq(0,50,0.5),2),
                    D_WE = rep(seq(0,1,0.01)),
                    D_WRI = S,
                    D_AS = rep(seq(0,1,0.01)),
                    D_PMN = S,
-                   D_NGW = S,
-                   D_NSW = S,
+                   D_NGW = rep(seq(0,25,0.25),2),
+                   D_NSW = rep(seq(0,25,0.25),2),
                    B_LU_BRP = c(rep(265,101),rep(256,101)),
                    B_SOILTYPE_AGR = rep('dekzand',202),
                    A_SOM_LOI = rep(3.5,202),
-                   D_DUMMY_SOM_LOI = rep(seq(0,35,0.35),2),
+                   D_DUMMY_SOM_LOI = rep(seq(0,10,0.1),2),
                    B_AER_CBS = rep("Centraal Veehouderijgebied",202)
                    )
     dd <- dd[,id:= 1:nrow(dd)]
@@ -1812,7 +1812,7 @@ Some of these indicator functions internally use an evaluation function such as 
     dd.melt <- dd.melt[, B_LU_BRP := as.character(fifelse(B_LU_BRP == 265,'grass','arable'))]
     
     # Select correct rows from dd.melt
-    dd.melt.select <- dd.melt[(funct == 'D_NLV'& indicator == 'I_C_N')|
+    dd.melt <- dd.melt[(funct == 'D_NLV'& indicator == 'I_C_N')|
                                 (funct == 'D_PBI'& indicator == 'I_C_P')|
                                 (funct == 'D_K'& indicator == 'I_C_K')|
                                 (funct == 'D_MG'& indicator == 'I_C_MG')|
@@ -1824,40 +1824,24 @@ Some of these indicator functions internally use an evaluation function such as 
                                 (funct == 'D_WSI_DS'& indicator == 'I_P_DS')|
                                 (funct == 'D_WSI_WS'& indicator == 'I_P_WS')|
                                 (funct == 'D_WRI'& indicator == 'I_P_WRI')|
-                                (funct == 'D_CEC'& indicator == 'I_P_AS')|
+                                (funct == 'D_CEC'& indicator == 'I_P_CEC')|
                                 (funct == 'D_PMN'& indicator == 'I_B_SF')|
                                 (funct == 'D_NGW'& indicator == 'I_E_NGW')|
-                                (funct == 'D_NSW'& indicator == 'I_E_NSW')]
+                                (funct == 'D_NSW'& indicator == 'I_E_NSW')|
+                                (funct == 'D_CR'& indicator == 'I_P_CR')|
+                                (funct == 'D_SE'& indicator == 'I_P_SE')|
+                                (funct == 'D_WE'& indicator == 'I_P_DU')|
+                                (funct == 'D_DUMMY_SOM_LOI'& indicator == 'I_B_DI')]
     
-    # select indicators for which function values do not run from 0 to 100
-    dd.melt.select.other <- dd.melt[(funct == 'D_CR'& indicator == 'I_P_CR')|
-                                      (funct == 'D_SE'& indicator == 'I_P_SE')|
-                                      (funct == 'D_WE'& indicator == 'I_P_DU')|
-                                      (funct == 'D_DUMMY_SOM_LOI'& indicator == 'I_B_DI')]
+    # make plot
+    ggsp <- ggplot(dd.melt, aes(x= function_value, y= index_value)) +
+     geom_line(mapping = aes(color = B_LU_BRP, alpha = 0.5), size = 1.5) + facet_wrap(facets = 'indicator', ncol = 4, scales = 'free_x') + theme_bw() + theme(legend.position = 'bottom') +
+     scale_fill_viridis_d()+ scale_color_viridis_d() + guides(alpha = FALSE)
     
-    # ggplot2 + patchwork
-    ggsp <- ggplot(dd.melt.select, aes(x= function_value, y= index_value)) +
-      geom_line(mapping = aes(color = B_LU_BRP), size = 1.5) + facet_wrap(facets = 'indicator', ncol = 4) + theme_bw() + 
-      scale_fill_viridis_d()+ scale_color_viridis_d()
+    #plot
+    ggsp  + labs(caption = 'Relation between function values and their corresponding evaluated index values.')
     
-    # ggplot2 + patchwork
-    PCRp <- ggplot(dd.melt.select.other[indicator == 'I_P_CR'], aes(x= function_value, y= index_value, color = B_LU_BRP)) +
-      geom_line(size = 1.5) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()
-    
-    PSEp <- ggplot(dd.melt.select.other[indicator == 'I_P_SE'], aes(x= function_value, y= index_value, color = B_LU_BRP)) +
-      geom_line(size = 1.5) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()
-    
-    PDUp <- ggplot(dd.melt.select.other[indicator == 'I_P_DU'], aes(x= function_value, y= index_value, color = B_LU_BRP)) +
-      geom_line(size = 1.5) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()
-      
-    BDIp <- ggplot(dd.melt.select.other[indicator == 'I_B_DI'], aes(x= function_value, y= index_value, color = B_LU_BRP)) +
-      geom_line(size = 1.5) + theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()
-    
-    # patch plots
-    (ggsp)/(PCRp + PSEp + PDUp + BDIp) + plot_layout(guides = 'collect') + 
-      theme(plot.caption = element_text(hjust = 0))+
-            labs(caption = 'Relation between function values and their corresponding evaluated index values.')
-    
+
 ```
 
 The indicator for management based on the point system of the label sustainable soil management has a linear relation between the number of points and the indicator score.
