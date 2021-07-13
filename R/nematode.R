@@ -113,7 +113,7 @@ ind_nematodes <- function(B_LU_BRP = B_LU_BRP,
                           A_OPN_AP_FRA=0, A_OPN_AP_RIT=0, A_OPN_AP_SUB=0, A_OPN_CR_TOT=0, A_OPN_SU_TOT = 0,A_NPN_SA_TOT = 0){
   
   # add visual bindings
-  b = element = geel = id = nem_b = nem_v = nem_x = number = standaard = v = value = . = NULL
+  b = element = geel = id = nem_b = nem_v = nem_x = number = standaard = v = value = . = checkval = NULL
   
   # indicator scoring values per nematode type
   nema.obic <- as.data.table(OBIC::nema.obic)
@@ -147,19 +147,18 @@ ind_nematodes <- function(B_LU_BRP = B_LU_BRP,
                      A_OPN_AP_TOT = A_OPN_AP_TOT,A_OPN_AP_FRA = A_OPN_AP_FRA,A_OPN_AP_RIT = A_OPN_AP_RIT,
                      A_OPN_AP_SUB = A_OPN_AP_SUB,A_OPN_CR_TOT = A_OPN_CR_TOT,A_OPN_SU_TOT = A_OPN_SU_TOT,
                      A_NPN_SA_TOT = A_NPN_SA_TOT)
-  
+
   # length of input variables
   arg.length <- max(length(B_LU_BRP),nrow(dt.rln),nrow(dt.rkn),nrow(dt.dsn),nrow(dt.sn),nrow(dt.opn))
   
   # check B_LU_BRP
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   
-  # check nematode data tables
-  for(c in 1:length(dt.rln)){checkmate::assert_numeric(dt.rln[,c], any.missing = FALSe, min.len = 1, len = arg.length)}
-  for(c in 1:length(dt.rkn)){checkmate::assert_numeric(dt.rkn[,c], any.missing = FALSe, min.len = 1, len = arg.length)}  
-  for(c in 1:length(dt.dsn)){checkmate::assert_numeric(dt.dsn[,c], any.missing = FALSe, min.len = 1, len = arg.length)}
-  for(c in 1:length(dt.sn)){checkmate::assert_numeric(dt.sn[,c], any.missing = FALSe, min.len = 1, len = arg.length)}
-  for(c in 1:length(dt.opn)){checkmate::assert_numeric(dt.opn[,c], any.missing = FALSe, min.len = 1, len = arg.length)}
+  # check nematode data tables length
+  checkval <- all(length(B_LU_BRP)==nrow(dt.rln) & length(B_LU_BRP)==nrow(dt.rkn) &
+                    length(B_LU_BRP)==nrow(dt.dsn) & length(B_LU_BRP)==nrow(dt.sn) &
+                    length(B_LU_BRP)==nrow(dt.opn))
+  checkmate::assert_true(checkval)
   
   # combine all inputs into one
   dt.all <- data.table(id = 1:arg.length,
@@ -169,6 +168,9 @@ ind_nematodes <- function(B_LU_BRP = B_LU_BRP,
   
   # melt all nematode input variables from column to row
   dt.melt <- melt(dt.all,id.vars = 'id', variable.name = 'element',value.name = 'number')
+  
+  # check number is numeric
+  checkmate::assert_numeric(dt.melt$number)
   
   # merge with parameters logistic function
   dt.melt <- merge(dt.melt,nema.obic[,.(element,nem_x = geel, nem_b = b,nem_v = v,standaard)], by = c('element'))
