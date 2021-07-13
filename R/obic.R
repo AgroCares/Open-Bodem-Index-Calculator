@@ -435,7 +435,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   return(out)
 }
 
-#' Calculate the Open Bodem Index score for a single field
+#' Calculate the Open Bodem Index score for a data table
 #' 
 #' This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
 #' In contrast to obic_field, this wrapper can handle a data.table as input.
@@ -462,10 +462,10 @@ obic_field_dt <- function(dt,output = 'all') {
               'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC','A_CACO3_IF',
               'A_N_RT','A_CN_FR','A_COM_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
-              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
+              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID')
   
   # check input
-  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 29
+  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 30
   
   # check type of dt
   checkmate::assert_true(dt.check)
@@ -501,7 +501,7 @@ obic_field_dt <- function(dt,output = 'all') {
                     dt$M_SLEEPHOSE,dt$M_DRAIN,dt$M_DITCH,dt$M_UNDERSEED,
                     dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
                     dt$M_STRAWRESIDUE,dt$M_MECHWEEDS,dt$M_PESTICIDES_DST,
-                    ID = 1,output = output)
+                    ID = dt$ID,output = output)
   
   # return output
   return(out)
