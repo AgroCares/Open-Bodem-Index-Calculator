@@ -50,7 +50,7 @@ The following things are done during reformatting:
   * a correction factor per score is calculated based on the height of the score (used later to give more weight to low scores)
   * soil function scores irrelevant to the land use are set to -999
   
-At the beginning of the next step, an indicator data.table is created based on the molten data.table created in the reformatting step. This data.table uses the soil function scores ajusted for their applicability for the soiltype and crop category. 
+At the beginning of the next step, an indicator data.table is created based on the molten data.table created in the reformatting step. This data.table uses the soil function scores adjusted for their applicability for the soiltype and crop category. 
 
 ```{r reformatting code, echo = TRUE, eval=FALSE}
   # Step 3 Reformat dt given weighing per indicator and prepare for aggregation  ------------------
@@ -106,7 +106,7 @@ To aggregate scores, the relevant columns and rows are taken from the molten dat
     out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
 ```    
 
-The values are weighted using the correction factor calculated previously using `cf_ind_importance()`, giving more weight to lower scores. This way the lowest value, supposedly also to most limiting factor for crop production, becomes more important. Consequently, improving a low score by 0.1 is easier than improving a high score by this same amount, making it more worthwhile to invest in the poorest and most limiting theme.
+The indicators are weighted using the correction factor calculated previously using `cf_ind_importance()`, giving more weight to lower indicators. This way the lowest indicator, supposedly also to most limiting factor for crop production, becomes more important. Consequently, improving a low score indicator by 0.1 is easier than improving a high scoring indicator by this same amount, making it more worthwhile to invest in the poorest and most limiting indicator.
 
 ```{r echo = TRUE, eval=FALSE}    
     # calculate weighted average per indicator category
@@ -142,10 +142,10 @@ Aggregation of scores over years is done with the following two lines of code. P
     out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
 ```
 
-This gives us a single score for each of the five indicators (chemical, physical, biological, management, and environmental).
+This gives us a single score for each of the five indicator themes (chemical, physical, biological, management, and environmental).
 
 ## Aggregating to single OBI score
-To aggregate the five indicators to a single, holistic, OBI-score, they are weighed logistically using the number of soil functions underlying the indicator. The number of soil functions per indicator was retrieved previously with the line `dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']`. Now its merged with our score data.table.
+To aggregate the five indicator themes to a single, holistic, OBI-score, they are weighed logistically using the number of soil functions underlying the indicator. The number of soil functions per indicator was retrieved previously with the line `dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']`. Now its merged with our score data.table.
 
 ```{r echo = TRUE, eval=FALSE}
       # merge out with number per category
@@ -456,7 +456,7 @@ ggplot(dta, aes(x = value, y = indicator, color = cat))+
 
 ```
 
-
+In Figure 3 one can see that with logarithmic evaluation, scores become responsive to changes in recent years while this is not the case for linear or no aggregation. 
 
 
 ```{r, eval=FALSE}
