@@ -29,15 +29,41 @@
  
 
   # Add standaard column. A column that can be used to determine which species should always be used to calculate an average indicator score.
-  obic.nema[species %in% c('Ditylenchus spp.', 'Ditylenchus dipsaci', 'Xiphinema spp.',
-                         'Longidorus spp.', 'Trichodorus similis', 'Trichodorus primitivus',
-                         'Paratrichodorus teres', 'Rotylenchus spp.', 'Paratylenchus spp.',
-                         'Meloidogyne chitwoodi/fallax', 'Meloidogyne chitwoodi', 
-                         'Meloidogyne fallax', 'Meloidogyne minor', 'Meloidogyne naasi',
-                         'Meloidogyne hapla', 'Cysteaaltjes', 'Pratylenchus penetrans',
-                         'Pratylenchus crenatus', 'Helicotylenchus spp.', 'Pratylenchus neglectus'), standaard := TRUE]
-
-  obic.nema[is.na(standaard),standaard := FALSE]
+  # obic.nema[species %in% c('Ditylenchus spp.', 'Ditylenchus dipsaci', 'Xiphinema spp.',
+  #                        'Longidorus spp.', 'Trichodorus similis', 'Trichodorus primitivus',
+  #                        'Paratrichodorus teres', 'Rotylenchus spp.', 'Paratylenchus spp.',
+  #                        'Meloidogyne chitwoodi/fallax', 'Meloidogyne chitwoodi', 
+  #                        'Meloidogyne fallax', 'Meloidogyne minor', 'Meloidogyne naasi',
+  #                        'Meloidogyne hapla', 'Cysteaaltjes', 'Pratylenchus penetrans',
+  #                        'Pratylenchus crenatus', 'Helicotylenchus spp.', 'Pratylenchus neglectus'), standaard := TRUE]
+  # obic.nema[is.na(standaard),standaard := FALSE]
+  
+  # add ea nematodes
+  ean <- fread('DEV/ea_aaltjes.csv', header = TRUE) |> setnames('x', 'element')
+  
+  # only keep element column
+  ean <- data.table(element = ean$element)
+  
+  # select new species
+  ean <- ean[!element %in% obic.nema$element]
+  
+  # add to obic.nema
+  obic.nema <- rbindlist(list(obic.nema, ean), use.names = TRUE, fill = TRUE)
+  
+  # read and add parameters
+  par <- fread('DEV/parameters.csv', header = TRUE)
+  par <- par[,.(Code, Parameter)]
+  
+  # merge par and nema
+  obic.nema <- merge(obic.nema, par, by.x = 'element', by.y = 'Code', all.x = TRUE)
+  
+  # add species names to new rows
+  obic.nema <- obic.nema[is.na(species), species := gsub('^.*tode, ', '', Parameter)]
+  obic.nema <- obic.nema[,species := gsub(',.*$', '', species)]
+  obic.nema <- obic.nema[,species := gsub("(^)([[:alpha:]])", "\\1\\U\\2", species, perl = TRUE)]
+  
+  # remove parameter
+  obic.nema <- obic.nema[,Parameter := NULL]
   
   # save files
   write.csv(obic.nema, 'dev/obic.nema.csv')
