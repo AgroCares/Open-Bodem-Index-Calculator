@@ -154,6 +154,13 @@ ind_nematodes <- function(B_LU_BRP = B_LU_BRP,
   # check B_LU_BRP
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   
+  # check nematode data tables
+  for(c in 1:length(dt.rln)){checkmate::assert_numeric(dt.rln[,c], any.missing = FALSe, min.len = 1, len = arg.length)}
+  for(c in 1:length(dt.rkn)){checkmate::assert_numeric(dt.rkn[,c], any.missing = FALSe, min.len = 1, len = arg.length)}  
+  for(c in 1:length(dt.dsn)){checkmate::assert_numeric(dt.dsn[,c], any.missing = FALSe, min.len = 1, len = arg.length)}
+  for(c in 1:length(dt.sn)){checkmate::assert_numeric(dt.sn[,c], any.missing = FALSe, min.len = 1, len = arg.length)}
+  for(c in 1:length(dt.opn)){checkmate::assert_numeric(dt.opn[,c], any.missing = FALSe, min.len = 1, len = arg.length)}
+  
   # combine all inputs into one
   dt.all <- data.table(id = 1:arg.length,
                        B_LU_BRP = B_LU_BRP,
