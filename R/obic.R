@@ -315,7 +315,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     w <- as.data.table(OBIC::weight.obic)
     
     # Add years per field
-    dt[,year := .I, by = ID]
+    dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
     cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT',colnames(dt))]
