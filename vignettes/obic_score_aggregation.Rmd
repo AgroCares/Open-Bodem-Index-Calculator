@@ -489,3 +489,5 @@ gg3
              A_ZN_CC = dt$A_ZN_CC, A_CU_CC = dt$A_CU_CC, output = 'obic_score')
 ```
 
+## Aggregation in other soil quality assesment frameworks
+e.g. (van Wijnen et. al. 2012 and  Rutgers et. al. 2012) or Moebius-Clune 2016
