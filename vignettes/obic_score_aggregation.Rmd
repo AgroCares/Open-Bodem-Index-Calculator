@@ -33,7 +33,7 @@ Demonstration of aggregation will be performed using  the dataset `binnenveld`. 
 
 ```{r load binnenveld}
 # load packages
-library(OBIC); library(data.table); library(ggplot2)
+library(OBIC); library(data.table); library(ggplot2); library(patchwork)
 # load data
 dt <- OBIC::binnenveld[ID==1]
 ```
@@ -221,6 +221,7 @@ for(i in 1:100){
 }
 
 # dto is a almost ready set of 100 fields, only values and value description need to be added
+set.seed(11)
 
 # make baseline
 dt1 <- copy(dto)
@@ -394,38 +395,44 @@ dt <- dt[cf_method == 'non',c_cf := 1]
 # noncols <- names(dt)[grepl('non$', names(dt))]
 # 
 
-# calculate weighted value
-dt <- dt[,w.value := sum(v_cf*pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, indicator, year)]
+# calculate weighted value per category and year
+dt <- dt[,w.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, cat, year)]
 
-# calculated weighted average value by year
-dt <- dt[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[value >= 0])), by = .(field, cf_method, cat)] # scores per category
+# calculated weighted average value per category (so mean over years)
+dt <- dt[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[w.value >= 0])), by = .(field, cf_method, cat)] # scores per category
 
 # calculate total obi score
 dt <- dt[,S_T := sum(wy.value * c_cf / sum(c_cf)), by = .(field, cf_method)]
 
+# calculate total obi score if not aggregated by cat
+dt <- dt[, nocat.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, year)]
+dt <- dt[, S_T_nocat := sum(y_cf * pmax(0, nocat.value) / sum(y_cf[nocat.value >= 0])), by = .(field, cf_method)]
 
 # select data for scores
-dts <- unique(dt[,.(field, indicator,cat, wy.value, S_T ,treatment, cf_method)])
+dts <- unique(dt[,.(field, indicator,cat, wy.value, S_T ,treatment, cf_method, S_T_nocat)])
 
 # reshape dts so total scores are in same column as cat scores (with T being a cat)
 dts1 <- unique(dts[,.(field, cat, wy.value, treatment, cf_method)])
 dts2 <- unique(dts[,.(field, S_T, treatment, cf_method)])
+dts3 <- unique(dts[,.(field, S_T_nocat, treatment, cf_method)])
 
 # rename  cols
 setnames(dts1, 'wy.value', 'score')
 setnames(dts2, 'S_T', 'score')
+setnames(dts3, 'S_T_nocat', 'score')
 # add cat column to dts2
 dts2$cat <- 'T'
+dts3$cat <- 'Tnocat'
 
 # bind scores dt's
-dt <- rbindlist(list(dts1, dts2), use.names = TRUE)
+dt <- rbindlist(list(dts1, dts2, dts3), use.names = TRUE)
 
 # update element names
 dt[,cat := paste0('S_',cat,'_OBI_A')]
 dt[, score := round(score,3)]
 
 # factorise cat and cf_method
-dt <- dt[, cat := factor(cat, levels = c('S_T_OBI_A', 'S_C_OBI_A', 'S_P_OBI_A', 'S_B_OBI_A', 'S_E_OBI_A'))]
+dt <- dt[, cat := factor(cat, levels = c('S_T_OBI_A', 'S_C_OBI_A', 'S_P_OBI_A', 'S_B_OBI_A', 'S_E_OBI_A',  "S_Tnocat_OBI_A"))]
 dt <- dt[, cf_method := factor(cf_method, levels = c('log', 'lin', 'non'))]
 
 ```
@@ -457,6 +464,16 @@ ggplot(dta, aes(x = value, y = indicator, color = cat))+
 ```
 
 In Figure 3 one can see that with logarithmic evaluation, scores become responsive to changes in recent years while this is not the case for linear or no aggregation. 
+
+```{r plot scores with and without cat, fig.width = 7, fig.height = 12,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A).'}
+
+gg3 <- ggplot(dt[cat %in% c('S_T_OBI_A', 'S_Tnocat_OBI_A')], aes(x = score, y = cf_method, fill = cat)) +
+  geom_boxplot() +
+  theme_bw() + scale_fill_viridis_d() + scale_y_discrete(limits = rev) +
+  coord_cartesian(xlim = c(0,1)) +
+  facet_wrap(~treatment, ncol = 1) #+ geom_boxplot(data = dt[cat == 'S_Tnocat_OBI_A'], mapping = aes(fill = 'blue')) 
+gg3 
+```
 
 
 ```{r, eval=FALSE}
