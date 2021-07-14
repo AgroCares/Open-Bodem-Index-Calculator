@@ -64,10 +64,10 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
     dt.recom[,cat := tstrsplit(indicator,'_',keep = 2)]
     
     # Determine amount of indicators per category
-    dt.recom.ncat <- dt.recom[,list(ncat = .N),by='cat']
+    dt.recom.ncat <- dt.recom[,list(ncat = .N),by=.(ID, cat)]
     
     # add number of indicators per category
-    dt.recom <- merge(dt.recom,dt.recom.ncat,by='cat',all.x = TRUE)
+    dt.recom <- merge(dt.recom,dt.recom.ncat,by=c("ID", "cat"),all.x = TRUE)
     
     # calculate weighing factor depending on number of indicators
     dt.recom[,cf := log(ncat + 1)]
@@ -95,8 +95,8 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
     # add priority to the score, just before calculating score per group
     dt.recom2[,score.mp := m_prio * score.m]
     
-    # add field
-    dt.recom2[,ID := 1]
+    # # add field
+    # dt.recom2[,ID := 1]
     
     # extract relevant columns and dcast effect of measures on indices per parcel
     cols <- c('ID','m_nr','indicator','score.m')
