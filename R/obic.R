@@ -422,11 +422,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
     # make recommendations of top 3 measures
     out.recom <- obic_recommendations(dt.measure)
+    setkey(out.recom, ID)
     
   #  Step 6 Combine all outputs into one ------------------
  
     # combine both outputs
-    if(output == 'all'){out <- data.table(out.ind,out.score,out.recom)}
+    if(output == 'all'){out <- data.table(out.ind,out.score[, -"ID"],out.recom[, -"ID"])}
     if(output == 'indicators'){out <- out.ind}
     if(output == 'recommendations'){out <- out.recom}
     if(output == 'scores'){out <- out.score}
