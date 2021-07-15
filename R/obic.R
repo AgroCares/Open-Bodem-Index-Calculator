@@ -418,10 +418,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.score <- data.table(dt.sc, out.ind[, -"ID"], out.score[, -"ID"])
   
     # evaluate measures
-    dt.measure <- OBIC::obic_evalmeasure(dt.score, extensive = FALSE)
+    dt.measure <- obic_evalmeasure(dt.score, extensive = FALSE)
     
     # make recommendations of top 3 measures
-    out.recom <- OBIC::obic_recommendations(dt.measure)
+    out.recom <- obic_recommendations(dt.measure)
     
   #  Step 6 Combine all outputs into one ------------------
  
