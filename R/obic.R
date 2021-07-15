@@ -392,7 +392,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   
     # calculated final obi score
     out.score <- rbind(out.score[,list(ID, cat,value)],
-                       out.score[,list(ID, cat = "T",value = sum(value * cf / sum(cf)))])
+                       out.score[,list(cat = "T",value = sum(value * cf / sum(cf))), by = ID])
   
     # update element names
     out.score[,cat := paste0('S_',cat,'_OBI_A')]
