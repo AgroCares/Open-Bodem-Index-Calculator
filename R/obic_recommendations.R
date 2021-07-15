@@ -106,7 +106,7 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
     dt.meas.ind <- dcast(dt.meas.ind,ID + m_nr ~ m.effect, value.var = 'score.m')
     
     # calculate the total score for each measure, and count the number of indices exceeding thresshold
-    dt.meas.tot <- dt.recom2[,lapply(.SD,sum),.SDcols = c('score.mp','threshold'),by=c('ID','m_nr','grp')]
+    dt.meas.tot <- dt.recom2[,lapply(.SD,sum, na.rm=T),.SDcols = c('score.mp','threshold'),by=c('ID','m_nr','grp')]
     setnames(dt.meas.tot,c('ID','m_nr','grp','FS','TH'))
     dt.meas.tot <- dcast(dt.meas.tot,ID + m_nr ~ grp, value.var = c('FS','TH'))
     
