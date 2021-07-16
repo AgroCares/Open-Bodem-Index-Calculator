@@ -3,6 +3,7 @@
 ## UNRELEASED
 ### Added
 * Adds GitHub Action to run R-CMD-Check for changes on `master` and `development`
+* Adds coverage of unit tests
 
 ### Fixed
 * Fixes ASCII signs at `crops.obic` and `column_description.obic`
