@@ -6,3 +6,4 @@
 ^dev$
 ^DEV$
 ^\.github$
+^codecov\.yml$
