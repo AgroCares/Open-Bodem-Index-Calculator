@@ -129,7 +129,7 @@ These would be the correction factors for a period of eleven years:
 
 The most recent year carries about `r round(cf[1]/cf[10],digits =1)` the weight of the tenth year. Notice that years ten and eleven have the same correction factor value, the minimum cf value for a year is equal to that of year ten.
 
-More priority (weight) is given to recent years because these are more reflective of the current situation. Additionally, changes in management or soil properties take more immediate effect in subsequent years.
+More priority (weight) is given to recent years because these are more reflective of the current situation. Additionally, changes in management or soil properties take more immediate effect on the scores in subsequent years.
 
 Aggregation of scores over years is done with the following two lines of code. Per indicator an average value is calculated with weights from the correction factor described above.  Side note: The function `obic_field()` has similar lines of code for calculating individual indicators which are given as optional outputs when output is set to 'all' or 'indicators'. Aggregating indicators over years is done in the same fashion.
       
@@ -464,10 +464,17 @@ ggplot(dta, aes(x = value, y = indicator, color = cat))+
 ```
 
 In Figure 3 one can see that with logarithmic evaluation, scores become responsive to changes in recent years while this is not the case for linear or no aggregation. 
+## Aggregating categories
+One of the steps for calculating the total OBI-score is weighing aggregated indicators based on the number of indicators in their category (Chemical, Physical, Biological, Management, Environmental). Indicators in a category with more underlying indicators gain a higher weight, as illustrated in Figure 2. This weighing is purely a choice. The rationale is that ....
+In the figure below, we calculated the total OBIC score both with and without weighing on number of indicators per category. This choice affects the scenario's where either some or all chemical or biological functions perform lower.
 
-```{r plot scores with and without cat, fig.width = 7, fig.height = 12,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A).'}
+When looking at the one low B scenario, we can see that individual indicators in categories with few indicators penalise the total score more when weigh by categories is omitted. When taking ncat into account, there is hardly any deviation from the total score compared to the baseline scenario.
 
-gg3 <- ggplot(dt[cat %in% c('S_T_OBI_A', 'S_Tnocat_OBI_A')], aes(x = score, y = cf_method, fill = cat)) +
+Furthermore, not weighing on categories results in lower total scores when a single category performs poorly, as is illustrated by both the low B values and low C values scenario's.
+
+```{r plot scores with and without cat, fig.width = 7, fig.height = 12,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A). Correction factor method "non" is not shown as this method is unaffected by ommiting a weighing step.'}
+
+gg3 <- ggplot(dt[cat %in% c('S_T_OBI_A', 'S_Tnocat_OBI_A')&!cf_method == 'non'], aes(x = score, y = cf_method, fill = cat)) +
   geom_boxplot() +
   theme_bw() + scale_fill_viridis_d() + scale_y_discrete(limits = rev) +
   coord_cartesian(xlim = c(0,1)) +
@@ -490,4 +497,10 @@ gg3
 ```
 
 ## Aggregation in other soil quality assesment frameworks
-e.g. (van Wijnen et. al. 2012 and  Rutgers et. al. 2012) or Moebius-Clune 2016
+The OBI is not the first attempt to express soil quality with a single score, see for example: @Rutgers2012 and @VanWijnen2012. These authors weighted soil properties based on their deviation from a reference value derived from best professional judgement (BPJ). Weighted soil properties were then aggregated to soil functions, giving equal importance to each soil property. Next, the soil functions were aggregated using weights obtained from stakeholders' appreciation of functions (farmers, regional land manager, national land managers). Where local and regional stakeholders both made up 40% of the weight and national stakeholder the remaining 20%.
+
+Compared to the OBI, the largest difference is in aggregating soil function scores to an overall score. Assigning a weight to a specific soil function is subjective, even if one includes all stakeholders. Both the OBI and the approach by @Rutgers2012 and @VanWijnen2012 have their merits and limitations. The authors note the limitations of BPJ and acknowledge that aggregation to soil functions is a rough approach. 
+
+#> e.g. (van Wijnen et. al. 2012 and  Rutgers et. al. 2012) or Moebius-Clune 2016
+
+## References
