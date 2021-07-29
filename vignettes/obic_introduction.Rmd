@@ -1872,7 +1872,7 @@ The indicator for management based on the point system of the label sustainable 
 p.ar+p.gr
   
 ```
-1
+
 ### Crop and soil dependent applicability of functions
 Not all indicators are relevant for all combinations of soil type and crop. For example, `I_P_DU` (wind erodibility) is not relevant on permanent grassland, as wind erosion is not a problem on these parcels. The table `weight.obic` is used to determine whether an indicator is relevant for a given parcel. Crops are differentiated into the categories arable, grassland, maize, and nature according to the crop_category from the table `crops.obic`. In soil type a differentiation is made between peat and non peat soils. If an indicator is not relevant for a given parcel, its score will not be used in further aggregation.
 
@@ -1914,28 +1914,30 @@ Not all indicators are relevant for all combinations of soil type and crop. For 
     dt.melt[!grepl('veen',B_SOILTYPE_AGR) & weight_nonpeat < 0,value.w := -999]
 ```
    
-    
-### Integrating over time
-Till this point, all values and indicators have been calculated for a range of years (typically ten). Before aggregating values over years, a correction factor is calculated to give a weight so that recent years count more than long gone years. After aggregating indicator scores over years, a single score for each indicator remains. These are the scores presented to a user when indicators are included in the output of `obic_field()`. 
-
-```{r, results = FALSE, eval = FALSE}
-      # subset dt.melt for relevant columns only
-    out.ind <-  dt.melt[,list(indicator,year,value = value.w)]
-    
-    # calculate correction factor per year; recent years are more important
-    out.ind[,cf := log(12 - pmin(10,year))]
-    
-    # calculate weighted average per indicator over the year
-    out.ind <- out.ind[,list(value = round(sum(cf * pmax(0,value) / sum(cf[value >= 0])),3)), by = indicator]
-       
-    # non relevant indicators, set to -999
-    out.ind[is.na(value), value := -999]
-```
-
 ### Aggregated indicators per category
 Each soil indicator belongs to one of five categories (chemical, physical, biological, environmental or management). A score per category is calculated by taking the mean score of the underlying functions
 
+```{r results=FALSE, eval=FALSE}
+    # subset dt.melt for relevant columns only
+    out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
+  
+    # remove indicator categories that are not used for scoring
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+    
+    # calculate weighted average per indicator category
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), by = list(cat,year)]
+
+      # for case that a cat has one indicator or one year and has NA
+      out.score[is.na(value), value := -999]
+```
+
+### Integrating over time
+Till this point, all values and indicators have been calculated for a range of years (typically ten). Before aggregating values over years, a correction factor is calculated to give a weight so that recent years count more than long gone years. After aggregating indicator scores over years, a single score for each indicator remains. These are the scores presented to a user when indicators are included in the output of `obic_field()`. 
+
 ```{r, aggreagate indicators per category, results= FALSE, eval=FALSE}
+      # calculate correction factor per year; recent years are more important
+      out.score[,cf := log(12 - pmin(10,year))]
+  
     # calculate weighted average per indicator category per year
     out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
 ```
@@ -1955,9 +1957,7 @@ The integration of different soil functions into one score and their relevance i
                        out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
 ```
 
-In order to calculate the total OBI score `S_T_OBI_A`, an integral assessment of soil quality for the following functions is made: soil chemistry `S_C_OBI_A`, soil structure `S_P_OBI_A`, soil biology `S_B_OBI_A` as well as soil management `S_M_OBI_A`.
-
-The holistic OBI score is given when the argument output in `obic_field()` or `obic_field_dt()` is set to *'all'*, *'scores'* or *'obic_scores'*
+The holistic OBI score is given when the argument *output* in `obic_field()` or `obic_field_dt()` is set to *'all'*, *'scores'* or *'obic_scores'*
 
 ```{r, results = FALSE, eval = FALSE}
    # For example
