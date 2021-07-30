@@ -9,7 +9,7 @@
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #' @param A_SOM_LOI (numeric) The organic matter content of the soil (\%)
 #' @param B_COMPACTION (boolean) Is the subsoil compacted (options: yes or no)
-#' @param M_DRAINAGE (boolean) Are drains installed to drain the field (options: yes or no)
+#' @param B_DRAINAGE (boolean) Are drains installed to drain the field (options: yes or no)
 #' 
 #'         
 #' @export
@@ -33,7 +33,8 @@ ind_gw_storage <- function(){
                    A_SAND_MI = A_SAND_MI,
                    A_SILT_MI = A_SILT_MI,
                    A_SOM_LOI = A_SOM_LOI,
-                   B_COMPACTION = B_COMPACTION)
+                   B_COMPACTION = B_COMPACTION,
+                   B_DRAINAGE = B_DRAINAGE)
   
   
   # Calculate water holding capacity
@@ -45,14 +46,10 @@ ind_gw_storage <- function(){
   dt[,I_SEAL := ind_sealing(SEAL,B_LU_BRP)]
   
   # Correct for subsoil compaction or drainage
-  if(M_DRAINAGE){
-    dt[,cf_drain := 0.6]
-    dt[,cf_compaction := 1]
+  dt[B_DRAINAGE == TRUE, c('cf_drain','cf_compaction') := list(0.6,1)]
+  dt[B_DRAINAGE == FALSE,c('cf_drain','cf_compaction') := list(1,fifelse(B_COMPACTION,0.8,1))]
+
     
-  }else{ 
-    dt[,cf_compaction := fifelse(B_COMPACTION,0.8,1)]
-    dt[,cf_drain := 1]
-    }
   
   # Calculate aggregated score
   dt[,I_GWS := (0.6 * I_WHC + 0.4 * I_SEAL) * cf_comp * cf_drain]
