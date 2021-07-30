@@ -167,14 +167,16 @@ calc_n_efficiency <- function(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SO
   # Calculate N sources
   dt[,deposition := 25] # Fixed value
   dt[,nlv := calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)]
-  dt[,fert := n_eff * norm_fr]
+  
+  # Calcualte the N application space according to the norm
+  dt[,n_space := (1 - norm_fr) * n_eff]
   
   # N uptake by catchcrop
   # Check values https://www.wur.nl/upload_mm/c/8/1/6b63d919-1690-4f07-981a-07b3b6a3e7f1_1705577_Oene%20Oenema%20bijlage%201.pdf
   dt[,catchcrop := fifelse(M_GREEN, 75,0)]
   
   # Calculate N surplus
-  dt[,n_sp := max(0,((deposition + nlv + fert) - n_eff - catchcrop) * cf_pkph)]
+  dt[,n_sp := max(0,((deposition + nlv) - n_space - catchcrop) * cf_pkph)]
   
   # compute (potential and soil derived) N leaching to groundwater D_NGW (mg NO3/L) 
   dt[, value := nf * n_sp]
