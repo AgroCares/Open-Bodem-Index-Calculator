@@ -53,7 +53,7 @@ dt <- dt[, I_P_WO := ind_workability(D_WO, B_LU_BRP)]
 
 ```
 
-We have two arable fields on marine clay with wheat and sugar beets as well as two grassland fields, one on sand and one on peat. Lets plot the relative season length and indicator score for workability of these fields. Note that GLG is a measure for the average of the three lowest water levels in a period of eight years and GHG is the average of the three highest water levels over a period of eight years. It is assumed that the water level on our fields shifts from GHG on February 15th to GLG on August 15th and back following a sinusoidal curve. With this knowledge one can easily see that field 4 is much wetter than the other fields, both in winter as in summer. When comparing fields 1 and 2, we see that field 1 is drier in summer but more wet in winter.
+We have two arable fields on marine clay with wheat and sugar beets as well as two grassland fields, one on sand and one on peat. Note that GLG is a measure for the average of the three lowest water levels in a period of eight years and GHG is the average of the three highest water levels over a period of eight years. It is assumed that the water level on our fields shifts from GHG on February 15th to GLG on August 15th and back following a sinusoidal curve. With this knowledge one can easily see that field 4 is much wetter than the other fields, both in winter as in summer. When comparing fields 1 and 2, we see that field 1 is drier in summer but more wet in winter. Lets plot the relative season length and indicator score for workability of these fields.
 
 ```{r plot regime curve, eval=FALSE, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE}
 
@@ -98,7 +98,7 @@ gg2 <- ggplot(data = dt,
 
 Both amongst the grassland and the arable fields, we find a poorly performing and a reasonable performing field. If you look closely, you can see that field 1 scores much lower than field 4, despite having a higher relative growing season. This is because there is a more lenient evaluation of relative growing seasons specifically for permanent grassland.
 
-The relative season lenght, and in extension, the indicator score, are a function of the soil and hydrological properties of the field as well as the growing season and soil working depth requirements of the crop. By choosing a crop with a shorter growing season and or more shallow soil working depth, the score can be improved. Lets see how these parcels perform when we cultivate peas.
+The relative season length, and in extension, the indicator score, are a function of the soil and hydrological properties of the field as well as the growing season and soil working depth requirements of the crop. By choosing a crop with a shorter growing season and or more shallow soil working depth, the score can be improved. Lets see how these parcels perform when we cultivate peas.
 
 ```{r scoring with peas, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE}
 # calc rsl/D_WO with peas instead of initial crops
@@ -134,7 +134,7 @@ gg2 <- ggplot(data = dt,
 ```
 
 It worked! Or at least it did for the arable fields, the fields that used to have grass perform much worse now. So what happend? For the arable fields, the required number of days decreased.
-```{r table season lenghts}
+```{r table season lengths}
 seasondt <- season.obic[landuse %in% c('suikerbieten', 'wintertarwe', 'erwten, bonen', 'beweid bemaaid gras')&soiltype.m == 'klei',
                                .(landuse, req_days_pre_glg, req_days_post_glg, total_days)]
 knitr::kable(seasondt, format = 'html')
@@ -142,7 +142,7 @@ knitr::kable(seasondt, format = 'html')
 
 However, the required season for grassland is also much longer than that of peas, why do the grassland fields perform worse with peas? Because unlike permanent grassland, peas require working the soil at the beginning of the growing season, increasing the required depth of water in the soil. The required water level depth is determined by the  soiltype and soil particle fractions with the following code. Here 'gws_sub_workingdepth' is the groundwater level beneath working depth and spring depth is the working depth in spring. For perennial crops, like permanent grassland, the spring working depth is overwritten and set to 0. 
 
-```{r show working depth determining code, include= TRUE , fig.width = 7, fig.height = 4,fig.fullwidth = TRUE}
+```{r show working depth determining code, include= TRUE, echo=TRUE,  fig.width = 7, fig.height = 4,fig.fullwidth = TRUE}
 ## merge with OBIC crop and soil table
   # load other tables
   crops.obic <- OBIC::crops.obic
@@ -215,7 +215,7 @@ dtt <- dtt[,required_depth := `Water lvl below workingdepth`+`Spring working dep
 dtt <- dtt[,.(field, B_GWL_GLG, B_GWL_GHG, `Water lvl below workingdepth`, `Spring working depth`, required_depth)]
 
 # display talbe
-knitr::kable(dtt, format = 'html')
+knitr::kable(dtt, format = 'html', caption = 'Ground water parameters for workability when cultivating peas')
 ```
 
 As we have seen, crop growing season requirements are not the only variable affecting the relative growing season length and workability score. Ground water levels are really what determines when the land can be worked. Lets see what would happen to our fields if they become drier by increasing both their lowest and highest water level by 30 percent.
@@ -253,10 +253,10 @@ gg2 <- ggplot(data = dt,
 
 ```
 
-As you may have suspected, lower water levels resulted in higher relative growing seasons and workability scores.
+As you may have suspected, lower water levels resulted in higher relative growing seasons and workability scores. Note that for the function 'workability' lower ground water is always positive until the relative growing season length equals 1. However, low groundwater levels can be negative for other soil functions.
 
 ## B_GWL_ZCrit
-Sometimes, capillary rise of water may fall behind evaporation. If this is the case, the soil will dry out relatively quickly and may be workable sooner. In our example data, B_GWL_ZCRIT was set to 400 meaning that over a distance of 400 cm between the groundwater table and the soil surface, the soil is able to supply at least 2 mm of water per day. It is estimated that evaporation in the Netherlands in spring is about 2mm per day.
+Sometimes, capillary rise of water from the groundwater table to the soil surface may fall behind evaporation. If this is the case, the soil will dry out relatively quickly and may be workable sooner. It is estimated that evaporation in the Netherlands in spring is about 2mm per day. In our example data, B_GWL_ZCRIT was set to 400 meaning that over a distance of 400 cm between the groundwater table and the soil surface, the soil is able to supply at least 2 mm of water per day. 
 Lets set B_GWL_ZCRIT to 50 and see what happens to our scores.
 
 ```{r plot with low zcrit , fig.width = 7, fig.height = 4,fig.fullwidth = TRUE}
@@ -292,6 +292,8 @@ gg2 <- ggplot(data = dt,
 
 
 ```
+
+The scores improved for all fields! Decreasing B_GWL_ZCRIT to 50 means that the soils dry up much faster because evaporation on the soil surface is higher than capillary rise once the groundwater table falls below 50cm.
 
 The methodology for assessing workability is an adaptation from @Huinink2018
 
