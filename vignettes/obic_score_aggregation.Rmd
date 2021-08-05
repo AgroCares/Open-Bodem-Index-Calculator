@@ -45,13 +45,11 @@ The following things are done during reformatting:
   * it is assessed which indicators are relevant for a field given its soiltype and crop category using the `weight.obic` table.
   * year numbers are assigned from 1 to n with one being the most recent year (used for aggregating over years)
   * a molten data.table is created with all indicators in a single column and soiltype, crop category and year as identifying variables
-  * categories are assigned to indicators (chemical, physical, biological, environmental, management)
+  * indicators are assigned to  categories (chemical, physical, biological, environmental, management)
   * a data.table with the number of indicators per category is made (used in the aggregation of indicators)
   * a correction factor per score is calculated based on the height of the score (used later to give more weight to low scores)
   * soil function scores irrelevant to the land use are set to -999
   
-At the beginning of the next step, an indicator data.table is created based on the molten data.table created in the reformatting step. This data.table uses the soil function scores adjusted for their applicability for the soiltype and crop category. 
-
 ```{r reformatting code, echo = TRUE, eval=FALSE}
   # Step 3 Reformat dt given weighing per indicator and prepare for aggregation  ------------------
     
@@ -93,6 +91,8 @@ At the beginning of the next step, an indicator data.table is created based on t
     
 ```
 
+After reformatting the data in step 3, an indicator data.table is created in step 4. This data.table uses the soil function scores adjusted for their applicability for the soiltype and crop category. In step 4 indicators are calculated to display them as output. In step 5 the total OBI score is calculated, since part of step 5 overlaps with step 4, we only discuss step 5 onwards.
+
 ## Weighing values
 To aggregate scores, the relevant columns and rows are taken from the molten data.table.
 
@@ -106,7 +106,7 @@ To aggregate scores, the relevant columns and rows are taken from the molten dat
     out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
 ```    
 
-The indicators are aggregated to categories (chemical, physical, biological, management, environmental) using the correction factor calculated previously using `cf_ind_importance()`, giving more weight to lower indicators. This way the lowest indicator, supposedly also to most limiting factor for crop production, becomes more important. Consequently, improving a low score indicator by 0.1 is easier than improving a high scoring indicator by this same amount, making it more worthwhile to invest in the poorest and most limiting indicator.
+The indicators are aggregated to categories (chemical, physical, biological, management, environmental) using the correction factor (*cf*) calculated previously using `cf_ind_importance()`, giving more weight to lower indicators. This way the lowest indicator, supposedly also to most limiting factor for crop production, becomes more important. Consequently, improving a low score indicator by 0.1 is easier than improving a high scoring indicator by this same amount, making it more worthwhile to invest in the poorest and most limiting indicator.
 
 ```{r echo = TRUE, eval=FALSE}    
     # calculate weighted average per indicator category
@@ -127,7 +127,7 @@ These would be the correction factors for a period of eleven years:
   cat(cf)
 ```
 
-The most recent year carries about `r round(cf[1]/cf[10],digits =1)` the weight of the tenth year. Notice that years ten and eleven have the same correction factor value, the minimum cf value for a year is equal to that of year ten.
+The most recent year carries about `r round(cf[1]/cf[10],digits =1)` times the weight of the tenth year. Notice that years ten and eleven have the same correction factor value, the minimum cf value for a year is equal to that of year ten.
 
 More priority (weight) is given to recent years because these are more reflective of the current situation. Additionally, changes in management or soil properties take more immediate effect on the scores in subsequent years.
 
@@ -181,13 +181,10 @@ After the aggregation there is just a bit of code to format the names of the sco
 
 ## Brief recap
 
-* Soil functions with low values gain more weight than ones with high values because these soil functions are supposed to be more limiting and this makes it more worthwhile (both in reality as for the OBI score) to invest in improving low scores
+* Soil functions with low scores gain more weight than ones with high scores because these soil functions are supposed to be more limiting and this makes it more worthwhile (both in reality as for the OBI score) to invest in improving low scores
 * Values from recent years count more than values from long ago. Recent years are more reflective of the current situation and it becomes easier to see the effect of changes in management or soil properties in subsequent years
-* Categories with more underlying indicators have more weight in determining the total OBI score. This is because these indicators are better understood and supported and may be more important.
+* Categories with more underlying indicators have more weight in determining the total OBI score. This is because these indicators are better understood and supported and may also be more important.
 
-```{r, eval=FALSE, include=FALSE}
-# check this last line of paragraph
-```
 
 ```{r make mock data, eval= TRUE}
 # make mock data and calculate scores with different aggregation methods (averaging without weight and averaging with linearly changing weight)
@@ -229,7 +226,7 @@ for(i in 1:100){
 }
 
 # dto is a almost ready set of 100 fields, only values and value description need to be added
-set.seed(22)
+set.seed(123)
 
 # make baseline
 dt1 <- copy(dto)
@@ -289,14 +286,16 @@ dta <- dta[value>1, value := 1]
 ```
 
 ## Comparison with other aggregation methods
-### Data description
-To compare aggregation methods we have made a data.table with mock data similar to a data.table in the obic_field function just before aggregating scores. We will compare the aggregation methods with seven scenarios or treatments. Each treatment has a 100 replicates whose soil function values are randomly drawn from a normal distribution with a standard deviation of `r std[1]`. The mean of the distributions depends on the scenario. On rare occasion a value may fall slightly outside the range 0:1, in such cases the values are overwritten to be 0 or 1. 
+By now, we have some understanding of how measured soil function data are aggregated to an integral score within the OBIC framework. So, now we can explore and reflect on some of the choices that were made in designing this aggregation process. The first choice we will reflect upon is that of the correction factors. In the OBIC framework, these are determined logistically but could also be determined linearly or not be used at all. Second, we will reflect on the choice to aggregate to categories instead of aggregating indicators directly to a holistic score.
 
-1. **Baseline** all mean value are 0.7
-2. **Low C values** means of Chemical functions are 0.3, functions in other indicators are 0.7
-3. **Low B values** means of Biological functions are 0.3, functions in other indicators are 0.7
-4. **One low C value** one chemical soil function value is set to 0, all other values are generated as in the baseline
-5. **One low B value** one biological soil function value is set to 0, all other values are generated as in the baseline
+### Data description
+To reflect on alternative aggregation methods we have made a mock data.table similar to a data.table in the obic_field function just before aggregating scores. We will compare the aggregation methods with seven scenarios or treatments. Each treatment has a 100 replicates whose soil function scores are randomly drawn from a normal distribution with a standard deviation of `r std[1]`. The mean of the distributions depends on the scenario. On rare occasion a value may fall slightly outside the range 0:1, in such cases the values are overwritten to be 0 or 1. The following treatments are used:
+
+1. **Baseline** means of all values are 0.7
+2. **Low C values** means of Chemical indicators are 0.3, indicators in other categories are 0.7
+3. **Low B values** means of Biological indicators are 0.3, indicators in other categories are 0.7
+4. **One low C value** one chemical indicator is set to 0, all other values are generated as in the baseline
+5. **One low B value** one biological indicator is set to 0, all other values are generated as in the baseline
 6. **Recent years low** mean values of the most recent five years are 0.3, while the five years before that have mean values of 0.7
 7. **Recent years high** mean values of the most recent five years are 0.7, while the five years before that have mean values of 0.3
 
@@ -307,7 +306,8 @@ In comparing the methods of aggregation we will use three methods to determine a
 * linearly
 * no correction (averaging all values, cf = 1)
 
-The log and linear cf's are illustrated in Figure 2 in the range that they operate. **Value** is the correction factor for the measured soil function values, these range from 0 to 1. **year** is the correction factor for the year a measurement is from, 1 being the most recent year, 10 being ten years earlier. **ncat** is the correction for the number of soil functions within an indicator, for Chemical this typically is `r length(grep('I_C_', names(obic_field_dt(binnenveld, output = 'indicators'))))`
+The log and linear cf's are illustrated in Figure 2 in the range that they operate. **Value** is the correction factor for the indicator, these range from 0 to 1. **year** is the correction factor for the year a measurement is from, 1 being the most recent year, 10 being ten years earlier. **ncat** is the correction for the number of soil functions within a category, for Chemical this typically is `r length(grep('I_C_', names(obic_field_dt(binnenveld, output = 'indicators'))))`
+The slope of the linear correction factor is chosen such that the highest and lowest correction factor between linear and log are the same. In practice, another slope could be chosen for linear aggregation.
 The no correction method is not presented in Figure 2 as it would be a horizontal line with an arbitrary value.
 
 ```{r plot mock cf, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, fig.cap = 'Figure 2. Correction factors calculated with linear or logarithmic methods per aggregation step.'}
@@ -456,7 +456,7 @@ ggplot(dt[cat == 'S_T_OBI_A'], aes(x = score, y = cf_method)) +
 ```
 
 
-```{r plot original values, fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 4. Distribution of "measured" values of each soil function per scenario.'}
+```{r plot original values, fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 4. Distribution of indicator values  per scenario.'}
 # factorise dta cat levels
 dta <- dta[, cat := factor(cat, levels = c('C', 'P', 'B', 'E'))]
 dta <- dta[, indicator := factor(indicator, levels = c("I_C_CEC","I_C_CU", "I_C_K",  "I_C_MG", "I_C_N",  "I_C_P",  "I_C_PH", "I_C_S",  "I_C_ZN", 
@@ -470,6 +470,14 @@ ggplot(dta, aes(x = value, y = indicator, color = cat))+
   facet_wrap(~treatment, ncol = 1)
 
 ```
+
+```{r plot orignal values histogram,fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Distribution of indicator values per scenario as histogram'}
+gg <- ggplot(dta, aes(x = value, color = cat)) +
+  geom_histogram() + 
+  theme_bw() +facet_wrap(~treatment, ncol = 1)
+
+```
+
 
 In Figure 3 one can see that with logarithmic evaluation, scores become very responsive to changes in recent years while this is not the case for linear or no aggregation. Also, both linear and logarithmic evaluation makes the total score responsive to a single low value while there is little response when no cf is used.
 
