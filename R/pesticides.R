@@ -9,12 +9,13 @@
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #' @param D_PSP (numeric) The precipitation surplus per crop  calculated by \code{\link{calc_gw_recharge}}
+#' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
 #' 
 #' @export
-calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND_MI, A_SILT_MI, D_PSP) {
+calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND_MI, A_SILT_MI, D_PSP, M_PESTICIDES_DST) {
   
   # check inputs
-  arg.length <- max(length(B_SOILTYPE_AGR),length(A_SOM_LOI),length(A_CLAY_MI),length(A_SAND_MI),length(A_SILT_MI),length(D_PSP))
+  arg.length <- max(length(B_SOILTYPE_AGR),length(A_SOM_LOI),length(A_CLAY_MI),length(A_SAND_MI),length(A_SILT_MI),length(D_PSP),length(M_PESTICIDES_DST))
   
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype))
@@ -23,6 +24,7 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
   checkmate::assert_numeric(A_SAND_MI, lower = 0.1, upper = 75, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_SILT_MI, lower = 0.1, upper = 75, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(D_PSP, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_PESTICIDES_DST, any.missing = FALSE, len = arg.length)
   
   # import data in table
   dt <- data.table(B_SOILTYPE_AGR = B_SOILTYPE_AGR,
@@ -30,7 +32,8 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
                    A_CLAY_MI = A_CLAY_MI,
                    A_SAND_MI = A_SAND_MI,
                    A_SILT_MI = A_SILT_MI,
-                   D_PSP = D_PSP
+                   D_PSP = D_PSP,
+                   M_PESTICIDES_DST = M_PESTICIDES_DST
                    )
   
   
@@ -61,6 +64,10 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
   # Calculate pesticide leaching fraction
   dt[,pest_leach := exp((-0.34/60 * (vfw + BD * A_SOM_LOI/100 * 10)/B_WATER_FLUX))]
   
+  # Correct for M_PESTICIDES_DST
+  dt[M_PESTICIDES_DST == TRUE, pest_leach := pest_leach * 0.75]
+  
+  # Calculate pesticide leaching risk
   dt[,D_PESTICIDE := pest_leach/pest_leach_min]
   
   return(dt[,D_PESTICIDE])
