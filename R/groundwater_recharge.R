@@ -6,7 +6,7 @@
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #'     
 #' @export
-calc_gw_recharge <- function(B_LU_BRP,M_GREEN){
+calc_gw_recharge <- function(B_LU_BRP, M_GREEN){
   
   
   # Check input
@@ -23,7 +23,7 @@ calc_gw_recharge <- function(B_LU_BRP,M_GREEN){
   crops.makkink <- as.data.table(OBIC::crops.makkink)
   
   # melt makkink
-  dt.mak <- melt(crops.makkink,id.vars = 'crop_makkink', variable.name = 'month',value.name = "mcf")
+  dt.mak <- melt.data.table(crops.makkink,id.vars = 'crop_makkink', variable.name = 'month',value.name = "mcf")
   dt.mak[,month := as.integer(month)]
   
   
@@ -105,10 +105,10 @@ calc_gw_recharge <- function(B_LU_BRP,M_GREEN){
   out <- dt[,list(psp = sum(psp)),by = "year"]
   
   # return value
-  value <- out[,psp]
+  D_PSP <- out[,psp]
   
   # return 
-  return(value)
+  return(D_PSP)
   
 }
 
@@ -122,9 +122,8 @@ calc_gw_recharge <- function(B_LU_BRP,M_GREEN){
 #' @export
 ind_gw_recharge <- function(D_PSP) {
   
-  # convert value to meter recharge (to be updated later)
-  value <- D_PSP * 0.001
+  I_W_GWR <- evaluate_logistic(D_PSP,0.023,300,3)
   
-  return(value)
+  return(I_W_GWR)
   
 }
