@@ -115,6 +115,7 @@
 #'   \item{v}{v for the evaluate_logistics function, affects the growth rate near the maximum}
 #' }
 "nema.obic"
+
 #' Desired growing season period for maximum yield
 #' 
 #' This table gives the required number of days before and after August 15 required for optimal yield or usability and has categories to determine yield loss having a shorter workable growing season based on Tabel 2 and several formulas from Huinink (2018)
@@ -128,3 +129,34 @@
 #'   \item{derving}{Category to determine yield loss due to having a sub-optimal relative growing season length or RLG}
 #' }
 "season.obic"
+
+#' Damage and reproduction of soil-borne pathogens and pests on crops
+#' 
+#' This table includes information from aaltjesschema (April 2021), a website where information is collected on the vulnerability of crops to plant parasitic nematodes and diseases that use nematodes as vector.
+#' 
+#' @format A data.table with 7059 rows and 21 columns:
+#' \describe{
+#'   \item{crop}{crop as called in aaltjesschema}
+#'   \item{name_scientific}{scientific name of nematode}
+#'   \item{propagation}{how easily a nematode can propagate on a crop given as strings with 5 classes}
+#'   \item{damage}{strings indicating how much damage a nematode can inflict on a crop, with 5 classes}
+#'   \item{cultivar_dependent}{boolean whether there are differences in propgation between cultivars of the crop}
+#'   \item{serotype_dependant}{boolean whether there are differences in propagation between serotypes of the pathogen}
+#'   \item{dalgrond}{boolean whether information is valid for soiltype 'dalgrond'}
+#'   \item{klei}{boolean whether information is valid for soiltype 'klei'}
+#'   \item{loess}{boolean whether information is valid for soiltype 'loess'}
+#'   \item{zand}{boolean whether information is valid for soiltype 'zand'}
+#'   \item{zavel}{boolean whether information is valid for soiltype 'zavel'}
+#'   \item{info}{string whether there is information on propgation, diffrentiating between none, yes, and some}
+#'   \item{name_common}{string, common name of pathogen in Dutch, if no common name is available, scientific name is given}
+#'   \item{nema_name}{string, full name of pathogen in aaltjeschema, includes common and scientific name}
+#'   \item{grondsoort}{string with letters indicating for which soil the information is valid}
+#'   \item{groen_br}{boolean indicating that the crop is a green manure on fallow}
+#'   \item{groen_vs}{boolean indicating that the crop is a green manure in early stubble}
+#'   \item{groen_od}{boolean indicating that the crop is a green manure beneath cover crop}
+#'   \item{groen_ls}{boolean indicating that the crop is a green manure in late stubble}
+#'   \item{groen_st}{boolean indicating that the crop is a green manure as drifting deck}
+#'   \item{crop_name_scientific}{string, scientific name of crop species or genus}
+#' }
+"nema.crop.rot.obic"
+

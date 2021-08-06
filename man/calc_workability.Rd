@@ -11,23 +11,26 @@ calc_workability(
   B_SOILTYPE_AGR,
   B_GWL_GLG,
   B_GWL_GHG,
-  B_Z_TWO
+  B_Z_TWO,
+  calcyieldloss = FALSE
 )
 }
 \arguments{
-\item{A_CLAY_MI}{(numeric) The clay content of the soil (in procent)}
+\item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
 
-\item{A_SILT_MI}{(numeric) The silt content of the soil (in procent)}
+\item{A_SILT_MI}{(numeric) The silt content of the soil (\%)}
 
-\item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
-\item{B_SOILTYPE_AGR}{(character) The type of soil}
+\item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
 \item{B_GWL_GLG}{(numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level}
 
 \item{B_GWL_GHG}{(numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level}
 
 \item{B_Z_TWO}{(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)}
+
+\item{calcyieldloss}{(boolean) whether the function includes yield loss, options: TRUE or FALSE (default).}
 }
 \description{
 This function calculates the workability of soils, given as potential length of the growing season. Based on Huinink (2018)

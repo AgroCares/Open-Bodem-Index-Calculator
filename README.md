@@ -1,7 +1,7 @@
 # Open Bodem Index Calculator (OBIC)
 
 <!-- badges: start -->
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
 <!-- badges: end -->
 
 This R package can be used to calculate the Open Bodem Index (OBI). 
@@ -11,7 +11,7 @@ More information about the Open Bodem Index can be found at [Open Bodem Index](h
 
 ## Installation
 
-OBIC can be installed from GitHub using `remotes`. This will install the current developement version from master branch. Stable versions can found at `releases`.
+OBIC can be installed from GitHub using `remotes`. This will install the current development version from master branch. Stable versions can found at `releases`.
 ```
 remotes::install_github("AgroCares/Open-Bodem-Index-Calculator")
 library("OBIC")

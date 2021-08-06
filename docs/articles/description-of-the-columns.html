@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -64,8 +64,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/springgbv/Open-Bodem-Index-Calculator/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -79,32 +79,34 @@
 
       
 
-      </header><script src="description-of-the-columns_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="description-of-the-columns_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Description of the columns for OBIC</h1>
             
-            <h4 class="date">2020-09-02</h4>
+            <h4 class="date">2021-04-28</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/vignettes/description-of-the-columns.Rmd"><code>vignettes/description-of-the-columns.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/vignettes/description-of-the-columns.Rmd"><code>vignettes/description-of-the-columns.Rmd</code></a></small>
       <div class="hidden name"><code>description-of-the-columns.Rmd</code></div>
 
     </div>
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">OBIC</span>)</pre></body></html></div>
-<p>The main function of the package <code><a href="../reference/obic.html">obic()</a></code> requires as input a <code>data.table</code> with specific columns. These columns are specified in <code><a href="../reference/column_description.obic.html">OBIC::column_description.obic</a></code> and can also be seen in the table below</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">desc</span> <span class="kw">&lt;-</span> <span class="kw pkg">OBIC</span><span class="kw ns">::</span><span class="no"><a href="../reference/column_description.obic.html">column_description.obic</a></span>
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">desc</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator">OBIC</a></span><span class="op">)</span></code></pre></div>
+<p>The main function of the package <code><a href="../reference/obic_field.html">obic_field()</a></code> requires as input a series of soil properties required to assess the soil quality. Alternatively, the function <code><a href="../reference/obic_field_dt.html">obic_field_dt()</a></code> can be used, requiring a <code>data.table</code> with specific columns as input. These required input columns are specified in <code><a href="../reference/column_description.obic.html">OBIC::column_description.obic</a></code> and can also be seen in the table below</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">desc</span> <span class="op">&lt;-</span> <span class="fu">OBIC</span><span class="fu">::</span><span class="va"><a href="../reference/column_description.obic.html">column_description.obic</a></span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">desc</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="8%">
+<col width="6%">
+<col width="48%">
+<col width="22%">
+<col width="6%">
 <col width="8%">
-<col width="32%">
-<col width="30%">
-<col width="8%">
-<col width="11%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">column</th>
@@ -140,7 +142,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">A_KALK_MI</td>
+<td align="left">A_CACO3_IF</td>
 <td align="left">measurement</td>
 <td align="left">Koolzure kalk</td>
 <td align="left">Carbonated lime</td>
@@ -148,7 +150,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">A_OS_GV</td>
+<td align="left">A_SOM_LOI</td>
 <td align="left">measurement</td>
 <td align="left">Organische stof</td>
 <td align="left">Organic matter</td>
@@ -156,7 +158,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">A_C_FR</td>
+<td align="left">A_COM_FR</td>
 <td align="left">measurement</td>
 <td align="left">C-fractie Organische stof</td>
 <td align="left">C fraction organic matter</td>
@@ -164,11 +166,11 @@
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">A_CN_RAT</td>
+<td align="left">A_CN_FR</td>
 <td align="left">measurement</td>
 <td align="left">CN ratio</td>
 <td align="left">CN ratio</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -188,7 +190,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">A_K_CEC</td>
+<td align="left">A_K_CO_PO</td>
 <td align="left">measurement</td>
 <td align="left">K-bezetting CEC</td>
 <td align="left">K occupancy CEC</td>
@@ -204,7 +206,7 @@
 <td align="left">CaCl2 extraction</td>
 </tr>
 <tr class="even">
-<td align="left">A_CA_CEC</td>
+<td align="left">A_CA_CO_PO</td>
 <td align="left">measurement</td>
 <td align="left">Ca-bezetting CEC</td>
 <td align="left">Ca occupancy CEC</td>
@@ -212,7 +214,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">A_MG_CEC</td>
+<td align="left">A_MG_CO_PO</td>
 <td align="left">measurement</td>
 <td align="left">Mg-bezetting CEC</td>
 <td align="left">Mg occupancy CEC</td>
@@ -244,7 +246,7 @@
 <td align="left">CaCl2 extraction</td>
 </tr>
 <tr class="odd">
-<td align="left">A_N_TOT</td>
+<td align="left">A_N_RT</td>
 <td align="left">measurement</td>
 <td align="left">N-totaal bodemvoorraad</td>
 <td align="left">N soil reserves</td>
@@ -252,7 +254,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">A_P_PAL</td>
+<td align="left">A_P_AL</td>
 <td align="left">measurement</td>
 <td align="left">P-bodemvoorraad</td>
 <td align="left">P soil reserves</td>
@@ -260,7 +262,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">A_P_PAE</td>
+<td align="left">A_P_CC</td>
 <td align="left">measurement</td>
 <td align="left">P-plantbeschikbaar</td>
 <td align="left">P plant available</td>
@@ -272,7 +274,7 @@
 <td align="left">measurement</td>
 <td align="left">P-water</td>
 <td align="left">P water</td>
-<td align="left">NA</td>
+<td align="left">mg P2O5/L</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -284,7 +286,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">A_S_TOT</td>
+<td align="left">A_S_RT</td>
 <td align="left">measurement</td>
 <td align="left">S-totaal bodemvoorraad</td>
 <td align="left">S soil reserves</td>
@@ -300,15 +302,15 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">A_MB_PFLA</td>
+<td align="left">A_C_MB</td>
 <td align="left">measurement</td>
 <td align="left">Microbiele Biomassa</td>
 <td align="left">Microbial biomass</td>
-<td align="left">?</td>
+<td align="left">mg C/kg</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">A_SB_FR</td>
+<td align="left">A_FB_FR</td>
 <td align="left">measurement</td>
 <td align="left">Ratio schimmels en bacterien</td>
 <td align="left">Ratio of fungi and bacteria</td>
@@ -316,95 +318,79 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">A_B_BC</td>
-<td align="left">measurement</td>
-<td align="left">Beworteling</td>
-<td align="left">Rooting</td>
-<td align="left">score 1-10</td>
-<td align="left">BodemConditieScore</td>
-</tr>
-<tr class="odd">
-<td align="left">A_VO_BC</td>
-<td align="left">measurement</td>
-<td align="left">Verdichting ondergrond</td>
-<td align="left">Compaction</td>
-<td align="left">score 1-10</td>
-<td align="left">BodemConditieScore</td>
-</tr>
-<tr class="even">
-<td align="left">A_RW_BC</td>
+<td align="left">A_EW_BCS</td>
 <td align="left">measurement</td>
 <td align="left">Regenwormen</td>
-<td align="left">Earthworms</td>
+<td align="left">Earth worms</td>
 <td align="left">score 1-10</td>
 <td align="left">BodemConditieScore</td>
 </tr>
 <tr class="odd">
-<td align="left">A_BS_BC</td>
+<td align="left">A_C_BCS</td>
 <td align="left">measurement</td>
-<td align="left">Bodemstructuur</td>
-<td align="left">Soil structure</td>
+<td align="left">Aanwezigheid van scheuren</td>
+<td align="left">Cracks</td>
 <td align="left">score 1-10</td>
 <td align="left">BodemConditieScore</td>
 </tr>
 <tr class="even">
-<td align="left">A_GV_BC</td>
+<td align="left">A_CC_BCS</td>
 <td align="left">measurement</td>
-<td align="left">Aantal gekleurde vlekken</td>
-<td align="left">Number of coloured spots</td>
+<td align="left">Gewasbedekking</td>
+<td align="left">Crop cover</td>
 <td align="left">score 1-10</td>
 <td align="left">BodemConditieScore</td>
 </tr>
 <tr class="odd">
-<td align="left">A_PV_BC</td>
+<td align="left">A_GS_BCS</td>
+<td align="left">measurement</td>
+<td align="left">Aantal gekleurde vlekken</td>
+<td align="left">Gley spots</td>
+<td align="left">score 1-10</td>
+<td align="left">BodemConditieScore</td>
+</tr>
+<tr class="even">
+<td align="left">A_P_BCS</td>
 <td align="left">measurement</td>
 <td align="left">Plasvorming</td>
 <td align="left">Ponding</td>
 <td align="left">score 1-10</td>
 <td align="left">BodemConditieScore</td>
 </tr>
-<tr class="even">
-<td align="left">A_AS_BC</td>
-<td align="left">measurement</td>
-<td align="left">Scheuren</td>
-<td align="left">Cracks</td>
-<td align="left">score 1-10</td>
-<td align="left">BodemConditieScore</td>
-</tr>
 <tr class="odd">
-<td align="left">A_SV_BC</td>
+<td align="left">A_RD_BCS</td>
 <td align="left">measurement</td>
-<td align="left">Spoorvorming/ vertrapping</td>
-<td align="left">Trace formation / trampling</td>
-<td align="left">score 1-10</td>
-<td align="left">BodemConditieScore</td>
-</tr>
-<tr class="even">
-<td align="left">A_RD_BC</td>
-<td align="left">measurement</td>
-<td align="left">Worteldiepte</td>
+<td align="left">Beworteling</td>
 <td align="left">Root depth</td>
 <td align="left">score 1-10</td>
 <td align="left">BodemConditieScore</td>
 </tr>
+<tr class="even">
+<td align="left">A_RT_BCS</td>
+<td align="left">measurement</td>
+<td align="left">Spoorvorming/ vertrapping</td>
+<td align="left">Rutting / trampling</td>
+<td align="left">score 1-10</td>
+<td align="left">BodemConditieScore</td>
+</tr>
 <tr class="odd">
-<td align="left">A_SS_BC</td>
+<td align="left">A_SC_BCS</td>
+<td align="left">measurement</td>
+<td align="left">Verdichting ondergrond</td>
+<td align="left">Subsoil compaction</td>
+<td align="left">score 1-10</td>
+<td align="left">BodemConditieScore</td>
+</tr>
+<tr class="even">
+<td align="left">A_SS_BCS</td>
 <td align="left">measurement</td>
 <td align="left">Bodemstructuur</td>
 <td align="left">Soil structure</td>
 <td align="left">score 1-10</td>
 <td align="left">BodemConditieScore</td>
 </tr>
-<tr class="even">
-<td align="left">A_CO_BC</td>
-<td align="left">measurement</td>
-<td align="left">Gewasdichtheid</td>
-<td align="left">Crop density</td>
-<td align="left">score 1-10</td>
-<td align="left">BodemConditieScore</td>
-</tr>
 <tr class="odd">
-<td align="left">B_GT</td>
+<td align="left">B_GWL_CLASS</td>
 <td align="left">measurement</td>
 <td align="left">Grondwatertrap</td>
 <td align="left">Groundwater level</td>
@@ -420,7 +406,7 @@
 <td align="left">bodemkaart 1:50000</td>
 </tr>
 <tr class="odd">
-<td align="left">B_BT_AK</td>
+<td align="left">B_SOILTYPE_AGR</td>
 <td align="left">measurement</td>
 <td align="left">Bodemtype Agronomische Classificering</td>
 <td align="left">Bodemtype Agronomische Classificering</td>
@@ -444,7 +430,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">B_LG_CBS</td>
+<td align="left">B_AER_CBS</td>
 <td align="left">measurement</td>
 <td align="left">Landbouweconomisch kerngebied 2016</td>
 <td align="left">Key agricultural area 2016</td>
@@ -452,180 +438,20 @@
 <td align="left">CBS</td>
 </tr>
 <tr class="odd">
-<td align="left">B_NR_RIVM</td>
-<td align="left">measurement</td>
-<td align="left">NitraatUitspoelingsRisico</td>
-<td align="left">Nitrate leaching risk</td>
-<td align="left">-</td>
-<td align="left">RIVM</td>
-</tr>
-<tr class="even">
-<td align="left">B_RWT_DANK</td>
-<td align="left">measurement</td>
-<td align="left">Regenwormen in Nederland (taxa)</td>
-<td align="left">Earthworms in the Netherlands (taxa)</td>
-<td align="left">-</td>
-<td align="left">DANK</td>
-</tr>
-<tr class="odd">
-<td align="left">B_RWA_DANK</td>
-<td align="left">measurement</td>
-<td align="left">Regenwormen in Nederland (abundantie)</td>
-<td align="left">Regenwormen in Nederland (abundantie)</td>
-<td align="left">-</td>
-<td align="left">DANK</td>
-</tr>
-<tr class="even">
-<td align="left">B_OV_WENR</td>
+<td align="left">B_SC_WENR</td>
 <td align="left">measurement</td>
 <td align="left">Risico op ondergrondverdichting</td>
 <td align="left">Risk of soil compaction</td>
 <td align="left">-</td>
 <td align="left">WENR</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">B_HELP_WENR</td>
 <td align="left">measurement</td>
 <td align="left">Grondsoortcode HELP-tabel</td>
 <td align="left">Ground type code HELP table</td>
 <td align="left">-</td>
 <td align="left">WENR</td>
-</tr>
-<tr class="even">
-<td align="left">M_M1</td>
-<td align="left">measurement</td>
-<td align="left">Is perceel in afgelopen 3 jaar bekalkt</td>
-<td align="left">Has field been limed in the past 3 years</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">M_M2</td>
-<td align="left">measurement</td>
-<td align="left">Frequentie graslandvernieuwing</td>
-<td align="left">Frequency of grassland renewal</td>
-<td align="left">per x jaar</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">M_M3</td>
-<td align="left">measurement</td>
-<td align="left">Frequentie compostgebruik</td>
-<td align="left">Frequency of compost use</td>
-<td align="left">per x jaar</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">M_M4</td>
-<td align="left">measurement</td>
-<td align="left">Ploegen</td>
-<td align="left">Plowing</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">M_M5</td>
-<td align="left">measurement</td>
-<td align="left">Weidevogelbeheer via ANLB</td>
-<td align="left">Meadow bird management via ANLB</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">M_M6</td>
-<td align="left">measurement</td>
-<td align="left">Gebruik groenbemesters</td>
-<td align="left">Usage green manure</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">M_M7</td>
-<td align="left">measurement</td>
-<td align="left">Gebruik van vaste rijpaden</td>
-<td align="left">Use of fixed lanes</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">M_M8</td>
-<td align="left">measurement</td>
-<td align="left">Gebruik van luchtdrukbanden/ lichtere machines</td>
-<td align="left">Use of pneumatic tyres/lighter machines</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">M_M9</td>
-<td align="left">measurement</td>
-<td align="left">Bemestingsverleden met organische mest</td>
-<td align="left">Fertilization history with organic manure</td>
-<td align="left">3 keuzes</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">M_M10</td>
-<td align="left">measurement</td>
-<td align="left">Is het perceel 80% van het jaar groen</td>
-<td align="left">Is the field green 80% of the year</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">M_M11</td>
-<td align="left">measurement</td>
-<td align="left">wordt berijding in het najaar vermeden (vroege rassen)</td>
-<td align="left">avoidance of autumnal spraying (early varieties)</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">M_M12</td>
-<td align="left">measurement</td>
-<td align="left">wordt drijfmest toegediend via sleepslangbemesting</td>
-<td align="left">slurry is applied via hose fertilisation</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">M_M13</td>
-<td align="left">measurement</td>
-<td align="left">is er onderwaterdrainage aangelegd (veen)</td>
-<td align="left">underwater drainage has been constructed (peat)</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">M_M14</td>
-<td align="left">measurement</td>
-<td align="left">worden sloten op diepte gehouden en het bagger benut</td>
-<td align="left">ditches are kept at depth and the dredging is used.</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">M_M15</td>
-<td align="left">measurement</td>
-<td align="left">is er grasonderzaai in mais toegepast</td>
-<td align="left">grass underseeding has been used in maize</td>
-<td align="left">ja/nee</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">D_SE</td>
-<td align="left">derivative</td>
-<td align="left">Versplemping</td>
-<td align="left">The risk of soil sealing</td>
-<td align="left">-</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">D_CR</td>
-<td align="left">derivative</td>
-<td align="left">Verkruimelbaarheid</td>
-<td align="left">The crumbleability of the soil</td>
-<td align="left">-</td>
-<td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">D_BDS</td>
@@ -636,14 +462,6 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">D_NLV</td>
-<td align="left">derivative</td>
-<td align="left">Stikstoflevering</td>
-<td align="left">The nitrogen supply capacity</td>
-<td align="left">kg N / ha</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
 <td align="left">D_RD</td>
 <td align="left">derivative</td>
 <td align="left">Bemonsteringsdiepte</td>
@@ -651,7 +469,7 @@
 <td align="left">m</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_OC</td>
 <td align="left">derivative</td>
 <td align="left">Koolstofvoorraad</td>
@@ -659,15 +477,15 @@
 <td align="left">kg C /ha</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
-<td align="left">D_OS_BAL</td>
+<tr class="even">
+<td align="left">D_SOM_BAL</td>
 <td align="left">derivative</td>
 <td align="left">EOS-balans</td>
 <td align="left">net Effective Organic Matter balance</td>
 <td align="left">kg EOS / ha</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_GA</td>
 <td align="left">derivative</td>
 <td align="left">Leeftijd grasland</td>
@@ -675,18 +493,10 @@
 <td align="left">yr</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
-<td align="left">D_MAN</td>
-<td align="left">derivative</td>
-<td align="left">-</td>
-<td align="left">Management evaluation</td>
-<td align="left">-</td>
-<td align="left">NA</td>
-</tr>
 <tr class="even">
 <td align="left">D_CP_STARCH</td>
 <td align="left">derivative</td>
-<td align="left">-</td>
+<td align="left">Fractie zetmeelaardappelen in rotatie</td>
 <td align="left">The fraction of starch in crop rotation</td>
 <td align="left">-</td>
 <td align="left">NA</td>
@@ -694,7 +504,7 @@
 <tr class="odd">
 <td align="left">D_CP_POTATO</td>
 <td align="left">derivative</td>
-<td align="left">-</td>
+<td align="left">Fractie consumptieaardappelen in rotatie</td>
 <td align="left">The fraction of potato in crop rotation</td>
 <td align="left">-</td>
 <td align="left">NA</td>
@@ -702,7 +512,7 @@
 <tr class="even">
 <td align="left">D_CP_SUGARBEET</td>
 <td align="left">derivative</td>
-<td align="left">-</td>
+<td align="left">Fractie suikerbiet in rotatie</td>
 <td align="left">The fraction of sugarbeet in crop rotation</td>
 <td align="left">-</td>
 <td align="left">NA</td>
@@ -710,7 +520,7 @@
 <tr class="odd">
 <td align="left">D_CP_GRASS</td>
 <td align="left">derivative</td>
-<td align="left">-</td>
+<td align="left">Fractie grasland in rotatie</td>
 <td align="left">The fraction of grass in crop rotation</td>
 <td align="left">-</td>
 <td align="left">NA</td>
@@ -718,7 +528,7 @@
 <tr class="even">
 <td align="left">D_CP_MAIS</td>
 <td align="left">derivative</td>
-<td align="left">-</td>
+<td align="left">Fractie maÃ¯s in rotatie</td>
 <td align="left">The fraction of mais in crop rotation</td>
 <td align="left">-</td>
 <td align="left">NA</td>
@@ -726,8 +536,24 @@
 <tr class="odd">
 <td align="left">D_CP_OTHER</td>
 <td align="left">derivative</td>
-<td align="left">-</td>
+<td align="left">Fractie overige gewassen in rotatie</td>
 <td align="left">The fraction of other in crop rotaton</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">D_CP_RUST</td>
+<td align="left">derivative</td>
+<td align="left">Fractie rustgewassen</td>
+<td align="left">The fraction "“crops improving soil quality”"</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">D_CP_RUSTDEEP</td>
+<td align="left">derivative</td>
+<td align="left">Fractie diep wortelende rustgewassen</td>
+<td align="left">The fraction of deep rooting crops</td>
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
@@ -740,10 +566,26 @@
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">D_P_U</td>
+<td align="left">D_NLV</td>
 <td align="left">derivative</td>
-<td align="left">Verstuivingsrisico</td>
-<td align="left">Wind erodibility</td>
+<td align="left">Stikstoflevering</td>
+<td align="left">The nitrogen supply capacity</td>
+<td align="left">kg N / ha</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">D_CEC</td>
+<td align="left">derivative</td>
+<td align="left">kationbuffercapaciteit</td>
+<td align="left">the cation buffer capacity</td>
+<td align="left">mmol+/kg</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">D_PBI</td>
+<td align="left">derivative</td>
+<td align="left">P-beschikbaarheidsindex</td>
+<td align="left">P availability index</td>
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
@@ -752,79 +594,127 @@
 <td align="left">derivative</td>
 <td align="left">Zwavellevering</td>
 <td align="left">Sulphur</td>
-<td align="left">NA</td>
+<td align="left">kg S/ha</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
+<td align="left">D_K</td>
+<td align="left">derivative</td>
+<td align="left">Kaliumlevering</td>
+<td align="left">potassium availability</td>
+<td align="left">index</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
 <td align="left">D_MG</td>
 <td align="left">derivative</td>
 <td align="left">Magnesiumbuffering</td>
 <td align="left">Magnesium</td>
-<td align="left">NA</td>
+<td align="left">index</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_CU</td>
 <td align="left">derivative</td>
 <td align="left">Koperbeschikbaarheid</td>
 <td align="left">Copper</td>
-<td align="left">NA</td>
+<td align="left">index</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_ZN</td>
 <td align="left">derivative</td>
 <td align="left">Zinkbeschikbaarheid</td>
 <td align="left">Zinc</td>
-<td align="left">NA</td>
+<td align="left">index</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_PMN</td>
 <td align="left">derivative</td>
 <td align="left">Activiteit bodemleven</td>
 <td align="left">Soil life activity</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">D_C_CEC</td>
-<td align="left">derivative</td>
-<td align="left">Kationbuffering</td>
-<td align="left">CEC</td>
-<td align="left">NA</td>
+<td align="left">mg N/kg</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">D_P_CEC</td>
+<td align="left">D_SE</td>
+<td align="left">derivative</td>
+<td align="left">Versplemping</td>
+<td align="left">The risk of soil sealing</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">D_CR</td>
+<td align="left">derivative</td>
+<td align="left">Verkruimelbaarheid</td>
+<td align="left">The crumbleability of the soil</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">D_WE</td>
+<td align="left">derivative</td>
+<td align="left">Verstuivingsrisico</td>
+<td align="left">Wind erodibility</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">D_AS</td>
 <td align="left">derivative</td>
 <td align="left">Aggregaatstabiliteit</td>
 <td align="left">Aggregate stability</td>
+<td align="left">-</td>
 <td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">D_WSI_DS</td>
+<td align="left">derivative</td>
+<td align="left">Droogteschade</td>
+<td align="left">Drougthstress</td>
+<td align="left">%</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">D_WSI_WS</td>
+<td align="left">derivative</td>
+<td align="left">Natschade</td>
+<td align="left">Wetnessstress</td>
+<td align="left">%</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">D_WRI</td>
+<td align="left">derivative</td>
+<td align="left">Plant beschikbaar water</td>
+<td align="left">Water retention</td>
+<td align="left">mm</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">D_WO</td>
+<td align="left">derivative</td>
+<td align="left">Bewerkbaarheid</td>
+<td align="left">Workability</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">D_MAN</td>
+<td align="left">derivative</td>
+<td align="left">Evaluatie management conform LDBB</td>
+<td align="left">Management evaluation</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">D_BCS</td>
 <td align="left">derivative</td>
 <td align="left">BodemConditieScore</td>
-<td align="left">Visual Soil Condition Score</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">D_P_WRI</td>
-<td align="left">derivative</td>
-<td align="left">Plant beschikbaar water</td>
-<td align="left">Water retention</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">D_WSI</td>
-<td align="left">derivative</td>
-<td align="left">Waterstress</td>
-<td align="left">moisture supply</td>
-<td align="left">NA</td>
+<td align="left">Visual Soil Assessment Score</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -832,7 +722,7 @@
 <td align="left">derivative</td>
 <td align="left">N vasthoudend vermogen voor grondwater</td>
 <td align="left">Nitrogen retention for ground water</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -840,7 +730,7 @@
 <td align="left">derivative</td>
 <td align="left">N vasthoudend vermogen voor oppervlaktewater</td>
 <td align="left">Nitrogen retention for surface water</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -848,7 +738,7 @@
 <td align="left">indicator</td>
 <td align="left">Stikstoflevering</td>
 <td align="left">Nitrogen</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -856,7 +746,7 @@
 <td align="left">indicator</td>
 <td align="left">Fosfaatbuffering</td>
 <td align="left">Phosphorus</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -864,7 +754,7 @@
 <td align="left">indicator</td>
 <td align="left">Kaliumlevering</td>
 <td align="left">Potassium</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -872,7 +762,7 @@
 <td align="left">indicator</td>
 <td align="left">Magnesiumbuffering</td>
 <td align="left">Magnesium</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -880,7 +770,7 @@
 <td align="left">indicator</td>
 <td align="left">Zwavellevering</td>
 <td align="left">Sulphur</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -888,7 +778,7 @@
 <td align="left">indicator</td>
 <td align="left">Zuurgraad</td>
 <td align="left">pH</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -896,7 +786,7 @@
 <td align="left">indicator</td>
 <td align="left">Kationbuffering</td>
 <td align="left">CEC</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -904,7 +794,7 @@
 <td align="left">indicator</td>
 <td align="left">Koperbeschikbaarheid</td>
 <td align="left">Copper</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -912,7 +802,7 @@
 <td align="left">indicator</td>
 <td align="left">Zinkbeschikbaarheid</td>
 <td align="left">Zinc</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -920,7 +810,7 @@
 <td align="left">indicator</td>
 <td align="left">Verkruimelbaarheid</td>
 <td align="left">Crumbleability</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -928,23 +818,23 @@
 <td align="left">indicator</td>
 <td align="left">Verslemping</td>
 <td align="left">Soil sealing</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">I_P_MS</td>
+<td align="left">I_P_DS</td>
 <td align="left">indicator</td>
-<td align="left">Waterstress</td>
-<td align="left">Moisture supply</td>
-<td align="left">NA</td>
+<td align="left">Droogteschade</td>
+<td align="left">Drougthstress</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">I_P_BC</td>
+<td align="left">I_P_WS</td>
 <td align="left">indicator</td>
-<td align="left">Draagkracht</td>
-<td align="left">Bearing capacity</td>
-<td align="left">NA</td>
+<td align="left">Natschade</td>
+<td align="left">Wetnessstress</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -952,7 +842,7 @@
 <td align="left">indicator</td>
 <td align="left">Verstuifingsrisico</td>
 <td align="left">Dustiness</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -960,7 +850,7 @@
 <td align="left">indicator</td>
 <td align="left">Ondergrondverdichting</td>
 <td align="left">Compaction</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -968,7 +858,7 @@
 <td align="left">indicator</td>
 <td align="left">Plant beschikbaar water</td>
 <td align="left">Water retention</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -976,10 +866,18 @@
 <td align="left">indicator</td>
 <td align="left">Aggregaatstabiliteit</td>
 <td align="left">Aggregate stability</td>
-<td align="left">NA</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
+<td align="left">I_P_WO</td>
+<td align="left">indicator</td>
+<td align="left">Bewerkbaarheid</td>
+<td align="left">Workability</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
 <td align="left">I_B_DI</td>
 <td align="left">indicator</td>
 <td align="left">Ziektewerendheid</td>
@@ -987,19 +885,11 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">I_B_SF</td>
 <td align="left">indicator</td>
 <td align="left">Activiteit bodemleven</td>
 <td align="left">Soil life activity</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_B_SB</td>
-<td align="left">indicator</td>
-<td align="left">Bodembiodiversiteit</td>
-<td align="left">Soil biodiversity</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
@@ -1036,43 +926,411 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">S_C</td>
-<td align="left">score</td>
-<td align="left">bodemchemie</td>
-<td align="left">Chemical score</td>
+<td align="left">I_B_EW_BCS</td>
+<td align="left">indicator</td>
+<td align="left">Regenwormen</td>
+<td align="left">Earth worms</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">S_P</td>
-<td align="left">score</td>
-<td align="left">bodemstructuur</td>
-<td align="left">Physical score</td>
+<td align="left">I_P_C_BCS</td>
+<td align="left">indicator</td>
+<td align="left">Aanwezigheid van scheuren</td>
+<td align="left">Cracks</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">S_B</td>
-<td align="left">score</td>
-<td align="left">bodembiologie</td>
-<td align="left">Biological score</td>
+<td align="left">I_P_CC_BCS</td>
+<td align="left">indicator</td>
+<td align="left">Gewasbedekking</td>
+<td align="left">Crop cover</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">S_M</td>
-<td align="left">score</td>
-<td align="left">management</td>
-<td align="left">Managment score</td>
+<td align="left">I_P_GS_BCS</td>
+<td align="left">indicator</td>
+<td align="left">Aantal gekleurde vlekken</td>
+<td align="left">Gley spots</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">S_T</td>
-<td align="left">score</td>
-<td align="left">totale OBI-score</td>
-<td align="left">Total score</td>
+<td align="left">I_P_P_BCS</td>
+<td align="left">indicator</td>
+<td align="left">Plasvorming</td>
+<td align="left">Ponding</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_P_RD_BCS</td>
+<td align="left">indicator</td>
+<td align="left">Beworteling</td>
+<td align="left">Root depth</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_P_RT_BCS</td>
+<td align="left">indicator</td>
+<td align="left">Spoorvorming/ vertrapping</td>
+<td align="left">Rutting / trampling</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_P_SC_BCS</td>
+<td align="left">indicator</td>
+<td align="left">Verdichting ondergrond</td>
+<td align="left">Subsoil compaction</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_P_SS_BCS</td>
+<td align="left">indicator</td>
+<td align="left">Bodemstructuur</td>
+<td align="left">Soil structure</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_M_LIME</td>
+<td align="left">indicator</td>
+<td align="left">Is perceel in afgelopen 3 jaar bekalkt</td>
+<td align="left">Has field been limed in last three years</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_M_GREEN</td>
+<td align="left">indicator</td>
+<td align="left">Gebruik groenbemesters</td>
+<td align="left">Use of green manure</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_M_COMPOST</td>
+<td align="left">indicator</td>
+<td align="left">Frequentie compostgebruik</td>
+<td align="left">Frequency of compost application</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_M_NONBARE</td>
+<td align="left">indicator</td>
+<td align="left">Is het perceel 80% van het jaar groen</td>
+<td align="left">Field 80% of the year green</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_M_EARLYCROP</td>
+<td align="left">indicator</td>
+<td align="left">wordt berijding in het najaar vermeden (vroege rassen)</td>
+<td align="left">Use of early crops</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_M_SLEEPHOSE</td>
+<td align="left">indicator</td>
+<td align="left">wordt drijfmest toegediend via sleepslangbemesting</td>
+<td align="left">Manure application using sleep hoses</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_M_DRAIN</td>
+<td align="left">indicator</td>
+<td align="left">is er onderwaterdrainage aangelegd (veen)</td>
+<td align="left">Under water drains available</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_M_DITCH</td>
+<td align="left">indicator</td>
+<td align="left">worden sloten op diepte gehouden en het bagger benut</td>
+<td align="left">Ditch is cleaned and sludge is applied</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_M_UNDERSEED</td>
+<td align="left">indicator</td>
+<td align="left">is er grasonderzaai in mais toegepast</td>
+<td align="left">Underseed of grass at maize</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_M_NONINVTILL</td>
+<td align="left">indicator</td>
+<td align="left">Niet Kerende Grondbewerking</td>
+<td align="left">Non inversion tillage</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_M_SSPM</td>
+<td align="left">indicator</td>
+<td align="left">worden er bodemstructuur beschermende maatregelen genomen (vaste rijpaden, lage bandenspanning, lage wiellast)?</td>
+<td align="left">Soil Structure Protection Measures</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_M_SOLIDMANURE</td>
+<td align="left">indicator</td>
+<td align="left">gebruik vaste mest boven drijfmest en kunstmest</td>
+<td align="left">Use of solid manure</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_M_STRAWRESIDUE</td>
+<td align="left">indicator</td>
+<td align="left">wordt stro ondergewerkt</td>
+<td align="left">Application of straw residues</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_M_MECHWEEDS</td>
+<td align="left">indicator</td>
+<td align="left">mechanische onkruidbestrijding</td>
+<td align="left">Use of mechanical weed protection</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_M_PESTICIDES_DST</td>
+<td align="left">indicator</td>
+<td align="left">beslissingsondersteunde systemen gewasbescherming</td>
+<td align="left">Use of DST for pesticides</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">M_LIME</td>
+<td align="left">measurement</td>
+<td align="left">Is perceel in afgelopen 3 jaar bekalkt</td>
+<td align="left">Has field been limed in last three years</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">M_GREEN</td>
+<td align="left">measurement</td>
+<td align="left">Gebruik groenbemesters</td>
+<td align="left">Use of green manure</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">M_COMPOST</td>
+<td align="left">measurement</td>
+<td align="left">Frequentie compostgebruik</td>
+<td align="left">Frequency of compost application</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">M_NONBARE</td>
+<td align="left">measurement</td>
+<td align="left">Is het perceel 80% van het jaar groen</td>
+<td align="left">Field 80% of the year green</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">M_EARLYCROP</td>
+<td align="left">measurement</td>
+<td align="left">wordt berijding in het najaar vermeden (vroege rassen)</td>
+<td align="left">Use of early crops</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">M_SLEEPHOSE</td>
+<td align="left">measurement</td>
+<td align="left">wordt drijfmest toegediend via sleepslangbemesting</td>
+<td align="left">Manure application using sleep hoses</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">M_DRAIN</td>
+<td align="left">measurement</td>
+<td align="left">is er onderwaterdrainage aangelegd (veen)</td>
+<td align="left">Under water drains available</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">M_DITCH</td>
+<td align="left">measurement</td>
+<td align="left">worden sloten op diepte gehouden en het bagger benut</td>
+<td align="left">Ditch is cleaned and sludge is applied</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">M_UNDERSEED</td>
+<td align="left">measurement</td>
+<td align="left">is er grasonderzaai in mais toegepast</td>
+<td align="left">Underseed of grass at maize</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">M_NONINVTILL</td>
+<td align="left">measurement</td>
+<td align="left">Niet Kerende Grondbewerking</td>
+<td align="left">Non inversion tillage</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">M_SSPM</td>
+<td align="left">measurement</td>
+<td align="left">worden er bodemstructuur beschermende maatregelen genomen (vaste rijpaden, lage bandenspanning, lage wiellast)?</td>
+<td align="left">Soil Structure Protection Measures</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">M_SOLIDMANURE</td>
+<td align="left">measurement</td>
+<td align="left">gebruik vaste mest boven drijfmest en kunstmest</td>
+<td align="left">Use of solid manure</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">M_STRAWRESIDUE</td>
+<td align="left">measurement</td>
+<td align="left">wordt stro ondergewerkt</td>
+<td align="left">Application of straw residues</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">M_MECHWEEDS</td>
+<td align="left">measurement</td>
+<td align="left">mechanische onkruidbestrijding</td>
+<td align="left">Use of mechanical weed protection</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">M_PESTICIDES_DST</td>
+<td align="left">measurement</td>
+<td align="left">beslissingsondersteunde systemen gewasbescherming</td>
+<td align="left">Use of DST for pesticides</td>
+<td align="left">ja/nee</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">S_C_OBI_A</td>
+<td align="left">score</td>
+<td align="left">Bodemchemische score</td>
+<td align="left">Chemical OBI score absolute</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">S_P_OBI_A</td>
+<td align="left">score</td>
+<td align="left">Bodemfysische score</td>
+<td align="left">Physical OBI score absolute</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">S_B_OBI_A</td>
+<td align="left">score</td>
+<td align="left">Bodembiologische score</td>
+<td align="left">Biological OBI score absolute</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">S_M_OBI_A</td>
+<td align="left">score</td>
+<td align="left">Management score</td>
+<td align="left">Management OBI score absolute</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">S_E_OBI_A</td>
+<td align="left">score</td>
+<td align="left">Milieu score</td>
+<td align="left">Environment OBI score absolute</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">S_T_OBI_A</td>
+<td align="left">score</td>
+<td align="left">Totale OBI-score</td>
+<td align="left">OBI score absolute</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">S_C_OBI_R</td>
+<td align="left">score</td>
+<td align="left">Bodemchemische score</td>
+<td align="left">Chemical OBI score relative</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">S_P_OBI_R</td>
+<td align="left">score</td>
+<td align="left">Bodemfysische score</td>
+<td align="left">Physical OBI score relative</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">S_B_OBI_R</td>
+<td align="left">score</td>
+<td align="left">Bodembiologische score</td>
+<td align="left">Biological OBI score relative</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">S_M_OBI_R</td>
+<td align="left">score</td>
+<td align="left">Management score</td>
+<td align="left">Management OBI score relative</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">S_E_OBI_R</td>
+<td align="left">score</td>
+<td align="left">Milieu score</td>
+<td align="left">Environment OBI score relative</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">S_T_OBI_R</td>
+<td align="left">score</td>
+<td align="left">Totale OBI-score</td>
+<td align="left">OBI score relative</td>
+<td align="left">-</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -1164,7 +1422,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
