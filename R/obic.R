@@ -43,6 +43,9 @@
 #' @param A_RD_BCS (integer) The rooting depth (optional, score 0-1-2)
 #' @param A_SS_BCS (integer) The soil structure (optional, score 0-1-2)
 #' @param A_CC_BCS (integer) The crop cover on the surface (optional, score 0-1-2)
+#' @param B_COMPACTION (boolean) Is the subsoil compacted (options: yes or no)
+#' @param B_DRAINAGE (boolean) Are drains installed to drain the field (options: yes or no)
+#' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
 #' @param M_COMPOST (numeric) The frequency that compost is applied (optional, every x years)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #' @param M_NONBARE (boolean) A soil measure. Is parcel for 80 percent of the year cultivated and 'green' (optional, option: yes or no)
@@ -74,12 +77,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
                        A_C_BCS = NA, A_CC_BCS = NA,A_GS_BCS = NA,A_P_BCS = NA,A_RD_BCS = NA,
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
+                       B_COMPACTION = FALSE, B_DRAINAGE = FALSE, B_FERT_NORM_FR = FALSE,
                        M_COMPOST  = NA_real_,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
                        ID = 1, output = 'all') {
-  
   
   # define variables used within the function
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
@@ -143,6 +146,9 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    A_SS_BCS = A_SS_BCS,
                    A_RT_BCS = A_RT_BCS,
                    A_SC_BCS = A_SC_BCS,
+                   B_COMPACTION = B_COMPACTION,
+                   B_DRAINAGE = B_DRAINAGE,
+                   B_FERT_NORM_FR = B_FERT_NORM_FR,
                    M_NONBARE = M_NONBARE, 
                    M_EARLYCROP = M_EARLYCROP, 
                    M_SLEEPHOSE = M_SLEEPHOSE,
@@ -217,6 +223,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, D_AS := calc_aggregatestability(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO)]
     dt[, D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
     dt[, D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wetnessstress')]
+    dt[, D_WRI_WHC := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'water holding capacity')]
     dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
     dt[, D_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO)]
     
@@ -224,8 +231,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, D_PMN := calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)]
     
     # Calculate series of environmental soil functions
-    dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
-    dt[,D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
+    dt[, D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
+    dt[, D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
     
     # Calculate series of management actions
     dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
@@ -234,7 +241,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                                   M_COMPOST,M_GREEN, M_NONBARE, M_EARLYCROP, M_SLEEPHOSE, M_DRAIN, M_DITCH, M_UNDERSEED,
                                   M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
                                   )]
-  
+
+    # Calculate the water function
+    dt[, D_PSP := calc_gw_recharge(B_LU_BRP,M_GREEN)]
+    dt[, D_NLEACH := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
+                                       D_PBI,D_K,D_PH_DELTA,D_NLV,M_GREEN,B_FERT_NORM_FR)]
+    dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,A_SILT_MI,D_PSP,M_PESTICIDES_DST)]
+    
+    
     # Calculate the score of the BodemConditieScore
     dt[, D_BCS := calc_bcs(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, D_PH_DELTA, 
                            A_EW_BCS, A_SC_BCS, A_GS_BCS,A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS)]
@@ -262,12 +276,18 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_P_CO := ind_compaction(B_SC_WENR)]
     dt[, I_P_WRI := ind_waterretention(D_WRI)]
     dt[, I_P_CEC := ind_aggregatestability(D_AS)]
-    dt[, I_P_WO := ind_workability(D_WO)]
+    dt[, I_P_WO := ind_workability(D_WO,B_LU_BRP)]
   
     # Calculate indicators for soil biological functions
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     dt[, I_B_SF := ind_pmn(D_PMN)]
-  
+    
+    # Calculate indicators for water functions
+    dt[, I_W_GWR := ind_gw_recharge(D_PSP)]
+    dt[, I_W_GWS := ind_gw_storage(D_WRI_WHC, I_P_SE, B_COMPACTION, B_DRAINAGE)]
+    dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
+    dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE, B_GWL_CLASS)]
+    
     # Calculate indicators for soil visual assessment (optional)
     bcs.par <- c('I_B_EW_BCS', 'I_P_SC_BCS', 'I_P_GS_BCS', 'I_P_P_BCS', 'I_P_C_BCS', 'I_P_RT_BCS', 'I_P_RD_BCS',
                  'I_P_SS_BCS', 'I_P_CC_BCS')
@@ -322,7 +342,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,year := .I, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_W|year|crop_cat|SOILT',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
