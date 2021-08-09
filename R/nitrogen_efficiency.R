@@ -18,7 +18,7 @@
 #'         
 #' @export
 calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, A_SOM_LOI, A_CLAY_MI,
-                              D_PBI, D_K, D_PH_DELTA, D_NLV, M_GREEN = FALSE, B_FERT_NORM_FR = TRUE){
+                              D_PBI, D_K, D_PH_DELTA, D_NLV, M_GREEN = FALSE, B_FERT_NORM_FR = 1){
   
   # Check inputs
   arg.length <- max(length(B_LU_BRP),length(B_SOILTYPE_AGR),length(B_GWL_CLASS),length(B_AER_CBS),length(B_FERT_NORM_FR), length(M_GREEN))
@@ -137,10 +137,10 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
 ind_n_efficiency <- function(D_NLEACH){
   
     # Evaluate the N retention for groundwater 
-    value <- ind_nretention(D_NLEACH,'gw')
+    I_W_NGW <- ind_nretention(D_NLEACH,'gw')
    
   
-  return(value)
+  return(I_W_NGW)
   
 }
 
