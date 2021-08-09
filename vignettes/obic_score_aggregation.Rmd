@@ -295,15 +295,52 @@ if(any(dta$value >1|dta$value<0)){cat('values outside acceptable bounds')}
 By now, we have some understanding of how measured soil function data are aggregated to an integral score within the OBIC framework. So, now we can explore and reflect on some of the choices that were made in designing this aggregation process. The first choice we will reflect upon is that of the correction factors. In the OBIC framework, these are determined logistically but could also be determined linearly or not be used at all. Second, we will reflect on the choice to aggregate to categories instead of aggregating indicators directly to a holistic score.
 
 ### Data description
-To reflect on alternative aggregation methods we have made a mock data.table similar to a data.table in the obic_field function just before aggregating scores. We will compare the aggregation methods with seven scenarios or treatments. Each treatment has a 100 replicates whose soil function scores are randomly drawn from a distribution with a standard deviation of approximately `r std[1]`. The mean of the distributions depends on the scenario. All values are in the 0 to 1 range. The following treatments are used:
+To reflect on alternative aggregation methods we have made a mock data.table similar to a data.table in the obic_field function just before aggregating scores. We will compare the aggregation methods with seven scenarios or treatments. The treatments are as follows:
 
-1. **Baseline** means of all values are 0.7
-2. **Low C values** means of Chemical indicators are 0.3, indicators in other categories are 0.7
-3. **Low B values** means of Biological indicators are 0.3, indicators in other categories are 0.7
+1. **Baseline** means of all values are around 0.67
+2. **Low C values** means of Chemical indicators are around 0.33, indicators in other categories are around 0.67
+3. **Low B values** means of Biological indicators are around 0.33, indicators in other categories are around 0.67
 4. **One low C value** one chemical indicator is set to 0, all other values are generated as in the baseline
 5. **One low B value** one biological indicator is set to 0, all other values are generated as in the baseline
-6. **Recent years low** mean values of the most recent five years are 0.3, while the five years before that have mean values of 0.7
-7. **Recent years high** mean values of the most recent five years are 0.7, while the five years before that have mean values of 0.3
+6. **Recent years low** mean values of the most recent five years are around 0.33, while the five years before that have mean values of around 0.67
+7. **Recent years high** mean values of the most recent five years are around 0.67, while the five years before that have mean values of around 0.33
+
+Each treatment has a 100 replicates whose soil function scores are randomly drawn from a distribution with a standard deviation of approximately `r std[1]`. The mean of the distributions depends on the scenario. All values are in the 0 to 1 range.
+
+```{r plot orignal values histogram,fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Distribution of indicator values per scenario as histogram'}
+ggplot(dta, aes(x = value, fill = cat)) +
+  geom_histogram(bins = 40) + 
+  theme_bw() +facet_wrap(~treatment, ncol = 1)
+
+```
+
+```{r table with mock data before aggregation}
+# get relevant data from dta
+dtat <- dta[, mean(value), by = c( 'cat', 'treatment')]
+
+# rounc V1
+dtat <- dtat[, V1 := round(V1, digits = 3)]
+
+# improve category descrition
+dtat <- dtat[,cat := paste('mean', cat)]
+
+# dcast
+dtat <- dcast(dtat ,treatment~cat, value.var = 'V1')
+
+# factorise and order treatment
+dtat <- dtat[, treatment := factor(treatment, levels = c('baseline', 'low B values', 'low C values',
+                                                         'one low B', 'one low C',
+                                                         'Recent years high', 'Recent years low'))]
+
+# order dtat
+setorder(dtat)
+
+# make table 
+  knitr::kable(dtat,
+               caption = 'Mean scores per category for each scenario')
+
+```
+
 
 ### Correction factors
 In comparing the methods of aggregation we will use three methods to determine a correction factor (cf) for each measurement/value: 
@@ -312,7 +349,7 @@ In comparing the methods of aggregation we will use three methods to determine a
 * linearly
 * no correction (averaging all values, cf = 1)
 
-The log and linear cf's are illustrated in Figure 2 in the range that they operate. **Value** is the correction factor for the indicator, these range from 0 to 1. **year** is the correction factor for the year a measurement is from, 1 being the most recent year, 10 being ten years earlier. **ncat** is the correction for the number of soil functions within a category, for Chemical this typically is `r length(grep('I_C_', names(obic_field_dt(binnenveld, output = 'indicators'))))`
+The log and linear cf's are illustrated in Figure 2 in the range that they operate. **value** is the correction factor for the indicator, these range from 0 to 1. **year** is the correction factor for the year a measurement is from, 1 being the most recent year, 10 being ten years earlier. **ncat** is the correction for the number of soil functions within a category, for Chemical this typically is `r length(grep('I_C_', names(obic_field_dt(binnenveld, output = 'indicators'))))`
 The slope of the linear correction factor is chosen such that the highest and lowest correction factor between linear and log are the same. In practice, another slope could be chosen for linear aggregation.
 The no correction method is not presented in Figure 2 as it would be a horizontal line with an arbitrary value.
 
@@ -382,7 +419,7 @@ dt <- merge(dt, ncat, by = c('indicator', 'cat'))
 # log cf
 dt <- dt[cf_method == 'log',c_cf := log(ncat + 1)]
 
-# log lin
+# lin cf
 dt <- dt[cf_method == 'lin',c_cf := ncat*log(10 + 1)/10]
 
 # non cf
@@ -394,7 +431,7 @@ dt <- dt[cf_method == 'non',c_cf := 1]
 dt <- dt[cf_method == 'log',y_cf := log(12 - pmin(10,year))]
 
 # lin cf
-dt <- dt[cf_method == 'lin',y_cf := 2.59-0.19*value]
+dt <- dt[cf_method == 'lin',y_cf := 2.59-0.19*year]
 
 # non cf
 dt <- dt[cf_method == 'non',y_cf := 1]
@@ -461,44 +498,72 @@ ggplot(dt[cat == 'S_T_OBI_A'], aes(x = score, y = cf_method)) +
 
 ```
 
+```{r OBI score summary table}
+# get relevant data from dt
+dtt <- dt[, mean(score), by = c( 'cat', 'cf_method', 'treatment')]
+
+# rounc V1
+dtt <- dtt[, V1 := round(V1, digits = 3)]
+
+# improve category descrition
+dtt <- dtt[,ct := paste('mean', cat)]
+
+# dcast
+dtt <- dcast(dtt ,treatment+cf_method~cat, value.var = 'V1')
+
+# factorise and order treatment
+dtt <- dtt[, treatment := factor(treatment, levels = c('baseline', 'low B values', 'low C values',
+                                                         'one low B', 'one low C',
+                                                         'Recent years high', 'Recent years low'))]
+
+# order 
+setorder(dtt, treatment, cf_method)
+
+# make table 
+  knitr::kable(dtt,
+               caption = 'Mean scores per category and total per aggregation method')
+  
+  # make dtt version with just total scores to use for in text reporting
+  dttt <- dtt[,.(treatment, cf_method, S_T_OBI_A)]
+```
+
 
 ```{r plot original values, eval=FALSE, fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 4. Distribution of indicator values  per scenario.'}
 # factorise dta cat levels
-dta <- dta[, cat := factor(cat, levels = c('C', 'P', 'B', 'E'))]
-dta <- dta[, indicator := factor(indicator, levels = c("I_C_CEC","I_C_CU", "I_C_K",  "I_C_MG", "I_C_N",  "I_C_P",  "I_C_PH", "I_C_S",  "I_C_ZN", 
-                                                       "I_P_CR", "I_P_DS", "I_P_DU", "I_P_SE", "I_P_WRI", "I_P_WS","I_P_CEC","I_P_CO", 
-                                                       "I_B_DI", "I_B_SF", "I_E_NGW","I_E_NSW"))]
-
-# plot
-ggplot(dta, aes(x = value, y = indicator, color = cat))+
-  geom_boxplot() +
-  theme_bw() + coord_cartesian(xlim = c(0,1)) + scale_y_discrete(limits = rev)+
-  facet_wrap(~treatment, ncol = 1)
-
-```
-
-```{r plot orignal values histogram,fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Distribution of indicator values per scenario as histogram'}
-ggplot(dta, aes(x = value, fill = cat)) +
-  geom_histogram(bins = 30) + 
-  theme_bw() +facet_wrap(~treatment, ncol = 1)
+# dta <- dta[, cat := factor(cat, levels = c('C', 'P', 'B', 'E'))]
+# dta <- dta[, indicator := factor(indicator, levels = c("I_C_CEC","I_C_CU", "I_C_K",  "I_C_MG", "I_C_N",  "I_C_P",  "I_C_PH", "I_C_S",  "I_C_ZN", 
+#                                                        "I_P_CR", "I_P_DS", "I_P_DU", "I_P_SE", "I_P_WRI", "I_P_WS","I_P_CEC","I_P_CO", 
+#                                                        "I_B_DI", "I_B_SF", "I_E_NGW","I_E_NSW"))]
+# 
+# # plot
+# ggplot(dta, aes(x = value, y = indicator, color = cat))+
+#   geom_boxplot() +
+#   theme_bw() + coord_cartesian(xlim = c(0,1)) + scale_y_discrete(limits = rev)+
+#   facet_wrap(~treatment, ncol = 1)
 
 ```
 
+In the baseline scenario, total scores are somewhat lower when aggregating logarithmically or linearly compared to using no special aggregation method. While in all three methods, the indicator values in the baseline are around `r round(mean(dta[treatment == 'baseline', value]),2)`, this number is preserved in the score when averaging all indicator values (cf_method = non) while log and lin scores are on average `r round(mean(dta[treatment == 'baseline', value]) - dtt[treatment == 'baseline'& cf_method == 'log',S_T_OBI_A],2)` and `r round(mean(dta[treatment == 'baseline', value]) - dtt[treatment == 'baseline'& cf_method == 'lin',S_T_OBI_A],2)` lower. 0.05 may seem like a small number but one has to remember this is half a point difference as the score range runs from 0 to 1. Except for scenario 'Recent years high', cf_method 'non' consistently scores higher then the special aggregation methods.
 
-In Figure 3 one can see that with logarithmic evaluation, scores become very responsive to changes in recent years while this is not the case for linear or no aggregation. Also, both linear and logarithmic evaluation makes the total score responsive to a single low value while there is little response when no cf is used.
+In the two scenario's where one category performs poorly; 'low B values' and 'low C values', we can see the effect of using a correction factor for the number of indicators in a category. The total score in 'low B values' of cf_method 'non' is affected more than the other two methods, dropping by `r dtt[treatment == 'baseline'& cf_method == 'non', S_T_OBI_A]-dtt[treatment == 'low B values'& cf_method == 'non', S_T_OBI_A]` compared to 'log' and 'lin' which drop `r dtt[treatment == 'baseline'& cf_method == 'log', S_T_OBI_A]-dtt[treatment == 'low B values'& cf_method == 'log', S_T_OBI_A]` and `r dtt[treatment == 'baseline'& cf_method == 'lin', S_T_OBI_A]-dtt[treatment == 'low B values'& cf_method == 'lin', S_T_OBI_A]` compared to the baseline scenario. While in scenario 'low C values 'log', 'lin' and 'non' scores lower `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', S_T_OBI_A]-dtt[treatment == 'low C values'& cf_method == 'log', S_T_OBI_A], ', ', dtt[treatment == 'baseline'& cf_method == 'lin', S_T_OBI_A]-dtt[treatment == 'low C values'& cf_method == 'lin', S_T_OBI_A], ' and ', dtt[treatment == 'baseline'& cf_method == 'non', S_T_OBI_A]-dtt[treatment == 'low C values'& cf_method == 'non', S_T_OBI_A])` points respectively. The scores in these two scenario's illustrate the effect of using a correction factor for the number of indicators in a category. The special aggregation methods are more sensitive to low scores in C (a category with many indicators) than low scores in B (which has few indicators) compared to 'non' which is equally sensitive to a low B or C value.
+
+The sensitivity of the scores to the number of indicators in a category is even more pronounced when looking at scenario's 'one low C' and 'one low B', where either one chemical indicator or one biological indicator was set to 0. There is no difference between these scenario's for the 'non' aggregation method, in both scenario's a score of around `r round(mean(dtt[treatment %in% c('one low C', 'one low B')& cf_method == 'non', S_T_OBI_A]),3)` is achieved, `r round(abs(mean(dtt[treatment %in% c('one low C', 'one low B')& cf_method == 'non', S_T_OBI_A])-dtt[treatment == 'baseline'& cf_method == 'non', S_T_OBI_A]),3)` points lower than in the baseline. While using 'log' and 'lin' methods, scores drop `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', S_T_OBI_A]-dtt[treatment == 'one low C'& cf_method == 'log', S_T_OBI_A], ' and ',dtt[treatment == 'baseline'& cf_method == 'lin', S_T_OBI_A]-dtt[treatment == 'one low C'& cf_method == 'lin', S_T_OBI_A])` in one low C and `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', S_T_OBI_A]-dtt[treatment == 'one low B'& cf_method == 'log', S_T_OBI_A], ' and ',round(dtt[treatment == 'baseline'& cf_method == 'lin', S_T_OBI_A]-dtt[treatment == 'one low B'& cf_method == 'lin', S_T_OBI_A]))` in one low B. 
+
+The scenario's 'Recent years high' and 'Recent years low' were included to illustrate the effect of using a correction factor for how recent a indicator value is. In 'Recent years low' scores using the special aggregation methods are substantially lower than the mean indicator values (0.5), because the lower scores in recent years gained more weight. One may expect 'log' and 'lin' scores to be higher than the mean in 'Recent years high' but these scores are actually very close to the mean. This is because the correction factor applied on indicator value, gives more weight to low values. Using the 'log' or 'lin' method for all three aggregation steps, the high recent values that gain weight from being recent are cancled out by the low non-recent indicator values that gain weight from being low.
+
+Using correction factors, either logarithmically or linearly, can make scores more responsive to recent year, low indicator values, and categories with many underlying indicators (but it is of course also possible to do the inverse and make scores more responsive to non-recent years, high values and few underlying indicators). The differences in scores between the logarithmic and linear aggregation method used in this illustration seemst to be negligible. 
 
 ## Aggregating categories
 Grouping indicators in categories and aggregating these categories to a single score is a choice, its not mathematically necessary. In the figure below, we calculated the total OBIC score both with and without weighing on number of indicators per category. 
 
-There is hardly any difference in the baseline and temporal scenarios between including categories and excluding them. However, the scenarios where some of the indicators perform worse then others do display differences between including and excluding aggration to categories.
+When looking at scenario one low B, we can see that individual indicators in categories with few indicators penalise the total score more when weighing by categories is omitted. While this is less pronounced in scenario one low C. Yet, not weighing on categories results in lower total scores when a single category performs poorly, as is illustrated by both the low B values and low C values scenario's.
 
-When looking at scenario one low B, we can see that individual indicators in categories with few indicators penalise the total score more when weighing by categories is omitted. While this is hardly the case in scenario one low C. Yet, not weighing on categories results in lower total scores when a single category performs poorly, as is illustrated by both the low B values and low C values scenario's.
+```{r plot scores with and without cat, fig.width = 7, fig.height = 9,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A).'}
 
-```{r plot scores with and without cat, fig.width = 7, fig.height = 12,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A). Correction factor method "non" is not shown as this method is unaffected by ommiting a weighing step.'}
-
-gg3 <- ggplot(dt[cat %in% c('S_T_OBI_A', 'S_Tnocat_OBI_A')&!cf_method == 'non'], aes(x = score, y = cf_method, fill = cat)) +
+gg3 <- ggplot(dt[cat %in% c('S_T_OBI_A', 'S_Tnocat_OBI_A')&cf_method == 'log'&!treatment %in% c('Recent years low', 'Recent years high')],
+              aes(x = score, y = cat)) +
   geom_boxplot() +
-  theme_bw() + scale_fill_viridis_d() + scale_y_discrete(limits = rev) +
+  theme_bw() + scale_y_discrete(limits = rev) +
   coord_cartesian(xlim = c(0,1)) +
   facet_wrap(~treatment, ncol = 1) #+ geom_boxplot(data = dt[cat == 'S_Tnocat_OBI_A'], mapping = aes(fill = 'blue')) 
 gg3 
