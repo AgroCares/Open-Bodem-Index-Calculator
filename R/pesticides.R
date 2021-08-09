@@ -21,8 +21,8 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype))
   checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_SAND_MI, lower = 0.1, upper = 75, any.missing = FALSE, len = arg.length)
-  checkmate::assert_numeric(A_SILT_MI, lower = 0.1, upper = 75, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_SAND_MI, lower = 0.1, upper = 100, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(A_SILT_MI, lower = 0.1, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(D_PSP, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_PESTICIDES_DST, any.missing = FALSE, len = arg.length)
   
