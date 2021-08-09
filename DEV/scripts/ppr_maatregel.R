@@ -105,6 +105,17 @@
   # setkey
   setkey(m.obic,indicator,m_sector,m_soiltype)
   
+# update august 2021
+  
+  # I_P_WO is added to with dummy values to prevent error
+  m1.copy <- m.obic[indicator=='I_P_DS'][,indicator := 'I_P_WO'][,c('m_effect','m_applicability') := 0]
+  
+  # add to m.obic
+  m.obic <- rbind(m.obic,m1.copy)
+  
+  # setkey
+  setkey(m.obic,indicator,m_sector,m_soiltype)
+  
   # rename to recom.obic
   recom.obic <- m.obic
   
