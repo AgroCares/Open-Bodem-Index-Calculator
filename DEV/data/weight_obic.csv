@@ -50,6 +50,10 @@ W_P_RD_BCS;I_P_RD_BCS;akkerbouw;-1;-1
 W_P_RT_BCS;I_P_RT_BCS;akkerbouw;-1;-1
 W_P_SC_BCS;I_P_SC_BCS;akkerbouw;-1;-1
 W_P_SS_BCS;I_P_SS_BCS;akkerbouw;-1;-1
+W_W_GWR;I_W_GWR;akkerbouw;1;1
+W_W_GWS;I_W_GWS;akkerbouw;1;1
+W_W_NGW;I_W_NGW;akkerbouw;1;1
+W_W_PEST;I_W_PEST;akkerbouw;1;1
 W_C_N;I_C_N;mais;1;1
 W_C_P;I_C_P;mais;1;1
 W_C_K;I_C_K;mais;1;1
@@ -101,6 +105,10 @@ W_P_RD_BCS;I_P_RD_BCS;mais;-1;-1
 W_P_RT_BCS;I_P_RT_BCS;mais;-1;-1
 W_P_SC_BCS;I_P_SC_BCS;mais;-1;-1
 W_P_SS_BCS;I_P_SS_BCS;mais;-1;-1
+W_W_GWR;I_W_GWR;mais;1;1
+W_W_GWS;I_W_GWS;mais;1;1
+W_W_NGW;I_W_NGW;mais;1;1
+W_W_PEST;I_W_PEST;mais;1;1
 W_C_N;I_C_N;grasland;1;1
 W_C_P;I_C_P;grasland;1;1
 W_C_K;I_C_K;grasland;1;1
@@ -152,6 +160,10 @@ W_P_RD_BCS;I_P_RD_BCS;grasland;-1;-1
 W_P_RT_BCS;I_P_RT_BCS;grasland;-1;-1
 W_P_SC_BCS;I_P_SC_BCS;grasland;-1;-1
 W_P_SS_BCS;I_P_SS_BCS;grasland;-1;-1
+W_W_GWR;I_W_GWR;grasland;1;1
+W_W_GWS;I_W_GWS;grasland;1;1
+W_W_NGW;I_W_NGW;grasland;1;1
+W_W_PEST;I_W_PEST;grasland;-1;-1
 W_C_N;I_C_N;natuur;1;1
 W_C_P;I_C_P;natuur;1;1
 W_C_K;I_C_K;natuur;1;1
@@ -203,3 +215,7 @@ W_P_RD_BCS;I_P_RD_BCS;natuur;-1;-1
 W_P_RT_BCS;I_P_RT_BCS;natuur;-1;-1
 W_P_SC_BCS;I_P_SC_BCS;natuur;-1;-1
 W_P_SS_BCS;I_P_SS_BCS;natuur;-1;-1
+W_W_GWR;I_W_GWR;natuur;-1;-1
+W_W_GWS;I_W_GWS;natuur;-1;-1
+W_W_NGW;I_W_NGW;natuur;-1;-1
+W_W_PEST;I_W_PEST;natuur;-1;-1

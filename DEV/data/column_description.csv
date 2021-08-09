@@ -44,6 +44,9 @@ B_LU;measurement;Bouwland of Grasland;Arable land or Grassland;-;
 B_AER_CBS;measurement;Landbouweconomisch kerngebied 2016;Key agricultural area 2016;-;CBS
 B_SC_WENR;measurement;Risico op ondergrondverdichting;Risk of soil compaction;-;WENR
 B_HELP_WENR;measurement;Grondsoortcode HELP-tabel;Ground type code HELP table;-;WENR
+B_COMPACTION;measurement;Is de ondergrond verdicht;Is the subsoil compacted;ja/nee;
+B_DRAINAGE;measurement;Wordt het perceAre drains installed to drain the fieldel gedraineerd;;ja/nee;
+B_FERT_NORM_FR;measurement;Fractie van de gebruiksnorm toegepast;The fraction of the application norm utilized;-;
 D_BDS;derivative;Dichtheid;The bulk density of the soil;kg / m3;
 D_RD;derivative;Bemonsteringsdiepte;The agronomic used sampling depth for soil analysis;m;
 D_OC;derivative;Koolstofvoorraad;The amount of organic carbon;kg C /ha;
@@ -79,6 +82,9 @@ D_MAN;derivative;Evaluatie management conform LDBB;Management evaluation ;-;
 D_BCS;derivative;BodemConditieScore;Visual Soil Assessment Score;-;
 D_NGW;derivative;N  vasthoudend vermogen voor grondwater;Nitrogen retention for ground water;-;
 D_NSW;derivative;N vasthoudend vermogen voor oppervlaktewater;Nitrogen retention for surface water;-;
+D_NLEACH;derivative;N afspoeling naar grondwater;Nitrogen leaching to groundwater;mg NO3/L;
+D_PESTICIDE;derivative;Uitspoelingsrisiko gewasbestrijdingsmiddelen naar grondwater;Leaching risk of pesticides to groundwater;-;
+D_PSP;derivative;Neerslagoverschot;Precipitation surplus;;
 I_C_N;indicator;Stikstoflevering;Nitrogen;-;
 I_C_P;indicator;Fosfaatbuffering;Phosphorus;-;
 I_C_K;indicator;Kaliumlevering;Potassium;-;
@@ -127,6 +133,10 @@ I_M_SOLIDMANURE;indicator;gebruik vaste mest boven drijfmest en kunstmest;Use of
 I_M_STRAWRESIDUE;indicator;wordt stro ondergewerkt;Application of straw residues;;
 I_M_MECHWEEDS;indicator;mechanische onkruidbestrijding;Use of mechanical weed protection;;
 I_M_PESTICIDES_DST;indicator;beslissingsondersteunde systemen gewasbescherming;Use of DST for pesticides;;
+I_W_GWR;indicator;Grondwater aanvulling;Groundwater recharge;;
+I_W_GWS;indicator;Grondwater opslag;Groundwater storage;;
+I_W_NGW;indicator;Stikstofuitspoeling van overschot;Nitrogen leaching from surplus;;
+I_W_PESTICIDE;indicator;Uitspoeling gewasbestreidingsmiddelen naar grondwater;Leaching of pesticides to groundwater;;
 M_LIME;measurement;Is perceel in afgelopen 3 jaar bekalkt;Has field been limed in last three years;ja/nee;
 M_GREEN;measurement;Gebruik groenbemesters;Use of green manure;ja/nee;
 M_COMPOST;measurement;Frequentie compostgebruik;Frequency of compost application;;
