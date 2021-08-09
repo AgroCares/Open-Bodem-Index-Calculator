@@ -4,11 +4,9 @@
 \alias{calc_gw_recharge}
 \title{Calculate groundwater recharge through precipitation surplus in the Netherlands}
 \usage{
-calc_gw_recharge(ID, B_LU_BRP, M_GREEN)
+calc_gw_recharge(B_LU_BRP, M_GREEN)
 }
 \arguments{
-\item{ID}{(numeric) The ID of the field}
-
 \item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
 \item{M_GREEN}{(boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)}
