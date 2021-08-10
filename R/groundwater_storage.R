@@ -12,6 +12,8 @@
 #' @export
 ind_gw_storage <- function(D_WRI_WHC, I_P_SE, B_COMPACTION = FALSE, B_DRAINAGE = FALSE){
   
+  I_WRI_WHC = cf_compaction = cf_drain = NULL
+  
   # Check inputs
   arg.length <- max(length(B_COMPACTION),length(B_DRAINAGE))
   

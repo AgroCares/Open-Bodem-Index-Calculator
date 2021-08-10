@@ -8,20 +8,18 @@
 calc_makkink <- function(B_LU_BRP){
 
   crop_code = crop_name = crop_makkink = mcf = crop_cover = NULL
-
-  # Load in the datasets
-  crops.carboncastr <- as.data.table(carboncastr::crops.carboncastr)
-  crops.makkink <- as.data.table(carboncastr::crops.makkink)
-
+  
+  
+  
   # Check input
   arg.length <- length(B_LU_BRP)
 
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1)
-  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.carboncastr$crop_code), empty.ok = FALSE)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
 
 
   # melt makkink
-  dt.mak <- melt(crops.makkink,id.vars = 'crop_makkink', variable.name = 'month',value.name = "mcf")
+  dt.mak <- melt(OBIC::crops.makkink,id.vars = 'crop_makkink', variable.name = 'month',value.name = "mcf")
   dt.mak[,month := as.integer(month)]
 
   # Collect input data in a table
@@ -29,8 +27,8 @@ calc_makkink <- function(B_LU_BRP){
                    B_LU_BRP = B_LU_BRP
   )
 
-  # merge with carboncastr crop
-  dt <- merge(dt, crops.carboncastr[, list(crop_code, crop_name, crop_makkink)], by.x = "B_LU_BRP", by.y = "crop_code")
+  # merge with crops.obic
+  dt <- merge(dt, OBIC::crops.obic[, list(crop_code, crop_name, crop_makkink)], by.x = "B_LU_BRP", by.y = "crop_code")
 
   # extend data.table for 12 months
   dt.gws <- CJ(year = dt$year,month = 1:12)

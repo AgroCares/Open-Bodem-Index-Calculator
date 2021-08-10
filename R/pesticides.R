@@ -14,11 +14,13 @@
 #' @export
 calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND_MI, A_SILT_MI, D_PSP, M_PESTICIDES_DST) {
   
+  soils.obic = BD_MIN = vfw_min = B_WATER_FLUX_MIN = pest_leach_min = BD = vfw = B_WATER_FLUX = pest_leach = D_PESTICIDE = I_PESTICIDE = NULL
+  
   # check inputs
   arg.length <- max(length(B_SOILTYPE_AGR),length(A_SOM_LOI),length(A_CLAY_MI),length(A_SAND_MI),length(A_SILT_MI),length(D_PSP),length(M_PESTICIDES_DST))
   
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype))
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(OBIC::soils.obic$soiltype))
   checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_SAND_MI, lower = 0.1, upper = 100, any.missing = FALSE, len = arg.length)
@@ -86,6 +88,8 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
 #' @export
 ind_pesticide_leaching <- function(D_PESTICIDE, B_GWL_CLASS) {
 
+  I_PESTICIDE = NULL
+  
   # Check inputs
   arg.length <- max(length(D_PESTICIDE),length(B_GWL_CLASS))
   

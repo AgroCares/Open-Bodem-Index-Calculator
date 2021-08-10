@@ -8,6 +8,7 @@
 #' @export
 calc_gw_recharge <- function(B_LU_BRP, M_GREEN){
   
+  crop_code = crop_name = crop_makkink = psp = A_PREC_MEAN = A_ET_MEAN = mcf = NULL
   
   # Check input
   arg.length <- max(length(B_LU_BRP), length(M_GREEN))
