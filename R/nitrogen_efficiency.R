@@ -76,7 +76,7 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   # add soil type, crop categories and allowed N dose
   cols <- colnames(OBIC::crops.obic)[grepl('^crop_cat|^crop_code|^nf_',colnames(OBIC::crops.obic))]
   dt <- merge(dt, OBIC::crops.obic[, mget(cols)], by.x = "B_LU_BRP", by.y = "crop_code")
-  dt <- merge(dt, soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
+  dt <- merge(dt, OBIC::soils.obic[, list(soiltype, soiltype.n)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
   
   # Re-categorize crop types
   dt[, croptype.nleach := crop_category]
