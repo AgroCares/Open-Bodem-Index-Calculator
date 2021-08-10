@@ -501,6 +501,7 @@
 
   # granen
   cr[grepl('boekwei|gierst|graan|granen|tarwe|triticale|vlas|rogge|teff|gerst',crop_name), crop_makkink := 'graan']
+  cr[grepl('tarwe, winter|gerst, winter', crop_name), crop_makkink := "wintertarwe"]
   
   # grasklaver
   cr[grepl('bufferstrook|klaver',crop_name),crop_makkink := 'grasklaver']
