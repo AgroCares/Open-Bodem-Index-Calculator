@@ -93,7 +93,7 @@ ind_pesticide_leaching <- function(D_PESTICIDE, B_GWL_CLASS) {
   # Check inputs
   arg.length <- max(length(D_PESTICIDE),length(B_GWL_CLASS))
   
-  checkmate::assert_numeric(D_PESTICIDE, lower = 0.1, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_PESTICIDE, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
   checkmate::assert_character(B_GWL_CLASS, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_GWL_CLASS, choices = c('GtI','GtII','GtIII','GtIV','GtV','GtVI','GtVII','GtVIII',
                                                     'GtIIb','GtIIIb','GtVb'), empty.ok = FALSE)
@@ -104,8 +104,8 @@ ind_pesticide_leaching <- function(D_PESTICIDE, B_GWL_CLASS) {
   
   # Calculate indicator score based on B_GWL_CLASS
   dt[,I_PESTICIDE := fifelse(B_GWL_CLASS %in% c('GtI','GtII','GtIIb','GtIII','GtIIIb'),
-                             pmin(1.1 * evaluate_logistic(D_PESTICIDE, 20, 0.8, 1.5, increasing = FALSE), 1),
-                             evaluate_logistic(D_PESTICIDE, 20, 0.8, 1.5, increasing = FALSE))]
+                             evaluate_logistic(D_PESTICIDE, 28, 0.9, 2.5, increasing = FALSE),
+                             evaluate_logistic(D_PESTICIDE, 28, 0.87, 2.5, increasing = FALSE))]
   
   
  return(dt[,I_PESTICIDE])

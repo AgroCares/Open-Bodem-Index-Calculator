@@ -123,7 +123,7 @@ calc_gw_recharge <- function(B_LU_BRP, M_GREEN){
 #' @export
 ind_gw_recharge <- function(D_PSP) {
   
-  I_W_GWR <- evaluate_logistic(D_PSP,0.023,300,3)
+  I_W_GWR <- evaluate_logistic(D_PSP,0.05,300,2.5)
   
   return(I_W_GWR)
   
