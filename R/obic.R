@@ -427,6 +427,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     if(output == 'recommendations'){out <- out.recom}
     if(output == 'scores'){out <- out.score}
     if(output == 'obic_score'){out <- out.score[,'S_T_OBI_A']}
+    if(output == 'unaggregated'){out <- dt.melt}
    
     
   # return output
