@@ -8,16 +8,18 @@
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
-#' @param D_PSP (numeric) The precipitation surplus per crop  calculated by \code{\link{calc_gw_recharge}}
+#' @param D_PSP (numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}
 #' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
+#' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: yes or no)
 #' 
 #' @export
-calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND_MI, A_SILT_MI, D_PSP, M_PESTICIDES_DST) {
+calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND_MI, A_SILT_MI, D_PSP, M_PESTICIDES_DST,M_MECHWEEDS) {
   
   soils.obic = BD_MIN = vfw_min = B_WATER_FLUX_MIN = pest_leach_min = BD = vfw = B_WATER_FLUX = pest_leach = D_PESTICIDE = I_PESTICIDE = NULL
   
   # check inputs
-  arg.length <- max(length(B_SOILTYPE_AGR),length(A_SOM_LOI),length(A_CLAY_MI),length(A_SAND_MI),length(A_SILT_MI),length(D_PSP),length(M_PESTICIDES_DST))
+  arg.length <- max(length(B_SOILTYPE_AGR),length(A_SOM_LOI),length(A_CLAY_MI),length(A_SAND_MI),length(A_SILT_MI),length(D_PSP),
+                    length(M_PESTICIDES_DST), length(M_MECHWEEDS))
   
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(OBIC::soils.obic$soiltype))
@@ -27,6 +29,7 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
   checkmate::assert_numeric(A_SILT_MI, lower = 0.1, upper = 100, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(D_PSP, lower = 0, upper = 1000, any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(M_PESTICIDES_DST, any.missing = FALSE, len = arg.length)
+  checkmate::assert_logical(M_MECHWEEDS, any.missing = FALSE, len = arg.length)
   
   # import data in table
   dt <- data.table(B_SOILTYPE_AGR = B_SOILTYPE_AGR,
@@ -66,8 +69,8 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
   # Calculate pesticide leaching fraction
   dt[,pest_leach := exp((-0.34/60 * (vfw + BD * A_SOM_LOI/100 * 10)/B_WATER_FLUX))]
   
-  # Correct for M_PESTICIDES_DST
-  dt[M_PESTICIDES_DST == TRUE, pest_leach := pest_leach * 0.75]
+  # Correct for reduction in pesticide use
+  dt[(M_PESTICIDES_DST == TRUE) | (M_MECHWEEDS == TRUE), pest_leach := pest_leach * 0.75]
   
   # Calculate pesticide leaching risk
   dt[,D_PESTICIDE := pest_leach/pest_leach_min]
@@ -83,31 +86,15 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
 #' 
 #' 
 #' @param D_PESTICIDE The fraction of pesticide leached compared to the worst case scenario
-#' @param B_GWL_CLASS (character) The groundwater table class
 #' 
 #' @export
-ind_pesticide_leaching <- function(D_PESTICIDE, B_GWL_CLASS) {
+ind_pesticide_leaching <- function(D_PESTICIDE) {
 
-  I_PESTICIDE = NULL
   
-  # Check inputs
-  arg.length <- max(length(D_PESTICIDE),length(B_GWL_CLASS))
-  
-  checkmate::assert_numeric(D_PESTICIDE, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
-  checkmate::assert_character(B_GWL_CLASS, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_GWL_CLASS, choices = c('GtI','GtII','GtIII','GtIV','GtV','GtVI','GtVII','GtVIII',
-                                                    'GtIIb','GtIIIb','GtVb'), empty.ok = FALSE)
-  
-  # Load data into table
-  dt <- data.table(D_PESTICIDE = D_PESTICIDE,
-                   B_GWL_CLASS = B_GWL_CLASS)
-  
-  # Calculate indicator score based on B_GWL_CLASS
-  dt[,I_PESTICIDE := fifelse(B_GWL_CLASS %in% c('GtI','GtII','GtIIb','GtIII','GtIIIb'),
-                             evaluate_logistic(D_PESTICIDE, 28, 0.9, 2.5, increasing = FALSE),
-                             evaluate_logistic(D_PESTICIDE, 28, 0.87, 2.5, increasing = FALSE))]
+  # Calculate indicator score
+  I_PESTICIDE <- evaluate_logistic(D_PESTICIDE, 45, 0.76, 1.5, increasing = FALSE)
   
   
- return(dt[,I_PESTICIDE])
+ return(I_PESTICIDE)
   
 }

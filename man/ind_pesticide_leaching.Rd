@@ -4,12 +4,10 @@
 \alias{ind_pesticide_leaching}
 \title{Calculate an indicator score for pesticide leaching}
 \usage{
-ind_pesticide_leaching(D_PESTICIDE, B_GWL_CLASS)
+ind_pesticide_leaching(D_PESTICIDE)
 }
 \arguments{
 \item{D_PESTICIDE}{The fraction of pesticide leached compared to the worst case scenario}
-
-\item{B_GWL_CLASS}{(character) The groundwater table class}
 }
 \description{
 This function calculates the indicator value for pesticide leaching from a soil

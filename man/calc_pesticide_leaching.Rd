@@ -11,7 +11,8 @@ calc_pesticide_leaching(
   A_SAND_MI,
   A_SILT_MI,
   D_PSP,
-  M_PESTICIDES_DST
+  M_PESTICIDES_DST,
+  M_MECHWEEDS
 )
 }
 \arguments{
@@ -25,9 +26,11 @@ calc_pesticide_leaching(
 
 \item{A_SILT_MI}{(numeric) The silt content of the soil (\%)}
 
-\item{D_PSP}{(numeric) The precipitation surplus per crop  calculated by \code{\link{calc_gw_recharge}}}
+\item{D_PSP}{(numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}}
 
 \item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
+
+\item{M_MECHWEEDS}{(boolean) measure. Use of mechanical weed protection (option: yes or no)}
 }
 \description{
 This function calculates the risk of pesticide leaching from a soil. The risk is calculated by comparing the current leached fraction with a worst case scenario
