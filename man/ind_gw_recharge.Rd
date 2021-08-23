@@ -2,13 +2,27 @@
 % Please edit documentation in R/groundwater_recharge.R
 \name{ind_gw_recharge}
 \alias{ind_gw_recharge}
-\title{Calculate the indicator for the groundwater recharge through precipitation surplus in the Netherlands}
+\title{Calculate groundwater recharge of a soil}
 \usage{
-ind_gw_recharge(D_PSP)
+ind_gw_recharge(
+  D_WRI_WHC,
+  D_PSP,
+  I_P_SE,
+  B_COMPACTION = FALSE,
+  B_DRAINAGE = FALSE
+)
 }
 \arguments{
-\item{D_PSP}{(numeric) The precipitation surplus per crop  calculated by \code{\link{calc_gw_recharge}}}
+\item{D_WRI_WHC}{(numeric) The value for Water Retention index (WRI) for WHC as calculated by \code{\link{calc_waterretention}}}
+
+\item{D_PSP}{(numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}}
+
+\item{I_P_SE}{(numeric) The indicator value for soil sealing}
+
+\item{B_COMPACTION}{(boolean) Is the subsoil compacted (options: yes or no)}
+
+\item{B_DRAINAGE}{(boolean) Are drains installed to drain the field (options: yes or no)}
 }
 \description{
-This function calculates the indicator for the the groundwater recharge through precipitation surplus calculated by \code{\link{calc_gw_recharge}}
+This function calculates an index score for groundwater storage based on WHC, sealing risk, drainage and subsoil compaction
 }
