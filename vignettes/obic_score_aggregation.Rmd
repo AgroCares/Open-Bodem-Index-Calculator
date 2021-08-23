@@ -203,6 +203,7 @@ std <- 0.2
 inds <- c('I_C_CEC', 'I_C_CU', 'I_C_K', 'I_C_MG', 'I_C_N', 'I_C_P', 'I_C_PH', 'I_C_S', 'I_C_ZN',
           'I_B_DI', 'I_B_SF', 
           'I_E_NGW', 'I_E_NSW',
+          'I_M',
           'I_P_CEC', 'I_P_CO', 'I_P_CR', 'I_P_DS', 'I_P_DU', 'I_P_SE', 'I_P_WRI', 'I_P_WS')
 
 # make jaar
@@ -483,7 +484,9 @@ dt[,cat := paste0('S_',cat,'_OBI_A')]
 dt[, score := round(score,3)]
 
 # factorise cat and cf_method
-dt <- dt[, cat := factor(cat, levels = c('S_T_OBI_A', 'S_C_OBI_A', 'S_P_OBI_A', 'S_B_OBI_A', 'S_E_OBI_A',  "S_Tnocat_OBI_A"))]
+dt <- dt[, cat := factor(cat, levels = c('S_T_OBI_A', 'S_C_OBI_A', 'S_P_OBI_A',
+                                         'S_B_OBI_A', 'S_E_OBI_A','S_M_OBI_A',
+                                         "S_Tnocat_OBI_A"))]
 dt <- dt[, cf_method := factor(cf_method, levels = c('log', 'lin', 'non'))]
 
 ```
