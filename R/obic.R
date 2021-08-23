@@ -77,7 +77,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
                        A_C_BCS = NA, A_CC_BCS = NA,A_GS_BCS = NA,A_P_BCS = NA,A_RD_BCS = NA,
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
-                       B_COMPACTION = FALSE, B_DRAINAGE = FALSE, B_FERT_NORM_FR = FALSE,
+                       B_COMPACTION = FALSE, B_DRAINAGE = FALSE, B_FERT_NORM_FR = 1,
                        M_COMPOST  = NA_real_,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
@@ -88,7 +88,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
   D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_CP_RUST = D_CP_RUSTDEEP = NULL
   D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_WE = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
-  D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = B_GWL_GLG = B_GWL_GHG = B_Z_TWO = NULL
+  D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = NULL
   D_WRI_WHC = D_PSP = D_NLEACH = D_PESTICIDE = I_W_GWR = I_W_GWS = I_W_NGW = I_W_PEST = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
@@ -113,7 +113,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    B_SC_WENR = B_SC_WENR,
                    B_HELP_WENR = B_HELP_WENR,
                    B_GWL_GLG = B_GWL_GLG,
-                   B_GWL_GHG = B_GWL_GLG,
+                   B_GWL_GHG = B_GWL_GHG,
                    B_Z_TWO = B_Z_TWO,
                    A_SOM_LOI = A_SOM_LOI, 
                    A_SAND_MI = A_SAND_MI, 
@@ -244,7 +244,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                                   )]
 
     # Calculate the water function
-    dt[, D_PSP := calc_gw_recharge(B_LU_BRP,M_GREEN)]
+    dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
     dt[, D_NLEACH := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
                                        D_PBI,D_K,D_PH_DELTA,D_NLV,M_GREEN,B_FERT_NORM_FR)]
     dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,A_SILT_MI,D_PSP,M_PESTICIDES_DST)]
@@ -284,10 +284,9 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_SF := ind_pmn(D_PMN)]
     
     # Calculate indicators for water functions
-    dt[, I_W_GWR := ind_gw_recharge(D_PSP)]
-    dt[, I_W_GWS := ind_gw_storage(D_WRI_WHC, I_P_SE, B_COMPACTION, B_DRAINAGE)]
+    dt[, I_W_GWR := ind_gw_storage(D_WRI_WHC, D_PSP, I_P_SE, B_COMPACTION, B_DRAINAGE)]
     dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
-    dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE, B_GWL_CLASS)]
+    dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
     
     # Calculate indicators for soil visual assessment (optional)
     bcs.par <- c('I_B_EW_BCS', 'I_P_SC_BCS', 'I_P_GS_BCS', 'I_P_P_BCS', 'I_P_C_BCS', 'I_P_RT_BCS', 'I_P_RD_BCS',
