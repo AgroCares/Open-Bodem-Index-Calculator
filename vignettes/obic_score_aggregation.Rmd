@@ -396,98 +396,109 @@ gg
 # value correction factors ======
 dt <- copy(dta)
 
-# log cf
-dt <- dt[,log := OBIC::cf_ind_importance(value)]
-
-# lin cf
-dt <- dt[,lin := 5-4.17*value]
-
-# non cf
-dt <- dt[,non := 1]
-
-# melt dt by cf method
-dt <- melt(dt, measure.vars = c('log', 'lin', 'non'), value.name = 'v_cf', variable.name = 'cf_method')
-
-
-# calculate cf for cat ====
-ncat <- unique(dt[,.(indicator, cat)])
-for(c in unique(ncat$cat)){
-  n <- nrow(ncat[cat == c])
-  ncat <- ncat[cat == c,ncat := n]
+# function to add  correction factors
+addcf <- function(dt){
+  # copy input
+  dt <- copy(dt)
+  
+  # log cf
+	dt <- dt[,log := OBIC::cf_ind_importance(value)]
+	
+	# lin cf
+	dt <- dt[,lin := 5-4.17*value]
+	
+	# non cf
+	dt <- dt[,non := 1]
+	
+	# melt dt by cf method
+	dt <- melt(dt, measure.vars = c('log', 'lin', 'non'), value.name = 'v_cf', variable.name = 'cf_method')
+	
+	
+	# calculate cf for cat ====
+	ncat <- unique(dt[,.(indicator, cat)])
+	for(c in unique(ncat$cat)){
+	n <- nrow(ncat[cat == c])
+	ncat <- ncat[cat == c,ncat := n]
+	}
+	dt <- merge(dt, ncat, by = c('indicator', 'cat'))
+	
+	# log cf
+	dt <- dt[cf_method == 'log',c_cf := log(ncat + 1)]
+	
+	# lin cf
+	dt <- dt[cf_method == 'lin',c_cf := ncat*log(10 + 1)/10]
+	
+	# non cf
+	dt <- dt[cf_method == 'non',c_cf := 1]
+	
+	
+	# calculate cf for years =====
+	# log cf
+	dt <- dt[cf_method == 'log',y_cf := log(12 - pmin(10,year))]
+	
+	# lin cf
+	dt <- dt[cf_method == 'lin',y_cf := 2.59-0.19*year]
+	
+	# non cf
+	dt <- dt[cf_method == 'non',y_cf := 1]
 }
-dt <- merge(dt, ncat, by = c('indicator', 'cat'))
 
-# log cf
-dt <- dt[cf_method == 'log',c_cf := log(ncat + 1)]
-
-# lin cf
-dt <- dt[cf_method == 'lin',c_cf := ncat*log(10 + 1)/10]
-
-# non cf
-dt <- dt[cf_method == 'non',c_cf := 1]
-
-
-# calculate cf for years =====
-# log cf
-dt <- dt[cf_method == 'log',y_cf := log(12 - pmin(10,year))]
-
-# lin cf
-dt <- dt[cf_method == 'lin',y_cf := 2.59-0.19*year]
-
-# non cf
-dt <- dt[cf_method == 'non',y_cf := 1]
+# add correction factors
+dt <- addcf(dt)
 
 ```
 
 ```{r aggregate scores}
-# # get col group vectos
-# idcols <- c("indicator", "cat", "field", "year","treatment", "value")
-# logcols <- names(dt)[grepl('log$', names(dt))]
-# lincols <- names(dt)[grepl('lin$', names(dt))]
-# noncols <- names(dt)[grepl('non$', names(dt))]
-# 
+# make function to aggregate scores
+aggscores <- function(dt) {
+  # copy input
+  dt <- copy(dt)
+  
+  	# calculate weighted value per category and year
+	dt <- dt[,w.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, cat, year)]
+	
+	# calculated weighted average value per category (so mean over years)
+	dt <- dt[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[w.value >= 0])), by = .(field, cf_method, cat)] # scores per category
+	
+	# calculate total obi score
+	dt <- dt[,S_T := sum(wy.value * c_cf / sum(c_cf)), by = .(field, cf_method)]
+	
+	# calculate total obi score if not aggregated by cat
+	dt <- dt[, nocat.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, year)]
+	dt <- dt[, S_T_nocat := sum(y_cf * pmax(0, nocat.value) / sum(y_cf[nocat.value >= 0])), by = .(field, cf_method)]
+	
+	# select data for scores
+	dts <- unique(dt[,.(field, indicator,cat, wy.value, S_T ,treatment, cf_method, S_T_nocat)])
+	
+	# reshape dts so total scores are in same column as cat scores (with T being a cat)
+	dts1 <- unique(dts[,.(field, cat, wy.value, treatment, cf_method)])
+	dts2 <- unique(dts[,.(field, S_T, treatment, cf_method)])
+	dts3 <- unique(dts[,.(field, S_T_nocat, treatment, cf_method)])
+	
+	# rename  cols
+	setnames(dts1, 'wy.value', 'score')
+	setnames(dts2, 'S_T', 'score')
+	setnames(dts3, 'S_T_nocat', 'score')
+	# add cat column to dts2
+	dts2$cat <- 'T'
+	dts3$cat <- 'Tnocat'
+	
+	# bind scores dt's
+	dt <- rbindlist(list(dts1, dts2, dts3), use.names = TRUE)
+	
+	# update element names
+	dt[,cat := paste0('S_',cat,'_OBI_A')]
+	dt[, score := round(score,3)]
+	
+	# factorise cat and cf_method
+	dt <- dt[, cat := factor(cat, levels = c('S_T_OBI_A', 'S_C_OBI_A', 'S_P_OBI_A',
+											'S_B_OBI_A', 'S_E_OBI_A','S_M_OBI_A',
+											"S_Tnocat_OBI_A"))]
+	dt <- dt[, cf_method := factor(cf_method, levels = c('log', 'lin', 'non'))]
+}
 
-# calculate weighted value per category and year
-dt <- dt[,w.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, cat, year)]
-
-# calculated weighted average value per category (so mean over years)
-dt <- dt[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[w.value >= 0])), by = .(field, cf_method, cat)] # scores per category
-
-# calculate total obi score
-dt <- dt[,S_T := sum(wy.value * c_cf / sum(c_cf)), by = .(field, cf_method)]
-
-# calculate total obi score if not aggregated by cat
-dt <- dt[, nocat.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, year)]
-dt <- dt[, S_T_nocat := sum(y_cf * pmax(0, nocat.value) / sum(y_cf[nocat.value >= 0])), by = .(field, cf_method)]
-
-# select data for scores
-dts <- unique(dt[,.(field, indicator,cat, wy.value, S_T ,treatment, cf_method, S_T_nocat)])
-
-# reshape dts so total scores are in same column as cat scores (with T being a cat)
-dts1 <- unique(dts[,.(field, cat, wy.value, treatment, cf_method)])
-dts2 <- unique(dts[,.(field, S_T, treatment, cf_method)])
-dts3 <- unique(dts[,.(field, S_T_nocat, treatment, cf_method)])
-
-# rename  cols
-setnames(dts1, 'wy.value', 'score')
-setnames(dts2, 'S_T', 'score')
-setnames(dts3, 'S_T_nocat', 'score')
-# add cat column to dts2
-dts2$cat <- 'T'
-dts3$cat <- 'Tnocat'
-
-# bind scores dt's
-dt <- rbindlist(list(dts1, dts2, dts3), use.names = TRUE)
-
-# update element names
-dt[,cat := paste0('S_',cat,'_OBI_A')]
-dt[, score := round(score,3)]
-
-# factorise cat and cf_method
-dt <- dt[, cat := factor(cat, levels = c('S_T_OBI_A', 'S_C_OBI_A', 'S_P_OBI_A',
-                                         'S_B_OBI_A', 'S_E_OBI_A','S_M_OBI_A',
-                                         "S_Tnocat_OBI_A"))]
-dt <- dt[, cf_method := factor(cf_method, levels = c('log', 'lin', 'non'))]
+# add scores to dt
+dt <- aggscores(dt)
 
 ```
 
@@ -586,6 +597,59 @@ gg3
              A_ZN_CC = dt$A_ZN_CC, A_CU_CC = dt$A_CU_CC, output = 'obic_score')
 ```
 
+## Alternative aggregation methods on Binnenveld fields
+The scenario's in the experiment above use artificial data and may not be representative of actual fields in the Netherlands. Therefore we will explore the aggregation methods described above using indicator values of fields in the `binnenveld` dataset.
+
+```{r get binnenveld indicator values, eval=TRUE}
+# cleanup bini if required
+if(exists('bini')){rm(bini)}
+
+# select columns
+bcols <- names(binnenveld)[!grepl('BCS$', names(binnenveld))]
+
+# get indicator values per field
+for(i in unique(binnenveld$ID)){
+  # calc OBIC inidicators for i
+  bini.n <- obic_field_dt(binnenveld[ID == i,..bcols], output = 'unaggregated')
+  # re add ID
+  bini.n <- bini.n[,ID := i]
+  if(!exists('bini')){
+    # if bini doesn't exist yet make it
+    bini <- bini.n
+  } else{
+    # if bini exists, add bini.n to bini (binnenveld indicators)
+    bini <- rbindlist(list(bini, bini.n))
+  }
+}
+
+# remove inidicators not used for scoring
+bini <- bini[!cat %in% c('BCS', 'IBCS', 'IM')]
+
+# remove irrelevant columns
+rmcols <- names(bini)[!grepl('^weight|cf|w$', names(bini))]
+bini <- bini[,..rmcols]
+
+# rename ID to field
+setnames(bini, 'ID', 'field')
+# add treatment
+bini$treatment <- bini$field
+
+```
+
+```{r aggregate binneveld, eval=TRUE}
+# add correction factors
+bini <- addcf(bini)
+
+# add scores
+bini <- aggscores(bini)
+
+```
+
+```{r plot binnenveld scores, eval=TRUE}
+
+```
+
+
 ## Aggregation in other soil quality assesment frameworks
 The OBI is not the first attempt to express soil quality with a single score, see for example: @Rutgers2012 and @VanWijnen2012. These authors weighted soil properties based on their deviation from a reference value derived from best professional judgement (BPJ). Weighted soil properties were then aggregated to soil functions, giving equal importance to each soil property. Next, the soil functions were aggregated using weights obtained from stakeholders' appreciation of functions (farmers, regional land manager, national land managers). Where local and regional stakeholders both made up 40% of the weight and national stakeholder the remaining 20%.
 
@@ -593,5 +657,7 @@ Compared to the OBI, the largest difference is in aggregating soil function scor
 ```{r eval = FALSE, include=FALSE}
 # e.g. (van Wijnen et. al. 2012 and  Rutgers et. al. 2012) or Moebius-Clune 2016
 ```
+
+
 
 ## References
