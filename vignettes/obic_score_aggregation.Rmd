@@ -645,10 +645,56 @@ bini <- aggscores(bini)
 
 ```
 
-```{r plot binnenveld scores, eval=TRUE}
+```{r plot binnenveld scores, eval=TRUE, message = FALSE, fig.height= 9, fig.width= 8 ,fig.cap="Figure 6. Total and category OBI scores of binnenveld fields aggregated with 'log', 'lin' or 'non' method, as well as total scores when disregarding categories in aggregating scores."}
+# make labels
+ldt <- binnenveld[,.(ID, YEAR, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS)]
 
+# get most occurring soil type and crop type
+ldt <- ldt[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), 
+              .SDcols = c('B_LU_BRP','B_SOILTYPE_AGR', 'B_GWL_CLASS'),by = ID]
+ldt[, B_LU_BRP := as.integer(B_LU_BRP)]
+
+# add crop name
+ldt <- merge(ldt, crops.obic[,.(crop_code, crop_name)], by.x = 'B_LU_BRP', by.y = 'crop_code')
+
+# order ldt
+setorder(ldt, ID)
+
+# make cat labels more readable
+bini[grepl('^S_T_', cat), lcat := "Total"]
+bini[grepl('^S_C_', cat), lcat := "Chemical"]
+bini[grepl('^S_B_', cat), lcat := "Biological"]
+bini[grepl('^S_P_', cat), lcat := "Physical"]
+bini[grepl('^S_M_', cat), lcat := "Management"]
+bini[grepl('^S_E_', cat), lcat := "Environmental"]
+bini[grepl('^S_Tn', cat), lcat := 'Total no cat']
+bini[, lcat := factor(lcat, levels = c('Chemical', 'Physical', 'Biological', 'Environmental',
+                                       'Management','Total', 'Total no cat'))]
+
+
+# make plot
+gg <- ggplot(bini, aes(x= lcat, y= score, color = cf_method, alpha = 0.5)) +
+  geom_point(size = 2) +
+  ylab('OBI-score') + xlab('') +
+  theme_bw(12) + theme(panel.grid.major.x = element_blank(),
+                       panel.grid.major.y = element_line(size = 0.5),
+                       panel.grid.minor.x = element_blank()) +
+  coord_cartesian(xlim = c(0,1))+ 
+  scale_x_discrete(limits = rev)+ scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1))+
+  coord_flip() +
+  facet_wrap(~field, ncol = 3) +
+  guides(alpha = FALSE) +
+  theme(legend.position = c(0.8,0.1))
+
+# show gg
+gg
+
+# show table with data on binnenveld fields
+knitr::kable(ldt[,.(ID, B_SOILTYPE_AGR, B_GWL_CLASS, crop_name)], caption = 'Soiltype, groundwaterclass and most frequent crop per binnenveld field.')
 ```
+The `binnenveld` dataset lacks actual information on management parameters. In the dataset these were all set to `FALSE`, resulting in low management scores for all fields. For most total and categorical scores, the highest scores are obtained with the 'non' aggregation method and the lowest with 'lin'.
 
+When the aggregation step to categories is omitted, total scores differ little for some fields (eg. 2, 4, 5, 8), but are lower when using 'log' or 'lin' in other fields (eg. 3, 6, 7, 9)
 
 ## Aggregation in other soil quality assesment frameworks
 The OBI is not the first attempt to express soil quality with a single score, see for example: @Rutgers2012 and @VanWijnen2012. These authors weighted soil properties based on their deviation from a reference value derived from best professional judgement (BPJ). Weighted soil properties were then aggregated to soil functions, giving equal importance to each soil property. Next, the soil functions were aggregated using weights obtained from stakeholders' appreciation of functions (farmers, regional land manager, national land managers). Where local and regional stakeholders both made up 40% of the weight and national stakeholder the remaining 20%.
