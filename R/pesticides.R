@@ -38,16 +38,27 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
                    A_SAND_MI = A_SAND_MI,
                    A_SILT_MI = A_SILT_MI,
                    D_PSP = D_PSP,
-                   M_PESTICIDES_DST = M_PESTICIDES_DST
+                   M_PESTICIDES_DST = M_PESTICIDES_DST,
+                   M_MECHWEEDS = M_MECHWEEDS
                    )
   
-  
   ## Minimal situation
+  # Determine minimal OM level based on soiltype
+  dt[B_SOILTYPE_AGR == 'loess', SOM_MIN := 1.2]
+  dt[B_SOILTYPE_AGR == 'dekzand', SOM_MIN := 1.2]
+  dt[B_SOILTYPE_AGR == 'zeeklei', SOM_MIN := 1.0]
+  dt[B_SOILTYPE_AGR == 'rivierklei', SOM_MIN := 1.3]
+  dt[B_SOILTYPE_AGR == 'moerige_klei', SOM_MIN := 3.4]
+  dt[B_SOILTYPE_AGR == 'veen', SOM_MIN := 1.9]
+  dt[B_SOILTYPE_AGR == 'maasklei', SOM_MIN := 1.3]
+  dt[B_SOILTYPE_AGR == 'duinzand', SOM_MIN := 0.7]
+  dt[B_SOILTYPE_AGR == 'dalgrond', SOM_MIN := 2.1]
+  
   # Calcualte bulk density
-  dt[,BD_MIN := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI = rep(0.5,arg.length),A_CLAY_MI)/1000]
+  dt[,BD_MIN := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI = rep(SOM_MIN,arg.length),A_CLAY_MI)/1000]
   
   # Calculate volume fraction of water
-  dt[,vfw_min := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI = 0.5,type = 'water holding capacity')]
+  dt[,vfw_min := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI = SOM_MIN,type = 'water holding capacity')]
   
   # Calculate water flux
   dt[,B_WATER_FLUX_MIN := D_PSP / 365 / vfw_min / 100]
