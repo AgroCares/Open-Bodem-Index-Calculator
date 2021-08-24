@@ -41,7 +41,7 @@ ind_gw_recharge <- function(D_WRI_WHC, D_PSP, I_P_SE, B_COMPACTION = FALSE, B_DR
     
   
   # Calculate aggregated score
-  dt[,I_W_GWS := (0.4 * I_WRI_WHC + 0.3 * D_I_PSP + 0.3 * I_P_SE) * cf_compaction * cf_drain]
+  dt[,I_W_GWS := (0.35 * I_WRI_WHC + 0.35 * D_I_PSP + 0.3 * I_P_SE) * cf_compaction * cf_drain]
   
   I_W_GWS <- mean(dt[,I_W_GWS])
   
