@@ -103,7 +103,7 @@ ind_pesticide_leaching <- function(D_PESTICIDE) {
 
   
   # Calculate indicator score
-  I_PESTICIDE <- evaluate_logistic(D_PESTICIDE, 45, 0.76, 1.5, increasing = FALSE)
+  I_PESTICIDE <- evaluate_logistic(D_PESTICIDE, 28, 0.80, 1.5, increasing = FALSE)
   
   
  return(I_PESTICIDE)
