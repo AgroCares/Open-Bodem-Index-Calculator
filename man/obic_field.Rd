@@ -176,3 +176,6 @@ obic_field(
 \description{
 This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI) for a single field.
 }
+\details{
+It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
+}

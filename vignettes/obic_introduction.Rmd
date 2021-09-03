@@ -20,7 +20,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 ```{r setup, include = FALSE}
 
   # load packages
-  library(OBIC); library(data.table); library(ggplot2);require(patchwork); library(ggpubr)
+  library(OBIC); library(data.table); library(ggplot2);require(patchwork)
 
   # load binnenveld data.table
   binnenveld <- as.data.table(OBIC::binnenveld)
@@ -28,20 +28,20 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 ---
 nocite: |
-  @Rinot2019, @Bunemann2018, @R-base, @R-data.table, @R-ggplot2, @R-ggpubr, @R-OBIC, @R-patchwork
+  @Rinot2019, @Bunemann2018, @R-base, @R-data.table, @R-ggplot2, @R-OBIC, @R-patchwork
 ---
 
 
 ## 1. introduction
 
-### background
+### Background
 To meet the demands of a growing population, agriculture continues to intensify, along with increasing and evolving impacts on crop growth, soil quality, and environmental quality. There has been a great increase in world food production since the 1960s and an increase in per capita agricultural production, accompanied by a likewise increase in machinery and fertiliser use. Increased inputs of nitrogen and phosphorus to the soil however, has also led to substantial negative impacts on biodiversity, drinking and surface water quality, and human health. Both the agronomic potential of cropping systems as well as the environmental impacts of agriculture are highly controlled by soil properties and its management. Soil health (or soil quality) refers to the capacity of soil to function as a living ecosystem that sustains plants, animals, and humans, and support ecosystem services including agricultural production. Healthy soils are not just a growing medium for crops, they regulate and support a set of essential ecosystem services, such as water purification, carbon sequestration, nutrient cycling, and habitat provision. Improving and sustaining soil health is therefore key to sustainable crop production.
 
 Many attempts have been made to develop indices to assess soil quality as well as related ecosystem services (reviewed by Bünemann et al., 2018; Rinot et al., 2019). To date, most of this knowledge has not been implemented in decision support tools assisting farmers for monitoring and evaluation of soil quality on farm and field level. Explicit evaluation of soil quality with respect to soil threats, soil functions, and ecosystem services has rarely been implemented. Few approaches provide clear interpretation schemes of measured indicator values. The main reason for this lack of valorisation, is that soil is a complex interplay of chemical, biological, and physical processes and that the objectives for which the soil is used, have an enormous influence on the evaluation of soil quality. However, there is broad consensus that soil chemistry, soil structure, and soil biology, need to be considered for a good interpretation of soil quality. 
 
 In order to improve and maintain soil quality while supporting sustainable agronomic production as well as other soil ecosystems services, the Open Soil Index (known by the Dutch acronym OBI from 'Open Bodem Index') was initiated in 2018. The OBI is an open source framework for assessing and valorising soil quality and sustainable soil management. Experts from universities, consultancy companies, soil science, and farmer groups collaborated to bring together existing data from routine soil laboratories, smart data retrieval from satellites, and insights from fundamental and applied research, in a transparent and scientifically underpinned soil assessment framework. The framework is highly influenced by the Soil Management Assessment Framework [@Andrews2001;@Wienhold2004;@Wienhold2009] and the proposed holistic, multivariate soil health framework from @Rinot2019. 
 
-### the Open Soil Index Framework
+### The Open Soil Index Framework
 Soil quality is defined as the capacity of a soil to fulfil the desired soil functions under varying conditions for a combination of purposes (and services) such as food production, efficient nutrient cycling, and preservation of biodiversity. Soil ecosystem services are the different ecosystem services that soils can provide, being categorized as production, support, regulation, and information services. Soil functions are quantitative relationships evaluating how soil properties alone or in combination with each other contribute to the aforementioned ecosystem services. Soil indicators are the result of an evaluation scoring methodology transforming the output of soil functions to a qualitative category (low to high) or a numeric grade (1-10). Soil and field properties are characteristics of a soil (or field) that are used to quantify the soil functions. These characteristics may have been analysed in the laboratory as well as those resulting from the location of the field in the landscape. For example, the groundwater level, the variation in ground level, the slope, and the presence of drainage are soil properties. Soil management includes all measures that land users or farmers can take to improve or adapt soil quality for a specific purpose. This has a direct influence on (measurable) soil properties. 
 
 Within the boundary condition of context (i.e. continuation of crop rotation scheme in next decade) and objective (i.e. sustainable crop production), soil properties are quantified based on routinely available soil analyses, field properties, and remote sensing data. The soil properties are in conjunction with each other used to quantify a number of soil functions. These functions can be clustered around the three relevant aspects of soil, namely i) chemistry and nutrient supply, ii) structure and rootability and iii) biology and disease resistance. Separately from these three aspects - each of which relies heavily on actual measurements - soil management is also evaluated. Furthermore, the soil's contribution to a sustainable living environment is first and foremost indirectly included as the following soil functions: the N buffering capacity to avoid leaching and runoff, and the potential to sequester carbon.
@@ -107,7 +107,7 @@ The process how measurable soil properties are used to evaluate the agronomic so
 
 ```{r, echo=FALSE, out.width = '85%', out.height = '85%', fig.cap = 'Figure 1. Graphic representation of how measured soil properties are aggregated to scores.'}
 # ![](OBIC_score_integratie.png){widht = 25%, height = 20%}
-knitr::include_graphics('OBIC_score_integratie.png')
+knitr::include_graphics('OBIC_score_integratie_2.png')
 
 ```
 
@@ -127,11 +127,16 @@ An example of both wrapper functions is illustrated below. The soil has an OBIC 
   # run the obic_field with default management measures and no visual assessment data
 
   # test the obic field function via obic_field and give only the final score
-  obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
-             dt$B_LU_BRP, dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,
-             dt$A_CACO3_IF,dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
-             dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
-             dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,output = 'obic_score')
+  obic_field(B_SOILTYPE_AGR =  dt$B_SOILTYPE_AGR, B_GWL_CLASS =  dt$B_GWL_CLASS,
+             B_SC_WENR = dt$B_SC_WENR, B_HELP_WENR = dt$B_HELP_WENR, B_AER_CBS = dt$B_AER_CBS,
+             B_LU_BRP = dt$B_LU_BRP, A_SOM_LOI = dt$A_SOM_LOI, A_SAND_MI = dt$A_SAND_MI,
+             A_SILT_MI = dt$A_SILT_MI, A_CLAY_MI = dt$A_CLAY_MI, A_PH_CC = dt$A_PH_CC,
+             A_CACO3_IF = dt$A_CACO3_IF, A_N_RT = dt$A_N_RT, A_CN_FR = dt$A_CN_FR,
+             A_COM_FR = dt$A_COM_FR, A_S_RT = dt$A_S_RT, A_N_PMN = dt$A_N_PMN,
+             A_P_AL = dt$A_P_AL, A_P_CC = dt$A_P_CC, A_P_WA = dt$A_P_WA, A_CEC_CO = dt$A_CEC_CO,
+             A_CA_CO_PO = dt$A_CA_CO_PO, A_MG_CO_PO = dt$A_MG_CO_PO, A_K_CO_PO = dt$A_K_CO_PO,
+             A_K_CC = dt$A_K_CC, A_MG_CC = dt$A_MG_CC, A_MN_CC = dt$A_MN_CC,
+             A_ZN_CC = dt$A_ZN_CC, A_CU_CC = dt$A_CU_CC, output = 'obic_score')
   
   # test the obic field function via obic_field_dt and give only the final score
   obic_field_dt(dt,output = 'obic_score')
@@ -922,7 +927,7 @@ An example of this function is illustrated below for both an sandy and a clay so
 ```
 
 #### Sealing Soil Surface and Wind Erodibility
-Sealing is the process whereby soil aggregates disintegrate under the influence of rain. The impact of raindrops causes a shifting of soil particles [@Locher1992]. In the process, clay and silt particles clog the pores between the sand particles or the soil aggregates. This creates a slurry layer that forms a crust after drying. This hinders the gas exchange and increases the resistance of germinating seed.
+Sealing is the process whereby soil aggregates disintegrate under the influence of rain. The impact of raindrops causes a shifting of soil particles [@Locher1990]. In the process, clay and silt particles clog the pores between the sand particles or the soil aggregates. This creates a slurry layer that forms a crust after drying. This hinders the gas exchange and increases the resistance of germinating seed.
 
 Wind erosion can occur in a dry spring or autumn when the soil is (partly) bare. Wind erosion causes a decrease in organic matter content, moisture retention capacity, chemical soil fertility, and biological activity in a soil. Furthermore, wind erosion can spread diseases and weeds, expose germinating seeds, and damage young plants by sandblasting.
 
@@ -1378,7 +1383,7 @@ For more information see `?ind_resistance`.
     p1
 ```
 
-```{r hidden text nematodes, eval = FALSE}
+```{r hidden text nematodes, eval = FALSE, include = FALSE, echo=FALSE}
 # hide text in unevaluated code block till text is finished
 ### Nematodes (WIP)
 Nematodes are small animals occurring in all ecotypes on Earth, so also in soil. There is a large variety of nematodes in soils, they vary amongst other things, in size, feeding habits, reproduction speed, and life cycle. Plant parasitic nematodes (PPN) can reproduce in a range of host plants. Some nematodes have a specific host preference while other can reproduce in a large variety of plants. PPN can severely depress crop yields in vulnerable crops. Therefore, farmers can have their fields sampled to analyse which and how many nematodes occur.
@@ -1515,6 +1520,8 @@ The properties of the five fields used to illustrate the functions for N leachin
   p <- ggplot(data = dt.test, aes(y = I_NGW, x = ngw)) + geom_line()  +
     theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+ xlab('Potential N leaching')
   
+  # Plot figure
+  p
 ```
 
 #### N retention preventing N runoff
@@ -1732,7 +1739,7 @@ The OBIC package has functions that transform the value of a soil function into 
 
 Some of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function). When logistic evaluation is used, there is no linear relation between the an indicators value and its score. Often the evaluation is set up so that lower values gain increasingly lower scores. In other words, poor performance is evaluated more stringent than good performance. Below, the relation between a soil function values and their scores (index values) is given. An example of logistic evaluation can be found in I_P_WS (waterstress)
 
-```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
+```{r plot relation function and index values,fig.width = 7, fig.height = 16,fig.fullwidth = TRUE,echo=FALSE}
   
   # create waterstress index relation figure
   # dt <- data.table(D_WRI = seq(0,100,1))
@@ -1798,7 +1805,7 @@ Some of these indicator functions internally use an evaluation function such as 
     dd.melt <- dd.melt[, B_LU_BRP := as.character(fifelse(B_LU_BRP == 265,'grass','arable'))]
     
     # Select correct rows from dd.melt
-    dd.melt.select <- dd.melt[(funct == 'D_NLV'& indicator == 'I_C_N')|
+    dd.melt <- dd.melt[(funct == 'D_NLV'& indicator == 'I_C_N')|
                                 (funct == 'D_PBI'& indicator == 'I_C_P')|
                                 (funct == 'D_K'& indicator == 'I_C_K')|
                                 (funct == 'D_MG'& indicator == 'I_C_MG')|
@@ -1810,37 +1817,24 @@ Some of these indicator functions internally use an evaluation function such as 
                                 (funct == 'D_WSI_DS'& indicator == 'I_P_DS')|
                                 (funct == 'D_WSI_WS'& indicator == 'I_P_WS')|
                                 (funct == 'D_WRI'& indicator == 'I_P_WRI')|
-                                (funct == 'D_CEC'& indicator == 'I_P_AS')|
+                                (funct == 'D_CEC'& indicator == 'I_P_CEC')|
                                 (funct == 'D_PMN'& indicator == 'I_B_SF')|
                                 (funct == 'D_NGW'& indicator == 'I_E_NGW')|
-                                (funct == 'D_NSW'& indicator == 'I_E_NSW')]
+                                (funct == 'D_NSW'& indicator == 'I_E_NSW')|
+                                (funct == 'D_CR'& indicator == 'I_P_CR')|
+                                (funct == 'D_SE'& indicator == 'I_P_SE')|
+                                (funct == 'D_WE'& indicator == 'I_P_DU')|
+                                (funct == 'D_DUMMY_SOM_LOI'& indicator == 'I_B_DI')]
     
-    # select indicators for which function values do not run from 0 to 100
-    dd.melt.select.other <- dd.melt[(funct == 'D_CR'& indicator == 'I_P_CR')|
-                                      (funct == 'D_SE'& indicator == 'I_P_SE')|
-                                      (funct == 'D_WE'& indicator == 'I_P_DU')|
-                                      (funct == 'D_DUMMY_SOM_LOI'& indicator == 'I_B_DI')]
+    # make plot
+    ggsp <- ggplot(dd.melt, aes(x= function_value, y= index_value)) +
+     geom_line(mapping = aes(color = B_LU_BRP, alpha = 0.5), size = 1.5) + facet_wrap(facets = 'indicator', ncol = 4, scales = 'free_x') + theme_bw() + theme(legend.position = 'bottom') +
+     scale_fill_viridis_d()+ scale_color_viridis_d() + guides(alpha = FALSE)
     
-    # ggpubr way
-    ggs <- ggscatter(dd.melt.select, x = 'function_value', y = 'index_value', color = 'B_LU_BRP',
-                     facet.by = 'indicator') + theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
+    #plot
+    ggsp  + labs(caption = 'Relation between function values and their corresponding evaluated index values.')
+    
 
-    # make seperate graphs for indicators whose function values do not run from 0 to 100
-    PCR <- ggscatter(dd.melt.select.other[indicator == 'I_P_CR'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP', title = 'I_P_CR') + 
-      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-    PSE <- ggscatter(dd.melt.select.other[indicator == 'I_P_SE'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP', title = 'I_P_SE') + 
-      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-    PDU <- ggscatter(dd.melt.select.other[indicator == 'I_P_DU'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP', title = 'I_P_DU') + 
-      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-    BDI <- ggscatter(dd.melt.select.other[indicator == 'I_B_DI'], x = 'function_value', y = 'index_value', color = 'B_LU_BRP', title = 'I_B_DI') + 
-      theme_bw()+ scale_fill_viridis_d()+ scale_color_viridis_d()
-    # arrange these graphs with common legend
-    ggs2 <- ggarrange(PCR, PSE, PDU, BDI, ncol = 2, nrow = 2, common.legend = TRUE)
-    
-    # show plots
-    ggs    
-    ggs2
-    
 ```
 
 The indicator for management based on the point system of the label sustainable soil management has a linear relation between the number of points and the indicator score.
@@ -1871,7 +1865,7 @@ The indicator for management based on the point system of the label sustainable 
 p.ar+p.gr
   
 ```
-1
+
 ### Crop and soil dependent applicability of functions
 Not all indicators are relevant for all combinations of soil type and crop. For example, `I_P_DU` (wind erodibility) is not relevant on permanent grassland, as wind erosion is not a problem on these parcels. The table `weight.obic` is used to determine whether an indicator is relevant for a given parcel. Crops are differentiated into the categories arable, grassland, maize, and nature according to the crop_category from the table `crops.obic`. In soil type a differentiation is made between peat and non peat soils. If an indicator is not relevant for a given parcel, its score will not be used in further aggregation.
 
@@ -1913,28 +1907,30 @@ Not all indicators are relevant for all combinations of soil type and crop. For 
     dt.melt[!grepl('veen',B_SOILTYPE_AGR) & weight_nonpeat < 0,value.w := -999]
 ```
    
-    
-### Integrating over time
-Till this point, all values and indicators have been calculated for a range of years (typically ten). Before aggregating values over years, a correction factor is calculated to give a weight so that recent years count more than long gone years. After aggregating indicator scores over years, a single score for each indicator remains. These are the scores presented to a user when indicators are included in the output of `obic_field()`. 
-
-```{r, results = FALSE, eval = FALSE}
-      # subset dt.melt for relevant columns only
-    out.ind <-  dt.melt[,list(indicator,year,value = value.w)]
-    
-    # calculate correction factor per year; recent years are more important
-    out.ind[,cf := log(12 - pmin(10,year))]
-    
-    # calculate weighted average per indicator over the year
-    out.ind <- out.ind[,list(value = round(sum(cf * pmax(0,value) / sum(cf[value >= 0])),3)), by = indicator]
-       
-    # non relevant indicators, set to -999
-    out.ind[is.na(value), value := -999]
-```
-
 ### Aggregated indicators per category
 Each soil indicator belongs to one of five categories (chemical, physical, biological, environmental or management). A score per category is calculated by taking the mean score of the underlying functions
 
+```{r results=FALSE, eval=FALSE}
+    # subset dt.melt for relevant columns only
+    out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
+  
+    # remove indicator categories that are not used for scoring
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+    
+    # calculate weighted average per indicator category
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), by = list(cat,year)]
+
+      # for case that a cat has one indicator or one year and has NA
+      out.score[is.na(value), value := -999]
+```
+
+### Integrating over time
+Till this point, all values and indicators have been calculated for a range of years (typically ten). Before aggregating values over years, a correction factor is calculated to give a weight so that recent years count more than long gone years. After aggregating indicator scores over years, a single score for each indicator remains. These are the scores presented to a user when indicators are included in the output of `obic_field()`. 
+
 ```{r, aggreagate indicators per category, results= FALSE, eval=FALSE}
+      # calculate correction factor per year; recent years are more important
+      out.score[,cf := log(12 - pmin(10,year))]
+  
     # calculate weighted average per indicator category per year
     out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
 ```
@@ -1954,9 +1950,7 @@ The integration of different soil functions into one score and their relevance i
                        out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
 ```
 
-In order to calculate the total OBI score `S_T_OBI_A`, an integral assessment of soil quality for the following functions is made: soil chemistry `S_C_OBI_A`, soil structure `S_P_OBI_A`, soil biology `S_B_OBI_A` as well as soil management `S_M_OBI_A`.
-
-The holistic OBI score is given when the argument output in `obic_field()` or `obic_field_dt()` is set to *'all'*, *'scores'* or *'obic_scores'*
+The holistic OBI score is given when the argument *output* in `obic_field()` or `obic_field_dt()` is set to *'all'*, *'scores'* or *'obic_scores'*
 
 ```{r, results = FALSE, eval = FALSE}
    # For example
@@ -2004,21 +1998,22 @@ bar[grepl('^S_P_', variable), cat := "Physical"]
 bar[grepl('^S_M_', variable), cat := "Management"]
 bar[grepl('^S_E_', variable), cat := "Environmental"]
 
-    # make lollipop chart
-   g2 <- ggdotchart(
-      bar, x = "cat", y = "value", 
-      # order = c("Totaal", "Milieu", "Beheer", "Biologie", "Structuur", "Chemie"),
-      order = c("Total", 'Management',"Environmental", "Biological", "Physical", "Chemical"),
-      group = "cat", color = "cat",
-      add = "segment", size=4.5,
-      add.params = list(color = "gray", size = 0.75),
-      position = position_dodge(0.5),
-      facet.by = "field",
-      rotate = TRUE, legend = "none",
-      ylab ='OBI-score',xlab='', panel.labs = list(field = c('Field 1','Field 2','Field 3', 'Field 4'))
-) + scale_fill_viridis_d()+ scale_color_viridis_d()+ theme_bw(base_size = 12) + theme(legend.position = 'none')
- 
- g2
+
+   # change field for plotting
+   bar <- bar[,field:= paste0('Field ', field)]
+   
+   # make lollipop chart (cleveland dotchart) without ggpubr
+   g2p <- ggplot(bar, aes(x= cat, y= value, group = cat, color = cat)) +
+     geom_col(fill = 'grey', color = NA, width = 0.05) + geom_point(size = 2) + ylab('OBI-score') + xlab('') +
+     theme_bw(12) + theme(legend.position = 'none',
+                        panel.grid.major.x = element_blank(),
+                        panel.grid.major.y = element_line(size = 0.5),
+                        panel.grid.minor.x = element_blank()) +
+     coord_flip() +
+     facet_wrap(~field) +
+     scale_fill_viridis_d()+ scale_color_viridis_d()
+   
+ g2p
 ```
 
 
