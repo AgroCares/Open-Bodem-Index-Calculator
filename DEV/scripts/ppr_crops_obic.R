@@ -1,11 +1,11 @@
 # Script to modify crops.obic
 
-  # load packag
+  # load package
   library(data.table)
 
   # load the original OBIC csv file from version 0.11.0
   cr <- fread('dev/data/crops_obic_start.csv')
-  cr <- cr[,V1 := NULL]
+  cr <- cr[,rij := NULL]
 
 # --- update crops for 2020 ---------------
 
