@@ -130,6 +130,20 @@
 #' }
 "season.obic"
 
+#' Relational table linking soil management measures to ecosystem services
+#' 
+#' This table assigns which measures positively contribute to the ecosystem services included
+#' 
+#' @format A data.table with 16 rows and 6 columns:
+#' \describe{
+#'   \item{measure}{The name of measure}
+#'   \item{I_M_SOILFERTILITY}{integrated soil management indicator for soil fertility}
+#'   \item{I_M_CLIMATE}{integrated soil management indicator for soil carbon sequestration}
+#'   \item{I_M_WATERQUALITY}{integrated soil management indicator for water quality}
+#'   \item{I_M_BIODIVERSITY}{Integrated soil management indicator for soil biodiversity}
+#' }
+"management.obic"
+
 #' Damage and reproduction of soil-borne pathogens and pests on crops
 #' 
 #' This table includes information from aaltjesschema (April 2021), a website where information is collected on the vulnerability of crops to plant parasitic nematodes and diseases that use nematodes as vector.

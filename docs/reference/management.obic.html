@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate indicator for workability — ind_workability • OBIC</title>
+<title>Relational table linking soil management measures to ecosystem services — management.obic • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculate indicator for workability — ind_workability" />
-<meta property="og:description" content="This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
-inflicting structural damage that cannot be restored by the regular management on the farm." />
+<meta property="og:title" content="Relational table linking soil management measures to ecosystem services — management.obic" />
+<meta property="og:description" content="This table assigns which measures positively contribute to the ecosystem services included" />
 
 
 
@@ -124,26 +123,28 @@ inflicting structural damage that cannot be restored by the regular management o
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate indicator for workability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/workability.R'><code>R/workability.R</code></a></small>
-    <div class="hidden name"><code>ind_workability.Rd</code></div>
+    <h1>Relational table linking soil management measures to ecosystem services</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/tables.R'><code>R/tables.R</code></a></small>
+    <div class="hidden name"><code>management.obic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
-inflicting structural damage that cannot be restored by the regular management on the farm.</p>
+    <p>This table assigns which measures positively contribute to the ecosystem services included</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ind_workability</span><span class='op'>(</span><span class='va'>D_P_WO</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>management.obic</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>D_P_WO</th>
-      <td><p>(numeric) The value of workability calculated by <code><a href='calc_workability.html'>calc_workability</a></code></p></td>
-    </tr>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data.table with 16 rows and 6 columns:</p><dl>
+  <dt>measure</dt><dd><p>The name of measure</p></dd>
+  <dt>I_M_SOILFERTILITY</dt><dd><p>integrated soil management indicator for soil fertility</p></dd>
+  <dt>I_M_CLIMATE</dt><dd><p>integrated soil management indicator for soil carbon sequestration</p></dd>
+  <dt>I_M_WATERQUALITY</dt><dd><p>integrated soil management indicator for water quality</p></dd>
+  <dt>I_M_BIODIVERSITY</dt><dd><p>Integrated soil management indicator for soil biodiversity</p></dd>
+
+</dl>
 
 
   </div>

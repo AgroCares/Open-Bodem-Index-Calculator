@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate indicator for workability — ind_workability • OBIC</title>
+<title>Calculate the indicator for sustainable management given a required ecoystem service — ind_man_ess • OBIC</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Calculate indicator for workability — ind_workability" />
-<meta property="og:description" content="This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
-inflicting structural damage that cannot be restored by the regular management on the farm." />
+<meta property="og:title" content="Calculate the indicator for sustainable management given a required ecoystem service — ind_man_ess" />
+<meta property="og:description" content="This function calculates the the sustainability of strategic management options for a given ecoystem service as calculated by calc_man_ess
+The main source of this indicator is developed for Label Duurzaam Bodembeheer (Van der Wal, 2016)" />
 
 
 
@@ -124,24 +124,36 @@ inflicting structural damage that cannot be restored by the regular management o
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate indicator for workability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/workability.R'><code>R/workability.R</code></a></small>
-    <div class="hidden name"><code>ind_workability.Rd</code></div>
+    <h1>Calculate the indicator for sustainable management given a required ecoystem service</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/management.R'><code>R/management.R</code></a></small>
+    <div class="hidden name"><code>ind_man_ess.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the indicator for the workability of the soil expressed as the period in which the soil can be worked without
-inflicting structural damage that cannot be restored by the regular management on the farm.</p>
+    <p>This function calculates the the sustainability of strategic management options for a given ecoystem service as calculated by <code><a href='calc_man_ess.html'>calc_man_ess</a></code>
+The main source of this indicator is developed for Label Duurzaam Bodembeheer (Van der Wal, 2016)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ind_workability</span><span class='op'>(</span><span class='va'>D_P_WO</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ind_man_ess</span><span class='op'>(</span><span class='va'>D_MAN</span>, <span class='va'>B_LU_BRP</span>, <span class='va'>B_SOILTYPE_AGR</span>, <span class='va'>type</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>D_P_WO</th>
-      <td><p>(numeric) The value of workability calculated by <code><a href='calc_workability.html'>calc_workability</a></code></p></td>
+      <th>D_MAN</th>
+      <td><p>(numeric) The value of Sustainable Management calculated by <code><a href='calc_man_ess.html'>calc_man_ess</a></code></p></td>
+    </tr>
+    <tr>
+      <th>B_LU_BRP</th>
+      <td><p>(numeric) The crop code from the BRP</p></td>
+    </tr>
+    <tr>
+      <th>B_SOILTYPE_AGR</th>
+      <td><p>(character) The type of soil</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>(character) type of ecosystem service to evaluate the impact of soil management. Options: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY, and I_M_BIODIVERSITY</p></td>
     </tr>
     </table>
 
