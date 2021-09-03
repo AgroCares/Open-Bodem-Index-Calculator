@@ -1,4 +1,4 @@
-",""crop_code"",""crop_name"",""crop_waterstress"",""crop_intensity"",""crop_eos"",""crop_eos_residue"",""crop_category"",""crop_rotation"",""crop_crumbleability"",""crop_phosphate"",""crop_sealing"",""crop_n"",""crop_k"",""crop_measure"",""nf_clay"",""nf_sand.other"",""nf_sand.south"",""nf_loess"",""nf_peat""";
+""""",""crop_code"",""crop_name"",""crop_waterstress"",""crop_intensity"",""crop_eos"",""crop_eos_residue"",""crop_category"",""crop_rotation"",""crop_crumbleability"",""crop_phosphate"",""crop_sealing"",""crop_n"",""crop_k"",""crop_measure"",""nf_clay"",""nf_sand.other"",""nf_sand.south"",""nf_loess"",""nf_peat""";
 "1,172,""Tuinbouwzaden"",""overig"",""overig"",NA,NA,""akkerbouw"",""other"",16,""arable"",""overig"",""akkerbouw"",""mais"",""akkerbouw"",50,50,40,40,50";
 "2,174,""Bloemzaden open grond"",""overig boomteelt"",""overig"",NA,NA,""akkerbouw"",""other"",14,""arable"",""overig"",""akkerbouw"",""mais"",""boomteelt"",150,150,150,150,150";
 "3,175,""Bloemkwekerijgewassen (inclusief bloemzaden)"",""overig boomteelt"",""overig"",NA,NA,""akkerbouw"",""other"",14,""arable"",""overig"",""akkerbouw"",""mais"",""boomteelt"",150,150,150,150,150";
