@@ -1,5 +1,18 @@
 # Changelog OBIC
 
+## Version 1.0.2.9000 DEVELOPMENT
+### Added
+* table nema.crop.rot.obic added
+* ppr_bouwplan_tables.r in dev/scripts
+* merge_nema_tables.r in dev/scripts
+* argument B_GWL_GHG, B_GWL_GLG and B_Z_TWO to obic_field and obic_field_dt
+* function calc_workability is active now
+
+### Changed
+* updated documentation, weight.obic for workability
+* update calc_workability
+* update column_descriptons_obic.Rdata
+
 ## Version 1.0.2 2021-05-20
 ### Added
 * ind_man_ess.R and tests are added for update aggregated management scores, issue #131
@@ -20,22 +33,6 @@
 * values -999 are replaced by NA 
 * column_descriptons_obic.Rdata is updated
 * weight.obic is updated
-
-## Version 1.1.1 2021-05-21
-### Added
-* table nema.crop.rot.obic added
-* ppr_bouwplan_tables.r in dev/scripts
-* merge_nema_tables.r in dev/scripts
-
-## Version 1.1.0 2021-05-03
-### Added
-* argument B_GWL_GHG, B_GWL_GLG and B_Z_TWO to obic_field and obic_field_dt
-* function calc_workability is active now
-
-### Changed
-* updated documentation, weight.obic for workability
-* update calc_workability
-* update column_descriptons_obic.Rdata
 
 ## Version 1.0.0 2021-04-28
 ### Added
