@@ -1695,6 +1695,9 @@ The OBIC package has functions that transform the value of a soil function into 
 
 ```{r, results = FALSE, eval = FALSE}
    
+  # Be aware these functions below are not given here to be evaluated.
+  # They illustrate how the different indices can be evaluated (do not execute them here)
+
   # Calculate indicators for soil chemical functions
   dt[, I_C_N := ind_nitrogen(D_NLV, B_LU_BRP)]
   dt[, I_C_P := ind_phosphate_availability(D_PBI)]
