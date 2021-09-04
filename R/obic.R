@@ -58,6 +58,7 @@
 #' @param M_STRAWRESIDUE (boolean) measure. Application of straw residues (option: yes or no)
 #' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: yes or no)
 #' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
+#' @param I_B_NEM (numeric) Nematode indicator value as calculated with ind_nematodes()
 #' @param ID (character) A field id
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
 #' 
@@ -78,6 +79,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
+                       I_B_NEM = NA,
                        ID = 1, output = 'all') {
   
   
@@ -88,7 +90,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = B_GWL_GLG = B_GWL_GHG = B_Z_TWO = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
-  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
+  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_B_NEM = I_M = NULL
   I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_NGW = I_E_NSW = NULL
   D_M_SOILFERTILITY = D_M_CLIMATE = D_M_WATERQUALITY = D_M_BIODIVERSITY = NULL
   I_M_SOILFERTILITY = I_M_CLIMATE = I_M_WATERQUALITY = I_M_BIODIVERSITY = NULL
@@ -157,10 +159,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_SOLIDMANURE = M_SOLIDMANURE,
                    M_STRAWRESIDUE = M_STRAWRESIDUE,
                    M_MECHWEEDS = M_MECHWEEDS,
-                   M_PESTICIDES_DST = M_PESTICIDES_DST
-                   )
+                   M_PESTICIDES_DST = M_PESTICIDES_DST,
+                   I_B_NEM = I_B_NEM)
   
-  
+
   # Merge dt with crops.obic
   dt <- merge(dt,OBIC::crops.obic[,list(crop_code,crop_category)], by.x = 'B_LU_BRP', by.y = 'crop_code') 
   
@@ -290,6 +292,11 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
+    if(!is.na(dt$I_B_NEM)){
+      dt[, I_B_NEM := I_B_NEM]
+    } else{
+      dt[, I_B_NEM := NULL]
+    }
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
     dt[,D_P_CO := pmax(0, D_P_CO)]
@@ -491,11 +498,16 @@ obic_field_dt <- function(dt,output = 'all') {
   smc.all <- 'M_COMPOST'
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
+  # check if I_B_NEM is missing
+  i.nem <- 'I_B_NEM'
+  i.nem.missing <- i.nem[!i.nem %in% colnames(dt)]
+  
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
-  
+  if(length(i.nem.missing)>0){dt[,c(i.nem.missing := NA)]}
+
   # calculate obic_field
   out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
                     dt$B_GWL_GLG,dt$B_GWL_GHG,dt$B_Z_TWO,
@@ -511,6 +523,7 @@ obic_field_dt <- function(dt,output = 'all') {
                     dt$M_SLEEPHOSE,dt$M_DRAIN,dt$M_DITCH,dt$M_UNDERSEED,
                     dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
                     dt$M_STRAWRESIDUE,dt$M_MECHWEEDS,dt$M_PESTICIDES_DST,
+                    dt$I_B_NEM,
                     ID = 1,output = output)
   
   # return output

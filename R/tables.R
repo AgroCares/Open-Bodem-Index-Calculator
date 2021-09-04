@@ -90,7 +90,7 @@
 #' 
 #' This table defines the columns used in the OBIC and which unit is used
 #' 
-#' @format A data.frame with 126 rows and 6 columns:
+#' @format A data.frame with 230 rows and 6 columns:
 #' \describe{
 #'   \item{column}{The column name used in OBIC}
 #'   \item{type}{The type of column}

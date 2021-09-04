@@ -10,7 +10,6 @@ I_C_CU;indicator;akkerbouw;1;1
 I_C_ZN;indicator;akkerbouw;1;1
 I_P_CR;indicator;akkerbouw;1;1
 I_P_SE;indicator;akkerbouw;1;1
-I_P_MS;indicator;akkerbouw;1;1
 I_P_BC;indicator;akkerbouw;1;1
 I_P_DU;indicator;akkerbouw;1;1
 I_P_CO;indicator;akkerbouw;1;1
@@ -21,7 +20,7 @@ I_P_WRI;indicator;akkerbouw;1;1
 I_P_WO;indicator;akkerbouw;1;1
 I_B_DI;indicator;akkerbouw;1;1
 I_B_SF;indicator;akkerbouw;1;1
-I_B_SB;indicator;akkerbouw;1;1
+I_B_NEM;indicator;akkerbouw;-1;-1
 I_E_NGW;indicator;akkerbouw;1;1
 I_E_NSW;indicator;akkerbouw;1;1
 I_M;indicator;akkerbouw;1;1
@@ -56,7 +55,6 @@ I_C_CU;indicator;mais;1;1
 I_C_ZN;indicator;mais;1;1
 I_P_CR;indicator;mais;1;1
 I_P_SE;indicator;mais;1;1
-I_P_MS;indicator;mais;1;1
 I_P_BC;indicator;mais;1;1
 I_P_DU;indicator;mais;1;1
 I_P_CO;indicator;mais;1;1
@@ -67,7 +65,7 @@ I_P_WRI;indicator;mais;1;1
 I_P_WO;indicator;mais;1;1
 I_B_DI;indicator;mais;1;1
 I_B_SF;indicator;mais;1;1
-I_B_SB;indicator;mais;1;1
+I_B_NEM;indicator;mais;-1;-1
 I_E_NGW;indicator;mais;1;1
 I_E_NSW;indicator;mais;1;1
 I_M;indicator;mais;1;1
@@ -102,7 +100,6 @@ I_C_CU;indicator;grasland;1;1
 I_C_ZN;indicator;grasland;1;1
 I_P_CR;indicator;grasland;1;1
 I_P_SE;indicator;grasland;1;1
-I_P_MS;indicator;grasland;1;1
 I_P_BC;indicator;grasland;1;1
 I_P_DU;indicator;grasland;-1;-1
 I_P_CO;indicator;grasland;1;1
@@ -113,7 +110,7 @@ I_P_WRI;indicator;grasland;1;1
 I_P_WO;indicator;grasland;1;1
 I_B_DI;indicator;grasland;1;1
 I_B_SF;indicator;grasland;1;1
-I_B_SB;indicator;grasland;1;1
+I_B_NEM;indicator;grasland;-1;-1
 I_E_NGW;indicator;grasland;1;1
 I_E_NSW;indicator;grasland;1;1
 I_M;indicator;grasland;1;1
@@ -148,7 +145,6 @@ I_C_CU;indicator;natuur;1;1
 I_C_ZN;indicator;natuur;1;1
 I_P_CR;indicator;natuur;1;1
 I_P_SE;indicator;natuur;1;1
-I_P_MS;indicator;natuur;1;1
 I_P_BC;indicator;natuur;1;1
 I_P_DU;indicator;natuur;1;1
 I_P_CO;indicator;natuur;1;1
@@ -159,7 +155,7 @@ I_P_WRI;indicator;natuur;1;1
 I_P_WO;indicator;natuur;-1;-1
 I_B_DI;indicator;natuur;1;1
 I_B_SF;indicator;natuur;1;1
-I_B_SB;indicator;natuur;1;1
+I_B_NEM;indicator;natuur;-1;-1
 I_E_NGW;indicator;natuur;1;1
 I_E_NSW;indicator;natuur;1;1
 I_M;indicator;natuur;1;1

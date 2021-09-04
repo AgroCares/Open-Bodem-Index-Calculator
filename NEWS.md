@@ -5,13 +5,18 @@
 * table nema.crop.rot.obic added
 * ppr_bouwplan_tables.r in dev/scripts
 * merge_nema_tables.r in dev/scripts
+* ppr_crops_crumbleability.r in dev/scripts
 * argument B_GWL_GHG, B_GWL_GLG and B_Z_TWO to obic_field and obic_field_dt
 * function calc_workability is active now
+* functions ind_nematodes and ind_nematodes_list to estimate the index for nematode risks.
+* check to ppr_weight_obic to check if all indicators in weight.obic occur in column_descriptions_obic
 
 ### Changed
-* updated documentation, weight.obic for workability
+* update documentation for workability
+* update weight.obic for workability
+* update documentation for nematodes
 * update calc_workability
-* update column_descriptons_obic.Rdata
+* update column_descriptions_obic.Rdata
 
 ## Version 1.0.2 2021-05-20
 ### Added
