@@ -18,21 +18,47 @@
 * increased required days post GLG for maize on other soils to match October 20
 * season.obic can now be merged on both landuse and soiltype.m
 
-## Version 1.1.1 2021-05-21
+## Version 1.0.2.9000 DEVELOPMENT
 ### Added
 * table nema.crop.rot.obic added
 * ppr_bouwplan_tables.r in dev/scripts
 * merge_nema_tables.r in dev/scripts
-
-## Version 1.1.0 2021-05-03
-### Added
+* ppr_crops_crumbleability.r in dev/scripts
 * argument B_GWL_GHG, B_GWL_GLG and B_Z_TWO to obic_field and obic_field_dt
 * function calc_workability is active now
+* functions ind_nematodes and ind_nematodes_list to estimate the index for nematode risks.
+* check to ppr_weight_obic to check if all indicators in weight.obic occur in column_descriptions_obic
 
 ### Changed
-* updated documentation, weight.obic for workability
+* update documentation for workability
+* update weight.obic for workability
+* update documentation for nematodes
 * update calc_workability
-* update column_descriptons_obic.Rdata
+* update column_descriptions_obic.Rdata
+
+### Fixed
+* error in grass_age: age was incorrectly estimated for multiple fields
+
+## Version 1.0.2 2021-05-20
+### Added
+* ind_man_ess.R and tests are added for update aggregated management scores, issue #131
+
+### Changed
+* obic_field() makes use of ind_man_ess
+
+### Fixed
+* check B_GWL_CLASS in calc_waterstressindex(), issue #129
+
+## Version 1.0.1 2021-05-05
+### Added
+* management.obic table added to link management measures to ecosystem services
+* calc_man_ess.R and tests are added to estimate grouped impact of management on ecosystem servcices, issue #125
+
+### Changed
+* I_M_* and I_*_BCS indicators for management measures and BCS are removed, issue #126
+* values -999 are replaced by NA 
+* column_descriptons_obic.Rdata is updated
+* weight.obic is updated
 
 ## Version 1.0.0 2021-04-28
 ### Added

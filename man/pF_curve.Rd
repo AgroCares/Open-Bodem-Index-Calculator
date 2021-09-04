@@ -13,7 +13,7 @@ pF_curve(head, thetaR, thetaS, alfa, n)
 
 \item{thetaS}{(numeric) saturated water content (cm3/cm3)}
 
-\item{alfa}{(numeric)  related to the inverse of the air entry suction, alfa >0 (L−1, or cm−1)}
+\item{alfa}{(numeric)  related to the inverse of the air entry suction, alfa > 0 (1/cm)}
 
 \item{n}{(numeric)  a measure of the pore-size distribution, n>1, dimensionless}
 }

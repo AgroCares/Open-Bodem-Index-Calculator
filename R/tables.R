@@ -90,7 +90,7 @@
 #' 
 #' This table defines the columns used in the OBIC and which unit is used
 #' 
-#' @format A data.frame with 126 rows and 6 columns:
+#' @format A data.frame with 230 rows and 6 columns:
 #' \describe{
 #'   \item{column}{The column name used in OBIC}
 #'   \item{type}{The type of column}
@@ -129,6 +129,20 @@
 #'   \item{derving}{Category to determine yield loss due to having a sub-optimal relative growing season length or RLG}
 #' }
 "season.obic"
+
+#' Relational table linking soil management measures to ecosystem services
+#' 
+#' This table assigns which measures positively contribute to the ecosystem services included
+#' 
+#' @format A data.table with 16 rows and 6 columns:
+#' \describe{
+#'   \item{measure}{The name of measure}
+#'   \item{I_M_SOILFERTILITY}{integrated soil management indicator for soil fertility}
+#'   \item{I_M_CLIMATE}{integrated soil management indicator for soil carbon sequestration}
+#'   \item{I_M_WATERQUALITY}{integrated soil management indicator for water quality}
+#'   \item{I_M_BIODIVERSITY}{Integrated soil management indicator for soil biodiversity}
+#' }
+"management.obic"
 
 #' Damage and reproduction of soil-borne pathogens and pests on crops
 #' 
