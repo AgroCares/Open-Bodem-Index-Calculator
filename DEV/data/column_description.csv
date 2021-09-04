@@ -89,6 +89,7 @@ I_C_CEC;indicator;Kationbuffering;CEC;-;
 I_C_CU;indicator;Koperbeschikbaarheid;Copper;-;
 I_C_ZN;indicator;Zinkbeschikbaarheid;Zinc;-;
 I_P_CR;indicator;Verkruimelbaarheid;Crumbleability;-;
+I_P_BC;indicator;Draagkracht;Bearing capacity;-;
 I_P_SE;indicator;Verslemping;Soil sealing;-;
 I_P_DS;indicator;Droogteschade;Drougthstress;-;
 I_P_WS;indicator;Natschade;Wetnessstress;-;
