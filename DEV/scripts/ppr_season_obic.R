@@ -11,10 +11,10 @@
   season.obic <- season.obic[,.(landuse, req_days_pre_glg, req_days_post_glg, total_days, derving)]
   
   # add soiltype columns to be molten based on soils.obic$soiltype.m
-  season.obic <- season.obic[, zand := 'zand']
-  season.obic <- season.obic[, klei := 'klei']
-  season.obic <- season.obic[, veen := 'veen']
-  season.obic <- season.obic[, loess := 'loess']
+  season.obic[, zand := 'zand']
+  season.obic[, klei := 'klei']
+  season.obic[, veen := 'veen']
+  season.obic[, loess := 'loess']
   
   # melt soiltype
   season.obic <- melt(season.obic, measure.vars = c('zand', 'klei', 'veen', 'loess'), variable.name = 'soiltype.m')
@@ -37,5 +37,6 @@
   
   # save table
   usethis::use_data(name = season.obic, overwrite = TRUE)
+  
   # save as csv for tracking
-  write.csv(season.obic_orig, 'DEV/data/season.obic.csv')
+  write.csv(season.obic, 'DEV/data/season.obic.csv')

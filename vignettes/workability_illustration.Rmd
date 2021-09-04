@@ -41,7 +41,7 @@ dt <- merge(dt, crops.obic[,.(crop_code, crop_name)], by.x = 'B_LU_BRP', by.y = 
 ```
 
 ````{r show dt}
-knitr::kable(dt, format = 'html')
+knitr::kable(dt, format = 'html')s
 ```
 
 ```{r calc_workability indicator and score}
