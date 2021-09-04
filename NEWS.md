@@ -18,6 +18,9 @@
 * update calc_workability
 * update column_descriptions_obic.Rdata
 
+### Fixed
+* error in grass_age: age was incorrectly estimated for multiple fields
+
 ## Version 1.0.2 2021-05-20
 ### Added
 * ind_man_ess.R and tests are added for update aggregated management scores, issue #131
