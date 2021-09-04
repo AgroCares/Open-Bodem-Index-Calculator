@@ -10,6 +10,7 @@
 * function calc_workability is active now
 * functions ind_nematodes and ind_nematodes_list to estimate the index for nematode risks.
 * check to ppr_weight_obic to check if all indicators in weight.obic occur in column_descriptions_obic
+* vignette describing how workability is calculated and affected by its input variables
 
 ### Changed
 * update documentation for workability
@@ -17,9 +18,16 @@
 * update documentation for nematodes
 * update calc_workability
 * update column_descriptions_obic.Rdata
+* renamed B_Z_TWO to B_GWL_ZCRIT
+* improved function description of ind_workability
+* increased required days post GLG for maize on sand or loess to match October 1
+* increased required days post GLG for maize on other soils to match October 20
+* season.obic can now be merged on both landuse and soiltype.m
 
 ### Fixed
 * error in grass_age: age was incorrectly estimated for multiple fields
+* removed negative values from season.obic
+* ensured total_days >= req_days_pre_glg + req_days_post_glg in season.obic 
 
 ## Version 1.0.2 2021-05-20
 ### Added
