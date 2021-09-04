@@ -17,7 +17,7 @@
   colsd <- obic.ind[type=="indicator",column]
   
   # which are present in weights
-  cols <- unique(weight.obic$indicator)
+  cols <- weight.obic[type=='indicator',variable]
   
   # which are missing
   cols.mis <- colsd[!colsd %in% cols]
