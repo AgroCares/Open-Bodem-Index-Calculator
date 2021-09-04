@@ -178,6 +178,9 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
     
   } else {
     
+    # add temporaly check
+    dt[rsl<0, rsl := 0]
+    
     # return relative length season
     value <- dt[,rsl]  
   }
