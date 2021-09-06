@@ -56,7 +56,7 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
   dt[B_SOILTYPE_AGR == 'dalgrond', SOM_MIN := 2.1]
   
   # Calcualte bulk density
-  dt[,BD_MIN := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI = rep(SOM_MIN,arg.length),A_CLAY_MI)/1000]
+  dt[,BD_MIN := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI = SOM_MIN,A_CLAY_MI)/1000]
   
   # Calculate volume fraction of water
   dt[,vfw_min := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI = SOM_MIN,type = 'water holding capacity')]
@@ -87,6 +87,7 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
   # Calculate pesticide leaching risk
   dt[,D_PESTICIDE := pest_leach/pest_leach_min]
   
+  # Return outptu
   return(dt[,D_PESTICIDE])
   
 }
