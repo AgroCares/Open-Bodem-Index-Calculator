@@ -66,6 +66,9 @@ calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS,
   dt[crop_category == "natuur" | crop_category == "akkerbouw" , croptype.nleach := "akkerbouw"]
   dt[crop_category == "grasland" , croptype.nleach := "gras"]
   
+  # ensure correct GWL_CLASS
+  dt[,B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
+  
   # merge fraction of N leaching into 'dt', based on soil type x crop type x grondwatertrap
   dt <- merge(dt, nleach_table[, list(bodem, gewas, B_GT, nf)], 
               by.x = c("soiltype.n", "croptype.nleach", "B_GWL_CLASS"), 
