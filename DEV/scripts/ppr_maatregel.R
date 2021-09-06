@@ -107,7 +107,7 @@
 # update september 2021
   
   # add workability, assuming similar impacts on workability as on wetness stress
-  m2.copy <- m.obic[indicator=='I_P_WS'][,indicator := 'I_P_WS']
+  m2.copy <- m.obic[indicator=='I_P_WS'][,indicator := 'I_P_WO']
   
   # add to m.obic
   m.obic <- rbind(m.obic,m2.copy)
