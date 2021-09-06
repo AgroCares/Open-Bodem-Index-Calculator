@@ -4,13 +4,7 @@
 \alias{ind_gw_recharge}
 \title{Calculate groundwater recharge of a soil}
 \usage{
-ind_gw_recharge(
-  D_WRI_WHC,
-  D_PSP,
-  I_P_SE,
-  B_COMPACTION = FALSE,
-  B_DRAINAGE = FALSE
-)
+ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE = FALSE)
 }
 \arguments{
 \item{D_WRI_WHC}{(numeric) The value for Water Retention index (WRI) for WHC as calculated by \code{\link{calc_waterretention}}}
@@ -19,7 +13,7 @@ ind_gw_recharge(
 
 \item{I_P_SE}{(numeric) The indicator value for soil sealing}
 
-\item{B_COMPACTION}{(boolean) Is the subsoil compacted (options: yes or no)}
+\item{I_P_CO}{(numeric) The indicator value for occurrence of subsoil compaction}
 
 \item{B_DRAINAGE}{(boolean) Are drains installed to drain the field (options: yes or no)}
 }
