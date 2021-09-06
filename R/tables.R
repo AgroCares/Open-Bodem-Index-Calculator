@@ -130,6 +130,71 @@
 #' }
 "season.obic"
 
+#' Example dataset for use in OBIC package
+#' 
+#' This table contains a series of agricultural fields with soil properties needed for illustration OBIC.
+#' 
+#' @format A data.frame with 65 rows and 55 columns:
+#' \describe{
+#'    \item{ID}{A field id (numeric)}
+#'    \item{YEAR}{The year that the crop is grown (integer)}
+#'    \item{B_LU_BRP}{A series with crop codes given the crop rotation plan (integer, source: the BRP)}
+#'    \item{B_SC_WENR}{The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006) (character).}
+#'    \item{B_GWL_CLASS}{The groundwater table class (character)}
+#'    \item{B_SOILTYPE_AGR}{The agricultural type of soil (character)}
+#'    \item{B_HELP_WENR}{The soil type abbreviation, derived from 1:50.000 soil map (character)}
+#'    \item{B_AER_CBS}{The agricultural economic region in the Netherlands (CBS, 2016) (character)}
+#'    \item{A_SOM_LOI}{The percentage organic matter in the soil (\%) (numeric)}
+#'    \item{A_CLAY_MI}{The clay content of the soil (\%) (numeric)}
+#'    \item{A_SAND_MI}{The sand content of the soil (\%) (numeric)}
+#'    \item{A_SILT_MI}{The silt content of the soil (\%) (numeric)}
+#'    \item{A_PH_CC}{The acidity of the soil, measured in 0.01M CaCl2 (-) (numeric)}
+#'    \item{A_CACO3_IF}{The carbonate content of the soil (\%) (numeric)}
+#'    \item{A_N_RT}{The organic nitrogen content of the soil in mg N / kg (numeric)}
+#'    \item{A_CN_FR}{The carbon to nitrogen ratio (-) (numeric)}
+#'    \item{A_COM_FR}{The carbon fraction of soil organic matter (\%) (numeric)}
+#'    \item{A_S_RT}{The total Sulpher content of the soil (in mg S per kg) (numeric)}
+#'    \item{A_N_PMN}{The potentially mineralizable N pool (mg N / kg soil) (numeric)}
+#'    \item{A_P_AL}{The P-AL content of the soil (numeric)}
+#'    \item{A_P_CC}{The plant available P content, extracted with 0.01M CaCl2 (mg / kg) (numeric)}
+#'    \item{A_P_WA}{The P-content of the soil extracted with water (mg P2O5 / 100 ml soil) (numeric)}
+#'    \item{A_CEC_CO}{The cation exchange capacity of the soil (mmol+ / kg), analysed via Cobalt-hexamine extraction (numeric)}
+#'    \item{A_CA_CO_PO}{The The occupation of the CEC with Ca (\%) (numeric)}
+#'    \item{A_MG_CO_PO}{The The occupation of the CEC with Mg (\%) (numeric)}
+#'    \item{A_K_CO_PO}{The occupation of the CEC with K (\%) (numeric)}
+#'    \item{A_K_CC}{The plant available K content, extracted with 0.01M CaCl2 (mg / kg) (numeric)}
+#'    \item{A_MG_CC}{The plant available Mg content, extracted with 0.01M CaCl2 (ug / kg) (numeric)}
+#'    \item{A_MN_CC}{The plant available Mn content, extracted with 0.01M CaCl2 (ug / kg) (numeric)}
+#'    \item{A_ZN_CC}{The plant available Zn content, extracted with 0.01M CaCl2 (ug / kg) (numeric)}
+#'    \item{A_CU_CC}{The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg) (numeric)}
+#'    \item{A_EW_BCS}{The presence of earth worms (optional, score 0-1-2, numeric)}
+#'    \item{A_SC_BCS}{The presence of compaction of subsoil (optional, score 0-1-2, numeric)}
+#'    \item{A_GS_BCS}{The presence of waterlogged conditions, gley spots (optional, score 0-1-2, numeric)}
+#'    \item{A_P_BCS}{The presence / occurrence of water puddles on the land, ponding (optional, score 0-1-2, numeric)}
+#'    \item{A_C_BCS}{The presence of visible cracks in the top layer (optional, score 0-1-2, numeric)}
+#'    \item{A_RT_BCS}{The presence of visible tracks / rutting or trampling on the land (optional, score 0-1-2, numeric)}
+#'    \item{A_RD_BCS}{The rooting depth (optional, score 0-1-2, numeric)}
+#'    \item{A_SS_BCS}{The soil structure (optional, score 0-1-2, numeric)}
+#'    \item{A_CC_BCS}{he crop cover on the surface (optional, score 0-1-2, numeric)}
+#'    \item{M_COMPOST}{The frequency that compost is applied (optional, every x years, numeric)}
+#'    \item{M_GREEN}{A soil measure. Are catch crops sown after main crop (optional, option: yes or no, boolean)}
+#'    \item{M_NONBARE}{A soil measure. Is parcel for 80 percent of the year cultivated and 'green' (optional, option: yes or no, boolean)}
+#'    \item{M_EARLYCROP}{A soil measure. Use of early crop varieties to avoid late harvesting (optional, option: yes or no, boolean)}
+#'    \item{M_SLEEPHOSE}{A soil measure. Is sleephose used for slurry application (optional, option: yes or no, boolean)}
+#'    \item{M_DRAIN}{A soil measure. Are under water drains installed in peaty soils (optional, option: yes or no, boolean)}
+#'    \item{M_DITCH}{A soil measure. Are ditched maintained carefully and slib applied on the land (optional, option: yes or no, boolean)}
+#'    \item{M_UNDERSEED}{A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no, boolean)}
+#'    \item{M_LIME}{A soil measure. Has field been limed in last three years (option: yes or no, boolean)}
+#'    \item{M_NONINVTILL}{A soil measure. Non inversion tillage (option: yes or no, boolean)}
+#'    \item{M_SSPM}{A soil measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no, boolean)}
+#'    \item{M_SOLIDMANURE}{A soil measure. Use of solid manure (option: yes or no, boolean)}
+#'    \item{M_STRAWRESIDUE}{A soil measure. Application of straw residues (option: yes or no, boolean)}
+#'    \item{M_MECHWEEDS}{A soil measure. Use of mechanical weed protection (option: yes or no, boolean)}
+#'    \item{M_PESTICIDES_DST}{A soil measure. Use of DST for pesticides (option: yes or no, boolean)}
+#' }
+"binnenveld"
+
+
 #' Relational table linking soil management measures to ecosystem services
 #' 
 #' This table assigns which measures positively contribute to the ecosystem services included

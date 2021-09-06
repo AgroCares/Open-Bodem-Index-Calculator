@@ -102,10 +102,21 @@
   # add to m.obic
   m.obic <- rbind(m.obic[!indicator=='I_P_MS'],m1.copy,m2.copy)
   
+  
+  
+# update september 2021
+  
+  # add workability, assuming similar impacts on workability as on wetness stress
+  m2.copy <- m.obic[indicator=='I_P_WS'][,indicator := 'I_P_WO']
+  
+  # add to m.obic
+  m.obic <- rbind(m.obic,m2.copy)
+  
   # setkey
   setkey(m.obic,indicator,m_sector,m_soiltype)
   
   # rename to recom.obic
   recom.obic <- m.obic
+  
   
 save(recom.obic, file = "data/recom_obic.RData")

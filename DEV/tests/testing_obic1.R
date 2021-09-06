@@ -377,7 +377,8 @@ plot(rsltest, 100*rsltest^2-200*rsltest+100)
 
 # testobject
 require(data.table)
-field <- jsonlite::fromJSON("dev/tests/obi2.json")
+require(OBIC)
+field <- jsonlite::fromJSON("dev/tests/input.json")
 
 dt <- data.table(ID = 362662,
                  B_SOILTYPE_AGR = field$b_soiltype_agr,
@@ -445,7 +446,7 @@ dt[,M_COMPOST := 5]
 require(OBIC)
 require(data.table)
 
-nsim = 50
+nsim =1 
 out.list = list()
 pb <- txtProgressBar(0,nsim)
 

@@ -61,7 +61,7 @@ obic_field(
   M_STRAWRESIDUE = NA,
   M_MECHWEEDS = NA,
   M_PESTICIDES_DST = NA,
-  I_B_NEM = NA,
+  I_B_NEM = NA_real_,
   ID = 1,
   output = "all"
 )
@@ -187,4 +187,7 @@ obic_field(
 }
 \description{
 This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI) for a single field.
+}
+\details{
+It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
 }

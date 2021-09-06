@@ -62,8 +62,12 @@
 #' @param ID (character) A field id
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
 #' 
-#' @import data.table
+#' @details 
+#' It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
 #' 
+#' 
+#' @import data.table
+#'  
 #' @export
 obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CBS,
                        B_GWL_GLG,B_GWL_GHG,B_GWL_ZCRIT,
@@ -79,7 +83,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
-                       I_B_NEM = NA,
+                       I_B_NEM = NA_real_,
                        ID = 1, output = 'all') {
   
   
@@ -87,7 +91,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
   D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_CP_RUST = D_CP_RUSTDEEP = NULL
   D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_WE = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
-  D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = B_GWL_GLG = B_GWL_GHG = B_GWL_ZCRIT = NULL
+  D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_B_NEM = I_M = NULL
@@ -111,7 +115,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    B_SC_WENR = B_SC_WENR,
                    B_HELP_WENR = B_HELP_WENR,
                    B_GWL_GLG = B_GWL_GLG,
-                   B_GWL_GHG = B_GWL_GLG,
+                   B_GWL_GHG = B_GWL_GHG,
                    B_GWL_ZCRIT = B_GWL_ZCRIT,
                    A_SOM_LOI = A_SOM_LOI, 
                    A_SAND_MI = A_SAND_MI, 
@@ -292,11 +296,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
-    if(!is.na(dt$I_B_NEM)){
-      dt[, I_B_NEM := I_B_NEM]
-    } else{
-      dt[, I_B_NEM := NULL]
-    }
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
     dt[,D_P_CO := pmax(0, D_P_CO)]
@@ -341,14 +340,18 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                     id.vars = c('B_SOILTYPE_AGR','crop_category','year'), 
                     variable.name = 'indicator')
     
+    # remove the indicators that have a NA value
+    dt.melt <- dt.melt[!is.na(value)]
+    
     # add categories relevant for aggregating
     # C = chemical, P = physics, B = biological, BCS = visual soil assessment
     # indicators not used for integrating: IBCS and IM
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
+    #dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
     
-    # Determine amount of indicators per category
-    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by='cat']
+    # Determine number of indicators per category
+    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']
     
     # add weighing factor to indicator values
     dt.melt <- merge(dt.melt,w[,list(crop_category,indicator = variable,weight_nonpeat,weight_peat)], 
@@ -444,10 +447,13 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     if(output == 'recommendations'){out <- out.recom}
     if(output == 'scores'){out <- out.score}
     if(output == 'obic_score'){out <- out.score[,'S_T_OBI_A']}
-  
+    if(output == 'unaggregated'){out <- dt.melt}
+   
+    
   # return output
   return(out)
 }
+
 
 #' Calculate the Open Bodem Index score for a single field
 #' 
@@ -461,6 +467,9 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' 
 #' @export
 obic_field_dt <- function(dt,output = 'all') {
+ 
+  # add visual binding
+  I_B_NEM = NULL
   
   # make local copy
   dt <- copy(dt)
@@ -498,34 +507,30 @@ obic_field_dt <- function(dt,output = 'all') {
   smc.all <- 'M_COMPOST'
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
-  # check if I_B_NEM is missing
-  i.nem <- 'I_B_NEM'
-  i.nem.missing <- i.nem[!i.nem %in% colnames(dt)]
-  
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
-  if(length(i.nem.missing)>0){dt[,c(i.nem.missing := NA)]}
-
+  if(!'I_B_NEM' %in% colnames(dt)){dt[,I_B_NEM := NA_real_]}
+  
   # calculate obic_field
   out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
                     dt$B_GWL_GLG,dt$B_GWL_GHG,dt$B_GWL_ZCRIT,
                     dt$B_LU_BRP, 
-                    dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,dt$A_CACO3_IF,
-                    dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
-                    dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
-                    dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
-                    dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,
-                    dt$A_C_BCS, dt$A_CC_BCS,dt$A_GS_BCS,dt$A_P_BCS,dt$A_RD_BCS,
-                    dt$A_EW_BCS,dt$A_SS_BCS,dt$A_RT_BCS,dt$A_SC_BCS,
-                    dt$M_COMPOST,dt$M_GREEN, dt$M_NONBARE, dt$M_EARLYCROP, 
-                    dt$M_SLEEPHOSE,dt$M_DRAIN,dt$M_DITCH,dt$M_UNDERSEED,
-                    dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
-                    dt$M_STRAWRESIDUE,dt$M_MECHWEEDS,dt$M_PESTICIDES_DST,
-                    dt$I_B_NEM,
-                    ID = 1,output = output)
-  
+                     dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,dt$A_CACO3_IF,
+                     dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
+                     dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
+                     dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
+                     dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,
+                     dt$A_C_BCS, dt$A_CC_BCS,dt$A_GS_BCS,dt$A_P_BCS,dt$A_RD_BCS,
+                     dt$A_EW_BCS,dt$A_SS_BCS,dt$A_RT_BCS,dt$A_SC_BCS,
+                     dt$M_COMPOST,dt$M_GREEN, dt$M_NONBARE, dt$M_EARLYCROP, 
+                     dt$M_SLEEPHOSE,dt$M_DRAIN,dt$M_DITCH,dt$M_UNDERSEED,
+                     dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
+                     dt$M_STRAWRESIDUE,dt$M_MECHWEEDS,dt$M_PESTICIDES_DST,
+                     dt$I_B_NEM,
+                     ID = 1,output = output)
+    
   # return output
   return(out)
   
