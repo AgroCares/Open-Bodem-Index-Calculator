@@ -11,6 +11,8 @@
 #' @param B_GWL_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
 #' @param B_GWL_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
 #' @param B_Z_TWO  (numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)
+#' @param B_DRAINAGE (boolean) Are drains installed to drain the field (options: yes or no)
+#' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
@@ -43,8 +45,6 @@
 #' @param A_RD_BCS (integer) The rooting depth (optional, score 0-1-2)
 #' @param A_SS_BCS (integer) The soil structure (optional, score 0-1-2)
 #' @param A_CC_BCS (integer) The crop cover on the surface (optional, score 0-1-2)
-#' @param B_DRAINAGE (boolean) Are drains installed to drain the field (options: yes or no)
-#' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
 #' @param M_COMPOST (numeric) The frequency that compost is applied (optional, every x years)
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #' @param M_NONBARE (boolean) A soil measure. Is parcel for 80 percent of the year cultivated and 'green' (optional, option: yes or no)
