@@ -31,6 +31,7 @@
 * error in grass_age: age was incorrectly estimated for multiple fields
 * removed negative values from season.obic
 * ensured total_days >= req_days_pre_glg + req_days_post_glg in season.obic 
+* root depth was incorrectly assigned for maize and nature 
 
 ## Version 1.0.2 2021-05-20
 ### Added
