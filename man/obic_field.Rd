@@ -61,7 +61,7 @@ obic_field(
   M_STRAWRESIDUE = NA,
   M_MECHWEEDS = NA,
   M_PESTICIDES_DST = NA,
-  I_B_NEM = NA,
+  I_B_NEM = NA_real_,
   ID = 1,
   output = "all"
 )

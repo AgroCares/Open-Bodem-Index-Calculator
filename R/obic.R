@@ -468,6 +468,9 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' @export
 obic_field_dt <- function(dt,output = 'all') {
  
+  # add visual binding
+  I_B_NEM = NULL
+  
   # make local copy
   dt <- copy(dt)
   
