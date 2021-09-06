@@ -29,8 +29,8 @@ calc_root_depth <- function(B_LU_BRP) {
   setorder(dt, id)
   
   # Determine depth
-  dt[crop_category %in% c("akkerbouw", "natuur"), value := 0.3]
-  dt[crop_category %in% c("grasland", "mais"), value := 0.1]
+  dt[crop_category %in% c("akkerbouw", "mais", "natuur"), value := 0.25]
+  dt[crop_category %in% c("grasland"), value := 0.1]
   
   value <- dt[, value]
   return(value)  
