@@ -282,7 +282,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_SF := ind_pmn(D_PMN)]
     
     # Calculate indicators for water functions
-    dt[, I_W_GWR := ind_gw_storage(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE)]
+    dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE)]
     dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
     dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
     

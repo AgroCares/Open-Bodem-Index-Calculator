@@ -1,4 +1,4 @@
-test_that("test whether calc_petsicide_leaching works", {
+test_that("test whether calc_pesticide_leaching works", {
   expect_equal(
     calc_pesticide_leaching(B_SOILTYPE_AGR = rep('dekzand',4),
                             A_SOM_LOI = c(2,3,5,8),
@@ -23,7 +23,7 @@ test_that("test whether calc_petsicide_leaching works", {
                             M_PESTICIDES_DST = rep(FALSE,4),
                             M_MECHWEEDS = rep(FALSE,4)
     ),
-    expected = c(0.5331843, 0.7301947, 0.9243994, 0.9614569),
+    expected = c(0.552, 0.743, 0.928, 0.964),
     tolerance = 0.01
   )
   
