@@ -72,7 +72,7 @@ calc_psp <- function(B_LU_BRP, M_GREEN){
   year_cc <- unique(dt[M_GREEN == TRUE, year])
   year_cc <- year_cc[!year_cc %in% (year_wc - 1)]
   
-  # Add catchcrop for last year in rotaton
+  # Add catch crop for last year in rotation
   if(year_cc[length(year_cc)] == arg.length){
     
     dt[year == arg.length & month %in% 10:12, c("crop_name","mcf"):=list("catch crop",c(0.74,0.64,0.6))]

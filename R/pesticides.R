@@ -1,8 +1,7 @@
 #' Calculate risk of pesticide leaching
 #' 
 #' This function calculates the risk of pesticide leaching from a soil. The risk is calculated by comparing the current leached fraction with a worst case scenario
-#' 
-#' 
+#'  
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
@@ -15,7 +14,9 @@
 #' @export
 calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND_MI, A_SILT_MI, D_PSP, M_PESTICIDES_DST,M_MECHWEEDS) {
   
-  soils.obic = BD_MIN = vfw_min = B_WATER_FLUX_MIN = pest_leach_min = BD = vfw = B_WATER_FLUX = pest_leach = D_PESTICIDE = I_PESTICIDE = NULL
+  # add visual bindings
+  soils.obic = BD_MIN = vfw_min = B_WATER_FLUX_MIN = pest_leach_min = BD = NULL
+  vfw = B_WATER_FLUX = pest_leach = D_PESTICIDE = I_PESTICIDE = SOM_MIN = NULL
   
   # check inputs
   arg.length <- max(length(B_SOILTYPE_AGR),length(A_SOM_LOI),length(A_CLAY_MI),length(A_SAND_MI),length(A_SILT_MI),length(D_PSP),
@@ -68,7 +69,7 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
   
   
   ## Current situation
-  # Calcualte bulk density
+  # Calculate bulk density
   dt[,BD := calc_bulk_density(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI)/1000]
   
   # Calculate volume fraction of water
