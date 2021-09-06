@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/springgbv/Open-Bodem-Index-Calculator/">
+  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -124,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate the SLV</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/sulpher.R'><code>R/sulpher.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/sulpher.R'><code>R/sulpher.R</code></a></small>
     <div class="hidden name"><code>calc_slv.Rd</code></div>
     </div>
 
@@ -132,26 +132,30 @@
     <p>This function calculates a S-balance given the SLV (Sulpher supplying capacity) of a soil</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_slv</span>(<span class='no'>A_S_TOT</span>, <span class='no'>A_OS_GV</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_BT_AK</span>, <span class='no'>D_BDS</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_slv</span><span class='op'>(</span><span class='va'>B_LU_BRP</span>, <span class='va'>B_SOILTYPE_AGR</span>, <span class='va'>B_AER_CBS</span>, <span class='va'>A_SOM_LOI</span>, <span class='va'>A_S_RT</span>, <span class='va'>D_BDS</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A_S_TOT</th>
-      <td><p>(numeric) The total Sulpher content of the soil (in mg S per kg)</p></td>
+      <th>B_LU_BRP</th>
+      <td><p>(numeric) The crop code from the BRP</p></td>
     </tr>
     <tr>
-      <th>A_OS_GV</th>
+      <th>B_SOILTYPE_AGR</th>
+      <td><p>(character) The type of soil</p></td>
+    </tr>
+    <tr>
+      <th>B_AER_CBS</th>
+      <td><p>(character) The agricultural economic region in the Netherlands (CBS, 2016)</p></td>
+    </tr>
+    <tr>
+      <th>A_SOM_LOI</th>
       <td><p>(numeric) The organic matter content of the soil (in procent)</p></td>
     </tr>
     <tr>
-      <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
-    </tr>
-    <tr>
-      <th>B_BT_AK</th>
-      <td><p>(character) The type of soil</p></td>
+      <th>A_S_RT</th>
+      <td><p>(numeric) The total Sulpher content of the soil (in mg S per kg)</p></td>
     </tr>
     <tr>
       <th>D_BDS</th>
@@ -175,7 +179,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

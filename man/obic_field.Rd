@@ -10,6 +10,9 @@ obic_field(
   B_SC_WENR,
   B_HELP_WENR,
   B_AER_CBS,
+  B_GWL_GLG,
+  B_GWL_GHG,
+  B_GWL_ZCRIT,
   B_LU_BRP,
   A_SOM_LOI,
   A_SAND_MI,
@@ -58,6 +61,7 @@ obic_field(
   M_STRAWRESIDUE = NA,
   M_MECHWEEDS = NA,
   M_PESTICIDES_DST = NA,
+  I_B_NEM = NA,
   ID = 1,
   output = "all"
 )
@@ -72,6 +76,12 @@ obic_field(
 \item{B_HELP_WENR}{(character) The soil type abbreviation, derived from 1:50.000 soil map}
 
 \item{B_AER_CBS}{(character) The agricultural economic region in the Netherlands (CBS, 2016)}
+
+\item{B_GWL_GLG}{(numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level}
+
+\item{B_GWL_GHG}{(numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level}
+
+\item{B_GWL_ZCRIT}{(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)}
 
 \item{B_LU_BRP}{(numeric) a series with crop codes given the crop rotation plan (source: the BRP)}
 
@@ -168,6 +178,8 @@ obic_field(
 \item{M_MECHWEEDS}{(boolean) measure. Use of mechanical weed protection (option: yes or no)}
 
 \item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
+
+\item{I_B_NEM}{(numeric) Nematode indicator value as calculated with ind_nematodes()}
 
 \item{ID}{(character) A field id}
 

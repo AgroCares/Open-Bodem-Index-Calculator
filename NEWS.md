@@ -1,29 +1,68 @@
 # Changelog OBIC
 
-## Version 1.3.0 2021-04-26
+## Version 1.0.2.9000 DEVELOPMENT
+### Added
+* table nema.crop.rot.obic added
+* ppr_bouwplan_tables.r in dev/scripts
+* merge_nema_tables.r in dev/scripts
+* ppr_crops_crumbleability.r in dev/scripts
+* argument B_GWL_GHG, B_GWL_GLG and B_Z_TWO to obic_field and obic_field_dt
+* function calc_workability is active now
+* functions ind_nematodes and ind_nematodes_list to estimate the index for nematode risks.
+* check to ppr_weight_obic to check if all indicators in weight.obic occur in column_descriptions_obic
+* vignette describing how workability is calculated and affected by its input variables
 
 ### Changed
-* allow unknown B_HELP_WENR in checkmate water_availability, issue 65
-* very low Mg indicator values for maize are changed, plus tests updated
-* very low Mg indicator values for grassland on clay and peat, issue 84
-* evaluation and calculation for Cu are updated
+* update documentation for workability
+* update weight.obic for workability
+* update documentation for nematodes
+* update calc_workability
+* update column_descriptions_obic.Rdata
+* renamed B_Z_TWO to B_GWL_ZCRIT
+* improved function description of ind_workability
+* increased required days post GLG for maize on sand or loess to match October 1
+* increased required days post GLG for maize on other soils to match October 20
+* season.obic can now be merged on both landuse and soiltype.m
 
+### Fixed
+* error in grass_age: age was incorrectly estimated for multiple fields
+* removed negative values from season.obic
+* ensured total_days >= req_days_pre_glg + req_days_post_glg in season.obic 
+
+## Version 1.0.2 2021-05-20
 ### Added
-
-## Version 1.2.0 2021-04-23 / 2021-04-26
+* ind_man_ess.R and tests are added for update aggregated management scores, issue #131
 
 ### Changed
-* all element names are updated to english ones
-* weighing for score calculated is changed into a more generic approach
-* structure for running obi is changed into one function
-* weights.obic is extended and used to distinguish for relevant/non-relevant indicators
-* grass_age function is updated: count actual years
-* BCS is optional input, and when given it overwrite risk indicators compaction / aggregate stability
-* M codes for no advice, issue #62
-* directory dev is updated and cleaned, issue 104
-* lower and upper limits for soil properties updated
+* obic_field() makes use of ind_man_ess
 
+### Fixed
+* check B_GWL_CLASS in calc_waterstressindex(), issue #129
+
+## Version 1.0.1 2021-05-05
 ### Added
+* management.obic table added to link management measures to ecosystem services
+* calc_man_ess.R and tests are added to estimate grouped impact of management on ecosystem servcices, issue #125
+
+### Changed
+* I_M_* and I_*_BCS indicators for management measures and BCS are removed, issue #126
+* values -999 are replaced by NA 
+* column_descriptons_obic.Rdata is updated
+* weight.obic is updated
+
+## Version 1.0.0 2021-04-28
+### Added
+* column crops_season to crops.obic
+* column scientific_names to crops.obic
+* preparation crops.obic in dev
+* function format_gwt to reformat input for groundwater table 
+* function format_soilcompaction to reformat input for subsoil compaction
+* season.obic added as data.table
+* new function and tests for workability indicator
+* nema.obic added as data.table
+* new function and tests for nematode indicator
+* preparation nema.obic in dev
+* preparation season.obic in dev
 * obic_field is added to run obic score for one field
 * ppr_column_description plus column_descriptons_obic.Rdata
 * ppr_maatregel plus recom_obic.Rdata
@@ -32,21 +71,8 @@
 * add_management added to estimate default values for measures when not given 
 * set of eight I_M_XX indicators for measures are added
 * set of nine I_X_BCS indicators are added (optional)
-* new M_codes added: M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE, M_MECHWEEDS, M_PESTICIDES_DST, issue 107
-
-## Version 1.1.0 2021-04-10
-
-### Changed
-
-### Added
-* season.obic added as data.table
-* new function and tests for workability indicator
-* nema.obic added as data.table
-* new function and tests for nematode indicator
-* preparation nema.obic in dev
-* preparation season.obic in dev
-
-## Version 1.0.0 2021-04-10
+* new M_codes added: M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE, M_MECHWEEDS, M_PESTICIDES_DST, issue #107
+* obic_field_dt to run obic_field() for a data.table input 
 
 ### Changed
 * calculation PBI updated for grassland
@@ -57,16 +83,22 @@
 * update element_names for B_GWL_CLASS in wateravailability.R
 * update element_names for B_GWL_CLASS and B_AER_CBS in nretention.R
 * correct weighing for S_C_A
+* all element names are updated to english ones
+* weighing for score calculated is changed into a more generic approach
+* structure for running obi is changed into one function
+* weights.obic is extended and used to distinguish for relevant/non-relevant indicators
+* grass_age function is updated: count actual years
+* BCS is optional input, and when given it overwrite risk indicators compaction / aggregate stability
+* M codes for no advice, issue #62
+* directory dev is updated and cleaned, issue #104
+* lower and upper limits for soil properties updated
+* allow unknown B_HELP_WENR in checkmate water_availability, issue 65
+* very low Mg indicator values for maize are changed, plus tests updated
+* very low Mg indicator values for grassland on clay and peat, issue 84
+* evaluation and calculation for Cu are updated
 
 ### Fixed
 * setorder in winderodibility
-
-### Added
-* column crops_season to crops.obic
-* column scientific_names to crops.obic
-* preparation crops.obic in dev
-* function format_gwt to reformat input for groundwater table 
-* function format_soilcompaction to reformat input for subsoil compaction
 
 
 ## Version 0.11.1 2020-09-02

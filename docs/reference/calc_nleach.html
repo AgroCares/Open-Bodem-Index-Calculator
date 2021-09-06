@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/springgbv/Open-Bodem-Index-Calculator/">
+  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -124,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate the N leaching</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/nretention.r'><code>R/nretention.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/nretention.r'><code>R/nretention.r</code></a></small>
     <div class="hidden name"><code>calc_nleach.Rd</code></div>
     </div>
 
@@ -132,13 +132,20 @@
     <p>This function calculates the potential N leaching of a soil.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_nleach</span>(<span class='no'>B_BT_AK</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_GT</span>, <span class='no'>D_NLV</span>, <span class='no'>B_LG_CBS</span>, <span class='no'>leaching_to</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_nleach</span><span class='op'>(</span>
+  <span class='va'>B_SOILTYPE_AGR</span>,
+  <span class='va'>B_LU_BRP</span>,
+  <span class='va'>B_GWL_CLASS</span>,
+  <span class='va'>D_NLV</span>,
+  <span class='va'>B_AER_CBS</span>,
+  <span class='va'>leaching_to</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>B_BT_AK</th>
+      <th>B_SOILTYPE_AGR</th>
       <td><p>(character) The type of soil</p></td>
     </tr>
     <tr>
@@ -146,15 +153,15 @@
       <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
     </tr>
     <tr>
-      <th>B_GT</th>
+      <th>B_GWL_CLASS</th>
       <td><p>(character) The groundwater table class</p></td>
     </tr>
     <tr>
       <th>D_NLV</th>
-      <td><p>(numeric) The N-leverend vermogen (kg N ha-1 jr-1) calculated by <code><a href='calc_nlv.html'>calc_nlv</a></code></p></td>
+      <td><p>(numeric) The N supplying capacity of a soil (kg N ha-1 jr-1) calculated by <code><a href='calc_nlv.html'>calc_nlv</a></code></p></td>
     </tr>
     <tr>
-      <th>B_LG_CBS</th>
+      <th>B_AER_CBS</th>
       <td><p>(character) The agricultural economic region in the Netherlands (CBS, 2016)</p></td>
     </tr>
     <tr>
@@ -179,7 +186,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

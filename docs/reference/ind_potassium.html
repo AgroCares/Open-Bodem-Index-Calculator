@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/springgbv/Open-Bodem-Index-Calculator/">
+  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -124,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate the indicator for Potassium Availability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/potassium.R'><code>R/potassium.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/potassium.R'><code>R/potassium.R</code></a></small>
     <div class="hidden name"><code>ind_potassium.Rd</code></div>
     </div>
 
@@ -132,7 +132,7 @@
     <p>This function calculates the indicator for the the Potassium Availability of the soil by using the K-availability calculated by <code><a href='calc_potassium_availability.html'>calc_potassium_availability</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>ind_potassium</span>(<span class='no'>D_K</span>, <span class='no'>B_LU_BRP</span>, <span class='no'>B_BT_AK</span>, <span class='no'>A_OS_GV</span>)</pre>
+    <pre class="usage"><span class='fu'>ind_potassium</span><span class='op'>(</span><span class='va'>D_K</span>, <span class='va'>B_LU_BRP</span>, <span class='va'>B_SOILTYPE_AGR</span>, <span class='va'>A_SOM_LOI</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,14 +143,14 @@
     </tr>
     <tr>
       <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
+      <td><p>(numeric) The crop code from the BRP</p></td>
     </tr>
     <tr>
-      <th>B_BT_AK</th>
-      <td><p>(character) The type of soil</p></td>
+      <th>B_SOILTYPE_AGR</th>
+      <td><p>(character) The agricultural type of soil</p></td>
     </tr>
     <tr>
-      <th>A_OS_GV</th>
+      <th>A_SOM_LOI</th>
       <td><p>(numeric) The organic matter content of the soil (%)</p></td>
     </tr>
     </table>
@@ -171,7 +171,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

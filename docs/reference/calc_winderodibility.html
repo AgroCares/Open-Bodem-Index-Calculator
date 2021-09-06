@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/springgbv/Open-Bodem-Index-Calculator/">
+  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -124,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate indicator for wind erodibility</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/winderodibility.R'><code>R/winderodibility.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/winderodibility.R'><code>R/winderodibility.R</code></a></small>
     <div class="hidden name"><code>calc_winderodibility.Rd</code></div>
     </div>
 
@@ -132,22 +132,22 @@
     <p>This function calculates the risk for wind erodibility of soils, derived from Van Kerckhoven et al. (2009) and Ros &amp; Bussink (2013)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_winderodibility</span>(<span class='no'>A_CLAY_MI</span>, <span class='no'>A_SILT_MI</span>, <span class='no'>B_LU_BRP</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_winderodibility</span><span class='op'>(</span><span class='va'>B_LU_BRP</span>, <span class='va'>A_CLAY_MI</span>, <span class='va'>A_SILT_MI</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>B_LU_BRP</th>
+      <td><p>(numeric) The crop code from the BRP</p></td>
+    </tr>
+    <tr>
       <th>A_CLAY_MI</th>
-      <td><p>(numeric) The clay content of the soil (in procent)</p></td>
+      <td><p>(numeric) The clay content of the soil (%)</p></td>
     </tr>
     <tr>
       <th>A_SILT_MI</th>
-      <td><p>(numeric) The silt content of the soil (in procent)</p></td>
-    </tr>
-    <tr>
-      <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
+      <td><p>(numeric) The silt content of the soil (%)</p></td>
     </tr>
     </table>
 
@@ -167,7 +167,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

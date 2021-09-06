@@ -74,7 +74,7 @@ More information on this test can be found here" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -107,7 +107,7 @@ More information on this test can be found here" />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/springgbv/Open-Bodem-Index-Calculator/">
+  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -126,7 +126,7 @@ More information on this test can be found here" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate the BodemConditieScore</h1>
-    <small class="dont-index">Source: <a href='https://github.com/springgbv/Open-Bodem-Index-Calculator/blob/master/R/bodemconditiescore.R'><code>R/bodemconditiescore.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/R/bodemconditiescore.R'><code>R/bodemconditiescore.R</code></a></small>
     <div class="hidden name"><code>calc_bcs.Rd</code></div>
     </div>
 
@@ -136,76 +136,81 @@ The individual parameters are scored in three classes: poor (0), neutral (1) or 
 More information on this test can be found <a href='http://mijnbodemconditie.nl/'>here</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_bcs</span>(
-  <span class='no'>A_RW_BC</span>,
-  <span class='no'>A_BS_BC</span>,
-  <span class='no'>A_GV_BC</span>,
-  <span class='no'>A_PV_BC</span>,
-  <span class='no'>A_AS_BC</span>,
-  <span class='no'>A_SV_BC</span>,
-  <span class='no'>A_RD_BC</span>,
-  <span class='no'>A_SS_BC</span>,
-  <span class='no'>A_CO_BC</span>,
-  <span class='no'>A_OS_GV</span>,
-  <span class='no'>D_PH_DELTA</span>,
-  <span class='no'>B_LU_BRP</span>,
-  <span class='no'>B_BT_AK</span>
-)</pre>
+    <pre class="usage"><span class='fu'>calc_bcs</span><span class='op'>(</span>
+  <span class='va'>B_LU_BRP</span>,
+  <span class='va'>B_SOILTYPE_AGR</span>,
+  <span class='va'>A_SOM_LOI</span>,
+  <span class='va'>D_PH_DELTA</span>,
+  A_EW_BCS <span class='op'>=</span> <span class='cn'>NA</span>,
+  A_SC_BCS <span class='op'>=</span> <span class='cn'>NA</span>,
+  A_GS_BCS <span class='op'>=</span> <span class='cn'>NA</span>,
+  A_P_BCS <span class='op'>=</span> <span class='cn'>NA</span>,
+  A_C_BCS <span class='op'>=</span> <span class='cn'>NA</span>,
+  A_RT_BCS <span class='op'>=</span> <span class='cn'>NA</span>,
+  A_RD_BCS <span class='op'>=</span> <span class='cn'>NA</span>,
+  A_SS_BCS <span class='op'>=</span> <span class='cn'>NA</span>,
+  A_CC_BCS <span class='op'>=</span> <span class='cn'>NA</span>,
+  type <span class='op'>=</span> <span class='st'>"score"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A_RW_BC</th>
-      <td><p>(numeric) The presence of earth worms (score 0-1-2)</p></td>
+      <th>B_LU_BRP</th>
+      <td><p>(numeric) The crop code from the BRP</p></td>
     </tr>
     <tr>
-      <th>A_BS_BC</th>
-      <td><p>(numeric) The presence of compaction of soil structure (score 0-1-2)</p></td>
+      <th>B_SOILTYPE_AGR</th>
+      <td><p>(character) The agricultural type of soil</p></td>
     </tr>
     <tr>
-      <th>A_GV_BC</th>
-      <td><p>(numeric) The presence of waterlogged conditions (score 0-1-2)</p></td>
-    </tr>
-    <tr>
-      <th>A_PV_BC</th>
-      <td><p>(numeric) The presence / occurence of water puddles on the land (score 0-1-2)</p></td>
-    </tr>
-    <tr>
-      <th>A_AS_BC</th>
-      <td><p>(numeric) The presence of visible cracks in the top layer (score 0-1-2)</p></td>
-    </tr>
-    <tr>
-      <th>A_SV_BC</th>
-      <td><p>(numeric) The presence of visible tracks on the land (score 0-1-2)</p></td>
-    </tr>
-    <tr>
-      <th>A_RD_BC</th>
-      <td><p>(integer) The rooting depth (score 0-1-2)</p></td>
-    </tr>
-    <tr>
-      <th>A_SS_BC</th>
-      <td><p>(integer) The soil structure (score 0-1-2)</p></td>
-    </tr>
-    <tr>
-      <th>A_CO_BC</th>
-      <td><p>(integer) The crop density (score 0-1-2)</p></td>
-    </tr>
-    <tr>
-      <th>A_OS_GV</th>
-      <td><p>(numeric) The organic matter content of the soil (%)</p></td>
+      <th>A_SOM_LOI</th>
+      <td><p>(numeric) The percentage organic matter in the soil (%)</p></td>
     </tr>
     <tr>
       <th>D_PH_DELTA</th>
       <td><p>(numeric) The pH difference with the optimal pH.</p></td>
     </tr>
     <tr>
-      <th>B_LU_BRP</th>
-      <td><p>(numeric) The crop code (gewascode) from the BRP</p></td>
+      <th>A_EW_BCS</th>
+      <td><p>(numeric) The presence of earth worms (score 0-1-2)</p></td>
     </tr>
     <tr>
-      <th>B_BT_AK</th>
-      <td><p>(character) The type of soil</p></td>
+      <th>A_SC_BCS</th>
+      <td><p>(numeric) The presence of compaction of subsoil (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_GS_BCS</th>
+      <td><p>(numeric) The presence of waterlogged conditions, gley spots (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_P_BCS</th>
+      <td><p>(numeric) The presence / occurrence of water puddles on the land, ponding (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_C_BCS</th>
+      <td><p>(numeric) The presence of visible cracks in the top layer (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_RT_BCS</th>
+      <td><p>(numeric) The presence of visible tracks / rutting or trampling on the land (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_RD_BCS</th>
+      <td><p>(integer) The rooting depth (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_SS_BCS</th>
+      <td><p>(integer) The soil structure (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>A_CC_BCS</th>
+      <td><p>(integer) The crop cover on the surface (score 0-1-2)</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>(character) Define output of the function. Options: score (integrated score) and indicator (score per indicator)</p></td>
     </tr>
     </table>
 
@@ -228,7 +233,7 @@ More information on this test can be found <a href='http://mijnbodemconditie.nl/
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
