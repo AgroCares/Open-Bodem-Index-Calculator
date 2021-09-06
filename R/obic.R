@@ -43,7 +43,6 @@
 #' @param A_RD_BCS (integer) The rooting depth (optional, score 0-1-2)
 #' @param A_SS_BCS (integer) The soil structure (optional, score 0-1-2)
 #' @param A_CC_BCS (integer) The crop cover on the surface (optional, score 0-1-2)
-#' @param B_COMPACTION (boolean) Is the subsoil compacted (options: yes or no)
 #' @param B_DRAINAGE (boolean) Are drains installed to drain the field (options: yes or no)
 #' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
 #' @param M_COMPOST (numeric) The frequency that compost is applied (optional, every x years)
@@ -77,7 +76,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
                        A_C_BCS = NA, A_CC_BCS = NA,A_GS_BCS = NA,A_P_BCS = NA,A_RD_BCS = NA,
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
-                       B_COMPACTION = FALSE, B_DRAINAGE = FALSE, B_FERT_NORM_FR = 1,
+                       B_DRAINAGE = FALSE, B_FERT_NORM_FR = 1,
                        M_COMPOST  = NA_real_,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
@@ -147,7 +146,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    A_SS_BCS = A_SS_BCS,
                    A_RT_BCS = A_RT_BCS,
                    A_SC_BCS = A_SC_BCS,
-                   B_COMPACTION = B_COMPACTION,
                    B_DRAINAGE = B_DRAINAGE,
                    B_FERT_NORM_FR = B_FERT_NORM_FR,
                    M_NONBARE = M_NONBARE, 
@@ -284,7 +282,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_SF := ind_pmn(D_PMN)]
     
     # Calculate indicators for water functions
-    dt[, I_W_GWR := ind_gw_storage(D_WRI_WHC, D_PSP, I_P_SE, B_COMPACTION, B_DRAINAGE)]
+    dt[, I_W_GWR := ind_gw_storage(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE)]
     dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
     dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
     
