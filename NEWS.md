@@ -11,6 +11,8 @@
 * functions ind_nematodes and ind_nematodes_list to estimate the index for nematode risks.
 * check to ppr_weight_obic to check if all indicators in weight.obic occur in column_descriptions_obic
 * vignette describing how workability is calculated and affected by its input variables
+* vignette obic_introduction as a short tutorial describing the OBIC principles
+* vignette obic_score_aggregation to illustrate the aggregation principles used
 
 ### Changed
 * update documentation for workability
