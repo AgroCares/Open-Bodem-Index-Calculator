@@ -13,6 +13,11 @@
 * vignette obic_workability, describing how workability is calculated and affected by its input variables
 * vignette obic_introduction as a short tutorial describing the OBIC principles
 * vignette obic_score_aggregation to illustrate the aggregation principles used
+* ind_gw_recharge to estimate the groundwater recharge index
+* calc_n_efficiency and ind_n_efficiency to estimate N efficiency
+* calc_pesticide_leaching and ind_pesticide_leaching to evaluate retention of pesticides in topsoil
+* calc_makkink to add makking factors to crop table
+* calc_psp to estimate precipitation surplus
 
 ### Changed
 * update documentation for workability

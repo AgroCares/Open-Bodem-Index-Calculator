@@ -120,6 +120,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    B_GWL_GLG = B_GWL_GLG,
                    B_GWL_GHG = B_GWL_GHG,
                    B_GWL_ZCRIT = B_GWL_ZCRIT,
+                   B_DRAINAGE = B_DRAINAGE,
+                   B_FERT_NORM_FR = B_FERT_NORM_FR,
                    A_SOM_LOI = A_SOM_LOI, 
                    A_SAND_MI = A_SAND_MI, 
                    A_SILT_MI = A_SILT_MI, 
@@ -152,8 +154,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    A_SS_BCS = A_SS_BCS,
                    A_RT_BCS = A_RT_BCS,
                    A_SC_BCS = A_SC_BCS,
-                   B_DRAINAGE = B_DRAINAGE,
-                   B_FERT_NORM_FR = B_FERT_NORM_FR,
                    M_NONBARE = M_NONBARE, 
                    M_EARLYCROP = M_EARLYCROP, 
                    M_SLEEPHOSE = M_SLEEPHOSE,
@@ -310,9 +310,11 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
-    dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE)]
-    dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
-    dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+    # Calculate indicators for groundwater functions
+    # dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE)]
+    # dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
+    # dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+    
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
     dt[,D_P_CO := pmax(0, D_P_CO)]
