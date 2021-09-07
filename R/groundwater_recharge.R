@@ -17,6 +17,7 @@ ind_gw_recharge <- function(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE = FALSE
   
   # Check inputs
   arg.length <- max(length(I_P_CO),length(B_DRAINAGE))
+  
   checkmate::assert_numeric(I_P_CO, any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(B_DRAINAGE, any.missing = FALSE, len = arg.length)
   
@@ -39,9 +40,10 @@ ind_gw_recharge <- function(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE = FALSE
   # Calculate aggregated score
   dt[,I_W_GWS := (0.35 * I_WRI_WHC + 0.35 * D_I_PSP + 0.3 * I_P_SE) * cf_compaction * cf_drain]
   
-  I_W_GWS <- mean(dt[,I_W_GWS])
+  # Calculate mean
+  out <- dt[,I_W_GWS]
   
-  return(I_W_GWS)
+  return(out)
 }
 
 
