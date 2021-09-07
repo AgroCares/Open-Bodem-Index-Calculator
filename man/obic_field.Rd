@@ -46,6 +46,8 @@ obic_field(
   A_SS_BCS = NA,
   A_RT_BCS = NA,
   A_SC_BCS = NA,
+  B_DRAINAGE = FALSE,
+  B_FERT_NORM_FR = 1,
   M_COMPOST = NA_real_,
   M_GREEN = NA,
   M_NONBARE = NA,
@@ -148,6 +150,10 @@ obic_field(
 \item{A_RT_BCS}{(numeric) The presence of visible tracks / rutting or trampling on the land (optional, score 0-1-2)}
 
 \item{A_SC_BCS}{(numeric) The presence of compaction of subsoil (optional, score 0-1-2)}
+
+\item{B_DRAINAGE}{(boolean) Are drains installed to drain the field (options: yes or no)}
+
+\item{B_FERT_NORM_FR}{(numeric) The fraction of the application norm utilized}
 
 \item{M_COMPOST}{(numeric) The frequency that compost is applied (optional, every x years)}
 
