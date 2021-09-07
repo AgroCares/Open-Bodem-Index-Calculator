@@ -348,16 +348,16 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     w <- as.data.table(OBIC::weight.obic)
     
     # Add years per field
-    dt[,year := .I, by = ID]
+    dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_W|year|crop_cat|SOILT',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT|ID',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
     # Melt dt and assign main categories for OBI
     dt.melt <- melt(dt[,mget(cols)],
-                    id.vars = c('B_SOILTYPE_AGR','crop_category','year'), 
+                    id.vars = c('B_SOILTYPE_AGR','crop_category','year', 'ID'), 
                     variable.name = 'indicator')
     
     # remove the indicators that have a NA value
@@ -370,8 +370,9 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     #dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
     
+    # Determine amount of indicators per category
+    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by = .(ID, cat)]
     # Determine number of indicators per category
-    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']
     
     # add weighing factor to indicator values
     dt.melt <- merge(dt.melt,w[,list(crop_category,indicator = variable,weight_nonpeat,weight_peat)], 
@@ -388,13 +389,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   # Step 4 Aggregate indicators ------------------
 
     # subset dt.melt for relevant columns only
-    out.ind <-  dt.melt[,list(indicator,year,value = value.w)]
+    out.ind <-  dt.melt[,list(ID, indicator,year,value = value.w)]
     
     # calculate correction factor per year; recent years are more important
     out.ind[,cf := log(12 - pmin(10,year))]
     
     # calculate weighted average per indicator over the year
-    out.ind <- out.ind[,list(value = round(sum(cf * pmax(0,value) / sum(cf[value >= 0])),3)), by = indicator]
+    out.ind <- out.ind[,list(value = round(sum(cf * pmax(0,value) / sum(cf[value >= 0])),3)), 
+                       by = .(indicator, ID)]
        
     # non relevant indicators, set to -999
     out.ind[is.na(value), value := -999]
@@ -402,13 +404,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   # Step 5 Add scores ------------------
     
     # subset dt.melt for relevant columns only
-    out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
+    out.score <-  dt.melt[,list(ID, cat, year, cf, value = value.w)]
   
     # remove indicator categories that are not used for scoring
-    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS', 'PESTICIDES', 'SOLIDMANURE', 'STRAWRESIDUE')]
     
     # calculate weighted average per indicator category
-    out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), by = list(cat,year)]
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), 
+                           by = list(ID, cat,year)]
   
       # for case that a cat has one indicator or one year and has NA
       out.score[is.na(value), value := -999]
@@ -417,17 +420,17 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
       out.score[,cf := log(12 - pmin(10,year))]
   
     # calculate weighted average per indicator category per year
-    out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = list(ID, cat)]
   
       # merge out with number per category
-      out.score <- merge(out.score,dt.melt.ncat, by='cat')
+      out.score <- merge(out.score,dt.melt.ncat, by=c("ID", "cat"))
     
       # calculate weighing factor depending on number of indicators
       out.score[,cf := log(ncat + 1)]
   
     # calculated final obi score
-    out.score <- rbind(out.score[,list(cat,value)],
-                       out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
+    out.score <- rbind(out.score[,list(ID, cat,value)],
+                       out.score[,list(cat = "T",value = sum(value * cf / sum(cf))), by = ID])
   
     # update element names
     out.score[,cat := paste0('S_',cat,'_OBI_A')]
@@ -436,14 +439,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #  Step 6 Add recommendations ------------------
     
     # dcast output
-    out.ind[,id:=1]
     out.ind[value== -999, value := NA]
-    out.ind <- dcast(out.ind,id~indicator)[,id:=NULL]
+    out.ind <- dcast(out.ind,ID~indicator)
     
     # dcast output
-    out.score[,id:=1]
     out.score[value== -999, value := NA]
-    out.score <- dcast(out.score,id~cat)[,id:=NULL]
+    out.score <- dcast(out.score,ID~cat)
     
     # get most occurring soil type and crop type
     dt.sc <- dt[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), 
@@ -451,18 +452,20 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.sc[, B_LU_BRP := as.integer(B_LU_BRP)]
     
     # combine indicators and score in one data.table
-    dt.score <- data.table(dt.sc,out.ind,out.score)
+    setkey(dt.sc, ID); setkey(out.ind, ID); setkey(out.score, ID)
+    dt.score <- data.table(dt.sc, out.ind[, -"ID"], out.score[, -"ID"])
   
     # evaluate measures
-    dt.measure <- OBIC::obic_evalmeasure(dt.score, extensive = FALSE)
+    dt.measure <- obic_evalmeasure(dt.score, extensive = FALSE)
     
     # make recommendations of top 3 measures
-    out.recom <- OBIC::obic_recommendations(dt.measure)
+    out.recom <- obic_recommendations(dt.measure)
+    setkey(out.recom, ID)
     
   #  Step 6 Combine all outputs into one ------------------
  
     # combine both outputs
-    if(output == 'all'){out <- data.table(out.ind,out.score,out.recom)}
+    if(output == 'all'){out <- data.table(out.ind,out.score[, -"ID"],out.recom[, -"ID"])}
     if(output == 'indicators'){out <- out.ind}
     if(output == 'recommendations'){out <- out.recom}
     if(output == 'scores'){out <- out.score}
@@ -474,11 +477,11 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   return(out)
 }
 
-
-#' Calculate the Open Bodem Index score for a single field
+#' Calculate the Open Bodem Index score for a data table
 #' 
 #' This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
 #' In contrast to obic_field, this wrapper can handle a data.table as input.
+#' Multiple sites (distinguished in the column 'ID') can be simulated simultaneously.
 #' 
 #' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
@@ -506,7 +509,7 @@ obic_field_dt <- function(dt,output = 'all') {
               'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC','A_CACO3_IF',
               'A_N_RT','A_CN_FR','A_COM_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
-              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
+              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID')
   
   # check input
   dt.check <- length(dt.req[dt.req %in% dt.cols]) == 32
@@ -534,6 +537,7 @@ obic_field_dt <- function(dt,output = 'all') {
   if(!'I_B_NEM' %in% colnames(dt)){dt[,I_B_NEM := NA_real_]}
   
   # calculate obic_field
+                    ID = dt$ID,output = output)
   out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
                     dt$B_GWL_GLG,dt$B_GWL_GHG,dt$B_GWL_ZCRIT,
                     dt$B_LU_BRP, 
