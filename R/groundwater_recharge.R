@@ -13,7 +13,7 @@
 #' @export
 ind_gw_recharge <- function(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE = FALSE){
   
-  I_WRI_WHC = cf_compaction = cf_drain = D_I_PSP = NULL
+  I_WRI_WHC = I_W_GWS = cf_compaction = cf_drain = D_I_PSP = NULL
   
   # Check inputs
   arg.length <- max(length(I_P_CO),length(B_DRAINAGE))
