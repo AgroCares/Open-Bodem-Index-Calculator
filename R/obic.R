@@ -351,7 +351,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT|ID',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT|^ID',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
@@ -372,8 +372,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
     # Determine amount of indicators per category
     dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by = .(ID, cat)]
-    # Determine number of indicators per category
-    
+ 
     # add weighing factor to indicator values
     dt.melt <- merge(dt.melt,w[,list(crop_category,indicator = variable,weight_nonpeat,weight_peat)], 
                      by = c('crop_category','indicator'), all.x = TRUE)
@@ -407,7 +406,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.score <-  dt.melt[,list(ID, cat, year, cf, value = value.w)]
   
     # remove indicator categories that are not used for scoring
-    out.score <- out.score[!cat %in% c('IBCS','IM','BCS', 'PESTICIDES', 'SOLIDMANURE', 'STRAWRESIDUE')]
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
     
     # calculate weighted average per indicator category
     out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), 
@@ -512,7 +511,7 @@ obic_field_dt <- function(dt,output = 'all') {
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID')
   
   # check input
-  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 32
+  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 33
   
   # check type of dt
   checkmate::assert_true(dt.check)
@@ -537,7 +536,6 @@ obic_field_dt <- function(dt,output = 'all') {
   if(!'I_B_NEM' %in% colnames(dt)){dt[,I_B_NEM := NA_real_]}
   
   # calculate obic_field
-                    ID = dt$ID,output = output)
   out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
                     dt$B_GWL_GLG,dt$B_GWL_GHG,dt$B_GWL_ZCRIT,
                     dt$B_LU_BRP, 
@@ -554,7 +552,7 @@ obic_field_dt <- function(dt,output = 'all') {
                      dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
                      dt$M_STRAWRESIDUE,dt$M_MECHWEEDS,dt$M_PESTICIDES_DST,
                      dt$I_B_NEM,
-                     ID = 1,output = output)
+                     ID = dt$ID,output = output)
     
   # return output
   return(out)
