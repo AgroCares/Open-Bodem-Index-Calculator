@@ -11,7 +11,7 @@
 #' @param B_GWL_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
 #' @param B_GWL_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
 #' @param B_GWL_ZCRIT  (numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)
-#' @param B_DRAINAGE (boolean) Are drains installed to drain the field (options: yes or no)
+#' @param B_DRAIN (boolean) Are drains installed to drain the field (options: yes or no)
 #' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
@@ -81,7 +81,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
                        A_C_BCS = NA, A_CC_BCS = NA,A_GS_BCS = NA,A_P_BCS = NA,A_RD_BCS = NA,
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
-                       B_DRAINAGE = FALSE, B_FERT_NORM_FR = 1,
+                       B_DRAIN = FALSE, B_FERT_NORM_FR = 1,
                        M_COMPOST  = NA_real_,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
@@ -120,7 +120,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    B_GWL_GLG = B_GWL_GLG,
                    B_GWL_GHG = B_GWL_GHG,
                    B_GWL_ZCRIT = B_GWL_ZCRIT,
-                   B_DRAINAGE = B_DRAINAGE,
+                   B_DRAIN = B_DRAIN,
                    B_FERT_NORM_FR = B_FERT_NORM_FR,
                    A_SOM_LOI = A_SOM_LOI, 
                    A_SAND_MI = A_SAND_MI, 
@@ -274,7 +274,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
     dt[, D_NLEACH := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
                                        D_PBI,D_K,D_PH_DELTA,D_NLV,M_GREEN,B_FERT_NORM_FR)]
-    dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,A_SILT_MI,D_PSP,M_PESTICIDES_DST)]
+    dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
+                                                A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
     
     
     # Calculate the score of the BodemConditieScore
@@ -311,7 +312,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
     # Calculate indicators for groundwater functions
-    # dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE)]
+    # dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN)]
     # dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
     # dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
     
@@ -543,6 +544,7 @@ obic_field_dt <- function(dt,output = 'all') {
                      dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,
                      dt$A_C_BCS, dt$A_CC_BCS,dt$A_GS_BCS,dt$A_P_BCS,dt$A_RD_BCS,
                      dt$A_EW_BCS,dt$A_SS_BCS,dt$A_RT_BCS,dt$A_SC_BCS,
+                     dt$B_DRAIN, dt$B_FERT_NORM_FR,
                      dt$M_COMPOST,dt$M_GREEN, dt$M_NONBARE, dt$M_EARLYCROP, 
                      dt$M_SLEEPHOSE,dt$M_DRAIN,dt$M_DITCH,dt$M_UNDERSEED,
                      dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
