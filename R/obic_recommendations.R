@@ -17,7 +17,7 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
   soiltype = soiltype.m = crop_measure = crop_code = ID = m_sector = m_soiltype = NULL
   indicator = var = score = m_threshold = m_applicability = NULL
   m_effect = threshold = score.m = weight = grp = score.mp = m_prio = m.effect = FS = TH = NULL
-  cf = ncat = NULL
+  cf = ncat = . = NULL
   
   # make local copy of dt.score
   dt.score <- copy(dt.score)
