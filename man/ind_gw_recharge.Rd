@@ -4,7 +4,7 @@
 \alias{ind_gw_recharge}
 \title{Calculate groundwater recharge of a soil}
 \usage{
-ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE = FALSE)
+ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN = FALSE)
 }
 \arguments{
 \item{D_WRI_WHC}{(numeric) The value for Water Retention index (WRI) for WHC as calculated by \code{\link{calc_waterretention}}}
@@ -15,7 +15,7 @@ ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAINAGE = FALSE)
 
 \item{I_P_CO}{(numeric) The indicator value for occurrence of subsoil compaction}
 
-\item{B_DRAINAGE}{(boolean) Are drains installed to drain the field (options: yes or no)}
+\item{B_DRAIN}{(boolean) Are drains installed to drain the field (options: yes or no)}
 }
 \description{
 This function calculates an index score for groundwater storage based on WHC, sealing risk, drainage and subsoil compaction

@@ -271,11 +271,11 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
 
     # Calculate the water function
-    dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
-    dt[, D_NLEACH := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
-                                       D_PBI,D_K,D_PH_DELTA,D_NLV,M_GREEN,B_FERT_NORM_FR)]
-    dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
-                                                A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
+    # dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
+    # dt[, D_NLEACH := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
+    #                                   D_PBI,D_K,D_PH_DELTA,D_NLV,M_GREEN,B_FERT_NORM_FR)]
+    # dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
+    #                                             A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
     
     
     # Calculate the score of the BodemConditieScore

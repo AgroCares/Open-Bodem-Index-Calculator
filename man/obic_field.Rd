@@ -46,7 +46,7 @@ obic_field(
   A_SS_BCS = NA,
   A_RT_BCS = NA,
   A_SC_BCS = NA,
-  B_DRAINAGE = FALSE,
+  B_DRAIN = FALSE,
   B_FERT_NORM_FR = 1,
   M_COMPOST = NA_real_,
   M_GREEN = NA,
@@ -151,7 +151,7 @@ obic_field(
 
 \item{A_SC_BCS}{(numeric) The presence of compaction of subsoil (optional, score 0-1-2)}
 
-\item{B_DRAINAGE}{(boolean) Are drains installed to drain the field (options: yes or no)}
+\item{B_DRAIN}{(boolean) Are drains installed to drain the field (options: yes or no)}
 
 \item{B_FERT_NORM_FR}{(numeric) The fraction of the application norm utilized}
 
