@@ -18,10 +18,8 @@
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #' @param A_PH_CC (numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)
-#' @param A_CACO3_IF (numeric) The carbonate content of the soil (\%)
 #' @param A_N_RT (numeric) The organic nitrogen content of the soil in mg N / kg
 #' @param A_CN_FR (numeric) The carbon to nitrogen ratio (-)
-#' @param A_COM_FR (numeric) The carbon fraction of soil organic matter (\%)
 #' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
 #' @param A_N_PMN (numeric) The potentially mineralizable N pool (mg N / kg soil)
 #' @param A_P_AL (numeric) The P-AL content of the soil
@@ -74,8 +72,8 @@
 obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CBS,
                        B_GWL_GLG,B_GWL_GHG,B_GWL_ZCRIT,
                        B_LU_BRP, 
-                       A_SOM_LOI, A_SAND_MI, A_SILT_MI, A_CLAY_MI,A_PH_CC,A_CACO3_IF,
-                       A_N_RT,A_CN_FR,A_COM_FR, A_S_RT,A_N_PMN,
+                       A_SOM_LOI, A_SAND_MI, A_SILT_MI, A_CLAY_MI,A_PH_CC,
+                       A_N_RT,A_CN_FR, A_S_RT,A_N_PMN,
                        A_P_AL, A_P_CC, A_P_WA,
                        A_CEC_CO,A_CA_CO_PO, A_MG_CO_PO, A_K_CO_PO,
                        A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
@@ -127,10 +125,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    A_SILT_MI = A_SILT_MI, 
                    A_CLAY_MI = A_CLAY_MI,
                    A_PH_CC = A_PH_CC,
-                   A_CACO3_IF = A_CACO3_IF,
                    A_N_RT = A_N_RT,
                    A_CN_FR = A_CN_FR,
-                   A_COM_FR = A_COM_FR, 
                    A_S_RT = A_S_RT,
                    A_N_PMN = A_N_PMN,
                    A_P_AL = A_P_AL,
@@ -503,15 +499,15 @@ obic_field_dt <- function(dt,output = 'all') {
   dt.cols <- colnames(dt)
   
   # column names mandatory
-  dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 'B_LU_BRP', 
-              'B_GWL_GLG','B_GWL_GHG','B_GWL_ZCRIT',
-              'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC','A_CACO3_IF',
-              'A_N_RT','A_CN_FR','A_COM_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
-              'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
+  dt.req <- c('B_SOILTYPE_AGR', 'B_GWL_CLASS', 'B_SC_WENR', 'B_HELP_WENR', 'B_AER_CBS', 'B_LU_BRP', 
+              'B_GWL_GLG', 'B_GWL_GHG', 'B_GWL_ZCRIT',
+              'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI', 'A_PH_CC',
+              'A_N_RT', 'A_CN_FR', 'A_S_RT', 'A_N_PMN', 'A_P_AL', 'A_P_CC', 'A_P_WA',
+              'A_CEC_CO', 'A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID')
   
   # check input
-  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 33
+  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 31
   
   # check type of dt
   checkmate::assert_true(dt.check)
@@ -539,8 +535,8 @@ obic_field_dt <- function(dt,output = 'all') {
   out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,
                     dt$B_GWL_GLG,dt$B_GWL_GHG,dt$B_GWL_ZCRIT,
                     dt$B_LU_BRP, 
-                     dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,dt$A_CACO3_IF,
-                     dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
+                     dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,
+                     dt$A_N_RT,dt$A_CN_FR, dt$A_S_RT,dt$A_N_PMN,
                      dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
                      dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
                      dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,

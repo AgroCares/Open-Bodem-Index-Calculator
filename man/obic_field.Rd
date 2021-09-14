@@ -19,10 +19,8 @@ obic_field(
   A_SILT_MI,
   A_CLAY_MI,
   A_PH_CC,
-  A_CACO3_IF,
   A_N_RT,
   A_CN_FR,
-  A_COM_FR,
   A_S_RT,
   A_N_PMN,
   A_P_AL,
@@ -97,13 +95,9 @@ obic_field(
 
 \item{A_PH_CC}{(numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)}
 
-\item{A_CACO3_IF}{(numeric) The carbonate content of the soil (\%)}
-
 \item{A_N_RT}{(numeric) The organic nitrogen content of the soil in mg N / kg}
 
 \item{A_CN_FR}{(numeric) The carbon to nitrogen ratio (-)}
-
-\item{A_COM_FR}{(numeric) The carbon fraction of soil organic matter (\%)}
 
 \item{A_S_RT}{(numeric) The total Sulpher content of the soil (in mg S per kg)}
 
