@@ -1,5 +1,9 @@
 # Changelog OBIC
 
+## Version 1.0.3.9000 DEVELOPMENT
+### Removed
+* redundant parameters A_CACO3 and A_COM_FR from required inputs of wrapper functions 
+
 ## Version 1.0.2.9000 DEVELOPMENT
 ### Added
 * script ppr_bouwplan_tables.r in dev/scripts
