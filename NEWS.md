@@ -1,5 +1,15 @@
 # Changelog OBIC
 
+## Version 1.0.3 2021-09-16
+### Added
+* Adds unit test for `obic_field`
+
+### Removed
+* Removes `A_COM_FR` and `A_CACO3_IF` from input as they were not used #145
+
+### Fixed
+* Fixes ascii signs issues
+
 ## Version 1.0.2 2021-05-20
 ### Added
 * ind_man_ess.R and tests are added for update aggregated management scores, issue #131
