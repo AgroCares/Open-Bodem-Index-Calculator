@@ -1,0 +1,17 @@
+group_desc;crop_group;lower;upper
+graslandvernieuwing, graszaad;1;3;8
+granen,mais,natuur;2;0;8
+(poot)aardappelen;3;6;9
+Fabrieksaardappelen, witlof, selderij, uien, prei,spruiten, koolsoorten;4;5;8
+cons.aardappelen, peen, schorseneren, teelten onder glas;5;6;8
+suikerbieten;6;4;8
+erwten,bonen, koolsoorten;7;2;7.5
+asperge;8;8;8.5
+bladgewassen;9;8;9
+dahlias, hyacinten;10;8;9
+bloembollen (najaarsplanting);11;6.5;8
+groot en klein fruit;12;4;8
+bos- en haagplantsoen;13;5;6.5
+sierteelten;14;8;8.5
+laanbomen en onderstammen;15;4;6
+overig;16;0;8

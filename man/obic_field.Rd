@@ -12,17 +12,15 @@ obic_field(
   B_AER_CBS,
   B_GWL_GLG,
   B_GWL_GHG,
-  B_Z_TWO,
+  B_GWL_ZCRIT,
   B_LU_BRP,
   A_SOM_LOI,
   A_SAND_MI,
   A_SILT_MI,
   A_CLAY_MI,
   A_PH_CC,
-  A_CACO3_IF,
   A_N_RT,
   A_CN_FR,
-  A_COM_FR,
   A_S_RT,
   A_N_PMN,
   A_P_AL,
@@ -46,7 +44,7 @@ obic_field(
   A_SS_BCS = NA,
   A_RT_BCS = NA,
   A_SC_BCS = NA,
-  B_DRAINAGE = FALSE,
+  B_DRAIN = FALSE,
   B_FERT_NORM_FR = 1,
   M_COMPOST = NA_real_,
   M_GREEN = NA,
@@ -63,6 +61,7 @@ obic_field(
   M_STRAWRESIDUE = NA,
   M_MECHWEEDS = NA,
   M_PESTICIDES_DST = NA,
+  I_B_NEM = NA_real_,
   ID = 1,
   output = "all"
 )
@@ -82,7 +81,7 @@ obic_field(
 
 \item{B_GWL_GHG}{(numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level}
 
-\item{B_Z_TWO}{(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)}
+\item{B_GWL_ZCRIT}{(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)}
 
 \item{B_LU_BRP}{(numeric) a series with crop codes given the crop rotation plan (source: the BRP)}
 
@@ -96,13 +95,9 @@ obic_field(
 
 \item{A_PH_CC}{(numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)}
 
-\item{A_CACO3_IF}{(numeric) The carbonate content of the soil (\%)}
-
 \item{A_N_RT}{(numeric) The organic nitrogen content of the soil in mg N / kg}
 
 \item{A_CN_FR}{(numeric) The carbon to nitrogen ratio (-)}
-
-\item{A_COM_FR}{(numeric) The carbon fraction of soil organic matter (\%)}
 
 \item{A_S_RT}{(numeric) The total Sulpher content of the soil (in mg S per kg)}
 
@@ -150,7 +145,7 @@ obic_field(
 
 \item{A_SC_BCS}{(numeric) The presence of compaction of subsoil (optional, score 0-1-2)}
 
-\item{B_DRAINAGE}{(boolean) Are drains installed to drain the field (options: yes or no)}
+\item{B_DRAIN}{(boolean) Are drains installed to drain the field (options: yes or no)}
 
 \item{B_FERT_NORM_FR}{(numeric) The fraction of the application norm utilized}
 
@@ -184,10 +179,15 @@ obic_field(
 
 \item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
 
+\item{I_B_NEM}{(numeric) Nematode indicator value as calculated with ind_nematodes()}
+
 \item{ID}{(character) A field id}
 
 \item{output}{(character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)}
 }
 \description{
 This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI) for a single field.
+}
+\details{
+It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
 }

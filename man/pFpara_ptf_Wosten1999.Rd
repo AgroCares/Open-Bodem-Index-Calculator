@@ -21,7 +21,7 @@ a table with the following columns:
 Dichtheid (numeric) soil bulk density (g/cm3)
 ThetaR (numeric) residual water content (cm3/cm3)
 ThetaS (numeric) saturated water content (cm3/cm3)
-alfa (numeric)  related to the inverse of the air entry suction, alfa >0 (L−1, or cm−1) 
+alfa (numeric)  related to the inverse of the air entry suction, alfa > 0 (1/cm) 
 n (numeric)  a measure of the pore-size distribution, n>1, dimensionless
 ksat (numeric) saturated hydraulic conductivity (cm/d)
 }

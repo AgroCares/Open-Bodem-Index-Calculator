@@ -5,7 +5,7 @@
 \alias{column_description.obic}
 \title{Column description for the OBIC}
 \format{
-A data.frame with 126 rows and 6 columns:
+A data.frame with 230 rows and 6 columns:
 \describe{
   \item{column}{The column name used in OBIC}
   \item{type}{The type of column}

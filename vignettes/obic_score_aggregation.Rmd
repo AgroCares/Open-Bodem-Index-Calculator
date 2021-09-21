@@ -1,0 +1,742 @@
+---
+title: "Note on OBI score aggregation"
+author: "W.H. Riechelman (NMI)"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: [packages.bib, vignettes_references.bib]
+vignette: >
+  %\VignetteIndexEntry{Note-on-OBI-score-aggregation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+# Introduction
+The OBIC is a framework that takes a multitude of soil parameters and variables from agricultural fields and ultimately gives a single value expressing the soil quality of that field. To take this multitude of measured, modelled and calulated values to a single value between 0 and 1, three aggregation steps take place as illustrated below.
+
+```{r include score integration image, echo=FALSE, out.width = '85%', out.height = '85%', fig.cap = 'Figure 1. Graphic representation of how measured soil properties are aggregated to scores.'}
+# include graphic
+knitr::include_graphics('OBIC_score_integratie_2.png')
+```
+
+There is no scientific principle dictating how this aggregation should be done and there are several ways to do the aggregation. For example; averaging, linearly weighted averaging, logistically weighted averaging. The last one is used in OBIC.
+This document dives deeper into the three aggregation steps within the framework and will explain  why logistically weighted aggregation is used. We will also explore the two other mentioned methods of aggregation and compare these with the chosen method to illustrate the influence the aggregation method has on the final score and act as a kind of sensitivity analysis.
+The aggregation methods will be compared with a mock dataset of a selection of soil functions.
+Demonstration of aggregation will be performed using  the dataset `binnenveld`. The dataset contains soil properties from 11 agricultural fields in the surroundings of Wageningen, with different soil texture and land use, and is documented in `?binnenveld`.
+
+```{r load binnenveld}
+
+  # load packages
+  library(OBIC); library(data.table); library(ggplot2); library(patchwork)
+
+  # load data
+  dt <- OBIC::binnenveld[ID==1]
+  
+  
+```
+
+# Aggregation
+Between calculating soil function scores and aggregating a reformatting step takes place. 
+The following things are done during reformatting:
+
+  * it is assessed which indicators are relevant for a field given its soil type and crop category using the `weight.obic` table.
+  * year numbers are assigned from 1 to n with one being the most recent year (used for aggregating over years)
+  * a molten data.table is created with all indicators in a single column and soil type, crop category and year as identifying variables
+  * indicators are assigned to  categories (chemical, physical, biological, environmental, management)
+  * a data.table with the number of indicators per category is made (used in the aggregation of indicators)
+  * a correction factor per score is calculated based on the height of the score (used later to give more weight to low scores)
+  * soil function scores irrelevant to the land use are set to -999
+  
+```{r reformatting code, echo = TRUE, eval=FALSE}
+  # Step 3 Reformat dt given weighing per indicator and prepare for aggregation  ------------------
+    
+    # load weights.obic (set indicator to zero when not applicable)
+    w <- as.data.table(OBIC::weight.obic)
+    
+    # Add years per field
+    dt[,year := 1:.N, by = ID]
+    
+    # Select all indicators used for scoring
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT',colnames(dt))]
+
+    # Melt dt and assign main categories for OBI
+    dt.melt <- melt(dt[,mget(cols)],
+                    id.vars = c('B_SOILTYPE_AGR','crop_category','year'), 
+                    variable.name = 'indicator')
+    
+    # add categories relevant for aggregating
+    # C = chemical, P = physics, B = biological, BCS = visual soil assessment
+    # indicators not used for integrating: IBCS and IM
+    dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
+    dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
+    dt.melt[grepl('^I_M_',indicator), cat := 'IM']
+    
+    # Determine number of indicators per category
+    dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']
+    
+    # add weighing factor to indicator values
+    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator,weight_nonpeat,weight_peat)], 
+                     by = c('crop_category','indicator'), all.x = TRUE)
+    
+    # calculate correction factor for indicator values (low values have more impact than high values, a factor 5)
+    dt.melt[,cf := cf_ind_importance(value)]
+    
+    # calculate weighted value for crop category
+    dt.melt[,value.w := value]
+    dt.melt[grepl('veen',B_SOILTYPE_AGR) & weight_peat < 0,value.w := -999]
+    dt.melt[!grepl('veen',B_SOILTYPE_AGR) & weight_nonpeat < 0,value.w := -999]
+    
+```
+
+After reformatting the data in step 3, an indicator data.table is created in step 4. This data.table uses the soil function scores adjusted for their applicability for the soiltype and crop category. In step 4 indicators are calculated to display them as output. In step 5 the total OBI score is calculated, since part of step 5 overlaps with step 4, we only discuss step 5 onwards.
+
+## Weighing values
+To aggregate scores, the relevant columns and rows are taken from the molten data.table.
+
+```{r echo = TRUE, eval=FALSE}
+ # Step 5 Add scores ------------------
+    
+    # subset dt.melt for relevant columns only
+    out.score <-  dt.melt[,list(cat, year, cf, value = value.w)]
+  
+    # remove indicator categories that are not used for scoring
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+```    
+
+The indicators are aggregated to categories (chemical, physical, biological, management, environmental) using the correction factor (*cf*) calculated previously using `cf_ind_importance()`, giving more weight to lower indicators. This way the lowest indicator, supposedly also to most limiting factor for crop production, becomes more important. Consequently, improving a low score indicator by 0.1 is easier than improving a high scoring indicator by this same amount, making it more worthwhile to invest in the poorest and most limiting indicator.
+
+```{r echo = TRUE, eval=FALSE}    
+    # calculate weighted average per indicator category
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), by = list(cat,year)]
+  
+      # for case that a cat has one indicator or one year and has NA
+      out.score[is.na(value), value := -999]
+```
+
+## Aggregating over years
+Multiple years are used (usually 10) to capture the entire crop rotation (crop rotation in the Netherlands are hardly ever longer than 10 years). When aggregating over years, another correction factor is used to give more weight to recent years. Calculation of the correction factor is done with a logistic function.
+
+These would be the correction factors for a period of eleven years:
+```{r output year cf}
+  # create data
+  y <- 1:11
+  cf <- log(12 - pmin(10, y))
+  cat(cf)
+```
+
+The most recent year carries about `r round(cf[1]/cf[10],digits =1)` times the weight of the tenth year. Notice that years ten and eleven have the same correction factor value, the minimum cf value for a year is equal to that of year ten.
+
+More priority (weight) is given to recent years because these are more reflective of the current situation. Additionally, changes in management or soil properties take more immediate effect on the scores in subsequent years.
+
+Aggregation of scores over years is done with the following two lines of code. Per indicator an average value is calculated with weights from the correction factor described above.  Side note: The function `obic_field()` has similar lines of code for calculating individual indicators which are given as optional outputs when output is set to 'all' or 'indicators'. Aggregating indicators over years is done in the same fashion.
+      
+```{r echo = TRUE, eval=FALSE}
+            
+      # calculate correction factor per year; recent years are more important
+      out.score[,cf := log(12 - pmin(10,year))]
+  
+    # calculate weighted average per indicator category per year
+    out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
+```
+
+This gives us a single score for each of the five indicator categories (chemical, physical, biological, management, and environmental).
+
+## Aggregating to single OBI score
+To aggregate the five indicator categories to a single, holistic, OBI-score, they are weighed logistically using the number of indicators underlying the category The number of indicators per category was retrieved previously with the line `dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']`. Now its merged with our score data.table.
+
+```{r echo = TRUE, eval=FALSE}
+      # merge out with number per category
+      out.score <- merge(out.score,dt.melt.ncat, by='cat')
+```
+
+The correction factor for weighing categories based on the number of indicators they are made up of is done like this:
+
+```{r echo = TRUE, eval=FALSE}
+      # calculate weighing factor depending on number of indicators
+      out.score[,cf := log(ncat + 1)]
+```
+
+The weights for categories with 1 to 10 indicators are: `r round(log(1:10 +1),2)`. Thus, a category based on 10 indicators affects the total score roughly `r round(log(1:10 +1)[10]/log(1:10 +1)[1],1)` times more than a category based on 1 indicator. The idea behind giving more weight to categories with more underlying indicators sprouts from the idea that such a category is better supported by measurable data and better understood. 
+
+````{r eval = FALSE, include = FALSE}
+# this text is probably wrong
+# Furthermore, by aggregating indicators to categories and then to a score rather than directly from indicators to a score; individual indicators from categories with few underlying indicators, affect the holistic score more than indicators in categories with many indicators. For example, if there is one biological indicator, its weight in affecting the holistic score is log(1+1)= `r round(log(1+1),2)`, while a indicator within a chemical indicator with nine indicators individually only weighs log(9+1)/9= `r round(log(9+1)/9,2)`. While on category level, biology only weighs `r round(log(1+1),2)` and chemical `r round(log(9+1),2)`.
+```
+
+```{r echo = TRUE, eval=FALSE}
+    # calculated final obi score
+    out.score <- rbind(out.score[,list(cat,value)],
+                       out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
+```  
+
+After the aggregation there is just a bit of code to format the names of the scores.
+```{r echo = TRUE, eval=FALSE}
+    # update element names
+    out.score[,cat := paste0('S_',cat,'_OBI_A')]
+    out.score[, value := round(value,3)]
+```
+
+## Brief recap
+
+* Soil functions with low scores gain more weight than ones with high scores because these soil functions are supposed to be more limiting and this makes it more worthwhile (both in reality as for the OBI score) to invest in improving low scores
+* Values from recent years count more than values from long ago. Recent years are more reflective of the current situation and it becomes easier to see the effect of changes in management or soil properties in subsequent years
+* Categories with more underlying indicators have more weight in determining the total OBI score. This is because these indicators are better understood and supported and may also be more important.
+
+
+```{r make mock data, eval= TRUE}
+# make mock data and calculate scores with different aggregation methods (averaging without weight and averaging with linearly changing weight)
+# data like:
+# soil_function_value|indicator|group|year|cf_base|cf_noweight|cf_linearweight|score_base|score_noweight|score_linearweight
+
+# visualise differences
+
+# make veldnr
+fieldid <- 1
+
+# define standard deviation 
+std <- 0.2
+
+# make indicator
+inds <- c('I_C_CEC', 'I_C_CU', 'I_C_K', 'I_C_MG', 'I_C_N', 'I_C_P', 'I_C_PH', 'I_C_S', 'I_C_ZN',
+          'I_B_DI', 'I_B_SF', 
+          'I_E_NGW', 'I_E_NSW',
+          'I_M',
+          'I_P_CEC', 'I_P_CO', 'I_P_CR', 'I_P_DS', 'I_P_DU', 'I_P_SE', 'I_P_WRI', 'I_P_WS')
+
+# make jaar
+year <- 1:10
+
+# combine in dt
+dt <- data.table(field = sort(rep(fieldid,length(inds)*length(year))),
+                 indicator = sort(rep(inds, length(year)*length(fieldid))),
+                 year = rep(year, length(inds)*length(fieldid))
+                 )
+
+# add category
+dt <- dt[,cat := tstrsplit(indicator,'_',keep = 2)]
+
+# iteratively add fields
+dto <- data.table(field = NULL, indicator = NULL, year = NULL)
+for(i in 1:100){
+  dtn <- dt
+  dtn <- dtn[,field := i]
+  dto <- rbindlist(list(dto, dtn))
+}
+
+# dto is a almost ready set of 100 fields, only values and value description need to be added
+set.seed(222)
+
+# helper function to make random values within 0:1
+rtnorm <- function(n, mean = 0, sd = 1, min = 0, max = 1) {
+    bounds <- pnorm(c(min, max), mean, sd)
+    u <- runif(n, bounds[1], bounds[2])
+    qnorm(u, mean, sd)
+}
+
+# make baseline
+dt1 <- copy(dto)
+dt1 <- dt1[,field := field+100-1]
+dt1 <- dt1[,treatment := 'baseline']
+dt1 <- dt1[,value := rtnorm(n = nrow(dt1),mean = 0.7, sd = std)]
+
+# make treatment where c = 0.3
+dt2 <- copy(dto)
+dt2 <- dt2[,field := field+200-1]
+dt2 <- dt2[,treatment := 'low C values']
+dt2 <- dt2[cat == 'C',value := rtnorm(n = nrow(dt2[cat=='C']),mean = 0.3, sd = std)]
+dt2 <- dt2[!cat == 'C',value := rtnorm(n = nrow(dt2[!cat=='C']),mean = 0.7, sd = std)]
+
+# make treatment where B = 0.3
+dt3 <- copy(dto)
+dt3 <- dt3[,field := field+300-1]
+dt3 <- dt3[,treatment := 'low B values']
+dt3 <- dt3[cat == 'B',value := rtnorm(n = nrow(dt3[cat=='B']),mean = 0.3, sd = std)]
+dt3 <- dt3[!cat == 'B',value := rtnorm(n = nrow(dt3[!cat=='B']),mean = 0.7, sd = std)]
+
+# make treatment where one C indicator = 0
+dt4 <- copy(dto)
+dt4 <- dt4[,field := field+400-1]
+dt4 <- dt4[,treatment := 'one low C']
+dt4 <- dt4[indicator == 'I_C_CEC',value := 0]
+dt4 <- dt4[!indicator == 'I_C_CEC',value := rtnorm(n = nrow(dt4[!indicator == 'I_C_CEC']),mean = 0.7, sd = std)]
+
+# make where one B indicator = 0
+dt5 <- copy(dto)
+dt5 <- dt5[,field := field+500-1]
+dt5 <- dt5[,treatment := 'one low B']
+dt5 <- dt5[indicator == 'I_B_DI',value := 0]
+dt5 <- dt5[!indicator == 'I_B_DI',value := rtnorm(n = nrow(dt5[!indicator == 'I_B_DI']),mean = 0.7, sd = std)]
+
+# make treatment where recent years score low and old years high
+dt6 <- copy(dto)
+dt6 <- dt6[,field := field+600-1]
+dt6 <- dt6[,treatment := 'Recent years low']
+dt6 <- dt6[year %in% 1:5, value := rtnorm(n = nrow(dt6[year %in% 1:5]), mean = 0.3, sd = std)]
+dt6 <- dt6[!year %in% 1:5, value := rtnorm(n = nrow(dt6[!year %in% 1:5]), mean = 0.7, sd = std)]
+
+# make treatment where recent years score high and old years low
+dt7 <- copy(dto)
+dt7 <- dt7[,field := field+700-1]
+dt7 <- dt7[,treatment := 'Recent years high']
+dt7 <- dt7[!year %in% 1:5, value := rtnorm(n = nrow(dt7[!year %in% 1:5]), mean = 0.3, sd = std)]
+dt7 <- dt7[year %in% 1:5, value := rtnorm(n = nrow(dt7[year %in% 1:5]), mean = 0.7, sd = std)]
+
+# combine all data
+dta <- rbindlist(list(dt1, dt2, dt3, dt4, dt5, dt6, dt7))
+
+# make sure all values are between 0 and 1
+if(any(dta$value >1|dta$value<0)){cat('values outside acceptable bounds')}
+
+```
+
+## Comparison with other aggregation methods
+By now, we have some understanding of how measured soil function data are aggregated to an integral score within the OBIC framework. So, now we can explore and reflect on some of the choices that were made in designing this aggregation process. The first choice we will reflect upon is that of the correction factors. In the OBIC framework, these are determined logistically but could also be determined linearly or not be used at all. Second, we will reflect on the choice to aggregate to categories instead of aggregating indicators directly to a holistic score.
+
+### Data description
+To reflect on alternative aggregation methods we have made a mock data.table similar to a data.table in the obic_field function just before aggregating scores. We will compare the aggregation methods with seven scenarios or treatments. The treatments are as follows:
+
+1. **Baseline** means of all values are around 0.67
+2. **Low C values** means of Chemical indicators are around 0.33, indicators in other categories are around 0.67
+3. **Low B values** means of Biological indicators are around 0.33, indicators in other categories are around 0.67
+4. **One low C value** one chemical indicator is set to 0, all other values are generated as in the baseline
+5. **One low B value** one biological indicator is set to 0, all other values are generated as in the baseline
+6. **Recent years low** mean values of the most recent five years are around 0.33, while the five years before that have mean values of around 0.67
+7. **Recent years high** mean values of the most recent five years are around 0.67, while the five years before that have mean values of around 0.33
+
+Each treatment has a 100 replicates whose soil function scores are randomly drawn from a distribution with a standard deviation of approximately `r std[1]`. The mean of the distributions depends on the scenario. All values are in the 0 to 1 range.
+
+```{r plot orignal values histogram,fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Distribution of indicator values per scenario as histogram'}
+ggplot(dta, aes(x = value, fill = cat)) +
+  geom_histogram(bins = 40) + 
+  theme_bw() +facet_wrap(~treatment, ncol = 1)
+
+```
+
+```{r table with mock data before aggregation}
+# get relevant data from dta
+dtat <- dta[, mean(value), by = c( 'cat', 'treatment')]
+
+# rounc V1
+dtat <- dtat[, V1 := round(V1, digits = 3)]
+
+# improve category descrition
+dtat <- dtat[,cat := paste('mean', cat)]
+
+# dcast
+dtat <- dcast(dtat ,treatment~cat, value.var = 'V1')
+
+# factorise and order treatment
+dtat <- dtat[, treatment := factor(treatment, levels = c('baseline', 'low B values', 'low C values',
+                                                         'one low B', 'one low C',
+                                                         'Recent years high', 'Recent years low'))]
+
+# order dtat
+setorder(dtat)
+
+# make table 
+  knitr::kable(dtat,
+               caption = 'Mean scores per category for each scenario')
+
+```
+
+
+### Correction factors
+In comparing the methods of aggregation we will use three methods to determine a correction factor (cf) for each measurement/value: 
+
+* logarithmically
+* linearly
+* no correction (averaging all values, cf = 1)
+
+The log and linear cf's are illustrated in Figure 2 in the range that they operate. **value** is the correction factor for the indicator, these range from 0 to 1. **year** is the correction factor for the year a measurement is from, 1 being the most recent year, 10 being ten years earlier. **ncat** is the correction for the number of soil functions within a category, for Chemical this typically is `r length(grep('I_C_', names(obic_field_dt(binnenveld[ID==1], output = 'indicators'))))`
+The slope of the linear correction factor is chosen such that the highest and lowest correction factor between linear and log are the same. In practice, another slope could be chosen for linear aggregation.
+The no correction method is not presented in Figure 2 as it would be a horizontal line with an arbitrary value.
+
+```{r plot mock cf, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, fig.cap = 'Figure 2. Correction factors calculated with linear or logarithmic methods per aggregation step.'}
+
+  # plot correction factors
+  pdtlog <- data.table(x = c(seq(0,1,0.1),rep(0:10,2)),
+                       cf_type = c(rep('value',11),rep('year',11), rep('ncat', 11)))
+  # calc cf's log
+  pdtlog <- pdtlog[cf_type == 'value', cf := OBIC::cf_ind_importance(x)]
+  pdtlog <- pdtlog[cf_type == 'year', cf := log(12 - pmin(10,x))]
+  pdtlog <- pdtlog[cf_type == 'ncat', cf := log(x + 1)]
+  pdtlog[,cf_method := 'log']
+
+  # calc cf's linear
+  pdtlin <- data.table(x = c(seq(0,1,0.1),rep(0:10,2)),
+                      cf_type = c(rep('value',11),rep('year',11), rep('ncat', 11)))
+  pdtlin <- pdtlin[cf_type == 'value', cf := 5-4.17*x]
+  pdtlin <- pdtlin[cf_type == 'year', cf := 2.59-0.19*x]
+  pdtlin <- pdtlin[cf_type == 'ncat', cf := x*log(11)/10]
+  pdtlin[,cf_method := 'linear'] 
+
+  # combine
+  pdt <- rbindlist(list(pdtlog, pdtlin))
+
+  # format pdt
+  pdt <- pdt[,cf_type := factor(cf_type, levels = c('value', 'ncat', 'year'))]
+
+# plot
+gg <- ggplot(pdt, aes(x = x, y = cf, color = cf_method, group = cf_type))+
+      geom_point() +
+      theme_bw() + 
+      facet_wrap(~cf_type, ncol = 3, scales = 'free') + 
+      scale_colour_viridis_d()+
+      xlab('') + ylab('cf (weight)')
+
+# plot a line in each
+for(i in 1:uniqueN(pdt$cf_method)){
+  gg <- gg + geom_line(data = pdt[cf_method == unique(pdt$cf_method)[i]], color = c('#FDE725FF', '#440154FF')[i])
+}
+
+# plot gg
+gg
+```
+
+```{r calc correction factors}
+
+# Use three ways to calc correction factors (giving weight to each value), log (standard in OBIC), lin (linearly increasing/decreasing), non (everything has the same weight)
+
+# value correction factors ======
+dt <- copy(dta)
+
+# function to add  correction factors
+addcf <- function(dt){
+  
+  # copy input
+  dt.int <- copy(dt)
+  
+  # add correction factor for indicator value
+	dt.int[,log := OBIC::cf_ind_importance(value)]
+	dt.int[,lin := 5-4.17*value]
+	dt.int[,non := 1]
+	
+	# melt dt by cf method
+	dt.int <- melt(dt.int, measure.vars = c('log', 'lin', 'non'), value.name = 'v_cf', variable.name = 'cf_method')
+	
+	# calculate cf for cat ====
+	dt.int[,ncat := .N,by=c('field','year','cat','cf_method')]
+	
+	# add correction factor for number of categories
+	dt.int[cf_method == 'log',c_cf := log(ncat + 1)]
+	dt.int[cf_method == 'lin',c_cf := ncat*log(10 + 1)/10]
+	dt.int[cf_method == 'non',c_cf := 1]
+	
+	# dd correction factor for number of years
+	dt.int[cf_method == 'log',y_cf := log(12 - pmin(10,year))]
+	dt.int[cf_method == 'lin',y_cf := 2.59-0.19*year]
+	dt.int[cf_method == 'non',y_cf := 1]
+}
+
+# add correction factors
+dt <- addcf(dt)
+
+```
+
+```{r aggregate scores}
+
+# make function to aggregate scores
+aggscores <- function(dt) {
+  
+  # copy input
+  dt.agg <- copy(dt)
+  
+  # calculate weighted value per category and year
+	dt.agg <- dt.agg[,list(w.value = sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])),
+	                       y_cf = mean(y_cf),
+	                       c_cf = mean(c_cf)),
+	                  by = .(treatment,field, cf_method, cat, year)]
+	
+	# calculated weighted average value per category (so mean over years)
+	dt.agg <- dt.agg[,list(wy.value = sum(y_cf * pmax(0, w.value) / sum(y_cf[w.value >= 0])),
+	                       c_cf = mean(c_cf)),
+	                  by = .(treatment,field, cf_method, cat)] 
+	
+	# calculated weighted average value per field (so mean over categories)
+	dt.agg.tot <- dt.agg[,list(value = sum(wy.value * c_cf / sum(c_cf))), 
+	                      by = .(treatment,field, cf_method)]
+	
+	# output
+	dt.out <- rbind(dt.agg[,.(treatment,field,cf_method,cat,value = wy.value)],
+	                dt.agg.tot[,.(treatment,field,cf_method,cat='total',value)])
+	
+	}
+
+# add scores to dt
+dt.out <- aggscores(dt)
+
+```
+
+
+```{r orig score funs of brent, eval=TRUE}
+
+
+aggscores_brent <- function(dt) {
+  # copy input
+  dt.agg <- copy(dt)
+  
+  	# calculate weighted value per category and year
+	dt.agg <- dt.agg[,w.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, cat, year)]
+	
+	# calculated weighted average value per category (so mean over years)
+	dt.agg <- dt.agg[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[w.value >= 0])), by = .(field, cf_method, cat)] # scores per category
+	
+	# calculate total obi score
+	dt.agg <- dt.agg[,S_T := sum(wy.value * c_cf / sum(c_cf)), by = .(field, cf_method)]
+	
+	# calculate total obi score if not aggregated by cat
+	dt.agg <- dt.agg[, nocat.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, year)]
+	dt.agg <- dt.agg[, S_T_nocat := sum(y_cf * pmax(0, nocat.value) / sum(y_cf[nocat.value >= 0])), by = .(field, cf_method)]
+	
+	# select data for scores
+	dts <- unique(dt.agg[,.(field, indicator,cat, wy.value, S_T ,treatment, cf_method, S_T_nocat)])
+	
+	# reshape dts so total scores are in same column as cat scores (with T being a cat)
+	dts1 <- unique(dts[,.(field, cat, wy.value, treatment, cf_method)])
+	dts2 <- unique(dts[,.(field, S_T, treatment, cf_method)])
+	dts3 <- unique(dts[,.(field, S_T_nocat, treatment, cf_method)])
+	
+	# rename  cols
+	setnames(dts1, 'wy.value', 'score')
+	setnames(dts2, 'S_T', 'score')
+	setnames(dts3, 'S_T_nocat', 'score')
+	# add cat column to dts2
+	dts2$cat <- 'T'
+	dts3$cat <- 'Tnocat'
+	
+	# bind scores dt's
+	dt.agg <- rbindlist(list(dts1, dts2, dts3), use.names = TRUE)
+	
+	# update element names
+	dt.agg[,cat := paste0('S_',cat,'_OBI_A')]
+	dt.agg[, score := round(score,3)]
+	
+	# factorise cat and cf_method
+	dt.agg <- dt.agg[, cat := factor(cat, levels = c('S_T_OBI_A', 'S_C_OBI_A', 'S_P_OBI_A',
+											'S_B_OBI_A', 'S_E_OBI_A','S_M_OBI_A',
+											"S_Tnocat_OBI_A"))]
+	dt.agg <- dt.agg[, cf_method := factor(cf_method, levels = c('log', 'lin', 'non'))]
+}
+
+dt2 <- aggscores_brent(dt)
+```
+
+
+
+```{r plot baselines scores, fig.width = 7, fig.height = 12,fig.fullwidth = TRUE, fig.cap = 'Figure 3. Total OBI score boxplots per aggregation method for each scenario.'}
+
+# plot
+ggplot(dt.out[cat == 'total'], aes(x = value, y = cf_method)) +
+        geom_boxplot() +
+        theme_bw() + scale_colour_viridis_d() + scale_y_discrete(limits = rev) +
+        coord_cartesian(xlim = c(0,1)) +
+        facet_wrap(~treatment, ncol = 1)
+
+
+```
+
+```{r OBI score summary table}
+
+  # get relevant data from dt
+  dtt <- dt.out[, list(value = round(mean(value),3)), by = c( 'cat', 'cf_method', 'treatment')]
+
+  # improve category discretion
+  dtt <- dtt[,ct := paste('mean', cat)]
+
+  # dcast
+  dtt <- dcast(dtt ,treatment+cf_method~cat, value.var = 'value')
+
+  # factorise and order treatment
+  dtt <- dtt[, treatment := factor(treatment, levels = c('baseline', 'low B values', 'low C values',
+                                                         'one low B', 'one low C',
+                                                         'Recent years high', 'Recent years low'))]
+
+  # order 
+  setorder(dtt, treatment, cf_method)
+
+# make table 
+  knitr::kable(dtt,
+               caption = 'Mean scores per category and total per aggregation method')
+  
+  # make dtt version with just total scores to use for in text reporting
+  dttt <- dtt[,.(treatment, cf_method, S_T_OBI_A = total)]
+```
+
+
+```{r plot original values, eval=FALSE, fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 4. Distribution of indicator values  per scenario.'}
+# factorise dta cat levels
+# dta <- dta[, cat := factor(cat, levels = c('C', 'P', 'B', 'E'))]
+# dta <- dta[, indicator := factor(indicator, levels = c("I_C_CEC","I_C_CU", "I_C_K",  "I_C_MG", "I_C_N",  "I_C_P",  "I_C_PH", "I_C_S",  "I_C_ZN", 
+#                                                        "I_P_CR", "I_P_DS", "I_P_DU", "I_P_SE", "I_P_WRI", "I_P_WS","I_P_CEC","I_P_CO", 
+#                                                        "I_B_DI", "I_B_SF", "I_E_NGW","I_E_NSW"))]
+# 
+# # plot
+# ggplot(dta, aes(x = value, y = indicator, color = cat))+
+#   geom_boxplot() +
+#   theme_bw() + coord_cartesian(xlim = c(0,1)) + scale_y_discrete(limits = rev)+
+#   facet_wrap(~treatment, ncol = 1)
+
+```
+
+In the baseline scenario, total scores are somewhat lower when aggregating logarithmically or linearly compared to using no special aggregation method. In all three methods, the indicator values in the baseline are around `r round(mean(dta[treatment == 'baseline', value]),2)`, this number is preserved in the score when averaging all indicator values (cf_method = non) while log and lin scores are on average `r round(mean(dta[treatment == 'baseline', value]) - dtt[treatment == 'baseline'& cf_method == 'log',total],2)` and `r round(mean(dta[treatment == 'baseline', value]) - dtt[treatment == 'baseline'& cf_method == 'lin',total],2)` lower. 0.05 may seem like a small number but one has to remember that scores range runs from 0 to 1. So, on a scale of 0 to 10, this would translate to a reduction of 0.5. The cf_method 'non', consistently scores higher then the special aggregation methods, with the exception of scenario 'Recent years high'.
+
+In the two scenario's where one category performs poorly; 'low B values' and 'low C values', we can see the effect of using a correction factor for the number of indicators in a category. The total score in 'low B values' of cf_method 'non' is affected more than the other two methods, dropping by `r dtt[treatment == 'baseline'& cf_method == 'non', total]-dtt[treatment == 'low B values'& cf_method == 'non', total]` compared to 'log' and 'lin' which drop `r dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'low B values'& cf_method == 'log', total]` and `r dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'low B values'& cf_method == 'lin', total]` compared to the baseline scenario. While in scenario 'low C values 'log', 'lin' and 'non' scores lower `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'low C values'& cf_method == 'log', total], ', ', dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'low C values'& cf_method == 'lin', total], ' and ', dtt[treatment == 'baseline'& cf_method == 'non', total]-dtt[treatment == 'low C values'& cf_method == 'non', total])` points respectively. The scores in these two scenario's illustrate the effect of using a correction factor for the number of indicators in a category. The special aggregation methods are more sensitive to low scores in C (a category with many indicators) than low scores in B (which has few indicators) compared to 'non' which is equally sensitive to a low B or C value.
+
+The sensitivity of the scores to the number of indicators in a category is even more pronounced when looking at scenario's 'one low C' and 'one low B', where either one chemical indicator or one biological indicator was set to 0. There is no difference between these scenario's for the 'non' aggregation method, in both scenario's a score of around `r round(mean(dtt[treatment %in% c('one low C', 'one low B')& cf_method == 'non', total]),3)` is achieved, `r round(abs(mean(dtt[treatment %in% c('one low C', 'one low B')& cf_method == 'non', total])-dtt[treatment == 'baseline'& cf_method == 'non', total]),3)` points lower than in the baseline. While when using 'log' and 'lin' methods, scores drop `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'one low C'& cf_method == 'log', total], ' and ',dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'one low C'& cf_method == 'lin', total])` in one low C and `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'one low B'& cf_method == 'log', total], ' and ',round(dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'one low B'& cf_method == 'lin', total],3))` in one low B. 
+
+The scenario's 'Recent years high' and 'Recent years low' were included to illustrate the effect of using a correction factor for how recent a indicator value is. In 'Recent years low' scores using the special aggregation methods are substantially lower than the mean indicator values (0.5), because the lower scores in recent years gained more weight. One may expect 'log' and 'lin' scores to be higher than the mean in 'Recent years high' but these scores are actually very close to the mean. This is because the correction factor applied on indicator value, gives more weight to low values. Using the 'log' or 'lin' method for all three aggregation steps, the high recent values that gain weight from being recent are cancled out by the low non-recent indicator values that gain weight from being low.
+
+Using correction factors, either logarithmically or linearly, can make scores more responsive to recent year, low indicator values, and categories with many underlying indicators (but it is of course also possible to do the inverse and make scores more responsive to non-recent years, high values and few underlying indicators). The differences in scores between the logarithmic and linear aggregation method used in this illustration seems to be negligible. 
+
+## Aggregating categories
+Grouping indicators in categories and aggregating these categories to a single score is a choice, its not mathematically necessary. In the figure below, we calculated the total OBIC score both with and without weighing on number of indicators per category. 
+
+When looking at scenario one low B, we can see that individual indicators in categories with few indicators penalise the total score more when weighing by categories is omitted. While this is less pronounced in scenario one low C. Yet, not weighing on categories results in lower total scores when a single category performs poorly, as is illustrated by both the low B values and low C values scenario's.
+
+```{r plot scores with and without cat, fig.width = 7, fig.height = 9,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A).'}
+
+#dt <- copy(dta)
+#dt <- addcf(dt)
+#dt2 <- aggscores_brent(dt)
+
+gg3 <- ggplot(dt2[cat %in% c('S_T_OBI_A', 'S_Tnocat_OBI_A') & 
+                  cf_method == 'log' & 
+                  !treatment %in% c('Recent years low', 'Recent years high')],
+              aes(x = score, y = cat)) +
+  geom_boxplot() +
+  theme_bw() + scale_y_discrete(limits = rev) +
+  coord_cartesian(xlim = c(0,1)) +
+  facet_wrap(~treatment, ncol = 1) #+ geom_boxplot(data = dt[cat == 'S_Tnocat_OBI_A'], mapping = aes(fill = 'blue')) 
+gg3 
+```
+
+
+```{r, eval=FALSE}
+  obic_field(B_SOILTYPE_AGR =  dt$B_SOILTYPE_AGR, B_GWL_CLASS =  dt$B_GWL_CLASS,
+             B_SC_WENR = dt$B_SC_WENR, B_HELP_WENR = dt$B_HELP_WENR, B_AER_CBS = dt$B_AER_CBS,
+             B_LU_BRP = dt$B_LU_BRP, A_SOM_LOI = dt$A_SOM_LOI, A_SAND_MI = dt$A_SAND_MI,
+             A_SILT_MI = dt$A_SILT_MI, A_CLAY_MI = dt$A_CLAY_MI, A_PH_CC = dt$A_PH_CC,
+             A_N_RT = dt$A_N_RT, A_CN_FR = dt$A_CN_FR,
+             A_S_RT = dt$A_S_RT, A_N_PMN = dt$A_N_PMN,
+             A_P_AL = dt$A_P_AL, A_P_CC = dt$A_P_CC, A_P_WA = dt$A_P_WA, A_CEC_CO = dt$A_CEC_CO,
+             A_CA_CO_PO = dt$A_CA_CO_PO, A_MG_CO_PO = dt$A_MG_CO_PO, A_K_CO_PO = dt$A_K_CO_PO,
+             A_K_CC = dt$A_K_CC, A_MG_CC = dt$A_MG_CC, A_MN_CC = dt$A_MN_CC,
+             A_ZN_CC = dt$A_ZN_CC, A_CU_CC = dt$A_CU_CC, output = 'obic_score')
+```
+
+## Alternative aggregation methods on Binnenveld fields
+The scenario's in the experiment above use artificial data and may not be representative of actual fields in the Netherlands. Therefore we will explore the aggregation methods described above using indicator values of fields in the `binnenveld` dataset.
+
+```{r get binnenveld indicator values, eval=TRUE}
+# cleanup bini if required
+if(exists('bini')){rm(bini)}
+
+# select columns
+bcols <- names(binnenveld)[!grepl('BCS$', names(binnenveld))]
+
+# get indicator values per field, for first 10 fields
+for(i in unique(binnenveld$ID)[1:10]){
+  # calc OBIC inidicators for i
+  bini.n <- obic_field_dt(binnenveld[ID == i,..bcols], output = 'unaggregated')
+  # re add ID
+  bini.n <- bini.n[,ID := i]
+  if(!exists('bini')){
+    # if bini doesn't exist yet make it
+    bini <- bini.n
+  } else{
+    # if bini exists, add bini.n to bini (binnenveld indicators)
+    bini <- rbindlist(list(bini, bini.n))
+  }
+}
+
+# remove inidicators not used for scoring
+bini <- bini[!cat %in% c('BCS', 'IBCS', 'IM')]
+
+# remove irrelevant columns
+rmcols <- names(bini)[!grepl('^weight|cf|w$', names(bini))]
+bini <- bini[,..rmcols]
+
+# rename ID to field
+setnames(bini, 'ID', 'field')
+# add treatment
+bini$treatment <- bini$field
+
+```
+
+```{r aggregate binneveld, eval=TRUE}
+# add correction factors
+bini <- addcf(bini)
+
+# add scores
+bini <- aggscores(bini)
+
+```
+
+```{r plot binnenveld scores, eval=TRUE, message = FALSE, fig.height= 9, fig.width= 8 ,fig.cap="Figure 6. Total and category OBI scores of binnenveld fields aggregated with 'log', 'lin' or 'non' method, as well as total scores when disregarding categories in aggregating scores."}
+# make labels
+ldt <- binnenveld[,.(ID, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS)]
+ldt <- ldt[ID %in% unique(ID)[1:10]]
+
+# get most occurring soil type and crop type
+ldt <- ldt[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), 
+              .SDcols = c('B_LU_BRP','B_SOILTYPE_AGR', 'B_GWL_CLASS'),by = ID]
+ldt[, B_LU_BRP := as.integer(B_LU_BRP)]
+
+# add crop name
+ldt <- merge(ldt, crops.obic[,.(crop_code, crop_name)], by.x = 'B_LU_BRP', by.y = 'crop_code')
+
+# order ldt
+setorder(ldt, ID)
+
+# make cat labels more readable
+bini[grepl('^T', cat), lcat := "Total"]
+bini[grepl('^C', cat), lcat := "Chemical"]
+bini[grepl('^B', cat), lcat := "Biological"]
+bini[grepl('^P', cat), lcat := "Physical"]
+bini[grepl('^M', cat), lcat := "Management"]
+bini[grepl('^E', cat), lcat := "Environmental"]
+bini[, lcat := factor(lcat, levels = c('Chemical', 'Physical', 'Biological', 'Environmental',
+                                       'Management','Total'))]
+
+
+# make plot
+gg <- ggplot(bini, aes(x= lcat, y= value, color = cf_method)) +
+  geom_point(size = 2,alpha = 0.5) +
+  ylab('OBI-score') + xlab('') +
+  theme_bw(12) + theme(panel.grid.major.x = element_blank(),
+                       panel.grid.major.y = element_line(size = 0.5),
+                       panel.grid.minor.x = element_blank()) +
+  coord_cartesian(xlim = c(0,1))+ 
+  scale_x_discrete(limits = rev)+ scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1))+
+  coord_flip() +
+  facet_wrap(~field, ncol = 3) +
+  theme(legend.position = c(0.8,0.1))
+
+# show gg
+gg
+
+# show table with data on binnenveld fields
+knitr::kable(ldt[,.(ID, B_SOILTYPE_AGR, B_GWL_CLASS, crop_name)], caption = 'Soiltype, groundwaterclass and most frequent crop per binnenveld field.')
+```
+The `binnenveld` dataset lacks actual information on management parameters. In the dataset these were all set to `FALSE`, resulting in low management scores for all fields. For most total and categorical scores, the highest scores are obtained with the 'non' aggregation method and the lowest with 'lin'.
+
+When the aggregation step to categories is omitted, total scores differ little for some fields (eg. 2, 4, 5, 8), but are lower when using 'log' or 'lin' in other fields (eg. 3, 6, 7, 9)
+
+## Aggregation in other soil quality assesment frameworks
+The OBI is not the first attempt to express soil quality with a single score, see for example: @Rutgers2012 and @VanWijnen2012. These authors weighted soil properties based on their deviation from a reference value derived from best professional judgement (BPJ). Weighted soil properties were then aggregated to soil functions, giving equal importance to each soil property. Next, the soil functions were aggregated using weights obtained from stakeholders' appreciation of functions (farmers, regional land manager, national land managers). Where local and regional stakeholders both made up 40% of the weight and national stakeholder the remaining 20%.
+
+Compared to the OBI, the largest difference is in aggregating soil function scores to an overall score. Assigning a weight to a specific soil function is subjective, even if one includes all stakeholders. Both the OBI and the approach by @Rutgers2012 and @VanWijnen2012 have their merits and limitations. The authors note the limitations of BPJ and acknowledge that aggregation to soil functions is a rough approach. 
+```{r eval = FALSE, include=FALSE}
+# e.g. (van Wijnen et. al. 2012 and  Rutgers et. al. 2012) or Moebius-Clune 2016
+```
+
+
+
+## References

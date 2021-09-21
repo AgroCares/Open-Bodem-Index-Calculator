@@ -10,7 +10,7 @@ test_that("calc_depth works", {
     calc_root_depth(
       B_LU_BRP = c(265, 2719, 266, 1079)
     ),
-    expected = c(0.1, 0.3, 0.1, 0.3),
+    expected = c(0.1, 0.25, 0.1, 0.25),
     tolerance = 0.001
   )
 })

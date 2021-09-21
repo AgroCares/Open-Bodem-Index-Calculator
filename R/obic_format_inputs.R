@@ -42,7 +42,7 @@ format_soilcompaction <- function(B_SC_WENR) {
   bsc.char <- c("Zeer beperkt", "Beperkt", "Matig", "Groot", "Zeer groot",
                 "Beperkt door veenlagen", "Van nature dicht", "Glastuinbouw, niet beoordeeld",
                 "Bebouwing en infrastructuur", "Water")
-               
+  
   # convert to character
   B_SC_WENR <- as.character(B_SC_WENR)
   
@@ -70,12 +70,18 @@ format_soilcompaction <- function(B_SC_WENR) {
 #' @export
 format_aer <- function(B_AER_CBS) {
   
+  # convert UTF-8 encoded strings to latin1 if required
+  if('UTF-8' %in% Encoding(B_AER_CBS)) {
+    B_AER_CBS <- iconv(B_AER_CBS, from = '', to = 'latin1')
+  }
+  
   # options for B_AER_CBS
   aer.text <- c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
-                 'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
-                 'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
-                 'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
-                 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland')
+                'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
+                'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
+                'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
+                'Veenkoloni\xEBn en Oldambt', "Veenkoloni\xebn en Oldambt",
+                'Bouwhoek en Hogeland')
   
   # options for B_AER_CBS
   aer.code <- c("LG14","LG13","LG12","LG11","LG10","LG09","LG08","LG07","LG06","LG05","LG04","LG03","LG02","LG01")
