@@ -267,11 +267,13 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
 
     # Calculate the water function
-    # dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
-    # dt[, D_NLEACH := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
-    #                                   D_PBI,D_K,D_PH_DELTA,D_NLV,M_GREEN,B_FERT_NORM_FR)]
-    # dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
-    #                                             A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
+    dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
+    dt[, D_NLEACH_GW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
+                                          D_PBI,D_K,D_PH_DELTA,D_NLV,leaching_to = 'gw', M_GREEN,B_FERT_NORM_FR)]
+    dt[, D_NLEACH_OW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
+                                          D_PBI,D_K,D_PH_DELTA,D_NLV,leaching_to = 'ow', M_GREEN,B_FERT_NORM_FR)]
+    dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
+                                                A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
     
     
     # Calculate the score of the BodemConditieScore
@@ -308,9 +310,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
     # Calculate indicators for groundwater functions
-    # dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN)]
-    # dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
-    # dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+    dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN)]
+    dt[, I_W_NGW := ind_nretention(D_NLEACH_GW,'gw')]
+    dt[, I_W_NOW := ind_nretention(D_NLEACH_GW,'ow')]
+    dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
     
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
@@ -347,7 +350,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT|^ID',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_W|year|crop_cat|SOILT|^ID',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
