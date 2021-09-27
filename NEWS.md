@@ -1,5 +1,9 @@
 # Changelog OBIC
 
+## version 1.0.4 2021-09-27
+### Fixed
+* Fixed check on required column names in obic_field_dt
+
 ## Version 1.0.3 2021-09-16
 ### Added
 * Adds unit test for `obic_field`
