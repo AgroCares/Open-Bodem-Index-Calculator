@@ -460,11 +460,10 @@ obic_field_dt <- function(dt,output = 'all') {
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
   
-  # check input
-  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 29
-  
-  # check type of dt
-  checkmate::assert_true(dt.check)
+  # check presence of required columns
+  dt.check <- dt.cols[dt.cols %in% dt.req]
+  checkmate::assert_true(all(dt.req %in% dt.check & dt.check %in% dt.req),
+                         .var.name = paste(c('Not all required columns are present in data.table, required columns are:',dt.req),collapse = ' '))
   
   # check which BodemConditieScore input is missing
   bcs.all <- c('A_C_BCS', 'A_CC_BCS','A_GS_BCS','A_P_BCS','A_RD_BCS','A_EW_BCS','A_SS_BCS','A_RT_BCS','A_SC_BCS')
