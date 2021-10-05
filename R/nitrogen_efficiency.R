@@ -97,7 +97,7 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   dt[grepl('loess',B_SOILTYPE_AGR), n_eff := nf_loess]
   
   # Add NUE based on crop category
-  dt[crop_category == 'akkerbouw' | crop_category == 'mais', NUE := 0.5]
+  dt[crop_category == 'akkerbouw' | crop_category == 'mais', NUE := 0.6]
   dt[crop_category == 'grasland', NUE := 0.8]
   dt[crop_category == 'natuur', NUE := 1]
   dt[crop_waterstress == 'granen', NUE := 0.8]
@@ -143,16 +143,33 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
 #' This function gives an indicator value for nitrogen use efficiency calculated by \code{\link{calc_n_efficiency}}, this function makes use of \code{\link{ind_nretention}}
 #' 
 #' @param D_NLEACH (numeric) The value of N leaching calculated by \code{\link{calc_n_efficiency}}
+#' @param leaching_to (character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("ow")
 #' 
 #'         
 #' @export
-ind_n_efficiency <- function(D_NLEACH){
+ind_n_efficiency <- function(D_NLEACH,leaching_to){
   
     # Evaluate the N retention for groundwater 
-    I_W_NGW <- ind_nretention(D_NLEACH,'gw')
+    I_W_NGW <- ind_nretention(D_NLEACH,leaching_to)
+    
+    # Check inputs
+    checkmate::assert_numeric(D_NLEACH, lower = 0 , upper = 250, any.missing = FALSE)
+    checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)
+    
+    if (leaching_to == "gw") {
+      # Evaluate the N retention for groundwater 
+      value <- OBIC::evaluate_logistic(x = D_NLEACH, b = 0.36, x0 = 25, v = 0.96, increasing = FALSE) 
+      
+    } else if (leaching_to == "ow") {
+      # Evaluate the N retention for surfacewater
+      value <- OBIC::evaluate_logistic(x = D_NLEACH, b = 0.54, x0 = 10, v = 0.9, increasing = FALSE)
+    }
+    
+    return(value)
    
   
   return(I_W_NGW)
   
 }
+
 

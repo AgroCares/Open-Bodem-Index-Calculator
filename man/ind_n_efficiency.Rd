@@ -4,10 +4,12 @@
 \alias{ind_n_efficiency}
 \title{Calculate an indicator value for nitrogen use efficiency and leaching based on N surplus}
 \usage{
-ind_n_efficiency(D_NLEACH)
+ind_n_efficiency(D_NLEACH, leaching_to)
 }
 \arguments{
 \item{D_NLEACH}{(numeric) The value of N leaching calculated by \code{\link{calc_n_efficiency}}}
+
+\item{leaching_to}{(character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("ow")}
 }
 \description{
 This function gives an indicator value for nitrogen use efficiency calculated by \code{\link{calc_n_efficiency}}, this function makes use of \code{\link{ind_nretention}}
