@@ -310,10 +310,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
     # Calculate indicators for groundwater functions
-    dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN)]
-    dt[, I_W_NGW := ind_nretention(D_NLEACH_GW,'gw')]
-    dt[, I_W_NOW := ind_nretention(D_NLEACH_GW,'ow')]
-    dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+    dt[, I_H_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN)]
+    dt[, I_H_NGW := ind_n_efficiency(D_NLEACH_GW,'gw')]
+    dt[, I_H_NOW := ind_n_efficiency(D_NLEACH_GW,'ow')]
+    dt[, I_H_PEST := ind_pesticide_leaching(D_PESTICIDE)]
     
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
@@ -350,7 +350,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_W|year|crop_cat|SOILT|^ID',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_H|year|crop_cat|SOILT|^ID',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
@@ -399,13 +399,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # non relevant indicators, set to -999
     out.ind[is.na(value), value := -999]
     
+    
   # Step 5 Add scores ------------------
     
     # subset dt.melt for relevant columns only
     out.score <-  dt.melt[,list(ID, cat, year, cf, value = value.w)]
-  
+    
     # remove indicator categories that are not used for scoring
-    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS', 'H')]
     
     # calculate weighted average per indicator category
     out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), 
@@ -425,7 +426,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
       # calculate weighing factor depending on number of indicators
       out.score[,cf := log(ncat + 1)]
-  
+      
+      
     # calculated final obi score
     out.score <- rbind(out.score[,list(ID, cat,value)],
                        out.score[,list(cat = "T",value = sum(value * cf / sum(cf))), by = ID])
