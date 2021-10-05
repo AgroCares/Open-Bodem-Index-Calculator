@@ -516,7 +516,7 @@
   cr[grepl('boomkwekerij|haagplanten|braak met bos|buxus|ericaceae|kerstbomen|laanbomen|overige natuur|rozenstruiken|coniferen|heesters|vaste planten|vruchtbomen|wilgenhakhout|woudbomen',crop_name), crop_makkink := 'jong bos']
   
   # natuurlijk grasland
-  cr[grepl('onttrokken cultuurgrond|faunarand|geen landbouwproductie'), crop_makkink := 'natuurlijk grasland']
+  cr[grepl('onttrokken cultuurgrond|faunarand|geen landbouwproductie',crop_name), crop_makkink := 'natuurlijk grasland']
   
   # overige bol en knolgewassen
   cr[grepl('aardperen|bieten|knoflook|knolvenkel|koolraap|koolrabi|kroten|pastinaak|stoppelknol|cichor',crop_name), crop_makkink := 'bol en knolgewassen']
