@@ -449,10 +449,7 @@ obic_field_dt <- function(dt,output = 'all') {
   
   # Check inputs
   checkmate::assert_data_table(dt)
-  
-  # column names in input
-  dt.cols <- colnames(dt)
-  
+
   # column names mandatory
   dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 'B_LU_BRP', 
               'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC',
@@ -461,8 +458,7 @@ obic_field_dt <- function(dt,output = 'all') {
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
   
   # check presence of required columns
-  dt.check <- dt.cols[dt.cols %in% dt.req]
-  checkmate::assert_true(all(dt.req %in% dt.check & dt.check %in% dt.req),
+  checkmate::assert_true(all(dt.req %in% colnames(dt)),
                          .var.name = paste(c('Not all required columns are present in data.table, required columns are:',dt.req),collapse = ' '))
   
   # check which BodemConditieScore input is missing
@@ -477,6 +473,19 @@ obic_field_dt <- function(dt,output = 'all') {
   # check if compost measure is missing
   smc.all <- 'M_COMPOST'
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
+  
+  # check if no unexpected column names are present in dt
+  checkmate::assert_true(all(colnames(dt) %in% c(dt.req,
+                                                 bcs.all,
+                                                 sm.all,
+                                                 smc.all,
+                                                 "ID")),
+                         .var.name = paste(c('Unexpected column names in dt, allowed column names are:', 
+                                             c(dt.req,
+                                               bcs.all,
+                                               sm.all,
+                                               smc.all,
+                                               "ID"))))
   
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
