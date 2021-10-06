@@ -114,18 +114,18 @@ To aggregate scores, the relevant columns and rows are taken from the molten dat
     out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
 ```    
 
-The indicators within each category are aggregated to a single score per category (chemical, physical, biological, management, environmental) using the correction factor (*cf*<sub>1</sub>) calculated previously using `cf_ind_importance()`. This correction factor *cf*<sub>1</sub> gives a higher weight to indicators with a lower score, as:
+The indicators within each category are aggregated to a single score per category (chemical, physical, biological, management, environmental) using the correction factor (*vcf*) calculated previously using `cf_ind_importance()`. This correction factor *vcf* gives a higher weight to indicators with a lower score, as:
 $$
-cf_{1} = 1/(I+0.2)
+vcf = 1/(I+0.2)
 $$
 where *I* is the score of the indicator.
 This way, the lowest indicator, supposedly also the most limiting factor for crop production, becomes more important. Consequently, improving a low scoring indicator by 0.1 has a greater impact on the aggregated category score than improving a high scoring indicator by the same amount, making it more worthwhile to invest in the poorest and most limiting indicator.
 
 Subsequently, the score of each category is computed by aggregating the weighted values of all soil indicators within the category:
 $$
-S =  \frac{\sum_{i}(cf_{1, i} I_{i})}{\sum_{i}cf_{1, i}}
+S =  \frac{\sum_{i}(vcf_{i} I_{i})}{\sum_{i}vcf_{i}}
 $$
-where *S* is the score of the category, *cf*<sub>1,i</sub> is the weighing factor of the indicator *i*, *I*<sub>i</sub> is the score of the indicator *i*. This gives a single score for each of the five indicator categories (chemical, physical, biological, management, and environmental) for a specific year.
+where *S* is the score of the category, *vcf*<sub>i</sub> is the weighing factor of the indicator *i*, *I*<sub>i</sub> is the score of the indicator *i*. This gives a single score for each of the five indicator categories (chemical, physical, biological, management, and environmental) for a specific year.
 
 
 ```{r echo = TRUE, eval=FALSE}    
@@ -137,10 +137,10 @@ where *S* is the score of the category, *cf*<sub>1,i</sub> is the weighing facto
 ```
 
 ## Aggregation over years
-To account for the entire crop rotation, OBIC aggregates scores of multiple years. For the aggregation over years, another correction factor *cf*<sub>2</sub> is used to give more weight to recent years on a logarithmic scale. OBIC set the maximum length of period as 10 years, as crop rotation in the Netherlands are hardly ever longer than 10 years. When data older than 10 years ago is used, then those years get the same weight as 10 years ago.
-*cf*<sub>2</sub> is formulated as:
+To account for the entire crop rotation, OBIC aggregates scores of multiple years. For the aggregation over years, another correction factor *ycf* is used to give more weight to recent years on a logarithmic scale. OBIC set the maximum length of period as 10 years, as crop rotation in the Netherlands are hardly ever longer than 10 years. When data older than 10 years ago is used, then those years get the same weight as 10 years ago.
+*ycf* is formulated as:
 $$
-cf_{2} = ln(12 - min(y, 10))
+ycf = ln(12 - min(y, 10))
 $$
 where *y* is the length of years before the assessment. *y = 1* means the year for which the assessment is conducted for (i.e. the most recent year).
 
@@ -152,7 +152,7 @@ This gives the correction factors for a period of eleven years as follows (from 
   cat(round(cf, 3))
 ```
 
-The most recent year carries about `r round(cf[1]/cf[10],digits =1)` times the weight of the tenth year. Notice that years ten and eleven have the same correction factor value, the minimum *cf*<sub>2</sub> value for a year is equal to that of year ten.
+The most recent year carries about `r round(cf[1]/cf[10],digits =1)` times the weight of the tenth year. Notice that years ten and eleven have the same correction factor value, the minimum *ycf* value for a year is equal to that of year ten.
 
 More priority (weight) is given to recent years because they better reflect the current situation. Additionally, changes in management or soil properties have a more visible effect on the scores in the recent years.
 
@@ -179,10 +179,10 @@ The scores of five indicator categories are aggregated to a single, holistic, OB
       out.score <- merge(out.score,dt.melt.ncat, by='cat')
 ```
 
-The correction factor for each category, *cf*<sub>3</sub>, are computed based on the number of indicators as:
+The correction factor for each category, *ccf*, are computed based on the number of indicators as:
 
 $$
-cf_{3} = ln(ncat+1)
+ccf = ln(ncat+1)
 $$
 where *ncat* is the number of the underlying indicators within the category.
 The weights for categories with 1 to 10 indicators are: `r round(log(1:10 +1),2)`. Thus, a category based on 10 indicators affects the total score roughly `r round(log(1:10 +1)[10]/log(1:10 +1)[1],1)` times more than a category based on 1 indicator. The idea behind giving more weight to categories with more underlying indicators sprouts from the idea that such a category is better supported by measurable data and better understood. 
@@ -467,6 +467,71 @@ dt <- addcf(dt)
 
 ```
 
+```{r calc correction factors 2}
+
+# Use three ways to calc correction factors (giving weight to each value), log (standard in OBIC), lin (linearly increasing/decreasing), non (everything has the same weight)
+# for log and lin, 4 scenarios are added (c_cf only, v_cf only, y-cf only, or all)
+
+# value correction factors ======
+dtp <- copy(dta)
+
+# function to add  correction factors
+addcf2 <- function(dt){
+  
+  # copy input
+  dt.int <- copy(dt)
+  
+  # add correction factor for indicator value
+	dt.int[,log_all := OBIC::cf_ind_importance(value)]
+	dt.int[,log_vcf := OBIC::cf_ind_importance(value)]
+	dt.int[,log_ccf := 1]
+	dt.int[,log_ycf := 1]
+	dt.int[,lin_all := 5-4.17*value]
+	dt.int[,lin_vcf := 5-4.17*value]
+	dt.int[,lin_ccf := 1]
+	dt.int[,lin_ycf := 1]
+	dt.int[,non := 1]
+	
+	# melt dt by cf method
+	dt.int <- melt(dt.int, measure.vars = c('log_all', 'log_vcf', 'log_ccf', 'log_ycf',
+	                                        'lin_all', 'lin_vcf', 'lin_ccf', 'lin_ycf', 
+	                                        'non'), 
+	               value.name = 'v_cf', variable.name = 'cf_method')
+	
+	# calculate cf for cat ====
+	dt.int[,ncat := .N,by=c('field','year','cat','cf_method')]
+	
+	# add correction factor for number of categories
+	dt.int[cf_method == 'log_all',c_cf := log(ncat + 1)]
+	dt.int[cf_method == 'log_ccf',c_cf := log(ncat + 1)]
+	dt.int[cf_method == 'log_vcf',c_cf := 1]
+	dt.int[cf_method == 'log_ycf',c_cf := 1]
+	dt.int[cf_method == 'lin_all',c_cf := ncat*log(10 + 1)/10]
+	dt.int[cf_method == 'lin_ccf',c_cf := ncat*log(10 + 1)/10]
+	dt.int[cf_method == 'lin_vcf',c_cf := 1]
+	dt.int[cf_method == 'lin_ycf',c_cf := 1]
+	dt.int[cf_method == 'non',c_cf := 1]
+	
+	# dd correction factor for number of years
+	dt.int[cf_method == 'log_all',y_cf := log(12 - pmin(10,year))]
+	dt.int[cf_method == 'log_ycf',y_cf := log(12 - pmin(10,year))]
+	dt.int[cf_method == 'log_vcf',y_cf := 1]
+	dt.int[cf_method == 'log_ccf',y_cf := 1]
+	dt.int[cf_method == 'lin_all',y_cf := 2.59-0.19*year]
+	dt.int[cf_method == 'lin_ycf',y_cf := 2.59-0.19*year]
+	dt.int[cf_method == 'lin_vcf',y_cf := 1]
+	dt.int[cf_method == 'lin_ccf',y_cf := 1]
+	dt.int[cf_method == 'non',y_cf := 1]
+	
+	return(dt.int)
+}
+
+# add correction factors
+dt3 <- addcf2(dtp)
+
+```
+
+
 ```{r aggregate scores}
 
 # make function to aggregate scores
@@ -498,6 +563,7 @@ aggscores <- function(dt) {
 
 # add scores to dt
 dt.out <- aggscores(dt)
+dt3.out <- aggscores(dt3)
 
 ```
 
@@ -559,13 +625,21 @@ dt2 <- aggscores_brent(dt)
 
 ```{r plot baselines scores, fig.width = 7, fig.height = 12,fig.fullwidth = TRUE, fig.cap = 'Figure 3. Total OBI score boxplots per aggregation method for each scenario.'}
 
-# plot
-ggplot(dt.out[cat == 'total'], aes(x = value, y = cf_method)) +
+# # plot
+# ggplot(dt.out[cat == 'total'], aes(x = value, y = cf_method)) +
+#         geom_boxplot() +
+#         theme_bw() + scale_colour_viridis_d() + scale_y_discrete(limits = rev) +
+#         coord_cartesian(xlim = c(0,1)) +
+#         facet_wrap(~treatment, ncol = 1)
+
+# plot (different colors per method)
+dt3.out[, method_main := substr(cf_method, 1, 3)]
+#dt3.out[, method_sub := substr(cf_method, nchar(as.character(cf_method))-2, nchar(as.character(cf_method)))]
+ggplot(dt3.out[cat == 'total'], aes(x = value, y = cf_method, fill = method_main)) +
         geom_boxplot() +
         theme_bw() + scale_colour_viridis_d() + scale_y_discrete(limits = rev) +
         coord_cartesian(xlim = c(0,1)) +
         facet_wrap(~treatment, ncol = 1)
-
 
 ```
 
