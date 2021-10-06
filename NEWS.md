@@ -1,6 +1,10 @@
 # Changelog OBIC
 
 ## version 1.0.4 2021-09-27
+### Added
+* Check on column names in obic_field_dt
+* tests on obic_field_dt
+
 ### Fixed
 * Fixed check on required column names in obic_field_dt
 
