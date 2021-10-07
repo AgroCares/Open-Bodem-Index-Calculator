@@ -427,6 +427,8 @@ for(i in 1:uniqueN(pdt$cf_method)){
 gg
 ```
 
+
+
 ```{r calc correction factors}
 
 # Use three ways to calc correction factors (giving weight to each value), log (standard in OBIC), lin (linearly increasing/decreasing), non (everything has the same weight)
@@ -702,9 +704,47 @@ The scores calculated with the logarithmic and linear aggregation method do not 
 1. Linear aggregation method penalize intermediately-scoring indicator relatively heavily, whereas logarithmic aggregation method penalize poorly-scoring indicator heavily. If highlighting limiting soil functions is the main purpose, then logarithmic aggregation method is preferred.
 2. Linear aggregation method gives relatively more weight to categories with fewer indicators than logarithmic method. The contribution of a single indicator to the total score is equal for all indicators in the linear methods, whereas in the logarithmic method that is smaller for the categories with many indicators than those with a few indicators. 
 
-## Aggregating categories
-Grouping indicators in categories and aggregating these categories to a single score is a choice, its not mathematically necessary. In the figure below, we calculated the total OBIC score both with and without weighing on number of indicators per category. 
 
+
+## Aggregating categories
+Grouping indicators in categories and aggregating these categories to a single score is a choice, its not mathematically necessary. Here we look deeper at how our choice of the category aggregation influence the behavior of the OBIC score.
+
+First, Let's zoom in to the correction factor for the aggregation step from category scores to total score (as shown in Figure 2 middle). Both 'lin' and 'log' methods intend to give more weight for categories with more underlying indicators. 
+The figure below show the relative contribution of each indicator to the total score when different aggregation method is used. When not using any weight (i.e. 'non' method), indicators within the category with the fewest indicators (biological; ncat = 2) are reflected much higher in the total score, compared to those within a category with the most indicators (chemical; ncat = 9). The contribution of the former is `r pdt2[cf_method == "non" & x == 2, cfpncat] /pdt2[cf_method == "non" & x == 9, cfpncat]` times higher than the latter. With'lin' method, the contribution is identical for all indicators, regardless of the number of indicators within the category. This is thus analogue to when total score is calculated directly from all indicators, instead of first aggregating to category level and then to total score. 'log' method results in an intermediate pattern between 'non' and 'lin': the contribution of a indicator in chemical category is `r pdt2[cf_method == "log" & x == 2, cfpncat] /pdt2[cf_method == "log" & x == 9, cfpncat]` times higher than that in biological category. Thus, with 'log' method, the total contribution of chemical category to total score is higher than biological category, but contributions of individual indicators are higher for those in biological category than chemical category.
+
+
+```{r plot mock ccf/ncat, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, fig.cap = 'Figure 2b. Contribution of a indicator to total score, with non, linear or logarithmic aggregation methods.'}
+
+# add 'cf_method = non' to dpt
+dptnon <- pdt[cf_type == "ncat" & cf_method == "log",]
+dptnon[, cf_method := "non"][, cf := 1]
+pdt2 <- rbind(pdt[cf_type == "ncat",], dptnon)
+rm(dptnon)
+
+# calculate contribution of a single indicator to total score
+pdt2 <- pdt2[x != 0,]
+pdt2[, cfpncat := cf / x]
+gg2 <- ggplot(pdt2, aes(x = x, y = cfpncat, color = cf_method, group = cf_type))+
+      geom_point() +
+      theme_bw() + 
+      scale_colour_viridis_d()+
+      xlab('ncat') + ylab('cf per ncat')
+
+# plot a line in each
+for(i in 1:uniqueN(pdt2$cf_method)){
+ gg2 <- gg2 + geom_line(data = pdt2[cf_method == unique(pdt2$cf_method)[i]], 
+                        color = c('#21908CFF', '#440154FF', '#FDE725FF')[i])
+}
+
+# plot gg2
+gg2
+
+```
+
+
+
+
+In the figure below, we calculated the total OBIC score both with and without weighing on number of indicators per category. 
 When looking at scenario one low B, we can see that individual indicators in categories with a few indicators penalise the total score more when weighing by categories is omitted. While this is less pronounced in scenario one low C. Yet, not weighing on categories results in lower total scores when a single category performs poorly, as is illustrated by both the low B values and low C values scenario's.
 
 ```{r plot scores with and without cat, fig.width = 7, fig.height = 9,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A).'}
