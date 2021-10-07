@@ -578,17 +578,17 @@ aggscores_brent <- function(dt) {
   dt.agg <- copy(dt)
   
   	# calculate weighted value per category and year
-	dt.agg <- dt.agg[,w.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, cat, year)]
+	dt.agg <- dt.agg[,w.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(treatment, field, cf_method, cat, year)]
 	
 	# calculated weighted average value per category (so mean over years)
-	dt.agg <- dt.agg[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[w.value >= 0])), by = .(field, cf_method, cat)] # scores per category
+	dt.agg <- dt.agg[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[w.value >= 0])), by = .(treatment, field, cf_method, cat)] # scores per category
 	
 	# calculate total obi score
-	dt.agg <- dt.agg[,S_T := sum(wy.value * c_cf / sum(c_cf)), by = .(field, cf_method)]
+	dt.agg <- dt.agg[,S_T := sum(wy.value * c_cf / sum(c_cf)), by = .(treatment, field, cf_method)]
 	
 	# calculate total obi score if not aggregated by cat
-	dt.agg <- dt.agg[, nocat.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, year)]
-	dt.agg <- dt.agg[, S_T_nocat := sum(y_cf * pmax(0, nocat.value) / sum(y_cf[nocat.value >= 0])), by = .(field, cf_method)]
+	dt.agg <- dt.agg[, nocat.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(treatment, field, cf_method, year)]
+	dt.agg <- dt.agg[, S_T_nocat := sum(y_cf * pmax(0, nocat.value) / sum(y_cf[nocat.value >= 0])), by = .(treatment,  field, cf_method)]
 	
 	# select data for scores
 	dts <- unique(dt.agg[,.(field, indicator,cat, wy.value, S_T ,treatment, cf_method, S_T_nocat)])
@@ -740,7 +740,6 @@ for(i in 1:uniqueN(pdt2$cf_method)){
 gg2
 
 ```
-
 
 
 
