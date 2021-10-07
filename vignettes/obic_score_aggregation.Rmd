@@ -121,9 +121,9 @@ $$
 where *I* is the score of the indicator.
 This way, the lowest indicator, supposedly also the most limiting factor for crop production, becomes more important. Consequently, improving a low scoring indicator by 0.1 has a greater impact on the aggregated category score than improving a high scoring indicator by the same amount, making it more worthwhile to invest in the poorest and most limiting indicator.
 
-Subsequently, the score of each category is computed by aggregating the weighted values of all soil indicators within the category:
+Subsequently, the score of each category is computed by summing up the weighted values (scaled by the sum of all weights) of all soil indicators within the category:
 $$
-S =  \frac{\sum_{i}(vcf_{i} I_{i})}{\sum_{i}vcf_{i}}
+S =  \sum_{i}(I_{i} \frac{vcf_{i}}{\sum_{i}vcf_{i}})
 $$
 where *S* is the score of the category, *vcf*<sub>i</sub> is the weighing factor of the indicator *i*, *I*<sub>i</sub> is the score of the indicator *i*. This gives a single score for each of the five indicator categories (chemical, physical, biological, management, and environmental) for a specific year.
 
@@ -156,7 +156,7 @@ The most recent year carries about `r round(cf[1]/cf[10],digits =1)` times the w
 
 More priority (weight) is given to recent years because they better reflect the current situation. Additionally, changes in management or soil properties have a more visible effect on the scores in the recent years.
 
-Aggregation of scores over years is done with the following two lines of code. This is analogue to the aggregation procedure within each category as described above (i.e. sum of weighted score, divided by the sum of all weighing factors).
+Aggregation of scores over years is done with the following two lines of code. This is analogue to the aggregation procedure within each category as described above (i.e. sum of weighted score, scaled by the sum of all weighing factors).
 
 The aggregation procedure is coded in the following lines.
       
