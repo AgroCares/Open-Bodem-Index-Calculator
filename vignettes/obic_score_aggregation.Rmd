@@ -635,10 +635,16 @@ dt2 <- aggscores_brent(dt)
 #         facet_wrap(~treatment, ncol = 1)
 
 # plot (different colors per method)
+
 dt3.out[, method_main := substr(cf_method, 1, 3)]
 #dt3.out[, method_sub := substr(cf_method, nchar(as.character(cf_method))-2, nchar(as.character(cf_method)))]
+# arithmetric mean of all indicators (this should be equal to lin_ccf)
+arimean <- dt[cf_method == "non", arimean := mean(value), by = c("field", "treatment")]
+arimean2 <- unique(arimean[, .(field, treatment, arimean)])
+arimean3 <- arimean2[, median(arimean), by = treatment]
 ggplot(dt3.out[cat == 'total'], aes(x = value, y = cf_method, fill = method_main)) +
-        geom_boxplot() +
+  geom_vline(data = arimean3, aes(xintercept = V1), col = "red", lty = 2) +      
+  geom_boxplot() +
         theme_bw() + scale_colour_viridis_d() + scale_y_discrete(limits = rev) +
         coord_cartesian(xlim = c(0,1)) +
         facet_wrap(~treatment, ncol = 1)
