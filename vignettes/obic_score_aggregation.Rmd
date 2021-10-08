@@ -427,8 +427,6 @@ for(i in 1:uniqueN(pdt$cf_method)){
 gg
 ```
 
-
-
 ```{r calc correction factors}
 
 # Use three ways to calc correction factors (giving weight to each value), log (standard in OBIC), lin (linearly increasing/decreasing), non (everything has the same weight)
@@ -583,40 +581,52 @@ aggscores_brent <- function(dt) {
 	# calculated weighted average value per category (so mean over years)
 	dt.agg <- dt.agg[,wy.value := sum(y_cf * pmax(0, w.value) / sum(y_cf[w.value >= 0])), by = .(field, cf_method, cat)] # scores per category
 	
-	# calculate total obi score
+	# calculate total obi score (log method)
 	dt.agg <- dt.agg[,S_T := sum(wy.value * c_cf / sum(c_cf)), by = .(field, cf_method)]
+	# calculate total obi score (lin method)
+	dt.agg[, c_cf_lin := ncat*log(10 + 1)/10]
+	dt.agg <- dt.agg[,S_T_catlin := sum(wy.value * c_cf_lin / sum(c_cf_lin)), by = .(field, cf_method)]
+	# calculate total obi score (non method)
+	dt.agg[, c_cf_non := 1]
+	dt.agg <- dt.agg[,S_T_catnon := sum(wy.value * c_cf_non / sum(c_cf_non)), by = .(field, cf_method)]
 	
 	# calculate total obi score if not aggregated by cat
 	dt.agg <- dt.agg[, nocat.value := sum(v_cf* pmax(0,value) / sum(v_cf[value >= 0])), by = .(field, cf_method, year)]
 	dt.agg <- dt.agg[, S_T_nocat := sum(y_cf * pmax(0, nocat.value) / sum(y_cf[nocat.value >= 0])), by = .(field, cf_method)]
 	
 	# select data for scores
-	dts <- unique(dt.agg[,.(field, indicator,cat, wy.value, S_T ,treatment, cf_method, S_T_nocat)])
+	dts <- unique(dt.agg[,.(field, indicator,cat, wy.value, S_T ,treatment, cf_method, S_T_nocat, S_T_catlin, S_T_catnon)])
 	
 	# reshape dts so total scores are in same column as cat scores (with T being a cat)
 	dts1 <- unique(dts[,.(field, cat, wy.value, treatment, cf_method)])
 	dts2 <- unique(dts[,.(field, S_T, treatment, cf_method)])
 	dts3 <- unique(dts[,.(field, S_T_nocat, treatment, cf_method)])
+	dts4 <- unique(dts[,.(field, S_T_catlin, treatment, cf_method)])
+	dts5 <- unique(dts[,.(field, S_T_catnon, treatment, cf_method)])
 	
 	# rename  cols
 	setnames(dts1, 'wy.value', 'score')
 	setnames(dts2, 'S_T', 'score')
 	setnames(dts3, 'S_T_nocat', 'score')
+	setnames(dts4, 'S_T_catlin', 'score')
+	setnames(dts5, 'S_T_catnon', 'score')
 	# add cat column to dts2
-	dts2$cat <- 'T'
-	dts3$cat <- 'Tnocat'
+	dts2$cat <- 'T_cf_log'
+	dts3$cat <- 'T_nocat'
+	dts4$cat <- 'T_cf_lin'
+	dts5$cat <- 'T_cf_non'
 	
 	# bind scores dt's
-	dt.agg <- rbindlist(list(dts1, dts2, dts3), use.names = TRUE)
+	dt.agg <- rbindlist(list(dts1, dts2, dts3, dts4, dts5), use.names = TRUE)
 	
 	# update element names
-	dt.agg[,cat := paste0('S_',cat,'_OBI_A')]
+	dt.agg[,cat := paste0('S_',cat)]
 	dt.agg[, score := round(score,3)]
 	
 	# factorise cat and cf_method
-	dt.agg <- dt.agg[, cat := factor(cat, levels = c('S_T_OBI_A', 'S_C_OBI_A', 'S_P_OBI_A',
-											'S_B_OBI_A', 'S_E_OBI_A','S_M_OBI_A',
-											"S_Tnocat_OBI_A"))]
+	dt.agg <- dt.agg[, cat := factor(cat, levels = c('S_T_cf_log', 'S_C', 'S_P',
+											'S_B', 'S_E','S_M',
+											"S_T_cf_lin", "S_T_cf_non", "S_T_nocat"))]
 	dt.agg <- dt.agg[, cf_method := factor(cf_method, levels = c('log', 'lin', 'non'))]
 }
 
@@ -700,7 +710,7 @@ Note that the variation of total score is not larger for 'lin' and 'log' than 'n
 
 In the two scenario's where one category performs poorly; 'low B values' and 'low C values', we can see the effect of using a correction factor for the number of indicators in a category. The total score in 'low B values' of 'non' method dropped by `r dtt[treatment == 'baseline'& cf_method == 'non', total]-dtt[treatment == 'low B values'& cf_method == 'non', total]` from the baseline. This decrease is larger than the other two methods: 'log' and 'lin'  dropped `r dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'low B values'& cf_method == 'log', total]` and `r dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'low B values'& cf_method == 'lin', total]` from the baseline scenario. In contract, in scenario 'low C values, 'log', 'lin' dropped more drastically than 'non': the decrease in total scores was `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'low C values'& cf_method == 'log', total], ', ', dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'low C values'& cf_method == 'lin', total], ' and ', round(dtt[treatment == 'baseline'& cf_method == 'non', total]-dtt[treatment == 'low C values'& cf_method == 'non', total],3))` points for 'log', 'lin', and 'non' methods, respectively. The contrasting patterns in the change in the total score illustrate the effect of the aggregation from the 5 category scores to a single total score, which is based on the number of indicators in each category. The 'lin' and 'log' aggregation methods are more sensitive to low scores in C (a category with 9 indicators) than low scores in B (which has 2 indicators) compared to 'non' which is equally sensitive to a low B or C value. Furthermore, 'lin' gives relatively heavier weight to a category with a few indicators relative to that with many indicators than 'log': the ratio between the weight on C and B scores is `r (9*log(10 + 1)/10)/(2*log(10 + 1)/10)` for 'lin' and `r log(9+1)/log(2+1)` for 'log'.
 
-The sensitivity of the scores to the number of indicators in a category is even more pronounced when looking at scenario's 'one low C' and 'one low B', where either one chemical indicator or one biological indicator was set to 0. There is no difference between these scenario's for the 'non' aggregation method, in both scenario's a score of around `r round(mean(dtt[treatment %in% c('one low C', 'one low B')& cf_method == 'non', total]),3)` is achieved, `r round(abs(mean(dtt[treatment %in% c('one low C', 'one low B')& cf_method == 'non', total])-dtt[treatment == 'baseline'& cf_method == 'non', total]),3)` points lower than in the baseline. When using 'log' and 'lin' methods, scores drop `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'one low C'& cf_method == 'log', total], ' and ',dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'one low C'& cf_method == 'lin', total])` in one low C and `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'one low B'& cf_method == 'log', total], ' and ',round(dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'one low B'& cf_method == 'lin', total],3))` in one low B. Note that the drop in 'one low B' and 'one low C' scenarios compared to the baseline scenario is larger for 'log' than 'lin' method, showing that 'log' method is suitable for highlighting poorly-scoring indicators. In other words, 'lin' method imposes relatively severe penalty on moderately-scoring indicators, whereas it does not let poorly-scoring indicators stand out as much as 'log' method does.
+The sensitivity of the scores to the number of indicators in a category is even more pronounced when looking at scenario's 'one low C' and 'one low B', where either one chemical indicator or one biological indicator was set to 0. There is no difference between these scenario's for the 'non' aggregation method, in both scenario's a score of around `r round(mean(dtt[treatment %in% c('one low C', 'one low B')& cf_method == 'non', total]),3)` is achieved, `r round(abs(mean(dtt[treatment %in% c('one low C', 'one low B')& cf_method == 'non', total])-dtt[treatment == 'baseline'& cf_method == 'non', total]),3)` points lower than in the baseline. When using 'log' and 'lin' methods, scores drop `r paste0(round(dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'one low C'& cf_method == 'log', total], 3), ' and ',dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'one low C'& cf_method == 'lin', total])` in one low C and `r paste0(round(dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'one low B'& cf_method == 'log', total], 3), ' and ',round(dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'one low B'& cf_method == 'lin', total],3))` in one low B. Note that the drop in 'one low B' and 'one low C' scenarios compared to the baseline scenario is larger for 'log' than 'lin' method, showing that 'log' method is suitable for highlighting poorly-scoring indicators. In other words, 'lin' method imposes relatively severe penalty on moderately-scoring indicators, whereas it does not let poorly-scoring indicators stand out as much as 'log' method does.
 
 The scenario's 'Recent years high' and 'Recent years low' were included to illustrate the effect of different methods to aggregate multiple year records. In 'Recent years low' scenario, scores calculated with 'lin' and 'log' are substantially lower than 'non' method, because the lower scores in recent years gained heavier weight. In 'Recent years high' scenario, 'log' and 'lin' scores only slightly higher than 'non'. Although the high recent values in 'lin' and 'log' received higher weights in the aggregation of multiple years, they are canceled out by old, low indicator values, which are severely penalized from being low. 
 
@@ -715,54 +725,29 @@ The scores calculated with the logarithmic and linear aggregation method do not 
 ## Aggregating categories
 Grouping indicators in categories and aggregating these categories to a single score is a choice, its not mathematically necessary. Here we look deeper at how our choice of the category aggregation influence the behavior of the OBIC score.
 
-First, Let's zoom in to the correction factor for the aggregation step from category scores to total score (as shown in Figure 2 middle). Both 'lin' and 'log' methods intend to give more weight for categories with more underlying indicators. 
-The figure below show the relative contribution of each indicator to the total score when different aggregation method is used. When not using any weight (i.e. 'non' method), indicators within the category with the fewest indicators (biological; ncat = 2) are reflected much higher in the total score, compared to those within a category with the most indicators (chemical; ncat = 9). The contribution of the former is `r pdt2[cf_method == "non" & x == 2, cfpncat] /pdt2[cf_method == "non" & x == 9, cfpncat]` times higher than the latter. With'lin' method, the contribution is identical for all indicators, regardless of the number of indicators within the category. This is thus analogue to when total score is calculated directly from all indicators, instead of first aggregating to category level and then to total score. 'log' method results in an intermediate pattern between 'non' and 'lin': the contribution of a indicator in chemical category is `r pdt2[cf_method == "log" & x == 2, cfpncat] /pdt2[cf_method == "log" & x == 9, cfpncat]` times higher than that in biological category. Thus, with 'log' method, the total contribution of chemical category to total score is higher than biological category, but contributions of individual indicators are higher for those in biological category than chemical category.
-
-
-```{r plot mock ccf/ncat, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, fig.cap = 'Figure 2b. Contribution of a indicator to total score, with non, linear or logarithmic aggregation methods.'}
-
-# add 'cf_method = non' to dpt
-dptnon <- pdt[cf_type == "ncat" & cf_method == "log",]
-dptnon[, cf_method := "non"][, cf := 1]
-pdt2 <- rbind(pdt[cf_type == "ncat",], dptnon)
-rm(dptnon)
-
-# calculate contribution of a single indicator to total score
-pdt2 <- pdt2[x != 0,]
-pdt2[, cfpncat := cf / x]
-gg2 <- ggplot(pdt2, aes(x = x, y = cfpncat, color = cf_method, group = cf_type))+
-      geom_point() +
-      theme_bw() + 
-      scale_colour_viridis_d()+
-      xlab('ncat') + ylab('cf per ncat')
-
-# plot a line in each
-for(i in 1:uniqueN(pdt2$cf_method)){
- gg2 <- gg2 + geom_line(data = pdt2[cf_method == unique(pdt2$cf_method)[i]], 
-                        color = c('#21908CFF', '#440154FF', '#FDE725FF')[i])
-}
-
-# plot gg2
-gg2
-
-```
 
 
 
-In the figure below, we calculated the total OBIC score both with and without weighing on number of indicators per category. 
-When looking at scenario one low B, we can see that individual indicators in categories with a few indicators penalise the total score more when weighing by categories is omitted. While this is less pronounced in scenario one low C. Yet, not weighing on categories results in lower total scores when a single category performs poorly, as is illustrated by both the low B values and low C values scenario's.
+In the figure below, we calculated the total OBIC score both with and without aggregation per category. 
+When indicators of 1 category have low scores (i.e. 'low B values' and 'low C values'), the total score becomes higher when the category aggregation is executed. This is because the category aggregation assures that the impact of a category on total score does not exceed a fixed proportion: the contribution of C, P, B, E and M category to the total score is `{r  round(100*log(9+1)/sum(log(c(9,8,2,2,1)+1)),0)}`, `{r  round(100*log(8+1)/sum(log(c(9,8,2,2,1)+1)),0)}`, `{r  round(100*log(2+1)/sum(log(c(9,8,2,2,1)+1)),0)}`, `{r  round(100*log(2+1)/sum(log(c(9,8,2,2,1)+1)),0)}`, `{r  round(100*log(1+1)/sum(log(c(9,8,2,2,1)+1)),0)}`, respectively. 
+
+The effects of aggregation steps on total score is large, and it is difficult to trace where and how the total score is influenced by different aggregation steps. Computing category scores before aggregating to a total score is therefore a nice way to show intermediate steps, and allow users to interpret different aspects of soils. 
+
+
 
 ```{r plot scores with and without cat, fig.width = 7, fig.height = 9,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A).'}
 
 #dt <- copy(dta)
 #dt <- addcf(dt)
 #dt2 <- aggscores_brent(dt)
-
-gg3 <- ggplot(dt2[cat %in% c('S_T_OBI_A', 'S_Tnocat_OBI_A') & 
+dt2[, colv := "no category aggregation"]
+dt2[grepl("S_T_cf", cat), colv := "with category aggregation"]
+gg3 <- ggplot(dt2[cat %in% c('S_T_cf_log', 'S_T_cf_lin', 'S_T_cf_non', 'S_T_nocat') & 
                   cf_method == 'log' & 
                   !treatment %in% c('Recent years low', 'Recent years high')],
               aes(x = score, y = cat)) +
-  geom_boxplot() +
+  geom_boxplot(aes(fill = colv)) +
+  labs(fill="") +
   theme_bw() + scale_y_discrete(limits = rev) +
   coord_cartesian(xlim = c(0,1)) +
   facet_wrap(~treatment, ncol = 1) #+ geom_boxplot(data = dt[cat == 'S_Tnocat_OBI_A'], mapping = aes(fill = 'blue')) 
