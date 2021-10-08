@@ -475,17 +475,9 @@ obic_field_dt <- function(dt,output = 'all') {
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
   # check if no unexpected column names are present in dt
-  checkmate::assert_true(all(colnames(dt) %in% c(dt.req,
-                                                 bcs.all,
-                                                 sm.all,
-                                                 smc.all,
-                                                 "ID")),
-                         .var.name = paste(c('Unexpected column names in dt, allowed column names are:', 
-                                             c(dt.req,
-                                               bcs.all,
-                                               sm.all,
-                                               smc.all,
-                                               "ID"))))
+  check <- checkmate::check_true(all(colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")))
+  if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
+                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")]))}
   
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
