@@ -2,7 +2,7 @@
 % Please edit documentation in R/obic.R
 \name{obic_field_dt}
 \alias{obic_field_dt}
-\title{Calculate the Open Bodem Index score for a single field}
+\title{Calculate the Open Bodem Index score for a data table}
 \usage{
 obic_field_dt(dt, output = "all")
 }
@@ -14,4 +14,5 @@ obic_field_dt(dt, output = "all")
 \description{
 This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
 In contrast to obic_field, this wrapper can handle a data.table as input.
+Multiple sites (distinguished in the column 'ID') can be simulated simultaneously.
 }
