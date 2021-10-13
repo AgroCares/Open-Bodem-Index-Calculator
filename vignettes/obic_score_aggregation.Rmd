@@ -635,7 +635,9 @@ aggscores_brent <- function(dt) {
 dt2 <- aggscores_brent(dt)
 ```
 
+### Effects of different aggregation method on OBIC total score
 
+The effects of different aggregation methods on total score are shown in the box plot. Red dashed lines show arithmetic means of all 22 indicators.
 
 ```{r plot baselines scores, fig.width = 7, fig.height = 12,fig.fullwidth = TRUE, fig.cap = 'Figure 3. Total OBI score boxplots per aggregation method for each scenario.'}
 
@@ -654,21 +656,6 @@ ggplot(dt.out[cat == 'total'], aes(x = value, y = cf_method)) +
         facet_wrap(~treatment, ncol = 1)
 
 
-# # plot (different colors per method, 'lin' and 'log' are divided into 4 variation)
-# # (This is a insightful figure, but probably too complicated to show in the vignette.)
-# dt3.out[, method_main := substr(cf_method, 1, 3)]
-# dt3.out[, alpha := 1]
-# dt3.out[!grepl("_all|non", cf_method), alpha := 0.5]
-# #dt3.out[, method_sub := substr(cf_method, nchar(as.character(cf_method))-2, nchar(as.character(cf_method)))]
-# 
-# ggplot(dt3.out[cat == 'total'], aes(x = value, y = cf_method, fill = method_main, alpha = alpha)) +
-#   geom_vline(data = arimean3, aes(xintercept = V1), col = "red", lty = 2) +
-#   geom_boxplot() +
-#   theme_bw() + scale_colour_viridis_d() + scale_y_discrete(limits = rev) +
-#   labs(fill = "")+
-#   guides(alpha = F)+ xlab("total score") + ylab("scenario") +
-#   coord_cartesian(xlim = c(0,1)) +
-#   facet_wrap(~treatment, ncol = 1)
 
 ```
 
@@ -715,13 +702,33 @@ ggplot(dt.out[cat == 'total'], aes(x = value, y = cf_method)) +
 
 ```
 
-The effects of different aggregation methods on total score are shown in the box plot. Red dashed lines show arithmetic means of all 22 indicators.
+
 
 In the baseline scenario, total scores are slightly lower when aggregating logarithmically or linearly compared to using no special aggregation method. In all three methods, the indicator values in the baseline are around `r round(mean(dta[treatment == 'baseline', value]),2)`, this number is preserved in the score when averaging all indicator values (cf_method = non) while 'log' and 'lin' scores are on average `r round(mean(dta[treatment == 'baseline', value]) - dtt[treatment == 'baseline'& cf_method == 'log',total],2)` and `r round(mean(dta[treatment == 'baseline', value]) - dtt[treatment == 'baseline'& cf_method == 'lin',total],2)` lower. The change of 0.05 (in the score ranging between 0 and 1) may seem small, but it is quite large compared to the standard deviation of the distribution of the indicator values (which is 0.2). So, the difference in aggregation methods can influence the total score substantially. 
 
 The 'lin' and 'log' methods yield lower average scores because they penalise low indicator values (i.e. left-hand side in their distribution) with the weighing factor *vcf*. Since the 'lin' and 'log' methods were harmonised for their highest value at low indicator value (cf = 5 for value = 0), the penalty at intermediate indicator values are much higher for 'lin' method. This makes the average value of the OBIC score lower for 'lin' than 'log' methods. The other two aggregation steps (year aggregation (with *ycf* ) and category aggregation (with *ccf*)) causes no difference in the baseline scenario. 
 
-Note that the variation of total score is not larger for 'lin' and 'log' than 'non', irrespective of the larger variations in the correction factors for 'lin' and 'log'. Although the indicator aggregation (with *vcf*) and the year aggregation (with *ycf*) slightly increase the variation in total score, the category aggregation (with *ccf*) reduces the variation, resulting in similar variation among the three methods. Furthermore, the variation caused by *vcf* is limited because the correction factor *vcf* and indicator value are inversely linked, and therefore the SD of 'indicator value times correction factors' do not differ much among the three methods.
+Note that the variation of total score is not larger for 'lin' and 'log' than 'non', irrespective of the larger variations in the correction factors for 'lin' and 'log'. To illustrate the pattern, we zoom up to the baseline scenario (Fig 3). Here we split the 'log' method into 4 variations: when 'log' method is applied for all 3 aggregation steps ('log_all'), only for the indicator aggregation ('log_vcf'), year aggregation ('log_ycf'), or category aggregation ('log_ccf'). Same applies to 'lin' method. Standard deviation of total score is slightly smaller when 'log' or 'lin' method is used (SD = `r round(dt3.out[cat == 'total' & treatment =="baseline" & cf_method == "log_all", sd(value)],3)` and , `r round(dt3.out[cat == 'total' & treatment =="baseline" & cf_method == "lin_all", sd(value)],3)`respectively) compared to no special aggregation method is used ('non', SD = `r round(dt3.out[cat == 'total' & treatment =="baseline" & cf_method == "non", sd(value)],3)`). Looking closer at different steps of aggregation, the variation increases due to indicator aggregation (*vcf*) and the year aggregation (*ycf*), but decreased with category aggregation (*ccf*).  As a result, the variation is smaller when linear or log method is applied in all 3 aggregation steps, largely owing to the category aggregation. The reason for the large effect of category aggregation is as follows: Category aggregation increases variation in total score because an extreme indicator value in categories with a few indicators are strongly reflected in the total score and therefore increase the variation, compared to when total scores is directly computed from all indicators. With 'log' and 'lin' methods, both of which gives smaller weights to categories with a few indicators, this impact is diluted. 
+
+```{r plot baselines scores zoomed in, fig.width = 7, fig.height = 2,fig.fullwidth = TRUE, fig.cap = 'Figure 4. Total OBI score per aggregation method for baseline sceinario.'}
+
+# plot (different colors per method, 'lin' and 'log' are divided into 4 variation)
+dt3.out[, method_main := substr(cf_method, 1, 3)]
+dt3.out[, alpha := 1]
+dt3.out[!grepl("_all|non", cf_method), alpha := 0.5]
+
+ggplot(dt3.out[cat == 'total' & treatment =="baseline"],
+       aes(x = value, y = cf_method, fill = method_main, alpha = alpha)) +
+  # geom_vline(data = arimean3, aes(xintercept = V1), col = "red", lty = 2) +
+  geom_boxplot() +
+  theme_bw() + scale_colour_viridis_d() + scale_y_discrete(limits = rev) +
+  labs(fill = "")+
+  guides(alpha = F)+ xlab("total score") + ylab("scenario") +
+  coord_cartesian(xlim = c(0,1))
+
+# check standard deviation
+dt3.out[cat == 'total' & treatment =="baseline", sd(value), by = cf_method]
+```
 
 
 In the two scenario's where one category performs poorly; 'low B values' and 'low C values', we can see the effect of using a correction factor for the number of indicators in a category. The total score in 'low B values' of 'non' method dropped by `r dtt[treatment == 'baseline'& cf_method == 'non', total]-dtt[treatment == 'low B values'& cf_method == 'non', total]` from the baseline. This decrease is larger than the other two methods: 'log' and 'lin'  dropped `r dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'low B values'& cf_method == 'log', total]` and `r dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'low B values'& cf_method == 'lin', total]` from the baseline scenario. In contract, in scenario 'low C values, 'log', 'lin' dropped more drastically than 'non': the decrease in total scores was `r paste0(dtt[treatment == 'baseline'& cf_method == 'log', total]-dtt[treatment == 'low C values'& cf_method == 'log', total], ', ', dtt[treatment == 'baseline'& cf_method == 'lin', total]-dtt[treatment == 'low C values'& cf_method == 'lin', total], ' and ', round(dtt[treatment == 'baseline'& cf_method == 'non', total]-dtt[treatment == 'low C values'& cf_method == 'non', total],3))` points for 'log', 'lin', and 'non' methods, respectively. The contrasting patterns in the change in the total score illustrate the effect of the aggregation from the 5 category scores to a single total score, which is based on the number of indicators in each category. The 'lin' and 'log' aggregation methods are more sensitive to low scores in C (a category with 9 indicators) than low scores in B (which has 2 indicators) compared to 'non' which is equally sensitive to a low B or C value. Furthermore, 'log' gives relatively heavier weight to a category with a few indicators relative to that with many indicators than 'log': the ratio between the weight on C and B scores is `r (9*log(10 + 1)/10)/(2*log(10 + 1)/10)` for 'lin' and `r round(log(9+1)/log(2+1), 1)` for 'log'.
@@ -738,7 +745,7 @@ The scores calculated with the logarithmic and linear aggregation method do not 
 3. Both logarithmic and linear methods gives higher weight on recent years than old years. The relative weight on recent years is slightly higher for 'lin' than 'log' method, but the difference is minor.
 
 
-## Aggregating categories
+### Effects of aggregating categories on OBIC total score
 Grouping indicators in categories and aggregating these categories to a single score is a choice, its not mathematically necessary. Here we look deeper at how our choice of the category aggregation influence the behavior of the OBIC score.
 
 In the figure below, we calculated the total OBIC score both with category aggregation ('S_T_cf_log'; with log' method) and without category aggregation ('S_T_nocat'; total score was calculated directly from all indicastors).  The other 2 aggregation steps were done with 'log' method for both scenarios. 
