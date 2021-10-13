@@ -520,7 +520,7 @@ obic_field_dt <- function(dt,output = 'all') {
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
   # check if no unexpected column names are present in dt
-  check <- checkmate::check_true(all(colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")))
+  check <- all(colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
                            colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")]))}
   
