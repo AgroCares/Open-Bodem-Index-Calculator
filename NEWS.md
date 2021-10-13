@@ -1,10 +1,6 @@
 # Changelog OBIC
 
-## Version 1.0.3.9000 DEVELOPMENT
-### Removed
-* redundant parameters A_CACO3 and A_COM_FR from required inputs of wrapper functions 
-
-## Version 1.0.2.9000 DEVELOPMENT
+## UNRELEASED
 ### Added
 * script ppr_bouwplan_tables.r in dev/scripts
 * script merge_nema_tables.r in dev/scripts
@@ -25,6 +21,8 @@
 * table crops.makkink added with mean Makkink factors per crop type
 * table nema.crop.rot.obic added with crop sensitivity for nematodes
 * table nema.obic with treshold values per species
+* Adds GitHub Action to run R-CMD-Check for changes on `master` and `development`
+* Adds coverage of unit tests
 
 ### Changed
 * update documentation for workability

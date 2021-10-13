@@ -29,5 +29,6 @@ Suggests:
     knitr,
     rmarkdown,
     ggplot2,
-    patchwork
+    patchwork,
+    covr
 VignetteBuilder: knitr
