@@ -38,6 +38,9 @@
 * Update binnenveld with BodemSchat data (via OBIC-helpers)
 * `obic_field` can be used for multiple fields with field-ID
 
+### Removed
+* Removes `A_COM_FR` and `A_CACO3_IF` from input as they were not used #145
+
 ### Fixed
 * Error in `grass_age`: age was incorrectly estimated for multiple fields
 * Removed negative values from `season.obic`
@@ -55,9 +58,6 @@
 ## Version 1.0.3 2021-09-16
 ### Added
 * Adds unit test for `obic_field`
-
-### Removed
-* Removes `A_COM_FR` and `A_CACO3_IF` from input as they were not used #145
 
 ### Fixed
 * Fixes ascii signs issues
