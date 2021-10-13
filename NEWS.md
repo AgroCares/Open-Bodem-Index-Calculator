@@ -44,6 +44,24 @@
 * ensured total_days >= req_days_pre_glg + req_days_post_glg in season.obic 
 * root depth was incorrectly assigned for maize and nature 
 
+## version 1.0.4 2021-09-27
+### Added
+* Check on column names in obic_field_dt
+* tests on obic_field_dt
+
+### Fixed
+* Fixed check on required column names in obic_field_dt
+
+## Version 1.0.3 2021-09-16
+### Added
+* Adds unit test for `obic_field`
+
+### Removed
+* Removes `A_COM_FR` and `A_CACO3_IF` from input as they were not used #145
+
+### Fixed
+* Fixes ascii signs issues
+
 ## Version 1.0.2 2021-05-20
 ### Added
 * ind_man_ess.R and tests are added for update aggregated management scores, issue #131
