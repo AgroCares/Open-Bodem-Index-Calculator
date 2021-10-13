@@ -341,10 +341,10 @@ To reflect on alternative aggregation methods we have made a mock data.table sim
 
 Each treatment has a 100 replicates whose soil function scores are randomly drawn from a distribution with a standard deviation of approximately `r std[1]`. The mean of the distributions depends on the scenario. All values are in the 0 to 1 range.
 
-```{r plot orignal values histogram,fig.width = 7, fig.height = 20,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Distribution of indicator values per scenario as histogram'}
+```{r plot orignal values histogram,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Distribution of indicator values per scenario as histogram'}
 ggplot(dta, aes(x = value, fill = cat)) +
   geom_histogram(bins = 40) + 
-  theme_bw() +facet_wrap(~treatment, ncol = 1)
+  theme_bw() +facet_wrap(~treatment, ncol = 4)
 
 ```
 
@@ -387,7 +387,7 @@ The log and linear cf's are illustrated in Figure 2 in the range that they opera
 The slope of the linear correction factor is chosen such that the highest and lowest correction factor is identical between linear and logarithmic scale. In practice, another slope could be chosen for linear aggregation.
 The no correction method is not presented in Figure 2 as it would be a horizontal line with an arbitrary value.
 
-```{r plot mock cf, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, fig.cap = 'Figure 2. Correction factors calculated with linear or logarithmic methods per aggregation step.'}
+```{r plot mock cf, fig.width = 7, fig.height = 3,fig.fullwidth = TRUE, fig.cap = 'Figure 2. Correction factors calculated with linear or logarithmic methods per aggregation step.'}
 
   # plot correction factors
   pdtlog <- data.table(x = c(seq(0,1,0.1),rep(0:10,2)),
@@ -639,7 +639,7 @@ dt2 <- aggscores_brent(dt)
 
 The effects of different aggregation methods on total score are shown in the box plot. Red dashed lines show arithmetic means of all 22 indicators.
 
-```{r plot baselines scores, fig.width = 7, fig.height = 12,fig.fullwidth = TRUE, fig.cap = 'Figure 3. Total OBI score boxplots per aggregation method for each scenario.'}
+```{r plot baselines scores, fig.width = 7, fig.height = 7,fig.fullwidth = TRUE, fig.cap = 'Figure 3. Total OBI score boxplots per aggregation method for each scenario.'}
 
 # arithmetric mean of all indicators (this should be equal to lin_ccf?)
 arimean <- dt[cf_method == "non", arimean := mean(value), by = c("field", "treatment")]
@@ -654,7 +654,6 @@ ggplot(dt.out[cat == 'total'], aes(x = value, y = cf_method)) +
         theme_bw() + scale_colour_viridis_d() + scale_y_discrete(limits = rev) +
         coord_cartesian(xlim = c(0,1)) +
         facet_wrap(~treatment, ncol = 1)
-
 
 
 ```
@@ -708,7 +707,7 @@ In the baseline scenario, total scores are slightly lower when aggregating logar
 
 The 'lin' and 'log' methods yield lower average scores because they penalise low indicator values (i.e. left-hand side in their distribution) with the weighing factor *vcf*. Since the 'lin' and 'log' methods were harmonised for their highest value at low indicator value (cf = 5 for value = 0), the penalty at intermediate indicator values are much higher for 'lin' method. This makes the average value of the OBIC score lower for 'lin' than 'log' methods. The other two aggregation steps (year aggregation (with *ycf* ) and category aggregation (with *ccf*)) causes no difference in the baseline scenario. 
 
-Note that the variation of total score is not larger for 'lin' and 'log' than 'non', irrespective of the larger variations in the correction factors for 'lin' and 'log'. To illustrate the pattern, we zoom up to the baseline scenario (Fig 3). Here we split the 'log' method into 4 variations: when 'log' method is applied for all 3 aggregation steps ('log_all'), only for the indicator aggregation ('log_vcf'), year aggregation ('log_ycf'), or category aggregation ('log_ccf'). Same applies to 'lin' method. Standard deviation of total score is slightly smaller when 'log' or 'lin' method is used (SD = `r round(dt3.out[cat == 'total' & treatment =="baseline" & cf_method == "log_all", sd(value)],3)` and , `r round(dt3.out[cat == 'total' & treatment =="baseline" & cf_method == "lin_all", sd(value)],3)`respectively) compared to no special aggregation method is used ('non', SD = `r round(dt3.out[cat == 'total' & treatment =="baseline" & cf_method == "non", sd(value)],3)`). Looking closer at different steps of aggregation, the variation increases due to indicator aggregation (*vcf*) and the year aggregation (*ycf*), but decreased with category aggregation (*ccf*).  As a result, the variation is smaller when linear or log method is applied in all 3 aggregation steps, largely owing to the category aggregation. The reason for the large effect of category aggregation is as follows: Category aggregation increases variation in total score because an extreme indicator value in categories with a few indicators are strongly reflected in the total score and therefore increase the variation, compared to when total scores is directly computed from all indicators. With 'log' and 'lin' methods, both of which gives smaller weights to categories with a few indicators, this impact is diluted. 
+Note that the variation of total score is not larger for 'lin' and 'log' than 'non', irrespective of the larger variations in the correction factors for 'lin' and 'log'. To illustrate the patterns in more details, we zoom up to the baseline scenario (Fig 4). Here we split the 'log' method into 4 variations: when 'log' method is applied for all 3 aggregation steps ('log_all'), only for the indicator aggregation ('log_vcf'), year aggregation ('log_ycf'), or category aggregation ('log_ccf'). Same applies to 'lin' method. Standard deviation of total score is slightly smaller when 'log' or 'lin' method is used (SD = `r round(dt3.out[cat == 'total' & treatment =="baseline" & cf_method == "log_all", sd(value)],3)` and `r round(dt3.out[cat == 'total' & treatment =="baseline" & cf_method == "lin_all", sd(value)],3)`, respectively) compared to when no special aggregation method is used ('non', SD = `r round(dt3.out[cat == 'total' & treatment =="baseline" & cf_method == "non", sd(value)],3)`). Looking closer at different steps of aggregation, the variation increases due to indicator aggregation (*vcf*) and the year aggregation (*ycf*), but decreased due to category aggregation (*ccf*).  As a result, the variation becomes smaller when linear or log method is applied to all 3 aggregation steps, largely owing to the category aggregation step. Category aggregation, irrespective of the method used for correction factor, increases variation in total score because an extreme indicator value in categories with a few indicators is strongly reflected in the total score and therefore increase the variation, compared to when total scores is directly computed from all indicators. By using 'log' or 'lin' methods in category aggregation, both of which give smaller weights to categories with a few indicators, this impact is diluted, and therefore the increase in variation becomes limited.
 
 ```{r plot baselines scores zoomed in, fig.width = 7, fig.height = 2,fig.fullwidth = TRUE, fig.cap = 'Figure 4. Total OBI score per aggregation method for baseline sceinario.'}
 
@@ -727,7 +726,7 @@ ggplot(dt3.out[cat == 'total' & treatment =="baseline"],
   coord_cartesian(xlim = c(0,1))
 
 # check standard deviation
-dt3.out[cat == 'total' & treatment =="baseline", sd(value), by = cf_method]
+#dt3.out[cat == 'total' & treatment =="baseline", sd(value), by = cf_method]
 ```
 
 
@@ -756,7 +755,7 @@ When a single indicator has low scores ('one low B' and 'one low C') similar pat
 Another advantage of using category aggregation is that it gives interpretable intermediate products of OBIC, in the form of 5 separate category scores. As shown in the previous section,the effects of the 3 aggregation steps on total score are large, and it is difficult to trace where and how the total score is influenced by different aggregation steps. In this light, computing category scores before aggregating to a total score is a nice way to provide disentangled insights to the users, allowing them to interpret different aspects of soils separately. 
 
 
-```{r plot scores with and without cat, fig.width = 7, fig.height = 9,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A).'}
+```{r plot scores with and without cat, fig.width = 7, fig.height = 5,fig.fullwidth = TRUE, fig.cap = 'Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A).'}
 
 #dt <- copy(dta)
 #dt <- addcf(dt)
@@ -770,7 +769,7 @@ gg3 <- ggplot(dt2[cat %in% c('S_T_cf_log',
                   !treatment %in% c('Recent years low', 'Recent years high')],
               aes(x = score, y = cat)) +
   geom_boxplot(aes(fill = colv)) +
-  labs(fill="") +
+  labs(fill="") + xlab("total score") + ylab("")+
   theme_bw() + scale_y_discrete(limits = rev) +
   coord_cartesian(xlim = c(0,1)) +
   facet_wrap(~treatment, ncol = 1) #+ geom_boxplot(data = dt[cat == 'S_Tnocat_OBI_A'], mapping = aes(fill = 'blue')) 
