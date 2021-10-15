@@ -1,5 +1,6 @@
 ---
 title: "The Open Soil Index"
+author: 'Gerard Ros, Brent Riechelman'
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: [packages.bib, vignettes_references.bib]

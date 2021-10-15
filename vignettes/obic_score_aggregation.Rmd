@@ -1,6 +1,6 @@
 ---
 title: "Note on OBI score aggregation"
-author: "W.H. Riechelman (NMI)"
+author: "Brent Riechelman, Yuki Fujita"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: [packages.bib, vignettes_references.bib]

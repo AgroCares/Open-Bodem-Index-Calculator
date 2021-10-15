@@ -1,5 +1,6 @@
 ---
 title: "Workability illustration"
+author: 'Brent Riechelman'
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: [packages.bib, workability_references.bib]
