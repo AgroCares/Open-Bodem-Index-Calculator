@@ -889,9 +889,61 @@ The `binnenveld` dataset lacks actual information on management parameters. In t
 When the aggregation step to categories is omitted, total scores differ little for some fields (eg. 2, 4, 5, 8), but are lower when using 'log' or 'lin' in other fields (eg. 3, 6, 7, 9)
 
 ## Aggregation in other soil quality assesment frameworks
-The OBI is not the first attempt to express soil quality with a single score, see for example: @Rutgers2012 and @VanWijnen2012. These authors weighted soil properties based on their deviation from a reference value derived from best professional judgement (BPJ). Weighted soil properties were then aggregated to soil functions, giving equal importance to each soil property. Next, the soil functions were aggregated using weights obtained from stakeholders' appreciation of functions (farmers, regional land manager, national land managers). Where local and regional stakeholders both made up 40% of the weight and national stakeholder the remaining 20%.
+The OBI is not the first attempt to express soil quality with a single score, see for example: @Rutgers2012 and @VanWijnen2012. 
+These authors described a method to numerically express the performance of ecosystem service provision of fields with what they call: the Ecosystem Performance Index (EPX). An EPX was calculated using a set of measured properties of a field and of a reference. The reference, dubbed the Maximum Ecological Potential (MEP) was derived by selecting the best performing fields in a sample for a given land-use and soil type. Depending on the ecosystem service, a selecting of soil properties was made that acted as proxy. An EPX was calculated by comparing the selected soil properties of a field with those of the reference/MEP like this:  
+$$
+EPX = 10^{-{\left(\frac{+\left|\log\left(\frac{VAR^i_{obs}}{VAR^i_{ref}}\right)\right|+\dots-\left|\log\left(\frac{VAR^{j}_{obs}}{VAR^{j}_{ref}}\right)\right|}{n}\right)}}
+$$
+Where VAR~obs~ is a soil property of an observed field and VAR~ref~ a soil property of the MEP, n is the number of distinct soil properties used to derive the EPX. Normally a variable's contribution to the EPX is calculated using the i-type, where any deviation of the observed property from the MEP negatively affects the EPX. For some properties*ecosystem services a positive or negative deviation of the observed value from the MEP can be positive for the EPX, in such a case, the j-type has to be used. @Rutgers2012 provides as example, where more soil organic matter (SOM) is always positive for providing a certain service, if an observed SOM content is higher than the reference, the j-type is used and SOM contributes negatively to the deviation from the MEP. Consequently, if the j-type is applied, the EPX of a field can be larger then one (provided that all i-type variables are at or very close to the reference).
+The indices of different services can be aggregated to a single score by taking the arithmetic mean. A weighted mean was also calculated based on the relative importance stakeholders assign to each service (here, a farmer, water manager and national government representative were used).  
 
-Compared to the OBI, the largest difference is in aggregating soil function scores to an overall score. Assigning a weight to a specific soil function is subjective, even if one includes all stakeholders. Both the OBI and the approach by @Rutgers2012 and @VanWijnen2012 have their merits and limitations. The authors note the limitations of BPJ and acknowledge that aggregation to soil functions is a rough approach. 
+This method relies on statistical modelling for the selection of soil properties relevant for specific services rather then empirical relations. Furthermore, the reliance on BPJ for determining the reference makes the method vulnerable to the available experts and data. Both are drawbacks the authors recommend addressing.
+
+In addition, we found that this method is sensitive to the numeric spread, values of a soil property are likely to have. When calculating natural attenuation capacity according to @Wijnen2012 using observed and reference values from @Rutgers2008, we found that one of the parameters FMA, had a much larger impact on the EPX than the others. Values of FMA within the 5^th^ and 95^th^ percentile ranged from 14 to 3960, while pH for example, ranged from 7.3 to 7.7 
+
+```{r graphical representation of EPX , fig.cap= "NAC scores where one variable varies and the others are set to Maximum ecological potential (MEP), variable values range from 5th percentile to 95th percentile reported by Rutgers (2008). Type indicates whether standard calculation (i) is used or not(j) where j improves on the NAC."}
+# make table with reference data from Rutgers2008
+ac.mep <- data.table(var = c('FMA', 'PotC', 'PotN', 'SOM', 'pH', 'PAL'),
+                     mep.v = c(2700, 18, 2.0, 2.2, 7.6, 47),
+                     soiltype = rep('klei', 6),
+                     landuse = rep('akkerbouw', 6),
+                     nl.mean = c(1150,22, 2, 2.5, 7.5, 47),
+                     nl5perc = c(14, 9, 0.5, 1.6, 7.3, 31),
+                     nl95perc = c(3960, 48, 3.7, 3.6, 7.7, 62))
+
+# make data
+dtS <- data.table(x = seq(1.6,3.6,length.out = 100), var = 'SOM')
+dtF <- data.table(x=seq(10,3990,length.out = 100), var = 'FMA')
+dtF <- dtF[x>200]
+dtH <- data.table(x=seq(7.3,7.7,length.out = 100), var = 'pH')
+dtP <- data.table(x=seq(31,62,length.out = 100), var = 'PAL')
+dtC <- data.table(x=seq(9,48,length.out = 100), var = 'PotC')
+dtN <- data.table(x=seq(0.5,3.7,length.out = 100), var = 'PotN')
+
+# combine data
+dta <- rbindlist(list(dtS, dtF, dtH, dtP, dtC, dtN))
+
+# add mep values
+dta <- merge(dta, ac.mep[,.(var, mep.v)], by = 'var')
+
+# indicate when to use i or j type
+dta[,type := 'i']
+dta[(var == 'FMA' & x<mep.v) | var == 'SOM'& x>mep.v, type := 'j']
+
+# calc y
+dta[,y := fifelse(type == 'i',10^-(abs(log10(x/mep.v)/6)), 10^(abs(log10(x/mep.v)/6)))]
+
+# plot
+ggplot(dta) + 
+  geom_line(aes(x = x, y = y, col = type))+
+  ylab("NAC score if all other variables are at MEP") +
+  xlab("Variable value") +
+  # labs(title = 'j (red) and i (black) type plot, j-type is applied') +
+  facet_wrap(facets = ~var, scales = 'free_x', ncol = 3) +
+  theme_bw()
+```
+
+ 
 ```{r eval = FALSE, include=FALSE}
 # e.g. (van Wijnen et. al. 2012 and  Rutgers et. al. 2012) or Moebius-Clune 2016
 ```
