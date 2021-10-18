@@ -496,7 +496,8 @@ obic_field_dt <- function(dt,output = 'all') {
   checkmate::assert_data_table(dt)
 
   # column names mandatory
-  dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 'B_LU_BRP', 
+  dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 
+              'B_GWL_GLG', 'B_GWL_GHG', 'B_GWL_ZCRIT', 'B_LU_BRP', 
               'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC',
               'A_N_RT','A_CN_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
@@ -520,7 +521,7 @@ obic_field_dt <- function(dt,output = 'all') {
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
   # check if no unexpected column names are present in dt
-  check <- all(colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
+  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
                            colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")]))}
   
@@ -531,19 +532,64 @@ obic_field_dt <- function(dt,output = 'all') {
   if(!'I_B_NEM' %in% colnames(dt)){dt[,I_B_NEM := NA_real_]}
   
   # calculate obic_field
-  out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,dt$B_LU_BRP, 
-                    dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,
-                    dt$A_N_RT,dt$A_CN_FR, dt$A_S_RT,dt$A_N_PMN,
-                    dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
-                    dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
-                    dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,
-                    dt$A_C_BCS, dt$A_CC_BCS,dt$A_GS_BCS,dt$A_P_BCS,dt$A_RD_BCS,
-                    dt$A_EW_BCS,dt$A_SS_BCS,dt$A_RT_BCS,dt$A_SC_BCS,
-                    dt$M_COMPOST,dt$M_GREEN, dt$M_NONBARE, dt$M_EARLYCROP, 
-                    dt$M_SLEEPHOSE,dt$M_DRAIN,dt$M_DITCH,dt$M_UNDERSEED,
-                    dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
-                    dt$M_STRAWRESIDUE,dt$M_MECHWEEDS,dt$M_PESTICIDES_DST,
-                    ID = 1,output = output)
+  out <- obic_field(
+    B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
+    B_GWL_CLASS = dt$B_GWL_CLASS,
+    B_SC_WENR = dt$B_SC_WENR,
+    B_HELP_WENR = dt$B_HELP_WENR,
+    B_AER_CBS = dt$B_AER_CBS,
+    B_GWL_GLG = dt$B_GWL_GLG,
+    B_GWL_GHG = dt$B_GWL_GHG,
+    B_GWL_ZCRIT = dt$B_GWL_ZCRIT,
+    B_LU_BRP = dt$B_LU_BRP, 
+    A_SOM_LOI = dt$A_SOM_LOI, 
+    A_SAND_MI = dt$A_SAND_MI, 
+    A_SILT_MI = dt$A_SILT_MI, 
+    A_CLAY_MI = dt$A_CLAY_MI,
+    A_PH_CC = dt$A_PH_CC,
+    A_N_RT = dt$A_N_RT,
+    A_CN_FR = dt$A_CN_FR, 
+    A_S_RT = dt$A_S_RT,
+    A_N_PMN = dt$A_N_PMN,
+    A_P_AL= dt$A_P_AL, 
+    A_P_CC = dt$A_P_CC, 
+    A_P_WA = dt$A_P_WA,
+    A_CEC_CO = dt$A_CEC_CO,
+    A_CA_CO_PO = dt$A_CA_CO_PO, 
+    A_MG_CO_PO = dt$A_MG_CO_PO, 
+    A_K_CO_PO = dt$A_K_CO_PO,
+    A_K_CC = dt$A_K_CC,
+    A_MG_CC = dt$A_MG_CC, 
+    A_MN_CC = dt$A_MN_CC, 
+    A_ZN_CC = dt$A_ZN_CC, 
+    A_CU_CC = dt$A_CU_CC,
+    A_C_BCS = dt$A_C_BCS, 
+    A_CC_BCS = dt$A_CC_BCS,
+    A_GS_BCS = dt$A_GS_BCS,
+    A_P_BCS = dt$A_P_BCS,
+    A_RD_BCS = dt$A_RD_BCS,
+    A_EW_BCS = dt$A_EW_BCS,
+    A_SS_BCS = dt$A_SS_BCS,
+    A_RT_BCS = dt$A_RT_BCS,
+    A_SC_BCS = dt$A_SC_BCS,
+    M_COMPOST = dt$M_COMPOST,
+    M_GREEN = dt$M_GREEN, 
+    M_NONBARE = dt$M_NONBARE, 
+    M_EARLYCROP = dt$M_EARLYCROP, 
+    M_SLEEPHOSE = dt$M_SLEEPHOSE,
+    M_DRAIN = dt$M_DRAIN,
+    M_DITCH = dt$M_DITCH,
+    M_UNDERSEED = dt$M_UNDERSEED,
+    M_LIME = dt$M_LIME,
+    M_NONINVTILL = dt$M_NONINVTILL, 
+    M_SSPM = dt$M_SSPM, 
+    M_SOLIDMANURE = dt$M_SOLIDMANURE,
+    M_STRAWRESIDUE = dt$M_STRAWRESIDUE,
+    M_MECHWEEDS = dt$M_MECHWEEDS,
+    M_PESTICIDES_DST = dt$M_PESTICIDES_DST,
+    ID = 1,
+    output = output
+  )
   
   # return output
   return(out)
