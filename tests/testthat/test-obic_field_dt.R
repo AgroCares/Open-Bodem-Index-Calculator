@@ -59,7 +59,7 @@ tdt <- data.table(
 
 test_that("obic_field_dt works", {
   expect_equal(
-    hoi <- obic_field_dt(tdt),
+    obic_field_dt(tdt),
     expected = data.table(
       ID = 1,
       I_BCS = 0.369,
