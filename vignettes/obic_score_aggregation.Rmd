@@ -96,10 +96,10 @@ The reformatting step consists of the following tasks:
     
 ```
 
-````{r eval = FALSE, include = FALSE}
+```{r eval = FALSE, include = FALSE}
 # YF: I think this paragraph is not necessary
 # After reformatting the data in step 3, an indicator data.table is created in step 4. This data.table uses the soil function scores adjusted for their applicability for the soiltype and crop category. In step 4 indicators are calculated to display them as output. In step 5 the total OBI score is calculated, since part of step 5 overlaps with step 4, we only discuss step 5 onwards. 
-````
+```
 
 ## Aggregation within category
 To aggregate scores, the relevant columns and rows are taken from the molten data.table.
@@ -190,7 +190,7 @@ where *ncat* is the number of the underlying indicators within the category.
 The weights for categories with 1 to 10 indicators are: `r round(log(1:10 +1),2)`. Thus, a category based on 10 indicators affects the total score roughly `r round(log(1:10 +1)[10]/log(1:10 +1)[1],1)` times more than a category based on 1 indicator. The idea behind giving more weight to categories with more underlying indicators sprouts from the idea that such a category is better supported by measurable data and better understood. 
 Finally, the total OBIC score is calculated by summing up the weighted scores of 5 categoties and dividing it by the sum of the weighing factors, in the same way as the other 2 aggregation steps.
 
-````{r eval = FALSE, include = FALSE}
+```{r eval = FALSE, include = FALSE}
 # this text is probably wrong
 # Furthermore, by aggregating indicators to categories and then to a score rather than directly from indicators to a score; individual indicators from categories with few underlying indicators, affect the holistic score more than indicators in categories with many indicators. For example, if there is one biological indicator, its weight in affecting the holistic score is log(1+1)= `r round(log(1+1),2)`, while a indicator within a chemical indicator with nine indicators individually only weighs log(9+1)/9= `r round(log(9+1)/9,2)`. While on category level, biology only weighs `r round(log(1+1),2)` and chemical `r round(log(9+1),2)`.
 ```
@@ -220,6 +220,7 @@ After the aggregation there is just a bit of code to format the names of the sco
 
 
 ```{r make mock data, eval= TRUE}
+
 # make mock data and calculate scores with different aggregation methods (averaging without weight and averaging with linearly changing weight)
 # data like:
 # soil_function_value|indicator|group|year|cf_base|cf_noweight|cf_linearweight|score_base|score_noweight|score_linearweight

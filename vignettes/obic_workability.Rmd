@@ -41,7 +41,7 @@ Let consider some fields with the following properties
 dt <- merge(dt, crops.obic[,.(crop_code, crop_name)], by.x = 'B_LU_BRP', by.y = 'crop_code')
 ```
 
-````{r show dt}
+```{r show dt}
 knitr::kable(dt, format = 'html')
 ```
 
