@@ -80,7 +80,7 @@ format_aer <- function(B_AER_CBS) {
                 'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
                 'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
                 'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
-                'Veenkoloni\xEBn en Oldambt', "Veenkoloni\xebn en Oldambt",
+                'Veenkoloni\xEBn en Oldambt', "Veenkolonien en Oldambt",
                 'Bouwhoek en Hogeland')
   
   # options for B_AER_CBS
