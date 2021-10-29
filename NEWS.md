@@ -1,50 +1,66 @@
 # Changelog OBIC
 
-## Version 1.0.3.9000 DEVELOPMENT
-### Removed
-* redundant parameters A_CACO3 and A_COM_FR from required inputs of wrapper functions 
-
-## Version 1.0.2.9000 DEVELOPMENT
+## UNRELEASED
 ### Added
-* script ppr_bouwplan_tables.r in dev/scripts
-* script merge_nema_tables.r in dev/scripts
-* script ppr_crops_crumbleability.r in dev/scripts
-* arguments B_GWL_GHG, B_GWL_GLG and B_Z_TWO to obic_field and obic_field_dt
-* function calc_workability is active now
-* function calc_makkink to add makking factors to crop table
-* function calc_psp to estimate precipitation surplus
-* functions ind_nematodes and ind_nematodes_list to estimate the index for nematode risks.
-* function ind_gw_recharge to estimate the groundwater recharge index
-* functions calc_n_efficiency and ind_n_efficiency to estimate N efficiency
-* functions calc_pesticide_leaching and ind_pesticide_leaching to evaluate retention of pesticides in topsoil
-* check to ppr_weight_obic to check if all indicators in weight.obic occur in column_descriptions_obic
-* vignette obic_workability, describing how workability is calculated and affected by its input variables
-* vignette obic_introduction as a short tutorial describing the OBIC principles
-* vignette obic_score_aggregation to illustrate the aggregation principles used
-* table weather.obic added with montly mean precipitation, temperature and evaporation
-* table crops.makkink added with mean Makkink factors per crop type
-* table nema.crop.rot.obic added with crop sensitivity for nematodes
-* table nema.obic with treshold values per species
+* Add `ppr_bouwplan_tables.R` in dev/scripts
+* Add `merge_nema_tables.R` in dev/scripts
+* Add `ppr_crops_crumbleability.R` in dev/scripts
+* Add arguments `B_GWL_GHG`, `B_GWL_GLG` and `B_Z_TWO` to `obic_field` and `obic_field_dt`
+* Activate `calc_workability` 
+* Add `calc_makkink` to add makkink factors to crop table
+* Add `calc_psp` to estimate precipitation surplus
+* Add `ind_nematodes` and `ind_nematodes_list` to estimate the index for nematode risks
+* Add `ind_gw_recharge` to estimate the groundwater recharge index
+* Add `calc_n_efficiency` and `ind_n_efficiency` to estimate N efficiency
+* Add `calc_pesticide_leaching` and `ind_pesticide_leaching` to evaluate retention of pesticides in topsoil
+* Add check to `ppr_weight_obic` to check if all indicators in `weight.obic` occur in `column_descriptions_obic`
+* Add vignette `obic_workability`, describing how workability is calculated and affected by its input variables
+* Add vignette `obic_introduction` as a short tutorial describing the OBIC principles
+* Add vignette `obic_score_aggregation` to illustrate the aggregation principles used
+* Add table `weather.obic` with monthly mean precipitation, temperature and evaporation
+* Add table `crops.makkink` with mean Makkink factors per crop type
+* Add table `nema.crop.rot.obic` added with crop sensitivity for nematodes
+* Add table `nema.obic` with treshold values per species
+* Add GitHub Action to run R-CMD-Check for changes on `master` and `development`
+* Add coverage of unit tests
 
 ### Changed
-* update documentation for workability
-* update weight.obic for workability
-* update column_descriptions_obic.Rdata
-* update documentation for nematodes
-* update calc_workability
-* renamed B_Z_TWO to B_GWL_ZCRIT
-* improved function description of ind_workability
-* increased required days post GLG for maize on sand or loess to match October 1
-* increased required days post GLG for maize on other soils to match October 20
-* season.obic can now be merged on both landuse and soiltype.m
-* update binnenveld with BodemSchat data (via OBIC-helpers)
-* obic_field can be used for multiple fields with field-ID
+* Update documentation for workability
+* Update `weight.obic` for workability
+* Update `column_descriptions_obic.Rdata`
+* Update documentation for nematodes
+* Update `calc_workability`
+* Rename `B_Z_TWO` to `B_GWL_ZCRIT`
+* Improve function description of `ind_workability`
+* Increase required days post GLG for maize on sand or loess to match October 1
+* Increase required days post GLG for maize on other soils to match October 20
+* `season.obic` can now be merged on both landuse and soiltype
+* Update binnenveld with BodemSchat data (via OBIC-helpers)
+* `obic_field` can be used for multiple fields with field-ID
+
+### Removed
+* Removes `A_COM_FR` and `A_CACO3_IF` from input as they were not used #145
 
 ### Fixed
-* error in grass_age: age was incorrectly estimated for multiple fields
-* removed negative values from season.obic
-* ensured total_days >= req_days_pre_glg + req_days_post_glg in season.obic 
-* root depth was incorrectly assigned for maize and nature 
+* Error in `grass_age`: age was incorrectly estimated for multiple fields
+* Removed negative values from `season.obic`
+* Ensured total_days >= req_days_pre_glg + req_days_post_glg in `season.obic`
+* Root depth was incorrectly assigned for maize and nature 
+
+## version 1.0.4 2021-09-27
+### Added
+* Check on column names in obic_field_dt
+* tests on obic_field_dt
+
+### Fixed
+* Fixed check on required column names in obic_field_dt
+
+## Version 1.0.3 2021-09-16
+### Added
+* Adds unit test for `obic_field`
+
+### Fixed
+* Fixes ascii signs issues
 
 ## Version 1.0.2 2021-05-20
 ### Added

@@ -37,7 +37,7 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
                                                  'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
                                                  'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
                                                  'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
-                                                 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
+                                                 'Veenkolonien en Oldambt', 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
   checkmate::assert_numeric(D_BDS, lower = 100, upper = 1900, any.missing = FALSE, len = arg.length)
   
   # Settings
