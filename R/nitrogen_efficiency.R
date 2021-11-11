@@ -97,7 +97,7 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   dt[grepl('loess',B_SOILTYPE_AGR), n_eff := nf_loess]
   
   # Add NUE based on crop category
-  dt[crop_category == 'akkerbouw' | crop_category == 'mais', NUE := 0.6]
+  dt[crop_category == 'akkerbouw' | crop_category == 'mais', NUE := 0.5]
   dt[crop_category == 'grasland', NUE := 0.8]
   dt[crop_category == 'natuur', NUE := 1]
   dt[crop_waterstress == 'granen', NUE := 0.8]
@@ -127,10 +127,13 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   dt[,catchcrop := fifelse(M_GREEN, 75,0)]
   
   # Calculate deviation from N surplus
-  dt[,n_sp := max(0,deposition + D_NLV + ((1 - NUE * cf_pkph) * n_app) - catchcrop)]
+  dt[,n_sp := max(0,((1 - NUE * cf_pkph) * n_app) - catchcrop)]
   
   # compute (potential and soil derived) N leaching to groundwater D_NGW (mg NO3/L) 
   dt[, D_NLEACH := nf * n_sp]
+  
+  # Set upper boundary for leaching
+  dt[D_NLEACH > 250, D_NLEACH := 250]
   
   return(dt[,D_NLEACH])
   
@@ -149,16 +152,13 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
 #' @export
 ind_n_efficiency <- function(D_NLEACH,leaching_to){
   
-    # Evaluate the N retention for groundwater 
-    I_W_NGW <- ind_nretention(D_NLEACH,leaching_to)
-    
     # Check inputs
     checkmate::assert_numeric(D_NLEACH, lower = 0 , upper = 250, any.missing = FALSE)
     checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)
     
     if (leaching_to == "gw") {
       # Evaluate the N retention for groundwater 
-      value <- OBIC::evaluate_logistic(x = D_NLEACH, b = 0.36, x0 = 25, v = 0.96, increasing = FALSE) 
+      value <- OBIC::evaluate_logistic(x = D_NLEACH, 0.2, x0 = 25, v = 0.98, increasing = FALSE) 
       
     } else if (leaching_to == "ow") {
       # Evaluate the N retention for surfacewater
@@ -167,9 +167,6 @@ ind_n_efficiency <- function(D_NLEACH,leaching_to){
     
     return(value)
    
-  
-  return(I_W_NGW)
-  
 }
 
 
