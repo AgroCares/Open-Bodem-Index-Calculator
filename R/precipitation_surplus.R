@@ -114,3 +114,19 @@ calc_psp <- function(B_LU_BRP, M_GREEN){
   
 }
 
+
+
+#' Calculate indicator for precipitation surplus
+#' 
+#' This function calculates the indicator value for precipitation surplus
+#' 
+#' @param D_PSP (numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}
+#'     
+#' @export
+ind_psp <- function(D_PSP){
+
+  I_PSP <- evaluate_logistic(D_PSP,0.05,300,2.5)
+
+  return(I_PSP)
+
+}
