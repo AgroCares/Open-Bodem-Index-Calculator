@@ -20,4 +20,4 @@ PackageRoxygenize: rd,collate,namespace
 QuitChildProcessesOnExit: Yes
 DisableExecuteRprofile: Yes
 
-SpellingDictionary: nl_NL
+SpellingDictionary: en_GB
