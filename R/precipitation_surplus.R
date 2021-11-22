@@ -15,7 +15,7 @@ calc_psp <- function(B_LU_BRP, M_GREEN){
   
   # check inputs
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length)
   
   
@@ -121,12 +121,31 @@ calc_psp <- function(B_LU_BRP, M_GREEN){
 #' This function calculates the indicator value for precipitation surplus
 #' 
 #' @param D_PSP (numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}
+#' @param B_LU_BRP (numeric) The crop code from the BRP 
 #'     
 #' @export
-ind_psp <- function(D_PSP){
+ind_psp <- function(D_PSP,B_LU_BRP){
+  
+  crops.obic = crop_name = crop_code = I_PSP = NULL
+  
+  # Check input
+  arg.length <- max(length(D_PSP), length(B_LU_BRP))
+  
+  checkmate::assert_numeric(D_PSP, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
 
-  I_PSP <- evaluate_logistic(D_PSP,0.05,300,2.5)
+  dt <- data.table(D_PSP,
+                   B_LU_BRP)
+    
+  dt[,I_PSP := fifelse(B_LU_BRP %in% OBIC::crops.obic[grepl("gras",crop_name),crop_code],
+                       evaluate_logistic(D_PSP,0.04,180,2),
+                       evaluate_logistic(D_PSP,0.05,300,2.5))]
+  
+  
+  # Format output
+  out <- dt[,I_PSP]
 
-  return(I_PSP)
+  return(out)
 
 }

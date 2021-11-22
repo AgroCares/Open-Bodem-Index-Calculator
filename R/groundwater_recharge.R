@@ -3,6 +3,7 @@
 #' This function calculates an index score for groundwater storage based on precipitation surplus, infiltration at saturation, sealing risk, drainage and subsoil compaction
 #' 
 #' 
+#' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param D_PSP (numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}
 #' @param D_WRI_K (numeric) The value for top soil permeability (cm/d) as calculated by \code{\link{calc_permeability}}
 #' @param I_P_SE (numeric) The indicator value for soil sealing
@@ -12,13 +13,16 @@
 #' 
 #'         
 #' @export
-ind_gw_recharge <- function(D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS){
+ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS){
   
   I_H_GWR = D_I_WRI_K = cf_compaction = cf_drain = D_I_PSP = NULL
   
   # Check inputs
-  arg.length <- max(length(D_WRI_K),length(D_PSP),length(I_P_SE),length(I_P_CO),length(B_DRAIN))
+  arg.length <- max(length(B_LU_BRP),length(D_WRI_K),length(D_PSP),length(I_P_SE),length(I_P_CO),length(B_DRAIN))
   
+  
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_numeric(D_WRI_K, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(D_PSP, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(I_P_SE, any.missing = FALSE, len = arg.length)
@@ -28,7 +32,8 @@ ind_gw_recharge <- function(D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS
                                                     'GtIIb','GtIIIb','GtVb'), empty.ok = FALSE)
   
   # import data into table
-  dt <- data.table(D_PSP = D_PSP,
+  dt <- data.table(B_LU_BRP = B_LU_BRP,
+                   D_PSP = D_PSP,
                    D_WRI_K = D_WRI_K,
                    I_P_SE = I_P_SE,
                    I_P_CO = I_P_CO,
@@ -39,7 +44,7 @@ ind_gw_recharge <- function(D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS
   dt[,D_I_WRI_K := ind_permeability(D_WRI_K)]
   
   # Calculate indicator value for precipitation surplus
-  dt[,D_I_PSP := ind_psp(D_PSP)]
+  dt[,D_I_PSP := ind_psp(D_PSP,B_LU_BRP)]
   
   # Correct for subsoil compaction or drainage
   dt[B_DRAIN == TRUE & B_GWL_CLASS %in% c('GtIIIb','GtIV'), c('cf_drain','cf_compaction') := list(0.6,1)]
@@ -123,7 +128,6 @@ ind_permeability <- function(D_WRI_K){
   
   # Check inputs
   checkmate::assert_numeric(D_WRI_K, lower = 0, any.missing = FALSE)
-  
   
   D_I_WRI_K <- evaluate_logistic(D_WRI_K,0.08,50,0.4)
   

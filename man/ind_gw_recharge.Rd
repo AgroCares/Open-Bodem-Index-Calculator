@@ -4,9 +4,11 @@
 \alias{ind_gw_recharge}
 \title{Calculate groundwater recharge of a soil}
 \usage{
-ind_gw_recharge(D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)
+ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)
 }
 \arguments{
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
+
 \item{D_PSP}{(numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}}
 
 \item{D_WRI_K}{(numeric) The value for top soil permeability (cm/d) as calculated by \code{\link{calc_permeability}}}
