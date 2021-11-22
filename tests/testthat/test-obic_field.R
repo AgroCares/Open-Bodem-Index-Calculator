@@ -72,7 +72,7 @@ test_that("obic_field works", {
       I_C_ZN = 0.561,
       I_E_NGW = 0.988,
       I_E_NSW = 0.969,
-      I_H_GWR = 0.626,
+      I_H_GWR = 0.81,
       I_H_NGW = 0.99,
       I_H_NOW = 0.989,
       I_H_PEST = 0.11,

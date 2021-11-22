@@ -9,7 +9,6 @@ test_that("test whether calc_nitrogen_efficiency works", {
                       D_PBI = rep(2,4),
                       D_K = rep(12,4),
                       D_PH_DELTA = rep(0.2,4),
-                      D_NLV = rep(110,4),
                       M_GREEN = rep(FALSE,4),
                       B_FERT_NORM_FR = c(1,1,1,0.8),
                       leaching_to = 'gw'
@@ -28,7 +27,6 @@ test_that("test whether calc_nitrogen_efficiency works", {
                       D_PBI = rep(2,4),
                       D_K = rep(12,4),
                       D_PH_DELTA = rep(0.2,4),
-                      D_NLV = rep(90,4),
                       M_GREEN = rep(TRUE,4),
                       B_FERT_NORM_FR = c(1,0.8,1,1),
                       leaching_to = 'gw'
