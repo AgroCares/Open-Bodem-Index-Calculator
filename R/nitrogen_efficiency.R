@@ -11,14 +11,13 @@
 #' @param D_PBI (numeric) The value of phosphate availability calculated by \code{\link{calc_phosphate_availability}}
 #' @param D_K (numeric) The value of K-index calculated by \code{\link{calc_potassium_availability}}
 #' @param D_PH_DELTA (numeric) The pH difference with the optimal pH.
-#' @param D_NLV (numeric) The value of NLV  calculated by \code{\link{calc_nlv}}
 #' @param leaching_to (character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
 #'         
 #' @export
 calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, A_SOM_LOI, A_CLAY_MI,
-                              D_PBI, D_K, D_PH_DELTA, D_NLV, leaching_to, M_GREEN = FALSE, B_FERT_NORM_FR = 1){
+                              D_PBI, D_K, D_PH_DELTA, leaching_to, M_GREEN = FALSE, B_FERT_NORM_FR = 1){
   
   crops.obic = soils.obic = leaching_to_set = crop_catergory = bodem = gewas = B_GT = NULL
   nf = n_eff = nf_sand.other = nf_sand.south = nf_clay = nf_peat = nf_loess = NUE = NULL
@@ -62,7 +61,6 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
                    D_PBI = D_PBI,
                    D_K = D_K,
                    D_PH_DELTA = D_PH_DELTA,
-                   D_NLV = D_NLV,
                    M_GREEN = M_GREEN,
                    B_FERT_NORM_FR = B_FERT_NORM_FR
                    )

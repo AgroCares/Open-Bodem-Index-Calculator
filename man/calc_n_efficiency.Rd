@@ -14,7 +14,6 @@ calc_n_efficiency(
   D_PBI,
   D_K,
   D_PH_DELTA,
-  D_NLV,
   leaching_to,
   M_GREEN = FALSE,
   B_FERT_NORM_FR = 1
@@ -38,8 +37,6 @@ calc_n_efficiency(
 \item{D_K}{(numeric) The value of K-index calculated by \code{\link{calc_potassium_availability}}}
 
 \item{D_PH_DELTA}{(numeric) The pH difference with the optimal pH.}
-
-\item{D_NLV}{(numeric) The value of NLV  calculated by \code{\link{calc_nlv}}}
 
 \item{leaching_to}{(character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")}
 
