@@ -2,7 +2,7 @@
 #' 
 #' This function calculates the precipitation surplus (in mm / ha) given the crop rotation plan.
 #' 
-#' @param B_LU_BRP (numeric) The crop code from the BRP
+#' @param B_LU_BRP (numeric) The crop code from the BRP.
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #'     
 #' @export
