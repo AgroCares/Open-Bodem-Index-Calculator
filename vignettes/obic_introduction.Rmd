@@ -1989,8 +1989,10 @@ The holistic OBI score is given when the argument *output* in `obic_field()` or 
   OBIC::obic_field_dt(binnenveld[ID == 1], output = 'scores')
 
   OBIC::obic_field_dt(binnenveld[ID == 1], output = 'obic_score')
-````
+```
+
 Will give:
+
 ```{r, eval = TRUE, echo=FALSE}
   OBIC::obic_field_dt(binnenveld[ID == 1], output = 'scores')
   OBIC::obic_field_dt(binnenveld[ID == 1], output = 'obic_score')
