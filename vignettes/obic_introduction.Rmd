@@ -1605,7 +1605,7 @@ Below, examples are give of how to calculate the organic matter balance and the 
                                   M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
                                   )]
 
-````
+```
 
 Example of the soil organic matter balance and management on five fields from the Binnenveld dataset.
 
@@ -1712,7 +1712,7 @@ Deciding which measures are presented is controlled by two functions nested insi
     
     # make recommendations of top 3 measures
     out.recom <- OBIC::obic_recommendations(dt.measure)
-````
+```
 
 ### Integrating Soil Functions into OBIC scores
 The Open Soil Index is a number ranging between 0 to 1, that holistically represents the soil quality as well as its management. The score is field specific, accounting for the soil type, geohydrological site properties and the crop rotation sequence of the last decade. The final score can be decomposed to aggregated indicators for different themes (chemical, physical, biological, and management), and these can be further broken down in to indicators, representing an weighted evaluation of soil functions over a period of time. The indicator (or soil function score) for each soil function, ranges between 0 to 1 and reflects the current situation given its deviation from a target condition of that specific soil function. With this hierarchical structure, the OBI offers both integral assessment (i.e. whether a soil is overall good or not) and specific assessment (i.e. which soil functions are poorly evaluated and to what extent these soil functions need to be adapted to improve the overall soil quality to the “optimum situation”). 
@@ -1759,7 +1759,7 @@ The OBIC package has functions that transform the value of a soil function into 
   dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
   dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
   
-````
+```
 
 Some of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function). When logistic evaluation is used, there is no linear relation between the an indicators value and its score. Often the evaluation is set up so that lower values gain increasingly lower scores. In other words, poor performance is evaluated more stringent than good performance. Below, the relation between a soil function values and their scores (index values) is given. An example of logistic evaluation can be found in I_P_WS (waterstress)
 
