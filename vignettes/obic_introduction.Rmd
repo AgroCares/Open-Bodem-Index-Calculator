@@ -13,13 +13,14 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
 )
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 ```{r setup, include = FALSE}
-
   # load packages
   library(OBIC); library(data.table); library(ggplot2);require(patchwork)
 
@@ -66,10 +67,8 @@ For each field, the following properties are available:
 * soil management measures taken (optional, all variables starting with "M_")
 
 ```{r, showbinnenveld}
-
   dim(binnenveld)
   binnenveld[1]
-
 ```
 
 In this example all optional input variables are set to the lowest score (for visuals soil assment) or to false (for soil management measures). Since soil quality can only be evaluated given its use, the crop rotation plan determines also which soil properties and which soil functions are relevant and how they are evaluated given a desired threshold value.
@@ -109,7 +108,6 @@ The process how measurable soil properties are used to evaluate the agronomic so
 ```{r, echo=FALSE, out.width = '85%', out.height = '85%', fig.cap = 'Figure 1. Graphic representation of how measured soil properties are aggregated to scores.'}
 # ![](OBIC_score_integratie.png){widht = 25%, height = 20%}
 knitr::include_graphics('OBIC_score_integratie_2.png')
-
 ```
 
 <br />
@@ -118,7 +116,6 @@ An example of both wrapper functions is illustrated below. The soil has an OBIC 
 
 
 ```{r}
-
   # select the relevant columns without management measures and data from Visual Soil Assessment
   cols <- colnames(binnenveld)[!grepl('_BCS$|^M_',colnames(binnenveld))]
   
@@ -143,13 +140,11 @@ An example of both wrapper functions is illustrated below. The soil has an OBIC 
   
   # test the obic field function via obic_field_dt and give only the final score
   obic_field_dt(dt,output = 'obic_score')
-
 ```
 
 When interested in the averaged indicator value or the averaged aggregated soil indicators, one can adjust the output argument of the wrapper functions.
 
 ```{r, results = FALSE}
-
   # run obic_field to retrieve indicators
   obic_field_dt(dt, output = 'indicators')
 
@@ -159,11 +154,10 @@ When interested in the averaged indicator value or the averaged aggregated soil 
   
   # the default option is to retrieve all output
   obic_field_dt(dt, output = 'all')
-
 ```
 
 
-<br />
+<br/>
 
 ## The Soil Functions in the OBIC
 To assess the soil quality of an agricultural field, soil properties are used to derive so-called soil functions. Theses soil functions represent distinct processes in soil supporting the sustainable crop development. In this section the available soil functions are presented and illustrated.
@@ -177,7 +171,6 @@ Soil Bulk density is estimated via a pedotransferfunction using 'calc_bulk_densi
 <br />
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, echo=FALSE}
-
   # make a data.table for sandy and clay soil
   dt.test <- data.table(B_SOILTYPE_AGR = c(rep('dekzand',10),rep('rivierklei',10)),
                         A_SOM_LOI = c(seq(0.1,10,length.out = 10), seq(0.1,10,length.out = 10)),
@@ -192,7 +185,6 @@ Soil Bulk density is estimated via a pedotransferfunction using 'calc_bulk_densi
     geom_line() + geom_point(size=3) +  theme_bw() + scale_fill_viridis_d()+ scale_color_viridis_d()+
     ylab('Bulk density (kg / m3)') + xlab('Soil organic matter content (%)') + 
     theme(legend.position = c(0.8,0.8)) + ggtitle('Estimate bulk density from SOM and clay content') 
-  
 ```
 
 
@@ -208,7 +200,6 @@ Lastly, the relative contribution of a few crops to the full crop rotation plan 
 An example of these functions is illustrated below.
 
 ```{r, results = FALSE}
-
   # estimate soil bulk density
   dt[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]
 
@@ -238,10 +229,8 @@ To estimate the N supplying capacity of the soil, one can make use of the functi
 
 
 ```{r, results = FALSE}
-
   # estimate nitrogen supply (kg N / ha)
   dt[, D_NLV := calc_nlv(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA)]
-
 ```
 
 
@@ -250,7 +239,6 @@ An example of this function is illustrated below for both an arable and a grassl
 <br />
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # define a field with two land uses: grassland and maize
   dt.test <- binnenveld[ID %in% c(1,11)]
   
@@ -300,7 +288,6 @@ An example of this function is illustrated below for both an arable and a grassl
 
   # plot side by side
   p1 + p2
-  
 ```
 
 
@@ -322,10 +309,8 @@ For more details, see `?calc_phosphate_availability`.
 
 
 ```{r, results = FALSE}
-
   # estimate phosphate availability index (unitless)
   dt[, D_PBI := calc_phosphate_availability(B_LU_BRP, A_P_AL, A_P_CC, A_P_WA)]
-
 ```
 
 
@@ -334,7 +319,6 @@ An example of this function is illustrated below for both an arable and a grassl
 <br />
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # define a field with two landuses: grass and continue maize
   dt.test <- binnenveld[ID %in% c(1,11)]
   
@@ -376,7 +360,6 @@ An example of this function is illustrated below for both an arable and a grassl
 
   # plot side by side
   p1 + p2
-  
 ```
 
 
@@ -395,11 +378,9 @@ For more details, see `?calc_potassium_availability`.
 
 
 ```{r, results = FALSE}
-
   # estimate potassium availability index (unitless)
   dt[, D_K :=  calc_potassium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, 
                                            A_PH_CC, A_CEC_CO, A_K_CO_PO, A_K_CC)]
-
 ```
 
 
@@ -408,7 +389,6 @@ An example of this function is illustrated below for both an arable and a grassl
 <br />
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # define a field with two landuses: grassland and maize
   dt.test <- binnenveld[ID %in% c(1,11)]
   
@@ -452,7 +432,6 @@ An example of this function is illustrated below for both an arable and a grassl
 
   # plot side by side
   p1 + p2
-  
 ```
 
 
@@ -467,21 +446,18 @@ For more details, see `?calc_slv`.
 
 
 ```{r, results = FALSE}
-
   # estimate S supplying capacity
   dt[, D_SLV := calc_slv(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS)]
-
 ```
 
 
 An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between total S and D_SLV for a grassland soil. In this case all soil properties driving S supplying capacity are left constant whereas the total S pool is increasing from 500 to 5000 mg S / kg.
 
 
-<br />
+<br/>
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
- # define a field with two landuses: grassland and maize
+  # define a field with two landuses: grassland and maize
   dt.test <- binnenveld[ID %in% c(1,11)]
   
   # estimate bulk density
@@ -525,7 +501,6 @@ An example of this function is illustrated below for both an arable and a grassl
 
   # plot side by side
   p1 + p2
-  
 ```
 
 
@@ -539,12 +514,10 @@ For more details, see `?calc_magnesium_availability`.
 
 
 ```{r, results = FALSE}
-
   # estimate magnesium availability index (unitless)
   dt[, D_MG := calc_magnesium_availability(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, 
                                            A_CLAY_MI, A_PH_CC, A_CEC_CO,
                                            A_K_CO_PO, A_MG_CC, A_K_CC)]
-
 ```
 
 
@@ -553,7 +526,6 @@ An example of this function is illustrated below for both an arable and a grassl
 <br />
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # define a field with two landuses: grassland and maize
   dt.test <- binnenveld[ID %in% c(1,11)]
   
@@ -599,7 +571,6 @@ An example of this function is illustrated below for both an arable and a grassl
 
   # plot side by side
   p1 + p2
-  
 ```
 
 
@@ -613,10 +584,8 @@ For more details, see `?calc_copper_availability`.
 
 
 ```{r, results = FALSE}
-
   # estimate Cu availability index
   dt[, D_CU := calc_copper_availability(B_LU_BRP, A_SOM_LOI, A_CLAY_MI, A_K_CC, A_MN_CC, A_CU_CC)]
-
 ```
 
 
@@ -625,7 +594,6 @@ An example of this function is illustrated below for both an arable and a grassl
 <br />
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # define a field with two landuses: grassland and maize
   dt.test <- binnenveld[ID %in% c(1,11)]
   
@@ -667,7 +635,6 @@ An example of this function is illustrated below for both an arable and a grassl
 
   # plot side by side
   p1 + p2
-  
 ```
 
 
@@ -681,10 +648,8 @@ For more details, see `?calc_zinc_availability`.
 
 
 ```{r, results = FALSE}
-
   # estimate Zn availability index
   dt[,  D_ZN := calc_zinc_availability(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC)]
-
 ```
 
 
@@ -693,7 +658,6 @@ An example of this function is illustrated below for both an arable and a grassl
 <br />
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # define a field with two landuses: grassland and maize
   dt.test <- binnenveld[ID %in% c(1,11)]
   
@@ -735,7 +699,6 @@ An example of this function is illustrated below for both an arable and a grassl
 
   # plot side by side
   p1 + p2
-  
 ```
 
 
@@ -748,11 +711,9 @@ For more details, see `?calc_ph_delta`.
 
 
 ```{r, results = FALSE, eval = FALSE}
-
   # estimate distance to required pH
   dt[, D_PH_DELTA := calc_ph_delta(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC, D_CP_STARCH,
                                    D_CP_POTATO, D_CP_SUGARBEET, D_CP_GRASS, D_CP_MAIS, D_CP_OTHER)]
-
 ```
 
 
@@ -761,8 +722,7 @@ An example of this function is illustrated below for both an arable and a grassl
 <br />
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
- # define a field with two landuses: grassland and maize
+  # define a field with two landuses: grassland and maize
   dt.test <- binnenveld[ID %in% c(1,11)]
   
   # Calculate the crop rotation fraction
@@ -813,7 +773,6 @@ An example of this function is illustrated below for both an arable and a grassl
 
   # plot side by side
   p1 + p2
-  
 ```
 
 
@@ -825,14 +784,11 @@ For more details, see `?calc_cec`.
 
 
 ```{r, results = FALSE, eval = FALSE}
-
   # estimate importance of CEC supporting crop development
   dt[, D_CEC := calc_cec(A_CEC_CO)]
-
 ```
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE, eval = FALSE}
-    
   # Make a data table with CEC levels between 1 and 100 mmol+/kg
   dt <- data.table(A_CEC_CO = seq(1,100,1))
     
@@ -860,24 +816,21 @@ For more details, see `?calc_waterstressindex`.
 
 
 ```{r, results = FALSE, eval = FALSE}
-
   # reformat GWL_CLASS
   dt[, B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
 
   # estimate risk on yield reduction to droughtstress or wetnessstress
   dt[, D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
   dt[, D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wetnessstress')]
-
 ```
 
 
 An example of this function is illustrated below for both an sandy and a clay soil given variation in the groundwater levels. In the left figure the yield reduction to drought stress (D_WSI_DS, red) and wetness stress (D_WSI_WS, green) are estimated for five fields with different soil types and crops. In the right figure the impact of variable groundwater dynamics are estimated for a single field.
 
-<br />
+<br/>
 
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # subset a series of agricultural fields
   dt.test <- binnenveld[ID %in% c(1,181,8,125,5,11)]
   
@@ -937,7 +890,6 @@ An example of this function is illustrated below for both an sandy and a clay so
 
   # plot side by side
   p1 + p2
-  
 ```
 
 #### Sealing Soil Surface and Wind Erodibility
@@ -953,21 +905,18 @@ For more details, see `?calc_sealing_risk` and `?calc_winderodibility`.
 
 
 ```{r, results = FALSE, eval = FALSE}
-
   # estimate the presence / risk for surface sealing and wind erodibility
   dt[, D_SE := calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)]
   dt[, D_WE := calc_winderodibility(B_LU_BRP, A_CLAY_MI, A_SILT_MI)]
-
 ```
 
 
 An example of these functions is illustrated below for an arable soil with variable clay content for both an cropland (with organic matter levels of 3.5%) and a grassland soil (with organic matter levels of 5%). Soil sealing is a potential risk and this risk is evaluated in the indicator function (explained and illustrated later) given the land use present. The wind erodibility is declining with the clay content and is not relevant for grassland due to the permanent crop cover. 
 
-<br />
+<br/>
 
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # make a data.table for sandy and clay soil with potatoes
   dt.test1 <- data.table(B_LU_BRP = rep(859,20),
                         A_CLAY_MI = c(seq(1,25,length.out = 10), seq(1,25,length.out = 10)),
@@ -1015,7 +964,6 @@ An example of these functions is illustrated below for an arable soil with varia
   
   # plot side by side
   p1 + p2
-  
 ```
 
 
@@ -1028,18 +976,14 @@ For more details, see `?calc_crumbleability` and `?calc_aggregatestability`.
 
 
 ```{r, results = FALSE, eval = FALSE}
-
   # assess the crumbleability and aggregate stability
   dt[, D_CR := calc_crumbleability(A_SOM_LOI, A_CLAY_MI,A_PH_CC)]
   dt[, D_AS := calc_aggregatestability(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO)]
- 
-
 ```
 
 To illustrate how both functions are estimated in OBIC, we firstly show the dependency of the crumbleability to varying clay content using a constant soil organic matter level of 3.5%. As shown below, the crumbleability starts at a high value of 10 and gradually declines down to a value of 6 for soils with a clay content of about 25%. The aggregate stability depends mainly on the calcium occupation of the CEC. In the figure below the distance to the optimum CEC occupation is visualised for a series of soils varying in Ca, Mg and K occupation for a soil where 100% of the CEC is occupied with a variable contribution of the three cations. The highest aggregate stability is found when the distance to the optimum is the lowest, being around a Ca occupation of about 85% of the CEC.
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # make a data.table for crumbleability
   dt.test1 <- data.table(A_CLAY_MI = c(seq(1,25,length.out = 10), seq(1,25,length.out = 10)),
                         A_SOM_LOI = c(rep(3.5,10),rep(3.5,10)),
@@ -1091,7 +1035,6 @@ To illustrate how both functions are estimated in OBIC, we firstly show the depe
   
   # plot side by side
   p1 + p4
-  
 ```
 
 #### Subsoil compaction
@@ -1106,7 +1049,6 @@ Within the OBIC, the estimates of aggregate stability and risk of subsoil compac
 Below is illustrated how the obic_field wrapper deals with the parameters derived from the VSA methodology. The score derived from the original risk assessment map for subsoil compaction is overwritten with the relevant VSA indicators when When scores are present for the presence of earthworms (A_EW_BCS), the occurrence of subsurface compaction (A_SC_BCS), limited root development (A_RD_BCS), ponding in the spring (wet conditions after rainfall, A_P_BCS) and clear presence of visible tracks / rutting or trampling on the land (A_RT_BCS). Similarly, the soil aggregate stability is adapted when VSA indicators are available for earthworm density (A_EW_BCS), soil structure (A_SS_BCS), and presence of cracks in the topsoil (A_C_BCS).
 
 ```{r, results = FALSE, eval = FALSE}
-
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
     dt[,D_P_CO := pmax(0, D_P_CO)]
@@ -1121,7 +1063,6 @@ Below is illustrated how the obic_field wrapper deals with the parameters derive
 In the left figure below one can see how the soil compaction risk is adapted when information is known from the Visual Soil Assessment. The soil was originally evaluated as a soil with low compaction, resulting in a high soil compaction score (the distance to target is small). When all observations of the VSA have a high quality score (the value 2) then the score remains the same. As soon as the observations of the VSA show bottlenecks in the soil structure or rootability (the field score becomes zero) then the soil compaction score is declined to almost zero (the distance to target is huge). Similarly, the aggregate stability score can be adapted, as shown here for a soil with a moderate aggregate stability index. When field observations support a conclusion for the soil that the aggregate stability is good (score = 2) then the aggregate stability index is corrected to the maximum index a soil can retreive (the value 1). In contrast, when field observations support the conclusion of serious bottlenecks for aggregate stability, then the index declines to almost zero.
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-    
     # make a data table with some BCS values
     dt <- binnenveld[ID == 1]
     dt[,year := 1:.N, by=ID]
@@ -1188,7 +1129,6 @@ In the left figure below one can see how the soil compaction risk is adapted whe
         
     # print both figures
     p1+p2
-    
 ```
 
 #### Water retention in topsoil
@@ -1209,7 +1149,6 @@ For more details, see `?calc_waterretention`.
 
 
 ```{r, results = FALSE, eval = FALSE}
-
   # estimate the plant available water in topsoil
   dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
   
@@ -1224,7 +1163,6 @@ For more details, see `?calc_waterretention`.
   
   # estimate the saturated permeability in topsoil
   dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'Ksat')]
-
 ```
 
 Below we illustrate how the amount of plant available water (in mm) changes with clay content, sand content, silt content and soil organic matter content. All other soil properties are assumed to be constant.
@@ -1284,7 +1222,6 @@ Below we illustrate how the amount of plant available water (in mm) changes with
     
     # compose figure in 2 x 2 layout
     (pclay + pcsand) / (pcsilt + pcsom)
-    
 ```
 
 
@@ -1297,17 +1234,13 @@ The activity of soil fungi and bacteria has been measured via incubation trials 
 For more information see `?calc_pmn`.
 
 ```{r, results = FALSE, eval = FALSE}
-
   # calculate the index for the potential mineralisable nitrogen pool
   dt[, D_PMN := calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)]
-
-
 ```
 
 The PMN measured by routine laboratories in the Netherlands may be overestimated. Therefore, a land-use dependent correction factor is used. The PMN index is capped at 500. Below an example of this function is given.
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE ,warning=FALSE}
-
   # define test data table with increasing PMN and different land uses
   dt.test <- data.table(B_LU_BRP = c(rep(265,12), rep(234,12)), 
                         B_SOILTYPE_AGR = 'rivierklei',
@@ -1359,7 +1292,6 @@ The PMN measured by routine laboratories in the Netherlands may be overestimated
     
   # plot side by side
   p1 + p2
-  
 ```
 
 #### Disease resistance
@@ -1373,11 +1305,10 @@ For more information see `?ind_resistance`.
 
 ```{r, results = FALSE, eval = FALSE}
   # Calculate disease resistance
- dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
+  dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
 ```
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-    
     # Make data table
     dt <- data.table(A_SOM_LOI = seq(0.1, 6.9,0.4))
 
@@ -1412,7 +1343,6 @@ A nematode parameter that is not entered is assumed to be 0. The severity of an 
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
    dt <- data.table(nempar = c('A_RLN_PR_FAL', 'A_SN_DI_DES'), nr = 5, nem_ind = c(ind_nematodes(265, A_RLN_PR_FAL=5),ind_nematodes(265, A_SN_DI_DES=5)))
-   
 ```
 
 
@@ -1430,16 +1360,13 @@ The potential for N leaching to groundwater for a soil can be calculated with `c
 For more details, see `?calc_nleach`.
 
 ```{r, results = FALSE, eval = FALSE}
-
   # calculate potential for N leaching to groundwater
   dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
-
 ```
 
 Examples of this function are given for five parcels with different attributes, as well as for one field with different groundwater levels, being derived from so-called groundwatertable. Below is visualised how for a single field the potential for N leaching and N runoff will change with the groundwater depth (derived from the groundwater table, B_GWL_CLASS). Be aware, since these derivative scores on the y-axis are not yet scaled as distance to target, both scores for leaching and runoff cannot be compared directly. 
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # subset a series of agricultural fields
   dt.test <- binnenveld[ID %in% c(1,2,3,4,5)]
   dt.test[,year := 1:.N, by = ID]
@@ -1505,12 +1432,11 @@ Examples of this function are given for five parcels with different attributes, 
   p3 + p4
 ```
 
-<br />
+<br/>
 
 The properties of the five fields used to illustrate the functions for N leaching and runoff are summarized in the table below. 
 
 ```{r,fig.width = 7, fig.height = 2.2,fig.fullwidth = TRUE,echo=FALSE, eval = TRUE}
-
   # Table of field properties
   dt.table <- copy(dt.test2)
   setnames(dt.table, 'ID', 'field')
@@ -1528,14 +1454,11 @@ The properties of the five fields used to illustrate the functions for N leachin
   
   knitr::kable(dt.table,
                caption = 'Examples of Field properties to calculate N leaching and runoff')
-  
-
 ```
 
 How is the the capacity of soils to retain nitrogen in the topsoil related to the potential N leaching? Below the relation is illustrated for the indicator value for one soil showing that the distance to target (a lower value) increases (wheras the indicator value declines) with the potential N leaching up to 20 mg N per liter.
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # create example data
   dt.test <- data.table(ngw = seq(0,30,2))
   dt.test <- dt.test[, I_NGW := ind_nretention(ngw, 'gw')]
@@ -1553,10 +1476,8 @@ N-retention to prevent runoff is the ability of a soil to avoid superficial runo
 While the same input data is required to calculate leaching and runoff, internally the calculations use different values. Therefore, runoff and leaching may have different values for a parcel as can be seen in the example below where runoff is calculated for the same fields as was done for leaching. Be aware, since these derivative scores on the y-axis are not yet scaled as distance to target, both scores for leaching and runoff cannot be compared directly, but the relative differences among fields are possible to compare. 
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # print figures p2 and p5
   p1 + p2
-
 ```
 
 
@@ -1604,13 +1525,11 @@ Below, examples are give of how to calculate the organic matter balance and the 
                                   M_DITCH, M_UNDERSEED, M_LIME, M_NONINVTILL, M_SSPM,
                                   M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST
                                   )]
-
 ```
 
 Example of the soil organic matter balance and management on five fields from the Binnenveld dataset.
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-    
     # subset binnenveld for first 5 fields
     dt <- binnenveld[ID %in% c(1:5)]
     dt <- dt[,ID := as.factor(ID)]
@@ -1678,7 +1597,6 @@ Example of the soil organic matter balance and management on five fields from th
     
     # print figures
     p2 + p3
-    
 ```
 
 ### Recommendations
@@ -1707,7 +1625,7 @@ The measures included in OBIC are:
 Deciding which measures are presented is controlled by two functions nested inside `obic_field()` (which itself is wrapped by `obic_field_dt()`). For the recommendations to be given, the output argument of `obic_field()` or `obic_field_dt()` should be *'all'* or *'recommendations'*. The functions that decide the recommendations are `obic_evalmeasure()` and `obic_recommendations()`. The first takes a data table as input containing the OBI and indicator scores calculated by other functions in the package. Its output is a data table with measures which is passed to `obic_recommendations()`. This second function selects the three most appropriate measures to recommend. For more information on these functions see `?obic_evalmeasure`, `?obic_recommendations` or `?recom.obic`.
 
 ```{r, results = FALSE, eval = FALSE}
-      # evaluate measures
+    # evaluate measures
     dt.measure <- OBIC::obic_evalmeasure(dt.score, extensive = FALSE)
     
     # make recommendations of top 3 measures
@@ -1725,7 +1643,6 @@ Many of the soil function values calculated in the OBIC have a unit and a target
 The OBIC package has functions that transform the value of a soil function into a score. Examples of such functions are `ind_nitrogen()`, `ind_sealing()`, `ind_pmn()` and `ind_nretention()`. Some of these functions only require the soil function's value. Others may need soil type or the cultivated crop as these parameters may require different evaluation for specific soil types or crops rotation schemes.
 
 ```{r, results = FALSE, eval = FALSE}
-   
   # Be aware these functions below are not given here to be evaluated.
   # They illustrate how the different indices can be evaluated (do not execute them here)
 
@@ -1758,13 +1675,11 @@ The OBIC package has functions that transform the value of a soil function into 
   # Calculate indicators for environment
   dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
   dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
-  
 ```
 
 Some of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function). When logistic evaluation is used, there is no linear relation between the an indicators value and its score. Often the evaluation is set up so that lower values gain increasingly lower scores. In other words, poor performance is evaluated more stringent than good performance. Below, the relation between a soil function values and their scores (index values) is given. An example of logistic evaluation can be found in I_P_WS (waterstress)
 
 ```{r plot relation function and index values,fig.width = 7, fig.height = 16,fig.fullwidth = TRUE,echo=FALSE}
-  
   # create waterstress index relation figure
   # dt <- data.table(D_WRI = seq(0,100,1))
   # dt[, I_P_WRI := ind_waterretention(D_WRI)]
@@ -1865,14 +1780,11 @@ Some of these indicator functions internally use an evaluation function such as 
        
     #plot
     ggsp  + labs(caption = 'Relation between function values and their corresponding evaluated index values.')
-    
-
 ```
 
 The indicator for management based on the point system of the label sustainable soil management has a linear relation between the number of points and the indicator score.
 
 ```{r,fig.width = 7, fig.height = 4,fig.fullwidth = TRUE,echo=FALSE}
-
   # create example data
   dt.arabl <- data.table(landuse = c(rep('arable on clay',5),rep('arable on peat',5),rep('arable on sand',5),rep('maize',5)),
                          points = c(rep(c(0,4,9,14,18),3),c(0,3,6,9,12)),
@@ -1895,14 +1807,13 @@ The indicator for management based on the point system of the label sustainable 
     ylab('Indicator value') + xlab('Soil management points')+theme(plot.title = element_text(size=10),
                   legend.text = element_text(size=10), axis.text = element_text(size=10), legend.position = c(0.75,0.2))
 p.ar+p.gr
-  
 ```
 
 ### Crop and soil dependent applicability of functions
 Not all indicators are relevant for all combinations of soil type and crop. For example, `I_P_DU` (wind erodibility) is not relevant on permanent grassland, as wind erosion is not a problem on these parcels. The table `weight.obic` is used to determine whether an indicator is relevant for a given parcel. Crops are differentiated into the categories arable, grassland, maize, and nature according to the crop_category from the table `crops.obic`. In soil type a differentiation is made between peat and non peat soils. If an indicator is not relevant for a given parcel, its score will not be used in further aggregation.
 
 ```{r, results = FALSE, eval = FALSE}
-     # load weights.obic (set indicator to zero when not applicable)
+    # load weights.obic (set indicator to zero when not applicable)
     w <- as.data.table(OBIC::weight.obic)
     
     # Add years per field
@@ -1952,16 +1863,16 @@ Each soil indicator belongs to one of five categories (chemical, physical, biolo
     # calculate weighted average per indicator category
     out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), by = list(cat,year)]
 
-      # for case that a cat has one indicator or one year and has NA
-      out.score[is.na(value), value := -999]
+    # for case that a cat has one indicator or one year and has NA
+    out.score[is.na(value), value := -999]
 ```
 
 ### Integrating over time
 Till this point, all values and indicators have been calculated for a range of years (typically ten). Before aggregating values over years, a correction factor is calculated to give a weight so that recent years count more than long gone years. After aggregating indicator scores over years, a single score for each indicator remains. These are the scores presented to a user when indicators are included in the output of `obic_field()`. 
 
 ```{r, aggreagate indicators per category, results= FALSE, eval=FALSE}
-      # calculate correction factor per year; recent years are more important
-      out.score[,cf := log(12 - pmin(10,year))]
+    # calculate correction factor per year; recent years are more important
+    out.score[,cf := log(12 - pmin(10,year))]
   
     # calculate weighted average per indicator category per year
     out.score <- out.score[,list(value = sum(cf * pmax(0,value)/ sum(cf[value >= 0]))), by = cat]
@@ -1972,20 +1883,20 @@ The integration of different soil functions into one score and their relevance i
 
 ```{r, holistic obi score, results = FALSE, eval = FALSE}
   # merge out with number per category
-      out.score <- merge(out.score,dt.melt.ncat, by='cat')
+  out.score <- merge(out.score,dt.melt.ncat, by='cat')
     
-      # calculate weighing factor depending on number of indicators
-      out.score[,cf := log(ncat + 1)]
+  # calculate weighing factor depending on number of indicators
+  out.score[,cf := log(ncat + 1)]
   
-    # calculated final obi score
-    out.score <- rbind(out.score[,list(cat,value)],
-                       out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
+  # calculated final obi score
+  out.score <- rbind(out.score[,list(cat,value)],
+                     out.score[,list(cat = "T",value = sum(value * cf / sum(cf)))])
 ```
 
 The holistic OBI score is given when the argument *output* in `obic_field()` or `obic_field_dt()` is set to *'all'*, *'scores'* or *'obic_scores'*
 
 ```{r, results = FALSE, eval = FALSE}
-   # For example
+  # For example
   OBIC::obic_field_dt(binnenveld[ID == 1], output = 'scores')
 
   OBIC::obic_field_dt(binnenveld[ID == 1], output = 'obic_score')
