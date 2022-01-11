@@ -1,4 +1,4 @@
-# UNRELEASED
+# OBIC 2.0.0 2022-01-11
 ## Added
 * Add `ppr_bouwplan_tables.R` in dev/scripts
 * Add `merge_nema_tables.R` in dev/scripts
