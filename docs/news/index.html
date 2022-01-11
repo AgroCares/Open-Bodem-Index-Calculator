@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
@@ -66,6 +66,74 @@
       <small>Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.0.0" id="obic-200-2022-01-11">OBIC 2.0.0 2022-01-11<a class="anchor" aria-label="anchor" href="#obic-200-2022-01-11"></a></h2>
+<div class="section level3">
+<h3 id="added-2-0-0">Added<a class="anchor" aria-label="anchor" href="#added-2-0-0"></a></h3>
+<ul><li>Add <code>ppr_bouwplan_tables.R</code> in dev/scripts</li>
+<li>Add <code>merge_nema_tables.R</code> in dev/scripts</li>
+<li>Add <code>ppr_crops_crumbleability.R</code> in dev/scripts</li>
+<li>Add arguments <code>B_GWL_GHG</code>, <code>B_GWL_GLG</code> and <code>B_Z_TWO</code> to <code>obic_field</code> and <code>obic_field_dt</code>
+</li>
+<li>Activate <code>calc_workability</code>
+</li>
+<li>Add <code>calc_makkink</code> to add makkink factors to crop table</li>
+<li>Add <code>calc_psp</code> to estimate precipitation surplus</li>
+<li>Add <code>ind_nematodes</code> and <code>ind_nematodes_list</code> to estimate the index for nematode risks</li>
+<li>Add <code>ind_gw_recharge</code> to estimate the groundwater recharge index</li>
+<li>Add <code>calc_n_efficiency</code> and <code>ind_n_efficiency</code> to estimate N efficiency</li>
+<li>Add <code>calc_pesticide_leaching</code> and <code>ind_pesticide_leaching</code> to evaluate retention of pesticides in topsoil</li>
+<li>Add check to <code>ppr_weight_obic</code> to check if all indicators in <code>weight.obic</code> occur in <code>column_descriptions_obic</code>
+</li>
+<li>Add vignette <code>obic_workability</code>, describing how workability is calculated and affected by its input variables</li>
+<li>Add vignette <code>obic_introduction</code> as a short tutorial describing the OBIC principles</li>
+<li>Add vignette <code>obic_score_aggregation</code> to illustrate the aggregation principles used</li>
+<li>Add table <code>weather.obic</code> with monthly mean precipitation, temperature and evaporation</li>
+<li>Add table <code>crops.makkink</code> with mean Makkink factors per crop type</li>
+<li>Add table <code>nema.crop.rot.obic</code> added with crop sensitivity for nematodes</li>
+<li>Add table <code>nema.obic</code> with treshold values per species</li>
+<li>Add GitHub Action to run R-CMD-Check for changes on <code>master</code> and <code>development</code>
+</li>
+<li>Add coverage of unit tests</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changed-2-0-0">Changed<a class="anchor" aria-label="anchor" href="#changed-2-0-0"></a></h3>
+<ul><li>Update documentation for workability</li>
+<li>Update <code>weight.obic</code> for workability</li>
+<li>Update <code>column_descriptions_obic.Rdata</code>
+</li>
+<li>Update documentation for nematodes</li>
+<li>Update <code>calc_workability</code>
+</li>
+<li>Rename <code>B_Z_TWO</code> to <code>B_GWL_ZCRIT</code>
+</li>
+<li>Improve function description of <code>ind_workability</code>
+</li>
+<li>Increase required days post GLG for maize on sand or loess to match October 1</li>
+<li>Increase required days post GLG for maize on other soils to match October 20</li>
+<li>
+<code>season.obic</code> can now be merged on both landuse and soiltype</li>
+<li>Update binnenveld with BodemSchat data (via OBIC-helpers)</li>
+<li>
+<code>obic_field</code> can be used for multiple fields with field-ID</li>
+</ul></div>
+<div class="section level3">
+<h3 id="removed-2-0-0">Removed<a class="anchor" aria-label="anchor" href="#removed-2-0-0"></a></h3>
+<ul><li>Removes <code>A_COM_FR</code> and <code>A_CACO3_IF</code> from input as they were not used <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/issues/145" class="external-link">#145</a></li>
+</ul></div>
+<div class="section level3">
+<h3 id="fixed-2-0-0">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-0-0"></a></h3>
+<ul><li>Error in <code>grass_age</code>: age was incorrectly estimated for multiple fields</li>
+<li>Removed negative values from <code>season.obic</code>
+</li>
+<li>Ensured total_days &gt;= req_days_pre_glg + req_days_post_glg in <code>season.obic</code>
+</li>
+<li>Root depth was incorrectly assigned for maize and nature</li>
+<li>Fix the format of <code>NEWS.md</code> so that it is shown on the package website</li>
+<li>Remove the prefixes and suffixed of <code>B_GWL_CLASS</code>
+</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.4" id="obic-104-2021-09-27">OBIC 1.0.4 2021-09-27<a class="anchor" aria-label="anchor" href="#obic-104-2021-09-27"></a></h2>
 <div class="section level3">
