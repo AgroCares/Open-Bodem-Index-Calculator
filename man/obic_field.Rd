@@ -61,7 +61,6 @@ obic_field(
   M_STRAWRESIDUE = NA,
   M_MECHWEEDS = NA,
   M_PESTICIDES_DST = NA,
-  I_B_NEM = NA_real_,
   ID = 1,
   output = "all"
 )
@@ -178,8 +177,6 @@ obic_field(
 \item{M_MECHWEEDS}{(boolean) measure. Use of mechanical weed protection (option: yes or no)}
 
 \item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
-
-\item{I_B_NEM}{(numeric) Nematode indicator value as calculated with ind_nematodes()}
 
 \item{ID}{(character) A field id}
 
