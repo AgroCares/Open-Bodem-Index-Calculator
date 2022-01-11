@@ -1,7 +1,5 @@
-# Changelog OBIC
-
-## UNRELEASED
-### Added
+# UNRELEASED
+## Added
 * Add `ppr_bouwplan_tables.R` in dev/scripts
 * Add `merge_nema_tables.R` in dev/scripts
 * Add `ppr_crops_crumbleability.R` in dev/scripts
@@ -24,7 +22,7 @@
 * Add GitHub Action to run R-CMD-Check for changes on `master` and `development`
 * Add coverage of unit tests
 
-### Changed
+## Changed
 * Update documentation for workability
 * Update `weight.obic` for workability
 * Update `column_descriptions_obic.Rdata`
@@ -38,53 +36,55 @@
 * Update binnenveld with BodemSchat data (via OBIC-helpers)
 * `obic_field` can be used for multiple fields with field-ID
 
-### Removed
+## Removed
 * Removes `A_COM_FR` and `A_CACO3_IF` from input as they were not used #145
 
-### Fixed
+## Fixed
 * Error in `grass_age`: age was incorrectly estimated for multiple fields
 * Removed negative values from `season.obic`
 * Ensured total_days >= req_days_pre_glg + req_days_post_glg in `season.obic`
 * Root depth was incorrectly assigned for maize and nature 
+* Fix the format of `NEWS.md` so that it is shown on the package website
 
-## version 1.0.4 2021-09-27
-### Added
+# OBIC 1.0.4 2021-09-27
+## Added
 * Check on column names in obic_field_dt
 * tests on obic_field_dt
 
-### Fixed
+## Fixed
 * Fixed check on required column names in obic_field_dt
 
-## Version 1.0.3 2021-09-16
-### Added
+# OBIC 1.0.3 2021-09-16
+## Added
 * Adds unit test for `obic_field`
 
-### Fixed
+## Fixed
 * Fixes ascii signs issues
 
-## Version 1.0.2 2021-05-20
-### Added
+# OBIC 1.0.2 2021-05-20
+## Added
 * ind_man_ess.R and tests are added for update aggregated management scores, issue #131
 
-### Changed
+## Changed
 * obic_field() makes use of ind_man_ess
 
-### Fixed
+## Fixed
 * check B_GWL_CLASS in calc_waterstressindex(), issue #129
 
-## Version 1.0.1 2021-05-05
-### Added
+# OBIC 1.0.1 2021-05-05
+## Added
 * management.obic table added to link management measures to ecosystem services
 * calc_man_ess.R and tests are added to estimate grouped impact of management on ecosystem servcices, issue #125
 
-### Changed
+## Changed
 * I_M_* and I_*_BCS indicators for management measures and BCS are removed, issue #126
 * values -999 are replaced by NA 
 * column_descriptons_obic.Rdata is updated
 * weight.obic is updated
 
-## Version 1.0.0 2021-04-28
-### Added
+
+# OBIC 1.0.0 2021-04-28
+## Added
 * column crops_season to crops.obic
 * column scientific_names to crops.obic
 * preparation crops.obic in dev
@@ -107,7 +107,7 @@
 * new M_codes added: M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE, M_MECHWEEDS, M_PESTICIDES_DST, issue #107
 * obic_field_dt to run obic_field() for a data.table input 
 
-### Changed
+## Changed
 * calculation PBI updated for grassland
 * PBI input is flexible for both grassland and arable
 * calculation SLV updated
@@ -130,27 +130,27 @@
 * very low Mg indicator values for grassland on clay and peat, issue 84
 * evaluation and calculation for Cu are updated
 
-### Fixed
+## Fixed
 * setorder in winderodibility
 
 
-## Version 0.11.1 2020-09-02
-### Changed
+# OBIC 0.11.1 2020-09-02
+## Changed
 * The water holding capacity is now between 0 and 1 (as theta should be) and uses new evaluation function #67
 * Lower range of `D_NLV` is set to -30
 * Upper range of `D_MG` is set to 1000
 * Range of `D_P_DU` is set between 0 and 1
 
-### Fixed
+## Fixed
 * Fixed the use of `B_LG_CBS` at sulphur
 * `ID` can now also be character and does not have to be numeric #66
 
 
-## Version 0.11.0 2020-01-16
-### Added
+# OBIC 0.11.0 2020-01-16
+## Added
 * Adds two other pedotransfer functions (PTFs) to calculate water retention parameters #53
 
-### Changed
+## Changed
 * Optimal pH values of grassland are now the middle value of the class `good` #55
 * pF of field capacity is changed from 2.2 to 2.0 #53
 * Bulk density in the default PTF is now aggregated into 1 continous function #53
@@ -162,12 +162,12 @@
 * Parameters for the evaluation of Cu availability are adjusted #59
 * potassium index is multiplied so that the evaluation is equal for grass and maize #60
 
-### Fixed
+## Fixed
 * Improved the function for crumbleability to match the factsheet #54 #56
 * Fix error in calc_potassium_availability #59
 
-## Version 0.10.0 2019-12-13
-### Added
+# OBIC 0.10.0 2019-12-13
+## Added
 * Adds the evaluation of measures #37
 * Adds giving recommendations based on the OBI score #37
 * A relative score per reference group is added #31
@@ -175,7 +175,7 @@
 * Adds a table with the description of the columns and a vignette about it #46
 * Adds scoring for environmental performance #31
 
-### Changed
+## Changed
 * Update of crumbeability groups in `crops.obic`
 * Maximum value of `A_MN_CC` is increased from 30000 to 250000
 * The code for evaluating  in `ind_crumbeability` is simplified
@@ -195,20 +195,20 @@
 * Set lifecyle status to `maturing`
 * The evaluation of `I_C_MG` is adjusted according to factsheet
 
-### Fixed
+## Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
 * Fixed the droughtstress, wetnessstress and waterstress values for GtI in `waterstress.obic`
 * For grasslands on peat pr clay, the `D_MG` is now scaled #51
 * Limit `D_SLV` between -30 and 250 
 
-## Version 0.9.0 2019-10-22
-### Changed
+# OBIC 0.9.0 2019-10-22
+## Changed
 * The uppper limit for `D_BCS` is increased from 40 to 50
 * Switch on crumbleability
 * For `calc_phosphate_availability` the category `arable` is added for the crop categories
 * Changed evaluation of sulphur for arable fields #26
 
-### Fixed
+## Fixed
 * Fixed typo if mais in `ind_managment`
 * Fixed test for winderodibility
 * Use the correct correction factor in `calc_sealing_risk` #19
@@ -217,24 +217,24 @@
 * Fix for `calc_sbal_arable` where combinations of soil type and region that do not exist in table 6.2 of Handboek Bodem & Bemesting gave a NA #26
 * Fix for `calc_bcs` where a value of 1 is given instead of 0 for `bcs_om` #28
 
-## Version 0.8.0 2019-08-02
-### Added
+# OBIC 0.8.0 2019-08-02
+## Added
 * Adds index and evaluation of the BodemConditieScore
 * Adds potassium to main functions
 * Adds a random recommondation to the output
 
-### Changed
+## Changed
 * The upper limit for `A_MN_CC` is increased from 20000 to 30000
 * The upper limit for `A_CA_CEC` is increased from 100 to  400
 
-### Fixed
+## Fixed
 * The indicator of pH had the wrong direction 
 * Removed the minus sign before `ind_zinc`
 * The function `calc_potassium_availability` containted a wrong column name for `A_PH_CC`
 * Some unknown situations at `calc_potassium_availability` have now the same values as comparable situations. This should be looked at later
 
-## Version 0.7.0 2019-08-02
-### Added
+# OBIC 0.7.0 2019-08-02
+## Added
 * Adds index and evaluation of waterretention paramaters
 * Adds index and evaluation of water related yield stress
 * Adds index and evaluation of metals (Zn and Cu)
@@ -242,16 +242,16 @@
 * Adds index and evaluation of CEC for soil fertility and structure
 * Adds waterstress.obic table with information of HELP-tables
 
-### Changed
+## Changed
 * Change crops.obic with crop category related to water stress
 
 
-## Version 0.6.0 2019-08-01
-### Added
+# OBIC 0.6.0 2019-08-01
+## Added
 * Adds index and evaluation of K-availability
 
-## Version 0.5.0 2019-07-31
-### Added
+# OBIC 0.5.0 2019-07-31
+## Added
 * Adds crop classification (sensitivity to P, K and S supply)
 * Adds soil organic matter balance (simple one)
 * Adds risk for soil compaction (following risk map Van den Akker, 2013)
@@ -261,22 +261,22 @@
 * Adds index and evaluation of soil strategic management (following Label Duurzaam Bodembeheer)
 * Adds columns `crop_eos` and `crop_eos_residue` in `crops.obic`
 
-## Version 0.4.0 2019-07-26
-### Added
+# OBIC 0.4.0 2019-07-26
+## Added
 * The existing functions for pH, P, N, crumbleability, sealing and resistance are intergrated into `obic()`
 
-### Changed
+## Changed
 * The column name `brp` is changed to `B_LU_BRP`
 
-## Version 0.3.0 2019-07-24
-### Added
+# OBIC 0.3.0 2019-07-24
+## Added
 * Adds main function that wraps all the functions needed to calculated the OBI score and recommendations
 * Adds documentation website for package using `pkgdown` #3
 
-## Version 0.2.0 2019-07-12
-### Added
+# OBIC 0.2.0 2019-07-12
+## Added
 * Adds evaluation of pH #1
 * Adds evaluation of nitrogen #2
 
-## Version 0.1.0 2019-07-08
+# OBIC 0.1.0 2019-07-08
 First version of OBIC
