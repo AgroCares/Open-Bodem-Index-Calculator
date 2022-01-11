@@ -10,12 +10,16 @@
 format_gwt <- function(B_GWL_CLASS) {
   
   # options for B_GWL_CLASS
-  bgwlclass <- c('I','II','IIb','III','IIIb','IV','V','Vb','VI','VI','VII','VIII',
-                 'GtI','GtII','GtIIb','GtIII','GtIIIb','GtIV','GtV','GtVb','GtVI',
-                 'GtVI','GtVII','GtVIII','-')
+  bgwlclass <- c('sVb', 'sVa', 'sVII', 'sVI', 'sV', 'bVII', 'bVI', 'Vb', 'Va', 'VIII', 'VII', 'VI',
+    'V', 'IVu', 'IV', 'IIb', 'IIIb', 'IIIa', 'III', 'II', 'I', '-',
+    'GtsVb', 'GtsVa', 'GtsVII', 'GtsVI', 'GtsV', 'GtbVII', 'GtbVI', 'GtVb', 'GtVa', 'GtVIII', 'GtVII', 'GtVI',
+    'GtV', 'GtIVu', 'GtIV', 'GtIIb', 'GtIIIb', 'GtIIIa', 'GtIII', 'GtII', 'GtI')
   
   # Check if B_GT values are appropriate
   checkmate::assert_subset(B_GWL_CLASS, empty.ok = FALSE, choices = bgwlclass)
+  
+  # Remove prefixes and suffixes
+  B_GWL_CLASS <- gsub("a|b|s|u", "", B_GWL_CLASS)
   
   # if value starts with I or V, add prefix Gt to it.
   B_GWL_CLASS <- gsub("^I", "GtI", B_GWL_CLASS)
@@ -42,7 +46,7 @@ format_soilcompaction <- function(B_SC_WENR) {
   bsc.char <- c("Zeer beperkt", "Beperkt", "Matig", "Groot", "Zeer groot",
                 "Beperkt door veenlagen", "Van nature dicht", "Glastuinbouw, niet beoordeeld",
                 "Bebouwing en infrastructuur", "Water")
-               
+  
   # convert to character
   B_SC_WENR <- as.character(B_SC_WENR)
   
@@ -70,12 +74,18 @@ format_soilcompaction <- function(B_SC_WENR) {
 #' @export
 format_aer <- function(B_AER_CBS) {
   
+  # convert UTF-8 encoded strings to latin1 if required
+  if('UTF-8' %in% Encoding(B_AER_CBS)) {
+    B_AER_CBS <- iconv(B_AER_CBS, from = '', to = 'latin1')
+  }
+  
   # options for B_AER_CBS
   aer.text <- c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
-                 'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
-                 'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
-                 'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
-                 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland')
+                'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
+                'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
+                'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
+                'Veenkoloni\xEBn en Oldambt', "Veenkolonien en Oldambt",
+                'Bouwhoek en Hogeland')
   
   # options for B_AER_CBS
   aer.code <- c("LG14","LG13","LG12","LG11","LG10","LG09","LG08","LG07","LG06","LG05","LG04","LG03","LG02","LG01")

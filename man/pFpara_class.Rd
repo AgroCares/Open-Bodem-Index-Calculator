@@ -9,7 +9,7 @@ pFpara_class(Pklei, Pleem, Psom, M50)
 \arguments{
 \item{Pklei}{(numeric) The clay (<2um) content of the soil (\%)}
 
-\item{Pleem}{(numeric) The leemt (<50um) content of the soil (\%) Pleem > 0}
+\item{Pleem}{(numeric) The loam (<50um) content of the soil (\%) Pleem > 0}
 
 \item{Psom}{(numeric) The organic matter content of the soil (\%) Psom > 0}
 

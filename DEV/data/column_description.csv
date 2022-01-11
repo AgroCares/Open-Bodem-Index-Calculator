@@ -1,4 +1,4 @@
-﻿column;type;description_nl;description_en;unit;method
+column;type;description_nl;description_en;unit;method
 A_CLAY_MI;measurement;Kleigehalte;Clay content;%;
 A_SAND_MI;measurement;Zandgehalte;Sand content;%;
 A_SILT_MI;measurement;Siltgehalte;Silt content;%;
@@ -34,13 +34,18 @@ A_RT_BCS;measurement;Spoorvorming/ vertrapping;Rutting / trampling;score 1-10;Bo
 A_SC_BCS;measurement;Verdichting ondergrond;Subsoil compaction;score 1-10;BodemConditieScore
 A_SS_BCS;measurement;Bodemstructuur;Soil structure;score 1-10;BodemConditieScore
 B_GWL_CLASS;measurement;Grondwatertrap;Groundwater level;-;
-B_BT_BK;measurement;Bodemtype;Bodemtype;-;bodemkaart 1:50000
-B_SOILTYPE_AGR;measurement;Bodemtype Agronomische Classificering;Bodemtype Agronomische Classificering;-;
+B_GWL_GLG;measurement;Gemiddeld Laagste Grondwaterstand;The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level;;
+B_GWL_GHG;measurement;Gemiddeld Hoogste Grondwaterstand;The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level;;
+B_Z_CRIT;measurement;;The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm);;
+B_SOILTYPE_AGR;measurement;Bodemtype Agronomische Classificering;Bodemtype Agronomische Classificering;-;bodemkaart 1:50000
 B_LU_BRP;measurement;Gewascode;Crop cod;-;BRP
 B_LU;measurement;Bouwland of Grasland;Arable land or Grassland;-;
 B_AER_CBS;measurement;Landbouweconomisch kerngebied 2016;Key agricultural area 2016;-;CBS
 B_SC_WENR;measurement;Risico op ondergrondverdichting;Risk of soil compaction;-;WENR
 B_HELP_WENR;measurement;Grondsoortcode HELP-tabel;Ground type code HELP table;-;WENR
+B_COMPACTION;measurement;Is de ondergrond verdicht;Is the subsoil compacted;ja/nee;
+B_DRAINAGE;measurement;Wordt het perceAre drains installed to drain the fieldel gedraineerd;;ja/nee;
+B_FERT_NORM_FR;measurement;Fractie van de gebruiksnorm toegepast;The fraction of the application norm utilized;-;
 D_BDS;derivative;Dichtheid;The bulk density of the soil;kg / m3;
 D_RD;derivative;Bemonsteringsdiepte;The agronomic used sampling depth for soil analysis;m;
 D_OC;derivative;Koolstofvoorraad;The amount of organic carbon;kg C /ha;
@@ -76,6 +81,9 @@ D_MAN;derivative;Evaluatie management conform LDBB;Management evaluation ;-;
 D_BCS;derivative;BodemConditieScore;Visual Soil Assessment Score;-;
 D_NGW;derivative;N  vasthoudend vermogen voor grondwater;Nitrogen retention for ground water;-;
 D_NSW;derivative;N vasthoudend vermogen voor oppervlaktewater;Nitrogen retention for surface water;-;
+D_NLEACH;derivative;N afspoeling naar grondwater;Nitrogen leaching to groundwater;mg NO3/L;
+D_PESTICIDE;derivative;Uitspoelingsrisiko gewasbestrijdingsmiddelen naar grondwater;Leaching risk of pesticides to groundwater;-;
+D_PSP;derivative;Neerslagoverschot;Precipitation surplus;;
 I_C_N;indicator;Stikstoflevering;Nitrogen;-;
 I_C_P;indicator;Fosfaatbuffering;Phosphorus;-;
 I_C_K;indicator;Kaliumlevering;Potassium;-;
@@ -86,6 +94,7 @@ I_C_CEC;indicator;Kationbuffering;CEC;-;
 I_C_CU;indicator;Koperbeschikbaarheid;Copper;-;
 I_C_ZN;indicator;Zinkbeschikbaarheid;Zinc;-;
 I_P_CR;indicator;Verkruimelbaarheid;Crumbleability;-;
+I_P_BC;indicator;Draagkracht;Bearing capacity;-;
 I_P_SE;indicator;Verslemping;Soil sealing;-;
 I_P_DS;indicator;Droogteschade;Drougthstress;-;
 I_P_WS;indicator;Natschade;Wetnessstress;-;
@@ -96,6 +105,7 @@ I_P_CEC;indicator;Aggregaatstabiliteit;Aggregate stability;-;
 I_P_WO;indicator;Bewerkbaarheid;Workability;-;
 I_B_DI;indicator;Ziektewerendheid;Disease / pest resistance;;
 I_B_SF;indicator;Activiteit bodemleven;Soil life activity;;
+I_B_NEM;indicator;Plant parasitaire nematoden;Plant parasitic nematodes;;
 I_E_NGW;indicator;N  vasthoudend vermogen voor grondwater;Nitrogen retention for ground water;;
 I_E_NSW;indicator;N vasthoudend vermogen voor oppervlaktewater;Nitrogen retention for surface water;;
 I_M;indicator;Label Duurzaam Bodembeheer;Soil management evaluation;;
@@ -140,3 +150,68 @@ RM_P_3;recommendation;Advies 3;Third physical recommended measure ID;;
 RM_B_1;recommendation;Advies 1;First biological recommended ID;;
 RM_B_2;recommendation;Advies 2;Second biological recommended ID;;
 RM_B_3;recommendation;Advies 3;Third biological recommended ID;;
+A_DSN_HEL_TOT;measurement;Vrijlevende wortelaaltje, helicotylenchus spp.;Dwelling Stunt Nematode, helicotylenchus spp.;n/100g;
+A_DSN_HEM_TOT;measurement;Vrijlevende wortelaaltje, hemicycliophora spp.;Dwelling Stunt Nematode, hemicycliophora spp.;n/100g;
+A_DSN_LOI_TOT;measurement;Vrijlevende wortelaaltje, longidorus spp.;Dwelling Stunt Nematode, longidorus spp.;n/100g;
+A_DSN_PA_ANE;measurement;Vrijlevende wortelaaltje, paratrichodorus anemones;Dwelling Stunt Nematode, paratrichodorus anemones;n/100g;
+A_DSN_PA_NAN;measurement;Vrijlevende wortelaaltje, paratrichodorus nanus;Dwelling Stunt Nematode, paratrichodorus nanus;n/100g;
+A_DSN_PA_PAC;measurement;Vrijlevende wortelaaltje, paratrichodorus pachydermus;Dwelling Stunt Nematode, paratrichodorus pachydermus;n/100g;
+A_DSN_PA_TER;measurement;Vrijlevende wortelaaltje, paratrichodorus teres;Dwelling Stunt Nematode, paratrichodorus teres;n/100g;
+A_DSN_RO_TOT;measurement;Vrijlevende wortelaaltje, rotylenchus spp.;Dwelling Stunt Nematode, rotylenchus spp.;n/100g;
+A_DSN_TR_CYL;measurement;Vrijlevende wortelaaltje, trichodorus cylindricus;Dwelling Stunt Nematode, trichodorus cylindricus;n/100g;
+A_DSN_TR_HOO;measurement;Vrijlevende wortelaaltje, trichodorus hooperi;Dwelling Stunt Nematode, trichodorus hooperi;n/100g;
+A_DSN_TR_PRI;measurement;Vrijlevende wortelaaltje, trichodorus primitivus;Dwelling Stunt Nematode, trichodorus primitivus;n/100g;
+A_DSN_TR_SIM;measurement;Vrijlevende wortelaaltje, trichodorus similis;Dwelling Stunt Nematode, trichodorus similis;n/100g;
+A_DSN_TR_SPA;measurement;Vrijlevende wortelaaltje, trichodorus sparsus;Dwelling Stunt Nematode, trichodorus sparsus;n/100g;
+A_DSN_TR_TOT;measurement;Vrijlevende wortelaaltje, trichodoridae spp.;Dwelling Stunt Nematode, trichodoridae spp.;n/100g;
+A_DSN_TR_VIR;measurement;Vrijlevende wortelaaltje, trichodorus viruliferus;Dwelling Stunt Nematode, trichodorus viruliferus;n/100g;
+A_DSN_TY_TOT;measurement;Vrijlevende wortelaaltje, tylenchorhynchus spp.;Dwelling Stunt Nematode, tylenchorhynchus spp.;n/100g;
+A_DSN_XI_TOT;measurement;Vrijlevende wortelaaltje, xiphinema spp.;Dwelling Stunt Nematode, xiphinema spp.;n/100g;
+A_NPN_SA_TOT;measurement;Niet plantparasitaire aaltjes, saprofage en overige;Non Plant Pathogenic Nematode, saprofage en overige;n/100g;
+A_OPN_AP_FRA;measurement;Overige plantparasitaire aaltje, aphelenchoides fragariae;Other Plant Pathogenic Nematode, aphelenchoides fragariae;n/100g;
+A_OPN_AP_RIT;measurement;Overige plantparasitaire aaltje, aphelenchoides ritzemabosi;Other Plant Pathogenic Nematode, aphelenchoides ritzemabosi;n/100g;
+A_OPN_AP_SUB;measurement;Overige plantparasitaire aaltje, aphelenchoides subtenuis;Other Plant Pathogenic Nematode, aphelenchoides subtenuis;n/100g;
+A_OPN_AP_TOT;measurement;Overige plantparasitaire aaltje, aphelenchoides spp.;Other Plant Pathogenic Nematode, aphelenchoides spp.;n/100g;
+A_OPN_CR_TOT;measurement;Overige plantparasitaire aaltje, criconematidae spp.;Other Plant Pathogenic Nematode, criconematidae spp.;n/100g;
+A_OPN_CY_TOT;measurement;Overige plantparasitaire aaltje, cysteaaltjes;Other Plant Pathogenic Nematode, cysteaaltjes;n/100g;
+A_OPN_CYA_CYS;measurement;Overige plantparasitaire aaltje, aardappelcysteaaltjes;Other Plant Pathogenic Nematode, aardappelcysteaaltjes;n/200cc;
+A_OPN_CYA_LLE;measurement;Overige plantparasitaire aaltje, aardappelcysteaaltjes;Other Plant Pathogenic Nematode, aardappelcysteaaltjes;n/200cc;
+A_OPN_CYA_PAL;measurement;Overige plantparasitaire aaltje, g. pal|g.pal;Other Plant Pathogenic Nematode, g. pal|g.pal;%;
+A_OPN_CYA_ROS;measurement;Overige plantparasitaire aaltje, g. ros|g.ros;Other Plant Pathogenic Nematode, g. ros|g.ros;%;
+A_OPN_CYB_CYS;measurement;Overige plantparasitaire aaltje, bietencysteaaltjes;Other Plant Pathogenic Nematode, bietencysteaaltjes;n/200cc;
+A_OPN_CYB_LLE;measurement;Overige plantparasitaire aaltje, bietencysteaaltjes;Other Plant Pathogenic Nematode, bietencysteaaltjes;n/200cc;
+A_OPN_CYG_CYS;measurement;Overige plantparasitaire aaltje, grascysteaaltjes;Other Plant Pathogenic Nematode, grascysteaaltjes;n/200cc;
+A_OPN_CYG_LLE;measurement;Overige plantparasitaire aaltje, grascysteaaltjes;Other Plant Pathogenic Nematode, grascysteaaltjes;n/200cc;
+A_OPN_CYO_CYS;measurement;Overige plantparasitaire aaltje, overige cysteaaltjes;Other Plant Pathogenic Nematode, overige cysteaaltjes;n/200cc;
+A_OPN_CYO_LLE;measurement;Overige plantparasitaire aaltje, overige cysteaaltjes;Other Plant Pathogenic Nematode, overige cysteaaltjes;n/200cc;
+A_OPN_PA_BUK;measurement;Overige plantparasitaire aaltje, paratylenchus bukowinensis;Other Plant Pathogenic Nematode, paratylenchus bukowinensis;n/100g;
+A_OPN_PA_TOT;measurement;Overige plantparasitaire aaltje, paratylenchus spp.;Other Plant Pathogenic Nematode, paratylenchus spp.;n/100g;
+A_OPN_SU_TOT;measurement;Overige plantparasitaire aaltje, subanguina spp.;Other Plant Pathogenic Nematode, subanguina spp.;n/100g;
+A_RKN_ME_ARD;measurement;Wortelknobbelaaltje, meloidogyne ardenensis;Root Knot Nematode, meloidogyne ardenensis;n/100g;
+A_RKN_ME_ARE;measurement;Wortelknobbelaaltje, meloidogyne arenaria;Root Knot Nematode, meloidogyne arenaria;n/100g;
+A_RKN_ME_ART;measurement;Wortelknobbelaaltje, meloidogyne artiellia;Root Knot Nematode, meloidogyne artiellia;n/100g;
+A_RKN_ME_CHI;measurement;Wortelknobbelaaltje, meloidogyne chitwoodi;Root Knot Nematode, meloidogyne chitwoodi;n/100g;
+A_RKN_ME_CHIFAL;measurement;Wortelknobbelaaltje, meloidogyne chitwoodi/fallax;Root Knot Nematode, meloidogyne chitwoodi/fallax;n/100g;
+A_RKN_ME_FAL;measurement;Wortelknobbelaaltje, meloidogyne fallax;Root Knot Nematode, meloidogyne fallax;n/100g;
+A_RKN_ME_HAP;measurement;Wortelknobbelaaltje, meloidogyne hapla;Root Knot Nematode, meloidogyne hapla;n/100g;
+A_RKN_ME_INC;measurement;Wortelknobbelaaltje, meloidogyne incognita;Root Knot Nematode, meloidogyne incognita;n/100g;
+A_RKN_ME_JAV;measurement;Wortelknobbelaaltje, meloidogyne javanica;Root Knot Nematode, meloidogyne javanica;n/100g;
+A_RKN_ME_MIN;measurement;Wortelknobbelaaltje, meloidogyne minor;Root Knot Nematode, meloidogyne minor;n/100g;
+A_RKN_ME_NAA;measurement;Wortelknobbelaaltje, meloidogyne naasi;Root Knot Nematode, meloidogyne naasi;n/100g;
+A_RKN_ME_TOT;measurement;Wortelknobbelaaltje, meloidogyne spp.;Root Knot Nematode, meloidogyne spp.;n/100g;
+A_RLN_PR_CREN;measurement;Wortellesieaaltje, pratylenchus crenatus;Root Lesion Nematode, pratylenchus crenatus;n/100g;
+A_RLN_PR_DUN;measurement;Wortellesieaaltje, pratylenchus dunensis;Root Lesion Nematode, pratylenchus dunensis;n/100g;
+A_RLN_PR_FAL;measurement;Wortellesieaaltje, pratylenchus fallax;Root Lesion Nematode, pratylenchus fallax;n/100g;
+A_RLN_PR_FLA;measurement;Wortellesieaaltje, pratylenchus flakkensis;Root Lesion Nematode, pratylenchus flakkensis;n/100g;
+A_RLN_PR_NEG;measurement;Wortellesieaaltje, pratylenchus neglectus;Root Lesion Nematode, pratylenchus neglectus;n/100g;
+A_RLN_PR_PEN;measurement;Wortellesieaaltje, pratylenchus penetrans;Root Lesion Nematode, pratylenchus penetrans;n/100g;
+A_RLN_PR_PIN;measurement;Wortellesieaaltje, pratylenchus pinguicaudatus;Root Lesion Nematode, pratylenchus pinguicaudatus;n/100g;
+A_RLN_PR_PRA;measurement;Wortellesieaaltje, pratylenchus pratensis;Root Lesion Nematode, pratylenchus pratensis;n/100g;
+A_RLN_PR_PSE;measurement;Wortellesieaaltje, pratylenchus pseudopratensis;Root Lesion Nematode, pratylenchus pseudopratensis;n/100g;
+A_RLN_PR_THO;measurement;Wortellesieaaltje, pratylenchus thornei;Root Lesion Nematode, pratylenchus thornei;n/100g;
+A_RLN_PR_TOT;measurement;Wortellesieaaltje, pratylenchus spp.;Root Lesion Nematode, pratylenchus spp.;n/100g;
+A_RLN_PR_VUL;measurement;Wortellesieaaltje, pratylenchus vulnus;Root Lesion Nematode, pratylenchus vulnus;n/100g;
+A_RLN_PR_ZEA;measurement;Wortellesieaaltje, pratylenchus zeae;Root Lesion Nematode, pratylenchus zeae;n/100g;
+A_SN_DI_DES;measurement;Stengelaaltje, ditylenchus destructor;Stem Nematode, ditylenchus destructor;n/100g;
+A_SN_DI_DIP;measurement;Stengelaaltje, ditylenchus dipsaci;Stem Nematode, ditylenchus dipsaci;n/100g;
+A_SN_DI_TOT;measurement;Stengelaaltje, ditylenchus spp.;Stem Nematode, ditylenchus spp.;n/100g;

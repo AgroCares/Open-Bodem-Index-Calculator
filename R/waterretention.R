@@ -10,7 +10,7 @@
 #' @param type (character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
 #' @param ptf (character) Pedotransfer functions to calculate van Genuchten parameters. Options include c('Wosten1999', 'Wosten2001', 'Klasse')
 #'
-#' @references Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulogic characteristics. Journal of Hydrology 251, 123-150.
+#' @references Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulogic characteristics. Journal of Hydrology 251, p123.
 #'
 #' @import data.table  
 #'
@@ -139,7 +139,7 @@ ind_waterretention <- function(D_P_WRI,type ='plant available water') {
 #' @param head (numeric)  suction pressure ([L] or cm of water)
 #' @param thetaR (numeric) residual water content (cm3/cm3)
 #' @param thetaS (numeric) saturated water content (cm3/cm3)
-#' @param alfa (numeric)  related to the inverse of the air entry suction, alfa >0 (L−1, or cm−1)
+#' @param alfa (numeric)  related to the inverse of the air entry suction, alfa > 0 (1/cm)
 #' @param n (numeric)  a measure of the pore-size distribution, n>1, dimensionless
 #' 
 #' @return theta (numeric) water content (cm3/cm3)
@@ -168,7 +168,7 @@ pF_curve <- function(head, thetaR, thetaS, alfa, n){
 #' Dichtheid (numeric) soil bulk density (g/cm3)
 #' ThetaR (numeric) residual water content (cm3/cm3)
 #' ThetaS (numeric) saturated water content (cm3/cm3)
-#' alfa (numeric)  related to the inverse of the air entry suction, alfa >0 (L−1, or cm−1) 
+#' alfa (numeric)  related to the inverse of the air entry suction, alfa > 0 (1/cm) 
 #' n (numeric)  a measure of the pore-size distribution, n>1, dimensionless
 #' ksat (numeric) saturated hydraulic conductivity (cm/d)
 #' 
@@ -240,12 +240,12 @@ pFpara_ptf_Wosten1999 <- function(Pklei, Psilt, Psom, Bovengrond){
 #' This function estimates water retention curve parameters using Pedo transfer function of Wosten (2001)
 #' 
 #' @param Pklei (numeric) The clay (<2um) content of the soil (\%) 
-#' @param Pleem (numeric) The leemt (<50um) content of the soil (\%) Pleem > 0 
+#' @param Pleem (numeric) The loam (<50um) content of the soil (\%) Pleem > 0 
 #' @param Psom (numeric) The organic matter content of the soil (\%) Psom > 0
-#' @param M50 (numeric)size of  sand fraction (um)
+#' @param M50 (numeric)size of sand fraction (um)
 #' @param Bovengrond (boolean) whether topsoil (1) or not (0)
 #' 
-#' @references Wösten, J. H. M., Veerman, G. ., de Groot, W. J., & Stolte, J. (2001). Waterretentie- en doorlatendheidskarakteristieken van boven- en ondergronden in Nederland: de Staringreeks. Alterra Rapport, 153, 86. https://doi.org/153
+#' @references Wösten, J. H. M., Veerman, G. ., de Groot, W. J., & Stolte, J. (2001). Waterretentie en doorlatendheidskarakteristieken van boven- en ondergronden in Nederland: de Staringreeks. Alterra Rapport, 153, 86. https://doi.org/153
 #'
 #' @export 
 pFpara_ptf_Wosten2001 <- function(Pklei, Pleem, Psom, M50, Bovengrond){
@@ -319,7 +319,7 @@ pFpara_ptf_Wosten2001 <- function(Pklei, Pleem, Psom, M50, Bovengrond){
 #' Parameter estimation based on class of Staringreeks (Tabel 3, Wosten 2001)
 #' 
 #' @param Pklei (numeric) The clay (<2um) content of the soil (\%) 
-#' @param Pleem (numeric) The leemt (<50um) content of the soil (\%) Pleem > 0 
+#' @param Pleem (numeric) The loam (<50um) content of the soil (\%) Pleem > 0 
 #' @param Psom (numeric) The organic matter content of the soil (\%) Psom > 0
 #' @param M50 (numeric)size of  sand fraction (um)
 #' 
@@ -404,11 +404,3 @@ pFpara_class <- function(Pklei, Pleem, Psom, M50){
 #'   \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}
 #' }
 "bouwsteen_tb"
-
-  # \item{n}{parameter n of pF curve (-). Table 3 of Wosten 2001}
-  # \item{sand%}{sand content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
-  # \item{silt%}{silt content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
-  # \item{clay%}{clay content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
-  # \item{OM%}{organic matter content (%). Middle value of Table 1 of Wosten 2001}
-  # \item{bulkdensity}{soil bulk density (g/cm3). Middle value of Table 2 of Wosten 2001}
-  # \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}

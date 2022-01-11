@@ -4,7 +4,7 @@
   library(data.table)
 
   # load description csv file
-  column_description.obic <- fread("DEV/data/column_description.csv")
+  column_description.obic <- fread("dev/data/column_description.csv")
 
   # a few adaptations to ensure correct format
   column_description.obic[column_description.obic == ''] <- NA

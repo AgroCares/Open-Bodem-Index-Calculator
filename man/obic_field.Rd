@@ -10,6 +10,9 @@ obic_field(
   B_SC_WENR,
   B_HELP_WENR,
   B_AER_CBS,
+  B_GWL_GLG,
+  B_GWL_GHG,
+  B_GWL_ZCRIT,
   B_LU_BRP,
   A_SOM_LOI,
   A_SAND_MI,
@@ -41,6 +44,8 @@ obic_field(
   A_SS_BCS = NA,
   A_RT_BCS = NA,
   A_SC_BCS = NA,
+  B_DRAIN = FALSE,
+  B_FERT_NORM_FR = 1,
   M_COMPOST = NA_real_,
   M_GREEN = NA,
   M_NONBARE = NA,
@@ -70,6 +75,12 @@ obic_field(
 \item{B_HELP_WENR}{(character) The soil type abbreviation, derived from 1:50.000 soil map}
 
 \item{B_AER_CBS}{(character) The agricultural economic region in the Netherlands (CBS, 2016)}
+
+\item{B_GWL_GLG}{(numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level}
+
+\item{B_GWL_GHG}{(numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level}
+
+\item{B_GWL_ZCRIT}{(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)}
 
 \item{B_LU_BRP}{(numeric) a series with crop codes given the crop rotation plan (source: the BRP)}
 
@@ -133,6 +144,10 @@ obic_field(
 
 \item{A_SC_BCS}{(numeric) The presence of compaction of subsoil (optional, score 0-1-2)}
 
+\item{B_DRAIN}{(boolean) Are drains installed to drain the field (options: yes or no)}
+
+\item{B_FERT_NORM_FR}{(numeric) The fraction of the application norm utilized}
+
 \item{M_COMPOST}{(numeric) The frequency that compost is applied (optional, every x years)}
 
 \item{M_GREEN}{(boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)}
@@ -169,4 +184,7 @@ obic_field(
 }
 \description{
 This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI) for a single field.
+}
+\details{
+It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
 }

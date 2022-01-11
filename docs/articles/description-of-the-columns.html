@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -56,6 +52,15 @@
 <li>
       <a href="../articles/description-of-the-columns.html">Description of the columns for OBIC</a>
     </li>
+    <li>
+      <a href="../articles/obic_introduction.html">The Open Soil Index</a>
+    </li>
+    <li>
+      <a href="../articles/obic_score_aggregation.html">Note on OBI score aggregation</a>
+    </li>
+    <li>
+      <a href="../articles/obic_workability.html">Workability illustration</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -64,7 +69,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/">
+  <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -79,14 +84,14 @@
 
       
 
-      </header><script src="description-of-the-columns_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Description of the columns for OBIC</h1>
             
-            <h4 class="date">2021-10-06</h4>
+            <h4 data-toc-skip class="date">2022-01-11</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/vignettes/description-of-the-columns.Rmd"><code>vignettes/description-of-the-columns.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/HEAD/vignettes/description-of-the-columns.Rmd" class="external-link"><code>vignettes/description-of-the-columns.Rmd</code></a></small>
       <div class="hidden name"><code>description-of-the-columns.Rmd</code></div>
 
     </div>
@@ -94,17 +99,17 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator">OBIC</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator" class="external-link">OBIC</a></span><span class="op">)</span></code></pre></div>
 <p>The main function of the package <code><a href="../reference/obic_field.html">obic_field()</a></code> requires as input a series of soil properties required to assess the soil quality. Alternatively, the function <code><a href="../reference/obic_field_dt.html">obic_field_dt()</a></code> can be used, requiring a <code>data.table</code> with specific columns as input. These required input columns are specified in <code><a href="../reference/column_description.obic.html">OBIC::column_description.obic</a></code> and can also be seen in the table below</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">desc</span> <span class="op">&lt;-</span> <span class="fu">OBIC</span><span class="fu">::</span><span class="va"><a href="../reference/column_description.obic.html">column_description.obic</a></span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">desc</span><span class="op">)</span></code></pre></div>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">desc</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="5%">
 <col width="4%">
 <col width="35%">
-<col width="43%">
+<col width="44%">
 <col width="4%">
 <col width="5%">
 </colgroup>
@@ -414,7 +419,7 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">B_Z_TWO</td>
+<td align="left">B_Z_CRIT</td>
 <td align="left">measurement</td>
 <td align="left">NA</td>
 <td align="left">The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)</td>
@@ -422,22 +427,14 @@
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">B_BT_BK</td>
-<td align="left">measurement</td>
-<td align="left">Bodemtype</td>
-<td align="left">Bodemtype</td>
-<td align="left">-</td>
-<td align="left">bodemkaart 1:50000</td>
-</tr>
-<tr class="even">
 <td align="left">B_SOILTYPE_AGR</td>
 <td align="left">measurement</td>
 <td align="left">Bodemtype Agronomische Classificering</td>
 <td align="left">Bodemtype Agronomische Classificering</td>
 <td align="left">-</td>
-<td align="left">NA</td>
+<td align="left">bodemkaart 1:50000</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">B_LU_BRP</td>
 <td align="left">measurement</td>
 <td align="left">Gewascode</td>
@@ -445,7 +442,7 @@
 <td align="left">-</td>
 <td align="left">BRP</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">B_LU</td>
 <td align="left">measurement</td>
 <td align="left">Bouwland of Grasland</td>
@@ -453,7 +450,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">B_AER_CBS</td>
 <td align="left">measurement</td>
 <td align="left">Landbouweconomisch kerngebied 2016</td>
@@ -461,7 +458,7 @@
 <td align="left">-</td>
 <td align="left">CBS</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">B_SC_WENR</td>
 <td align="left">measurement</td>
 <td align="left">Risico op ondergrondverdichting</td>
@@ -469,7 +466,7 @@
 <td align="left">-</td>
 <td align="left">WENR</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">B_HELP_WENR</td>
 <td align="left">measurement</td>
 <td align="left">Grondsoortcode HELP-tabel</td>
@@ -477,7 +474,7 @@
 <td align="left">-</td>
 <td align="left">WENR</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">B_COMPACTION</td>
 <td align="left">measurement</td>
 <td align="left">Is de ondergrond verdicht</td>
@@ -485,7 +482,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">B_DRAINAGE</td>
 <td align="left">measurement</td>
 <td align="left">Wordt het perceAre drains installed to drain the fieldel gedraineerd</td>
@@ -493,7 +490,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">B_FERT_NORM_FR</td>
 <td align="left">measurement</td>
 <td align="left">Fractie van de gebruiksnorm toegepast</td>
@@ -501,7 +498,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_BDS</td>
 <td align="left">derivative</td>
 <td align="left">Dichtheid</td>
@@ -509,7 +506,7 @@
 <td align="left">kg / m3</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_RD</td>
 <td align="left">derivative</td>
 <td align="left">Bemonsteringsdiepte</td>
@@ -517,7 +514,7 @@
 <td align="left">m</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_OC</td>
 <td align="left">derivative</td>
 <td align="left">Koolstofvoorraad</td>
@@ -525,7 +522,7 @@
 <td align="left">kg C /ha</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_SOM_BAL</td>
 <td align="left">derivative</td>
 <td align="left">EOS-balans</td>
@@ -533,7 +530,7 @@
 <td align="left">kg EOS / ha</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_GA</td>
 <td align="left">derivative</td>
 <td align="left">Leeftijd grasland</td>
@@ -541,7 +538,7 @@
 <td align="left">yr</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_CP_STARCH</td>
 <td align="left">derivative</td>
 <td align="left">Fractie zetmeelaardappelen in rotatie</td>
@@ -549,7 +546,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_CP_POTATO</td>
 <td align="left">derivative</td>
 <td align="left">Fractie consumptieaardappelen in rotatie</td>
@@ -557,7 +554,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_CP_SUGARBEET</td>
 <td align="left">derivative</td>
 <td align="left">Fractie suikerbiet in rotatie</td>
@@ -565,7 +562,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_CP_GRASS</td>
 <td align="left">derivative</td>
 <td align="left">Fractie grasland in rotatie</td>
@@ -573,7 +570,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_CP_MAIS</td>
 <td align="left">derivative</td>
 <td align="left">Fractie mais in rotatie</td>
@@ -581,7 +578,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_CP_OTHER</td>
 <td align="left">derivative</td>
 <td align="left">Fractie overige gewassen in rotatie</td>
@@ -589,15 +586,15 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_CP_RUST</td>
 <td align="left">derivative</td>
 <td align="left">Fractie rustgewassen</td>
-<td align="left">The fraction "“crops improving soil quality”"</td>
+<td align="left">The fraction ““crops improving soil quality””</td>
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_CP_RUSTDEEP</td>
 <td align="left">derivative</td>
 <td align="left">Fractie diep wortelende rustgewassen</td>
@@ -605,7 +602,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_PH_DELTA</td>
 <td align="left">derivative</td>
 <td align="left">De advies-pH</td>
@@ -613,7 +610,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_NLV</td>
 <td align="left">derivative</td>
 <td align="left">Stikstoflevering</td>
@@ -621,7 +618,7 @@
 <td align="left">kg N / ha</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_CEC</td>
 <td align="left">derivative</td>
 <td align="left">kationbuffercapaciteit</td>
@@ -629,7 +626,7 @@
 <td align="left">mmol+/kg</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_PBI</td>
 <td align="left">derivative</td>
 <td align="left">P-beschikbaarheidsindex</td>
@@ -637,7 +634,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_SLV</td>
 <td align="left">derivative</td>
 <td align="left">Zwavellevering</td>
@@ -645,7 +642,7 @@
 <td align="left">kg S/ha</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_K</td>
 <td align="left">derivative</td>
 <td align="left">Kaliumlevering</td>
@@ -653,7 +650,7 @@
 <td align="left">index</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_MG</td>
 <td align="left">derivative</td>
 <td align="left">Magnesiumbuffering</td>
@@ -661,7 +658,7 @@
 <td align="left">index</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_CU</td>
 <td align="left">derivative</td>
 <td align="left">Koperbeschikbaarheid</td>
@@ -669,7 +666,7 @@
 <td align="left">index</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_ZN</td>
 <td align="left">derivative</td>
 <td align="left">Zinkbeschikbaarheid</td>
@@ -677,7 +674,7 @@
 <td align="left">index</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_PMN</td>
 <td align="left">derivative</td>
 <td align="left">Activiteit bodemleven</td>
@@ -685,7 +682,7 @@
 <td align="left">mg N/kg</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_SE</td>
 <td align="left">derivative</td>
 <td align="left">Versplemping</td>
@@ -693,7 +690,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_CR</td>
 <td align="left">derivative</td>
 <td align="left">Verkruimelbaarheid</td>
@@ -701,7 +698,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_WE</td>
 <td align="left">derivative</td>
 <td align="left">Verstuivingsrisico</td>
@@ -709,7 +706,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_AS</td>
 <td align="left">derivative</td>
 <td align="left">Aggregaatstabiliteit</td>
@@ -717,7 +714,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_WSI_DS</td>
 <td align="left">derivative</td>
 <td align="left">Droogteschade</td>
@@ -725,7 +722,7 @@
 <td align="left">%</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_WSI_WS</td>
 <td align="left">derivative</td>
 <td align="left">Natschade</td>
@@ -733,7 +730,7 @@
 <td align="left">%</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_WRI</td>
 <td align="left">derivative</td>
 <td align="left">Plant beschikbaar water</td>
@@ -741,7 +738,7 @@
 <td align="left">mm</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_WO</td>
 <td align="left">derivative</td>
 <td align="left">Bewerkbaarheid</td>
@@ -749,7 +746,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_MAN</td>
 <td align="left">derivative</td>
 <td align="left">Evaluatie management conform LDBB</td>
@@ -757,7 +754,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_BCS</td>
 <td align="left">derivative</td>
 <td align="left">BodemConditieScore</td>
@@ -765,7 +762,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_NGW</td>
 <td align="left">derivative</td>
 <td align="left">N vasthoudend vermogen voor grondwater</td>
@@ -773,7 +770,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_NSW</td>
 <td align="left">derivative</td>
 <td align="left">N vasthoudend vermogen voor oppervlaktewater</td>
@@ -781,7 +778,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_NLEACH</td>
 <td align="left">derivative</td>
 <td align="left">N afspoeling naar grondwater</td>
@@ -789,7 +786,7 @@
 <td align="left">mg NO3/L</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">D_PESTICIDE</td>
 <td align="left">derivative</td>
 <td align="left">Uitspoelingsrisiko gewasbestrijdingsmiddelen naar grondwater</td>
@@ -797,7 +794,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">D_PSP</td>
 <td align="left">derivative</td>
 <td align="left">Neerslagoverschot</td>
@@ -805,7 +802,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">I_C_N</td>
 <td align="left">indicator</td>
 <td align="left">Stikstoflevering</td>
@@ -813,7 +810,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">I_C_P</td>
 <td align="left">indicator</td>
 <td align="left">Fosfaatbuffering</td>
@@ -821,7 +818,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">I_C_K</td>
 <td align="left">indicator</td>
 <td align="left">Kaliumlevering</td>
@@ -829,7 +826,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">I_C_MG</td>
 <td align="left">indicator</td>
 <td align="left">Magnesiumbuffering</td>
@@ -837,7 +834,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">I_C_S</td>
 <td align="left">indicator</td>
 <td align="left">Zwavellevering</td>
@@ -845,7 +842,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">I_C_PH</td>
 <td align="left">indicator</td>
 <td align="left">Zuurgraad</td>
@@ -853,7 +850,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">I_C_CEC</td>
 <td align="left">indicator</td>
 <td align="left">Kationbuffering</td>
@@ -861,7 +858,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">I_C_CU</td>
 <td align="left">indicator</td>
 <td align="left">Koperbeschikbaarheid</td>
@@ -869,7 +866,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">I_C_ZN</td>
 <td align="left">indicator</td>
 <td align="left">Zinkbeschikbaarheid</td>
@@ -877,11 +874,19 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">I_P_CR</td>
 <td align="left">indicator</td>
 <td align="left">Verkruimelbaarheid</td>
 <td align="left">Crumbleability</td>
+<td align="left">-</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">I_P_BC</td>
+<td align="left">indicator</td>
+<td align="left">Draagkracht</td>
+<td align="left">Bearing capacity</td>
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
@@ -966,6 +971,14 @@
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
+<td align="left">I_B_NEM</td>
+<td align="left">indicator</td>
+<td align="left">Plant parasitaire nematoden</td>
+<td align="left">Plant parasitic nematodes</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
 <td align="left">I_E_NGW</td>
 <td align="left">indicator</td>
 <td align="left">N vasthoudend vermogen voor grondwater</td>
@@ -973,7 +986,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">I_E_NSW</td>
 <td align="left">indicator</td>
 <td align="left">N vasthoudend vermogen voor oppervlaktewater</td>
@@ -981,7 +994,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">I_M</td>
 <td align="left">indicator</td>
 <td align="left">Label Duurzaam Bodembeheer</td>
@@ -989,7 +1002,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">I_BCS</td>
 <td align="left">indicator</td>
 <td align="left">BodemConditieScore</td>
@@ -997,231 +1010,39 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
-<td align="left">I_B_EW_BCS</td>
+<tr class="even">
+<td align="left">I_M_SOILFERTILITY</td>
 <td align="left">indicator</td>
-<td align="left">Regenwormen</td>
-<td align="left">Earth worms</td>
+<td align="left">bodemmanagementscore voor bodemvruchtbaarheid</td>
+<td align="left">integrated soil management indicator for soil fertility</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">I_M_CLIMATE</td>
+<td align="left">indicator</td>
+<td align="left">bodemmanagementscore voor klimaatmitigatie</td>
+<td align="left">integrated soil management indicator for soil carbon sequestration</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">I_P_C_BCS</td>
+<td align="left">I_M_WATERQUALITY</td>
 <td align="left">indicator</td>
-<td align="left">Aanwezigheid van scheuren</td>
-<td align="left">Cracks</td>
+<td align="left">bodemmanagementscore voor waterkwaliteit</td>
+<td align="left">integrated soil management indicator for waterquality</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">I_P_CC_BCS</td>
+<td align="left">I_M_BIODIVERSITY</td>
 <td align="left">indicator</td>
-<td align="left">Gewasbedekking</td>
-<td align="left">Crop cover</td>
+<td align="left">bodemmanagementscore voor bodembiodiversiteit</td>
+<td align="left">integrated soil management indicator for soil biodiversity</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">I_P_GS_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Aantal gekleurde vlekken</td>
-<td align="left">Gley spots</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_P_P_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Plasvorming</td>
-<td align="left">Ponding</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_P_RD_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Beworteling</td>
-<td align="left">Root depth</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_P_RT_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Spoorvorming/ vertrapping</td>
-<td align="left">Rutting / trampling</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_P_SC_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Verdichting ondergrond</td>
-<td align="left">Subsoil compaction</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_P_SS_BCS</td>
-<td align="left">indicator</td>
-<td align="left">Bodemstructuur</td>
-<td align="left">Soil structure</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_LIME</td>
-<td align="left">indicator</td>
-<td align="left">Is perceel in afgelopen 3 jaar bekalkt</td>
-<td align="left">Has field been limed in last three years</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_GREEN</td>
-<td align="left">indicator</td>
-<td align="left">Gebruik groenbemesters</td>
-<td align="left">Use of green manure</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_COMPOST</td>
-<td align="left">indicator</td>
-<td align="left">Frequentie compostgebruik</td>
-<td align="left">Frequency of compost application</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_NONBARE</td>
-<td align="left">indicator</td>
-<td align="left">Is het perceel 80% van het jaar groen</td>
-<td align="left">Field 80% of the year green</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_EARLYCROP</td>
-<td align="left">indicator</td>
-<td align="left">wordt berijding in het najaar vermeden (vroege rassen)</td>
-<td align="left">Use of early crops</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_SLEEPHOSE</td>
-<td align="left">indicator</td>
-<td align="left">wordt drijfmest toegediend via sleepslangbemesting</td>
-<td align="left">Manure application using sleep hoses</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_DRAIN</td>
-<td align="left">indicator</td>
-<td align="left">is er onderwaterdrainage aangelegd (veen)</td>
-<td align="left">Under water drains available</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_DITCH</td>
-<td align="left">indicator</td>
-<td align="left">worden sloten op diepte gehouden en het bagger benut</td>
-<td align="left">Ditch is cleaned and sludge is applied</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_UNDERSEED</td>
-<td align="left">indicator</td>
-<td align="left">is er grasonderzaai in mais toegepast</td>
-<td align="left">Underseed of grass at maize</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_NONINVTILL</td>
-<td align="left">indicator</td>
-<td align="left">Niet Kerende Grondbewerking</td>
-<td align="left">Non inversion tillage</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_SSPM</td>
-<td align="left">indicator</td>
-<td align="left">worden er bodemstructuur beschermende maatregelen genomen (vaste rijpaden, lage bandenspanning, lage wiellast)?</td>
-<td align="left">Soil Structure Protection Measures</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_SOLIDMANURE</td>
-<td align="left">indicator</td>
-<td align="left">gebruik vaste mest boven drijfmest en kunstmest</td>
-<td align="left">Use of solid manure</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_STRAWRESIDUE</td>
-<td align="left">indicator</td>
-<td align="left">wordt stro ondergewerkt</td>
-<td align="left">Application of straw residues</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_M_MECHWEEDS</td>
-<td align="left">indicator</td>
-<td align="left">mechanische onkruidbestrijding</td>
-<td align="left">Use of mechanical weed protection</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_M_PESTICIDES_DST</td>
-<td align="left">indicator</td>
-<td align="left">beslissingsondersteunde systemen gewasbescherming</td>
-<td align="left">Use of DST for pesticides</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_W_GWR</td>
-<td align="left">indicator</td>
-<td align="left">Grondwater aanvulling</td>
-<td align="left">Groundwater recharge</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_W_GWS</td>
-<td align="left">indicator</td>
-<td align="left">Grondwater opslag</td>
-<td align="left">Groundwater storage</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">I_W_NGW</td>
-<td align="left">indicator</td>
-<td align="left">Stikstofuitspoeling van overschot</td>
-<td align="left">Nitrogen leaching from surplus</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">I_W_PESTICIDE</td>
-<td align="left">indicator</td>
-<td align="left">Uitspoeling gewasbestreidingsmiddelen naar grondwater</td>
-<td align="left">Leaching of pesticides to groundwater</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
 <td align="left">M_LIME</td>
 <td align="left">measurement</td>
 <td align="left">Is perceel in afgelopen 3 jaar bekalkt</td>
@@ -1229,7 +1050,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">M_GREEN</td>
 <td align="left">measurement</td>
 <td align="left">Gebruik groenbemesters</td>
@@ -1237,7 +1058,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">M_COMPOST</td>
 <td align="left">measurement</td>
 <td align="left">Frequentie compostgebruik</td>
@@ -1245,7 +1066,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">M_NONBARE</td>
 <td align="left">measurement</td>
 <td align="left">Is het perceel 80% van het jaar groen</td>
@@ -1253,7 +1074,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">M_EARLYCROP</td>
 <td align="left">measurement</td>
 <td align="left">wordt berijding in het najaar vermeden (vroege rassen)</td>
@@ -1261,7 +1082,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">M_SLEEPHOSE</td>
 <td align="left">measurement</td>
 <td align="left">wordt drijfmest toegediend via sleepslangbemesting</td>
@@ -1269,7 +1090,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">M_DRAIN</td>
 <td align="left">measurement</td>
 <td align="left">is er onderwaterdrainage aangelegd (veen)</td>
@@ -1277,7 +1098,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">M_DITCH</td>
 <td align="left">measurement</td>
 <td align="left">worden sloten op diepte gehouden en het bagger benut</td>
@@ -1285,7 +1106,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">M_UNDERSEED</td>
 <td align="left">measurement</td>
 <td align="left">is er grasonderzaai in mais toegepast</td>
@@ -1293,7 +1114,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">M_NONINVTILL</td>
 <td align="left">measurement</td>
 <td align="left">Niet Kerende Grondbewerking</td>
@@ -1301,7 +1122,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">M_SSPM</td>
 <td align="left">measurement</td>
 <td align="left">worden er bodemstructuur beschermende maatregelen genomen (vaste rijpaden, lage bandenspanning, lage wiellast)?</td>
@@ -1309,7 +1130,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">M_SOLIDMANURE</td>
 <td align="left">measurement</td>
 <td align="left">gebruik vaste mest boven drijfmest en kunstmest</td>
@@ -1317,7 +1138,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">M_STRAWRESIDUE</td>
 <td align="left">measurement</td>
 <td align="left">wordt stro ondergewerkt</td>
@@ -1325,7 +1146,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">M_MECHWEEDS</td>
 <td align="left">measurement</td>
 <td align="left">mechanische onkruidbestrijding</td>
@@ -1333,7 +1154,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">M_PESTICIDES_DST</td>
 <td align="left">measurement</td>
 <td align="left">beslissingsondersteunde systemen gewasbescherming</td>
@@ -1341,7 +1162,7 @@
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">S_C_OBI_A</td>
 <td align="left">score</td>
 <td align="left">Bodemchemische score</td>
@@ -1349,7 +1170,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">S_P_OBI_A</td>
 <td align="left">score</td>
 <td align="left">Bodemfysische score</td>
@@ -1357,7 +1178,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">S_B_OBI_A</td>
 <td align="left">score</td>
 <td align="left">Bodembiologische score</td>
@@ -1365,7 +1186,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">S_M_OBI_A</td>
 <td align="left">score</td>
 <td align="left">Management score</td>
@@ -1373,7 +1194,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">S_E_OBI_A</td>
 <td align="left">score</td>
 <td align="left">Milieu score</td>
@@ -1381,7 +1202,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">S_T_OBI_A</td>
 <td align="left">score</td>
 <td align="left">Totale OBI-score</td>
@@ -1389,7 +1210,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">S_C_OBI_R</td>
 <td align="left">score</td>
 <td align="left">Bodemchemische score</td>
@@ -1397,7 +1218,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">S_P_OBI_R</td>
 <td align="left">score</td>
 <td align="left">Bodemfysische score</td>
@@ -1405,7 +1226,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">S_B_OBI_R</td>
 <td align="left">score</td>
 <td align="left">Bodembiologische score</td>
@@ -1413,7 +1234,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">S_M_OBI_R</td>
 <td align="left">score</td>
 <td align="left">Management score</td>
@@ -1421,7 +1242,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">S_E_OBI_R</td>
 <td align="left">score</td>
 <td align="left">Milieu score</td>
@@ -1429,7 +1250,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">S_T_OBI_R</td>
 <td align="left">score</td>
 <td align="left">Totale OBI-score</td>
@@ -1437,7 +1258,7 @@
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">RM_C_1</td>
 <td align="left">recommendation</td>
 <td align="left">Advies 1</td>
@@ -1445,7 +1266,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">RM_C_2</td>
 <td align="left">recommendation</td>
 <td align="left">Advies 2</td>
@@ -1453,7 +1274,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">RM_C_3</td>
 <td align="left">recommendation</td>
 <td align="left">Advies 3</td>
@@ -1461,7 +1282,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">RM_P_1</td>
 <td align="left">recommendation</td>
 <td align="left">Advies 1</td>
@@ -1469,7 +1290,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">RM_P_2</td>
 <td align="left">recommendation</td>
 <td align="left">Advies 2</td>
@@ -1477,7 +1298,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">RM_P_3</td>
 <td align="left">recommendation</td>
 <td align="left">Advies 3</td>
@@ -1485,7 +1306,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">RM_B_1</td>
 <td align="left">recommendation</td>
 <td align="left">Advies 1</td>
@@ -1493,7 +1314,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">RM_B_2</td>
 <td align="left">recommendation</td>
 <td align="left">Advies 2</td>
@@ -1501,12 +1322,532 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">RM_B_3</td>
 <td align="left">recommendation</td>
 <td align="left">Advies 3</td>
 <td align="left">Third biological recommended ID</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_DSN_HEL_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, helicotylenchus spp.</td>
+<td align="left">Dwelling Stunt Nematode, helicotylenchus spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_DSN_HEM_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, hemicycliophora spp.</td>
+<td align="left">Dwelling Stunt Nematode, hemicycliophora spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_DSN_LOI_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, longidorus spp.</td>
+<td align="left">Dwelling Stunt Nematode, longidorus spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_DSN_PA_ANE</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, paratrichodorus anemones</td>
+<td align="left">Dwelling Stunt Nematode, paratrichodorus anemones</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_DSN_PA_NAN</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, paratrichodorus nanus</td>
+<td align="left">Dwelling Stunt Nematode, paratrichodorus nanus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_DSN_PA_PAC</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, paratrichodorus pachydermus</td>
+<td align="left">Dwelling Stunt Nematode, paratrichodorus pachydermus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_DSN_PA_TER</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, paratrichodorus teres</td>
+<td align="left">Dwelling Stunt Nematode, paratrichodorus teres</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_DSN_RO_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, rotylenchus spp.</td>
+<td align="left">Dwelling Stunt Nematode, rotylenchus spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_DSN_TR_CYL</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, trichodorus cylindricus</td>
+<td align="left">Dwelling Stunt Nematode, trichodorus cylindricus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_DSN_TR_HOO</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, trichodorus hooperi</td>
+<td align="left">Dwelling Stunt Nematode, trichodorus hooperi</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_DSN_TR_PRI</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, trichodorus primitivus</td>
+<td align="left">Dwelling Stunt Nematode, trichodorus primitivus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_DSN_TR_SIM</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, trichodorus similis</td>
+<td align="left">Dwelling Stunt Nematode, trichodorus similis</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_DSN_TR_SPA</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, trichodorus sparsus</td>
+<td align="left">Dwelling Stunt Nematode, trichodorus sparsus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_DSN_TR_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, trichodoridae spp.</td>
+<td align="left">Dwelling Stunt Nematode, trichodoridae spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_DSN_TR_VIR</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, trichodorus viruliferus</td>
+<td align="left">Dwelling Stunt Nematode, trichodorus viruliferus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_DSN_TY_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, tylenchorhynchus spp.</td>
+<td align="left">Dwelling Stunt Nematode, tylenchorhynchus spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_DSN_XI_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Vrijlevende wortelaaltje, xiphinema spp.</td>
+<td align="left">Dwelling Stunt Nematode, xiphinema spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_NPN_SA_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Niet plantparasitaire aaltjes, saprofage en overige</td>
+<td align="left">Non Plant Pathogenic Nematode, saprofage en overige</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_AP_FRA</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, aphelenchoides fragariae</td>
+<td align="left">Other Plant Pathogenic Nematode, aphelenchoides fragariae</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_OPN_AP_RIT</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, aphelenchoides ritzemabosi</td>
+<td align="left">Other Plant Pathogenic Nematode, aphelenchoides ritzemabosi</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_AP_SUB</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, aphelenchoides subtenuis</td>
+<td align="left">Other Plant Pathogenic Nematode, aphelenchoides subtenuis</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_OPN_AP_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, aphelenchoides spp.</td>
+<td align="left">Other Plant Pathogenic Nematode, aphelenchoides spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_CR_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, criconematidae spp.</td>
+<td align="left">Other Plant Pathogenic Nematode, criconematidae spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_OPN_CY_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, cysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, cysteaaltjes</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_CYA_CYS</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, aardappelcysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, aardappelcysteaaltjes</td>
+<td align="left">n/200cc</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_OPN_CYA_LLE</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, aardappelcysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, aardappelcysteaaltjes</td>
+<td align="left">n/200cc</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_CYA_PAL</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, g. pal|g.pal</td>
+<td align="left">Other Plant Pathogenic Nematode, g. pal|g.pal</td>
+<td align="left">%</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_OPN_CYA_ROS</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, g. ros|g.ros</td>
+<td align="left">Other Plant Pathogenic Nematode, g. ros|g.ros</td>
+<td align="left">%</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_CYB_CYS</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, bietencysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, bietencysteaaltjes</td>
+<td align="left">n/200cc</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_OPN_CYB_LLE</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, bietencysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, bietencysteaaltjes</td>
+<td align="left">n/200cc</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_CYG_CYS</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, grascysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, grascysteaaltjes</td>
+<td align="left">n/200cc</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_OPN_CYG_LLE</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, grascysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, grascysteaaltjes</td>
+<td align="left">n/200cc</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_CYO_CYS</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, overige cysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, overige cysteaaltjes</td>
+<td align="left">n/200cc</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_OPN_CYO_LLE</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, overige cysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, overige cysteaaltjes</td>
+<td align="left">n/200cc</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_PA_BUK</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, paratylenchus bukowinensis</td>
+<td align="left">Other Plant Pathogenic Nematode, paratylenchus bukowinensis</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_OPN_PA_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, paratylenchus spp.</td>
+<td align="left">Other Plant Pathogenic Nematode, paratylenchus spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_OPN_SU_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Overige plantparasitaire aaltje, subanguina spp.</td>
+<td align="left">Other Plant Pathogenic Nematode, subanguina spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RKN_ME_ARD</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne ardenensis</td>
+<td align="left">Root Knot Nematode, meloidogyne ardenensis</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RKN_ME_ARE</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne arenaria</td>
+<td align="left">Root Knot Nematode, meloidogyne arenaria</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RKN_ME_ART</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne artiellia</td>
+<td align="left">Root Knot Nematode, meloidogyne artiellia</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RKN_ME_CHI</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne chitwoodi</td>
+<td align="left">Root Knot Nematode, meloidogyne chitwoodi</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RKN_ME_CHIFAL</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne chitwoodi/fallax</td>
+<td align="left">Root Knot Nematode, meloidogyne chitwoodi/fallax</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RKN_ME_FAL</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne fallax</td>
+<td align="left">Root Knot Nematode, meloidogyne fallax</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RKN_ME_HAP</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne hapla</td>
+<td align="left">Root Knot Nematode, meloidogyne hapla</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RKN_ME_INC</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne incognita</td>
+<td align="left">Root Knot Nematode, meloidogyne incognita</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RKN_ME_JAV</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne javanica</td>
+<td align="left">Root Knot Nematode, meloidogyne javanica</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RKN_ME_MIN</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne minor</td>
+<td align="left">Root Knot Nematode, meloidogyne minor</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RKN_ME_NAA</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne naasi</td>
+<td align="left">Root Knot Nematode, meloidogyne naasi</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RKN_ME_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Wortelknobbelaaltje, meloidogyne spp.</td>
+<td align="left">Root Knot Nematode, meloidogyne spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RLN_PR_CREN</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus crenatus</td>
+<td align="left">Root Lesion Nematode, pratylenchus crenatus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RLN_PR_DUN</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus dunensis</td>
+<td align="left">Root Lesion Nematode, pratylenchus dunensis</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RLN_PR_FAL</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus fallax</td>
+<td align="left">Root Lesion Nematode, pratylenchus fallax</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RLN_PR_FLA</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus flakkensis</td>
+<td align="left">Root Lesion Nematode, pratylenchus flakkensis</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RLN_PR_NEG</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus neglectus</td>
+<td align="left">Root Lesion Nematode, pratylenchus neglectus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RLN_PR_PEN</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus penetrans</td>
+<td align="left">Root Lesion Nematode, pratylenchus penetrans</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RLN_PR_PIN</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus pinguicaudatus</td>
+<td align="left">Root Lesion Nematode, pratylenchus pinguicaudatus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RLN_PR_PRA</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus pratensis</td>
+<td align="left">Root Lesion Nematode, pratylenchus pratensis</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RLN_PR_PSE</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus pseudopratensis</td>
+<td align="left">Root Lesion Nematode, pratylenchus pseudopratensis</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RLN_PR_THO</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus thornei</td>
+<td align="left">Root Lesion Nematode, pratylenchus thornei</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RLN_PR_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus spp.</td>
+<td align="left">Root Lesion Nematode, pratylenchus spp.</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_RLN_PR_VUL</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus vulnus</td>
+<td align="left">Root Lesion Nematode, pratylenchus vulnus</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_RLN_PR_ZEA</td>
+<td align="left">measurement</td>
+<td align="left">Wortellesieaaltje, pratylenchus zeae</td>
+<td align="left">Root Lesion Nematode, pratylenchus zeae</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_SN_DI_DES</td>
+<td align="left">measurement</td>
+<td align="left">Stengelaaltje, ditylenchus destructor</td>
+<td align="left">Stem Nematode, ditylenchus destructor</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">A_SN_DI_DIP</td>
+<td align="left">measurement</td>
+<td align="left">Stengelaaltje, ditylenchus dipsaci</td>
+<td align="left">Stem Nematode, ditylenchus dipsaci</td>
+<td align="left">n/100g</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">A_SN_DI_TOT</td>
+<td align="left">measurement</td>
+<td align="left">Stengelaaltje, ditylenchus spp.</td>
+<td align="left">Stem Nematode, ditylenchus spp.</td>
+<td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
 </tbody>
@@ -1522,11 +1863,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p>
+<p>Developed by Sven Verweij, Gerard Ros.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -1534,6 +1877,8 @@
 
   
 
+
+  
 
   </body>
 </html>
