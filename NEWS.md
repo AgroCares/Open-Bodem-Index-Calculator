@@ -45,6 +45,7 @@
 * Ensured total_days >= req_days_pre_glg + req_days_post_glg in `season.obic`
 * Root depth was incorrectly assigned for maize and nature 
 * Fix the format of `NEWS.md` so that it is shown on the package website
+* Remove the prefixes and suffixed of `B_GWL_CLASS`
 
 # OBIC 1.0.4 2021-09-27
 ## Added

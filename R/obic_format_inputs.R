@@ -10,12 +10,16 @@
 format_gwt <- function(B_GWL_CLASS) {
   
   # options for B_GWL_CLASS
-  bgwlclass <- c('I','II','IIb','III','IIIb','IV','V','Vb','VI','VI','VII','VIII',
-                 'GtI','GtII','GtIIb','GtIII','GtIIIb','GtIV','GtV','GtVb','GtVI',
-                 'GtVI','GtVII','GtVIII','-')
+  bgwlclass <- c('sVb', 'sVa', 'sVII', 'sVI', 'sV', 'bVII', 'bVI', 'Vb', 'Va', 'VIII', 'VII', 'VI',
+    'V', 'IVu', 'IV', 'IIb', 'IIIb', 'IIIa', 'III', 'II', 'I', '-',
+    'GtsVb', 'GtsVa', 'GtsVII', 'GtsVI', 'GtsV', 'GtbVII', 'GtbVI', 'GtVb', 'GtVa', 'GtVIII', 'GtVII', 'GtVI',
+    'GtV', 'GtIVu', 'GtIV', 'GtIIb', 'GtIIIb', 'GtIIIa', 'GtIII', 'GtII', 'GtI')
   
   # Check if B_GT values are appropriate
   checkmate::assert_subset(B_GWL_CLASS, empty.ok = FALSE, choices = bgwlclass)
+  
+  # Remove prefixes and suffixes
+  B_GWL_CLASS <- gsub("a|b|s|u", "", B_GWL_CLASS)
   
   # if value starts with I or V, add prefix Gt to it.
   B_GWL_CLASS <- gsub("^I", "GtI", B_GWL_CLASS)
