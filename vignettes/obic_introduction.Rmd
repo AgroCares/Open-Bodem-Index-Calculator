@@ -107,7 +107,7 @@ The process how measurable soil properties are used to evaluate the agronomic so
 
 ```{r, echo=FALSE, out.width = '85%', out.height = '85%', fig.cap = 'Figure 1. Graphic representation of how measured soil properties are aggregated to scores.'}
 # ![](OBIC_score_integratie.png){widht = 25%, height = 20%}
-knitr::include_graphics('OBIC_score_integratie_2.png')
+knitr::include_graphics('../vignettes/OBIC_score_integratie_2.png')
 ```
 
 <br />
