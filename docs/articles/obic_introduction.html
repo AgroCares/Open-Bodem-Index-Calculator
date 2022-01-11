@@ -90,7 +90,7 @@
       <h1 data-toc-skip>The Open Soil Index</h1>
                         <h4 data-toc-skip class="author">Gerard Ros, Brent Riechelman</h4>
             
-            <h4 data-toc-skip class="date">2022-01-10</h4>
+            <h4 data-toc-skip class="date">2022-01-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/HEAD/vignettes/obic_introduction.Rmd" class="external-link"><code>vignettes/obic_introduction.Rmd</code></a></small>
       <div class="hidden name"><code>obic_introduction.Rmd</code></div>
@@ -134,28 +134,25 @@
 <li>soil management measures taken (optional, all variables starting with “M_”)</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">binnenveld</span><span class="op">)</span>
-<span class="co">#&gt; [1] 3251   66</span>
+<code class="sourceCode R">  <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">binnenveld</span><span class="op">)</span>
+<span class="co">#&gt; [1] 3251   55</span>
   <span class="va">binnenveld</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-<span class="co">#&gt;    A_CLAY_MI  A_N_PMN   A_N_RT A_SOM_LOI   A_P_OX   A_P_CC  A_P_AL   A_P_VG</span>
-<span class="co">#&gt; 1:  27.33814 96.78448 3447.026  7.065548 19.75605 1.452009 36.9823 33.51923</span>
-<span class="co">#&gt;      A_P_WA  A_PH_CC  A_FE_OX  A_AL_OX A_CEC_CO A_K_CC A_SAND_MI A_SILT_MI</span>
-<span class="co">#&gt; 1: 28.34038 6.314309 97.00739 35.89596   172.96     82      19.2     40.23</span>
-<span class="co">#&gt;    A_CACO3_IF A_S_RT A_MG_CC B_SOILTYPE_AGR A_CU_CC A_MN_CC A_ZN_CC A_COM_FR</span>
-<span class="co">#&gt; 1:       4.09 751.14  346.89     rivierklei   16.19     810  561.33     0.58</span>
-<span class="co">#&gt;    A_CN_FR A_CA_CO_PO A_MG_CO_PO A_K_CO_PO      B_AER_CBS B_BT_BK B_HELP_WENR</span>
-<span class="co">#&gt; 1:       9     114.61     28.099      2.66 Rivierengebied   Rd10A       Rd10A</span>
-<span class="co">#&gt;    B_GWL_CLASS D_SA_W D_RO_R B_SC_WENR B_DRAIN B_LU_BRP ID B_GWL_GLG B_GWL_GHG</span>
-<span class="co">#&gt; 1:          VI      0      0       901    TRUE      265  1   1.41177  0.557041</span>
+<span class="co">#&gt;    A_CLAY_MI  A_N_PMN   A_N_RT A_SOM_LOI   A_P_CC  A_P_AL   A_P_WA  A_PH_CC</span>
+<span class="co">#&gt; 1:  27.33814 96.78448 3447.026  7.065548 1.452009 36.9823 28.34038 6.314309</span>
+<span class="co">#&gt;    A_CEC_CO A_K_CC A_SAND_MI A_SILT_MI A_S_RT A_MG_CC B_SOILTYPE_AGR A_CU_CC</span>
+<span class="co">#&gt; 1:   172.96     82      19.2     40.23 751.14  346.89     rivierklei   16.19</span>
+<span class="co">#&gt;    A_MN_CC A_ZN_CC A_CN_FR A_CA_CO_PO A_MG_CO_PO A_K_CO_PO      B_AER_CBS</span>
+<span class="co">#&gt; 1:     810  561.33       9     114.61     28.099      2.66 Rivierengebied</span>
+<span class="co">#&gt;    B_HELP_WENR B_GWL_CLASS B_SC_WENR B_LU_BRP ID B_GWL_GLG B_GWL_GHG</span>
+<span class="co">#&gt; 1:       Rd10A          VI       901      265  1   1.41177  0.557041</span>
 <span class="co">#&gt;    B_GWL_ZCRIT M_GREEN M_NONBARE M_EARLYCROP M_SLEEPHOSE M_DRAIN M_DITCH</span>
 <span class="co">#&gt; 1:    37.39224   FALSE     FALSE       FALSE       FALSE   FALSE   FALSE</span>
 <span class="co">#&gt;    M_UNDERSEED M_LIME M_NONINVTILL M_SSPM M_SOLIDMANURE M_STRAWRESIDUE</span>
 <span class="co">#&gt; 1:       FALSE  FALSE        FALSE  FALSE         FALSE          FALSE</span>
 <span class="co">#&gt;    M_MECHWEEDS M_PESTICIDES_DST M_COMPOST A_EW_BCS A_SC_BCS A_GS_BCS A_P_BCS</span>
 <span class="co">#&gt; 1:       FALSE            FALSE         0        0        0        0       0</span>
-<span class="co">#&gt;    A_C_BCS A_RT_BCS A_RD_BCS A_SS_BCS A_CC_BCS B_FERT_NORM_FR</span>
-<span class="co">#&gt; 1:       0        0        0        0        0              1</span></code></pre></div>
+<span class="co">#&gt;    A_C_BCS A_RT_BCS A_RD_BCS A_SS_BCS A_CC_BCS</span>
+<span class="co">#&gt; 1:       0        0        0        0        0</span></code></pre></div>
 <p>In this example all optional input variables are set to the lowest score (for visuals soil assment) or to false (for soil management measures). Since soil quality can only be evaluated given its use, the crop rotation plan determines also which soil properties and which soil functions are relevant and how they are evaluated given a desired threshold value.</p>
 <p>Note that <code>binnenveld</code> is a data.table, a modern and fast variant of a data frame <span class="citation">(Dowle and Srinivasan 2021)</span>. It’s particularly useful for large datasets because it only prints a selection of the dataset and calculations done on a data.table are extremely fast. You can learn more about data.tables at <a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html" class="external-link">this link</a> ; in particular you can convert data frames to data.tables with as.data.table().</p>
 </div>
@@ -209,8 +206,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p><br></p>
 <p>An example of both wrapper functions is illustrated below. The soil has an OBIC score of 0.78 indicating a relatively good quality to continue the current crop rotation plan. A value of one means that the soil quality is optimum for the continuation of the cropping plan whereas a value of zero means that there are substantial bottlenecks that need to be solved.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># select the relevant columns without management measures and data from Visual Soil Assessment</span>
+<code class="sourceCode R">  <span class="co"># select the relevant columns without management measures and data from Visual Soil Assessment</span>
   <span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">binnenveld</span><span class="op">)</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">'_BCS$|^M_'</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">binnenveld</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
   
   <span class="co"># select the first field, a grassland field </span>
@@ -231,122 +227,24 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
              A_CA_CO_PO <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_CA_CO_PO</span>, A_MG_CO_PO <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_MG_CO_PO</span>, A_K_CO_PO <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_K_CO_PO</span>,
              A_K_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_K_CC</span>, A_MG_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_MG_CC</span>, A_MN_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_MN_CC</span>,
              A_ZN_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_ZN_CC</span>, A_CU_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_CU_CC</span>, output <span class="op">=</span> <span class="st">'obic_score'</span><span class="op">)</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
 <span class="co">#&gt;    S_T_OBI_A</span>
 <span class="co">#&gt; 1:     0.779</span>
   
   <span class="co"># test the obic field function via obic_field_dt and give only the final score</span>
   <span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">dt</span>,output <span class="op">=</span> <span class="st">'obic_score'</span><span class="op">)</span>
-<span class="co">#&gt; Warning in obic_field_dt(dt, output = "obic_score"): There are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_P_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_P_VGThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_FE_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_AL_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please</span>
-<span class="co">#&gt; check if the column names is misspelled. These are: A_CACO3_IFThere are input</span>
-<span class="co">#&gt; variables present in input datatable given that are not required for the OBI.</span>
-<span class="co">#&gt; Please check if the column names is misspelled. These are: A_COM_FRThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_BT_BKThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: D_SA_WThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: D_RO_RThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_DRAINThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
 <span class="co">#&gt;    S_T_OBI_A</span>
 <span class="co">#&gt; 1:     0.779</span></code></pre></div>
 <p>When interested in the averaged indicator value or the averaged aggregated soil indicators, one can adjust the output argument of the wrapper functions.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># run obic_field to retrieve indicators</span>
+<code class="sourceCode R">  <span class="co"># run obic_field to retrieve indicators</span>
   <span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">dt</span>, output <span class="op">=</span> <span class="st">'indicators'</span><span class="op">)</span>
-<span class="co">#&gt; Warning in obic_field_dt(dt, output = "indicators"): There are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_P_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_P_VGThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_FE_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_AL_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please</span>
-<span class="co">#&gt; check if the column names is misspelled. These are: A_CACO3_IFThere are input</span>
-<span class="co">#&gt; variables present in input datatable given that are not required for the OBI.</span>
-<span class="co">#&gt; Please check if the column names is misspelled. These are: A_COM_FRThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_BT_BKThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: D_SA_WThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: D_RO_RThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_DRAINThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
 
   <span class="co"># run obic_field to retrieve aggregated scores </span>
   <span class="co"># for chemistry, biology, fysics, management and environment</span>
   <span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">dt</span>, output <span class="op">=</span> <span class="st">'scores'</span><span class="op">)</span>
-<span class="co">#&gt; Warning in obic_field_dt(dt, output = "scores"): There are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_P_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_P_VGThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_FE_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_AL_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please</span>
-<span class="co">#&gt; check if the column names is misspelled. These are: A_CACO3_IFThere are input</span>
-<span class="co">#&gt; variables present in input datatable given that are not required for the OBI.</span>
-<span class="co">#&gt; Please check if the column names is misspelled. These are: A_COM_FRThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_BT_BKThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: D_SA_WThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: D_RO_RThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_DRAINThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
   
   <span class="co"># the default option is to retrieve all output</span>
-  <span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">dt</span>, output <span class="op">=</span> <span class="st">'all'</span><span class="op">)</span>
-<span class="co">#&gt; Warning in obic_field_dt(dt, output = "all"): There are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_P_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_P_VGThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_FE_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_AL_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if</span>
-<span class="co">#&gt; the column names is misspelled. These are: A_CACO3_IFThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_COM_FRThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_BT_BKThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: D_SA_WThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: D_RO_RThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_DRAINThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span></code></pre></div>
+  <span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">dt</span>, output <span class="op">=</span> <span class="st">'all'</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 </div>
 </div>
@@ -374,8 +272,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>Lastly, the relative contribution of a few crops to the full crop rotation plan over the last ten years can be estimated via the function <code>calc_rotation_fraction</code>. This function has as input the field-ID, the series of crop codes and the name of the crop for which one likes to know the relative fraction within a crop rotation plan. The following options are possible: starch, potato, sugarbeet, grass, mais, alfalfa, catchcrop, cereal, clover, nature, rapeseed, other, rustgewas, and rustgewasdiep.</p>
 <p>An example of these functions is illustrated below.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate soil bulk density</span>
+<code class="sourceCode R">  <span class="co"># estimate soil bulk density</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_BDS</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_bulk_density.html">calc_bulk_density</a></span><span class="op">(</span><span class="va">B_SOILTYPE_AGR</span>, <span class="va">A_SOM_LOI</span>, <span class="va">A_CLAY_MI</span><span class="op">)</span><span class="op">]</span>
 
   <span class="co"># estimate soil sampling depth</span>
@@ -402,8 +299,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>Nitrogen supply on grassland is derived from empirical datasets relating total N levels in soil to the N supply, depending on sampling depth, soil texture, and the age of the grassland. For arable fields, the N supply is derived from a simple first order decomposition model, calibrated for Dutch circumstances and depending on soil texture, organic matter, and total N content.</p>
 <p>To estimate the N supplying capacity of the soil, one can make use of the function <code>calc_nlv</code>. For more details, see <code><a href="../reference/calc_nlv.html">?calc_nlv</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate nitrogen supply (kg N / ha)</span>
+<code class="sourceCode R">  <span class="co"># estimate nitrogen supply (kg N / ha)</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_NLV</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_nlv.html">calc_nlv</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">A_N_RT</span>, <span class="va">A_CN_FR</span>, <span class="va">D_OC</span>, <span class="va">D_BDS</span>, <span class="va">D_GA</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between total N and NLV for a grassland soil. In summary, the N supplying capacity of a soil increases with the total N present in the soil.</p>
 <p><br></p>
@@ -423,8 +319,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>To estimate the P availability of the soil, one can make use of the function <code>calc_phosphate_availability</code>. The function requires the following input: the BRP crop code and P concentration P measured via extraction of ammonium lactate (A_P_AL), water (A_P_WA) or 0.01M CaCl2 (A_P_CC).</p>
 <p>For more details, see <code><a href="../reference/calc_phosphate_availability.html">?calc_phosphate_availability</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate phosphate availability index (unitless)</span>
+<code class="sourceCode R">  <span class="co"># estimate phosphate availability index (unitless)</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_PBI</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_phosphate_availability.html">calc_phosphate_availability</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">A_P_AL</span>, <span class="va">A_P_CC</span>, <span class="va">A_P_WA</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between P-CaCl2 and D_PBI for a grassland soil. In this case the P capacity is left constant (so, A_P_AL is not changing) whereas the bio-available P pool is increasing from 0.5 to 10 mg P / kg.</p>
 <p><br></p>
@@ -438,8 +333,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>To estimate the K supplying capacity of the soil, one can make use of the function <code>calc_potassium_availability</code>. The function requires the following input: the BRP crop code, the soil type, the organic matter content, the clay content, the pH, the cation exchange capacity (CEC), the occupation of the CEC with potassium (%) and the directly available concentration of K as determined with a soil extraction with 0.01M CaCl2.</p>
 <p>For more details, see <code><a href="../reference/calc_potassium_availability.html">?calc_potassium_availability</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate potassium availability index (unitless)</span>
+<code class="sourceCode R">  <span class="co"># estimate potassium availability index (unitless)</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_K</span> <span class="op">:=</span>  <span class="fu"><a href="../reference/calc_potassium_availability.html">calc_potassium_availability</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">A_SOM_LOI</span>, <span class="va">A_CLAY_MI</span>, 
                                            <span class="va">A_PH_CC</span>, <span class="va">A_CEC_CO</span>, <span class="va">A_K_CO_PO</span>, <span class="va">A_K_CC</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between K-CaCl2 and D_K for a grassland soil. In this case the occupation of the CEC with K is left constant (so, A_K_CO_PO is not changing) whereas the bio-available K pool is increasing from 5 to 500 mg K / kg.</p>
@@ -454,8 +348,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>To estimate the S supplying capacity of the soil, one can make use of the function <code>calc_slv</code>. The function requires the following input: the BRP crop code, the soil type, the agricultural region within the Netherlands (used to estimate default S deposition rates), the organic matter content, the total S content of the soil, and the bulk density.</p>
 <p>For more details, see <code><a href="../reference/calc_slv.html">?calc_slv</a></code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate S supplying capacity</span>
+<code class="sourceCode R">  <span class="co"># estimate S supplying capacity</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_SLV</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_slv.html">calc_slv</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">B_AER_CBS</span>,<span class="va">A_SOM_LOI</span>,<span class="va">A_S_RT</span>, <span class="va">D_BDS</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between total S and D_SLV for a grassland soil. In this case all soil properties driving S supplying capacity are left constant whereas the total S pool is increasing from 500 to 5000 mg S / kg.</p>
 <p><br></p>
@@ -468,8 +361,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>To estimate the Mg supplying capacity of the soil, one can make use of the function <code>calc_magnesium_availability</code>. The function requires the following input: the BRP crop code, the soil type, the organic matter content, the clay content, the pH, the cation exchange capacity (CEC), the occupation of the CEC with potassium (%) and the directly available concentration of both Mg and K as determined with a soil extraction with 0.01M CaCl2.</p>
 <p>For more details, see <code><a href="../reference/calc_magnesium_availability.html">?calc_magnesium_availability</a></code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate magnesium availability index (unitless)</span>
+<code class="sourceCode R">  <span class="co"># estimate magnesium availability index (unitless)</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_MG</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_magnesium_availability.html">calc_magnesium_availability</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">A_SOM_LOI</span>, 
                                            <span class="va">A_CLAY_MI</span>, <span class="va">A_PH_CC</span>, <span class="va">A_CEC_CO</span>,
                                            <span class="va">A_K_CO_PO</span>, <span class="va">A_MG_CC</span>, <span class="va">A_K_CC</span><span class="op">)</span><span class="op">]</span></code></pre></div>
@@ -484,8 +376,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>The supply and availability of Cu depends on the plant available Cu-pool in soil (Cu-CaCl2) or the reactive Cu pool (Cu-HNO3) for both arable and grassland soils. The optimum value is derived from historical field experiments and is established on a level of 5 to 10 mg / kg. The risk of Cu deficiency can be calculated based on the Cu content in the soil and relevant soil characteristics that influence its availability. The following measurements are used to calculate Cu plant availability: land use, Cu-CaCl2, clay content, the organic matter content, and the plant extractable levels of K and Mn. The last soil properties are used for an empirical function to estimate Cu-HNO3 (the basis for fertiliser recommendations based on long-term field experiments) from Cu-CaCl2 (being currently measured in agricultural laboratories). In OBIC, one can make use of the function <code>calc_copper_availability</code>. The function requires the input mentioned above.</p>
 <p>For more details, see <code><a href="../reference/calc_copper_availability.html">?calc_copper_availability</a></code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate Cu availability index</span>
+<code class="sourceCode R">  <span class="co"># estimate Cu availability index</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_CU</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_copper_availability.html">calc_copper_availability</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">A_SOM_LOI</span>, <span class="va">A_CLAY_MI</span>, <span class="va">A_K_CC</span>, <span class="va">A_MN_CC</span>, <span class="va">A_CU_CC</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between Cu-CaCl2 and D_CU for a grassland soil. In this case all soil properties driving Cu availability in soil are left constant whereas the bio-available Cu pool is increasing from 5 to 500 ug Cu / kg.</p>
 <p><br></p>
@@ -498,8 +389,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>The supply of zinc depends on the plant availability of Zn such as determined via CaCl2 extraction method (Zn-CaCl2), while accounting for soil type, land use and pH. Critical threshold values for Zn has been derived from optimum Zn contents of the growing crop. In OBIC, one can make use of the function <code>calc_zinc_availability</code>. The function requires the following input: land use, soil type, pH, and the bioavailable Zn-content as measured via n extraction with 0.01M CaCl2.</p>
 <p>For more details, see <code><a href="../reference/calc_zinc_availability.html">?calc_zinc_availability</a></code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate Zn availability index</span>
+<code class="sourceCode R">  <span class="co"># estimate Zn availability index</span>
   <span class="va">dt</span><span class="op">[</span>,  <span class="va">D_ZN</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_zinc_availability.html">calc_zinc_availability</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">A_PH_CC</span>, <span class="va">A_ZN_CC</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between Zn-CaCl2 and D_ZN for a grassland soil. In this case all soil properties driving Zn availability in soil are left constant whereas the bio-available Zn pool is increasing from 50 to 5000 ug Zn / kg.</p>
 <p><br></p>
@@ -512,8 +402,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>The optimum pH is determined in historical field experiments given crop rotation plan, soil texture, soil organic matter, and initial pH. The derivation of the optimum pH can be estimated via the OBIC using the function <code>calc_ph_delta</code>. This function estimates how much the pH has to increase by liming to be optimum for crop development. The original empirical relationships are based on pH measurements done in KCl-extraction. Since the current pH analysis methods all make use of 0.01M CaCl2, this pH value can easily be transformed to pH-KCl given an empirical relationship between both.</p>
 <p>For more details, see <code><a href="../reference/calc_ph_delta.html">?calc_ph_delta</a></code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate distance to required pH</span>
+<code class="sourceCode R">  <span class="co"># estimate distance to required pH</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_PH_DELTA</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_ph_delta.html">calc_ph_delta</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">A_SOM_LOI</span>, <span class="va">A_CLAY_MI</span>, <span class="va">A_PH_CC</span>, <span class="va">D_CP_STARCH</span>,
                                    <span class="va">D_CP_POTATO</span>, <span class="va">D_CP_SUGARBEET</span>, <span class="va">D_CP_GRASS</span>, <span class="va">D_CP_MAIS</span>, <span class="va">D_CP_OTHER</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>An example of this function is illustrated below for both an arable and a grassland field (left figure) as well for the relationship between the initial and desired pH change for a grassland soil. In this case all soil properties driving pH in soil are left constant whereas the initial pH is increasing from 3 to 10.</p>
@@ -526,8 +415,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>For good crop growth, sufficient nutrients must be available. Besides the actual nutrient availability in soil solution, the capacity of a soil to buffer nutrients is important to identify potential bottlenecks for crop production. Fertilisation is needed when the buffering capacity or speed of replenishment is insufficient. Soils can vary greatly in their buffer capacity. Cations are adsorbed to negatively charged soil particles (clay, organic matter, and oxides) and these cations may become available through exchange. For example, a growing plant extracts K+ from the soil solution. The adsorption complex will start to resupply because the amount of K+ in the soil solution has decreased. Once again, a balance is established between the K+ concentration in the soil solution and the quantity of K+ adsorbed. In practice, soils with a higher CEC are usually more fertilised and there is a lower risk of cation deficiencies during the growing season. In general, the optimum CEC value is around 100 mmol+/kg. CEC levels below 30-40 mmol+/kg are characterized by substantial crop limitation whereas values above 100 have no positive impact any more. The scientific underpinning of these guidelines is still poor. In OBIC the soil fertility is positively assessed in relation to the CEC and can be evaluated with the OBIC function <code>calc_cec</code>.</p>
 <p>For more details, see <code><a href="../reference/calc_cec.html">?calc_cec</a></code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate importance of CEC supporting crop development</span>
+<code class="sourceCode R">  <span class="co"># estimate importance of CEC supporting crop development</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_CEC</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_cec.html">calc_cec</a></span><span class="op">(</span><span class="va">A_CEC_CO</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 </div>
 </div>
@@ -541,8 +429,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>The supply of water is of uttermost importance for crop development. The water supply depends on weather conditions and the capacity of soils to buffer and supply water during the growing season. Using long-term field experiments for multiple crops, empirical relationships between soil texture, ground water levels, and yield depressions due to drought or too wet conditions have been developed (Van Bakel, 2005; Huinink, 2018). Within OBIC the crop yield response to droughtstress or wetnessstress can be estimated via the function <code>calc_waterstressindex</code>, requiring as input a soil code (representing unique combinations of soil type and geohydrological conditions controlling water availability), crop type, and groundwater level.</p>
 <p>For more details, see <code><a href="../reference/calc_waterstressindex.html">?calc_waterstressindex</a></code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># reformat GWL_CLASS</span>
+<code class="sourceCode R">  <span class="co"># reformat GWL_CLASS</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">B_GWL_CLASS</span> <span class="op">:=</span> <span class="fu"><a href="../reference/format_gwt.html">format_gwt</a></span><span class="op">(</span><span class="va">B_GWL_CLASS</span><span class="op">)</span><span class="op">]</span>
 
   <span class="co"># estimate risk on yield reduction to droughtstress or wetnessstress</span>
@@ -561,8 +448,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>Wind erosion is highly controlled by the mineralogical composition and texture as well as the presence of growing crops. Using laboratory experiments from wind tunnels, a exponential function has been developed to estimate the erodibility risk for soils, given the clay and silt content of a field. Grasslands are not susceptible for these two risks.</p>
 <p>For more details, see <code><a href="../reference/calc_sealing_risk.html">?calc_sealing_risk</a></code> and <code><a href="../reference/calc_winderodibility.html">?calc_winderodibility</a></code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate the presence / risk for surface sealing and wind erodibility</span>
+<code class="sourceCode R">  <span class="co"># estimate the presence / risk for surface sealing and wind erodibility</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_SE</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_sealing_risk.html">calc_sealing_risk</a></span><span class="op">(</span><span class="va">A_SOM_LOI</span>, <span class="va">A_CLAY_MI</span><span class="op">)</span><span class="op">]</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_WE</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_winderodibility.html">calc_winderodibility</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">A_CLAY_MI</span>, <span class="va">A_SILT_MI</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>An example of these functions is illustrated below for an arable soil with variable clay content for both an cropland (with organic matter levels of 3.5%) and a grassland soil (with organic matter levels of 5%). Soil sealing is a potential risk and this risk is evaluated in the indicator function (explained and illustrated later) given the land use present. The wind erodibility is declining with the clay content and is not relevant for grassland due to the permanent crop cover.</p>
@@ -577,11 +463,9 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>Similarly to the vulnerability to sealing and wind erodiblity, the crumbleability of a soil (a measure for aggregate stability) as well as the potential risk for yield depressions (crop specific) can be derived from the clay content, the organic matter content, and the pH <span class="citation">(J. Th. M. Huinink 2011)</span>. Aggregate stability is additionally evaluated given the cation occupation of the cation exchange capacity. Clayey soils with 80% Ca, 8% Mg, and about 3.5% K are recognized as soils with more stable aggregates due to the influence of electrostatic bindings of divalent cations. Within OBIC these two soil functions are calculated using <code>calc_crumbleability</code> and <code>calc_aggregatestability</code>.</p>
 <p>For more details, see <code><a href="../reference/calc_crumbleability.html">?calc_crumbleability</a></code> and <code><a href="../reference/calc_aggregatestability.html">?calc_aggregatestability</a></code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># assess the crumbleability and aggregate stability</span>
+<code class="sourceCode R">  <span class="co"># assess the crumbleability and aggregate stability</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_CR</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_crumbleability.html">calc_crumbleability</a></span><span class="op">(</span><span class="va">A_SOM_LOI</span>, <span class="va">A_CLAY_MI</span>,<span class="va">A_PH_CC</span><span class="op">)</span><span class="op">]</span>
-  <span class="va">dt</span><span class="op">[</span>, <span class="va">D_AS</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_aggregatestability.html">calc_aggregatestability</a></span><span class="op">(</span><span class="va">B_SOILTYPE_AGR</span>,<span class="va">A_SOM_LOI</span>,<span class="va">A_K_CO_PO</span>,<span class="va">A_CA_CO_PO</span>,<span class="va">A_MG_CO_PO</span><span class="op">)</span><span class="op">]</span>
- </code></pre></div>
+  <span class="va">dt</span><span class="op">[</span>, <span class="va">D_AS</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_aggregatestability.html">calc_aggregatestability</a></span><span class="op">(</span><span class="va">B_SOILTYPE_AGR</span>,<span class="va">A_SOM_LOI</span>,<span class="va">A_K_CO_PO</span>,<span class="va">A_CA_CO_PO</span>,<span class="va">A_MG_CO_PO</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>To illustrate how both functions are estimated in OBIC, we firstly show the dependency of the crumbleability to varying clay content using a constant soil organic matter level of 3.5%. As shown below, the crumbleability starts at a high value of 10 and gradually declines down to a value of 6 for soils with a clay content of about 25%. The aggregate stability depends mainly on the calcium occupation of the CEC. In the figure below the distance to the optimum CEC occupation is visualised for a series of soils varying in Ca, Mg and K occupation for a soil where 100% of the CEC is occupied with a variable contribution of the three cations. The highest aggregate stability is found when the distance to the optimum is the lowest, being around a Ca occupation of about 85% of the CEC.</p>
 <p><img src="obic_introduction_files/figure-html/unnamed-chunk-30-1.png" width="672"></p>
 <div class="section level4">
@@ -597,8 +481,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>Within the OBIC, the estimates of aggregate stability and risk of subsoil compaction can be adapted to local site specific insights derived from the Visual Soil Assessment Methodology <span class="citation">(Sonneveld, Heuvelink, and Moolenaar 2014)</span>. Visual soil assessments (VSA) is an assessment of soil quality in the field, by digging a hole and assessing several soil quality indicators visually. Soil quality indicators are: grass cover, number of roots, number of biopores, soil colour, soil structure, soil compaction, and number of gray spots. Visual soil assessments are more and more used by farmers in the Netherlands, but not specifically developed for various soil types.</p>
 <p>Below is illustrated how the obic_field wrapper deals with the parameters derived from the VSA methodology. The score derived from the original risk assessment map for subsoil compaction is overwritten with the relevant VSA indicators when When scores are present for the presence of earthworms (A_EW_BCS), the occurrence of subsurface compaction (A_SC_BCS), limited root development (A_RD_BCS), ponding in the spring (wet conditions after rainfall, A_P_BCS) and clear presence of visible tracks / rutting or trampling on the land (A_RT_BCS). Similarly, the soil aggregate stability is adapted when VSA indicators are available for earthworm density (A_EW_BCS), soil structure (A_SS_BCS), and presence of cracks in the topsoil (A_C_BCS).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-    <span class="co"># overwrite soil physical functions for compaction when BCS is available</span>
+<code class="sourceCode R">    <span class="co"># overwrite soil physical functions for compaction when BCS is available</span>
     <span class="va">dt</span><span class="op">[</span>,<span class="va">D_P_CO</span> <span class="op">:=</span> <span class="op">(</span><span class="fl">3</span> <span class="op">*</span> <span class="va">A_EW_BCS</span> <span class="op">+</span> <span class="fl">3</span> <span class="op">*</span> <span class="va">A_SC_BCS</span> <span class="op">+</span> <span class="fl">3</span> <span class="op">*</span> <span class="va">A_RD_BCS</span>  <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">A_P_BCS</span> <span class="op">-</span> <span class="va">A_RT_BCS</span><span class="op">)</span><span class="op">/</span><span class="fl">18</span><span class="op">]</span>
     <span class="va">dt</span><span class="op">[</span>,<span class="va">D_P_CO</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">D_P_CO</span><span class="op">)</span><span class="op">]</span>
     <span class="va">dt</span><span class="op">[</span>,<span class="va">I_P_CO</span> <span class="op">:=</span> <span class="fu">fifelse</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">D_P_CO</span><span class="op">)</span>,<span class="va">I_P_CO</span>,<span class="va">D_P_CO</span><span class="op">)</span><span class="op">]</span>
@@ -624,8 +507,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>The basic indicator used in the OBIC is the amount of plant available water. The capacity of the soil to buffer water during the growing season is estimated from pedotransferfunctions (pdf) for plant available water in the topsoil. The default pdf is derived from a European database, and enables one to estimate the van Genuchten parameters for the pF-curve. Other options are also possible.</p>
 <p>For more details, see <code><a href="../reference/calc_waterretention.html">?calc_waterretention</a></code>.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># estimate the plant available water in topsoil</span>
+<code class="sourceCode R">  <span class="co"># estimate the plant available water in topsoil</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_WRI</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_waterretention.html">calc_waterretention</a></span><span class="op">(</span><span class="va">A_CLAY_MI</span>,<span class="va">A_SAND_MI</span>,<span class="va">A_SILT_MI</span>,<span class="va">A_SOM_LOI</span>,type <span class="op">=</span> <span class="st">'plant available water'</span><span class="op">)</span><span class="op">]</span>
   
   <span class="co"># estimate the water holding capacity in topsoil</span>
@@ -653,8 +535,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>The activity of soil fungi and bacteria has been measured via incubation trials for decades. In such incubation trials, the decomposition of soil organic nitrogen is measured over a period of time. The amount of nitrogen that mineralises in such trials is called the ‘potential mineralisable nitrogen’(PMN). This indicates the ability of the soil to provide a crop with readily available nitrogen. In the Netherlands, this parameter is also used as an indicator for activity of soil microbes. This is possible because during the incubation, a soil sample is submerged in water, creating an anaerobic environment, killing aerobic bacteria and fungi, which, together with some labile organic matter, are decomposed by anaerobic soil microbes.</p>
 <p>For more information see <code><a href="../reference/calc_pmn.html">?calc_pmn</a></code>.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># calculate the index for the potential mineralisable nitrogen pool</span>
+<code class="sourceCode R">  <span class="co"># calculate the index for the potential mineralisable nitrogen pool</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">D_PMN</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_pmn.html">calc_pmn</a></span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">A_N_PMN</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>The PMN measured by routine laboratories in the Netherlands may be overestimated. Therefore, a land-use dependent correction factor is used. The PMN index is capped at 500. Below an example of this function is given.</p>
 <p><img src="obic_introduction_files/figure-html/unnamed-chunk-36-1.png" width="672"></p>
@@ -668,7 +549,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>For more information see <code><a href="../reference/ind_resistance.html">?ind_resistance</a></code>.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  <span class="co"># Calculate disease resistance</span>
- <span class="va">dt</span><span class="op">[</span>, <span class="va">I_B_DI</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_resistance.html">ind_resistance</a></span><span class="op">(</span><span class="va">A_SOM_LOI</span><span class="op">)</span><span class="op">]</span></code></pre></div>
+  <span class="va">dt</span><span class="op">[</span>, <span class="va">I_B_DI</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_resistance.html">ind_resistance</a></span><span class="op">(</span><span class="va">A_SOM_LOI</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p><img src="obic_introduction_files/figure-html/unnamed-chunk-38-1.png" width="672"></p>
 </div>
 <div class="section level4">
@@ -687,8 +568,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>The capacity of the soil to hold or move nitrogen in the form of nitrate so that leaching of nitrate to groundwater is prevented is determined by the landuse, soiltype, groundwatertable, N application, and nitrogen supply capacity. Nitrate is either taken up by a crop, denitrified (under anaerobic conditions), leached or washed away (runoff). The potential for N leaching to groundwater for a soil can be calculated with <code><a href="../reference/calc_nleach.html">calc_nleach()</a></code>.</p>
 <p>For more details, see <code><a href="../reference/calc_nleach.html">?calc_nleach</a></code>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># calculate potential for N leaching to groundwater</span>
+<code class="sourceCode R">  <span class="co"># calculate potential for N leaching to groundwater</span>
   <span class="va">dt</span><span class="op">[</span>,<span class="va">D_NGW</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_nleach.html">calc_nleach</a></span><span class="op">(</span><span class="va">B_SOILTYPE_AGR</span>, <span class="va">B_LU_BRP</span>, <span class="va">B_GWL_CLASS</span>, <span class="va">D_NLV</span>, <span class="va">B_AER_CBS</span>, leaching_to <span class="op">=</span> <span class="st">"gw"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>Examples of this function are given for five parcels with different attributes, as well as for one field with different groundwater levels, being derived from so-called groundwatertable. Below is visualised how for a single field the potential for N leaching and N runoff will change with the groundwater depth (derived from the groundwater table, B_GWL_CLASS). Be aware, since these derivative scores on the y-axis are not yet scaled as distance to target, both scores for leaching and runoff cannot be compared directly.</p>
 <p><img src="obic_introduction_files/figure-html/unnamed-chunk-41-1.png" width="672"></p>
@@ -832,7 +712,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 </ul>
 <p>Deciding which measures are presented is controlled by two functions nested inside <code><a href="../reference/obic_field.html">obic_field()</a></code> (which itself is wrapped by <code><a href="../reference/obic_field_dt.html">obic_field_dt()</a></code>). For the recommendations to be given, the output argument of <code><a href="../reference/obic_field.html">obic_field()</a></code> or <code><a href="../reference/obic_field_dt.html">obic_field_dt()</a></code> should be <em>‘all’</em> or <em>‘recommendations’</em>. The functions that decide the recommendations are <code><a href="../reference/obic_evalmeasure.html">obic_evalmeasure()</a></code> and <code><a href="../reference/obic_recommendations.html">obic_recommendations()</a></code>. The first takes a data table as input containing the OBI and indicator scores calculated by other functions in the package. Its output is a data table with measures which is passed to <code><a href="../reference/obic_recommendations.html">obic_recommendations()</a></code>. This second function selects the three most appropriate measures to recommend. For more information on these functions see <code><a href="../reference/obic_evalmeasure.html">?obic_evalmeasure</a></code>, <code><a href="../reference/obic_recommendations.html">?obic_recommendations</a></code> or <code><a href="../reference/recom.obic.html">?recom.obic</a></code>.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R">      <span class="co"># evaluate measures</span>
+<code class="sourceCode R">    <span class="co"># evaluate measures</span>
     <span class="va">dt.measure</span> <span class="op">&lt;-</span> <span class="fu">OBIC</span><span class="fu">::</span><span class="fu"><a href="../reference/obic_evalmeasure.html">obic_evalmeasure</a></span><span class="op">(</span><span class="va">dt.score</span>, extensive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
     
     <span class="co"># make recommendations of top 3 measures</span>
@@ -848,8 +728,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>Many of the soil function values calculated in the OBIC have a unit and a target value. D_NLV for example is the nitrogen producing capacity of the soil and should have a value between -30 and 250. However, values calculated for individual soil functions have different units making it complex to integrate into one holistic value. Nor is it easy to assess whether a given value is good or whether it requires improvement. Therefore, soil functions are evaluated to and transformed into an index reflecting the distance to target. These indicators have a value between 0 and 1, 0 being very poor and 1 being excellent (optimal for agricultural production). This way, the target value is clear and its easy to see whether an indicator on a field warrants a lot of improvement or not. Additionally, such scores can easily be turned into scores ranging from 0-10 which is a commonly used scale for grading, and therefore easy to interpret.</p>
 <p>The OBIC package has functions that transform the value of a soil function into a score. Examples of such functions are <code><a href="../reference/ind_nitrogen.html">ind_nitrogen()</a></code>, <code><a href="../reference/ind_sealing.html">ind_sealing()</a></code>, <code><a href="../reference/ind_pmn.html">ind_pmn()</a></code> and <code><a href="../reference/ind_nretention.html">ind_nretention()</a></code>. Some of these functions only require the soil function’s value. Others may need soil type or the cultivated crop as these parameters may require different evaluation for specific soil types or crops rotation schemes.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R">   
-  <span class="co"># Be aware these functions below are not given here to be evaluated.</span>
+<code class="sourceCode R">  <span class="co"># Be aware these functions below are not given here to be evaluated.</span>
   <span class="co"># They illustrate how the different indices can be evaluated (do not execute them here)</span>
 
   <span class="co"># Calculate indicators for soil chemical functions</span>
@@ -880,8 +759,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
   
   <span class="co"># Calculate indicators for environment</span>
   <span class="va">dt</span><span class="op">[</span>, <span class="va">I_E_NGW</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_nretention.html">ind_nretention</a></span><span class="op">(</span><span class="va">D_NGW</span>, leaching_to <span class="op">=</span> <span class="st">"gw"</span><span class="op">)</span><span class="op">]</span>
-  <span class="va">dt</span><span class="op">[</span>, <span class="va">I_E_NSW</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_nretention.html">ind_nretention</a></span><span class="op">(</span><span class="va">D_NSW</span>, leaching_to <span class="op">=</span> <span class="st">"ow"</span><span class="op">)</span><span class="op">]</span>
-  </code></pre></div>
+  <span class="va">dt</span><span class="op">[</span>, <span class="va">I_E_NSW</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_nretention.html">ind_nretention</a></span><span class="op">(</span><span class="va">D_NSW</span>, leaching_to <span class="op">=</span> <span class="st">"ow"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>Some of these indicator functions internally use an evaluation function such as <code><a href="../reference/evaluate_logistic.html">evaluate_logistic()</a></code> and <code><a href="../reference/evaluate_parabolic.html">evaluate_parabolic()</a></code>. For more information on these functions or logistic functions in general see <code>?evaluate_logistic()</code>, <code>?evaluate_parabolic()</code>, or <a href="https://en.wikipedia.org/wiki/Generalised_logistic_function" class="external-link">link to wikipedia</a>. When logistic evaluation is used, there is no linear relation between the an indicators value and its score. Often the evaluation is set up so that lower values gain increasingly lower scores. In other words, poor performance is evaluated more stringent than good performance. Below, the relation between a soil function values and their scores (index values) is given. An example of logistic evaluation can be found in I_P_WS (waterstress)</p>
 <p><img src="obic_introduction_files/figure-html/plot%20relation%20function%20and%20index%20values-1.png" width="672"></p>
 <p>The indicator for management based on the point system of the label sustainable soil management has a linear relation between the number of points and the indicator score.</p>
@@ -893,7 +771,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 </h3>
 <p>Not all indicators are relevant for all combinations of soil type and crop. For example, <code>I_P_DU</code> (wind erodibility) is not relevant on permanent grassland, as wind erosion is not a problem on these parcels. The table <code>weight.obic</code> is used to determine whether an indicator is relevant for a given parcel. Crops are differentiated into the categories arable, grassland, maize, and nature according to the crop_category from the table <code>crops.obic</code>. In soil type a differentiation is made between peat and non peat soils. If an indicator is not relevant for a given parcel, its score will not be used in further aggregation.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R">     <span class="co"># load weights.obic (set indicator to zero when not applicable)</span>
+<code class="sourceCode R">    <span class="co"># load weights.obic (set indicator to zero when not applicable)</span>
     <span class="va">w</span> <span class="op">&lt;-</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="fu">OBIC</span><span class="fu">::</span><span class="va"><a href="../reference/weight.obic.html">weight.obic</a></span><span class="op">)</span>
     
     <span class="co"># Add years per field</span>
@@ -943,16 +821,16 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
     <span class="co"># calculate weighted average per indicator category</span>
     <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">value</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">[</span><span class="va">value</span> <span class="op">&gt;=</span> <span class="fl">0</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">cat</span>,<span class="va">year</span><span class="op">)</span><span class="op">]</span>
 
-      <span class="co"># for case that a cat has one indicator or one year and has NA</span>
-      <span class="va">out.score</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>, <span class="va">value</span> <span class="op">:=</span> <span class="op">-</span><span class="fl">999</span><span class="op">]</span></code></pre></div>
+    <span class="co"># for case that a cat has one indicator or one year and has NA</span>
+    <span class="va">out.score</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>, <span class="va">value</span> <span class="op">:=</span> <span class="op">-</span><span class="fl">999</span><span class="op">]</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="integrating-over-time">Integrating over time<a class="anchor" aria-label="anchor" href="#integrating-over-time"></a>
 </h3>
 <p>Till this point, all values and indicators have been calculated for a range of years (typically ten). Before aggregating values over years, a correction factor is calculated to give a weight so that recent years count more than long gone years. After aggregating indicator scores over years, a single score for each indicator remains. These are the scores presented to a user when indicators are included in the output of <code><a href="../reference/obic_field.html">obic_field()</a></code>.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R">      <span class="co"># calculate correction factor per year; recent years are more important</span>
-      <span class="va">out.score</span><span class="op">[</span>,<span class="va">cf</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">12</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="fl">10</span>,<span class="va">year</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
+<code class="sourceCode R">    <span class="co"># calculate correction factor per year; recent years are more important</span>
+    <span class="va">out.score</span><span class="op">[</span>,<span class="va">cf</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">12</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="fl">10</span>,<span class="va">year</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
   
     <span class="co"># calculate weighted average per indicator category per year</span>
     <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">value</span><span class="op">)</span><span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">[</span><span class="va">value</span> <span class="op">&gt;=</span> <span class="fl">0</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">cat</span><span class="op">]</span></code></pre></div>
@@ -963,73 +841,23 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <p>The integration of different soil functions into one score and their relevance in achieving a specific target (like crop yield) is often ignored in soil quality assessments (i.e., each function contributes equally), is based on expert-judgement or derived from multi-variate statistics analysing linkages among soil functions and soil and field properties within large datasets. Large databases are needed in which all relevant soil properties and functions have been determined as well as (historical) management. Unfortunately, these databases are scarce so that expert driven weighing procedures are introduced. Currently, the total OBIC score is a weighted average of the major soil functions (aggregated indicators per category) where the weight of each major soil function is determined by the number of indicators underlying the major soil function.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  <span class="co"># merge out with number per category</span>
-      <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">out.score</span>,<span class="va">dt.melt.ncat</span>, by<span class="op">=</span><span class="st">'cat'</span><span class="op">)</span>
+  <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">out.score</span>,<span class="va">dt.melt.ncat</span>, by<span class="op">=</span><span class="st">'cat'</span><span class="op">)</span>
     
-      <span class="co"># calculate weighing factor depending on number of indicators</span>
-      <span class="va">out.score</span><span class="op">[</span>,<span class="va">cf</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">ncat</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span>
+  <span class="co"># calculate weighing factor depending on number of indicators</span>
+  <span class="va">out.score</span><span class="op">[</span>,<span class="va">cf</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">ncat</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span>
   
-    <span class="co"># calculated final obi score</span>
-    <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">cat</span>,<span class="va">value</span><span class="op">)</span><span class="op">]</span>,
-                       <span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cat <span class="op">=</span> <span class="st">"T"</span>,value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">value</span> <span class="op">*</span> <span class="va">cf</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+  <span class="co"># calculated final obi score</span>
+  <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">cat</span>,<span class="va">value</span><span class="op">)</span><span class="op">]</span>,
+                     <span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cat <span class="op">=</span> <span class="st">"T"</span>,value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">value</span> <span class="op">*</span> <span class="va">cf</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>The holistic OBI score is given when the argument <em>output</em> in <code><a href="../reference/obic_field.html">obic_field()</a></code> or <code><a href="../reference/obic_field_dt.html">obic_field_dt()</a></code> is set to <em>‘all’</em>, <em>‘scores’</em> or <em>‘obic_scores’</em></p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R">   <span class="co"># For example</span>
+<code class="sourceCode R">  <span class="co"># For example</span>
   <span class="fu">OBIC</span><span class="fu">::</span><span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">binnenveld</span><span class="op">[</span><span class="va">ID</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span>, output <span class="op">=</span> <span class="st">'scores'</span><span class="op">)</span>
 
   <span class="fu">OBIC</span><span class="fu">::</span><span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">binnenveld</span><span class="op">[</span><span class="va">ID</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span>, output <span class="op">=</span> <span class="st">'obic_score'</span><span class="op">)</span></code></pre></div>
 <p>Will give:</p>
-<pre><code><span class="co">#&gt; Warning in OBIC::obic_field_dt(binnenveld[ID == 1], output = "scores"): There</span>
-<span class="co">#&gt; are input variables present in input datatable given that are not required for</span>
-<span class="co">#&gt; the OBI. Please check if the column names is misspelled. These are: A_P_OXThere</span>
-<span class="co">#&gt; are input variables present in input datatable given that are not required for</span>
-<span class="co">#&gt; the OBI. Please check if the column names is misspelled. These are: A_P_VGThere</span>
-<span class="co">#&gt; are input variables present in input datatable given that are not required</span>
-<span class="co">#&gt; for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt;    ID S_B_OBI_A S_C_OBI_A S_E_OBI_A S_M_OBI_A S_P_OBI_A S_T_OBI_A</span>
+<pre><code><span class="co">#&gt;    ID S_B_OBI_A S_C_OBI_A S_E_OBI_A S_M_OBI_A S_P_OBI_A S_T_OBI_A</span>
 <span class="co">#&gt; 1:  1     0.998      0.86     0.938     0.586     0.216     0.668</span>
-<span class="co">#&gt; Warning in OBIC::obic_field_dt(binnenveld[ID == 1], output = "obic_score"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
 <span class="co">#&gt;    S_T_OBI_A</span>
 <span class="co">#&gt; 1:     0.668</span></code></pre>
 </div>
@@ -1038,102 +866,6 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <h2 id="some-examples-of-outputs">Some examples of outputs<a class="anchor" aria-label="anchor" href="#some-examples-of-outputs"></a>
 </h2>
 <p>Below OBI scores are presented for the Binnenveld dataset per major soil function.</p>
-<pre><code><span class="co">#&gt; Warning in obic_field_dt(dt[ID == unique(dt$ID)[1]]): There are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_P_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_P_VGThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_FE_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_AL_OXThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please</span>
-<span class="co">#&gt; check if the column names is misspelled. These are: A_CACO3_IFThere are input</span>
-<span class="co">#&gt; variables present in input datatable given that are not required for the OBI.</span>
-<span class="co">#&gt; Please check if the column names is misspelled. These are: A_COM_FRThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_BT_BKThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: D_SA_WThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: D_RO_RThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_DRAINThere are</span>
-<span class="co">#&gt; input variables present in input datatable given that are not required for the</span>
-<span class="co">#&gt; OBI. Please check if the column names is misspelled. These are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(dt[ID == i]): There are input variables present in</span>
-<span class="co">#&gt; input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_P_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_P_VGThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_FE_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_AL_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if</span>
-<span class="co">#&gt; the column names is misspelled. These are: A_CACO3_IFThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_COM_FRThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_BT_BKThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: D_SA_WThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: D_RO_RThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_DRAINThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(dt[ID == i]): There are input variables present in</span>
-<span class="co">#&gt; input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_P_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_P_VGThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_FE_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_AL_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if</span>
-<span class="co">#&gt; the column names is misspelled. These are: A_CACO3_IFThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_COM_FRThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_BT_BKThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: D_SA_WThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: D_RO_RThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_DRAINThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(dt[ID == i]): There are input variables present in</span>
-<span class="co">#&gt; input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_P_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_P_VGThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_FE_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if the</span>
-<span class="co">#&gt; column names is misspelled. These are: A_AL_OXThere are input variables present</span>
-<span class="co">#&gt; in input datatable given that are not required for the OBI. Please check if</span>
-<span class="co">#&gt; the column names is misspelled. These are: A_CACO3_IFThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: A_COM_FRThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_BT_BKThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: D_SA_WThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: D_RO_RThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_DRAINThere are input variables</span>
-<span class="co">#&gt; present in input datatable given that are not required for the OBI. Please check</span>
-<span class="co">#&gt; if the column names is misspelled. These are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span></code></pre>
 <p><img src="obic_introduction_files/figure-html/unnamed-chunk-54-1.png" width="652.8"></p>
 </div>
 <div class="section level1 unnumbered">
@@ -1177,7 +909,7 @@ Rinot, Oshri, Guy J Levy, Yosef Steinberger, Tal Svoray, and Gil Eshel. 2019. <s
 Sonneveld, M P W, G B M Heuvelink, and S W Moolenaar. 2014. <span>“<span class="nocase">Application of a visual soil examination and evaluation technique at site and farm level</span>.”</span> <em>Soil Use and Management</em> 30 (2): 263–71.
 </div>
 <div id="ref-R-OBIC" class="csl-entry">
-Verweij, Sven, and Gerard Ros. 2021. <em>OBIC: Functions for the Open Bodem Index (OBI)</em>. <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator" class="external-link">https://github.com/AgroCares/Open-Bodem-Index-Calculator</a>.
+Verweij, Sven, and Gerard Ros. 2022. <em>OBIC: Functions for the Open Bodem Index (OBI)</em>. <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator" class="external-link">https://github.com/AgroCares/Open-Bodem-Index-Calculator</a>.
 </div>
 <div id="ref-R-ggplot2" class="csl-entry">
 Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, and Dewey Dunnington. 2021. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link">https://CRAN.R-project.org/package=ggplot2</a>.

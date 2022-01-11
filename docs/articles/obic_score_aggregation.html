@@ -90,7 +90,7 @@
       <h1 data-toc-skip>Note on OBI score aggregation</h1>
                         <h4 data-toc-skip class="author">Brent Riechelman, Yuki Fujita</h4>
             
-            <h4 data-toc-skip class="date">2022-01-10</h4>
+            <h4 data-toc-skip class="date">2022-01-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/HEAD/vignettes/obic_score_aggregation.Rmd" class="external-link"><code>vignettes/obic_score_aggregation.Rmd</code></a></small>
       <div class="hidden name"><code>obic_score_aggregation.Rmd</code></div>
@@ -109,9 +109,6 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 </p>
 </div>
 <p>There is no scientific principle dictating how this aggregation should be done and there are several ways to do the aggregation. For example; averaging, linearly weighted averaging, logarithmically weighted averaging. The last one is used in OBIC. This document dives deeper into the three aggregation steps within the framework and will explain why logarithmically weighted aggregation is chosen. We will also compare the three methods of aggregation to illustrate the influence the aggregation method on the final score, which provides a kind of sensitivity analysis. The aggregation methods will be compared with a mock dataset of a selection of soil functions. Demonstration of aggregation will be performed using the dataset <code>binnenveld</code>. The dataset contains soil properties from 11 agricultural fields in the surroundings of Wageningen, with different soil texture and land use, and is documented in <code><a href="../reference/binnenveld.html">?binnenveld</a></code>.</p>
-<pre><code><span class="co">#&gt; Warning: package 'data.table' was built under R version 4.1.1</span>
-<span class="co">#&gt; Warning: package 'ggplot2' was built under R version 4.1.1</span>
-<span class="co">#&gt; Warning: package 'patchwork' was built under R version 4.1.1</span></code></pre>
 </div>
 <div class="section level1">
 <h1 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
@@ -129,7 +126,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <li>a correction factor per score is calculated based on the height of the score (used later for the aggretation within each category)</li>
 <li>soil function scores irrelevant to the land use are set to -999</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  <span class="co"># Step 3 Reformat dt given weighing per indicator and prepare for aggregation  ------------------</span>
     
     <span class="co"># load weights.obic (set indicator to zero when not applicable)</span>
@@ -173,7 +170,7 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 <h2 id="aggregation-within-category">Aggregation within category<a class="anchor" aria-label="anchor" href="#aggregation-within-category"></a>
 </h2>
 <p>To aggregate scores, the relevant columns and rows are taken from the molten data.table.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"> <span class="co"># Step 5 Add scores ------------------</span>
     
     <span class="co"># subset dt.melt for relevant columns only</span>
@@ -187,7 +184,7 @@ vcf = 1/(I+0.2)
 <p>Subsequently, the score of each category is computed by summing up the weighted values (scaled by the sum of all weights) of all soil indicators within the category: <span class="math display">\[
 S =  \sum_{i}(I_{i} \frac{vcf_{i}}{\sum_{i}vcf_{i}})
 \]</span> where <em>S</em> is the score of the category, <em>vcf</em><sub>i</sub> is the weighing factor of the indicator <em>i</em>, <em>I</em><sub>i</sub> is the score of the indicator <em>i</em>. This gives a single score for each of the five indicator categories (chemical, physical, biological, management, and environmental) for a specific year.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">    <span class="co"># calculate weighted average per indicator category</span>
     <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">value</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">[</span><span class="va">value</span> <span class="op">&gt;=</span> <span class="fl">0</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">cat</span>,<span class="va">year</span><span class="op">)</span><span class="op">]</span>
   
@@ -206,7 +203,7 @@ ycf = ln(12 - min(y, 10))
 <p>More priority (weight) is given to recent years because they better reflect the current situation. Additionally, changes in management or soil properties have a more visible effect on the scores in the recent years.</p>
 <p>Aggregation of scores over years is done with the following two lines of code. This is analogue to the aggregation procedure within each category as described above (i.e. sum of weighted score, scaled by the sum of all weighing factors).</p>
 <p>The aggregation procedure is coded in the following lines.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">            
     <span class="co"># calculate correction factor per year; recent years are more important</span>
     <span class="va">out.score</span><span class="op">[</span>,<span class="va">cf</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">12</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="fl">10</span>,<span class="va">year</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
@@ -220,7 +217,7 @@ ycf = ln(12 - min(y, 10))
 </h2>
 <p>The scores of five indicator categories are aggregated to a single, holistic, OBI-score. The category scores are weighed logarithmically based on the number of indicators underlying the category. The number of indicators per category was retrieved previously with the line<br><code>dt.melt.ncat &lt;- dt.melt[year==1 &amp; !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']</code>.<br>
 Now its merged with our score data.table.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">      <span class="co"># merge out with number per category</span>
       <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">out.score</span>,<span class="va">dt.melt.ncat</span>, by<span class="op">=</span><span class="st">'cat'</span><span class="op">)</span></code></pre></div>
 <p>The correction factor for each category, <em>ccf</em>, are computed based on the number of indicators as:</p>
@@ -228,14 +225,14 @@ Now its merged with our score data.table.</p>
 ccf = ln(ncat+1)
 \]</span> where <em>ncat</em> is the number of the underlying indicators within the category. The weights for categories with 1 to 10 indicators are: 0.69, 1.1, 1.39, 1.61, 1.79, 1.95, 2.08, 2.2, 2.3, 2.4. Thus, a category based on 10 indicators affects the total score roughly 3.5 times more than a category based on 1 indicator. The idea behind giving more weight to categories with more underlying indicators sprouts from the idea that such a category is better supported by measurable data and better understood. Finally, the total OBIC score is calculated by summing up the weighted scores of 5 categoties and dividing it by the sum of the weighing factors, in the same way as the other 2 aggregation steps.</p>
 <p>This aggregation procedure is coded in the following lines.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">    <span class="co"># calculate weighing factor depending on number of indicators</span>
     <span class="va">out.score</span><span class="op">[</span>,<span class="va">cf</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">ncat</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span>
     <span class="co"># calculated final obi score</span>
     <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">cat</span>,<span class="va">value</span><span class="op">)</span><span class="op">]</span>,
                        <span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cat <span class="op">=</span> <span class="st">"T"</span>,value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">value</span> <span class="op">*</span> <span class="va">cf</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>After the aggregation there is just a bit of code to format the names of the scores.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">    <span class="co"># update element names</span>
     <span class="va">out.score</span><span class="op">[</span>,<span class="va">cat</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'S_'</span>,<span class="va">cat</span>,<span class="st">'_OBI_A'</span><span class="op">)</span><span class="op">]</span>
     <span class="va">out.score</span><span class="op">[</span>, <span class="va">value</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">value</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span></code></pre></div>
@@ -602,8 +599,6 @@ Figure 3. Total OBI score boxplots per aggregation method for each scenario.
 <p>In the baseline scenario, total scores are slightly lower when aggregating logarithmically or linearly compared to using no special aggregation method. In all three methods, the indicator values in the baseline are around 0.67, this number is preserved in the score when averaging all indicator values (cf_method = non) while ‘log’ and ‘lin’ scores are on average 0.03 and 0.04 lower. The change of 0.05 (in the score ranging between 0 and 1) may seem small, but it is quite large compared to the standard deviation of the distribution of the indicator values (which is 0.2). So, the difference in aggregation methods can influence the total score substantially.</p>
 <p>The ‘lin’ and ‘log’ methods yield lower average scores because they penalise low indicator values (i.e. left-hand side in their distribution) with the weighing factor <em>vcf</em>. Since the ‘lin’ and ‘log’ methods were harmonised for their highest value at low indicator value (cf = 5 for value = 0), the penalty at intermediate indicator values are much higher for ‘lin’ method. This makes the average value of the OBIC score lower for ‘lin’ than ‘log’ methods. The other two aggregation steps (year aggregation (with <em>ycf</em> ) and category aggregation (with <em>ccf</em>)) causes no difference in the baseline scenario.</p>
 <p>Note that the variation of total score is not larger for ‘lin’ and ‘log’ than ‘non,’ irrespective of the larger variations in the correction factors for ‘lin’ and ‘log.’ To illustrate the patterns in more details, we zoom up to the baseline scenario (Fig 4). Here we split the ‘log’ method into 4 variations: when ‘log’ method is applied for all 3 aggregation steps (‘log_all’), only for the indicator aggregation (‘log_vcf’), year aggregation (‘log_ycf’), or category aggregation (‘log_ccf’). Same applies to ‘lin’ method. Standard deviation of total score is slightly smaller when ‘log’ or ‘lin’ method is used (SD = 0.015 and 0.014, respectively) compared to when no special aggregation method is used (‘non,’ SD = 0.017). Looking closer at different steps of aggregation, the variation increases due to indicator aggregation (<em>vcf</em>) and the year aggregation (<em>ycf</em>), but decreased due to category aggregation (<em>ccf</em>). As a result, the variation becomes smaller when linear or log method is applied to all 3 aggregation steps, largely owing to the category aggregation step. Category aggregation, irrespective of the method used for correction factor, increases variation in total score because an extreme indicator value in categories with a few indicators is strongly reflected in the total score and therefore increase the variation, compared to when total scores is directly computed from all indicators. By using ‘log’ or ‘lin’ methods in category aggregation, both of which give smaller weights to categories with a few indicators, this impact is diluted, and therefore the increase in variation becomes limited.</p>
-<pre><code><span class="co">#&gt; Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =</span>
-<span class="co">#&gt; "none")` instead.</span></code></pre>
 <div class="figure">
 <img src="obic_score_aggregation_files/figure-html/plot%20baselines%20scores%20zoomed%20in-1.png" alt="Figure 4. Total OBI score per aggregation method for baseline sceinario." width="672"><p class="caption">
 Figure 4. Total OBI score per aggregation method for baseline sceinario.
@@ -637,256 +632,6 @@ Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A)
 <h2 id="alternative-aggregation-methods-on-binnenveld-fields">Alternative aggregation methods on Binnenveld fields<a class="anchor" aria-label="anchor" href="#alternative-aggregation-methods-on-binnenveld-fields"></a>
 </h2>
 <p>The scenario’s in the experiment above use artificial data and may not be representative of actual fields in the Netherlands. Therefore we will explore the aggregation methods described above using indicator values of fields in the <code>binnenveld</code> dataset.</p>
-<pre><code><span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span>
-<span class="co">#&gt; Warning in obic_field_dt(binnenveld[ID == i, ..bcols], output = "unaggregated"):</span>
-<span class="co">#&gt; There are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_P_VGThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_FE_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_AL_OXThere are input variables present in input datatable given that are not</span>
-<span class="co">#&gt; required for the OBI. Please check if the column names is misspelled. These are:</span>
-<span class="co">#&gt; A_CACO3_IFThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: A_COM_FRThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_BT_BKThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_SA_WThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: D_RO_RThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_DRAINThere are input variables present in input datatable given that are</span>
-<span class="co">#&gt; not required for the OBI. Please check if the column names is misspelled. These</span>
-<span class="co">#&gt; are: B_FERT_NORM_FR</span>
-<span class="co">#&gt; Aggregate function missing, defaulting to 'length'</span></code></pre>
 <div class="figure">
 <img src="obic_score_aggregation_files/figure-html/plot%20binnenveld%20scores-1.png" alt="Figure 6. Total and category OBI scores of binnenveld fields aggregated with 'log', 'lin' or 'non' method, as well as total scores when disregarding categories in aggregating scores." width="768"><p class="caption">
 Figure 6. Total and category OBI scores of binnenveld fields aggregated with ‘log,’ ‘lin’ or ‘non’ method, as well as total scores when disregarding categories in aggregating scores.
