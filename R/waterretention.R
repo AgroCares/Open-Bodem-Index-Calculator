@@ -404,11 +404,3 @@ pFpara_class <- function(Pklei, Pleem, Psom, M50){
 #'   \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}
 #' }
 "bouwsteen_tb"
-
-  # \item{n}{parameter n of pF curve (-). Table 3 of Wosten 2001}
-  # \item{sand%}{sand content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
-  # \item{silt%}{silt content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
-  # \item{clay%}{clay content (%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
-  # \item{OM%}{organic matter content (%). Middle value of Table 1 of Wosten 2001}
-  # \item{bulkdensity}{soil bulk density (g/cm3). Middle value of Table 2 of Wosten 2001}
-  # \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}
