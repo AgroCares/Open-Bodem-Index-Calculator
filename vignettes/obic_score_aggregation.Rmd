@@ -25,7 +25,7 @@ The OBIC is a framework that takes a multitude of soil parameters and variables 
 
 ```{r include score integration image, echo=FALSE, out.width = '85%', out.height = '85%', fig.cap = 'Figure 1. Graphic representation of how measured soil properties are aggregated to scores.'}
 # include graphic
-knitr::include_graphics('OBIC_score_integratie_2.png')
+knitr::include_graphics('../vignettes/OBIC_score_integratie_2.png')
 ```
 
 There is no scientific principle dictating how this aggregation should be done and there are several ways to do the aggregation. For example; averaging, linearly weighted averaging, logarithmically weighted averaging. The last one is used in OBIC.
