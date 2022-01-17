@@ -902,7 +902,7 @@ The indices of different services can be aggregated to a single score by taking 
 
 This method relies on statistical modeling for the selection of soil properties relevant for specific services rather then empirical relations. Furthermore, the reliance on BPJ for determining the reference makes the method vulnerable to the available experts and data. Both are drawbacks the authors recommend addressing.
 
-In addition, we found that this method is sensitive to the numeric spread, values of a soil property are likely to have. When calculating natural attenuation capacity according to @Wijnen2012 using observed and reference values from @Rutgers2008, we found that one of the parameters FMA, had a much larger impact on the EPX than the others. Values of FMA within the 5^th^ and 95^th^ percentile ranged from 14 to 3960, while pH for example, ranged from 7.3 to 7.7 
+In addition, we found that this method is sensitive to the numeric spread, values of a soil property are likely to have. When calculating natural attenuation capacity according to @VanWijnen2012 using observed and reference values from @Rutgers2008, we found that one of the parameters FMA, had a much larger impact on the EPX than the others. Values of FMA within the 5^th^ and 95^th^ percentile ranged from 14 to 3960, while pH for example, ranged from 7.3 to 7.7 
 
 ```{r graphical representation of EPX , fig.cap= "NAC scores where one variable varies and the others are set to Maximum ecological potential (MEP), variable values range from 5th percentile to 95th percentile reported by Rutgers (2008). Type indicates whether standard calculation (i) is used or not(j) where j improves on the NAC."}
 # make table with reference data from Rutgers2008
