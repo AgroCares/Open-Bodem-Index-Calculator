@@ -53,8 +53,8 @@ calc_bcs(
 \description{
 This function calculates the BodemConditieScore given input from manual observations made in the field.
 The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
-More information on this test can be found \href{http://mijnbodemconditie.nl/}{here}
+More information on this test can be found \href{https://mijnbodemconditie.nl/}{here}
 }
 \references{
-\href{http://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
+\href{https://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
 }
