@@ -13,7 +13,7 @@
 #' @param D_CP_GRASS (numeric) The fraction grassland in crop rotation
 #' @param D_GA (numeric) The age of the grassland (years)
 #' @param M_COMPOST (numeric) The frequency that compost is applied (optional, every x years)
-#' @param M_GREEN (boolean) measure. are catchcrops sown after main crop (option: yes or no)
+#' @param M_GREEN (boolean) measure. are catch crops sown after main crop (option: yes or no)
 #' @param M_NONBARE (boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)
 #' @param M_EARLYCROP (boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)
 #' @param M_SLEEPHOSE (boolean) measure. is sleepslangbemester used for slurry application (option: yes or no)
@@ -169,7 +169,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     # measure 1. maize crop in combination with grassland
     dt.maize[M_UNDERSEED == TRUE | M_NONBARE == TRUE, value := value + 1]
     
-    # measure 2. are catchcrops sown after main crop (alleen klei, zand en löss al verplicht)
+    # measure 2. are catch crops sown after main crop (alleen klei, zand en löss al verplicht)
     dt.maize[soiltype.n =='klei' & M_GREEN == TRUE, value := value + 1]
     
     # measure 3. use of early varieties in relevant cultures to avoid harvesting after september (stimulating catch crop too)
@@ -280,7 +280,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
 #' @param D_CP_GRASS (numeric) The fraction grassland in crop rotation
 #' @param D_GA (numeric) The age of the grassland (years)
 #' @param M_COMPOST (numeric) The frequency that compost is applied (optional, every x years)
-#' @param M_GREEN (boolean) measure. are catchcrops sown after main crop (option: yes or no)
+#' @param M_GREEN (boolean) measure. are catch crops sown after main crop (option: yes or no)
 #' @param M_NONBARE (boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)
 #' @param M_EARLYCROP (boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)
 #' @param M_SLEEPHOSE (boolean) measure. is sleepslangbemester used for slurry application (option: yes or no)
@@ -545,7 +545,7 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       # measure 1. maize crop in combination with grassland
       dt.maize.man[M_UNDERSEED == TRUE | M_NONBARE == TRUE, value_ms := value_ms + 1]
       
-      # measure 2. are catchcrops sown after main crop (alleen klei, zand en löss al verplicht)
+      # measure 2. are catch crops sown after main crop (alleen klei, zand en löss al verplicht)
       dt.maize.man[soiltype.n =='klei' & M_GREEN == TRUE, value_ms := value_ms + 1]
       
       # measure 3. use of early varieties in relevant cultures to avoid harvesting after september (stimulating catch crop too)

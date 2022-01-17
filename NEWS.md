@@ -80,7 +80,7 @@
 ## Changed
 * I_M_* and I_*_BCS indicators for management measures and BCS are removed, issue #126
 * values -999 are replaced by NA 
-* column_descriptons_obic.Rdata is updated
+* column_descriptions_obic.Rdata is updated
 * weight.obic is updated
 
 
@@ -98,7 +98,7 @@
 * preparation nema.obic in dev
 * preparation season.obic in dev
 * obic_field is added to run obic score for one field
-* ppr_column_description plus column_descriptons_obic.Rdata
+* ppr_column_description plus column_descriptions_obic.Rdata
 * ppr_maatregel plus recom_obic.Rdata
 * ppr_weights plus weights.obic
 * I_P_DS and I_P_WS added (drought and wetness stress separately)
@@ -113,11 +113,11 @@
 * PBI input is flexible for both grassland and arable
 * calculation SLV updated
 * update element_names for A_P_CC, A_P_AL in phosphate_availability.R
-* update element_names for A_S_RT, A_SOM_LOI, B_AER_CBS, B_SOILTYPE_AGR in sulpher.R
+* update element_names for A_S_RT, A_SOM_LOI, B_AER_CBS, B_SOILTYPE_AGR in sulphur.R
 * update element_names for B_GWL_CLASS in wateravailability.R
 * update element_names for B_GWL_CLASS and B_AER_CBS in nretention.R
 * correct weighing for S_C_A
-* all element names are updated to english ones
+* all element names are updated to English ones
 * weighing for score calculated is changed into a more generic approach
 * structure for running obi is changed into one function
 * weights.obic is extended and used to distinguish for relevant/non-relevant indicators
@@ -154,17 +154,17 @@
 ## Changed
 * Optimal pH values of grassland are now the middle value of the class `good` #55
 * pF of field capacity is changed from 2.2 to 2.0 #53
-* Bulk density in the default PTF is now aggregated into 1 continous function #53
+* Bulk density in the default PTF is now aggregated into 1 continuous function #53
 * Parameters of evaluation for PAW are adjusted #53
 * Parameters for the evaluation of sealing are adjusted #57
 * Changes the formula to calculate nitrogen leaching and run-off #58
 * Parameters for the evaluation of nretention are adjusted #58
-* Paramaters and funs for CEC are updated and split for soil fertility and aggregate stability #59
+* parameters and funs for CEC are updated and split for soil fertility and aggregate stability #59
 * Parameters for the evaluation of Cu availability are adjusted #59
 * potassium index is multiplied so that the evaluation is equal for grass and maize #60
 
 ## Fixed
-* Improved the function for crumbleability to match the factsheet #54 #56
+* Improved the function for crumbleability to match the fact sheet #54 #56
 * Fix error in calc_potassium_availability #59
 
 # OBIC 0.10.0 2019-12-13
@@ -189,16 +189,16 @@
 * The maximum score of `ind_management` is adjusted #38
 * The parameter values for sulphur on arable land is adjusted #41
 * The optimal pH for grassland depends now on organic matter content and presence of clover #42
-* The score aggragation is now 60% average of last 4 years and 40% of older years #31
+* The score aggregation is now 60% average of last 4 years and 40% of older years #31
 * The maximum value for `D_CR` is limited to 10 #47
 * The parameters for the evaluation for `I_C_K` is set to the same as grassland #51
 * The evaluation for `I_C_N` is now split into grassland and arable land #50
-* Set lifecyle status to `maturing`
-* The evaluation of `I_C_MG` is adjusted according to factsheet
+* Set lifecycle status to `maturing`
+* The evaluation of `I_C_MG` is adjusted according to fact sheet
 
 ## Fixed
 * Preprocessing, indicators and scores make use of internal copy of the table now rather than referencing to an object outside the scope of the function
-* Fixed the droughtstress, wetnessstress and waterstress values for GtI in `waterstress.obic`
+* Fixed the drought stress, wetness stress and water stress values for GtI in `waterstress.obic`
 * For grasslands on peat pr clay, the `D_MG` is now scaled #51
 * Limit `D_SLV` between -30 and 250 
 
@@ -222,7 +222,7 @@
 ## Added
 * Adds index and evaluation of the BodemConditieScore
 * Adds potassium to main functions
-* Adds a random recommondation to the output
+* Adds a random recommendation to the output
 
 ## Changed
 * The upper limit for `A_MN_CC` is increased from 20000 to 30000
@@ -231,12 +231,12 @@
 ## Fixed
 * The indicator of pH had the wrong direction 
 * Removed the minus sign before `ind_zinc`
-* The function `calc_potassium_availability` containted a wrong column name for `A_PH_CC`
+* The function `calc_potassium_availability` contained a wrong column name for `A_PH_CC`
 * Some unknown situations at `calc_potassium_availability` have now the same values as comparable situations. This should be looked at later
 
 # OBIC 0.7.0 2019-08-02
 ## Added
-* Adds index and evaluation of waterretention paramaters
+* Adds index and evaluation of waterretention parameters
 * Adds index and evaluation of water related yield stress
 * Adds index and evaluation of metals (Zn and Cu)
 * Adds index and evaluation of microbial activity (PMN)
@@ -264,7 +264,7 @@
 
 # OBIC 0.4.0 2019-07-26
 ## Added
-* The existing functions for pH, P, N, crumbleability, sealing and resistance are intergrated into `obic()`
+* The existing functions for pH, P, N, crumbleability, sealing and resistance are integrated into `obic()`
 
 ## Changed
 * The column name `brp` is changed to `B_LU_BRP`

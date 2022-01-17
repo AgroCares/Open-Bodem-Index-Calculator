@@ -1,12 +1,12 @@
 #' Calculate the SLV
 #' 
-#' This function calculates a S-balance given the SLV (Sulpher supplying capacity) of a soil
+#' This function calculates a S-balance given the SLV (Sulfur supplying capacity) of a soil
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
-#' @param A_SOM_LOI (numeric) The organic matter content of the soil (in procent)
-#' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
+#' @param A_SOM_LOI (numeric) The organic matter content of the soil (in percent)
+#' @param A_S_RT (numeric) The total Sulfur content of the soil (in mg S per kg)
 #' @param D_BDS (numeric) The bulk density of the soil (in kg per m3)
 #' 
 #' @import data.table

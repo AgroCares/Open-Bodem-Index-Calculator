@@ -7,7 +7,7 @@
 #' @param A_P_AL (numeric) The P-AL content of the soil (in mg P2O5 per 100g)
 #' @param A_P_WA (numeric) The P-water content of the soil (in mg P2O5 per Liter)
 #' @param M_COMPOST (numeric) The frequency that compost is applied (every x years)
-#' @param M_GREEN (boolean) measure. are catchcrops sown after main crop (option: yes or no)
+#' @param M_GREEN (boolean) measure. are catch crops sown after main crop (option: yes or no)
 #' 
 #' @export
 calc_sombalance <- function(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN) {

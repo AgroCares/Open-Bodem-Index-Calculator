@@ -1,4 +1,4 @@
-#' Evaluate using the general logistice function
+#' Evaluate using the general logistic function
 #' 
 #' This function evaluates the calculated values from an indicator using a general logistic function
 #' 

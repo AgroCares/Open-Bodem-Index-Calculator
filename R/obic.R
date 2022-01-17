@@ -20,7 +20,7 @@
 #' @param A_PH_CC (numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)
 #' @param A_N_RT (numeric) The organic nitrogen content of the soil in mg N / kg
 #' @param A_CN_FR (numeric) The carbon to nitrogen ratio (-)
-#' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
+#' @param A_S_RT (numeric) The total Sulfur content of the soil (in mg S per kg)
 #' @param A_N_PMN (numeric) The potentially mineralizable N pool (mg N / kg soil)
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_CC (numeric) The plant available P content, extracted with 0.01M CaCl2 (mg / kg)
@@ -283,7 +283,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_C_P := ind_phosphate_availability(D_PBI)]
     dt[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
     dt[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
-    dt[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
+    dt[, I_C_S := ind_sulfur(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
     dt[, I_C_PH := ind_ph(D_PH_DELTA)]
     dt[, I_C_CEC := ind_cec(D_CEC)]
     dt[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]

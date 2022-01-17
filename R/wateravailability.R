@@ -5,7 +5,7 @@
 #' @param B_HELP_WENR (character) The soil type abbreviation, derived from 1:50.000 soil map
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_GWL_CLASS (character) The groundwater table class
-#' @param WSI (character) The type of Water Stress Index is required. Options: droughtstress, wetnessstress and the (combined) waterstress
+#' @param WSI (character) The type of Water Stress Index is required. Options: drought stress, wetnessstress and the (combined) waterstress
 #' 
 #' @references STOWA (2005) Uitbreiding en Actualisering van de HELP-tabellen ten behoeve van het Waternood instrumentarium
 #' 

@@ -10,7 +10,7 @@
 #' @param type (character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
 #' @param ptf (character) Pedotransfer functions to calculate van Genuchten parameters. Options include c('Wosten1999', 'Wosten2001', 'Klasse')
 #'
-#' @references Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulogic characteristics. Journal of Hydrology 251, p123.
+#' @references Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulic characteristics. Journal of Hydrology 251, p123.
 #'
 #' @import data.table  
 #'

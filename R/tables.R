@@ -12,14 +12,14 @@
 #'   \item{crop_eos_residue}{Effective soil organic matter from plant residues in kg/ha}
 #'   \item{crop_category}{Classification of crop per land use type (arable, maize, grass, nature)}
 #'   \item{crop_rotation}{Classification of crop to determine function within crop rotations}
-#'   \item{crop_crumbleability}{The category for this crop at crumbleablity}
+#'   \item{crop_crumbleability}{The category for this crop at crumbleability}
 #'   \item{crop_phosphate}{The category for this crop for evaluation phosphate availability}
 #'   \item{crop_sealing}{The category for this crop at soil sealing}
 #'   \item{crop_n}{The category for this crop for evaluation nitrogen}
 #'   \item{crop_k}{The category for this crop for evaluation potassium}
 #'   \item{crop_measure}{The category for this crop for evaluating measures}
 #'   \item{nf_clay}{Allowed effective N dose on clay soils}
-#'   \item{nf_sand.other}{Allowed effective N dose on sanndy soils}
+#'   \item{nf_sand.other}{Allowed effective N dose on sandy soils}
 #'   \item{nf_sand.sout}{Allowed effective N dose on sandy soils sensitive to leaching}
 #'   \item{nf_loess}{Allowed effective N dose on loess soils}
 #'   \item{nf_peat}{Allowed effective N dose on peat soils}
@@ -40,7 +40,7 @@
 #' }
 "soils.obic"
 
-#' Linking table between crops, soils, groundwatertables and water induced stresses in OBIC
+#' Linking table between crops, soils, groundwater tables and water induced stresses in OBIC
 #' 
 #' This table helps to link the different crops in the OBIC functions with the crops selected by the user
 #' 
@@ -153,7 +153,7 @@
 #'    \item{A_N_RT}{The organic nitrogen content of the soil in mg N / kg (numeric)}
 #'    \item{A_CN_FR}{The carbon to nitrogen ratio (-) (numeric)}
 #'    \item{A_COM_FR}{The carbon fraction of soil organic matter (\%) (numeric)}
-#'    \item{A_S_RT}{The total Sulpher content of the soil (in mg S per kg) (numeric)}
+#'    \item{A_S_RT}{The total Sulfur content of the soil (in mg S per kg) (numeric)}
 #'    \item{A_N_PMN}{The potentially mineralizable N pool (mg N / kg soil) (numeric)}
 #'    \item{A_P_AL}{The P-AL content of the soil (numeric)}
 #'    \item{A_P_CC}{The plant available P content, extracted with 0.01M CaCl2 (mg / kg) (numeric)}
@@ -226,7 +226,7 @@
 #'   \item{loess}{boolean whether information is valid for soiltype 'loess'}
 #'   \item{zand}{boolean whether information is valid for soiltype 'zand'}
 #'   \item{zavel}{boolean whether information is valid for soiltype 'zavel'}
-#'   \item{info}{string whether there is information on propgation, diffrentiating between none, yes, and some}
+#'   \item{info}{string whether there is information on propgation, differentiating between none, yes, and some}
 #'   \item{name_common}{string, common name of pathogen in Dutch, if no common name is available, scientific name is given}
 #'   \item{nema_name}{string, full name of pathogen in aaltjeschema, includes common and scientific name}
 #'   \item{grondsoort}{string with letters indicating for which soil the information is valid}
@@ -261,7 +261,7 @@
 #'
 #' @format A data.table with 12 rows and 4 columns:
 #' \describe{
-#'   \item{crop_makkink}{Makkink crop categroy}
+#'   \item{crop_makkink}{Makkink crop category}
 #'   \item{1}{Evapotranspiration correction factors for January}
 #'   \item{2}{Evapotranspiration correction factors for February}
 #'   \item{3}{Evapotranspiration correction factors for March}

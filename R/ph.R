@@ -10,7 +10,7 @@
 #' @param D_CP_STARCH (numeric) The fraction of starch potatoes in the crop plan
 #' @param D_CP_POTATO (numeric) The fraction of potatoes (excluding starch potatoes) in the crop plan
 #' @param D_CP_SUGARBEET (numeric) The fraction of sugar beets in the crop plan
-#' @param D_CP_GRASS (numeric) The fracgtion of grass in the crop plan
+#' @param D_CP_GRASS (numeric) The fraction of grass in the crop plan
 #' @param D_CP_MAIS (numeric) The fraction of mais in the crop plan
 #' @param D_CP_OTHER (numeric) The fraction of other crops in the crop plan
 #' 

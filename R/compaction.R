@@ -1,6 +1,6 @@
 #' Calculate indicator for subsoil compaction
 #'
-#' This function calculats the indicator for the risk for soil compaction of the subsoil.
+#' This function calculates the indicator for the risk for soil compaction of the subsoil.
 #' derived from van den Akker et al. (2013) Risico op ondergrondverdichting in het landelijk gebied in kaart, 
 #' Alterra-rapport 2409, Alterra, Wageningen University and Research Centre,
 #' 
