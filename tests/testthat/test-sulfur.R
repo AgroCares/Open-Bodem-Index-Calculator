@@ -41,10 +41,10 @@ test_that("calc_slv works", {
   )
 })
   
-test_that("ind_sulpher works", {
+test_that("ind_sulfur works", {
   # aardappel op dekzand
   expect_equal(
-    ind_sulpher(
+    ind_sulfur(
       D_SLV = 22.08,
       B_LU_BRP = 3732, 
       B_SOILTYPE_AGR ='dekzand', 
@@ -55,7 +55,7 @@ test_that("ind_sulpher works", {
   )
   # aardappel op dekzand, zeeklei, rivierklei en loss
   expect_equal(
-    ind_sulpher(
+    ind_sulfur(
       D_SLV = seq(1,105,length.out = 10),
       B_LU_BRP=rep(3732,10),
       B_SOILTYPE_AGR = rep('dekzand',10),
@@ -66,7 +66,7 @@ test_that("ind_sulpher works", {
   )
   # grasland op klei
   expect_equal(
-    ind_sulpher(
+    ind_sulfur(
       D_SLV = seq(1,105,length.out = 10),
       B_LU_BRP=rep(265,10),
       B_SOILTYPE_AGR = rep('zeeklei',10),
