@@ -1,10 +1,10 @@
 pandoc: 2.7.3
-pkgdown: 2.0.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   description-of-the-columns: description-of-the-columns.html
   obic_introduction: obic_introduction.html
   obic_score_aggregation: obic_score_aggregation.html
   obic_workability: obic_workability.html
-last_built: 2022-01-13T09:50Z
+last_built: 2022-01-17T10:38Z
 

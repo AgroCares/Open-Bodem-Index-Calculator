@@ -90,7 +90,7 @@
       <h1 data-toc-skip>Note on OBI score aggregation</h1>
                         <h4 data-toc-skip class="author">Brent Riechelman, Yuki Fujita</h4>
             
-            <h4 data-toc-skip class="date">2022-01-13</h4>
+            <h4 data-toc-skip class="date">2022-01-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/HEAD/vignettes/obic_score_aggregation.Rmd" class="external-link"><code>vignettes/obic_score_aggregation.Rmd</code></a></small>
       <div class="hidden name"><code>obic_score_aggregation.Rmd</code></div>
@@ -99,9 +99,9 @@
 
     
     
-<div class="section level1">
-<h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h1>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>The OBIC is a framework that takes a multitude of soil parameters and variables from agricultural fields and ultimately gives a single value expressing the soil quality of that field. To take this multitude of measured, modelled and calulated values to a single value between 0 and 1, three aggregation steps take place as illustrated below.</p>
 <div class="figure">
 <img src="../articles/OBIC_score_integratie_2.png" alt="Figure 1. Graphic representation of how measured soil properties are aggregated to scores." width="85%" height="85%"><p class="caption">
@@ -110,12 +110,12 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
 </div>
 <p>There is no scientific principle dictating how this aggregation should be done and there are several ways to do the aggregation. For example; averaging, linearly weighted averaging, logarithmically weighted averaging. The last one is used in OBIC. This document dives deeper into the three aggregation steps within the framework and will explain why logarithmically weighted aggregation is chosen. We will also compare the three methods of aggregation to illustrate the influence the aggregation method on the final score, which provides a kind of sensitivity analysis. The aggregation methods will be compared with a mock dataset of a selection of soil functions. Demonstration of aggregation will be performed using the dataset <code>binnenveld</code>. The dataset contains soil properties from 11 agricultural fields in the surroundings of Wageningen, with different soil texture and land use, and is documented in <code><a href="../reference/binnenveld.html">?binnenveld</a></code>.</p>
 </div>
-<div class="section level1">
-<h1 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
-</h1>
 <div class="section level2">
-<h2 id="pre-processing">Pre-processing<a class="anchor" aria-label="anchor" href="#pre-processing"></a>
+<h2 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
 </h2>
+<div class="section level3">
+<h3 id="pre-processing">Pre-processing<a class="anchor" aria-label="anchor" href="#pre-processing"></a>
+</h3>
 <p>After calculating soil function scores and in prior to the aggregation procedure, a reformatting step takes place. The reformatting step consists of the following tasks:</p>
 <ul>
 <li>it is assessed which indicators are relevant for a field given its soil type and crop category using the <code>weight.obic</code> table.</li>
@@ -166,9 +166,9 @@ Figure 1. Graphic representation of how measured soil properties are aggregated 
     <span class="va">dt.melt</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">'veen'</span>,<span class="va">B_SOILTYPE_AGR</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">weight_nonpeat</span> <span class="op">&lt;</span> <span class="fl">0</span>,<span class="va">value.w</span> <span class="op">:=</span> <span class="op">-</span><span class="fl">999</span><span class="op">]</span>
     </code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="aggregation-within-category">Aggregation within category<a class="anchor" aria-label="anchor" href="#aggregation-within-category"></a>
-</h2>
+<div class="section level3">
+<h3 id="aggregation-within-category">Aggregation within category<a class="anchor" aria-label="anchor" href="#aggregation-within-category"></a>
+</h3>
 <p>To aggregate scores, the relevant columns and rows are taken from the molten data.table.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"> <span class="co"># Step 5 Add scores ------------------</span>
@@ -191,9 +191,9 @@ S =  \sum_{i}(I_{i} \frac{vcf_{i}}{\sum_{i}vcf_{i}})
       <span class="co"># for case that a cat has one indicator or one year and has NA</span>
       <span class="va">out.score</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>, <span class="va">value</span> <span class="op">:=</span> <span class="op">-</span><span class="fl">999</span><span class="op">]</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="aggregation-over-years">Aggregation over years<a class="anchor" aria-label="anchor" href="#aggregation-over-years"></a>
-</h2>
+<div class="section level3">
+<h3 id="aggregation-over-years">Aggregation over years<a class="anchor" aria-label="anchor" href="#aggregation-over-years"></a>
+</h3>
 <p>To account for the entire crop rotation, OBIC aggregates scores of multiple years. For the aggregation over years, another correction factor <em>ycf</em> is used to give more weight to recent years on a logarithmic scale. OBIC set the maximum length of period as 10 years, as crop rotation in the Netherlands are hardly ever longer than 10 years. When data older than 10 years ago is used, then those years get the same weight as 10 years ago. <em>ycf</em> is formulated as: <span class="math display">\[
 ycf = ln(12 - min(y, 10))
 \]</span> where <em>y</em> is the length of years before the assessment. <em>y = 1</em> means the year for which the assessment is conducted for (i.e. the most recent year).</p>
@@ -212,9 +212,9 @@ ycf = ln(12 - min(y, 10))
     <span class="va">out.score</span> <span class="op">&lt;-</span> <span class="va">out.score</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">value</span><span class="op">)</span><span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">[</span><span class="va">value</span> <span class="op">&gt;=</span> <span class="fl">0</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">cat</span><span class="op">]</span></code></pre></div>
 <p>This gives us a single score for each of the five indicator categories (chemical, physical, biological, management, and environmental), without time dimension.</p>
 </div>
-<div class="section level2">
-<h2 id="aggregation-to-single-obi-score">Aggregation to single OBI score<a class="anchor" aria-label="anchor" href="#aggregation-to-single-obi-score"></a>
-</h2>
+<div class="section level3">
+<h3 id="aggregation-to-single-obi-score">Aggregation to single OBI score<a class="anchor" aria-label="anchor" href="#aggregation-to-single-obi-score"></a>
+</h3>
 <p>The scores of five indicator categories are aggregated to a single, holistic, OBI-score. The category scores are weighed logarithmically based on the number of indicators underlying the category. The number of indicators per category was retrieved previously with the line<br><code>dt.melt.ncat &lt;- dt.melt[year==1 &amp; !cat %in% c('IBCS','IM')][,list(ncat = .N),by='cat']</code>.<br>
 Now its merged with our score data.table.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -237,22 +237,22 @@ ccf = ln(ncat+1)
     <span class="va">out.score</span><span class="op">[</span>,<span class="va">cat</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'S_'</span>,<span class="va">cat</span>,<span class="st">'_OBI_A'</span><span class="op">)</span><span class="op">]</span>
     <span class="va">out.score</span><span class="op">[</span>, <span class="va">value</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">value</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="brief-recap">Brief recap<a class="anchor" aria-label="anchor" href="#brief-recap"></a>
-</h2>
+<div class="section level3">
+<h3 id="brief-recap">Brief recap<a class="anchor" aria-label="anchor" href="#brief-recap"></a>
+</h3>
 <ul>
 <li>Soil functions with low scores gain more weight than ones with high scores because these soil functions are supposed to be more limiting. This makes it more worthwhile (both in reality as for the OBI score) to invest in improving low scores</li>
 <li>Values from recent years count more than values from long ago. Recent years are more reflective of the current situation and it becomes easier to see the effect of changes in management or soil properties in subsequent years</li>
 <li>Categories with more underlying indicators have more weight in determining the total OBI score. This is because these indicators are better understood and supported and may also be more important.</li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="comparison-with-other-aggregation-methods">Comparison with other aggregation methods<a class="anchor" aria-label="anchor" href="#comparison-with-other-aggregation-methods"></a>
-</h2>
-<p>By now, we have some understanding of how measured soil function data are aggregated to an integral score within the current OBIC framework. So, now we can explore and reflect on some of the choices that were made in designing this aggregation process. The first choice we will reflect upon is that of the correction factors. In the OBIC framework, these are determined logarithmically but could also be determined linearly or not be used at all. Second, we will reflect on our choice of 2-step aggregation (i.e. first aggregated to categories and then aggregated to a holistic score),instead of aggregating indicators directly to a holistic score.</p>
 <div class="section level3">
-<h3 id="data-description">Data description<a class="anchor" aria-label="anchor" href="#data-description"></a>
+<h3 id="comparison-with-other-aggregation-methods">Comparison with other aggregation methods<a class="anchor" aria-label="anchor" href="#comparison-with-other-aggregation-methods"></a>
 </h3>
+<p>By now, we have some understanding of how measured soil function data are aggregated to an integral score within the current OBIC framework. So, now we can explore and reflect on some of the choices that were made in designing this aggregation process. The first choice we will reflect upon is that of the correction factors. In the OBIC framework, these are determined logarithmically but could also be determined linearly or not be used at all. Second, we will reflect on our choice of 2-step aggregation (i.e. first aggregated to categories and then aggregated to a holistic score),instead of aggregating indicators directly to a holistic score.</p>
+<div class="section level4">
+<h4 id="data-description">Data description<a class="anchor" aria-label="anchor" href="#data-description"></a>
+</h4>
 <p>To reflect on alternative aggregation methods we have made a mock data.table similar to a data.table in the obic_field function just before aggregating scores. We will compare the aggregation methods with seven scenarios or treatments. The treatments are as follows:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -346,9 +346,9 @@ Figure 5. Distribution of indicator values per scenario as histogram
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="correction-factors">Correction factors<a class="anchor" aria-label="anchor" href="#correction-factors"></a>
-</h3>
+<div class="section level4">
+<h4 id="correction-factors">Correction factors<a class="anchor" aria-label="anchor" href="#correction-factors"></a>
+</h4>
 <p>To compare the influence of different correction factors, we conducted the three aggregation steps with three methods to compute a correction factor (<em>cf</em>):</p>
 <ul>
 <li>logarithmically</li>
@@ -362,9 +362,9 @@ Figure 2. Correction factors calculated with linear or logarithmic methods per a
 </p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="effects-of-different-aggregation-method-on-obic-total-score">Effects of different aggregation method on OBIC total score<a class="anchor" aria-label="anchor" href="#effects-of-different-aggregation-method-on-obic-total-score"></a>
-</h3>
+<div class="section level4">
+<h4 id="effects-of-different-aggregation-method-on-obic-total-score">Effects of different aggregation method on OBIC total score<a class="anchor" aria-label="anchor" href="#effects-of-different-aggregation-method-on-obic-total-score"></a>
+</h4>
 <p>The effects of different aggregation methods on total score are shown in the box plot. Red dashed lines show arithmetic means of all 22 indicators.</p>
 <div class="figure">
 <img src="obic_score_aggregation_files/figure-html/plot%20baselines%20scores-1.png" alt="Figure 3. Total OBI score boxplots per aggregation method for each scenario." width="672"><p class="caption">
@@ -614,9 +614,9 @@ Figure 4. Total OBI score per aggregation method for baseline sceinario.
 <li>Both logarithmic and linear methods gives higher weight on recent years than old years. The relative weight on recent years is slightly higher for ‘lin’ than ‘log’ method, but the difference is minor.</li>
 </ol>
 </div>
-<div class="section level3">
-<h3 id="effects-of-aggregating-categories-on-obic-total-score">Effects of aggregating categories on OBIC total score<a class="anchor" aria-label="anchor" href="#effects-of-aggregating-categories-on-obic-total-score"></a>
-</h3>
+<div class="section level4">
+<h4 id="effects-of-aggregating-categories-on-obic-total-score">Effects of aggregating categories on OBIC total score<a class="anchor" aria-label="anchor" href="#effects-of-aggregating-categories-on-obic-total-score"></a>
+</h4>
 <p>Grouping indicators in categories and aggregating these categories to a single score is a choice, its not mathematically necessary. Here we look deeper at how our choice of the category aggregation influence the behavior of the OBIC score.</p>
 <p>In the figure below, we calculated the total OBIC score both with category aggregation (‘S_T_cf_log’; with log’ method) and without category aggregation (‘S_T_nocat’; total score was calculated directly from all indicastors). The other 2 aggregation steps were done with ‘log’ method for both scenarios.</p>
 <p>When indicators of 1 category have low scores (i.e. ‘low B values’ and ‘low C values’), the total score becomes higher when the category aggregation is executed. This is because the category aggregation assures that the impact of a category on total score does not exceed a fixed proportion: the contribution of C, P, B, E and M category to the total score is 31, 30, 15, 15, 9%, respectively. When no category aggregation is done, then influence of the poor indicator values can influence the total score more prominently. When a single indicator has low scores (‘one low B’ and ‘one low C’) similar patterns were obserbved: the impact of the poor indicator on total score was smaller when category aggregation was one, especially in ‘one low B’ scenario.</p>
@@ -628,9 +628,9 @@ Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A)
 </div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="alternative-aggregation-methods-on-binnenveld-fields">Alternative aggregation methods on Binnenveld fields<a class="anchor" aria-label="anchor" href="#alternative-aggregation-methods-on-binnenveld-fields"></a>
-</h2>
+<div class="section level3">
+<h3 id="alternative-aggregation-methods-on-binnenveld-fields">Alternative aggregation methods on Binnenveld fields<a class="anchor" aria-label="anchor" href="#alternative-aggregation-methods-on-binnenveld-fields"></a>
+</h3>
 <p>The scenario’s in the experiment above use artificial data and may not be representative of actual fields in the Netherlands. Therefore we will explore the aggregation methods described above using indicator values of fields in the <code>binnenveld</code> dataset.</p>
 <div class="figure">
 <img src="obic_score_aggregation_files/figure-html/plot%20binnenveld%20scores-1.png" alt="Figure 6. Total and category OBI scores of binnenveld fields aggregated with 'log', 'lin' or 'non' method, as well as total scores when disregarding categories in aggregating scores." width="768"><p class="caption">
@@ -711,9 +711,9 @@ Figure 6. Total and category OBI scores of binnenveld fields aggregated with ‘
 <p>The <code>binnenveld</code> dataset lacks actual information on management parameters. In the dataset these were all set to <code>FALSE</code>, resulting in low management scores for all fields. For most total and categorical scores, the highest scores are obtained with the ‘non’ aggregation method and the lowest with ‘lin’.</p>
 <p>When the aggregation step to categories is omitted, total scores differ little for some fields (eg. 2, 4, 5, 8), but are lower when using ‘log’ or ‘lin’ in other fields (eg. 3, 6, 7, 9)</p>
 </div>
-<div class="section level2">
-<h2 id="aggregation-in-other-soil-quality-assesment-frameworks">Aggregation in other soil quality assesment frameworks<a class="anchor" aria-label="anchor" href="#aggregation-in-other-soil-quality-assesment-frameworks"></a>
-</h2>
+<div class="section level3">
+<h3 id="aggregation-in-other-soil-quality-assesment-frameworks">Aggregation in other soil quality assesment frameworks<a class="anchor" aria-label="anchor" href="#aggregation-in-other-soil-quality-assesment-frameworks"></a>
+</h3>
 <p>The OBI is not the first attempt to express soil quality with a single score, see for example: <span class="citation">Rutgers et al. (2012)</span> and <span class="citation">Wijnen et al. (2012)</span>. These authors described a method to numerically express the performance of ecosystem service provision of fields with what they call: the Ecosystem Performance Index (EPX). An EPX was calculated using a set of measured properties of a field and of a reference. The reference, dubbed the Maximum Ecological Potential (MEP) was derived by selecting the best performing fields in a sample for a given land-use and soil type. Depending on the ecosystem service, a selecting of soil properties was made that acted as proxy. An EPX was calculated by comparing the selected soil properties of a field with those of the reference/MEP like this:<br><span class="math display">\[
 EPX = 10^{-{\left(\frac{+\left|\log\left(\frac{VAR^i_{obs}}{VAR^i_{ref}}\right)\right|+\dots-\left|\log\left(\frac{VAR^{j}_{obs}}{VAR^{j}_{ref}}\right)\right|}{n}\right)}}
 \]</span> Where VAR<sub>obs</sub> is a soil property of an observed field and VAR<sub>ref</sub> a soil property of the MEP, n is the number of distinct soil properties used to derive the EPX. Normally a variable’s contribution to the EPX is calculated using the i-type, where any deviation of the observed property from the MEP negatively affects the EPX. For some properties*ecosystem services a positive or negative deviation of the observed value from the MEP can be positive for the EPX, in such a case, the j-type has to be used. <span class="citation">Rutgers et al. (2012)</span> provides as example, where more soil organic matter (SOM) is always positive for providing a certain service, if an observed SOM content is higher than the reference, the j-type is used and SOM contributes negatively to the deviation from the MEP. Consequently, if the j-type is applied, the EPX of a field can be larger then one (provided that all i-type variables are at or very close to the reference). The indices of different services can be aggregated to a single score by taking the arithmetic mean. A weighted mean was also calculated based on the relative importance stakeholders assign to each service (here, a farmer, water manager and national government representative were used).</p>
@@ -725,9 +725,9 @@ NAC scores where one variable varies and the others are set to Maximum ecologica
 </p>
 </div>
 </div>
-<div class="section level2 unnumbered">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
+<div class="section level3">
+<h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h3>
 <div id="refs" class="references">
 <div id="ref-Rutgers2008">
 <p>Rutgers, M, C Mulder, AJ Schouten, J Bloem, JJ Bogte, Breure AM, L Brussaard, et al. 2008. “Soil ecosystem profiling in the Netherlands with ten references for biological soil quality.” Rijksinstituut voor Volksgezondheid en Milieu RIVM. <a href="https://rivm.openrepository.com/bitstream/10029/260810/3/607604009.pdf" class="external-link">https://rivm.openrepository.com/bitstream/10029/260810/3/607604009.pdf</a>.</p>
@@ -760,7 +760,7 @@ NAC scores where one variable varies and the others are set to Maximum ecologica
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
