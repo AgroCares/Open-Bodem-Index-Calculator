@@ -4,7 +4,7 @@
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
-#' @param nutrient (character) The nutrient for wich crop classification is needed. Options include P, K and S.
+#' @param nutrient (character) The nutrient for which crop classification is needed. Options include P, K and S.
 #' 
 #' @import data.table
 #' 
