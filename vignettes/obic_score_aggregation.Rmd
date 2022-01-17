@@ -54,7 +54,7 @@ The reformatting step consists of the following tasks:
   * a molten data.table is created with all indicators in a single column and soil type, crop category and year as identifying variables
   * indicators are assigned to  categories (chemical, physical, biological, environmental, management)
   * the number of indicators per category is counted (used later for the aggregation over categories)
-  * a correction factor per score is calculated based on the height of the score (used later for the aggretation within each category)
+  * a correction factor per score is calculated based on the height of the score (used later for the aggregation within each category)
   * soil function scores irrelevant to the land use are set to -999
   
 ```{r reformatting code, echo = TRUE, eval=FALSE}
@@ -891,7 +891,7 @@ The `binnenveld` dataset lacks actual information on management parameters. In t
 
 When the aggregation step to categories is omitted, total scores differ little for some fields (eg. 2, 4, 5, 8), but are lower when using 'log' or 'lin' in other fields (eg. 3, 6, 7, 9)
 
-## Aggregation in other soil quality assesment frameworks
+## Aggregation in other soil quality assessment frameworks
 The OBI is not the first attempt to express soil quality with a single score, see for example: @Rutgers2012 and @VanWijnen2012. 
 These authors described a method to numerically express the performance of ecosystem service provision of fields with what they call: the Ecosystem Performance Index (EPX). An EPX was calculated using a set of measured properties of a field and of a reference. The reference, dubbed the Maximum Ecological Potential (MEP) was derived by selecting the best performing fields in a sample for a given land-use and soil type. Depending on the ecosystem service, a selecting of soil properties was made that acted as proxy. An EPX was calculated by comparing the selected soil properties of a field with those of the reference/MEP like this:  
 $$

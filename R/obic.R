@@ -25,7 +25,7 @@
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_CC (numeric) The plant available P content, extracted with 0.01M CaCl2 (mg / kg)
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
-#' @param A_CEC_CO (numeric) The cation exchange capacity of the soil (mmol+ / kg), analysed via Cobalt-hexamine extraction
+#' @param A_CEC_CO (numeric) The cation exchange capacity of the soil (mmol+ / kg), analyzed via Cobalt-hexamine extraction
 #' @param A_CA_CO_PO (numeric) The The occupation of the CEC with Ca (\%)
 #' @param A_MG_CO_PO (numeric) The The occupation of the CEC with Mg (\%)
 #' @param A_K_CO_PO (numeric) The occupation of the CEC with K (\%)
