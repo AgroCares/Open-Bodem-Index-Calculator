@@ -126,7 +126,7 @@
 * PBI input is flexible for both grassland and arable
 * calculation SLV updated
 * update element_names for A_P_CC, A_P_AL in phosphate_availability.R
-* update element_names for A_S_RT, A_SOM_LOI, B_AER_CBS, B_SOILTYPE_AGR in sulphur.R
+* update element_names for A_S_RT, A_SOM_LOI, B_AER_CBS, B_SOILTYPE_AGR in sulfur.R
 * update element_names for B_GWL_CLASS in wateravailability.R
 * update element_names for B_GWL_CLASS and B_AER_CBS in nretention.R
 * correct weighing for S_C_A
@@ -156,7 +156,7 @@
 * Range of `D_P_DU` is set between 0 and 1
 
 ## Fixed
-* Fixed the use of `B_LG_CBS` at sulphur
+* Fixed the use of `B_LG_CBS` at sulfur
 * `ID` can now also be character and does not have to be numeric #66
 
 
@@ -197,10 +197,10 @@
 * new table with weighing factors included 'weight.obic' #32
 * weighing factors updated in obic_indicators.R #32
 * Improved the zinc indicator function #39
-* The evaluation function for sulphur on maize and grass is updated #40
+* The evaluation function for sulfur on maize and grass is updated #40
 * The management function is improved, especially for maize #38
 * The maximum score of `ind_management` is adjusted #38
-* The parameter values for sulphur on arable land is adjusted #41
+* The parameter values for sulfur on arable land is adjusted #41
 * The optimal pH for grassland depends now on organic matter content and presence of clover #42
 * The score aggregation is now 60% average of last 4 years and 40% of older years #31
 * The maximum value for `D_CR` is limited to 10 #47
@@ -220,7 +220,7 @@
 * The upper limit for `D_BCS` is increased from 40 to 50
 * Switch on crumbleability
 * For `calc_phosphate_availability` the category `arable` is added for the crop categories
-* Changed evaluation of sulphur for arable fields #26
+* Changed evaluation of sulfur for arable fields #26
 
 ## Fixed
 * Fixed typo if mais in `ind_managment`

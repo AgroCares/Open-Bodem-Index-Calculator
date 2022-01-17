@@ -1,6 +1,6 @@
 #' Calculate the SLV
 #' 
-#' This function calculates a S-balance given the SLV (Sulpher supplying capacity) of a soil
+#' This function calculates a S-balance given the SLV (Sulfur supplying capacity) of a soil
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil

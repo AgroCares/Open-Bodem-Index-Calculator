@@ -7,7 +7,7 @@
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #' @param A_SOM_LOI (numeric) The organic matter content of the soil (\%)
-#' @param type (character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
+#' @param type (character) The type of water retention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
 #' @param ptf (character) Pedotransfer functions to calculate van Genuchten parameters. Options include c('Wosten1999', 'Wosten2001', 'Klasse')
 #'
 #' @references Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulic characteristics. Journal of Hydrology 251, p123.
@@ -102,7 +102,7 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,
 #' These include : 'wilting point','field capacity','water holding capacity','plant available water' and 'Ksat'
 #'  
 #' @param D_P_WRI (numeric) The value for Water Retention index (WRI) as calculated by \code{\link{calc_waterretention}}
-#' @param type (character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
+#' @param type (character) The type of water retention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
 #' 
 #' @export
 ind_waterretention <- function(D_P_WRI,type ='plant available water') {

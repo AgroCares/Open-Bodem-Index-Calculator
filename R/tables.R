@@ -50,7 +50,7 @@
 #'   \item{soilunit}{The category for this soil, derived from 1:50.000 soil map}
 #'   \item{gt}{The class describing mean highest and lowest groundwater table, derived from 1:50.000 soil map}
 #'   \item{droughtstress}{The mean yield reduction due to drought (in percentage)}
-#'   \item{wetnessstress}{The mean yield reduction due to watersurplus (in percentage)}
+#'   \item{wetnessstress}{The mean yield reduction due to water surplus (in percentage)}
 #'   \item{waterstress}{The mean combined effect water stress (due to deficiency or excess of water)}
 #' }
 "waterstress.obic"
@@ -228,7 +228,7 @@
 #'   \item{zavel}{boolean whether information is valid for soiltype 'zavel'}
 #'   \item{info}{string whether there is information on propgation, differentiating between none, yes, and some}
 #'   \item{name_common}{string, common name of pathogen in Dutch, if no common name is available, scientific name is given}
-#'   \item{nema_name}{string, full name of pathogen in aaltjeschema, includes common and scientific name}
+#'   \item{nema_name}{string, full name of pathogen in aaltjesschema, includes common and scientific name}
 #'   \item{grondsoort}{string with letters indicating for which soil the information is valid}
 #'   \item{groen_br}{boolean indicating that the crop is a green manure on fallow}
 #'   \item{groen_vs}{boolean indicating that the crop is a green manure in early stubble}
