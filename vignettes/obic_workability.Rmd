@@ -268,7 +268,7 @@ gg2 <- ggplot(data = dt, aes(x= field, fill = field)) +
 
 As you may have suspected, lower water levels resulted in higher relative growing seasons and workability scores. Note that for the function 'workability' lower ground water is always positive until the relative growing season length equals 1. However, low groundwater levels can be negative for other soil functions.
 
-## B_GWL_ZCrit
+## B_GWL_ZCRIT
 Sometimes, capillary rise of water from the groundwater table to the soil surface may fall behind evaporation. If this is the case, the soil will dry out relatively quickly and may be workable sooner. It is estimated that evaporation in the Netherlands in spring is about 2mm per day. In our example data, B_GWL_ZCRIT was set to 400 meaning that over a distance of 400 cm between the groundwater table and the soil surface, the soil is able to supply at least 2 mm of water per day. 
 Lets set B_GWL_ZCRIT to 50 and see what happens to our scores.
 

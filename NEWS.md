@@ -28,7 +28,7 @@
 * Add table `weather.obic` with monthly mean precipitation, temperature and evaporation
 * Add table `crops.makkink` with mean Makkink factors per crop type
 * Add table `nema.crop.rot.obic` added with crop sensitivity for nematodes
-* Add table `nema.obic` with treshold values per species
+* Add table `nema.obic` with threshold values per species
 * Add GitHub Action to run R-CMD-Check for changes on `master` and `development`
 * Add coverage of unit tests
 
@@ -214,7 +214,7 @@
 
 # OBIC 0.9.0 2019-10-22
 ## Changed
-* The uppper limit for `D_BCS` is increased from 40 to 50
+* The upper limit for `D_BCS` is increased from 40 to 50
 * Switch on crumbleability
 * For `calc_phosphate_availability` the category `arable` is added for the crop categories
 * Changed evaluation of sulphur for arable fields #26
