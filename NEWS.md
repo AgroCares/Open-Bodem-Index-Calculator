@@ -1,3 +1,13 @@
+# OBIC 2.0.1 2022-01-17
+### Changed
+* The function `ind_sulpher` is renamed to `ind_sulfur`
+
+### Fixed
+* Fixes many spelling errors in the documentation
+
+### Deprecated
+* The function `ind_sulpher` is deprecated due to renaming
+
 # OBIC 2.0.0 2022-01-11
 ## Added
 * Add `ppr_bouwplan_tables.R` in dev/scripts
