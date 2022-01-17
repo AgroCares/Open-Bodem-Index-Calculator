@@ -22,7 +22,7 @@ calc_waterretention(
 
 \item{A_SOM_LOI}{(numeric) The organic matter content of the soil (\%)}
 
-\item{type}{(character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')}
+\item{type}{(character) The type of water retention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')}
 
 \item{ptf}{(character) Pedotransfer functions to calculate van Genuchten parameters. Options include c('Wosten1999', 'Wosten2001', 'Klasse')}
 }

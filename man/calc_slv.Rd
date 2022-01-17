@@ -22,7 +22,7 @@ calc_slv(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS, A_SOM_LOI, A_S_RT, D_BDS)
 \item{D_BDS}{(numeric) The bulk density of the soil (in kg per m3)}
 }
 \description{
-This function calculates a S-balance given the SLV (Sulpher supplying capacity) of a soil
+This function calculates a S-balance given the SLV (Sulfur supplying capacity) of a soil
 
 This function calculates a S-balance given the SLV (Sulfur supplying capacity) of a soil
 }

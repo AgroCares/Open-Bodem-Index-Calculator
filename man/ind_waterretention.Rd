@@ -9,7 +9,7 @@ ind_waterretention(D_P_WRI, type = "plant available water")
 \arguments{
 \item{D_P_WRI}{(numeric) The value for Water Retention index (WRI) as calculated by \code{\link{calc_waterretention}}}
 
-\item{type}{(character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')}
+\item{type}{(character) The type of water retention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')}
 }
 \description{
 This function evaluates different Water Retention Indices.
