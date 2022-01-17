@@ -24,7 +24,7 @@ A data.frame with 65 rows and 55 columns:
    \item{A_N_RT}{The organic nitrogen content of the soil in mg N / kg (numeric)}
    \item{A_CN_FR}{The carbon to nitrogen ratio (-) (numeric)}
    \item{A_COM_FR}{The carbon fraction of soil organic matter (\%) (numeric)}
-   \item{A_S_RT}{The total Sulpher content of the soil (in mg S per kg) (numeric)}
+   \item{A_S_RT}{The total Sulfur content of the soil (in mg S per kg) (numeric)}
    \item{A_N_PMN}{The potentially mineralizable N pool (mg N / kg soil) (numeric)}
    \item{A_P_AL}{The P-AL content of the soil (numeric)}
    \item{A_P_CC}{The plant available P content, extracted with 0.01M CaCl2 (mg / kg) (numeric)}

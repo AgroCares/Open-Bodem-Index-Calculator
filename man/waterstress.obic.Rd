@@ -3,7 +3,7 @@
 \docType{data}
 \name{waterstress.obic}
 \alias{waterstress.obic}
-\title{Linking table between crops, soils, groundwatertables and water induced stresses in OBIC}
+\title{Linking table between crops, soils, groundwater tables and water induced stresses in OBIC}
 \format{
 A data.frame with x rows and y columns:
 \describe{

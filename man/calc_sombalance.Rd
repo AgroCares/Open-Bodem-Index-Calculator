@@ -17,7 +17,7 @@ calc_sombalance(B_LU_BRP, A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)
 
 \item{M_COMPOST}{(numeric) The frequency that compost is applied (every x years)}
 
-\item{M_GREEN}{(boolean) measure. are catchcrops sown after main crop (option: yes or no)}
+\item{M_GREEN}{(boolean) measure. are catch crops sown after main crop (option: yes or no)}
 }
 \description{
 This function calculates a simple organic matter balance, as currently used in agricultural practice in the Netherlands.For more details, see www.os-balans.nl

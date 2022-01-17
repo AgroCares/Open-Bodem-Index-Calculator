@@ -2,7 +2,7 @@
 % Please edit documentation in R/evaluate.R
 \name{evaluate_logistic}
 \alias{evaluate_logistic}
-\title{Evaluate using the general logistice function}
+\title{Evaluate using the general logistic function}
 \usage{
 evaluate_logistic(x, b, x0, v, increasing = TRUE)
 }

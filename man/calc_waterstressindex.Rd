@@ -13,7 +13,7 @@ calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = "waterstress")
 
 \item{B_GWL_CLASS}{(character) The groundwater table class}
 
-\item{WSI}{(character) The type of Water Stress Index is required. Options: droughtstress, wetnessstress and the (combined) waterstress}
+\item{WSI}{(character) The type of Water Stress Index is required. Options: drought stress, wetnessstress and the (combined) waterstress}
 }
 \description{
 This function calculates the Water Stress Index (estimating the yield depression as a function of water deficiency or surplus)

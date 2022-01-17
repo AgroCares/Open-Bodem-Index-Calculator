@@ -98,7 +98,7 @@ obic_field(
 
 \item{A_CN_FR}{(numeric) The carbon to nitrogen ratio (-)}
 
-\item{A_S_RT}{(numeric) The total Sulpher content of the soil (in mg S per kg)}
+\item{A_S_RT}{(numeric) The total Sulfur content of the soil (in mg S per kg)}
 
 \item{A_N_PMN}{(numeric) The potentially mineralizable N pool (mg N / kg soil)}
 
@@ -108,7 +108,7 @@ obic_field(
 
 \item{A_P_WA}{(numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)}
 
-\item{A_CEC_CO}{(numeric) The cation exchange capacity of the soil (mmol+ / kg), analysed via Cobalt-hexamine extraction}
+\item{A_CEC_CO}{(numeric) The cation exchange capacity of the soil (mmol+ / kg), analyzed via Cobalt-hexamine extraction}
 
 \item{A_CA_CO_PO}{(numeric) The The occupation of the CEC with Ca (\%)}
 

@@ -11,7 +11,7 @@ calc_cropclass(B_LU_BRP, B_SOILTYPE_AGR, nutrient = NULL)
 
 \item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
-\item{nutrient}{(character) The nutrient for wich crop classification is needed. Options include P, K and S.}
+\item{nutrient}{(character) The nutrient for which crop classification is needed. Options include P, K and S.}
 }
 \description{
 This function determines crop classes given crop response to P, K and S fertilizers

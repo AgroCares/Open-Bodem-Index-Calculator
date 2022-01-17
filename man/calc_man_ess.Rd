@@ -56,7 +56,7 @@ calc_man_ess(
 
 \item{M_COMPOST}{(numeric) The frequency that compost is applied (optional, every x years)}
 
-\item{M_GREEN}{(boolean) measure. are catchcrops sown after main crop (option: yes or no)}
+\item{M_GREEN}{(boolean) measure. are catch crops sown after main crop (option: yes or no)}
 
 \item{M_NONBARE}{(boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)}
 

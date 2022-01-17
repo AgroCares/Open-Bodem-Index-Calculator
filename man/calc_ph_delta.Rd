@@ -35,7 +35,7 @@ calc_ph_delta(
 
 \item{D_CP_SUGARBEET}{(numeric) The fraction of sugar beets in the crop plan}
 
-\item{D_CP_GRASS}{(numeric) The fracgtion of grass in the crop plan}
+\item{D_CP_GRASS}{(numeric) The fraction of grass in the crop plan}
 
 \item{D_CP_MAIS}{(numeric) The fraction of mais in the crop plan}
 

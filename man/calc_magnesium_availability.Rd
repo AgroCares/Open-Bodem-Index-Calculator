@@ -27,7 +27,7 @@ calc_magnesium_availability(
 
 \item{A_PH_CC}{(numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)}
 
-\item{A_CEC_CO}{(numeric) The cation exchange capacity of the soil (mmol+ per kg), analysed via Cobalt-hexamine extraction}
+\item{A_CEC_CO}{(numeric) The cation exchange capacity of the soil (mmol+ per kg), analyzed via Cobalt-hexamine extraction}
 
 \item{A_K_CO_PO}{(numeric) The occupation of the CEC with potassium (\%)}
 
