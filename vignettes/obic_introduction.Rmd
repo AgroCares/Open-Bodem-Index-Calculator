@@ -73,7 +73,7 @@ For each field, the following properties are available:
 
 In this example all optional input variables are set to the lowest score (for visuals soil assessment) or to false (for soil management measures). Since soil quality can only be evaluated given its use, the crop rotation plan determines also which soil properties and which soil functions are relevant and how they are evaluated given a desired threshold value.
 
-Note that `binnenveld` is a data.table, a modern and fast variant of a data frame [@R-data.table]. It's particularly useful for large datasets because it only prints a selection of the dataset and calculations done on a data.table are extremely fast. You can learn more about data.tables at [this link](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) ; in particular you can convert data frames to data.tables with as.data.table().
+Note that `binnenveld` is a data.table, a modern and fast variant of a data frame [@R-data.table]. It's particularly useful for large datasets because it only prints a selection of the dataset and calculations done on a data.table are extremely fast. You can learn more about data.tables at [this link](https://CRAN.R-project.org/package=data.table/vignettes/datatable-intro.html) ; in particular you can convert data frames to data.tables with as.data.table().
 
 ### Running OBIC for a single field
 The main function to evaluate the quality of the soil is `obic_field()` as well as `obic_field_dt()`. Both are wrappers around the the following steps (where the latter requires a data.table as input and the former does not):
