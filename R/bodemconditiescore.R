@@ -2,7 +2,7 @@
 #' 
 #' This function calculates the BodemConditieScore given input from manual observations made in the field.
 #' The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
-#' More information on this test can be found \href{http://mijnbodemconditie.nl/}{here}
+#' More information on this test can be found \href{https://mijnbodemconditie.nl/}{here}
 #' 
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP 
@@ -20,7 +20,7 @@
 #' @param A_CC_BCS (integer) The crop cover on the surface (score 0-1-2)
 #' @param type (character) Define output of the function. Options: score (integrated score) and indicator (score per indicator)
 #' 
-#' @references \href{http://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
+#' @references \href{https://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
 #' 
 #' @import data.table
 #' 
