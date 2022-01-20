@@ -32,7 +32,7 @@ nocite: |
 ## Intorduction
 In practice, agricultural soils have multiple functions and contribute to various ecosystem services. Soils ensure good agricultural production, buffer water and nutrients, store carbon, provide a habitat for soil organisms and facilitate aboveground biodiversity. In recent years, therefore, research has been conducted from all angles into the opportunities that sustainable soil management offers for improving the quality of the living environment.  By improving soil management and identifying any bottlenecks in soil quality, a better balance can be found between the various ecosystem services and between agriculture and the environment. Sustainable soil management is therefore not only relevant for farmers and nature managers, but also for water boards and drinking water companies. For them, soil provides relevant ecosystem services such as water storage, water purification and nutrient buffering. Soil properties and soil management therefore influence the quality and availability of groundwater and surface water where they manage or extract water.
 
-The OBI was developed in 2019 by a consortium of WUR, FarmHack and NMI and is an initiative of Rabobank, a.s.r. and Vitens. The primary focus of the current OBI (version 1.0) is on the agricultural functions that a soil fulfils. Within the project "Healthy Soil, Healthy Water System", drinking water companies have focused on soil quality assessment from an environmental perspective, focusing on groundwater quality and quantity. An earlier report by Geurts et al. (2021) proposed to expand the OBI to include functions for groundwater recharge, water storage, nitrogen efficiency, and crop protection product leaching. These functions were to assess how soil and its management contribute to groundwater quality and quantity. The functions were developed and tested in the summer of 2021 on four plots originating from groundwater protection areas managed by Vitens. The results were discussed during a workshop with the participating farmers and stewards, site managers and ecologists. This report describes the newly developed functions as well as their evaluation as a result of the workshop and further data analysis. 
+The OBIC was developed in 2019 by a consortium of WUR, FarmHack and NMI and is an initiative of Rabobank, a.s.r. and Vitens. The primary focus of the current OBIC (version 1.0) is on the agricultural functions that a soil fulfils. Within the project "Healthy Soil, Healthy Water System", drinking water companies have focused on soil quality assessment from an environmental perspective, focusing on groundwater quality and quantity. An earlier report by Geurts et al. (2021) proposed to expand the OBIC to include functions for groundwater recharge, water storage, nitrogen efficiency, and crop protection product leaching. These functions were to assess how soil and its management contribute to groundwater quality and quantity. The functions were developed and tested in the summer of 2021 on four plots originating from groundwater protection areas managed by Vitens. The results were discussed during a workshop with the participating farmers and stewards, site managers and ecologists. This report describes the newly developed functions as well as their evaluation as a result of the workshop and further data analysis. 
 
 
 
@@ -79,13 +79,13 @@ P stands for precipitation in mm, ETpot is the potential evapo-transpiration in 
   
 ```
 
-The OBI already contains a function for saturated permeability, this was then converted to unsaturated permeability based on Wösten et al. (2001). The formula for this conversion is as follows:
+The OBIC already contains a function for saturated permeability, this was then converted to unsaturated permeability based on Wösten et al. (2001). The formula for this conversion is as follows:
 ```{r include image of formula unsaturated permeability, echo=FALSE, out.width = '45%', out.height = '45%', fig.align = 'center' }
 # include graphic
 knitr::include_graphics('Formula_K-unsaturated.png')
 ```
 
-Here Ksat is the saturated permeability in m/d, h is the hydraulic head at the inflection point, the parameters α, n and l determine the shape of the curve and are calculated with the OBI function pFpara_ptf_Wosten2001.  The logistic function for assessing the indicator score can be found below.
+Here Ksat is the saturated permeability in m/d, h is the hydraulic head at the inflection point, the parameters α, n and l determine the shape of the curve and are calculated with the OBIC function pFpara_ptf_Wosten2001.  The logistic function for assessing the indicator score can be found below.
 
 ```{r Unsaturated permeability, fig.width = 4,fig.height = 3, fig.align = 'center'}
 
