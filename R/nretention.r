@@ -87,7 +87,11 @@ calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS,
   dt[,(cols) := NULL]
   
   # soil- and crop-specific median NLV
+<<<<<<< HEAD
   # median NLV values of all Dutch agricultural fields (N = 772574)
+=======
+  # median NLV values of all Dutch agricultural fields (N = 762518)
+>>>>>>> 7d98464aa71f746b8b097ef9cef31ff758ca1c91
   dt[soiltype.n == "klei" & crop_category == "grasland", med_nlv := 139]
   dt[soiltype.n == "klei" & crop_category == "akkerbouw", med_nlv := 84]
   dt[soiltype.n == "klei" & crop_category == "mais", med_nlv := 38]
