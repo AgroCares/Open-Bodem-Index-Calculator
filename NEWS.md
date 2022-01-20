@@ -1,3 +1,7 @@
+# OBIC 2.0.1 2022-01-20
+## Changed
+- update calc_nleach by soil and land use dependent default n supply, issue #154
+
 # OBIC 2.0.0 2022-01-11
 ## Added
 * Add `ppr_bouwplan_tables.R` in dev/scripts
