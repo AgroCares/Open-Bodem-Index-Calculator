@@ -9,7 +9,7 @@ test_that("whether ind_gw_recharge works", {
       B_DRAIN = c(TRUE,FALSE,TRUE,FALSE,TRUE,FALSE),
       B_GWL_CLASS = c('GtIII','GtIII','GtIII','GtIV','GtIII','GtIV')
     ),
-    expected = c(0.2280391, 0.8371944, 0.6749230, 0.9614681, 0.6772030, 0.9557414),
+    expected = c(0.1274698, 0.3502220, 0.5416138, 0.9614681, 0.6772030, 0.9557414),
     tolerance = 0.01
   )
  
