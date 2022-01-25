@@ -8,18 +8,15 @@
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param B_HELP_WENR (character) The soil type abbreviation, derived from 1:50.000 soil map
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
-#' @param B_GWL_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
-#' @param B_GWL_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
-#' @param B_GWL_ZCRIT  (numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)
-#' @param B_DRAIN (boolean) Are drains installed to drain the field (options: yes or no)
-#' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #' @param A_PH_CC (numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)
+#' @param A_CACO3_IF (numeric) The carbonate content of the soil (\%)
 #' @param A_N_RT (numeric) The organic nitrogen content of the soil in mg N / kg
 #' @param A_CN_FR (numeric) The carbon to nitrogen ratio (-)
+#' @param A_COM_FR (numeric) The carbon fraction of soil organic matter (\%)
 #' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
 #' @param A_N_PMN (numeric) The potentially mineralizable N pool (mg N / kg soil)
 #' @param A_P_AL (numeric) The P-AL content of the soil
@@ -61,36 +58,30 @@
 #' @param ID (character) A field id
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
 #' 
-#' @details 
-#' It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
-#' 
-#' 
 #' @import data.table
-#'  
+#' 
 #' @export
 obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CBS,
-                       B_GWL_GLG,B_GWL_GHG,B_GWL_ZCRIT,
                        B_LU_BRP, 
-                       A_SOM_LOI, A_SAND_MI, A_SILT_MI, A_CLAY_MI,A_PH_CC,
-                       A_N_RT,A_CN_FR, A_S_RT,A_N_PMN,
+                       A_SOM_LOI, A_SAND_MI, A_SILT_MI, A_CLAY_MI,A_PH_CC,A_CACO3_IF,
+                       A_N_RT,A_CN_FR,A_COM_FR, A_S_RT,A_N_PMN,
                        A_P_AL, A_P_CC, A_P_WA,
                        A_CEC_CO,A_CA_CO_PO, A_MG_CO_PO, A_K_CO_PO,
                        A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
                        A_C_BCS = NA, A_CC_BCS = NA,A_GS_BCS = NA,A_P_BCS = NA,A_RD_BCS = NA,
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
-                       B_DRAIN = FALSE, B_FERT_NORM_FR = 1,
                        M_COMPOST  = NA_real_,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
                        ID = 1, output = 'all') {
   
+  
   # define variables used within the function
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
   D_CP_STARCH = D_CP_POTATO = D_CP_SUGARBEET = D_CP_GRASS = D_CP_MAIS = D_CP_OTHER = D_CP_RUST = D_CP_RUSTDEEP = NULL
   D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_WE = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
-  D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = NULL
-  D_WRI_WHC = D_PSP = D_NLEACH = D_PESTICIDE = I_W_GWR = I_W_GWS = I_W_NGW = I_W_PEST = NULL
+  D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = B_GWL_GLG = B_GWL_GHG = B_Z_TWO = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
@@ -113,18 +104,15 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    B_GWL_CLASS =  B_GWL_CLASS,
                    B_SC_WENR = B_SC_WENR,
                    B_HELP_WENR = B_HELP_WENR,
-                   B_GWL_GLG = B_GWL_GLG,
-                   B_GWL_GHG = B_GWL_GHG,
-                   B_GWL_ZCRIT = B_GWL_ZCRIT,
-                   B_DRAIN = B_DRAIN,
-                   B_FERT_NORM_FR = B_FERT_NORM_FR,
                    A_SOM_LOI = A_SOM_LOI, 
                    A_SAND_MI = A_SAND_MI, 
                    A_SILT_MI = A_SILT_MI, 
                    A_CLAY_MI = A_CLAY_MI,
                    A_PH_CC = A_PH_CC,
+                   A_CACO3_IF = A_CACO3_IF,
                    A_N_RT = A_N_RT,
                    A_CN_FR = A_CN_FR,
+                   A_COM_FR = A_COM_FR, 
                    A_S_RT = A_S_RT,
                    A_N_PMN = A_N_PMN,
                    A_P_AL = A_P_AL,
@@ -162,9 +150,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_SOLIDMANURE = M_SOLIDMANURE,
                    M_STRAWRESIDUE = M_STRAWRESIDUE,
                    M_MECHWEEDS = M_MECHWEEDS,
-                   M_PESTICIDES_DST = M_PESTICIDES_DST)
+                   M_PESTICIDES_DST = M_PESTICIDES_DST
+                   )
   
-
+  
   # Merge dt with crops.obic
   dt <- merge(dt,OBIC::crops.obic[,list(crop_code,crop_category)], by.x = 'B_LU_BRP', by.y = 'crop_code') 
   
@@ -221,16 +210,15 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, D_AS := calc_aggregatestability(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO)]
     dt[, D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
     dt[, D_WSI_WS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wetnessstress')]
-    dt[, D_WRI_WHC := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'water holding capacity')]
     dt[, D_WRI := calc_waterretention(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,type = 'plant available water')]
-    dt[, D_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_GWL_ZCRIT)]
+    #dt[, D_WO := calc_workability(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, B_GWL_GLG, B_GWL_GHG, B_Z_TWO)]
     
     # Calculate series of biological soil functions
     dt[, D_PMN := calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)]
     
     # Calculate series of environmental soil functions
-    dt[, D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
-    dt[, D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
+    dt[,D_NGW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "gw")]
+    dt[,D_NSW := calc_nleach(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to = "ow")]
     
     # Calculate series of management actions
     dt[, D_SOM_BAL := calc_sombalance(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)]
@@ -262,15 +250,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                                           M_LIME, M_NONINVTILL, M_SSPM, M_SOLIDMANURE,M_STRAWRESIDUE,M_MECHWEEDS,M_PESTICIDES_DST,
                                           type = 'I_M_BIODIVERSITY')]
     
-
-    # Calculate the water function
-    # dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
-    # dt[, D_NLEACH := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
-    #                                   D_PBI,D_K,D_PH_DELTA,D_NLV,M_GREEN,B_FERT_NORM_FR)]
-    # dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
-    #                                             A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
-    
-    
     # Calculate the score of the BodemConditieScore
     dt[, D_BCS := calc_bcs(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, D_PH_DELTA, 
                            A_EW_BCS, A_SC_BCS, A_GS_BCS,A_P_BCS, A_C_BCS, A_RT_BCS, A_RD_BCS, A_SS_BCS, A_CC_BCS)]
@@ -298,17 +277,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_P_CO := ind_compaction(B_SC_WENR)]
     dt[, I_P_WRI := ind_waterretention(D_WRI)]
     dt[, I_P_CEC := ind_aggregatestability(D_AS)]
-    dt[, I_P_WO := ind_workability(D_WO, B_LU_BRP)]
+    #dt[, I_P_WO := ind_workability(D_WO)]
   
     # Calculate indicators for soil biological functions
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
-    # Calculate indicators for groundwater functions
-    # dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN)]
-    # dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
-    # dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
-    
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
     dt[,D_P_CO := pmax(0, D_P_CO)]
@@ -344,7 +318,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT|^ID',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT|ID',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
@@ -353,19 +327,15 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                     id.vars = c('B_SOILTYPE_AGR','crop_category','year', 'ID'), 
                     variable.name = 'indicator')
     
-    # remove the indicators that have a NA value
-    dt.melt <- dt.melt[!is.na(value)]
-    
     # add categories relevant for aggregating
     # C = chemical, P = physics, B = biological, BCS = visual soil assessment
     # indicators not used for integrating: IBCS and IM
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
-    #dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
     
     # Determine amount of indicators per category
     dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by = .(ID, cat)]
- 
+    
     # add weighing factor to indicator values
     dt.melt <- merge(dt.melt,w[,list(crop_category,indicator = variable,weight_nonpeat,weight_peat)], 
                      by = c('crop_category','indicator'), all.x = TRUE)
@@ -399,7 +369,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.score <-  dt.melt[,list(ID, cat, year, cf, value = value.w)]
   
     # remove indicator categories that are not used for scoring
-    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS', 'PESTICIDES', 'SOLIDMANURE', 'STRAWRESIDUE')]
     
     # calculate weighted average per indicator category
     out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), 
@@ -462,9 +432,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     if(output == 'recommendations'){out <- out.recom}
     if(output == 'scores'){out <- out.score}
     if(output == 'obic_score'){out <- out.score[,'S_T_OBI_A']}
-    if(output == 'unaggregated'){out <- dt.melt}
-   
-    
+  
   # return output
   return(out)
 }
@@ -482,27 +450,28 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' 
 #' @export
 obic_field_dt <- function(dt,output = 'all') {
- 
-  # add visual binding
-  
   
   # make local copy
   dt <- copy(dt)
   
   # Check inputs
   checkmate::assert_data_table(dt)
-
-  # column names mandatory
-  dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 
-              'B_GWL_GLG', 'B_GWL_GHG', 'B_GWL_ZCRIT', 'B_LU_BRP', 
-              'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC',
-              'A_N_RT','A_CN_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
-              'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
-              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
   
-  # check presence of required columns
-  checkmate::assert_true(all(dt.req %in% colnames(dt)),
-                         .var.name = paste(c('Not all required columns are present in data.table, required columns are:',dt.req),collapse = ' '))
+  # column names in input
+  dt.cols <- colnames(dt)
+  
+  # column names mandatory
+  dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 'B_LU_BRP', 
+              'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC','A_CACO3_IF',
+              'A_N_RT','A_CN_FR','A_COM_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
+              'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
+              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID')
+  
+  # check input
+  dt.check <- length(dt.req[dt.req %in% dt.cols]) == 30
+  
+  # check type of dt
+  checkmate::assert_true(dt.check)
   
   # check which BodemConditieScore input is missing
   bcs.all <- c('A_C_BCS', 'A_CC_BCS','A_GS_BCS','A_P_BCS','A_RD_BCS','A_EW_BCS','A_SS_BCS','A_RT_BCS','A_SC_BCS')
@@ -517,75 +486,25 @@ obic_field_dt <- function(dt,output = 'all') {
   smc.all <- 'M_COMPOST'
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
-  # check if no unexpected column names are present in dt
-  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
-  if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
-                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")]))}
-  
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
   
   # calculate obic_field
-  out <- obic_field(
-    B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
-    B_GWL_CLASS = dt$B_GWL_CLASS,
-    B_SC_WENR = dt$B_SC_WENR,
-    B_HELP_WENR = dt$B_HELP_WENR,
-    B_AER_CBS = dt$B_AER_CBS,
-    B_GWL_GLG = dt$B_GWL_GLG,
-    B_GWL_GHG = dt$B_GWL_GHG,
-    B_GWL_ZCRIT = dt$B_GWL_ZCRIT,
-    B_LU_BRP = dt$B_LU_BRP, 
-    A_SOM_LOI = dt$A_SOM_LOI, 
-    A_SAND_MI = dt$A_SAND_MI, 
-    A_SILT_MI = dt$A_SILT_MI, 
-    A_CLAY_MI = dt$A_CLAY_MI,
-    A_PH_CC = dt$A_PH_CC,
-    A_N_RT = dt$A_N_RT,
-    A_CN_FR = dt$A_CN_FR, 
-    A_S_RT = dt$A_S_RT,
-    A_N_PMN = dt$A_N_PMN,
-    A_P_AL= dt$A_P_AL, 
-    A_P_CC = dt$A_P_CC, 
-    A_P_WA = dt$A_P_WA,
-    A_CEC_CO = dt$A_CEC_CO,
-    A_CA_CO_PO = dt$A_CA_CO_PO, 
-    A_MG_CO_PO = dt$A_MG_CO_PO, 
-    A_K_CO_PO = dt$A_K_CO_PO,
-    A_K_CC = dt$A_K_CC,
-    A_MG_CC = dt$A_MG_CC, 
-    A_MN_CC = dt$A_MN_CC, 
-    A_ZN_CC = dt$A_ZN_CC, 
-    A_CU_CC = dt$A_CU_CC,
-    A_C_BCS = dt$A_C_BCS, 
-    A_CC_BCS = dt$A_CC_BCS,
-    A_GS_BCS = dt$A_GS_BCS,
-    A_P_BCS = dt$A_P_BCS,
-    A_RD_BCS = dt$A_RD_BCS,
-    A_EW_BCS = dt$A_EW_BCS,
-    A_SS_BCS = dt$A_SS_BCS,
-    A_RT_BCS = dt$A_RT_BCS,
-    A_SC_BCS = dt$A_SC_BCS,
-    M_COMPOST = dt$M_COMPOST,
-    M_GREEN = dt$M_GREEN, 
-    M_NONBARE = dt$M_NONBARE, 
-    M_EARLYCROP = dt$M_EARLYCROP, 
-    M_SLEEPHOSE = dt$M_SLEEPHOSE,
-    M_DRAIN = dt$M_DRAIN,
-    M_DITCH = dt$M_DITCH,
-    M_UNDERSEED = dt$M_UNDERSEED,
-    M_LIME = dt$M_LIME,
-    M_NONINVTILL = dt$M_NONINVTILL, 
-    M_SSPM = dt$M_SSPM, 
-    M_SOLIDMANURE = dt$M_SOLIDMANURE,
-    M_STRAWRESIDUE = dt$M_STRAWRESIDUE,
-    M_MECHWEEDS = dt$M_MECHWEEDS,
-    M_PESTICIDES_DST = dt$M_PESTICIDES_DST,
-    ID = 1,
-    output = output
-  )
+  out <- obic_field(dt$B_SOILTYPE_AGR,dt$B_GWL_CLASS,dt$B_SC_WENR,dt$B_HELP_WENR,dt$B_AER_CBS,dt$B_LU_BRP, 
+                    dt$A_SOM_LOI, dt$A_SAND_MI, dt$A_SILT_MI, dt$A_CLAY_MI,dt$A_PH_CC,dt$A_CACO3_IF,
+                    dt$A_N_RT,dt$A_CN_FR,dt$A_COM_FR, dt$A_S_RT,dt$A_N_PMN,
+                    dt$A_P_AL, dt$A_P_CC, dt$A_P_WA,
+                    dt$A_CEC_CO,dt$A_CA_CO_PO, dt$A_MG_CO_PO, dt$A_K_CO_PO,
+                    dt$A_K_CC, dt$A_MG_CC, dt$A_MN_CC, dt$A_ZN_CC, dt$A_CU_CC,
+                    dt$A_C_BCS, dt$A_CC_BCS,dt$A_GS_BCS,dt$A_P_BCS,dt$A_RD_BCS,
+                    dt$A_EW_BCS,dt$A_SS_BCS,dt$A_RT_BCS,dt$A_SC_BCS,
+                    dt$M_COMPOST,dt$M_GREEN, dt$M_NONBARE, dt$M_EARLYCROP, 
+                    dt$M_SLEEPHOSE,dt$M_DRAIN,dt$M_DITCH,dt$M_UNDERSEED,
+                    dt$M_LIME, dt$M_NONINVTILL, dt$M_SSPM, dt$M_SOLIDMANURE,
+                    dt$M_STRAWRESIDUE,dt$M_MECHWEEDS,dt$M_PESTICIDES_DST,
+                    ID = dt$ID,output = output)
   
   # return output
   return(out)
