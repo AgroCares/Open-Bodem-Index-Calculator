@@ -1,18 +1,18 @@
 Package: OBIC
 Type: Package
-Title: Calculate the Open Bodem Index (OBI) score to evaluate the soil quality of agricultural fields
+Title: Calculate the Open Bodem Index (OBI) score
 Version: 2.0.2
 Authors@R: c(
     person("Sven", "Verweij", email = "sven.verweij@nmi-agro.nl", role = c("aut","cre")),
     person("Gerard", "Ros", email = "gerard.ros@nmi-agro.nl", role = "aut"),
+    person("Yuki", "Fujita", email = "yuki.fujita@nmi-agro.nl", role = "aut"),
+    person("Brent", "Riechelman", email = 'brent.riechelman@nmi-agro.nl', role = "aut"),
     person("Job", "de Pater", email = "job.depater@nmi-agro.nl", role = "ctb"),
-    person("Yuki", "Fujita", email = "yuki.fujita@nmi-agro.nl", role = "ctb"),
-    person("Brent", "Riechelman", email = 'brent.riechelman@nmi-agro.nl', role = "ctb"),
     person("Nutriënten Managment Instituut", email = "nmi@nmi-agro.nl", role = "cph"))
 Description: The Open Bodem Index (OBI) is a method to evaluate the quality of soils of agricultural fields in The Netherlands and the sustainability of the current agricultural practices.
     The OBI score is based on four main criteria: chemical, physical, biological and management, which consist of more than 21 indicators. 
-    By providing results of a soil analysis and management info the OBIC package can be use to calculate he scores, indicators and derivatives that are used by the OBI.
-    More information about the Open Bodem Index can be found at https://www.openbodemindex.nl/.
+    By providing results of a soil analysis and management info the 'OBIC' package can be use to calculate he scores, indicators and derivatives that are used by the OBI.
+    More information about the Open Bodem Index can be found at <https://www.openbodemindex.nl/>.
 Depends:
     R (>= 3.5.0)
 Imports: 
