@@ -1,3 +1,6 @@
+# OBIC 2.0.2 2022-01-26
+Special version to freeze the code used for the paper: An Open Soil health assessment framework facilitating sustainable soil management
+
 # OBIC 2.0.0 2022-01-11
 ## Added
 * Add `ppr_bouwplan_tables.R` in dev/scripts
