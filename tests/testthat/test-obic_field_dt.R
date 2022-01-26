@@ -1,9 +1,9 @@
 tdt <- data.table(
   B_SOILTYPE_AGR = 'rivierklei',
   B_GWL_CLASS = "II",
-  B_GWL_GLG = 75,
-  B_GWL_GHG = 10,
-  B_GWL_ZCRIT = 50,
+  #B_GWL_GLG = 75,
+  #B_GWL_GHG = 10,
+  #B_GWL_ZCRIT = 50,
   B_SC_WENR = '2',
   B_HELP_WENR = "MOb72",
   B_AER_CBS = 'LG01',
@@ -53,6 +53,8 @@ tdt <- data.table(
   M_SOLIDMANURE = FALSE,
   M_SSPM = FALSE,
   M_STRAWRESIDUE = FALSE,
+  A_CACO3_IF = 1,
+  A_COM_FR = 1,
   ID = 1,
   key = 'ID'
 )
@@ -87,15 +89,18 @@ test_that("obic_field_dt works", {
       I_P_DS = 0.99,
       I_P_DU = 0.652,
       I_P_SE = 0.93,
-      I_P_WO = 0.7,
+      #I_P_WO = 0.7,
       I_P_WRI = 0.835,
       I_P_WS = 0.017,
+      M_PESTICIDES_DST = 0,
+      M_SOLIDMANURE = 0, 
+      M_STRAWRESIDUE = 0, 
       S_B_OBI_A = 0.9,
       S_C_OBI_A = 0.537,
       S_E_OBI_A = 0.979,
       S_M_OBI_A = 0.069,
-      S_P_OBI_A = 0.421,
-      S_T_OBI_A = 0.576,
+      S_P_OBI_A = 0.416,
+      S_T_OBI_A = 0.577,
       RM_C_1 = "M8",
       RM_C_2 = "M1",
       RM_C_3 = "M2",
@@ -113,11 +118,11 @@ test_that("obic_field_dt works", {
 
 # get required column names, should be equal to dt.req in obic_field_dt()
 req.cols <- c('B_SOILTYPE_AGR', 'B_GWL_CLASS', 'B_SC_WENR', 'B_HELP_WENR', 'B_AER_CBS', 
-              'B_GWL_GLG', 'B_GWL_GHG', 'B_GWL_ZCRIT', 'B_LU_BRP', 'B_LU_BRP', 
+               'B_LU_BRP', 'B_LU_BRP', 
               'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI', 'A_PH_CC',
               'A_N_RT', 'A_CN_FR', 'A_S_RT', 'A_N_PMN', 'A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO', 'A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
-              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID')
+              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID', 'A_CACO3_IF', 'A_COM_FR')
 
 # take subset of tdt
 stdt <- tdt[,..req.cols]
