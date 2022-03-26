@@ -15,9 +15,8 @@ LaTeX: pdfLaTeX
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
+PackageCheckArgs: --ignore-vignettes
 PackageRoxygenize: rd,collate,namespace
 
 QuitChildProcessesOnExit: Yes
 DisableExecuteRprofile: Yes
-
-SpellingDictionary: nl_NL
