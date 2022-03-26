@@ -8,8 +8,18 @@
 #' 
 #' @import data.table
 #' 
+#' @examples
+#' calc_cropclass(B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand', nutrient = 'P')
+#' calc_cropclass(B_LU_BRP = c(256,1027), B_SOILTYPE_AGR = c('dekzand','rivierklei'),nutrient = 'P')
+#' 
+#' @return
+#' The crop class representing its sensitivity for P, K or S deficiency. A character value.
+#' 
+#' @references 
+#' CBAV (2022) Handboek Bodem en Bemesting,https://www.handboekbodemenbemesting.nl/
+#' 
 #' @export
-calc_cropclass <- function(B_LU_BRP,B_SOILTYPE_AGR, nutrient = NULL) {
+calc_cropclass <- function(B_LU_BRP,B_SOILTYPE_AGR, nutrient) {
   
   crop_category = crop_code = crop_name = soiltype = id = soiltype.n = NULL
   
@@ -25,6 +35,8 @@ calc_cropclass <- function(B_LU_BRP,B_SOILTYPE_AGR, nutrient = NULL) {
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype), empty.ok = FALSE)
+  checkmate::assert_character(nutrient, any.missing = FALSE, len = 1)
+  checkmate::assert_subset(nutrient, choices = c('P','K','S'), empty.ok = FALSE)
   
   # Collect the data into a table
   dt <- data.table(
