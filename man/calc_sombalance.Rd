@@ -17,8 +17,18 @@ calc_sombalance(B_LU_BRP, A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN)
 
 \item{M_COMPOST}{(numeric) The frequency that compost is applied (every x years)}
 
-\item{M_GREEN}{(boolean) measure. are catch crops sown after main crop (option: yes or no)}
+\item{M_GREEN}{(boolean) measure. are catch crops sown after main crop (option: TRUE or FALSE)}
+}
+\value{
+The estimated soil organic matter balance in kg EOS per ha per year. A numeric value.
 }
 \description{
 This function calculates a simple organic matter balance, as currently used in agricultural practice in the Netherlands.For more details, see www.os-balans.nl
+}
+\examples{
+calc_sombalance(B_LU_BRP = 1019,A_SOM_LOI = 4, A_P_AL = 35, A_P_WA = 40, 
+M_COMPOST = 4, M_GREEN = TRUE)
+calc_sombalance(1019,4, 35, 40, 4, TRUE)
+calc_sombalance(c(256,1024,1019),c(4,5,6), c(35,35,35), c(40,42,45), c(4,4,3), c(TRUE,FALSE,TRUE))
+
 }
