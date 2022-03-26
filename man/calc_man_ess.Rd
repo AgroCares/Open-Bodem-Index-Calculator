@@ -86,6 +86,19 @@ calc_man_ess(
 
 \item{type}{(character) type of ecosystem service to evaluate the impact of soil management. Options: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY, and I_M_BIODIVERSITY}
 }
+\value{
+The evaluated soil management score for multiple soil ecosystem services.
+This is done for the following ESS: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY and I_M_BIODIVERSITY
+}
 \description{
 This function evaluates the contribution of sustainable soil management for a given ecosystem service
+}
+\examples{
+calc_man_ess(A_SOM_LOI = 4.5,B_LU_BRP = 3732, B_SOILTYPE_AGR = 'dekzand',
+B_GWL_CLASS = 'GtIV',D_SOM_BAL = 1115,D_CP_GRASS = 0.2,D_CP_POTATO = 0.5,
+D_CP_RUST = 0.3,D_CP_RUSTDEEP = 0.2,D_GA = 0,M_COMPOST = rep(25,1),
+M_GREEN = TRUE, M_NONBARE = TRUE, M_EARLYCROP = TRUE, M_SLEEPHOSE = TRUE, 
+M_DRAIN = TRUE, M_DITCH = TRUE, M_UNDERSEED = TRUE,M_LIME = TRUE, 
+M_NONINVTILL = TRUE, M_SSPM = TRUE, M_SOLIDMANURE = TRUE,M_STRAWRESIDUE = TRUE,
+M_MECHWEEDS = TRUE,M_PESTICIDES_DST = TRUE,type="I_M_SOILFERTILITY")
 }

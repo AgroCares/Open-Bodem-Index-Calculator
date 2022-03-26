@@ -83,6 +83,19 @@ calc_management(
 
 \item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
 }
+\value{
+The evaluated soil management score according to the Label Sustainable Soil Management. A nmumeric value.
+}
 \description{
 This function evaluates the contribution of sustainable soil management following the Label Sustainable Soil Management.
+}
+\examples{
+calc_management(A_SOM_LOI = 4.5,B_LU_BRP = 3732, B_SOILTYPE_AGR = 'dekzand',
+B_GWL_CLASS = 'GtIV',D_SOM_BAL = 1115,D_CP_GRASS = 0.2,D_CP_POTATO = 0.5,
+D_CP_RUST = 0.3,D_CP_RUSTDEEP = 0.2,D_GA = 0,M_COMPOST = rep(25,1),
+M_GREEN = TRUE, M_NONBARE = TRUE, M_EARLYCROP = TRUE, M_SLEEPHOSE = TRUE, 
+M_DRAIN = TRUE, M_DITCH = TRUE, M_UNDERSEED = TRUE,M_LIME = TRUE, 
+M_NONINVTILL = TRUE, M_SSPM = TRUE, M_SOLIDMANURE = TRUE,M_STRAWRESIDUE = TRUE,
+M_MECHWEEDS = TRUE,M_PESTICIDES_DST = TRUE)
+
 }
