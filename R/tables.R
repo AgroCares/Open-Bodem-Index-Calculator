@@ -276,3 +276,21 @@
 #'   \item{12}{Evapotranspiration correction factors for December}
 #' }
 "crops.makkink"
+
+#' Table with fractions of excess N which runs off to groundwater and surface water
+#' 
+#' This table contains the fractions of N overshot which runs off to groundwater / surface water, per soil type, crop type, and groundwater table
+#' 
+#' @format A data.frame with 198 rows and 11 columns:
+#' \describe{
+#'   \item{gewas}{crop type}
+#'   \item{bodem}{soil type}
+#'   \item{ghg}{Lower value for groundwater table (cm-mv)}
+#'   \item{glg}{Upper value for groundwater table (cm-mv)}
+#'   \item{B_GT}{grondwatertrap}
+#'   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year) or groundwater (mg NO3/L per kg N overschot/ha/year)}
+#'   \item{leaching_to-set}{Tells if leaching to ground water or surface water)}
+#' }
+#' 
+#' 
+"nleach_table"
