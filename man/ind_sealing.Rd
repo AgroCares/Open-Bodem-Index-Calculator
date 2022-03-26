@@ -11,6 +11,14 @@ ind_sealing(D_SE, B_LU_BRP)
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 }
+\value{
+The evaluated score for the soil function to avoid crop damage due to sealing of surface. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the soil sealing calculated by \code{\link{calc_sealing_risk}}
+}
+\examples{
+ind_sealing(D_SE = 15,B_LU_BRP = 256)
+ind_sealing(D_SE = c(5,15,35),B_LU_BRP = c(1019,1019,1019))
+ 
 }

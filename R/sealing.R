@@ -9,6 +9,13 @@
 #' 
 #' @importFrom stats approxfun
 #' 
+#' @examples 
+#' calc_sealing_risk(A_SOM_LOI = 3.5, A_CLAY_MI = 7.5)
+#' calc_sealing_risk(A_SOM_LOI = c(3.5,6.5), A_CLAY_MI = c(7.5,15))
+#' 
+#' @return 
+#' The risk of soil sealing as affected by the soil organic matter and clay content. A numeric value.
+#' 
 #' @export
 calc_sealing_risk <- function(A_SOM_LOI, A_CLAY_MI) {
   
@@ -56,6 +63,13 @@ calc_sealing_risk <- function(A_SOM_LOI, A_CLAY_MI) {
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' ind_sealing(D_SE = 15,B_LU_BRP = 256)
+#' ind_sealing(D_SE = c(5,15,35),B_LU_BRP = c(1019,1019,1019))
+#'  
+#' @return 
+#' The evaluated score for the soil function to avoid crop damage due to sealing of surface. A numeric value between 0 and 1.
 #' 
 #' @export
 ind_sealing <- function(D_SE, B_LU_BRP) {
