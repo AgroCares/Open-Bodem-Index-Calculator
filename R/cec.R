@@ -6,6 +6,13 @@
 #'    
 #' @import data.table
 #' 
+#' @examples
+#' calc_cec(A_CEC_CO = 85)
+#' calc_cec(A_CEC_CO = c(85,125,326))
+#' 
+#' @return 
+#' The capacity of the soil to buffer cations. A numeric value.
+#' 
 #' @export
 calc_cec <- function(A_CEC_CO) {
   
@@ -46,6 +53,14 @@ calc_cec <- function(A_CEC_CO) {
 #' @param A_MG_CO_PO (numeric) The occupation of the CEC with Mg (\%)
 #'    
 #' @import data.table
+#' 
+#' @examples 
+#' calc_aggregatestability(B_SOILTYPE_AGR = 'dekzand', A_SOM_LOI = 3.5, A_K_CO_PO = 6,A_CA_CO_PO = 83 ,A_MG_CO_PO = 9)
+#' calc_aggregatestability(B_SOILTYPE_AGR = c('dekzand','rivierklei'), A_SOM_LOI = c(3.5,6.5), 
+#' A_K_CO_PO = c(6,9),A_CA_CO_PO = c(83,75) ,A_MG_CO_PO = c(9,4))
+#' 
+#' @return 
+#' The aggregate stability index of a soil given the Cation Exchange Capacity and its composition with major cations. A numeric value.
 #' 
 #' @export
 calc_aggregatestability <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_PO,A_MG_CO_PO) {
@@ -103,6 +118,13 @@ calc_aggregatestability <- function(B_SOILTYPE_AGR,A_SOM_LOI,A_K_CO_PO,A_CA_CO_P
 #' 
 #' @param D_CEC (numeric) The value of CEC calculated by \code{\link{calc_cec}}
 #' 
+#' @examples 
+#' ind_cec(D_CEC = 85)
+#' ind_cec(D_CEC = c(85,135,385))
+#' 
+#' @return
+#' The evaluated score for the soil function to buffer cations. A numeric value between 0 and 1. 
+#' 
 #' @export
 ind_cec <- function(D_CEC) {
   
@@ -121,6 +143,13 @@ ind_cec <- function(D_CEC) {
 #' This function calculates the indicator for the the aggregate stability of the soil by using the index calculated by \code{\link{calc_aggregatestability}}
 #' 
 #' @param D_AS (numeric) The value of aggregate stability calculated by \code{\link{calc_aggregatestability}}
+#' 
+#' @examples 
+#' ind_aggregatestability(D_AS = 0.3)
+#' ind_aggregatestability(D_AS = c(0.3,0.6,0.9))
+#' 
+#' @return
+#' The evaluated score for the soil function aggregate stability. A numeric value between 0 and 1. 
 #' 
 #' @export
 ind_aggregatestability <- function(D_AS) {
