@@ -17,6 +17,14 @@ ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN = FALSE)
 
 \item{B_DRAIN}{(boolean) Are drains installed to drain the field (options: yes or no)}
 }
+\value{
+The evaluated score for the soil function to improve groundwater recharge. A numeric value between 0 and 1.
+}
 \description{
 This function calculates an index score for groundwater storage based on WHC, sealing risk, drainage and subsoil compaction
+}
+\examples{
+ind_gw_recharge(D_WRI_WHC = 0.6, D_PSP = 200, I_P_SE = 0.6, I_P_CO = 0.9)
+ind_gw_recharge(D_WRI_WHC = 0.8, D_PSP = 400, I_P_SE = 0.4, I_P_CO = 0.2)
+
 }
