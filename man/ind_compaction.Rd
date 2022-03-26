@@ -7,10 +7,22 @@
 ind_compaction(B_SC_WENR)
 }
 \arguments{
-\item{B_SC_WENR}{(numeric) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)}
+\item{B_SC_WENR}{(character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)}
+}
+\value{
+The evaluated score for the soil function for subsoil compaction. A numeric value between 0 and 1.
 }
 \description{
 This function calculates the indicator for the risk for soil compaction of the subsoil.
 derived from van den Akker et al. (2013) Risico op ondergrondverdichting in het landelijk gebied in kaart, 
 Alterra-rapport 2409, Alterra, Wageningen University and Research Centre,
+}
+\examples{
+ind_compaction(B_SC_WENR = 'Zeer groot')
+ind_compaction(B_SC_WENR = c('Zeer groot','Van nature dicht'))
+
+}
+\references{
+Akker et al. (2013) Risico op ondergrondverdichting in het landelijk gebied in kaart, 
+Alterra-rapport 2409, Alterra, Wageningen University and Research Centre.
 }

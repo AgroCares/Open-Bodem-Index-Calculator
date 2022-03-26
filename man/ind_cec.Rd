@@ -9,6 +9,14 @@ ind_cec(D_CEC)
 \arguments{
 \item{D_CEC}{(numeric) The value of CEC calculated by \code{\link{calc_cec}}}
 }
+\value{
+The evaluated score for the soil function to buffer cations. A numeric value between 0 and 1.
+}
 \description{
 This function estimate how much cations can be buffer by soil, being calculated by \code{\link{calc_cec}}
+}
+\examples{
+ind_cec(D_CEC = 85)
+ind_cec(D_CEC = c(85,135,385))
+
 }

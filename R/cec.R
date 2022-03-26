@@ -55,7 +55,8 @@ calc_cec <- function(A_CEC_CO) {
 #' @import data.table
 #' 
 #' @examples 
-#' calc_aggregatestability(B_SOILTYPE_AGR = 'dekzand', A_SOM_LOI = 3.5, A_K_CO_PO = 6,A_CA_CO_PO = 83 ,A_MG_CO_PO = 9)
+#' calc_aggregatestability(B_SOILTYPE_AGR = 'dekzand', A_SOM_LOI = 3.5, 
+#' A_K_CO_PO = 6,A_CA_CO_PO = 83 ,A_MG_CO_PO = 9)
 #' calc_aggregatestability(B_SOILTYPE_AGR = c('dekzand','rivierklei'), A_SOM_LOI = c(3.5,6.5), 
 #' A_K_CO_PO = c(6,9),A_CA_CO_PO = c(83,75) ,A_MG_CO_PO = c(9,4))
 #' 

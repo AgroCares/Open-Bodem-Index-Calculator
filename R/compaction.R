@@ -7,8 +7,8 @@
 #' @param B_SC_WENR (character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)
 #' 
 #' @examples 
-#' ind_compaction(B_SC_WENR = 'Zeer Groot')
-#' ind_compaction(B_SC_WENR = c('Zeer Groot','Van nature dicht'))
+#' ind_compaction(B_SC_WENR = 'Zeer groot')
+#' ind_compaction(B_SC_WENR = c('Zeer groot','Van nature dicht'))
 #' 
 #' @return 
 #' The evaluated score for the soil function for subsoil compaction. A numeric value between 0 and 1.
