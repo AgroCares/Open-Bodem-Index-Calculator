@@ -9,6 +9,14 @@ ind_phosphate_availability(D_PBI)
 \arguments{
 \item{D_PBI}{(numeric) The value of phosphate availability calculated by \code{\link{calc_phosphate_availability}}}
 }
+\value{
+The evaluated score for the soil function to supply and buffer phosphorus for crop uptake. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the phosphate availability calculated by \code{\link{calc_phosphate_availability}}
+}
+\examples{
+ind_phosphate_availability(D_PBI = 3.5)
+ind_phosphate_availability(D_PBI = c(0.5,0.8,2.5,5,15,35,75))
+ 
 }
