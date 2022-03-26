@@ -11,6 +11,14 @@ ind_crumbleability(D_CR, B_LU_BRP)
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 }
+\value{
+The evaluated score for the soil function crumbleability. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for crumbleability. The crumbleability is calculated by \code{\link{calc_crumbleability}}
+}
+\examples{
+ind_crumbleability(D_CR = 3, B_LU_BRP = 1910)
+ind_crumbleability(D_CR = c(2,6), B_LU_BRP = c(1910,1910))
+
 }
