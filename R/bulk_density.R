@@ -8,6 +8,14 @@
 #' 
 #' @import data.table
 #' 
+#' @examples
+#' calc_bulk_density(B_SOILTYPE_AGR = 'zeeklei', A_SOM_LOI = 6.5, A_CLAY_MI = 28)
+#' calc_bulk_density(B_SOILTYPE_AGR = 'dekzand', A_SOM_LOI = 3.5)
+#' calc_bulk_density(B_SOILTYPE_AGR = c('dekzand','rivierklei'), A_SOM_LOI = c(3.5,8.5))
+#' 
+#' @return 
+#' The bulk density of an arable soil (kg / m3). A numeric value.
+#' 
 #' @export
 calc_bulk_density <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI = NULL) {
   
