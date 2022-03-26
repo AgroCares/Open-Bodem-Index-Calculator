@@ -4,7 +4,18 @@
 #' derived from van den Akker et al. (2013) Risico op ondergrondverdichting in het landelijk gebied in kaart, 
 #' Alterra-rapport 2409, Alterra, Wageningen University and Research Centre,
 #' 
-#' @param B_SC_WENR (numeric) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)
+#' @param B_SC_WENR (character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)
+#' 
+#' @examples 
+#' ind_compaction(B_SC_WENR = 'Zeer Groot')
+#' ind_compaction(B_SC_WENR = c('Zeer Groot','Van nature dicht'))
+#' 
+#' @return 
+#' The evaluated score for the soil function for subsoil compaction. A numeric value between 0 and 1.
+#' 
+#' @references 
+#' Akker et al. (2013) Risico op ondergrondverdichting in het landelijk gebied in kaart, 
+#' Alterra-rapport 2409, Alterra, Wageningen University and Research Centre.
 #' 
 #' @export
 ind_compaction <- function(B_SC_WENR) {
