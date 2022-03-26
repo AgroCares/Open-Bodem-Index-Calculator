@@ -13,7 +13,7 @@
 #' calc_pmn(B_LU_BRP = c(256,1027), B_SOILTYPE_AGR = c('dekzand','rivierklei'), A_N_PMN = c(125,45))
 #'
 #' @return 
-#' the normalized potentially mineralizable Nitrogen pool (mg N / kg), numeric.
+#' the normalized potentially mineralizable Nitrogen pool (mg N / kg), a numeric value.
 #' 
 #' @export
 calc_pmn <- function(B_LU_BRP, B_SOILTYPE_AGR,A_N_PMN) {
