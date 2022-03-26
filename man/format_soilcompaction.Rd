@@ -9,6 +9,14 @@ format_soilcompaction(B_SC_WENR)
 \arguments{
 \item{B_SC_WENR}{(numeric and/or character) Data on soil compaction risk that may have to be converted to string}
 }
+\value{
+A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
+}
 \description{
 This function converts numeric values for B_SC_WENR to values used by other OBIC functions if numeric values are entered.
+}
+\examples{
+format_soilcompaction(c('10', '11'))
+format_soilcompaction(c('2', '3',"Matig", "Groot"))
+
 }

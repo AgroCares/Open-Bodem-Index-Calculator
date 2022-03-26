@@ -9,6 +9,14 @@ format_aer(B_AER_CBS)
 \arguments{
 \item{B_AER_CBS}{(character) The agricultural economic region in the Netherlands (CBS, 2016)}
 }
+\value{
+A standardized B_AER_CBS value as required for the OBIC functions. A character string.
+}
 \description{
 This function formats information of Agricultural Economic Region so it can be understood by other OBIC functions
+}
+\examples{
+format_aer(c("LG13","LG12"))
+format_aer(c("LG13","LG12",'Rivierengebied'))
+
 }
