@@ -6,6 +6,17 @@
 #' 
 #' @import data.table
 #' 
+#' @details 
+#' This is a helper function to estimate the rooting depth of crops, as being used for calculations for soil nutrient supplies.
+#' Be aware, this is not the real rooting depth; it rather represents the sampling depth of the soils collected for routine soil analsyis.
+#' 
+#' @examples 
+#' calc_root_depth(B_LU_BRP = 256)
+#' calc_root_depth(B_LU_BRP = c(256,265,1019,992))
+#' 
+#' @return 
+#' The root depth of a crop corresponding to the sampling depth analyzed by agricultural labs. A numeric value.
+#' 
 #' @export
 calc_root_depth <- function(B_LU_BRP) {
   
