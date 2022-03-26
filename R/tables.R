@@ -317,3 +317,25 @@
 #'   \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}
 #' }
 "bouwsteen_tb"
+
+#' Table with optimal pH for different crop plans
+#' 
+#' This table contains the optimal pH for different crop plans and soil types
+#' 
+#' @format A data.frame with 136 rows and 10 columns:
+#' \describe{
+#'   \item{table}{The original table from Hanboek Bodem en Bemesting}
+#'   \item{lutum.low}{Lower value for A_CLAY_MI}
+#'   \item{lutum.high}{Upper value for A_CLAY_MI}
+#'   \item{om.low}{Lower value for organic matter}
+#'   \item{om.high}{Upper value for organic matter}
+#'   \item{potato.low}{Lower value for fraction potatoes in crop plan}
+#'   \item{potato.high}{Upper value for fraction potatoes in crop plan}
+#'   \item{sugarbeet.low}{Lower value for fraction potatoes in crop plan}
+#'   \item{sugarbeet.high}{Upper value for fraction potatoes in crop plan}
+#'   \item{ph.optimum}{The optimal pH (pH_CaCl2) for this range}   
+#' }
+#' 
+#' #' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
+#' 
+"tbl.ph.delta"
