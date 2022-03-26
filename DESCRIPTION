@@ -18,7 +18,8 @@ Depends:
 Imports: 
     checkmate,
     data.table
-License: GPL-3
+License: 
+    GPL-3 + file LICENSE
 URL: https://github.com/AgroCares/Open-Bodem-Index-Calculator
 BugReports: https://github.com/AgroCares/Open-Bodem-Index-Calculator/issues
 Encoding: UTF-8
