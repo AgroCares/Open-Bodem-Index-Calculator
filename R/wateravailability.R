@@ -5,11 +5,20 @@
 #' @param B_HELP_WENR (character) The soil type abbreviation, derived from 1:50.000 soil map
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_GWL_CLASS (character) The groundwater table class
-#' @param WSI (character) The type of Water Stress Index is required. Options: drought stress, wetnessstress and the (combined) waterstress
+#' @param WSI (character) The type of Water Stress Index is required. Options: droughtstress, wetnessstress and the (combined) waterstress
 #' 
 #' @references STOWA (2005) Uitbreiding en Actualisering van de HELP-tabellen ten behoeve van het Waternood instrumentarium
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' calc_waterstressindex(B_HELP_WENR = 'ABkt',B_LU_BRP = 1019,B_GWL_CLASS = 'GtIV')
+#' calc_waterstressindex(B_HELP_WENR = 'Mv61ClE',B_LU_BRP = 256,B_GWL_CLASS = 'GtIII')
+#' calc_waterstressindex(B_HELP_WENR = 'ABkt',B_LU_BRP = 1019,B_GWL_CLASS = 'GtIV', 
+#' WSI = 'droughtstress')
+#' 
+#' @return 
+#' The yield depression (in \%) through wetness or drought stress (depending on the WSI selected). Numeric value.
 #' 
 #' @export
 calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'waterstress') {
@@ -78,6 +87,13 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wat
 #' This function calculates the risk for yield depression due to drought, an excess of water or a combination of both. The WSI is calculated by \code{\link{calc_waterstressindex}}
 #' 
 #' @param D_WSI (numeric) The value of WSI calculated by \code{\link{calc_waterstressindex}}
+#'
+#' @examples 
+#' ind_waterstressindex(D_WSI = 45)
+#' ind_waterstressindex(D_WSI = c(5,15,25,35))
+#'  
+#' @return 
+#' The evaluated score for the soil function to resist drought or wetness stress by crops. A numeric value between 0 and 1.
 #' 
 #' @export
 ind_waterstressindex <- function(D_WSI) {
