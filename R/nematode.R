@@ -7,6 +7,17 @@
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' 
+#' \dontrun{
+#' ind_nematodes_list(data.table(species = 'Cysteaaltjes',count = 200))
+#' ind_nematodes_list(data.table(species = c('Cysteaaltjes','Ditylenchus dipsaci'),
+#' count = c(200,7)))
+#' }
+#' 
+#' @return 
+#' The evaluated score for the soil function for nematode community. A numeric value between 0 and 1.
+#' 
 #' @export
 ind_nematodes_list <- function(A_NEMA){
   nema.obic <- as.data.table(OBIC::nema.obic)
@@ -101,6 +112,13 @@ ind_nematodes_list <- function(A_NEMA){
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' ind_nematodes(B_LU_BRP = 1019)
+#' ind_nematodes(B_LU_BRP = 1019,A_RLN_PR_TOT = 250,A_RLN_PR_ZEA = 400,A_SN_DI_DIP = 5)
+#' 
+#' @return 
+#' The evaluated score for the soil function for nematode community. A numeric value between 0 and 1.
+#'  
 #' @export
 ind_nematodes <- function(B_LU_BRP = B_LU_BRP,
                           A_RLN_PR_TOT=0, A_RLN_PR_CREN=0, A_RLN_PR_NEG=0, A_RLN_PR_PEN=0, A_RLN_PR_PRA=0, A_RLN_PR_THO=0, A_RLN_PR_FLA=0,    
