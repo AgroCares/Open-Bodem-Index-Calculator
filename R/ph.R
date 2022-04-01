@@ -14,7 +14,7 @@
 #' @param D_CP_MAIS (numeric) The fraction of mais in the crop plan
 #' @param D_CP_OTHER (numeric) The fraction of other crops in the crop plan
 #' 
-#' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
+#' @references Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3
 #' 
 #' @import data.table
 #' 
