@@ -55,5 +55,5 @@ calc_ph_delta(265, "rivierklei", 5,20,6, 0,0.3,0.2,0,0.2,0.3)
 
 }
 \references{
-\href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
+Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3
 }
