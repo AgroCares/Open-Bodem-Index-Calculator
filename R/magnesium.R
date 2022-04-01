@@ -14,6 +14,14 @@
 #' 
 #' @import data.table
 #' 
+#' @examples
+#' calc_magnesium_availability(B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand',
+#' A_SOM_LOI = 3.5,A_CLAY_MI = 8.5,A_PH_CC = 5.4, 
+#' A_CEC_CO = 185,A_K_CO_PO = 4.5,A_MG_CC = 125,A_K_CC = 65)
+#' 
+#' @return 
+#' An index representing the availability of Magnesium in a soil. A numeric value.
+#' 
 #' @export
 calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,
                                         A_PH_CC, A_CEC_CO,A_K_CO_PO,A_MG_CC,A_K_CC) {
@@ -144,6 +152,13 @@ calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY
 #' @param D_MG (numeric) The value of Mg calculated by \code{\link{calc_magnesium_availability}}
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
+#' 
+#' @examples 
+#' ind_magnesium(D_MG = 125, B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand')
+#' ind_magnesium(D_MG = c(125,35), B_LU_BRP = c(265,256), B_SOILTYPE_AGR = rep('dekzand',2))
+#'  
+#' @return 
+#' The evaluated score for the soil function to supply magnesium for crop uptake. A numeric value.
 #' 
 #' @export
 ind_magnesium <- function(D_MG,B_LU_BRP,B_SOILTYPE_AGR) {

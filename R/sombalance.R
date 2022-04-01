@@ -7,12 +7,21 @@
 #' @param A_P_AL (numeric) The P-AL content of the soil (in mg P2O5 per 100g)
 #' @param A_P_WA (numeric) The P-water content of the soil (in mg P2O5 per Liter)
 #' @param M_COMPOST (numeric) The frequency that compost is applied (every x years)
-#' @param M_GREEN (boolean) measure. are catch crops sown after main crop (option: yes or no)
+#' @param M_GREEN (boolean) measure. are catch crops sown after main crop (option: TRUE or FALSE)
+#' 
+#' @examples 
+#' calc_sombalance(B_LU_BRP = 1019,A_SOM_LOI = 4, A_P_AL = 35, A_P_WA = 40, 
+#' M_COMPOST = 4, M_GREEN = TRUE)
+#' calc_sombalance(1019,4, 35, 40, 4, TRUE)
+#' calc_sombalance(c(256,1024,1019),c(4,5,6), c(35,35,35), c(40,42,45), c(4,4,3), c(TRUE,FALSE,TRUE))
+#' 
+#' @return 
+#' The estimated soil organic matter balance in kg EOS per ha per year. A numeric value.
 #' 
 #' @export
 calc_sombalance <- function(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GREEN) {
   
-  c.diss = crop_code = crop_name = crop_n = cropinput = mdose = compost = catchcrop = NULL
+  id = c.diss = crop_code = crop_name = crop_n = cropinput = mdose = compost = catchcrop = NULL
   crop_eos = crop_eos_residue = NULL
   
   # Load in the datasets
@@ -84,6 +93,9 @@ calc_sombalance <- function(B_LU_BRP,A_SOM_LOI, A_P_AL, A_P_WA, M_COMPOST, M_GRE
   # calculate simple eos balance (kg EOS / ha / yr)
   dt[,value := cropinput + mdose + compost + catchcrop - c.diss]
 
+  # setorder
+  setorder(dt,id)
+  
   # return only the value
   value <- dt[,value]
   

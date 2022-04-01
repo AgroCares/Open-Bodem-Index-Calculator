@@ -9,6 +9,14 @@ ind_resistance(A_SOM_LOI)
 \arguments{
 \item{A_SOM_LOI}{(numeric) The organic matter content of the soil in percentage}
 }
+\value{
+The evaluated score for the soil function to resist diseases. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the resistance of the soil against diseases and is indicated by the amount of soil life.
+}
+\examples{
+ind_resistance(A_SOM_LOI = 3.5)
+ind_resistance(A_SOM_LOI = c(3.5,5.5,15,25))
+
 }

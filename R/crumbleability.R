@@ -10,6 +10,13 @@
 #' 
 #' @importFrom stats approxfun
 #'
+#' @examples 
+#' calc_crumbleability(A_SOM_LOI = 3.5, A_CLAY_MI = 12, A_PH_CC = 5.4)
+#' calc_crumbleability(A_SOM_LOI = c(3.5,12), A_CLAY_MI = c(4,12), A_PH_CC = c(5.4, 7.1))
+#' 
+#' @return 
+#' The crumbleability index of a soil, a measure for a physical soil property. A numeric value.
+#'
 #' @export
 calc_crumbleability <- function(A_SOM_LOI, A_CLAY_MI, A_PH_CC) {
   
@@ -69,6 +76,13 @@ calc_crumbleability <- function(A_SOM_LOI, A_CLAY_MI, A_PH_CC) {
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' ind_crumbleability(D_CR = 3, B_LU_BRP = 1910)
+#' ind_crumbleability(D_CR = c(2,6), B_LU_BRP = c(1910,1910))
+#' 
+#' @return 
+#'  The evaluated score for the soil function crumbleability. A numeric value between 0 and 1. 
 #' 
 #' @export
 ind_crumbleability <- function(D_CR, B_LU_BRP) {

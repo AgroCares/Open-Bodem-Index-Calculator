@@ -8,6 +8,13 @@
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' calc_pmn(B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand', A_N_PMN = 125)
+#' calc_pmn(B_LU_BRP = c(256,1027), B_SOILTYPE_AGR = c('dekzand','rivierklei'), A_N_PMN = c(125,45))
+#'
+#' @return 
+#' the normalized potentially mineralizable Nitrogen pool (mg N / kg), a numeric value.
+#' 
 #' @export
 calc_pmn <- function(B_LU_BRP, B_SOILTYPE_AGR,A_N_PMN) {
   
@@ -68,6 +75,13 @@ calc_pmn <- function(B_LU_BRP, B_SOILTYPE_AGR,A_N_PMN) {
 #' This function calculates the indicator that assess the microbial biological activity of the soil by using the PMN calculated by \code{\link{calc_pmn}}
 #' 
 #' @param D_PMN (numeric) The value of PMN  calculated by \code{\link{calc_pmn}}
+#' 
+#' @examples 
+#' ind_pmn(D_PMN = 24)
+#' ind_pmn(D_PMN = c(54,265))
+#' 
+#' @return 
+#' The evaluated score for the soil function reflecting the microbial activity of a soil (specifically the potentially mineralizable N rate). A numeric value between 0 and 1.
 #' 
 #' @export
 ind_pmn <- function(D_PMN) {

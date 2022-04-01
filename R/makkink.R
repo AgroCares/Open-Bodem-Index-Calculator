@@ -4,6 +4,15 @@
 #'
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #'
+#' @examples 
+#' calc_makkink(B_LU_BRP = 265)
+#' calc_makkink(B_LU_BRP = c(265,1019))
+#' 
+#' @returns 
+#' A datatable with the crop dependent Makkink correction factor per month. 
+#' Output is a single data.table with for each B_LU_BRP code the monthly correction factor.
+#' Columns of the data.table are: crop_makkink, month, year, mcf and crop_cover.
+#' 
 #' @export
 calc_makkink <- function(B_LU_BRP){
 

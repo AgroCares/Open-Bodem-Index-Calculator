@@ -4,7 +4,7 @@
 \alias{calc_cropclass}
 \title{Determine classification rules for crops used to prepare crops.obic}
 \usage{
-calc_cropclass(B_LU_BRP, B_SOILTYPE_AGR, nutrient = NULL)
+calc_cropclass(B_LU_BRP, B_SOILTYPE_AGR, nutrient)
 }
 \arguments{
 \item{B_LU_BRP}{(numeric) The crop code from the BRP}
@@ -13,6 +13,17 @@ calc_cropclass(B_LU_BRP, B_SOILTYPE_AGR, nutrient = NULL)
 
 \item{nutrient}{(character) The nutrient for which crop classification is needed. Options include P, K and S.}
 }
+\value{
+The crop class representing its sensitivity for P, K or S deficiency. A character value.
+}
 \description{
 This function determines crop classes given crop response to P, K and S fertilizers
+}
+\examples{
+calc_cropclass(B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand', nutrient = 'P')
+calc_cropclass(B_LU_BRP = c(256,1027), B_SOILTYPE_AGR = c('dekzand','rivierklei'),nutrient = 'P')
+
+}
+\references{
+CBAV (2022) Handboek Bodem en Bemesting,https://www.handboekbodemenbemesting.nl/
 }

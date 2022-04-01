@@ -9,6 +9,14 @@ ind_aggregatestability(D_AS)
 \arguments{
 \item{D_AS}{(numeric) The value of aggregate stability calculated by \code{\link{calc_aggregatestability}}}
 }
+\value{
+The evaluated score for the soil function aggregate stability. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the the aggregate stability of the soil by using the index calculated by \code{\link{calc_aggregatestability}}
+}
+\examples{
+ind_aggregatestability(D_AS = 0.3)
+ind_aggregatestability(D_AS = c(0.3,0.6,0.9))
+
 }

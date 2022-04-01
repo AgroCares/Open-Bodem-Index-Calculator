@@ -9,6 +9,14 @@ calc_cec(A_CEC_CO)
 \arguments{
 \item{A_CEC_CO}{(numeric) The cation exchange capacity (mmol+ / kg)}
 }
+\value{
+The capacity of the soil to buffer cations. A numeric value.
+}
 \description{
 This function calculates the capacity of the soil to buffer cations
+}
+\examples{
+calc_cec(A_CEC_CO = 85)
+calc_cec(A_CEC_CO = c(85,125,326))
+
 }

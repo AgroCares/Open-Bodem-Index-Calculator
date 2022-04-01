@@ -19,7 +19,14 @@ pF_curve(head, thetaR, thetaS, alfa, n)
 }
 \value{
 theta (numeric) water content (cm3/cm3)
+
+The moisture content of a soil given a certain pressure head. A numeric value.
 }
 \description{
 This function compute water content at given pressure head, using Van Genuchten water retention curve
+}
+\examples{
+pF_curve(head = 2.2, thetaR = 0.01, thetaS = 0.35, alfa = 0.3,n = 1.6)
+pF_curve(head = 4.2, thetaR = 0.01, thetaS = 0.35, alfa = 0.3,n = 1.6)
+
 }

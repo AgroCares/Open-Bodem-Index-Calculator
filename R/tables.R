@@ -276,3 +276,66 @@
 #'   \item{12}{Evapotranspiration correction factors for December}
 #' }
 "crops.makkink"
+
+#' Table with fractions of excess N which runs off to groundwater and surface water
+#' 
+#' This table contains the fractions of N overshot which runs off to groundwater / surface water, per soil type, crop type, and groundwater table
+#' 
+#' @format A data.frame with 198 rows and 11 columns:
+#' \describe{
+#'   \item{gewas}{crop type}
+#'   \item{bodem}{soil type}
+#'   \item{ghg}{Lower value for groundwater table (cm-mv)}
+#'   \item{glg}{Upper value for groundwater table (cm-mv)}
+#'   \item{B_GT}{grondwatertrap}
+#'   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year) or groundwater (mg NO3/L per kg N overschot/ha/year)}
+#'   \item{leaching_to-set}{Tells if leaching to ground water or surface water)}
+#' }
+#' 
+#' 
+"nleach_table"
+
+#' Table with water retention properties of 'bouwstenen'
+#' 
+#' This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'
+#' 
+#' @format A data.frame with 36 rows and 14 columns:
+#' \describe{
+#'   \item{bouwsteen}{soil type bouwsteen}
+#'   \item{omschrijving}{description of 'bouwsteen'}
+#'   \item{thres}{residual water content (cm3/cm3). Table 3 of Wosten 2001}
+#'   \item{thsat}{water content at saturation (cm3/cm3). Table 3 of Wosten 2001}
+#'   \item{Ks}{saturated hydraulic conductivity (cm/d). Table 3 of Wosten 2001}
+#'   \item{alpha}{parameter alpha of pF curve (1/cm) Table 3 of Wosten 2001}
+#'   \item{l}{parameter l of pF curve (-). Table 3 of Wosten 2001}
+#'   \item{n}{parameter n of pF curve (-). Table 3 of Wosten 2001}
+#'   \item{sand\%}{sand content (\%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
+#'   \item{silt\%}{silt content (\%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
+#'   \item{clay\%}{clay content (\%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
+#'   \item{OM\%}{organic matter content (\%). Middle value of Table 1 of Wosten 2001}
+#'   \item{bulkdensity}{soil bulk density (g/cm3). Middle value of Table 2 of Wosten 2001}
+#'   \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}
+#' }
+"bouwsteen_tb"
+
+#' Table with optimal pH for different crop plans
+#' 
+#' This table contains the optimal pH for different crop plans and soil types
+#' 
+#' @format A data.frame with 136 rows and 10 columns:
+#' \describe{
+#'   \item{table}{The original table from Hanboek Bodem en Bemesting}
+#'   \item{lutum.low}{Lower value for A_CLAY_MI}
+#'   \item{lutum.high}{Upper value for A_CLAY_MI}
+#'   \item{om.low}{Lower value for organic matter}
+#'   \item{om.high}{Upper value for organic matter}
+#'   \item{potato.low}{Lower value for fraction potatoes in crop plan}
+#'   \item{potato.high}{Upper value for fraction potatoes in crop plan}
+#'   \item{sugarbeet.low}{Lower value for fraction potatoes in crop plan}
+#'   \item{sugarbeet.high}{Upper value for fraction potatoes in crop plan}
+#'   \item{ph.optimum}{The optimal pH (pH_CaCl2) for this range}   
+#' }
+#' 
+#' #' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
+#' 
+"tbl.ph.delta"

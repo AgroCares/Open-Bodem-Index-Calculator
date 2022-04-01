@@ -9,6 +9,14 @@ ind_zinc(D_ZN)
 \arguments{
 \item{D_ZN}{(numeric) The value of Zn-index  calculated by \code{\link{calc_zinc_availability}}}
 }
+\value{
+The evaluated score for the soil function to supply zinc for crop uptake. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the the Zn availability in soil by using the Zn-index as calculated by \code{\link{calc_zinc_availability}}
+}
+\examples{
+ind_zinc(D_ZN = 45)
+ind_zinc(D_ZN = c(12.5,35,65))
+ 
 }

@@ -6,6 +6,13 @@
 #' @param D_BDS (numeric) The bulk density of the soil
 #' @param D_RD (numeric) The root depth of the crop
 #' 
+#' @examples 
+#' calc_organic_carbon(A_SOM_LOI = 4.3, D_BDS = 1100, D_RD = 0.2)
+#' calc_organic_carbon(A_SOM_LOI = c(1,4.3), D_BDS = c(1100,1300), D_RD = c(0.2,0.6))
+#' 
+#' @return 
+#' The total amount of Carbon in the soil (kg C / ha). A numeric value.
+#' 
 #' @export
 calc_organic_carbon <- function(A_SOM_LOI, D_BDS, D_RD) {
   

@@ -13,6 +13,14 @@ calc_crumbleability(A_SOM_LOI, A_CLAY_MI, A_PH_CC)
 
 \item{A_PH_CC}{(numeric) The pH of the soil, measured in 0.01M CaCl2}
 }
+\value{
+The crumbleability index of a soil, a measure for a physical soil property. A numeric value.
+}
 \description{
 This function calculates the crumbleability. This value can be evaluated by \code{\link{ind_crumbleability}}
+}
+\examples{
+calc_crumbleability(A_SOM_LOI = 3.5, A_CLAY_MI = 12, A_PH_CC = 5.4)
+calc_crumbleability(A_SOM_LOI = c(3.5,12), A_CLAY_MI = c(4,12), A_PH_CC = c(5.4, 7.1))
+
 }

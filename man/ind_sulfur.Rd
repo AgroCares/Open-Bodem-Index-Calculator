@@ -15,6 +15,14 @@ ind_sulfur(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)
 
 \item{B_AER_CBS}{(character) The agricultural economic region in the Netherlands (CBS, 2016)}
 }
+\value{
+The evaluated score for the soil function to supply sulfur for crop uptake. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the the S-index by using the SLV calculated by \code{\link{calc_slv}}
+}
+\examples{
+ind_sulfur(D_SLV = 15,B_LU_BRP = 256,B_SOILTYPE_AGR = 'dekzand',B_AER_CBS = 'Rivierengebied')
+ind_sulfur(c(10,15,35),c(256,1019,1019),rep('rivierklei',3),rep('Rivierengebied',3))
+ 
 }

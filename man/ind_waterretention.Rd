@@ -11,7 +11,17 @@ ind_waterretention(D_P_WRI, type = "plant available water")
 
 \item{type}{(character) The type of water retention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')}
 }
+\value{
+The evaluated score for the soil function to retain and buffer water. Depending on the "type" chosen, the soil is evaluated for 'wilting point','field capacity','water holding capacity','plant available water' or 'Ksat'.
+Output is a numeric value varying between 0 and 1.
+}
 \description{
 This function evaluates different Water Retention Indices.
 These include : 'wilting point','field capacity','water holding capacity','plant available water' and 'Ksat'
+}
+\examples{
+ind_waterretention(D_P_WRI = 75)
+ind_waterretention(D_P_WRI = c(15,50,75,150))
+ind_waterretention(D_P_WRI = c(0.1,0.2,0.5,0.8), type = 'water holding capacity')
+
 }

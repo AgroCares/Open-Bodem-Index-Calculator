@@ -13,6 +13,15 @@ calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI = NULL)
 
 \item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
 }
+\value{
+The bulk density of an arable soil (kg / m3). A numeric value.
+}
 \description{
 This function calculates the bulk density of the soil based on texture and organic matter
+}
+\examples{
+calc_bulk_density(B_SOILTYPE_AGR = 'zeeklei', A_SOM_LOI = 6.5, A_CLAY_MI = 28)
+calc_bulk_density(B_SOILTYPE_AGR = 'dekzand', A_SOM_LOI = 3.5)
+calc_bulk_density(B_SOILTYPE_AGR = c('dekzand','rivierklei'), A_SOM_LOI = c(3.5,8.5))
+
 }

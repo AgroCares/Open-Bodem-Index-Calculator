@@ -15,6 +15,19 @@ pFpara_class(Pklei, Pleem, Psom, M50)
 
 \item{M50}{(numeric)size of  sand fraction (um)}
 }
+\value{
+a table with the following columns:
+ThetaR (numeric) residual water content (cm3/cm3)
+ThetaS (numeric) saturated water content (cm3/cm3)
+alfa (numeric)  related to the inverse of the air entry suction, alfa > 0 (1/cm) 
+n (numeric)  a measure of the pore-size distribution, n>1, dimensionless
+ksat (numeric) saturated hydraulic conductivity (cm/d)
+}
 \description{
 Parameter estimation based on class of Staringreeks (Tabel 3, Wosten 2001)
+}
+\examples{
+pFpara_class(Pklei = 25, Pleem = 15, Psom = 4.5,M50 = 150)
+pFpara_class(Pklei = 45, Pleem = 3, Psom = 4.5,M50 = 150)
+
 }
