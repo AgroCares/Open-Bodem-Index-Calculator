@@ -63,7 +63,7 @@ For each field, the following properties are available:
 * field properties: ID, landuse (B_LU_BRP) and agricultural region (B_AER_CBS)
 * basic soil properties: soil type (B_SOILTYPE_AGR, B_HELP_WENR), risk for soil compaction (B_SC_WENR) and groundwater level (B_GWL_CLASS)
 * chemical, physical and biological soil properties obtained from measurements (all variables starting with "A_")
-* measurements done via a Visual Soil Assessment Form (optional, all variables starting with "A_" and ending with "BCS"). For details, see the Assessment Form of the [Bodemconditiescore](http://mijnbodemconditie.nl/aan-de-slag/download/) [@Sonneveld2014].
+* measurements done via a Visual Soil Assessment Form (optional, all variables starting with "A_" and ending with "BCS"). For details, see the Assessment Form of the [Bodemconditiescore](https://mijnbodemconditie.nl/aan-de-slag/download/) [@Sonneveld2014].
 * soil management measures taken (optional, all variables starting with "M_")
 
 ```{r, showbinnenveld}
