@@ -9,6 +9,13 @@
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' calc_phosphate_availability(B_LU_BRP = 265, A_P_AL = 45, A_P_CC = 2.5)
+#' calc_phosphate_availability(c(265,1019),A_P_AL = c(35,54),A_P_CC = c(2.5,4.5), A_P_WA = c(35,65))
+#' 
+#' @return 
+#' The phosphate availability index estimated from extractable soil P fractions. A numeric value.
+#' 
 #' @export
 calc_phosphate_availability <- function(B_LU_BRP, A_P_AL = NULL, A_P_CC = NULL, A_P_WA = NULL) {
   
@@ -77,6 +84,13 @@ calc_phosphate_availability <- function(B_LU_BRP, A_P_AL = NULL, A_P_CC = NULL, 
 #' This function calculates the indicator for the phosphate availability calculated by \code{\link{calc_phosphate_availability}}
 #' 
 #' @param D_PBI (numeric) The value of phosphate availability calculated by \code{\link{calc_phosphate_availability}}
+#' 
+#' @examples 
+#' ind_phosphate_availability(D_PBI = 3.5)
+#' ind_phosphate_availability(D_PBI = c(0.5,0.8,2.5,5,15,35,75))
+#'  
+#' @return 
+#' The evaluated score for the soil function to supply and buffer phosphorus for crop uptake. A numeric value between 0 and 1.
 #' 
 #' @export
 ind_phosphate_availability <- function(D_PBI) {

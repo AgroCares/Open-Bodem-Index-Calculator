@@ -9,6 +9,18 @@ calc_root_depth(B_LU_BRP)
 \arguments{
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 }
+\value{
+The root depth of a crop corresponding to the sampling depth analyzed by agricultural labs. A numeric value.
+}
 \description{
 This function determines the depth of the soil
+}
+\details{
+This is a helper function to estimate the rooting depth of crops, as being used for calculations for soil nutrient supplies.
+Be aware, this is not the real rooting depth; it rather represents the sampling depth of the soils collected for routine soil analsyis.
+}
+\examples{
+calc_root_depth(B_LU_BRP = 256)
+calc_root_depth(B_LU_BRP = c(256,265,1019,992))
+
 }

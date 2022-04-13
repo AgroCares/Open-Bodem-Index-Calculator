@@ -1,7 +1,0 @@
-pandoc: 2.11.2
-pkgdown: 1.6.1
-pkgdown_sha: ~
-articles:
-  description-of-the-columns: description-of-the-columns.html
-last_built: 2021-05-20T00:12Z
-

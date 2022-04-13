@@ -62,6 +62,15 @@ add_management(
 
 \item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
 }
+\value{
+A data.table with all default estimates for the management measures that are used for the Label Sustainable Soil Management.
+For each B_LU_BRP 15 management measures are given, all as boolean variables except for M_COMPOST being a numeric value.
+}
 \description{
 This function adds default management input variables given soil type and land use
+}
+\examples{
+add_management(ID = 1, B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand')
+add_management(ID = 1, B_LU_BRP = c(256,1019), B_SOILTYPE_AGR = rep('dekzand',2))
+
 }

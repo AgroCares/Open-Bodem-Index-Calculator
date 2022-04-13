@@ -23,6 +23,14 @@
 #'  
 #' @import data.table
 #' 
+#' @examples 
+#' add_management(ID = 1, B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand')
+#' add_management(ID = 1, B_LU_BRP = c(256,1019), B_SOILTYPE_AGR = rep('dekzand',2))
+#' 
+#' @returns 
+#' A data.table with all default estimates for the management measures that are used for the Label Sustainable Soil Management.
+#' For each B_LU_BRP 15 management measures are given, all as boolean variables except for M_COMPOST being a numeric value.
+#' 
 #' @export
 add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
                            M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, M_COMPOST = NA_real_,

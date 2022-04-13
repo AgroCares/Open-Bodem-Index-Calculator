@@ -1,5 +1,3 @@
-library(data.table)
-
 # make data.table with testspecies
 testspecies = c("Ditylenchus spp."             ,"Ditylenchus dipsaci"          ,"Ditylenchus destructor"       ,"Xiphinema spp."           ,   
                 "Longidorus spp."              ,"(Para)Trichodoridae spp."     ,"Trichodorus similis"          ,"Trichodorus primitivus"   ,   

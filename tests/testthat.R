@@ -1,3 +1,4 @@
+library(data.table)
 library(testthat)
 library(OBIC)
 

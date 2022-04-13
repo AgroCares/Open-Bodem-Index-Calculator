@@ -13,6 +13,14 @@ calc_organic_carbon(A_SOM_LOI, D_BDS, D_RD)
 
 \item{D_RD}{(numeric) The root depth of the crop}
 }
+\value{
+The total amount of Carbon in the soil (kg C / ha). A numeric value.
+}
 \description{
 This function calculates the amount of organic carbon in the soil
+}
+\examples{
+calc_organic_carbon(A_SOM_LOI = 4.3, D_BDS = 1100, D_RD = 0.2)
+calc_organic_carbon(A_SOM_LOI = c(1,4.3), D_BDS = c(1100,1300), D_RD = c(0.2,0.6))
+
 }

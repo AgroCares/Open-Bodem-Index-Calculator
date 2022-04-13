@@ -1,4 +1,4 @@
-#' Evaluate using the general logistice function
+#' Evaluate using the general logistic function
 #' 
 #' This function evaluates the calculated values from an indicator using a general logistic function
 #' 
@@ -9,6 +9,13 @@
 #' @param increasing (boolean) Should the evaluation increase (\code{TRUE}) with x or decrease (\code{FALSE})?
 #' 
 #' @references \url{https://en.wikipedia.org/wiki/Generalised_logistic_function}
+#' 
+#' @examples 
+#' evaluate_logistic(x = 5, b = 2, x0 = 3, v = 2.6)
+#' evaluate_logistic(x = c(0.1,0.5,1.5,3.5), b = 2, x0 = 3, v = 2.6)
+#' 
+#' @return 
+#' A transformed variable after applying a logistic evaluation function. A numeric value.
 #' 
 #' @export
 evaluate_logistic <- function(x, b, x0, v, increasing = TRUE) {
@@ -37,6 +44,13 @@ evaluate_logistic <- function(x, b, x0, v, increasing = TRUE) {
 #' @param x (numeric) The values of a calc function to be converted to an evaluation
 #' @param x.top (numeric) The value at which x reaches the plateau
 #' 
+#' @examples 
+#' evaluate_parabolic(x = 5, x.top = 8)
+#' evaluate_parabolic(x = c(0.1,0.5,1.5,3.5), x.top = 6.5)
+#' 
+#' @return 
+#' A transformed variable after applying a parabolic evaluation function. A numeric value.
+#' 
 #' @export
 evaluate_parabolic <- function(x, x.top) {
   
@@ -59,6 +73,13 @@ evaluate_parabolic <- function(x, x.top) {
 #' Helper function to weight and correct the risk and scores
 #' 
 #' @param x The risk or score value to be weighted
+#' 
+#' @examples 
+#' cf_ind_importance(x = 0.5)
+#' cf_ind_importance(x = c(0.1,0.5,1.5))
+#' 
+#' @return 
+#' A transformed variable after applying a inverse weighing function so that lower values will gain more impact when applied in a weighed.mean function. A numeric value.
 #' 
 #' @export
 cf_ind_importance <- function(x) {

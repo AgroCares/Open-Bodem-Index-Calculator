@@ -20,6 +20,14 @@ calc_phosphate_availability(
 
 \item{A_P_WA}{(numeric) The P-content of the soil extracted with water}
 }
+\value{
+The phosphate availability index estimated from extractable soil P fractions. A numeric value.
+}
 \description{
 This function calculates the phosphate availability. This value can be evaluated by \code{\link{ind_phosphate_availability}}
+}
+\examples{
+calc_phosphate_availability(B_LU_BRP = 265, A_P_AL = 45, A_P_CC = 2.5)
+calc_phosphate_availability(c(265,1019),A_P_AL = c(35,54),A_P_CC = c(2.5,4.5), A_P_WA = c(35,65))
+
 }

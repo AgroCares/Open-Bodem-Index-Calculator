@@ -15,6 +15,15 @@ calc_zinc_availability(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC)
 
 \item{A_ZN_CC}{The plant available Zn content, extracted with 0.01M CaCl2 (mg / kg)}
 }
+\value{
+The function of the soil to supply zinc A numeric value.
+}
 \description{
 This function calculates the availability of Zn for plant uptake
+}
+\examples{
+calc_zinc_availability(B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand',A_PH_CC = 4.5, A_ZN_CC = 3000)
+calc_zinc_availability(B_LU_BRP = 265, 'dekzand',4,3500)
+calc_zinc_availability(B_LU_BRP = c(1019,265), c('dekzand','rivierklei'),c(4.5,4.8),c(2500,4500))
+
 }

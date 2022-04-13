@@ -26,6 +26,16 @@ calc_copper_availability(
 
 \item{A_CU_CC}{(numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)}
 }
+\value{
+The function of the soil to supply Copper. A numeric value.
+}
 \description{
 This function calculates the availability of Cu for plant uptake
+}
+\examples{
+calc_copper_availability(B_LU_BRP = 265, A_SOM_LOI = 3.5, A_CLAY_MI = 4,A_K_CC = 65, 
+A_MN_CC = 110, A_CU_CC = 250)
+calc_copper_availability(B_LU_BRP = 265, 3.5, 4,65, 110, 250)
+calc_copper_availability(B_LU_BRP = c(1019,265), c(3.5,5), c(4,8),c(65,95), c(110,250), c(250,315))
+
 }

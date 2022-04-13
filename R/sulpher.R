@@ -1,15 +1,25 @@
 #' Calculate the SLV
 #' 
-#' This function calculates a S-balance given the SLV (Sulpher supplying capacity) of a soil
+#' This function calculates a S-balance given the SLV (Sulfur supplying capacity) of a soil
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
-#' @param A_SOM_LOI (numeric) The organic matter content of the soil (in procent)
-#' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
+#' @param A_SOM_LOI (numeric) The organic matter content of the soil (in percent)
+#' @param A_S_RT (numeric) The total Sulfur content of the soil (in mg S per kg)
 #' @param D_BDS (numeric) The bulk density of the soil (in kg per m3)
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' calc_slv(B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand', 
+#' B_AER_CBS = 'Rivierengebied',A_SOM_LOI = 3.5,A_S_RT = 3500, D_BDS = 1400)
+#' calc_slv(1019, 'dekzand', 'Rivierengebied',3.5,3500,1400)
+#' calc_slv(c(256,1019), rep('dekzand',2), rep('Rivierengebied',2),c(6.5,3.5),
+#' c(3500,7500),c(1400,1100))
+#' 
+#' @return 
+#' The capacity of the soil to supply Sulfur (kg S / ha / yr). A numeric value.
 #' 
 #' @export
 calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS) {
@@ -37,7 +47,7 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
                                                  'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
                                                  'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
                                                  'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
-                                                 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
+                                                 'Veenkolonien en Oldambt', 'Veenkoloni\xebn en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
   checkmate::assert_numeric(D_BDS, lower = 100, upper = 1900, any.missing = FALSE, len = arg.length)
   
   # Settings
@@ -103,14 +113,23 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
   return(value)
 }
 
-#' Calculate the indicator for delta S-balans arable
+#' Calculate the indicator for delta S-balance arable
 #' 
-#' This function calculates the change in S-balans compared to averaged S-supply as given in fertilizer recommendation systems.
+#' This function calculates the change in S-balance compared to averaged S-supply as given in fertilizer recommendation systems.
 #' 
 #' @param D_SLV (numeric) The value of SLV  calculated by \code{\link{calc_slv}}
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
+#' 
+#' @examples 
+#' calc_sbal_arable(D_SLV = 65, B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand', 
+#' B_AER_CBS = 'Rivierengebied')
+#' calc_sbal_arable(65, 1019, 'dekzand', 'Rivierengebied')
+#' calc_sbal_arable(c(65,125), c(265,1019), rep('dekzand',2), rep('Rivierengebied',2))
+#' 
+#' @return 
+#' Estimated contribution of the soil to the S balance of arable fields. A numeric value.
 #' 
 #' @export
 calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS) {
@@ -228,6 +247,13 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS) {
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
+#' 
+#' @examples 
+#' ind_sulpher(D_SLV = 15,B_LU_BRP = 256,B_SOILTYPE_AGR = 'dekzand',B_AER_CBS = 'Rivierengebied')
+#' ind_sulpher(c(10,15,35),c(256,1019,1019),rep('rivierklei',3),rep('Rivierengebied',3))
+#'  
+#' @return 
+#' The evaluated score for the soil function to supply sulfur for crop uptake. A numeric value between 0 and 1.
 #' 
 #' @export
 ind_sulpher <- function(D_SLV,B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS) {

@@ -18,9 +18,9 @@ A data.table with 7059 rows and 21 columns:
   \item{loess}{boolean whether information is valid for soiltype 'loess'}
   \item{zand}{boolean whether information is valid for soiltype 'zand'}
   \item{zavel}{boolean whether information is valid for soiltype 'zavel'}
-  \item{info}{string whether there is information on propgation, diffrentiating between none, yes, and some}
+  \item{info}{string whether there is information on propgation, differentiating between none, yes, and some}
   \item{name_common}{string, common name of pathogen in Dutch, if no common name is available, scientific name is given}
-  \item{nema_name}{string, full name of pathogen in aaltjeschema, includes common and scientific name}
+  \item{nema_name}{string, full name of pathogen in aaltjesschema, includes common and scientific name}
   \item{grondsoort}{string with letters indicating for which soil the information is valid}
   \item{groen_br}{boolean indicating that the crop is a green manure on fallow}
   \item{groen_vs}{boolean indicating that the crop is a green manure in early stubble}

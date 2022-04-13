@@ -26,12 +26,24 @@ calc_potassium_availability(
 
 \item{A_PH_CC}{(numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)}
 
-\item{A_CEC_CO}{(numeric) The cation exchange capacity of the soil (mmol+ / kg), analysed via Cobalt-hexamine extraction}
+\item{A_CEC_CO}{(numeric) The cation exchange capacity of the soil (mmol+ / kg), analyzed via Cobalt-hexamine extraction}
 
 \item{A_K_CO_PO}{(numeric) The occupation of the CEC with potassium (\%)}
 
 \item{A_K_CC}{(numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg / kg),}
 }
+\value{
+The capacity of the soil to supply and buffer potassium. A numeric value.
+}
 \description{
 This function calculates the K availability of a soil.
+}
+\examples{
+calc_potassium_availability(B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand',
+A_SOM_LOI = 4, A_CLAY_MI = 11,A_PH_CC = 5.4, A_CEC_CO = 125, 
+A_K_CO_PO = 8.5, A_K_CC = 145)
+calc_potassium_availability(265, 'dekzand',4, 11,5.4,  125,8.5, 145)
+calc_potassium_availability(c(265,1019), rep('dekzand',2),c(4,6), c(11,14),
+c(5.4,5.6),  c(125,145),c(8.5,3.5), c(145,180))
+
 }

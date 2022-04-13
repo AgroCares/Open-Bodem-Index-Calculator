@@ -1,4 +1,4 @@
-#' Convert possible B_GT values to standardized values
+#' Convert possible B_GWL_CLASS values to standardized values
 #' 
 #' This function formats ground water table information so it can be understood by other OBIC functions
 #' 
@@ -6,16 +6,27 @@
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' format_gwt(c('sVII', 'sVI'))
+#' format_gwt(c('sVII', 'sVI','GtII', 'GtI'))
+#' 
+#' @return 
+#' A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
+#' 
 #' @export
 format_gwt <- function(B_GWL_CLASS) {
   
   # options for B_GWL_CLASS
-  bgwlclass <- c('I','II','IIb','III','IIIb','IV','V','Vb','VI','VI','VII','VIII',
-                 'GtI','GtII','GtIIb','GtIII','GtIIIb','GtIV','GtV','GtVb','GtVI',
-                 'GtVI','GtVII','GtVIII','-')
+  bgwlclass <- c('sVb', 'sVa', 'sVII', 'sVI', 'sV', 'bVII', 'bVI', 'Vb', 'Va', 'VIII', 'VII', 'VI',
+    'V', 'IVu', 'IV', 'IIb', 'IIIb', 'IIIa', 'III', 'II', 'I', '-',
+    'GtsVb', 'GtsVa', 'GtsVII', 'GtsVI', 'GtsV', 'GtbVII', 'GtbVI', 'GtVb', 'GtVa', 'GtVIII', 'GtVII', 'GtVI',
+    'GtV', 'GtIVu', 'GtIV', 'GtIIb', 'GtIIIb', 'GtIIIa', 'GtIII', 'GtII', 'GtI')
   
   # Check if B_GT values are appropriate
   checkmate::assert_subset(B_GWL_CLASS, empty.ok = FALSE, choices = bgwlclass)
+  
+  # Remove prefixes and suffixes
+  B_GWL_CLASS <- gsub("a|b|s|u", "", B_GWL_CLASS)
   
   # if value starts with I or V, add prefix Gt to it.
   B_GWL_CLASS <- gsub("^I", "GtI", B_GWL_CLASS)
@@ -33,6 +44,13 @@ format_gwt <- function(B_GWL_CLASS) {
 #' @param B_SC_WENR (numeric and/or character) Data on soil compaction risk that may have to be converted to string
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' format_soilcompaction(c('10', '11'))
+#' format_soilcompaction(c('2', '3',"Matig", "Groot"))
+#' 
+#' @return 
+#' A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
 #' 
 #' @export
 format_soilcompaction <- function(B_SC_WENR) {
@@ -67,6 +85,13 @@ format_soilcompaction <- function(B_SC_WENR) {
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' format_aer(c("LG13","LG12"))
+#' format_aer(c("LG13","LG12",'Rivierengebied'))
+#' 
+#' @return 
+#' A standardized B_AER_CBS value as required for the OBIC functions. A character string.
+#' 
 #' @export
 format_aer <- function(B_AER_CBS) {
   
@@ -80,7 +105,7 @@ format_aer <- function(B_AER_CBS) {
                 'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
                 'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
                 'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
-                'Veenkoloni\xEBn en Oldambt', "Veenkoloni\xebn en Oldambt",
+                'Veenkoloni\xEBn en Oldambt', "Veenkolonien en Oldambt",
                 'Bouwhoek en Hogeland')
   
   # options for B_AER_CBS

@@ -5,3 +5,6 @@
 ^Meta$
 ^dev$
 ^DEV$
+^\.github$
+^codecov\.yml$
+^LICENSE
