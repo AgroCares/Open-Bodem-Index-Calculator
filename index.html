@@ -98,9 +98,15 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>OBIC can be installed from GitHub using <code>remotes</code>. This will install the current development version from master branch. Stable versions can found at <code>releases</code>.</p>
-<pre><code><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"AgroCares/Open-Bodem-Index-Calculator"</span><span class="op">)</span>
+<pre><code><span class="co"># Install from latest stable version from CRAN</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"OBIC"</span><span class="op">)</span>
+
+<span class="co"># Or install the development version from GitHub</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"AgroCares/Open-Bodem-Index-Calculator"</span><span class="op">)</span>
+
+<span class="co"># Load the OBIC package in your script</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator" class="external-link">"OBIC"</a></span><span class="op">)</span></code></pre>
+<p>Previous releases of <code>OBIC</code> can be found at <code>releases</code> section on the GitHub repository.</p>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
@@ -161,6 +167,8 @@
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-green.svg" alt="Lifecycle: stable"></a></li>
 <li><a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/actions" class="external-link"><img src="https://github.com/AgroCares/Open-Bodem-Index-Calculator/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/AgroCares/Open-Bodem-Index-Calculator?branch=master" class="external-link"><img src="https://codecov.io/gh/AgroCares/Open-Bodem-Index-Calculator/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://cran.r-project.org/package=OBIC" class="external-link"><img src="https://www.r-pkg.org/badges/version/OBIC" alt="CRAN_Status_Badge"></a></li>
 </ul>
 </div>
 
