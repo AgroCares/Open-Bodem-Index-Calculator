@@ -1,4 +1,6 @@
 # UNRELEASED
+### Fixed
+* Fixes plotting of regime curve in workabilty vignette #149
 
 # OBIC 2.0.1 2022-03-26
 ### Changed
