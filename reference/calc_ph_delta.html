@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -106,17 +106,32 @@
 <dt>D_CP_SUGARBEET</dt>
 <dd><p>(numeric) The fraction of sugar beets in the crop plan</p></dd>
 <dt>D_CP_GRASS</dt>
-<dd><p>(numeric) The fracgtion of grass in the crop plan</p></dd>
+<dd><p>(numeric) The fraction of grass in the crop plan</p></dd>
 <dt>D_CP_MAIS</dt>
 <dd><p>(numeric) The fraction of mais in the crop plan</p></dd>
 <dt>D_CP_OTHER</dt>
 <dd><p>(numeric) The fraction of other crops in the crop plan</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>The difference between the actual and desired optimum soil pH. A numeric value.</p>
+    </div>
     <div id="references">
     <h2>References</h2>
-    <p><a href="https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm" class="external-link">Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3</a></p>
+    <p>Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_ph_delta</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">"rivierklei"</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">5</span>,</span>
+<span class="r-in">A_CLAY_MI <span class="op">=</span> <span class="fl">20</span>,A_PH_CC <span class="op">=</span> <span class="fl">6</span>, D_CP_STARCH <span class="op">=</span> <span class="fl">0</span>,D_CP_POTATO <span class="op">=</span> <span class="fl">0.3</span>,D_CP_SUGARBEET <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span class="r-in">D_CP_GRASS <span class="op">=</span> <span class="fl">0</span>,D_CP_MAIS <span class="op">=</span> <span class="fl">0.2</span>,D_CP_OTHER <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3</span>
+<span class="r-in"><span class="fu">calc_ph_delta</span><span class="op">(</span><span class="fl">265</span>, <span class="st">"rivierklei"</span>, <span class="fl">5</span>,<span class="fl">20</span>,<span class="fl">6</span>, <span class="fl">0</span>,<span class="fl">0.3</span>,<span class="fl">0.2</span>,<span class="fl">0</span>,<span class="fl">0.2</span>,<span class="fl">0.3</span><span class="op">)</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3</span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -125,7 +140,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

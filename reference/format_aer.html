@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -80,7 +80,21 @@
     <dl><dt>B_AER_CBS</dt>
 <dd><p>(character) The agricultural economic region in the Netherlands (CBS, 2016)</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>A standardized B_AER_CBS value as required for the OBIC functions. A character string.</p>
+    </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">format_aer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LG13"</span>,<span class="st">"LG12"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Zuidelijk Veehouderijgebied" "Zuidwest-Brabant"           </span>
+<span class="r-in"><span class="fu">format_aer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LG13"</span>,<span class="st">"LG12"</span>,<span class="st">'Rivierengebied'</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Zuidelijk Veehouderijgebied" "Zuidwest-Brabant"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Rivierengebied"             </span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -89,7 +103,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

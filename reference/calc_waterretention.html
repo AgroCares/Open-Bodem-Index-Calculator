@@ -18,7 +18,7 @@ These include : 'wilting point','field capacity','water holding capacity','plant
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -27,7 +27,7 @@ These include : 'wilting point','field capacity','water holding capacity','plant
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -95,15 +95,33 @@ These include : 'wilting point','field capacity','water holding capacity','plant
 <dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The organic matter content of the soil (%)</p></dd>
 <dt>type</dt>
-<dd><p>(character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')</p></dd>
+<dd><p>(character) The type of water retention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')</p></dd>
 <dt>ptf</dt>
 <dd><p>(character) Pedotransfer functions to calculate van Genuchten parameters. Options include c('Wosten1999', 'Wosten2001', 'Klasse')</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>The function returns by default the amount of plant available water in the ploughing layer of the soil (in mm). A numeric value.
+If another type of output is selected, the function gives also the amount of water at 'wilting point' or 'field capacity' or 'water holding capacity'.
+Also the saturated permeability 'Ksat' can be selected. Units are always in mm, except for Water Holding Capacity (<!-- %) and Ksat. --></p>
+    </div>
     <div id="references">
     <h2>References</h2>
-    <p>Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulogic characteristics. Journal of Hydrology 251, p123.</p>
+    <p>Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulic characteristics. Journal of Hydrology 251, p123.</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_waterretention</span><span class="op">(</span>A_CLAY_MI <span class="op">=</span> <span class="fl">20.5</span>,A_SAND_MI <span class="op">=</span> <span class="fl">65</span>,A_SILT_MI <span class="op">=</span> <span class="fl">14.5</span>,A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 62.313</span>
+<span class="r-in"><span class="fu">calc_waterretention</span><span class="op">(</span>A_CLAY_MI <span class="op">=</span> <span class="fl">5</span>,A_SAND_MI <span class="op">=</span> <span class="fl">15</span>,A_SILT_MI <span class="op">=</span> <span class="fl">80</span>,A_SOM_LOI <span class="op">=</span> <span class="fl">6.5</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 82.53545</span>
+<span class="r-in"><span class="fu">calc_waterretention</span><span class="op">(</span>A_CLAY_MI <span class="op">=</span> <span class="fl">5</span>,A_SAND_MI <span class="op">=</span> <span class="fl">15</span>,A_SILT_MI <span class="op">=</span> <span class="fl">80</span>,A_SOM_LOI <span class="op">=</span> <span class="fl">6.5</span>, </span>
+<span class="r-in">type <span class="op">=</span> <span class="st">'water holding capacity'</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4824068</span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -112,7 +130,7 @@ These include : 'wilting point','field capacity','water holding capacity','plant
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

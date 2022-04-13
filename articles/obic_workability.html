@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -90,7 +90,7 @@
       <h1 data-toc-skip>Workability illustration</h1>
                         <h4 data-toc-skip class="author">Brent Riechelman</h4>
             
-            <h4 data-toc-skip class="date">2022-01-31</h4>
+            <h4 data-toc-skip class="date">2022-04-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/HEAD/vignettes/obic_workability.Rmd" class="external-link"><code>vignettes/obic_workability.Rmd</code></a></small>
       <div class="hidden name"><code>obic_workability.Rmd</code></div>
@@ -254,7 +254,7 @@ grasland, blijvend
 </table>
 <p>We have two arable fields on marine clay with wheat and sugar beets as well as two grassland fields, one on sand and one on peat. Note that GLG is a measure for the average of the three lowest water levels in a period of eight years and GHG is the average of the three highest water levels over a period of eight years. It is assumed that the water level on our fields shifts from GHG on February 15th to GLG on August 15th and back following a sinusoidal curve. With this knowledge one can easily see that field 4 is much wetter than the other fields, both in winter as in summer. When comparing fields 1 and 2, we see that field 1 is drier in summer but more wet in winter. Lets plot the relative season length and indicator score for workability of these fields.</p>
 <p><img src="obic_workability_files/figure-html/plot%20baseline-1.png" width="672"></p>
-<p>Both amongst the grassland and the arable fields, we find a poorly performing and a reasonable performing field. If you look closely, you can see that field 1 scores much lower than field 4, despite having a higher relative growing season. This is because there is a more lenient evaluation of relative growing seasons specifically for permanent grassland.</p>
+<p>Both among the grassland and the arable fields, we find a poorly performing and a reasonable performing field. If you look closely, you can see that field 1 scores much lower than field 4, despite having a higher relative growing season. This is because there is a more lenient evaluation of relative growing seasons specifically for permanent grassland.</p>
 <p>The relative season length, and in extension, the indicator score, are a function of the soil and hydrological properties of the field as well as the growing season and soil working depth requirements of the crop. By choosing a crop with a shorter growing season and or more shallow soil working depth, the score can be improved. Lets see how these parcels perform when we cultivate peas.</p>
 <p><img src="obic_workability_files/figure-html/scoring%20with%20peas-1.png" width="672"></p>
 It worked! Or at least it did for the arable fields, the fields that used to have grass perform much worse now. So what happend? For the arable fields, the required number of days decreased.
@@ -370,7 +370,7 @@ beweid bemaaid gras
     <span class="co"># Overwrite spring working depth for perennial crops</span>
   <span class="va">crops.p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'boomteelt'</span>, <span class="st">'overig boomteelt'</span>, <span class="st">'groot fruit'</span>,<span class="st">'grasland zonder herinzaai'</span>, <span class="st">'grasland met herinzaai'</span><span class="op">)</span>
   <span class="va">dt</span><span class="op">[</span><span class="va">crop_waterstress</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">crops.p</span>,<span class="va">spring_depth</span> <span class="op">:=</span> <span class="fl">0</span><span class="op">]</span></code></pre></div>
-<p>For field 4 (soiltype.m = ‘veen’), the required depth when cultivating permanent grass is 55+0=55cm, while with peas the required depth is 55+22=77. In the case of field 4, it happens to be that the required depth for the spring soil work is deeper than the lowest ground water level (GLG) when cultivating an anual crop. So, the groundwater is always to high for the field to be workable for cultivating peas.</p>
+<p>For field 4 (soiltype.m = ‘veen’), the required depth when cultivating permanent grass is 55+0=55cm, while with peas the required depth is 55+22=77. In the case of field 4, it happens to be that the required depth for the spring soil work is deeper than the lowest ground water level (GLG) when cultivating an annual crop. So, the groundwater is always to high for the field to be workable for cultivating peas.</p>
 <table class="table">
 <caption>
 Ground water parameters for workability when cultivating peas
@@ -483,7 +483,7 @@ required_depth
 <p>As you may have suspected, lower water levels resulted in higher relative growing seasons and workability scores. Note that for the function ‘workability’ lower ground water is always positive until the relative growing season length equals 1. However, low groundwater levels can be negative for other soil functions.</p>
 </div>
 <div class="section level2">
-<h2 id="b_gwl_zcrit">B_GWL_ZCrit<a class="anchor" aria-label="anchor" href="#b_gwl_zcrit"></a>
+<h2 id="b_gwl_zcrit">B_GWL_ZCRIT<a class="anchor" aria-label="anchor" href="#b_gwl_zcrit"></a>
 </h2>
 <p>Sometimes, capillary rise of water from the groundwater table to the soil surface may fall behind evaporation. If this is the case, the soil will dry out relatively quickly and may be workable sooner. It is estimated that evaporation in the Netherlands in spring is about 2mm per day. In our example data, B_GWL_ZCRIT was set to 400 meaning that over a distance of 400 cm between the groundwater table and the soil surface, the soil is able to supply at least 2 mm of water per day. Lets set B_GWL_ZCRIT to 50 and see what happens to our scores.</p>
 <p><img src="obic_workability_files/figure-html/plot%20with%20low%20zcrit%20-1.png" width="672"></p>
@@ -495,7 +495,7 @@ required_depth
 </h2>
 <div id="refs" class="references">
 <div id="ref-Huinink2018">
-<p>Huinink, J.Th.M. 2018. “Bodem/perceel geschiktheidsbeoordeling voor Landbouw, Bosbouw en Recreatie: t.b.v. een optimalisatie van grondwater- en oppervlaktewaterpeilbeheer: state of the art 2018.” BodemConsult-Arnhem. <a href="www.bodemmconsult.nl">www.bodemmconsult.nl</a>.</p>
+<p>Huinink, J.Th.M. 2018. “Bodem/perceel geschiktheidsbeoordeling voor Landbouw, Bosbouw en Recreatie: t.b.v. een optimalisatie van grondwater- en oppervlaktewaterpeilbeheer: state of the art 2018.” BodemConsult-Arnhem. <a href="www.bodemconsult.nl">www.bodemconsult.nl</a>.</p>
 </div>
 </div>
 </div>
@@ -513,7 +513,7 @@ required_depth
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Sven Verweij, Gerard Ros.</p>
+<p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

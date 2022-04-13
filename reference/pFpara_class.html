@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -86,7 +86,27 @@
 <dt>M50</dt>
 <dd><p>(numeric)size of  sand fraction (um)</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>a table with the following columns:
+ThetaR (numeric) residual water content (cm3/cm3)
+ThetaS (numeric) saturated water content (cm3/cm3)
+alfa (numeric)  related to the inverse of the air entry suction, alfa &gt; 0 (1/cm) 
+n (numeric)  a measure of the pore-size distribution, n&gt;1, dimensionless
+ksat (numeric) saturated hydraulic conductivity (cm/d)</p>
+    </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">pFpara_class</span><span class="op">(</span>Pklei <span class="op">=</span> <span class="fl">25</span>, Pleem <span class="op">=</span> <span class="fl">15</span>, Psom <span class="op">=</span> <span class="fl">4.5</span>,M50 <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ThetaR ThetaS   alfa    n ksat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   0.01   0.43 0.0064 1.21  0.7</span>
+<span class="r-in"><span class="fu">pFpara_class</span><span class="op">(</span>Pklei <span class="op">=</span> <span class="fl">45</span>, Pleem <span class="op">=</span> <span class="fl">3</span>, Psom <span class="op">=</span> <span class="fl">4.5</span>,M50 <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ThetaR ThetaS   alfa     n ksat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   0.01   0.59 0.0195 1.109 4.53</span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -95,7 +115,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

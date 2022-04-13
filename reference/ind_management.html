@@ -18,7 +18,7 @@ The main source of this indicator is developed for Label Duurzaam Bodembeheer (V
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -27,7 +27,7 @@ The main source of this indicator is developed for Label Duurzaam Bodembeheer (V
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -86,12 +86,25 @@ The main source of this indicator is developed for Label Duurzaam Bodembeheer (V
 <dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The type of soil</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>The evaluated score for the evaluated soil management given the Label Sustainable Soil Management. A numeric value between 0 and 1.</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p>The current function allows a maximum score of 18 points for arable systems, 12 for maize 
 and 10 for grass (non-peat), 17 for grass on peat, and 4 for nature.</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">ind_management</span><span class="op">(</span>D_MAN <span class="op">=</span> <span class="fl">15</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.83</span>
+<span class="r-in"><span class="fu">ind_management</span><span class="op">(</span>D_MAN <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">6</span>,<span class="fl">15</span><span class="op">)</span>, B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1019</span>,<span class="fl">256</span>,<span class="fl">1019</span><span class="op">)</span>,B_SOILTYPE_AGR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.11 0.33 0.83</span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -100,7 +113,7 @@ and 10 for grass (non-peat), 17 for grass on peat, and 4 for nature.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

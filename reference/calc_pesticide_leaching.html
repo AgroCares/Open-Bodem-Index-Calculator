@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -99,11 +99,28 @@
 <dt>D_PSP</dt>
 <dd><p>(numeric) The precipitation surplus per crop  calculated by <code><a href="calc_psp.html">calc_psp</a></code></p></dd>
 <dt>M_PESTICIDES_DST</dt>
-<dd><p>(boolean) measure. Use of DST for pesticides (option: yes or no)</p></dd>
+<dd><p>(boolean) measure. Use of DST for pesticides (option: TRUE or FALSE)</p></dd>
 <dt>M_MECHWEEDS</dt>
-<dd><p>(boolean) measure. Use of mechanical weed protection (option: yes or no)</p></dd>
+<dd><p>(boolean) measure. Use of mechanical weed protection (option: TRUE or FALSE)</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>The risk of pesticide leaching from soils. A numeric value.</p>
+    </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_pesticide_leaching</span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'rivierklei'</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">4</span>, </span>
+<span class="r-in">A_CLAY_MI <span class="op">=</span> <span class="fl">20</span>, A_SAND_MI <span class="op">=</span> <span class="fl">45</span>, A_SILT_MI <span class="op">=</span> <span class="fl">35</span>, </span>
+<span class="r-in">D_PSP <span class="op">=</span> <span class="fl">225</span>, M_PESTICIDES_DST <span class="op">=</span> <span class="cn">TRUE</span>,M_MECHWEEDS <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6216702</span>
+<span class="r-in"><span class="fu">calc_pesticide_leaching</span><span class="op">(</span><span class="st">'rivierklei'</span>, <span class="fl">4</span>, <span class="fl">20</span>, <span class="fl">45</span>, <span class="fl">35</span>, <span class="fl">225</span>, <span class="cn">TRUE</span>,<span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6216702</span>
+<span class="r-in"><span class="fu">calc_pesticide_leaching</span><span class="op">(</span><span class="st">'dekzand'</span>, <span class="fl">4.8</span>, <span class="fl">4.2</span>, <span class="fl">85</span>, <span class="fl">10.8</span>, <span class="fl">225</span>, <span class="cn">TRUE</span>,<span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5929354</span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -112,7 +129,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

@@ -19,7 +19,7 @@ Multiple sites (distinguished in the column 'ID') can be simulated simultaneousl
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -28,7 +28,7 @@ Multiple sites (distinguished in the column 'ID') can be simulated simultaneousl
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -86,7 +86,35 @@ Multiple sites (distinguished in the column 'ID') can be simulated simultaneousl
 <dt>output</dt>
 <dd><p>(character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>The output of the Open Bodem Index Calculator for a specific agricultural field. 
+Depending on the output type, different output objects can be returned.
+These include the estimated OBI scores (both total and aggregated subscores), the value of the underling indicators as well the possible recommendations to improve the soil quality.
+The output is always a data.table.</p>
+    </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"> </span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="fu">obic_field_dt</span><span class="op">(</span><span class="fu">data.table</span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'rivierklei'</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">"II"</span>,</span>
+<span class="r-in">B_GWL_GLG <span class="op">=</span> <span class="fl">75</span>,B_GWL_GHG <span class="op">=</span> <span class="fl">10</span>,</span>
+<span class="r-in">B_GWL_ZCRIT <span class="op">=</span> <span class="fl">50</span>,B_SC_WENR <span class="op">=</span> <span class="st">'2'</span>,B_HELP_WENR <span class="op">=</span> <span class="st">"MOb72"</span>,B_AER_CBS <span class="op">=</span> <span class="st">'LG01'</span>,</span>
+<span class="r-in">B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="fl">1010</span>, <span class="fl">1010</span>,<span class="fl">263</span>,<span class="fl">263</span>, <span class="fl">263</span>,<span class="fl">265</span>,<span class="fl">265</span>,<span class="fl">265</span><span class="op">)</span>,A_SOM_LOI <span class="op">=</span> <span class="fl">3.91</span>,A_SAND_MI <span class="op">=</span> <span class="fl">66.3</span>,</span>
+<span class="r-in">A_SILT_MI <span class="op">=</span> <span class="fl">22.8</span>,A_CLAY_MI <span class="op">=</span> <span class="fl">7.8</span>,A_PH_CC <span class="op">=</span> <span class="fl">5.4</span>,A_N_RT <span class="op">=</span> <span class="fl">1528.33</span>,A_CN_FR <span class="op">=</span> <span class="fl">13.02</span>,</span>
+<span class="r-in">A_S_RT <span class="op">=</span> <span class="fl">321.26</span>,A_N_PMN <span class="op">=</span> <span class="fl">63.3</span>,A_P_AL <span class="op">=</span> <span class="fl">50.2</span>,A_P_CC <span class="op">=</span> <span class="fl">2.9</span>,A_P_WA <span class="op">=</span> <span class="fl">50.5</span>,</span>
+<span class="r-in">A_CEC_CO <span class="op">=</span> <span class="fl">56.9</span>,A_CA_CO_PO <span class="op">=</span> <span class="fl">66.87</span>,A_MG_CO_PO <span class="op">=</span> <span class="fl">13.97</span>,A_K_CO_PO <span class="op">=</span> <span class="fl">3.06</span>,</span>
+<span class="r-in">A_K_CC <span class="op">=</span> <span class="fl">58.6</span>,A_MG_CC <span class="op">=</span> <span class="fl">77.53</span>,A_MN_CC <span class="op">=</span> <span class="fl">7586.61</span>,A_ZN_CC <span class="op">=</span> <span class="fl">726.2</span>,A_CU_CC <span class="op">=</span> <span class="fl">68.8</span>,</span>
+<span class="r-in">A_C_BCS <span class="op">=</span> <span class="fl">1</span>,A_CC_BCS <span class="op">=</span> <span class="fl">1</span>,A_GS_BCS <span class="op">=</span> <span class="fl">1</span>,A_P_BCS <span class="op">=</span> <span class="fl">1</span>,A_RD_BCS <span class="op">=</span> <span class="fl">1</span>,A_EW_BCS <span class="op">=</span> <span class="fl">1</span>,</span>
+<span class="r-in">A_SS_BCS <span class="op">=</span> <span class="fl">1</span>,A_RT_BCS <span class="op">=</span> <span class="fl">1</span>,A_SC_BCS <span class="op">=</span> <span class="fl">1</span>,M_COMPOST <span class="op">=</span> <span class="fl">0</span>,M_GREEN <span class="op">=</span> <span class="cn">FALSE</span>,M_NONBARE <span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span class="r-in">M_EARLYCROP <span class="op">=</span> <span class="cn">FALSE</span>,M_SLEEPHOSE <span class="op">=</span> <span class="cn">FALSE</span>,M_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>,M_DITCH <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span class="r-in">M_UNDERSEED <span class="op">=</span> <span class="cn">FALSE</span>,M_LIME <span class="op">=</span> <span class="cn">FALSE</span>,M_MECHWEEDS <span class="op">=</span> <span class="cn">FALSE</span>,M_NONINVTILL <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span class="r-in">M_PESTICIDES_DST <span class="op">=</span> <span class="cn">FALSE</span>,M_SOLIDMANURE <span class="op">=</span> <span class="cn">FALSE</span>,M_SSPM <span class="op">=</span> <span class="cn">FALSE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -95,7 +123,7 @@ Multiple sites (distinguished in the column 'ID') can be simulated simultaneousl
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

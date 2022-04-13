@@ -19,7 +19,7 @@ More information on this test can be found here"><!-- mathjax --><script src="ht
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -28,7 +28,7 @@ More information on this test can be found here"><!-- mathjax --><script src="ht
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -72,7 +72,7 @@ More information on this test can be found here"><!-- mathjax --><script src="ht
     <div class="ref-description">
     <p>This function calculates the BodemConditieScore given input from manual observations made in the field.
 The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
-More information on this test can be found <a href="http://mijnbodemconditie.nl/" class="external-link">here</a></p>
+More information on this test can be found <a href="https://mijnbodemconditie.nl/" class="external-link">here</a></p>
     </div>
 
     <div id="ref-usage">
@@ -125,11 +125,24 @@ More information on this test can be found <a href="http://mijnbodemconditie.nl/
 <dt>type</dt>
 <dd><p>(character) Define output of the function. Options: score (integrated score) and indicator (score per indicator)</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>A visual soil assessment score derived from field observations driven by organic matter content and soil structure properties. Returns a numeric value.</p>
+    </div>
     <div id="references">
     <h2>References</h2>
-    <p><a href="http://mijnbodemconditie.nl/" class="external-link">mijnbodemconditie.nl</a></p>
+    <p><a href="https://mijnbodemconditie.nl/" class="external-link">mijnbodemconditie.nl</a></p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_bcs</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span>, D_PH_DELTA <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span class="r-in">A_EW_BCS <span class="op">=</span> <span class="fl">1</span>, A_SC_BCS <span class="op">=</span> <span class="fl">1</span>, A_GS_BCS <span class="op">=</span> <span class="fl">1</span>, A_P_BCS <span class="op">=</span> <span class="fl">1</span>, A_C_BCS <span class="op">=</span> <span class="fl">1</span>, A_RT_BCS <span class="op">=</span><span class="fl">1</span>, A_RD_BCS <span class="op">=</span> <span class="fl">1</span>, </span>
+<span class="r-in">A_SS_BCS <span class="op">=</span> <span class="fl">1</span>, A_CC_BCS <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 14</span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -138,7 +151,7 @@ More information on this test can be found <a href="http://mijnbodemconditie.nl/
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

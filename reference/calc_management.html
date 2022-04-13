@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -126,7 +126,7 @@
 <dt>M_COMPOST</dt>
 <dd><p>(numeric) The frequency that compost is applied (optional, every x years)</p></dd>
 <dt>M_GREEN</dt>
-<dd><p>(boolean) measure. are catchcrops sown after main crop (option: yes or no)</p></dd>
+<dd><p>(boolean) measure. are catch crops sown after main crop (option: yes or no)</p></dd>
 <dt>M_NONBARE</dt>
 <dd><p>(boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)</p></dd>
 <dt>M_EARLYCROP</dt>
@@ -154,7 +154,24 @@
 <dt>M_PESTICIDES_DST</dt>
 <dd><p>(boolean) measure. Use of DST for pesticides (option: yes or no)</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>The evaluated soil management score according to the Label Sustainable Soil Management. A nmumeric value.</p>
+    </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_management</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fl">4.5</span>,B_LU_BRP <span class="op">=</span> <span class="fl">3732</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>,</span>
+<span class="r-in">B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span>,D_SOM_BAL <span class="op">=</span> <span class="fl">1115</span>,D_CP_GRASS <span class="op">=</span> <span class="fl">0.2</span>,D_CP_POTATO <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span class="r-in">D_CP_RUST <span class="op">=</span> <span class="fl">0.3</span>,D_CP_RUSTDEEP <span class="op">=</span> <span class="fl">0.2</span>,D_GA <span class="op">=</span> <span class="fl">0</span>,M_COMPOST <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">25</span>,<span class="fl">1</span><span class="op">)</span>,</span>
+<span class="r-in">M_GREEN <span class="op">=</span> <span class="cn">TRUE</span>, M_NONBARE <span class="op">=</span> <span class="cn">TRUE</span>, M_EARLYCROP <span class="op">=</span> <span class="cn">TRUE</span>, M_SLEEPHOSE <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span class="r-in">M_DRAIN <span class="op">=</span> <span class="cn">TRUE</span>, M_DITCH <span class="op">=</span> <span class="cn">TRUE</span>, M_UNDERSEED <span class="op">=</span> <span class="cn">TRUE</span>,M_LIME <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span class="r-in">M_NONINVTILL <span class="op">=</span> <span class="cn">TRUE</span>, M_SSPM <span class="op">=</span> <span class="cn">TRUE</span>, M_SOLIDMANURE <span class="op">=</span> <span class="cn">TRUE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">M_MECHWEEDS <span class="op">=</span> <span class="cn">TRUE</span>,M_PESTICIDES_DST <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 13</span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -163,7 +180,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">

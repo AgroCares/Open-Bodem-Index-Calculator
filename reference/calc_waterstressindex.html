@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -86,11 +86,27 @@
 <dt>WSI</dt>
 <dd><p>(character) The type of Water Stress Index is required. Options: droughtstress, wetnessstress and the (combined) waterstress</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>The yield depression (in %) through wetness or drought stress (depending on the WSI selected). Numeric value.</p>
+    </div>
     <div id="references">
     <h2>References</h2>
     <p>STOWA (2005) Uitbreiding en Actualisering van de HELP-tabellen ten behoeve van het Waternood instrumentarium</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'ABkt'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
+<span class="r-in"><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'Mv61ClE'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">256</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIII'</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-in"><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'ABkt'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span>, </span>
+<span class="r-in">WSI <span class="op">=</span> <span class="st">'droughtstress'</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -99,7 +115,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sven Verweij, Gerard Ros.</p>
+  <p></p><p>Developed by Sven Verweij, Gerard Ros, Yuki Fujita, Brent Riechelman.</p>
 </div>
 
 <div class="pkgdown">
