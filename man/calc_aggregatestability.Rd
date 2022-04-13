@@ -23,6 +23,16 @@ calc_aggregatestability(
 
 \item{A_MG_CO_PO}{(numeric) The occupation of the CEC with Mg (\%)}
 }
+\value{
+The aggregate stability index of a soil given the Cation Exchange Capacity and its composition with major cations. A numeric value.
+}
 \description{
 This function calculates an aggregate stability index given the CEC and its occupation with major cations.
+}
+\examples{
+calc_aggregatestability(B_SOILTYPE_AGR = 'dekzand', A_SOM_LOI = 3.5, 
+A_K_CO_PO = 6,A_CA_CO_PO = 83 ,A_MG_CO_PO = 9)
+calc_aggregatestability(B_SOILTYPE_AGR = c('dekzand','rivierklei'), A_SOM_LOI = c(3.5,6.5), 
+A_K_CO_PO = c(6,9),A_CA_CO_PO = c(83,75) ,A_MG_CO_PO = c(9,4))
+
 }

@@ -11,6 +11,14 @@ ind_nretention(D_NW, leaching_to)
 
 \item{leaching_to}{(character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("ow")}
 }
+\value{
+The evaluated score for the soil function to supply nitrogen for crop uptake. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the N retention of the soil by using the N leaching to groundwater or surface water calculated by \code{\link{calc_nleach}}
+}
+\examples{
+ind_nretention(D_NW = 15,leaching_to = 'gw')
+ind_nretention(D_NW = c(.2,5.6,15.6),leaching_to = 'ow')
+ 
 }

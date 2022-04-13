@@ -35,15 +35,25 @@ calc_ph_delta(
 
 \item{D_CP_SUGARBEET}{(numeric) The fraction of sugar beets in the crop plan}
 
-\item{D_CP_GRASS}{(numeric) The fracgtion of grass in the crop plan}
+\item{D_CP_GRASS}{(numeric) The fraction of grass in the crop plan}
 
 \item{D_CP_MAIS}{(numeric) The fraction of mais in the crop plan}
 
 \item{D_CP_OTHER}{(numeric) The fraction of other crops in the crop plan}
 }
+\value{
+The difference between the actual and desired optimum soil pH. A numeric value.
+}
 \description{
 This functions calculates the difference between the measured pH and the optimal pH according to the Bemestingsadvies
 }
+\examples{
+calc_ph_delta(B_LU_BRP = 265, B_SOILTYPE_AGR = "rivierklei", A_SOM_LOI = 5,
+A_CLAY_MI = 20,A_PH_CC = 6, D_CP_STARCH = 0,D_CP_POTATO = 0.3,D_CP_SUGARBEET = 0.2,
+D_CP_GRASS = 0,D_CP_MAIS = 0.2,D_CP_OTHER = 0.3)
+calc_ph_delta(265, "rivierklei", 5,20,6, 0,0.3,0.2,0,0.2,0.3) 
+
+}
 \references{
-\href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
+Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3
 }

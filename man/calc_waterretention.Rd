@@ -22,14 +22,26 @@ calc_waterretention(
 
 \item{A_SOM_LOI}{(numeric) The organic matter content of the soil (\%)}
 
-\item{type}{(character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')}
+\item{type}{(character) The type of water retention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')}
 
 \item{ptf}{(character) Pedotransfer functions to calculate van Genuchten parameters. Options include c('Wosten1999', 'Wosten2001', 'Klasse')}
+}
+\value{
+The function returns by default the amount of plant available water in the ploughing layer of the soil (in mm). A numeric value.
+If another type of output is selected, the function gives also the amount of water at 'wilting point' or 'field capacity' or 'water holding capacity'.
+Also the saturated permeability 'Ksat' can be selected. Units are always in mm, except for Water Holding Capacity (%) and Ksat.
 }
 \description{
 This function calculates different kind of Water Retention Indices given the continuous pedotransferfunctions of Wosten et al. (2001)
 These include : 'wilting point','field capacity','water holding capacity','plant available water' and 'Ksat'
 }
+\examples{
+calc_waterretention(A_CLAY_MI = 20.5,A_SAND_MI = 65,A_SILT_MI = 14.5,A_SOM_LOI = 3.5)
+calc_waterretention(A_CLAY_MI = 5,A_SAND_MI = 15,A_SILT_MI = 80,A_SOM_LOI = 6.5)
+calc_waterretention(A_CLAY_MI = 5,A_SAND_MI = 15,A_SILT_MI = 80,A_SOM_LOI = 6.5, 
+type = 'water holding capacity')
+
+}
 \references{
-Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulogic characteristics. Journal of Hydrology 251, p123.
+Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulic characteristics. Journal of Hydrology 251, p123.
 }

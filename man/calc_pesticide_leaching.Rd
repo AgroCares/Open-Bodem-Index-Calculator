@@ -28,10 +28,21 @@ calc_pesticide_leaching(
 
 \item{D_PSP}{(numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}}
 
-\item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: yes or no)}
+\item{M_PESTICIDES_DST}{(boolean) measure. Use of DST for pesticides (option: TRUE or FALSE)}
 
-\item{M_MECHWEEDS}{(boolean) measure. Use of mechanical weed protection (option: yes or no)}
+\item{M_MECHWEEDS}{(boolean) measure. Use of mechanical weed protection (option: TRUE or FALSE)}
+}
+\value{
+The risk of pesticide leaching from soils. A numeric value.
 }
 \description{
 This function calculates the risk of pesticide leaching from a soil. The risk is calculated by comparing the current leached fraction with a worst case scenario
+}
+\examples{
+calc_pesticide_leaching(B_SOILTYPE_AGR = 'rivierklei', A_SOM_LOI = 4, 
+A_CLAY_MI = 20, A_SAND_MI = 45, A_SILT_MI = 35, 
+D_PSP = 225, M_PESTICIDES_DST = TRUE,M_MECHWEEDS = TRUE)
+calc_pesticide_leaching('rivierklei', 4, 20, 45, 35, 225, TRUE,TRUE)
+calc_pesticide_leaching('dekzand', 4.8, 4.2, 85, 10.8, 225, TRUE,TRUE)
+
 }

@@ -9,6 +9,14 @@ ind_waterstressindex(D_WSI)
 \arguments{
 \item{D_WSI}{(numeric) The value of WSI calculated by \code{\link{calc_waterstressindex}}}
 }
+\value{
+The evaluated score for the soil function to resist drought or wetness stress by crops. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the risk for yield depression due to drought, an excess of water or a combination of both. The WSI is calculated by \code{\link{calc_waterstressindex}}
+}
+\examples{
+ind_waterstressindex(D_WSI = 45)
+ind_waterstressindex(D_WSI = c(5,15,25,35))
+ 
 }
