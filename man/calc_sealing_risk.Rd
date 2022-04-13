@@ -11,6 +11,14 @@ calc_sealing_risk(A_SOM_LOI, A_CLAY_MI)
 
 \item{A_CLAY_MI}{(numeric) The clay content of the soil (\%)}
 }
+\value{
+The risk of soil sealing as affected by the soil organic matter and clay content. A numeric value.
+}
 \description{
 This function calculates the risks of soil sealing.  This value can be evaluated by \code{\link{ind_sealing}}
+}
+\examples{
+calc_sealing_risk(A_SOM_LOI = 3.5, A_CLAY_MI = 7.5)
+calc_sealing_risk(A_SOM_LOI = c(3.5,6.5), A_CLAY_MI = c(7.5,15))
+
 }

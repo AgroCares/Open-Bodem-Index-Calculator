@@ -9,6 +9,14 @@ ind_ph(D_PH_DELTA)
 \arguments{
 \item{D_PH_DELTA}{(numeric) The pH difference with the optimal pH.}
 }
+\value{
+The evaluated score for the soil function to buffer pH within optimum range for crop growth. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the pH of the soil by the difference with the optimum pH. This is calculated in \code{\link{calc_ph_delta}}.
+}
+\examples{
+ind_ph(D_PH_DELTA = 0.8)
+ind_ph(D_PH_DELTA = c(0.2,0.6,0.8,1.5))
+ 
 }

@@ -10,13 +10,22 @@
 #' @param D_CP_STARCH (numeric) The fraction of starch potatoes in the crop plan
 #' @param D_CP_POTATO (numeric) The fraction of potatoes (excluding starch potatoes) in the crop plan
 #' @param D_CP_SUGARBEET (numeric) The fraction of sugar beets in the crop plan
-#' @param D_CP_GRASS (numeric) The fracgtion of grass in the crop plan
+#' @param D_CP_GRASS (numeric) The fraction of grass in the crop plan
 #' @param D_CP_MAIS (numeric) The fraction of mais in the crop plan
 #' @param D_CP_OTHER (numeric) The fraction of other crops in the crop plan
 #' 
-#' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
+#' @references Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' calc_ph_delta(B_LU_BRP = 265, B_SOILTYPE_AGR = "rivierklei", A_SOM_LOI = 5,
+#' A_CLAY_MI = 20,A_PH_CC = 6, D_CP_STARCH = 0,D_CP_POTATO = 0.3,D_CP_SUGARBEET = 0.2,
+#' D_CP_GRASS = 0,D_CP_MAIS = 0.2,D_CP_OTHER = 0.3)
+#' calc_ph_delta(265, "rivierklei", 5,20,6, 0,0.3,0.2,0,0.2,0.3) 
+#' 
+#' @return 
+#' The difference between the actual and desired optimum soil pH. A numeric value.
 #' 
 #' @export
 calc_ph_delta <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_CC,
@@ -111,6 +120,13 @@ calc_ph_delta <- function(B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_PH_C
 #' 
 #' @param D_PH_DELTA (numeric) The pH difference with the optimal pH.
 #' 
+#' @examples 
+#' ind_ph(D_PH_DELTA = 0.8)
+#' ind_ph(D_PH_DELTA = c(0.2,0.6,0.8,1.5))
+#'  
+#' @return 
+#' The evaluated score for the soil function to buffer pH within optimum range for crop growth. A numeric value between 0 and 1.
+#' 
 #' @export
 ind_ph <- function(D_PH_DELTA) {
   
@@ -124,24 +140,3 @@ ind_ph <- function(D_PH_DELTA) {
   
 }
 
-#' Table with optimal pH for different crop plans
-#' 
-#' This table contains the optimal pH for different crop plans and soil types
-#' 
-#' @format A data.frame with 136 rows and 10 columns:
-#' \describe{
-#'   \item{table}{The original table from Hanboek Bodem en Bemesting}
-#'   \item{lutum.low}{Lower value for A_CLAY_MI}
-#'   \item{lutum.high}{Upper value for A_CLAY_MI}
-#'   \item{om.low}{Lower value for organic matter}
-#'   \item{om.high}{Upper value for organic matter}
-#'   \item{potato.low}{Lower value for fraction potatoes in crop plan}
-#'   \item{potato.high}{Upper value for fraction potatoes in crop plan}
-#'   \item{sugarbeet.low}{Lower value for fraction potatoes in crop plan}
-#'   \item{sugarbeet.high}{Upper value for fraction potatoes in crop plan}
-#'   \item{ph.optimum}{The optimal pH (pH_CaCl2) for this range}   
-#' }
-#' 
-#' #' @references \href{https://www.handboekbodemenbemesting.nl/nl/handboekbodemenbemesting/Handeling/pH-en-bekalking/Advisering-pH-en-bekalking.htm}{Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3}
-#' 
-"tbl.ph.delta"

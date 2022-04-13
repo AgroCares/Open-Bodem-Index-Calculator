@@ -50,11 +50,20 @@ calc_bcs(
 
 \item{type}{(character) Define output of the function. Options: score (integrated score) and indicator (score per indicator)}
 }
+\value{
+A visual soil assessment score derived from field observations driven by organic matter content and soil structure properties. Returns a numeric value.
+}
 \description{
 This function calculates the BodemConditieScore given input from manual observations made in the field.
 The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
-More information on this test can be found \href{http://mijnbodemconditie.nl/}{here}
+More information on this test can be found \href{https://mijnbodemconditie.nl/}{here}
+}
+\examples{
+calc_bcs(B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand', A_SOM_LOI = 3.5, D_PH_DELTA = 0.4,
+A_EW_BCS = 1, A_SC_BCS = 1, A_GS_BCS = 1, A_P_BCS = 1, A_C_BCS = 1, A_RT_BCS =1, A_RD_BCS = 1, 
+A_SS_BCS = 1, A_CC_BCS = 1)
+
 }
 \references{
-\href{http://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
+\href{https://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
 }

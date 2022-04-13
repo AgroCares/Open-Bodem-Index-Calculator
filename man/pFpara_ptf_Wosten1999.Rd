@@ -28,6 +28,11 @@ ksat (numeric) saturated hydraulic conductivity (cm/d)
 \description{
 This function estimates water retention curve parameters using Pedo transfer function of Wosten (1999) based on HYPRES
 }
+\examples{
+pFpara_ptf_Wosten1999(Pklei = 25, Psilt = 15, Psom = 4.5, Bovengrond = 1)
+pFpara_ptf_Wosten1999(Pklei = 45, Psilt = 3, Psom = 4.5, Bovengrond = 1)
+
+}
 \references{
 Wösten, J.H.M , Lilly, A., Nemes, A., Le Bas, C. (1999) Development and use of a database of hydraulic properties of European soils. Geoderma 90 (3-4): 169-185.
 }

@@ -9,6 +9,14 @@ ind_winderodibility(D_P_DU)
 \arguments{
 \item{D_P_DU}{(numeric) The value for wind erodibility factor (WEF) as calculated by \code{\link{calc_winderodibility}}}
 }
+\value{
+The evaluated score for the soil function to avoid soil damage due to wind erosion. A numeric value between 0 and 1.
+}
 \description{
-This function calculats the indicator for the resistance of the soil against wind erosion.
+This function calculates the indicator for the resistance of the soil against wind erosion.
+}
+\examples{
+ind_winderodibility(D_P_DU = 0.85)
+ind_winderodibility(D_P_DU = c(0.15,0.6,0.9))
+ 
 }

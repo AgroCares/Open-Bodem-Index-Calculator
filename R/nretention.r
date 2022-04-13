@@ -11,6 +11,13 @@
 #' 
 #' @import data.table
 #' 
+#' @examples
+#' calc_nleach('dekzand',265,'GtIII',145,'Zuidwest-Brabant','gw')
+#' calc_nleach('rivierklei',1019,'GtIV',145,'Rivierengebied','ow')
+#' 
+#' @return 
+#' The potential nitrogen leaching from the soil originating from soil nitrogen mineralization processes. A numeric value.
+#' 
 #' @export
 calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to){
   
@@ -117,6 +124,13 @@ calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS,
 #' @param D_NW (numeric) The value of N leaching calculated by \code{\link{calc_nleach}}
 #' @param leaching_to (character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("ow")
 #'
+#' @examples 
+#' ind_nretention(D_NW = 15,leaching_to = 'gw')
+#' ind_nretention(D_NW = c(.2,5.6,15.6),leaching_to = 'ow')
+#'  
+#' @return 
+#' The evaluated score for the soil function to supply nitrogen for crop uptake. A numeric value between 0 and 1.
+#' 
 #' @export
 ind_nretention <- function(D_NW, leaching_to){
   
@@ -136,20 +150,3 @@ ind_nretention <- function(D_NW, leaching_to){
   return(value)
 }
 
-#' Table with fractions of excess N which runs off to groundwater and surface water
-#' 
-#' This table contains the fractions of N overshot which runs off to groundwater / surface water, per soil type, crop type, and groundwater table
-#' 
-#' @format A data.frame with 198 rows and 11 columns:
-#' \describe{
-#'   \item{gewas}{crop type}
-#'   \item{bodem}{soil type}
-#'   \item{ghg}{Lower value for groundwater table (cm-mv)}
-#'   \item{glg}{Upper value for groundwater table (cm-mv)}
-#'   \item{B_GT}{grondwatertrap}
-#'   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year) or groundwater (mg NO3/L per kg N overschot/ha/year)}
-#'   \item{leaching_to-set}{Tells if leaching to ground water or surface water)}
-#' }
-#' 
-#' 
-"nleach_table"

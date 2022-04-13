@@ -12,14 +12,14 @@
 #'   \item{crop_eos_residue}{Effective soil organic matter from plant residues in kg/ha}
 #'   \item{crop_category}{Classification of crop per land use type (arable, maize, grass, nature)}
 #'   \item{crop_rotation}{Classification of crop to determine function within crop rotations}
-#'   \item{crop_crumbleability}{The category for this crop at crumbleablity}
+#'   \item{crop_crumbleability}{The category for this crop at crumbleability}
 #'   \item{crop_phosphate}{The category for this crop for evaluation phosphate availability}
 #'   \item{crop_sealing}{The category for this crop at soil sealing}
 #'   \item{crop_n}{The category for this crop for evaluation nitrogen}
 #'   \item{crop_k}{The category for this crop for evaluation potassium}
 #'   \item{crop_measure}{The category for this crop for evaluating measures}
 #'   \item{nf_clay}{Allowed effective N dose on clay soils}
-#'   \item{nf_sand.other}{Allowed effective N dose on sanndy soils}
+#'   \item{nf_sand.other}{Allowed effective N dose on sandy soils}
 #'   \item{nf_sand.sout}{Allowed effective N dose on sandy soils sensitive to leaching}
 #'   \item{nf_loess}{Allowed effective N dose on loess soils}
 #'   \item{nf_peat}{Allowed effective N dose on peat soils}
@@ -40,7 +40,7 @@
 #' }
 "soils.obic"
 
-#' Linking table between crops, soils, groundwatertables and water induced stresses in OBIC
+#' Linking table between crops, soils, groundwater tables and water induced stresses in OBIC
 #' 
 #' This table helps to link the different crops in the OBIC functions with the crops selected by the user
 #' 
@@ -50,7 +50,7 @@
 #'   \item{soilunit}{The category for this soil, derived from 1:50.000 soil map}
 #'   \item{gt}{The class describing mean highest and lowest groundwater table, derived from 1:50.000 soil map}
 #'   \item{droughtstress}{The mean yield reduction due to drought (in percentage)}
-#'   \item{wetnessstress}{The mean yield reduction due to watersurplus (in percentage)}
+#'   \item{wetnessstress}{The mean yield reduction due to water surplus (in percentage)}
 #'   \item{waterstress}{The mean combined effect water stress (due to deficiency or excess of water)}
 #' }
 "waterstress.obic"
@@ -77,7 +77,7 @@
 #'   \item{m_prio}{weighing factor for measure. This is not used in the script.}
 #'   \item{m_treshold}{Threshold value of the indicator value. This is not used in the script.}
 #'   \item{m_order}{Order of measures. When scores are tie, the measure with a smaller number is chosen.}
-#'   \item{m_soilfunction}{description of the OBIC indicator varialbe}
+#'   \item{m_soilfunction}{description of the OBIC indicator variable}
 #'   \item{indicator}{Name of OBIC soil indicator variable}
 #'   \item{m_effect}{Effect of measure on soil indicator. 3/2/1/0/-1}
 #'   \item{m_sector}{type of agricultural sector: dairy/arable/vegetable/tree cultivation (in dutch)}
@@ -153,7 +153,7 @@
 #'    \item{A_N_RT}{The organic nitrogen content of the soil in mg N / kg (numeric)}
 #'    \item{A_CN_FR}{The carbon to nitrogen ratio (-) (numeric)}
 #'    \item{A_COM_FR}{The carbon fraction of soil organic matter (\%) (numeric)}
-#'    \item{A_S_RT}{The total Sulpher content of the soil (in mg S per kg) (numeric)}
+#'    \item{A_S_RT}{The total Sulfur content of the soil (in mg S per kg) (numeric)}
 #'    \item{A_N_PMN}{The potentially mineralizable N pool (mg N / kg soil) (numeric)}
 #'    \item{A_P_AL}{The P-AL content of the soil (numeric)}
 #'    \item{A_P_CC}{The plant available P content, extracted with 0.01M CaCl2 (mg / kg) (numeric)}
@@ -226,9 +226,9 @@
 #'   \item{loess}{boolean whether information is valid for soiltype 'loess'}
 #'   \item{zand}{boolean whether information is valid for soiltype 'zand'}
 #'   \item{zavel}{boolean whether information is valid for soiltype 'zavel'}
-#'   \item{info}{string whether there is information on propgation, diffrentiating between none, yes, and some}
+#'   \item{info}{string whether there is information on propgation, differentiating between none, yes, and some}
 #'   \item{name_common}{string, common name of pathogen in Dutch, if no common name is available, scientific name is given}
-#'   \item{nema_name}{string, full name of pathogen in aaltjeschema, includes common and scientific name}
+#'   \item{nema_name}{string, full name of pathogen in aaltjesschema, includes common and scientific name}
 #'   \item{grondsoort}{string with letters indicating for which soil the information is valid}
 #'   \item{groen_br}{boolean indicating that the crop is a green manure on fallow}
 #'   \item{groen_vs}{boolean indicating that the crop is a green manure in early stubble}
@@ -261,7 +261,7 @@
 #'
 #' @format A data.table with 12 rows and 4 columns:
 #' \describe{
-#'   \item{crop_makkink}{Makkink crop categroy}
+#'   \item{crop_makkink}{Makkink crop category}
 #'   \item{1}{Evapotranspiration correction factors for January}
 #'   \item{2}{Evapotranspiration correction factors for February}
 #'   \item{3}{Evapotranspiration correction factors for March}
@@ -276,3 +276,66 @@
 #'   \item{12}{Evapotranspiration correction factors for December}
 #' }
 "crops.makkink"
+
+#' Table with fractions of excess N which runs off to groundwater and surface water
+#' 
+#' This table contains the fractions of N overshot which runs off to groundwater / surface water, per soil type, crop type, and groundwater table
+#' 
+#' @format A data.frame with 198 rows and 11 columns:
+#' \describe{
+#'   \item{gewas}{crop type}
+#'   \item{bodem}{soil type}
+#'   \item{ghg}{Lower value for groundwater table (cm-mv)}
+#'   \item{glg}{Upper value for groundwater table (cm-mv)}
+#'   \item{B_GT}{grondwatertrap}
+#'   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year) or groundwater (mg NO3/L per kg N overschot/ha/year)}
+#'   \item{leaching_to-set}{Tells if leaching to ground water or surface water)}
+#' }
+#' 
+#' 
+"nleach_table"
+
+#' Table with water retention properties of 'bouwstenen'
+#' 
+#' This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'
+#' 
+#' @format A data.frame with 36 rows and 14 columns:
+#' \describe{
+#'   \item{bouwsteen}{soil type bouwsteen}
+#'   \item{omschrijving}{description of 'bouwsteen'}
+#'   \item{thres}{residual water content (cm3/cm3). Table 3 of Wosten 2001}
+#'   \item{thsat}{water content at saturation (cm3/cm3). Table 3 of Wosten 2001}
+#'   \item{Ks}{saturated hydraulic conductivity (cm/d). Table 3 of Wosten 2001}
+#'   \item{alpha}{parameter alpha of pF curve (1/cm) Table 3 of Wosten 2001}
+#'   \item{l}{parameter l of pF curve (-). Table 3 of Wosten 2001}
+#'   \item{n}{parameter n of pF curve (-). Table 3 of Wosten 2001}
+#'   \item{sand\%}{sand content (\%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
+#'   \item{silt\%}{silt content (\%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
+#'   \item{clay\%}{clay content (\%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
+#'   \item{OM\%}{organic matter content (\%). Middle value of Table 1 of Wosten 2001}
+#'   \item{bulkdensity}{soil bulk density (g/cm3). Middle value of Table 2 of Wosten 2001}
+#'   \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}
+#' }
+"bouwsteen_tb"
+
+#' Table with optimal pH for different crop plans
+#' 
+#' This table contains the optimal pH for different crop plans and soil types
+#' 
+#' @format A data.frame with 136 rows and 10 columns:
+#' \describe{
+#'   \item{table}{The original table from Hanboek Bodem en Bemesting}
+#'   \item{lutum.low}{Lower value for A_CLAY_MI}
+#'   \item{lutum.high}{Upper value for A_CLAY_MI}
+#'   \item{om.low}{Lower value for organic matter}
+#'   \item{om.high}{Upper value for organic matter}
+#'   \item{potato.low}{Lower value for fraction potatoes in crop plan}
+#'   \item{potato.high}{Upper value for fraction potatoes in crop plan}
+#'   \item{sugarbeet.low}{Lower value for fraction potatoes in crop plan}
+#'   \item{sugarbeet.high}{Upper value for fraction potatoes in crop plan}
+#'   \item{ph.optimum}{The optimal pH (pH_CaCl2) for this range}   
+#' }
+#' 
+#' #' @references Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3
+#' 
+"tbl.ph.delta"

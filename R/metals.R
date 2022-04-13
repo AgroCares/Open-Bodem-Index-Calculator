@@ -11,6 +11,15 @@
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' calc_copper_availability(B_LU_BRP = 265, A_SOM_LOI = 3.5, A_CLAY_MI = 4,A_K_CC = 65, 
+#' A_MN_CC = 110, A_CU_CC = 250)
+#' calc_copper_availability(B_LU_BRP = 265, 3.5, 4,65, 110, 250)
+#' calc_copper_availability(B_LU_BRP = c(1019,265), c(3.5,5), c(4,8),c(65,95), c(110,250), c(250,315))
+#' 
+#' @return 
+#' The function of the soil to supply Copper. A numeric value.
+#' 
 #' @export
 calc_copper_availability <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI,
                                      A_K_CC, A_MN_CC, A_CU_CC
@@ -77,6 +86,14 @@ calc_copper_availability <- function(B_LU_BRP, A_SOM_LOI, A_CLAY_MI,
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' calc_zinc_availability(B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand',A_PH_CC = 4.5, A_ZN_CC = 3000)
+#' calc_zinc_availability(B_LU_BRP = 265, 'dekzand',4,3500)
+#' calc_zinc_availability(B_LU_BRP = c(1019,265), c('dekzand','rivierklei'),c(4.5,4.8),c(2500,4500))
+#' 
+#' @return 
+#' The function of the soil to supply zinc A numeric value.
+#' 
 #' @export
 calc_zinc_availability <- function(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC) {
   
@@ -132,6 +149,13 @@ calc_zinc_availability <- function(B_LU_BRP, B_SOILTYPE_AGR, A_PH_CC, A_ZN_CC) {
 #' @param D_CU (numeric) The value of Cu-index  calculated by \code{\link{calc_copper_availability}}
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' 
+#' @examples 
+#' ind_copper(D_CU = 125, B_LU_BRP = 265)
+#' ind_copper(D_CU = c(125,335), B_LU_BRP = c(1019,256))
+#'  
+#' @return 
+#' The evaluated score for the soil function to supply copper for crop uptake. A numeric value between 0 and 1.
+#' 
 #' @export
 ind_copper <- function(D_CU,B_LU_BRP) {
   
@@ -178,6 +202,13 @@ ind_copper <- function(D_CU,B_LU_BRP) {
 #' This function calculates the indicator for the the Zn availability in soil by using the Zn-index as calculated by \code{\link{calc_zinc_availability}}
 #' 
 #' @param D_ZN (numeric) The value of Zn-index  calculated by \code{\link{calc_zinc_availability}}
+#' 
+#' @examples 
+#' ind_zinc(D_ZN = 45)
+#' ind_zinc(D_ZN = c(12.5,35,65))
+#'  
+#' @return 
+#' The evaluated score for the soil function to supply zinc for crop uptake. A numeric value between 0 and 1.
 #' 
 #' @export
 ind_zinc <- function(D_ZN) {

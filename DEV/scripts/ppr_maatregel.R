@@ -39,14 +39,21 @@
     cols <- colnames(m.obic)[grepl('melk',colnames(m.obic))]
     m.obic[,(cols) := lapply(.SD,function(x) fifelse(is.na(x),0,x)),.SDcols = cols]
     
+    # overwrite name
+    setnames(m.obic, "Bodemfunctie / indicator",'m_soilfunction')
+    
     # check if there is missing data for any indicator
-    load('dev/column_description_obic.RData')
+    column_description.obic <- readRDS('dev/data/column_description_obic.rds')
     cols <- column_description.obic[grepl('^I_C_|^I_P_|^I_B_',column),column]
     
     # make temporary data.table with for each unknown indicator a zero impact measure
     cols <- cols[!cols %in% unique(m.obic$OBICvariable)]
     ind.miss <- CJ(maatregel_nr = 1:max(m.obic$maatregel_nr), OBICvariable = cols)
-    ind.add  <- merge(unique(m.obic[,c(1:3,5:6)]),ind.miss,by='maatregel_nr')
+    ind.miss <- merge(ind.miss,
+                      column_description.obic[,.(OBICvariable = column,m_soilfunction = description_nl)],
+                      by = 'OBICvariable')
+    ind.add  <- merge(ind.miss,unique(m.obic[,.(maatregel_nr,omschrijving,Prio_M,Order)]),
+                      by='maatregel_nr')
     
     # add missing columns with value 0, and a tresshold value of 0.5
     cols <- colnames(m.obic)[grepl('melk|groente|akker|boom|klei|veen|zand|loss|Ef',colnames(m.obic))]
@@ -93,38 +100,31 @@
     # setkey
     setkey(m.obic,indicator,m_sector,m_soiltype)
   
-# update april 2021
+# update march 2022
+    
+    # there where three OBIC indicators added, now with default "no impact
+    # these include: I_B_NEM, I_P_DS, I_P_WS and I_P_WO
+    
+    # drought stress and wetness stress: all measures for original moisture stress are applicable
+    # and moisture stress can be deleted
+    m1.copy <- m.obic[indicator=='I_P_MS'][,indicator := 'I_P_DS']
+    m2.copy <- m.obic[indicator=='I_P_MS'][,indicator := 'I_P_WS']
+    
+    # add to m.obic
+    m.obic <- m.obic[!indicator %in% c('I_P_DS','I_P_WS','I_P_MS')]
+    m.obic <- rbind(m.obic,m1.copy,m2.copy)
+    
+    # add workability, assuming similar impacts on workability as on wetness stress
+    m1.copy <- m.obic[indicator=='I_P_WS'][,indicator := 'I_P_WO']
+    m.obic <- rbind(m.obic[!indicator == 'I_P_WO'],m1.copy)
   
-  # I_P_MS is splitted into droughtstress and wetness stress separately
-  m1.copy <- m.obic[indicator=='I_P_MS'][,indicator := 'I_P_DS']
-  m2.copy <- m.obic[indicator=='I_P_MS'][,indicator := 'I_P_WS']
+    # setkey
+    setkey(m.obic,indicator,m_sector,m_soiltype)
   
-  # add to m.obic
-  m.obic <- rbind(m.obic[!indicator=='I_P_MS'],m1.copy,m2.copy)
-  
-  
-  
-# update september 2021
-  
-  # add workability, assuming similar impacts on workability as on wetness stress
-  m2.copy <- m.obic[indicator=='I_P_WS'][,indicator := 'I_P_WO']
-  
-  # add to m.obic
-  m.obic <- rbind(m.obic,m2.copy)
-  
-  # setkey
-  setkey(m.obic,indicator,m_sector,m_soiltype)
-  
-# update august 2021
-  
-  # I_P_WO is added to with dummy values to prevent error
-  m1.copy <- m.obic[indicator=='I_P_DS'][,indicator := 'I_P_WO'][,c('m_effect','m_applicability') := 0]
-  
-  # add to m.obic
-  m.obic <- rbind(m.obic,m1.copy)
-  
-  # setkey
-  setkey(m.obic,indicator,m_sector,m_soiltype)
+    # test
+    if(length(m.obic[,.N,by=.(indicator)][,unique(N)]) != 1){
+      print("warning, there are differences in the number of indicators. that should not be possible. please check")
+    }
   
   # rename to recom.obic
   recom.obic <- m.obic

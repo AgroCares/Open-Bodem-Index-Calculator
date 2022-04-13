@@ -9,6 +9,14 @@ ind_bcs(D_BCS)
 \arguments{
 \item{D_BCS}{(numeric) The value of BCS  calculated by \code{\link{calc_bcs}}}
 }
+\value{
+The evaluated score for the Visual Soil Assessment. A numeric value between 0 and 50.
+}
 \description{
 This function calculates the final score for the BodemConditieScore by using the scores calculated by \code{\link{calc_bcs}}
+}
+\examples{
+ind_bcs(D_BCS = 12)
+ind_bcs(D_BCS = c(12,18,26,30))
+
 }

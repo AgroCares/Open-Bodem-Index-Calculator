@@ -1,10 +1,17 @@
-#' Convert possible B_GT values to standardized values
+#' Convert possible B_GWL_CLASS values to standardized values
 #' 
 #' This function formats ground water table information so it can be understood by other OBIC functions
 #' 
 #' @param B_GWL_CLASS (character) Ground water table classes
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' format_gwt(c('sVII', 'sVI'))
+#' format_gwt(c('sVII', 'sVI','GtII', 'GtI'))
+#' 
+#' @return 
+#' A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
 #' 
 #' @export
 format_gwt <- function(B_GWL_CLASS) {
@@ -38,6 +45,13 @@ format_gwt <- function(B_GWL_CLASS) {
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' format_soilcompaction(c('10', '11'))
+#' format_soilcompaction(c('2', '3',"Matig", "Groot"))
+#' 
+#' @return 
+#' A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
+#' 
 #' @export
 format_soilcompaction <- function(B_SC_WENR) {
   
@@ -70,6 +84,13 @@ format_soilcompaction <- function(B_SC_WENR) {
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' format_aer(c("LG13","LG12"))
+#' format_aer(c("LG13","LG12",'Rivierengebied'))
+#' 
+#' @return 
+#' A standardized B_AER_CBS value as required for the OBIC functions. A character string.
 #' 
 #' @export
 format_aer <- function(B_AER_CBS) {

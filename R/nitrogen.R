@@ -12,6 +12,14 @@
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#' calc_nlv(B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand',A_N_RT = 2500, 
+#' A_CN_FR = 11, D_OC = 86000,D_BDS = 1300, D_GA = 4)
+#' calc_nlv(1019,'dekzand',2315,13,86000,1345,0)
+#' 
+#' @return 
+#' The capacity of the soil to supply nitrogen (kg N / ha / yr). A numeric value.
+#' 
 #' @export
 calc_nlv <- function(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_GA) {
   
@@ -97,6 +105,13 @@ calc_nlv <- function(B_LU_BRP, B_SOILTYPE_AGR, A_N_RT, A_CN_FR, D_OC, D_BDS, D_G
 #' @param D_NLV (numeric) The value of NLV  calculated by \code{\link{calc_nlv}}
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' 
+#' @examples 
+#' ind_nitrogen(D_NLV = 85,B_LU_BRP = 256)
+#' ind_nitrogen(D_NLV = c(150,65,35),B_LU_BRP = c(256,1019,1019))
+#'  
+#' @return 
+#' The evaluated score for the soil function to supply nitrogen for crop uptake. A numeric value between 0 and 1.
+#'         
 #' @export
 ind_nitrogen <- function(D_NLV, B_LU_BRP) {
   

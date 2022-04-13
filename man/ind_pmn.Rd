@@ -9,6 +9,14 @@ ind_pmn(D_PMN)
 \arguments{
 \item{D_PMN}{(numeric) The value of PMN  calculated by \code{\link{calc_pmn}}}
 }
+\value{
+The evaluated score for the soil function reflecting the microbial activity of a soil (specifically the potentially mineralizable N rate). A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator that assess the microbial biological activity of the soil by using the PMN calculated by \code{\link{calc_pmn}}
+}
+\examples{
+ind_pmn(D_PMN = 24)
+ind_pmn(D_PMN = c(54,265))
+
 }
