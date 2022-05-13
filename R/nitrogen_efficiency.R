@@ -157,8 +157,8 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
 #' @param leaching_to (character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("ow")
 #' 
 #' @examples 
-#' ind_n_efficiency(D_NLEACH = 50)
-#' ind_n_efficiency(D_NLEACH = c(5,15,25,75))
+#' ind_n_efficiency(D_NLEACH = 50, leaching_to = 'gw')
+#' ind_n_efficiency(D_NLEACH = c(5,15,25,75), leaching_to = 'ow')
 #'  
 #' @return 
 #' The evaluated score for the soil function to enhance the nitrogen use efficiency. A numeric value between 0 and 1.

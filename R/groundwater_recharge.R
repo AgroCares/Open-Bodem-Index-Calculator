@@ -12,8 +12,10 @@
 #' @param B_GWL_CLASS (character) The groundwater table class
 #' 
 #' @examples 
-#' ind_gw_recharge(D_WRI_WHC = 0.6, D_PSP = 200, I_P_SE = 0.6, I_P_CO = 0.9)
-#' ind_gw_recharge(D_WRI_WHC = 0.8, D_PSP = 400, I_P_SE = 0.4, I_P_CO = 0.2)
+#' ind_gw_recharge(B_LU_BRP = 265,D_PSP = 200, D_WRI_K = 10, I_P_SE = 0.6, I_P_CO = 0.9, 
+#' B_DRAIN = FALSE, B_GWL_CLASS = 'GtV')
+#' ind_gw_recharge(B_LU_BRP = 233, D_PSP = 400, D_WRI_K = 10, I_P_SE = 0.4, I_P_CO = 0.2, 
+#' B_DRAIN = TRUE, B_GWL_CLASS = 'GtII')
 #'
 #' @return 
 #' The evaluated score for the soil function to improve groundwater recharge. A numeric value between 0 and 1.
