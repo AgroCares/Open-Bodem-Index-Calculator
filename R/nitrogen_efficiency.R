@@ -19,6 +19,7 @@
 calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, A_SOM_LOI, A_CLAY_MI,
                               D_PBI, D_K, D_PH_DELTA, leaching_to, M_GREEN = FALSE, B_FERT_NORM_FR = 1){
   
+  # add visual bindings
   crops.obic = soils.obic = leaching_to_set = crop_catergory = bodem = gewas = B_GT = NULL
   nf = n_eff = nf_sand.other = nf_sand.south = nf_clay = nf_peat = nf_loess = NUE = NULL
   soiltype = soiltype.n = croptype.nleach = crop_category = deposition = crop_waterstress = NULL
