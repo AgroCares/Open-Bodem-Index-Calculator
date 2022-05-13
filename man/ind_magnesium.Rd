@@ -13,6 +13,14 @@ ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)
 
 \item{B_SOILTYPE_AGR}{(character) The type of soil}
 }
+\value{
+The evaluated score for the soil function to supply magnesium for crop uptake. A numeric value.
+}
 \description{
 This function calculates the indicator for the the Magnesium content of the soil by using the Mg-availability calculated by \code{\link{calc_magnesium_availability}}
+}
+\examples{
+ind_magnesium(D_MG = 125, B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand')
+ind_magnesium(D_MG = c(125,35), B_LU_BRP = c(265,256), B_SOILTYPE_AGR = rep('dekzand',2))
+ 
 }

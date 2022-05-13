@@ -8,8 +8,18 @@
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #' @param D_PSP (numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}
-#' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
-#' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: yes or no)
+#' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: TRUE or FALSE)
+#' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: TRUE or FALSE)
+#' 
+#' @examples 
+#' calc_pesticide_leaching(B_SOILTYPE_AGR = 'rivierklei', A_SOM_LOI = 4, 
+#' A_CLAY_MI = 20, A_SAND_MI = 45, A_SILT_MI = 35, 
+#' D_PSP = 225, M_PESTICIDES_DST = TRUE,M_MECHWEEDS = TRUE)
+#' calc_pesticide_leaching('rivierklei', 4, 20, 45, 35, 225, TRUE,TRUE)
+#' calc_pesticide_leaching('dekzand', 4.8, 4.2, 85, 10.8, 225, TRUE,TRUE)
+#' 
+#' @return 
+#' The risk of pesticide leaching from soils. A numeric value.
 #' 
 #' @export
 calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND_MI, A_SILT_MI, D_PSP, M_PESTICIDES_DST,M_MECHWEEDS) {
@@ -100,9 +110,18 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
 #' 
 #' @param D_PESTICIDE The fraction of pesticide leached compared to the worst case scenario
 #' 
+#' @examples 
+#' ind_pesticide_leaching(D_PESTICIDE = 0.7)
+#' ind_pesticide_leaching(D_PESTICIDE  = c(0.4,0.6,0.8,1))
+#'  
+#' @return 
+#' The evaluated score for the soil function to minimize pesticide leaching. A numeric value between 0 and 1.
+#' 
 #' @export
 ind_pesticide_leaching <- function(D_PESTICIDE) {
 
+  # add check
+  checkmate::assert_numeric(D_PESTICIDE, lower = 0, upper = 3, any.missing = FALSE)
   
   # Calculate indicator score
   I_PESTICIDE <- evaluate_logistic(D_PESTICIDE, 28, 0.80, 1.5, increasing = FALSE)

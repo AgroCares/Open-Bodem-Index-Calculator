@@ -57,19 +57,27 @@ dt[, I_P_WO := ind_workability(D_WO, B_LU_BRP)]
 
 We have two arable fields on marine clay with wheat and sugar beets as well as two grassland fields, one on sand and one on peat. Note that GLG is a measure for the average of the three lowest water levels in a period of eight years and GHG is the average of the three highest water levels over a period of eight years. It is assumed that the water level on our fields shifts from GHG on February 15th to GLG on August 15th and back following a sinusoidal curve. With this knowledge one can easily see that field 4 is much wetter than the other fields, both in winter as in summer. When comparing fields 1 and 2, we see that field 1 is drier in summer but more wet in winter. Lets plot the relative season length and indicator score for workability of these fields.
 
-```{r plot regime curve, eval=FALSE, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE}
+```{r plot regime curve, eval=TRUE, fig.width = 7, fig.height = 4,fig.fullwidth = TRUE, fig.cap="Regime curve of groundwater level throughout the year. The blue line is at the GHG on day 46, the red line is at GLG on day 227"}
+# plot all four fields
+dtp <- data.table(field = c(rep('1',365), rep('2', 365), rep('3', 365), rep('4', 365)),
+                  x = c(rep(1:365,4)))
+# merge with field properties
+dtp <- merge(dtp, dt, by = 'field')
 
-# this is not yet clear (comment Gerard. Please, check and update)
-#x <- 46:227
+# calculate gws at x
+dtp[,gws_x := 0.5*((-B_GWL_GHG-B_GWL_GLG)) + 0.5*(-B_GWL_GHG+B_GWL_GLG) * sin(0.0172024*(x+46)), by = 'field']
 
-# try to plot the regime curve
-#ggplot(data = dt[field == 4], aes(46:227,138-(asin((-x-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024), color = field))+
-#  geom_point()
 
-#dt4 <- data.table(dt[field == 4],x = 46:227)
-#dt4[,y := 138 + (asin((-x-0.5*(-B_GWL_GHG-B_GWL_GLG))/(0.5*(-B_GWL_GHG+B_GWL_GLG)))/0.0172024) ]
-#plot(x~y,ylim = c(-100,100),data=dt4)
-
+# plot groundwater level
+ggplot(dtp, aes(x = x, y = gws_x, col = field)) +
+  geom_line()+
+  theme_bw()+
+  ylab("Groundwater level below surface (cm)") +
+  xlab("Day of the year (1 = January 1st)") +
+  geom_vline(aes(xintercept = 227), col = 'red', lty = 2) +
+  geom_vline(aes(xintercept = 46), col = 'blue', lty = 2) +
+  scale_y_continuous(limits =c(-175,0),breaks = c(0,-25,-50,-75,-100,-125,-150,-175))
+  
 ```
 
 
@@ -100,7 +108,7 @@ gg2 <- ggplot(data = dt,
 
 ```
 
-Both amongst the grassland and the arable fields, we find a poorly performing and a reasonable performing field. If you look closely, you can see that field 1 scores much lower than field 4, despite having a higher relative growing season. This is because there is a more lenient evaluation of relative growing seasons specifically for permanent grassland.
+Both among the grassland and the arable fields, we find a poorly performing and a reasonable performing field. If you look closely, you can see that field 1 scores much lower than field 4, despite having a higher relative growing season. This is because there is a more lenient evaluation of relative growing seasons specifically for permanent grassland.
 
 The relative season length, and in extension, the indicator score, are a function of the soil and hydrological properties of the field as well as the growing season and soil working depth requirements of the crop. By choosing a crop with a shorter growing season and or more shallow soil working depth, the score can be improved. Lets see how these parcels perform when we cultivate peas.
 
@@ -188,7 +196,7 @@ However, the required season for grassland is also much longer than that of peas
 ```
 
 
-For field 4 (soiltype.m = 'veen'), the required depth when cultivating permanent grass is 55+0=55cm, while with peas the required depth is 55+22=77. In the case of field 4, it happens to be that the required depth for the spring soil work is deeper than the lowest ground water level (GLG) when cultivating an anual crop. So, the groundwater is always to high for the field to be workable for cultivating peas.
+For field 4 (soiltype.m = 'veen'), the required depth when cultivating permanent grass is 55+0=55cm, while with peas the required depth is 55+22=77. In the case of field 4, it happens to be that the required depth for the spring soil work is deeper than the lowest ground water level (GLG) when cultivating an annual crop. So, the groundwater is always to high for the field to be workable for cultivating peas.
 
 ```{r add soil params}
   
@@ -268,7 +276,7 @@ gg2 <- ggplot(data = dt, aes(x= field, fill = field)) +
 
 As you may have suspected, lower water levels resulted in higher relative growing seasons and workability scores. Note that for the function 'workability' lower ground water is always positive until the relative growing season length equals 1. However, low groundwater levels can be negative for other soil functions.
 
-## B_GWL_ZCrit
+## B_GWL_ZCRIT
 Sometimes, capillary rise of water from the groundwater table to the soil surface may fall behind evaporation. If this is the case, the soil will dry out relatively quickly and may be workable sooner. It is estimated that evaporation in the Netherlands in spring is about 2mm per day. In our example data, B_GWL_ZCRIT was set to 400 meaning that over a distance of 400 cm between the groundwater table and the soil surface, the soil is able to supply at least 2 mm of water per day. 
 Lets set B_GWL_ZCRIT to 50 and see what happens to our scores.
 

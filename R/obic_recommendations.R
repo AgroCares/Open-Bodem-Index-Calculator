@@ -130,7 +130,7 @@ obic_evalmeasure <- function(dt.score, extensive = FALSE) {
 }
 
 
-#' Recommend measurements for better soil managment
+#' Recommend measurements for better soil management
 #' 
 #' This function gives recommendations better soil management based on the OBI score
 #' 

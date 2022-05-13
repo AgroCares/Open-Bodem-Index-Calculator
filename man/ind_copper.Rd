@@ -11,6 +11,14 @@ ind_copper(D_CU, B_LU_BRP)
 
 \item{B_LU_BRP}{(numeric) The crop code (gewascode) from the BRP}
 }
+\value{
+The evaluated score for the soil function to supply copper for crop uptake. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the the Cu availability in soil by using the Cu-index as calculated by \code{\link{calc_copper_availability}}
+}
+\examples{
+ind_copper(D_CU = 125, B_LU_BRP = 265)
+ind_copper(D_CU = c(125,335), B_LU_BRP = c(1019,256))
+ 
 }

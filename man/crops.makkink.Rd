@@ -7,7 +7,7 @@
 \format{
 A data.table with 12 rows and 4 columns:
 \describe{
-  \item{crop_makkink}{Makkink crop categroy}
+  \item{crop_makkink}{Makkink crop category}
   \item{1}{Evapotranspiration correction factors for January}
   \item{2}{Evapotranspiration correction factors for February}
   \item{3}{Evapotranspiration correction factors for March}

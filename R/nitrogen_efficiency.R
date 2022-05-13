@@ -14,19 +14,27 @@
 #' @param leaching_to (character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
 #' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
-#'         
+#' 
+#' @examples 
+#' calc_n_efficiency(1019,'dekzand','GtIV','Zuidwest-Brabant',4.5,3.5,0.8,0.6,0.2,78,FALSE,1)
+#' calc_n_efficiency(256,'veen','GtII','Centraal Veehouderijgebied',4.5,3.5,0.8,0.6,0.2,250,FALSE,1)
+#'
+#' @return 
+#' The estimated index for the nitrogen use efficiency, as being affected by soil properties. A numeric value.
+#'          
 #' @export
 calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, A_SOM_LOI, A_CLAY_MI,
                               D_PBI, D_K, D_PH_DELTA, leaching_to, M_GREEN = FALSE, B_FERT_NORM_FR = 1){
   
   # add visual bindings
-  crops.obic = soils.obic = leaching_to_set = crop_catergory = bodem = gewas = B_GT = NULL
+  id = crops.obic = soils.obic = leaching_to_set = crop_catergory = bodem = gewas = B_GT = NULL
   nf = n_eff = nf_sand.other = nf_sand.south = nf_clay = nf_peat = nf_loess = NUE = NULL
   soiltype = soiltype.n = croptype.nleach = crop_category = deposition = crop_waterstress = NULL
   I_P = I_K = I_PH = cf_pkph = decomposition = n_app = catchcrop = n_sp = D_NLEACH = NULL
   
   # Check inputs
-  arg.length <- max(length(B_LU_BRP),length(B_SOILTYPE_AGR),length(B_GWL_CLASS),length(B_AER_CBS),length(B_FERT_NORM_FR), length(M_GREEN))
+  arg.length <- max(length(B_LU_BRP),length(B_SOILTYPE_AGR),length(B_GWL_CLASS),length(B_AER_CBS),
+                    length(B_FERT_NORM_FR), length(M_GREEN))
   
   # Check B parameters
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
@@ -48,8 +56,8 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(A_CLAY_MI, lower = 0.1, upper = 75, any.missing = FALSE)
   
+  # check management variable
   checkmate::assert_logical(M_GREEN, any.missing = FALSE, len = arg.length)
-  
   
   # Import data into table
   dt <- data.table(id = 1:arg.length,
@@ -70,7 +78,6 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   # Read table of N leaching fraction
   nleach_table <- as.data.table(OBIC::nleach_table)
   nleach_table <- nleach_table[leaching_to_set == leaching_to]
-  
   
   # add soil type, crop categories and allowed N dose
   cols <- colnames(OBIC::crops.obic)[grepl('^crop_cat|crop_water|^crop_code|^nf_',colnames(OBIC::crops.obic))]
@@ -111,7 +118,6 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   dt[,I_K := ind_potassium(D_K,B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI)]
   dt[,I_PH := ind_ph(D_PH_DELTA)]
   
-  
   # Determine correction factor if P, K and pH are optimal
   dt[,cf_pkph := fifelse(I_P > 0.9 & I_K > 0.9 & I_PH > 0.9,1.1,1) ]
   
@@ -134,6 +140,9 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   # Set upper boundary for leaching
   dt[D_NLEACH > 250, D_NLEACH := 250]
   
+  # set order
+  setorder(dt,id)
+  
   return(dt[,D_NLEACH])
   
 }
@@ -147,6 +156,12 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
 #' @param D_NLEACH (numeric) The value of N leaching calculated by \code{\link{calc_n_efficiency}}
 #' @param leaching_to (character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("ow")
 #' 
+#' @examples 
+#' ind_n_efficiency(D_NLEACH = 50)
+#' ind_n_efficiency(D_NLEACH = c(5,15,25,75))
+#'  
+#' @return 
+#' The evaluated score for the soil function to enhance the nitrogen use efficiency. A numeric value between 0 and 1.
 #'         
 #' @export
 ind_n_efficiency <- function(D_NLEACH,leaching_to){

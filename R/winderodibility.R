@@ -5,7 +5,14 @@
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
-#'  
+#'
+#' @examples 
+#' calc_winderodibility(B_LU_BRP = 265, A_CLAY_MI = 4, A_SILT_MI = 15)
+#' calc_winderodibility(B_LU_BRP = c(265,1019), A_CLAY_MI = c(4,18), A_SILT_MI = c(15,65))
+#' 
+#' @return 
+#' The vulnerability of the soil for wind erosion. A numeric value.
+#'   
 #' @export
 calc_winderodibility <- function(B_LU_BRP,A_CLAY_MI,A_SILT_MI) {
   
@@ -59,9 +66,16 @@ calc_winderodibility <- function(B_LU_BRP,A_CLAY_MI,A_SILT_MI) {
 }
 #' Calculate indicator for wind erodibility
 #'
-#' This function calculats the indicator for the resistance of the soil against wind erosion.
+#' This function calculates the indicator for the resistance of the soil against wind erosion.
 #'  
 #' @param D_P_DU (numeric) The value for wind erodibility factor (WEF) as calculated by \code{\link{calc_winderodibility}}
+#'
+#' @examples 
+#' ind_winderodibility(D_P_DU = 0.85)
+#' ind_winderodibility(D_P_DU = c(0.15,0.6,0.9))
+#'  
+#' @return 
+#' The evaluated score for the soil function to avoid soil damage due to wind erosion. A numeric value between 0 and 1.
 #' 
 #' @export
 ind_winderodibility <- function(D_P_DU) {

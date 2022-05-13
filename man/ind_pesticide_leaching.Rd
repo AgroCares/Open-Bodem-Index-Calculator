@@ -9,6 +9,14 @@ ind_pesticide_leaching(D_PESTICIDE)
 \arguments{
 \item{D_PESTICIDE}{The fraction of pesticide leached compared to the worst case scenario}
 }
+\value{
+The evaluated score for the soil function to minimize pesticide leaching. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator value for pesticide leaching from a soil
+}
+\examples{
+ind_pesticide_leaching(D_PESTICIDE = 0.7)
+ind_pesticide_leaching(D_PESTICIDE  = c(0.4,0.6,0.8,1))
+ 
 }

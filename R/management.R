@@ -13,7 +13,7 @@
 #' @param D_CP_GRASS (numeric) The fraction grassland in crop rotation
 #' @param D_GA (numeric) The age of the grassland (years)
 #' @param M_COMPOST (numeric) The frequency that compost is applied (optional, every x years)
-#' @param M_GREEN (boolean) measure. are catchcrops sown after main crop (option: yes or no)
+#' @param M_GREEN (boolean) measure. are catch crops sown after main crop (option: yes or no)
 #' @param M_NONBARE (boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)
 #' @param M_EARLYCROP (boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)
 #' @param M_SLEEPHOSE (boolean) measure. is sleepslangbemester used for slurry application (option: yes or no)
@@ -29,6 +29,18 @@
 #' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' calc_management(A_SOM_LOI = 4.5,B_LU_BRP = 3732, B_SOILTYPE_AGR = 'dekzand',
+#' B_GWL_CLASS = 'GtIV',D_SOM_BAL = 1115,D_CP_GRASS = 0.2,D_CP_POTATO = 0.5,
+#' D_CP_RUST = 0.3,D_CP_RUSTDEEP = 0.2,D_GA = 0,M_COMPOST = rep(25,1),
+#' M_GREEN = TRUE, M_NONBARE = TRUE, M_EARLYCROP = TRUE, M_SLEEPHOSE = TRUE, 
+#' M_DRAIN = TRUE, M_DITCH = TRUE, M_UNDERSEED = TRUE,M_LIME = TRUE, 
+#' M_NONINVTILL = TRUE, M_SSPM = TRUE, M_SOLIDMANURE = TRUE,M_STRAWRESIDUE = TRUE,
+#' M_MECHWEEDS = TRUE,M_PESTICIDES_DST = TRUE)
+#' 
+#' @return
+#' The evaluated soil management score according to the Label Sustainable Soil Management. A nmumeric value.
 #' 
 #' @export
 calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
@@ -169,7 +181,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     # measure 1. maize crop in combination with grassland
     dt.maize[M_UNDERSEED == TRUE | M_NONBARE == TRUE, value := value + 1]
     
-    # measure 2. are catchcrops sown after main crop (alleen klei, zand en löss al verplicht)
+    # measure 2. are catch crops sown after main crop (alleen klei, zand en löss al verplicht)
     dt.maize[soiltype.n =='klei' & M_GREEN == TRUE, value := value + 1]
     
     # measure 3. use of early varieties in relevant cultures to avoid harvesting after september (stimulating catch crop too)
@@ -280,7 +292,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
 #' @param D_CP_GRASS (numeric) The fraction grassland in crop rotation
 #' @param D_GA (numeric) The age of the grassland (years)
 #' @param M_COMPOST (numeric) The frequency that compost is applied (optional, every x years)
-#' @param M_GREEN (boolean) measure. are catchcrops sown after main crop (option: yes or no)
+#' @param M_GREEN (boolean) measure. are catch crops sown after main crop (option: yes or no)
 #' @param M_NONBARE (boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)
 #' @param M_EARLYCROP (boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)
 #' @param M_SLEEPHOSE (boolean) measure. is sleepslangbemester used for slurry application (option: yes or no)
@@ -297,6 +309,19 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
 #' @param type (character) type of ecosystem service to evaluate the impact of soil management. Options: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY, and I_M_BIODIVERSITY
 #' 
 #' @import data.table
+#' 
+#' @examples 
+#' calc_man_ess(A_SOM_LOI = 4.5,B_LU_BRP = 3732, B_SOILTYPE_AGR = 'dekzand',
+#' B_GWL_CLASS = 'GtIV',D_SOM_BAL = 1115,D_CP_GRASS = 0.2,D_CP_POTATO = 0.5,
+#' D_CP_RUST = 0.3,D_CP_RUSTDEEP = 0.2,D_GA = 0,M_COMPOST = rep(25,1),
+#' M_GREEN = TRUE, M_NONBARE = TRUE, M_EARLYCROP = TRUE, M_SLEEPHOSE = TRUE, 
+#' M_DRAIN = TRUE, M_DITCH = TRUE, M_UNDERSEED = TRUE,M_LIME = TRUE, 
+#' M_NONINVTILL = TRUE, M_SSPM = TRUE, M_SOLIDMANURE = TRUE,M_STRAWRESIDUE = TRUE,
+#' M_MECHWEEDS = TRUE,M_PESTICIDES_DST = TRUE,type="I_M_SOILFERTILITY")
+
+#' @return
+#' The evaluated soil management score for multiple soil ecosystem services.
+#' This is done for the following ESS: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY and I_M_BIODIVERSITY
 #' 
 #' @export
 calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
@@ -545,7 +570,7 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       # measure 1. maize crop in combination with grassland
       dt.maize.man[M_UNDERSEED == TRUE | M_NONBARE == TRUE, value_ms := value_ms + 1]
       
-      # measure 2. are catchcrops sown after main crop (alleen klei, zand en löss al verplicht)
+      # measure 2. are catch crops sown after main crop (alleen klei, zand en löss al verplicht)
       dt.maize.man[soiltype.n =='klei' & M_GREEN == TRUE, value_ms := value_ms + 1]
       
       # measure 3. use of early varieties in relevant cultures to avoid harvesting after september (stimulating catch crop too)
@@ -723,6 +748,13 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
 #' 
+#' @examples 
+#' ind_management(D_MAN = 15,B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand')
+#' ind_management(D_MAN = c(2,6,15), B_LU_BRP = c(1019,256,1019),B_SOILTYPE_AGR = rep('dekzand',3))
+#' 
+#' @return 
+#' The evaluated score for the evaluated soil management given the Label Sustainable Soil Management. A numeric value between 0 and 1. 
+#' 
 #' @export
 ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
   
@@ -806,6 +838,15 @@ ind_management <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR) {
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
 #' @param type (character) type of ecosystem service to evaluate the impact of soil management. Options: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY, and I_M_BIODIVERSITY
+#' 
+#' @examples 
+#' ind_man_ess(D_MAN = 3.5,B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand',type = 'I_M_SOILFERTILITY')
+#' ind_man_ess(D_MAN = c(2,6,15), B_LU_BRP = c(1019,256,1019),B_SOILTYPE_AGR = rep('dekzand',3),
+#' type = 'I_M_SOILFERTILITY')
+#' 
+#' @return 
+#' The evaluated score for the evaluated soil management for a specific ecosystem service. A numeric value between 0 and 1. 
+#' This is done for the following ESS: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY and I_M_BIODIVERSITY.
 #' 
 #' @export
 ind_man_ess <- function(D_MAN,B_LU_BRP,B_SOILTYPE_AGR,type) {

@@ -11,6 +11,14 @@ ind_n_efficiency(D_NLEACH, leaching_to)
 
 \item{leaching_to}{(character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("ow")}
 }
+\value{
+The evaluated score for the soil function to enhance the nitrogen use efficiency. A numeric value between 0 and 1.
+}
 \description{
 This function gives an indicator value for nitrogen use efficiency calculated by \code{\link{calc_n_efficiency}}, this function makes use of \code{\link{ind_nretention}}
+}
+\examples{
+ind_n_efficiency(D_NLEACH = 50)
+ind_n_efficiency(D_NLEACH = c(5,15,25,75))
+ 
 }

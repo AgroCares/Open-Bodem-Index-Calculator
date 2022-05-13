@@ -11,7 +11,13 @@
 #' @param B_DRAIN (boolean) Are drains installed to drain the field (options: yes or no)
 #' @param B_GWL_CLASS (character) The groundwater table class
 #' 
-#'         
+#' @examples 
+#' ind_gw_recharge(D_WRI_WHC = 0.6, D_PSP = 200, I_P_SE = 0.6, I_P_CO = 0.9)
+#' ind_gw_recharge(D_WRI_WHC = 0.8, D_PSP = 400, I_P_SE = 0.4, I_P_CO = 0.2)
+#'
+#' @return 
+#' The evaluated score for the soil function to improve groundwater recharge. A numeric value between 0 and 1.
+#'          
 #' @export
 ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS){
   

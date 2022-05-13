@@ -3,8 +3,15 @@
 #' This function calculates the precipitation surplus (in mm / ha) given the crop rotation plan.
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP
-#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)
-#'     
+#' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, options: TRUE, FALSE)
+#'
+#' @examples
+#' calc_psp(B_LU_BRP = 265, M_GREEN = TRUE)
+#' calc_psp(B_LU_BRP = c(265,1019,265,1019), M_GREEN = rep(TRUE,4))
+#' 
+#' @return 
+#' The estimated precipitation surplus (in mm / ha) depending on averaged precipitation and evaporation. A numeric value.
+#' 
 #' @export
 calc_psp <- function(B_LU_BRP, M_GREEN){
   

@@ -2,7 +2,7 @@
 % Please edit documentation in R/evaluate.R
 \name{evaluate_logistic}
 \alias{evaluate_logistic}
-\title{Evaluate using the general logistice function}
+\title{Evaluate using the general logistic function}
 \usage{
 evaluate_logistic(x, b, x0, v, increasing = TRUE)
 }
@@ -17,8 +17,16 @@ evaluate_logistic(x, b, x0, v, increasing = TRUE)
 
 \item{increasing}{(boolean) Should the evaluation increase (\code{TRUE}) with x or decrease (\code{FALSE})?}
 }
+\value{
+A transformed variable after applying a logistic evaluation function. A numeric value.
+}
 \description{
 This function evaluates the calculated values from an indicator using a general logistic function
+}
+\examples{
+evaluate_logistic(x = 5, b = 2, x0 = 3, v = 2.6)
+evaluate_logistic(x = c(0.1,0.5,1.5,3.5), b = 2, x0 = 3, v = 2.6)
+
 }
 \references{
 \url{https://en.wikipedia.org/wiki/Generalised_logistic_function}

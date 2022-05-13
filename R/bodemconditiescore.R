@@ -2,7 +2,7 @@
 #' 
 #' This function calculates the BodemConditieScore given input from manual observations made in the field.
 #' The individual parameters are scored in three classes: poor (0), neutral (1) or good (2)
-#' More information on this test can be found \href{http://mijnbodemconditie.nl/}{here}
+#' More information on this test can be found \href{https://mijnbodemconditie.nl/}{here}
 #' 
 #' 
 #' @param B_LU_BRP (numeric) The crop code from the BRP 
@@ -20,13 +20,20 @@
 #' @param A_CC_BCS (integer) The crop cover on the surface (score 0-1-2)
 #' @param type (character) Define output of the function. Options: score (integrated score) and indicator (score per indicator)
 #' 
-#' @references \href{http://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
+#' @references \href{https://mijnbodemconditie.nl/}{mijnbodemconditie.nl}
 #' 
 #' @import data.table
 #' 
+#' @examples
+#' calc_bcs(B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand', A_SOM_LOI = 3.5, D_PH_DELTA = 0.4,
+#' A_EW_BCS = 1, A_SC_BCS = 1, A_GS_BCS = 1, A_P_BCS = 1, A_C_BCS = 1, A_RT_BCS =1, A_RD_BCS = 1, 
+#' A_SS_BCS = 1, A_CC_BCS = 1)
+#' 
+#' @return
+#' A visual soil assessment score derived from field observations driven by organic matter content and soil structure properties. Returns a numeric value.
 #' @export
 calc_bcs <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
-                     A_EW_BCS = NA, A_SC_BCS = NA, A_GS_BCS = NA, A_P_BCS = NA, A_C_BCS = NA, A_RT_BCS =NA, A_RD_BCS = NA, 
+                     A_EW_BCS = NA, A_SC_BCS = NA, A_GS_BCS = NA, A_P_BCS = NA, A_C_BCS = NA, A_RT_BCS = NA, A_RD_BCS = NA, 
                      A_SS_BCS = NA, A_CC_BCS = NA,
                      type = 'score'
                      ) {
@@ -152,6 +159,13 @@ calc_bcs <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI, D_PH_DELTA,
 #' This function calculates the final score for the BodemConditieScore by using the scores calculated by \code{\link{calc_bcs}}
 #' 
 #' @param D_BCS (numeric) The value of BCS  calculated by \code{\link{calc_bcs}}
+#' 
+#' @examples 
+#' ind_bcs(D_BCS = 12)
+#' ind_bcs(D_BCS = c(12,18,26,30))
+#' 
+#' @return 
+#' The evaluated score for the Visual Soil Assessment. A numeric value between 0 and 50.
 #' 
 #' @export
 ind_bcs <- function(D_BCS) {

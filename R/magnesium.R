@@ -7,12 +7,20 @@
 #' @param A_SOM_LOI (numeric) The percentage organic matter in the soil (\%)
 #' @param A_CLAY_MI (numeric) The clay content of the soil (\%)
 #' @param A_PH_CC (numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)
-#' @param A_CEC_CO (numeric) The cation exchange capacity of the soil (mmol+ per kg), analysed via Cobalt-hexamine extraction
+#' @param A_CEC_CO (numeric) The cation exchange capacity of the soil (mmol+ per kg), analyzed via Cobalt-hexamine extraction
 #' @param A_K_CO_PO (numeric) The occupation of the CEC with potassium (\%)
 #' @param A_MG_CC (numeric) The plant available content of Mg in the soil (mg  Mg per kg) extracted by 0.01M CaCl2
 #' @param A_K_CC (numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg per kg), 
 #' 
 #' @import data.table
+#' 
+#' @examples
+#' calc_magnesium_availability(B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand',
+#' A_SOM_LOI = 3.5,A_CLAY_MI = 8.5,A_PH_CC = 5.4, 
+#' A_CEC_CO = 185,A_K_CO_PO = 4.5,A_MG_CC = 125,A_K_CC = 65)
+#' 
+#' @return 
+#' An index representing the availability of Magnesium in a soil. A numeric value.
 #' 
 #' @export
 calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,
@@ -144,6 +152,13 @@ calc_magnesium_availability <- function(B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY
 #' @param D_MG (numeric) The value of Mg calculated by \code{\link{calc_magnesium_availability}}
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
+#' 
+#' @examples 
+#' ind_magnesium(D_MG = 125, B_LU_BRP = 265, B_SOILTYPE_AGR = 'dekzand')
+#' ind_magnesium(D_MG = c(125,35), B_LU_BRP = c(265,256), B_SOILTYPE_AGR = rep('dekzand',2))
+#'  
+#' @return 
+#' The evaluated score for the soil function to supply magnesium for crop uptake. A numeric value.
 #' 
 #' @export
 ind_magnesium <- function(D_MG,B_LU_BRP,B_SOILTYPE_AGR) {

@@ -13,6 +13,9 @@ ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)
 
 \item{B_SOILTYPE_AGR}{(character) The type of soil}
 }
+\value{
+The evaluated score for the evaluated soil management given the Label Sustainable Soil Management. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the the sustainability of strategic management options as calculated by \code{\link{calc_management}}
 The main source of this indicator is developed for Label Duurzaam Bodembeheer (Van der Wal, 2016)
@@ -20,4 +23,9 @@ The main source of this indicator is developed for Label Duurzaam Bodembeheer (V
 \details{
 The current function allows a maximum score of 18 points for arable systems, 12 for maize 
 and 10 for grass (non-peat), 17 for grass on peat, and 4 for nature.
+}
+\examples{
+ind_management(D_MAN = 15,B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand')
+ind_management(D_MAN = c(2,6,15), B_LU_BRP = c(1019,256,1019),B_SOILTYPE_AGR = rep('dekzand',3))
+
 }

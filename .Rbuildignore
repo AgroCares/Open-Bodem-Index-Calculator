@@ -7,3 +7,4 @@
 ^DEV$
 ^\.github$
 ^codecov\.yml$
+^LICENSE

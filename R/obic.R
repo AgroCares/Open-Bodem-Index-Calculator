@@ -20,12 +20,12 @@
 #' @param A_PH_CC (numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)
 #' @param A_N_RT (numeric) The organic nitrogen content of the soil in mg N / kg
 #' @param A_CN_FR (numeric) The carbon to nitrogen ratio (-)
-#' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
+#' @param A_S_RT (numeric) The total Sulfur content of the soil (in mg S per kg)
 #' @param A_N_PMN (numeric) The potentially mineralizable N pool (mg N / kg soil)
 #' @param A_P_AL (numeric) The P-AL content of the soil
 #' @param A_P_CC (numeric) The plant available P content, extracted with 0.01M CaCl2 (mg / kg)
 #' @param A_P_WA (numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)
-#' @param A_CEC_CO (numeric) The cation exchange capacity of the soil (mmol+ / kg), analysed via Cobalt-hexamine extraction
+#' @param A_CEC_CO (numeric) The cation exchange capacity of the soil (mmol+ / kg), analyzed via Cobalt-hexamine extraction
 #' @param A_CA_CO_PO (numeric) The The occupation of the CEC with Ca (\%)
 #' @param A_MG_CO_PO (numeric) The The occupation of the CEC with Mg (\%)
 #' @param A_K_CO_PO (numeric) The occupation of the CEC with K (\%)
@@ -58,16 +58,37 @@
 #' @param M_STRAWRESIDUE (boolean) measure. Application of straw residues (option: yes or no)
 #' @param M_MECHWEEDS (boolean) measure. Use of mechanical weed protection (option: yes or no)
 #' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
-#' @param I_B_NEM (numeric) Nematode indicator value as calculated with ind_nematodes()
 #' @param ID (character) A field id
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
 #' 
 #' @details 
 #' It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
 #' 
-#' 
 #' @import data.table
+#' 
+#' @examples 
+#' 
+#' \dontrun{
+#' obic_field( B_SOILTYPE_AGR = 'rivierklei',B_GWL_CLASS = "II",B_GWL_GLG = 75,B_GWL_GHG = 10,
+#' B_GWL_ZCRIT = 50,B_SC_WENR = '2',B_HELP_WENR = "MOb72",B_AER_CBS = 'LG01',
+#' B_LU_BRP = c( 1010, 1010,263,263, 263,265,265,265),A_SOM_LOI = 3.91,A_SAND_MI = 66.3,
+#' A_SILT_MI = 22.8,A_CLAY_MI = 7.8,A_PH_CC = 5.4,A_N_RT = 1528.33,A_CN_FR = 13.02,
+#' A_S_RT = 321.26,A_N_PMN = 63.3,A_P_AL = 50.2,A_P_CC = 2.9,A_P_WA = 50.5,
+#' A_CEC_CO = 56.9,A_CA_CO_PO = 66.87,A_MG_CO_PO = 13.97,A_K_CO_PO = 3.06,
+#' A_K_CC = 58.6,A_MG_CC = 77.53,A_MN_CC = 7586.61,A_ZN_CC = 726.2,A_CU_CC = 68.8,
+#' A_C_BCS = 1,A_CC_BCS = 1,A_GS_BCS = 1,A_P_BCS = 1,A_RD_BCS = 1,A_EW_BCS = 1,
+#' A_SS_BCS = 1,A_RT_BCS = 1,A_SC_BCS = 1,M_COMPOST = 0,M_GREEN = FALSE,M_NONBARE =FALSE,
+#' M_EARLYCROP = FALSE,M_SLEEPHOSE = FALSE,M_DRAIN = FALSE,M_DITCH = FALSE,
+#' M_UNDERSEED = FALSE,M_LIME = FALSE,M_MECHWEEDS = FALSE,M_NONINVTILL = FALSE,
+#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE)
+#'}
 #'  
+#' @return 
+#' The output of the Open Bodem Index Calculator for a specific agricultural field. 
+#' Depending on the output type, different output objects can be returned.
+#' These include the estimated OBI scores (both total and aggregated subscores), the value of the underling indicators as well the possible recommendations to improve the soil quality.
+#' The output is always a data.table.
+#' 
 #' @export
 obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CBS,
                        B_GWL_GLG,B_GWL_GHG,B_GWL_ZCRIT,
@@ -84,7 +105,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
-                       I_B_NEM = NA_real_,
                        ID = 1, output = 'all') {
   
   # define variables used within the function
@@ -96,13 +116,13 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   D_WRI_K = D_NLEACH_GW = D_NLEACH_OW = I_H_GWR = I_H_NGW = I_H_NOW = I_H_PEST = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
-  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_B_NEM = I_M = NULL
+  I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
   I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_NGW = I_E_NSW = NULL
   D_M_SOILFERTILITY = D_M_CLIMATE = D_M_WATERQUALITY = D_M_BIODIVERSITY = NULL
   I_M_SOILFERTILITY = I_M_CLIMATE = I_M_WATERQUALITY = I_M_BIODIVERSITY = NULL
-  crop_category = crops.obic = leaching_to = NULL
+  crop_category = leaching_to = NULL
   
-  crop_code = weight.obic = weight = score.cf = . = out.ind = NULL
+  crop_code = weight = score.cf = . = out.ind = NULL
   weight_peat = weight_nonpeat = variable = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
   var = cf = ncat = id = NULL
@@ -165,8 +185,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_SOLIDMANURE = M_SOLIDMANURE,
                    M_STRAWRESIDUE = M_STRAWRESIDUE,
                    M_MECHWEEDS = M_MECHWEEDS,
-                   M_PESTICIDES_DST = M_PESTICIDES_DST,
-                   I_B_NEM = I_B_NEM)
+                   M_PESTICIDES_DST = M_PESTICIDES_DST)
   
 
   # Merge dt with crops.obic
@@ -290,7 +309,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_C_P := ind_phosphate_availability(D_PBI)]
     dt[, I_C_K := ind_potassium(D_K,B_LU_BRP,B_SOILTYPE_AGR,A_SOM_LOI)]
     dt[, I_C_MG := ind_magnesium(D_MG, B_LU_BRP, B_SOILTYPE_AGR)]
-    dt[, I_C_S := ind_sulpher(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
+    dt[, I_C_S := ind_sulfur(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)]
     dt[, I_C_PH := ind_ph(D_PH_DELTA)]
     dt[, I_C_CEC := ind_cec(D_CEC)]
     dt[, I_C_CU := ind_copper(D_CU,B_LU_BRP)]
@@ -490,11 +509,35 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' 
 #' @import data.table
 #' 
+#' @examples 
+#'  
+#' \dontrun{
+#' obic_field_dt(data.table(B_SOILTYPE_AGR = 'rivierklei',B_GWL_CLASS = "II",
+#' B_GWL_GLG = 75,B_GWL_GHG = 10,
+#' B_GWL_ZCRIT = 50,B_SC_WENR = '2',B_HELP_WENR = "MOb72",B_AER_CBS = 'LG01',
+#' B_LU_BRP = c( 1010, 1010,263,263, 263,265,265,265),A_SOM_LOI = 3.91,A_SAND_MI = 66.3,
+#' A_SILT_MI = 22.8,A_CLAY_MI = 7.8,A_PH_CC = 5.4,A_N_RT = 1528.33,A_CN_FR = 13.02,
+#' A_S_RT = 321.26,A_N_PMN = 63.3,A_P_AL = 50.2,A_P_CC = 2.9,A_P_WA = 50.5,
+#' A_CEC_CO = 56.9,A_CA_CO_PO = 66.87,A_MG_CO_PO = 13.97,A_K_CO_PO = 3.06,
+#' A_K_CC = 58.6,A_MG_CC = 77.53,A_MN_CC = 7586.61,A_ZN_CC = 726.2,A_CU_CC = 68.8,
+#' A_C_BCS = 1,A_CC_BCS = 1,A_GS_BCS = 1,A_P_BCS = 1,A_RD_BCS = 1,A_EW_BCS = 1,
+#' A_SS_BCS = 1,A_RT_BCS = 1,A_SC_BCS = 1,M_COMPOST = 0,M_GREEN = FALSE,M_NONBARE =FALSE,
+#' M_EARLYCROP = FALSE,M_SLEEPHOSE = FALSE,M_DRAIN = FALSE,M_DITCH = FALSE,
+#' M_UNDERSEED = FALSE,M_LIME = FALSE,M_MECHWEEDS = FALSE,M_NONINVTILL = FALSE,
+#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE))
+#'}
+#' 
+#' @return 
+#' The output of the Open Bodem Index Calculator for a specific agricultural field. 
+#' Depending on the output type, different output objects can be returned.
+#' These include the estimated OBI scores (both total and aggregated subscores), the value of the underling indicators as well the possible recommendations to improve the soil quality.
+#' The output is always a data.table.
+#' 
 #' @export
 obic_field_dt <- function(dt,output = 'all') {
  
   # add visual binding
-  I_B_NEM = NULL
+  
   
   # make local copy
   dt <- copy(dt)
@@ -536,7 +579,6 @@ obic_field_dt <- function(dt,output = 'all') {
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
-  if(!'I_B_NEM' %in% colnames(dt)){dt[,I_B_NEM := NA_real_]}
   
   # calculate obic_field
   out <- obic_field(
