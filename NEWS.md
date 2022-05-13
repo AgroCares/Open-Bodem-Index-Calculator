@@ -2,7 +2,7 @@
 ### Fixed
 * Fixes plotting of regime curve in workabilty vignette #149
 
-# OBIC 2.0.1 2022-05-13
+# OBIC 2.0.2 2022-05-13
 ### Changed
 * Update calculations in the functions `calc_pesticide_leaching`, `ind_pesticide_leaching`, `calc_psp`, `ind_psp`, `ind_gw_recharge`,`calc_n_efficiency` and `ind_n_efficiency` 
 
