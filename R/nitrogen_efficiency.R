@@ -52,7 +52,7 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   
   
   # Import data into table
-  dt <- data.table(ID = 1,
+  dt <- data.table(id = 1:arg.length,
                    B_LU_BRP = B_LU_BRP,
                    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
                    B_GWL_CLASS = B_GWL_CLASS,
