@@ -2,6 +2,15 @@
 ### Fixed
 * Fixes plotting of regime curve in workabilty vignette #149
 
+# OBIC 2.0.1 2022-05-13
+### Changed
+* Update calculations in the functions `calc_pesticide_leaching`, `ind_pesticide_leaching`, `calc_psp`, `ind_psp`, `ind_gw_recharge`,`calc_n_efficiency` and `ind_n_efficiency` 
+
+# Added
+* Add `calc_permeability` for calculating top soil permeability 
+* Add `ind_permeability` for calculatin the index for top soil permeability
+* Add vignette `obic_water_functions`, describing the functions that evaluate the effect of soil quality on groundwater quality
+
 # OBIC 2.0.1 2022-03-26
 ### Changed
 * The function `ind_sulpher` is renamed to `ind_sulfur` in documentation
