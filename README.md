@@ -14,7 +14,7 @@ More information about the Open Bodem Index can be found at [Open Bodem Index](h
 
 ## Installation
 
-```
+```R
 # Install from latest stable version from CRAN
 install.packages("OBIC")
 
