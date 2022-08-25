@@ -72,43 +72,56 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_nleach</span><span class="op">(</span>
-  <span class="va">B_SOILTYPE_AGR</span>,
-  <span class="va">B_LU_BRP</span>,
-  <span class="va">B_GWL_CLASS</span>,
-  <span class="va">D_NLV</span>,
-  <span class="va">B_AER_CBS</span>,
-  <span class="va">leaching_to</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_nleach</span><span class="op">(</span></span>
+<span>  <span class="va">B_SOILTYPE_AGR</span>,</span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">B_GWL_CLASS</span>,</span>
+<span>  <span class="va">D_NLV</span>,</span>
+<span>  <span class="va">B_AER_CBS</span>,</span>
+<span>  <span class="va">leaching_to</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The type of soil</p></dd>
+
+
 <dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code (gewascode) from the BRP</p></dd>
+
+
 <dt>B_GWL_CLASS</dt>
 <dd><p>(character) The groundwater table class</p></dd>
+
+
 <dt>D_NLV</dt>
 <dd><p>(numeric) The N supplying capacity of a soil (kg N ha-1 jr-1) calculated by <code><a href="calc_nlv.html">calc_nlv</a></code></p></dd>
+
+
 <dt>B_AER_CBS</dt>
 <dd><p>(character) The agricultural economic region in the Netherlands (CBS, 2016)</p></dd>
+
+
 <dt>leaching_to</dt>
 <dd><p>(character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The potential nitrogen leaching from the soil originating from soil nitrogen mineralization processes. A numeric value.</p>
+    
+
+<p>The potential nitrogen leaching from the soil originating from soil nitrogen mineralization processes. A numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_nleach</span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="fl">265</span>,<span class="st">'GtIII'</span>,<span class="fl">145</span>,<span class="st">'Zuidwest-Brabant'</span>,<span class="st">'gw'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_nleach</span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="fl">265</span>,<span class="st">'GtIII'</span>,<span class="fl">145</span>,<span class="st">'Zuidwest-Brabant'</span>,<span class="st">'gw'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10.48513</span>
-<span class="r-in"><span class="fu">calc_nleach</span><span class="op">(</span><span class="st">'rivierklei'</span>,<span class="fl">1019</span>,<span class="st">'GtIV'</span>,<span class="fl">145</span>,<span class="st">'Rivierengebied'</span>,<span class="st">'ow'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_nleach</span><span class="op">(</span><span class="st">'rivierklei'</span>,<span class="fl">1019</span>,<span class="st">'GtIV'</span>,<span class="fl">145</span>,<span class="st">'Rivierengebied'</span>,<span class="st">'ow'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.201325</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -123,7 +136,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

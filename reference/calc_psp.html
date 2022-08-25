@@ -72,28 +72,33 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_psp</span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">M_GREEN</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_psp</span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">M_GREEN</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code from the BRP</p></dd>
+
+
 <dt>M_GREEN</dt>
 <dd><p>(boolean) A soil measure. Are catch crops sown after main crop (optional, options: TRUE, FALSE)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The estimated precipitation surplus (in mm / ha) depending on averaged precipitation and evaporation. A numeric value.</p>
+    
+
+<p>The estimated precipitation surplus (in mm / ha) depending on averaged precipitation and evaporation. A numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_psp</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, M_GREEN <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_psp</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, M_GREEN <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 220.993</span>
-<span class="r-in"><span class="fu">calc_psp</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">265</span>,<span class="fl">1019</span>,<span class="fl">265</span>,<span class="fl">1019</span><span class="op">)</span>, M_GREEN <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">TRUE</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_psp</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">265</span>,<span class="fl">1019</span>,<span class="fl">265</span>,<span class="fl">1019</span><span class="op">)</span>, M_GREEN <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">TRUE</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 220.993 311.568 239.698 311.568</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -108,7 +113,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

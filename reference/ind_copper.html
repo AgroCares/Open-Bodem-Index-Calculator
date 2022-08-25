@@ -72,28 +72,33 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ind_copper</span><span class="op">(</span><span class="va">D_CU</span>, <span class="va">B_LU_BRP</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ind_copper</span><span class="op">(</span><span class="va">D_CU</span>, <span class="va">B_LU_BRP</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>D_CU</dt>
 <dd><p>(numeric) The value of Cu-index  calculated by <code><a href="calc_copper_availability.html">calc_copper_availability</a></code></p></dd>
+
+
 <dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code (gewascode) from the BRP</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The evaluated score for the soil function to supply copper for crop uptake. A numeric value between 0 and 1.</p>
+    
+
+<p>The evaluated score for the soil function to supply copper for crop uptake. A numeric value between 0 and 1.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">ind_copper</span><span class="op">(</span>D_CU <span class="op">=</span> <span class="fl">125</span>, B_LU_BRP <span class="op">=</span> <span class="fl">265</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">ind_copper</span><span class="op">(</span>D_CU <span class="op">=</span> <span class="fl">125</span>, B_LU_BRP <span class="op">=</span> <span class="fl">265</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-in"><span class="fu">ind_copper</span><span class="op">(</span>D_CU <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">125</span>,<span class="fl">335</span><span class="op">)</span>, B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1019</span>,<span class="fl">256</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">ind_copper</span><span class="op">(</span>D_CU <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">125</span>,<span class="fl">335</span><span class="op">)</span>, B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1019</span>,<span class="fl">256</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 1</span>
-<span class="r-in"> </span>
+<span class="r-in"><span> </span></span>
 </code></pre></div>
     </div>
   </div>
@@ -108,7 +113,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

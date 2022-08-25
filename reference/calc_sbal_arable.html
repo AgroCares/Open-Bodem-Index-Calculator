@@ -74,46 +74,57 @@ This function calculates the change in S-balance compared to averaged S-supply a
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="va">D_SLV</span>, <span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">B_AER_CBS</span><span class="op">)</span>
-
-<span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="va">D_SLV</span>, <span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">B_AER_CBS</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="va">D_SLV</span>, <span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">B_AER_CBS</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="va">D_SLV</span>, <span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">B_AER_CBS</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>D_SLV</dt>
 <dd><p>(numeric) The value of SLV  calculated by <code><a href="calc_slv.html">calc_slv</a></code></p></dd>
+
+
 <dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code (gewascode) from the BRP</p></dd>
+
+
 <dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The type of soil</p></dd>
+
+
 <dt>B_AER_CBS</dt>
 <dd><p>(character) The agricultural economic region in the Netherlands (CBS, 2016)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Estimated contribution of the soil to the S balance of arable fields. A numeric value.
-Estimated contribution of the soil to the S balance of arable fields. A numeric value.</p>
+    
+
+<p>Estimated contribution of the soil to the S balance of arable fields. A numeric value.</p>
+
+
+<p>Estimated contribution of the soil to the S balance of arable fields. A numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_sbal_arable</span><span class="op">(</span>D_SLV <span class="op">=</span> <span class="fl">65</span>, B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, </span>
-<span class="r-in">B_AER_CBS <span class="op">=</span> <span class="st">'Rivierengebied'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_sbal_arable</span><span class="op">(</span>D_SLV <span class="op">=</span> <span class="fl">65</span>, B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, </span></span>
+<span class="r-in"><span>B_AER_CBS <span class="op">=</span> <span class="st">'Rivierengebied'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 55</span>
-<span class="r-in"><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="fl">65</span>, <span class="fl">1019</span>, <span class="st">'dekzand'</span>, <span class="st">'Rivierengebied'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="fl">65</span>, <span class="fl">1019</span>, <span class="st">'dekzand'</span>, <span class="st">'Rivierengebied'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 55</span>
-<span class="r-in"><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">125</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">265</span>,<span class="fl">1019</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'Rivierengebied'</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">125</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">265</span>,<span class="fl">1019</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'Rivierengebied'</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  55 115</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">calc_sbal_arable</span><span class="op">(</span>D_SLV <span class="op">=</span> <span class="fl">65</span>, B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, </span>
-<span class="r-in">B_AER_CBS <span class="op">=</span> <span class="st">'Rivierengebied'</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">calc_sbal_arable</span><span class="op">(</span>D_SLV <span class="op">=</span> <span class="fl">65</span>, B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, </span></span>
+<span class="r-in"><span>B_AER_CBS <span class="op">=</span> <span class="st">'Rivierengebied'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 55</span>
-<span class="r-in"><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="fl">65</span>, <span class="fl">1019</span>, <span class="st">'dekzand'</span>, <span class="st">'Rivierengebied'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="fl">65</span>, <span class="fl">1019</span>, <span class="st">'dekzand'</span>, <span class="st">'Rivierengebied'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 55</span>
-<span class="r-in"><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">125</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">265</span>,<span class="fl">1019</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'Rivierengebied'</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_sbal_arable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">125</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">265</span>,<span class="fl">1019</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'Rivierengebied'</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  55 115</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -128,7 +139,7 @@ Estimated contribution of the soil to the S balance of arable fields. A numeric 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

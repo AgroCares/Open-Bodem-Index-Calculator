@@ -72,46 +72,59 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_copper_availability</span><span class="op">(</span>
-  <span class="va">B_LU_BRP</span>,
-  <span class="va">A_SOM_LOI</span>,
-  <span class="va">A_CLAY_MI</span>,
-  <span class="va">A_K_CC</span>,
-  <span class="va">A_MN_CC</span>,
-  <span class="va">A_CU_CC</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_copper_availability</span><span class="op">(</span></span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">A_SOM_LOI</span>,</span>
+<span>  <span class="va">A_CLAY_MI</span>,</span>
+<span>  <span class="va">A_K_CC</span>,</span>
+<span>  <span class="va">A_MN_CC</span>,</span>
+<span>  <span class="va">A_CU_CC</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code from the BRP</p></dd>
+
+
 <dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The organic matter content of the soil (%)</p></dd>
+
+
 <dt>A_CLAY_MI</dt>
 <dd><p>(numeric) The clay content of the soil (%)</p></dd>
+
+
 <dt>A_K_CC</dt>
 <dd><p>(numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg / kg),</p></dd>
+
+
 <dt>A_MN_CC</dt>
 <dd><p>(numeric) The plant available Mn content, extracted with 0.01M CaCl2 (ug / kg)</p></dd>
+
+
 <dt>A_CU_CC</dt>
 <dd><p>(numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The function of the soil to supply Copper. A numeric value.</p>
+    
+
+<p>The function of the soil to supply Copper. A numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_copper_availability</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span>, A_CLAY_MI <span class="op">=</span> <span class="fl">4</span>,A_K_CC <span class="op">=</span> <span class="fl">65</span>, </span>
-<span class="r-in">A_MN_CC <span class="op">=</span> <span class="fl">110</span>, A_CU_CC <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_copper_availability</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span>, A_CLAY_MI <span class="op">=</span> <span class="fl">4</span>,A_K_CC <span class="op">=</span> <span class="fl">65</span>, </span></span>
+<span class="r-in"><span>A_MN_CC <span class="op">=</span> <span class="fl">110</span>, A_CU_CC <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.666268</span>
-<span class="r-in"><span class="fu">calc_copper_availability</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, <span class="fl">3.5</span>, <span class="fl">4</span>,<span class="fl">65</span>, <span class="fl">110</span>, <span class="fl">250</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_copper_availability</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, <span class="fl">3.5</span>, <span class="fl">4</span>,<span class="fl">65</span>, <span class="fl">110</span>, <span class="fl">250</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.666268</span>
-<span class="r-in"><span class="fu">calc_copper_availability</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1019</span>,<span class="fl">265</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3.5</span>,<span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">95</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">110</span>,<span class="fl">250</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">250</span>,<span class="fl">315</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_copper_availability</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1019</span>,<span class="fl">265</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3.5</span>,<span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">95</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">110</span>,<span class="fl">250</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">250</span>,<span class="fl">315</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  9.666268 10.885745</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -126,7 +139,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

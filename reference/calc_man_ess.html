@@ -72,106 +72,159 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_man_ess</span><span class="op">(</span>
-  <span class="va">A_SOM_LOI</span>,
-  <span class="va">B_LU_BRP</span>,
-  <span class="va">B_SOILTYPE_AGR</span>,
-  <span class="va">B_GWL_CLASS</span>,
-  <span class="va">D_SOM_BAL</span>,
-  <span class="va">D_CP_GRASS</span>,
-  <span class="va">D_CP_POTATO</span>,
-  <span class="va">D_CP_RUST</span>,
-  <span class="va">D_CP_RUSTDEEP</span>,
-  <span class="va">D_GA</span>,
-  <span class="va">M_COMPOST</span>,
-  <span class="va">M_GREEN</span>,
-  <span class="va">M_NONBARE</span>,
-  <span class="va">M_EARLYCROP</span>,
-  <span class="va">M_SLEEPHOSE</span>,
-  <span class="va">M_DRAIN</span>,
-  <span class="va">M_DITCH</span>,
-  <span class="va">M_UNDERSEED</span>,
-  <span class="va">M_LIME</span>,
-  <span class="va">M_NONINVTILL</span>,
-  <span class="va">M_SSPM</span>,
-  <span class="va">M_SOLIDMANURE</span>,
-  <span class="va">M_STRAWRESIDUE</span>,
-  <span class="va">M_MECHWEEDS</span>,
-  <span class="va">M_PESTICIDES_DST</span>,
-  <span class="va">type</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_man_ess</span><span class="op">(</span></span>
+<span>  <span class="va">A_SOM_LOI</span>,</span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">B_SOILTYPE_AGR</span>,</span>
+<span>  <span class="va">B_GWL_CLASS</span>,</span>
+<span>  <span class="va">D_SOM_BAL</span>,</span>
+<span>  <span class="va">D_CP_GRASS</span>,</span>
+<span>  <span class="va">D_CP_POTATO</span>,</span>
+<span>  <span class="va">D_CP_RUST</span>,</span>
+<span>  <span class="va">D_CP_RUSTDEEP</span>,</span>
+<span>  <span class="va">D_GA</span>,</span>
+<span>  <span class="va">M_COMPOST</span>,</span>
+<span>  <span class="va">M_GREEN</span>,</span>
+<span>  <span class="va">M_NONBARE</span>,</span>
+<span>  <span class="va">M_EARLYCROP</span>,</span>
+<span>  <span class="va">M_SLEEPHOSE</span>,</span>
+<span>  <span class="va">M_DRAIN</span>,</span>
+<span>  <span class="va">M_DITCH</span>,</span>
+<span>  <span class="va">M_UNDERSEED</span>,</span>
+<span>  <span class="va">M_LIME</span>,</span>
+<span>  <span class="va">M_NONINVTILL</span>,</span>
+<span>  <span class="va">M_SSPM</span>,</span>
+<span>  <span class="va">M_SOLIDMANURE</span>,</span>
+<span>  <span class="va">M_STRAWRESIDUE</span>,</span>
+<span>  <span class="va">M_MECHWEEDS</span>,</span>
+<span>  <span class="va">M_PESTICIDES_DST</span>,</span>
+<span>  <span class="va">type</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The percentage organic matter in the soil (%)</p></dd>
+
+
 <dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code from the BRP</p></dd>
+
+
 <dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The agricultural type of soil</p></dd>
+
+
 <dt>B_GWL_CLASS</dt>
 <dd><p>(character) The groundwater table class</p></dd>
+
+
 <dt>D_SOM_BAL</dt>
 <dd><p>(numeric) The organic matter balance of the soil (in kg EOS per ha)</p></dd>
+
+
 <dt>D_CP_GRASS</dt>
 <dd><p>(numeric) The fraction grassland in crop rotation</p></dd>
+
+
 <dt>D_CP_POTATO</dt>
 <dd><p>(numeric) The fraction potato crops in crop rotation</p></dd>
+
+
 <dt>D_CP_RUST</dt>
 <dd><p>(numeric) The fraction rustgewassen in crop rotation</p></dd>
+
+
 <dt>D_CP_RUSTDEEP</dt>
 <dd><p>(numeric) The fraction diepe rustgewassen in crop rotation (-)</p></dd>
+
+
 <dt>D_GA</dt>
 <dd><p>(numeric) The age of the grassland (years)</p></dd>
+
+
 <dt>M_COMPOST</dt>
 <dd><p>(numeric) The frequency that compost is applied (optional, every x years)</p></dd>
+
+
 <dt>M_GREEN</dt>
 <dd><p>(boolean) measure. are catch crops sown after main crop (option: yes or no)</p></dd>
+
+
 <dt>M_NONBARE</dt>
 <dd><p>(boolean) measure. is parcel for 80 percent of the year cultivated and 'green' (option: yes or no)</p></dd>
+
+
 <dt>M_EARLYCROP</dt>
 <dd><p>(boolean) measure. use of early crop varieties to avoid late harvesting (option: yes or no)</p></dd>
+
+
 <dt>M_SLEEPHOSE</dt>
 <dd><p>(boolean) measure. is sleepslangbemester used for slurry application (option: yes or no)</p></dd>
+
+
 <dt>M_DRAIN</dt>
 <dd><p>(boolean) measure. are under water drains installed in peaty soils (option: yes or no)</p></dd>
+
+
 <dt>M_DITCH</dt>
 <dd><p>(boolean) measure. are ditched maintained carefully and slib applied on the land (option: yes or no)</p></dd>
+
+
 <dt>M_UNDERSEED</dt>
 <dd><p>(boolean) measure. is maize grown with grass underseeded (option: yes or no)</p></dd>
+
+
 <dt>M_LIME</dt>
 <dd><p>(boolean) measure. Has field been limed in last three years (option: yes or no)</p></dd>
+
+
 <dt>M_NONINVTILL</dt>
 <dd><p>(boolean) measure. Non inversion tillage (option: yes or no)</p></dd>
+
+
 <dt>M_SSPM</dt>
 <dd><p>(boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)</p></dd>
+
+
 <dt>M_SOLIDMANURE</dt>
 <dd><p>(boolean) measure. Use of solid manure (option: yes or no)</p></dd>
+
+
 <dt>M_STRAWRESIDUE</dt>
 <dd><p>(boolean) measure. Application of straw residues (option: yes or no)</p></dd>
+
+
 <dt>M_MECHWEEDS</dt>
 <dd><p>(boolean) measure. Use of mechanical weed protection (option: yes or no)</p></dd>
+
+
 <dt>M_PESTICIDES_DST</dt>
 <dd><p>(boolean) measure. Use of DST for pesticides (option: yes or no)</p></dd>
+
+
 <dt>type</dt>
 <dd><p>(character) type of ecosystem service to evaluate the impact of soil management. Options: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY, and I_M_BIODIVERSITY</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The evaluated soil management score for multiple soil ecosystem services.
+    
+
+<p>The evaluated soil management score for multiple soil ecosystem services.
 This is done for the following ESS: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUALITY and I_M_BIODIVERSITY</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_man_ess</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fl">4.5</span>,B_LU_BRP <span class="op">=</span> <span class="fl">3732</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>,</span>
-<span class="r-in">B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span>,D_SOM_BAL <span class="op">=</span> <span class="fl">1115</span>,D_CP_GRASS <span class="op">=</span> <span class="fl">0.2</span>,D_CP_POTATO <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span class="r-in">D_CP_RUST <span class="op">=</span> <span class="fl">0.3</span>,D_CP_RUSTDEEP <span class="op">=</span> <span class="fl">0.2</span>,D_GA <span class="op">=</span> <span class="fl">0</span>,M_COMPOST <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">25</span>,<span class="fl">1</span><span class="op">)</span>,</span>
-<span class="r-in">M_GREEN <span class="op">=</span> <span class="cn">TRUE</span>, M_NONBARE <span class="op">=</span> <span class="cn">TRUE</span>, M_EARLYCROP <span class="op">=</span> <span class="cn">TRUE</span>, M_SLEEPHOSE <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span class="r-in">M_DRAIN <span class="op">=</span> <span class="cn">TRUE</span>, M_DITCH <span class="op">=</span> <span class="cn">TRUE</span>, M_UNDERSEED <span class="op">=</span> <span class="cn">TRUE</span>,M_LIME <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span class="r-in">M_NONINVTILL <span class="op">=</span> <span class="cn">TRUE</span>, M_SSPM <span class="op">=</span> <span class="cn">TRUE</span>, M_SOLIDMANURE <span class="op">=</span> <span class="cn">TRUE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">M_MECHWEEDS <span class="op">=</span> <span class="cn">TRUE</span>,M_PESTICIDES_DST <span class="op">=</span> <span class="cn">TRUE</span>,type<span class="op">=</span><span class="st">"I_M_SOILFERTILITY"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_man_ess</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fl">4.5</span>,B_LU_BRP <span class="op">=</span> <span class="fl">3732</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>,</span></span>
+<span class="r-in"><span>B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span>,D_SOM_BAL <span class="op">=</span> <span class="fl">1115</span>,D_CP_GRASS <span class="op">=</span> <span class="fl">0.2</span>,D_CP_POTATO <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
+<span class="r-in"><span>D_CP_RUST <span class="op">=</span> <span class="fl">0.3</span>,D_CP_RUSTDEEP <span class="op">=</span> <span class="fl">0.2</span>,D_GA <span class="op">=</span> <span class="fl">0</span>,M_COMPOST <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">25</span>,<span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>M_GREEN <span class="op">=</span> <span class="cn">TRUE</span>, M_NONBARE <span class="op">=</span> <span class="cn">TRUE</span>, M_EARLYCROP <span class="op">=</span> <span class="cn">TRUE</span>, M_SLEEPHOSE <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
+<span class="r-in"><span>M_DRAIN <span class="op">=</span> <span class="cn">TRUE</span>, M_DITCH <span class="op">=</span> <span class="cn">TRUE</span>, M_UNDERSEED <span class="op">=</span> <span class="cn">TRUE</span>,M_LIME <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
+<span class="r-in"><span>M_NONINVTILL <span class="op">=</span> <span class="cn">TRUE</span>, M_SSPM <span class="op">=</span> <span class="cn">TRUE</span>, M_SOLIDMANURE <span class="op">=</span> <span class="cn">TRUE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>M_MECHWEEDS <span class="op">=</span> <span class="cn">TRUE</span>,M_PESTICIDES_DST <span class="op">=</span> <span class="cn">TRUE</span>,type<span class="op">=</span><span class="st">"I_M_SOILFERTILITY"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 11</span>
 </code></pre></div>
     </div>
@@ -187,7 +240,7 @@ This is done for the following ESS: I_M_SOILFERTILITY, I_M_CLIMATE, I_M_WATERQUA
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

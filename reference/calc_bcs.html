@@ -76,58 +76,87 @@ More information on this test can be found <a href="https://mijnbodemconditie.nl
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_bcs</span><span class="op">(</span>
-  <span class="va">B_LU_BRP</span>,
-  <span class="va">B_SOILTYPE_AGR</span>,
-  <span class="va">A_SOM_LOI</span>,
-  <span class="va">D_PH_DELTA</span>,
-  A_EW_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_SC_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_GS_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_P_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_C_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_RT_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_RD_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_SS_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_CC_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  type <span class="op">=</span> <span class="st">"score"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_bcs</span><span class="op">(</span></span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">B_SOILTYPE_AGR</span>,</span>
+<span>  <span class="va">A_SOM_LOI</span>,</span>
+<span>  <span class="va">D_PH_DELTA</span>,</span>
+<span>  A_EW_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_SC_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_GS_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_P_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_C_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_RT_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_RD_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_SS_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_CC_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"score"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code from the BRP</p></dd>
+
+
 <dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The agricultural type of soil</p></dd>
+
+
 <dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The percentage organic matter in the soil (%)</p></dd>
+
+
 <dt>D_PH_DELTA</dt>
 <dd><p>(numeric) The pH difference with the optimal pH.</p></dd>
+
+
 <dt>A_EW_BCS</dt>
 <dd><p>(numeric) The presence of earth worms (score 0-1-2)</p></dd>
+
+
 <dt>A_SC_BCS</dt>
 <dd><p>(numeric) The presence of compaction of subsoil (score 0-1-2)</p></dd>
+
+
 <dt>A_GS_BCS</dt>
 <dd><p>(numeric) The presence of waterlogged conditions, gley spots (score 0-1-2)</p></dd>
+
+
 <dt>A_P_BCS</dt>
 <dd><p>(numeric) The presence / occurrence of water puddles on the land, ponding (score 0-1-2)</p></dd>
+
+
 <dt>A_C_BCS</dt>
 <dd><p>(numeric) The presence of visible cracks in the top layer (score 0-1-2)</p></dd>
+
+
 <dt>A_RT_BCS</dt>
 <dd><p>(numeric) The presence of visible tracks / rutting or trampling on the land (score 0-1-2)</p></dd>
+
+
 <dt>A_RD_BCS</dt>
 <dd><p>(integer) The rooting depth (score 0-1-2)</p></dd>
+
+
 <dt>A_SS_BCS</dt>
 <dd><p>(integer) The soil structure (score 0-1-2)</p></dd>
+
+
 <dt>A_CC_BCS</dt>
 <dd><p>(integer) The crop cover on the surface (score 0-1-2)</p></dd>
+
+
 <dt>type</dt>
 <dd><p>(character) Define output of the function. Options: score (integrated score) and indicator (score per indicator)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A visual soil assessment score derived from field observations driven by organic matter content and soil structure properties. Returns a numeric value.</p>
+    
+
+<p>A visual soil assessment score derived from field observations driven by organic matter content and soil structure properties. Returns a numeric value.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -136,11 +165,11 @@ More information on this test can be found <a href="https://mijnbodemconditie.nl
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_bcs</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span>, D_PH_DELTA <span class="op">=</span> <span class="fl">0.4</span>,</span>
-<span class="r-in">A_EW_BCS <span class="op">=</span> <span class="fl">1</span>, A_SC_BCS <span class="op">=</span> <span class="fl">1</span>, A_GS_BCS <span class="op">=</span> <span class="fl">1</span>, A_P_BCS <span class="op">=</span> <span class="fl">1</span>, A_C_BCS <span class="op">=</span> <span class="fl">1</span>, A_RT_BCS <span class="op">=</span><span class="fl">1</span>, A_RD_BCS <span class="op">=</span> <span class="fl">1</span>, </span>
-<span class="r-in">A_SS_BCS <span class="op">=</span> <span class="fl">1</span>, A_CC_BCS <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_bcs</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span>, D_PH_DELTA <span class="op">=</span> <span class="fl">0.4</span>,</span></span>
+<span class="r-in"><span>A_EW_BCS <span class="op">=</span> <span class="fl">1</span>, A_SC_BCS <span class="op">=</span> <span class="fl">1</span>, A_GS_BCS <span class="op">=</span> <span class="fl">1</span>, A_P_BCS <span class="op">=</span> <span class="fl">1</span>, A_C_BCS <span class="op">=</span> <span class="fl">1</span>, A_RT_BCS <span class="op">=</span><span class="fl">1</span>, A_RD_BCS <span class="op">=</span> <span class="fl">1</span>, </span></span>
+<span class="r-in"><span>A_SS_BCS <span class="op">=</span> <span class="fl">1</span>, A_CC_BCS <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 14</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -155,7 +184,7 @@ More information on this test can be found <a href="https://mijnbodemconditie.nl
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

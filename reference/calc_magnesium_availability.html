@@ -72,52 +72,71 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_magnesium_availability</span><span class="op">(</span>
-  <span class="va">B_LU_BRP</span>,
-  <span class="va">B_SOILTYPE_AGR</span>,
-  <span class="va">A_SOM_LOI</span>,
-  <span class="va">A_CLAY_MI</span>,
-  <span class="va">A_PH_CC</span>,
-  <span class="va">A_CEC_CO</span>,
-  <span class="va">A_K_CO_PO</span>,
-  <span class="va">A_MG_CC</span>,
-  <span class="va">A_K_CC</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_magnesium_availability</span><span class="op">(</span></span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">B_SOILTYPE_AGR</span>,</span>
+<span>  <span class="va">A_SOM_LOI</span>,</span>
+<span>  <span class="va">A_CLAY_MI</span>,</span>
+<span>  <span class="va">A_PH_CC</span>,</span>
+<span>  <span class="va">A_CEC_CO</span>,</span>
+<span>  <span class="va">A_K_CO_PO</span>,</span>
+<span>  <span class="va">A_MG_CC</span>,</span>
+<span>  <span class="va">A_K_CC</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code from the BRP</p></dd>
+
+
 <dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The agricultural type of soil</p></dd>
+
+
 <dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The percentage organic matter in the soil (%)</p></dd>
+
+
 <dt>A_CLAY_MI</dt>
 <dd><p>(numeric) The clay content of the soil (%)</p></dd>
+
+
 <dt>A_PH_CC</dt>
 <dd><p>(numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)</p></dd>
+
+
 <dt>A_CEC_CO</dt>
 <dd><p>(numeric) The cation exchange capacity of the soil (mmol+ per kg), analyzed via Cobalt-hexamine extraction</p></dd>
+
+
 <dt>A_K_CO_PO</dt>
 <dd><p>(numeric) The occupation of the CEC with potassium (%)</p></dd>
+
+
 <dt>A_MG_CC</dt>
 <dd><p>(numeric) The plant available content of Mg in the soil (mg  Mg per kg) extracted by 0.01M CaCl2</p></dd>
+
+
 <dt>A_K_CC</dt>
 <dd><p>(numeric) The plant available potassium, extracted with 0.01M CaCl2 (mg per kg),</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An index representing the availability of Magnesium in a soil. A numeric value.</p>
+    
+
+<p>An index representing the availability of Magnesium in a soil. A numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_magnesium_availability</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>,</span>
-<span class="r-in">A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span>,A_CLAY_MI <span class="op">=</span> <span class="fl">8.5</span>,A_PH_CC <span class="op">=</span> <span class="fl">5.4</span>, </span>
-<span class="r-in">A_CEC_CO <span class="op">=</span> <span class="fl">185</span>,A_K_CO_PO <span class="op">=</span> <span class="fl">4.5</span>,A_MG_CC <span class="op">=</span> <span class="fl">125</span>,A_K_CC <span class="op">=</span> <span class="fl">65</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_magnesium_availability</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>,</span></span>
+<span class="r-in"><span>A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span>,A_CLAY_MI <span class="op">=</span> <span class="fl">8.5</span>,A_PH_CC <span class="op">=</span> <span class="fl">5.4</span>, </span></span>
+<span class="r-in"><span>A_CEC_CO <span class="op">=</span> <span class="fl">185</span>,A_K_CO_PO <span class="op">=</span> <span class="fl">4.5</span>,A_MG_CC <span class="op">=</span> <span class="fl">125</span>,A_K_CC <span class="op">=</span> <span class="fl">65</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 125</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -132,7 +151,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

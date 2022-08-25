@@ -72,190 +72,307 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">obic_field</span><span class="op">(</span>
-  <span class="va">B_SOILTYPE_AGR</span>,
-  <span class="va">B_GWL_CLASS</span>,
-  <span class="va">B_SC_WENR</span>,
-  <span class="va">B_HELP_WENR</span>,
-  <span class="va">B_AER_CBS</span>,
-  <span class="va">B_GWL_GLG</span>,
-  <span class="va">B_GWL_GHG</span>,
-  <span class="va">B_GWL_ZCRIT</span>,
-  <span class="va">B_LU_BRP</span>,
-  <span class="va">A_SOM_LOI</span>,
-  <span class="va">A_SAND_MI</span>,
-  <span class="va">A_SILT_MI</span>,
-  <span class="va">A_CLAY_MI</span>,
-  <span class="va">A_PH_CC</span>,
-  <span class="va">A_N_RT</span>,
-  <span class="va">A_CN_FR</span>,
-  <span class="va">A_S_RT</span>,
-  <span class="va">A_N_PMN</span>,
-  <span class="va">A_P_AL</span>,
-  <span class="va">A_P_CC</span>,
-  <span class="va">A_P_WA</span>,
-  <span class="va">A_CEC_CO</span>,
-  <span class="va">A_CA_CO_PO</span>,
-  <span class="va">A_MG_CO_PO</span>,
-  <span class="va">A_K_CO_PO</span>,
-  <span class="va">A_K_CC</span>,
-  <span class="va">A_MG_CC</span>,
-  <span class="va">A_MN_CC</span>,
-  <span class="va">A_ZN_CC</span>,
-  <span class="va">A_CU_CC</span>,
-  A_C_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_CC_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_GS_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_P_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_RD_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_EW_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_SS_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_RT_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  A_SC_BCS <span class="op">=</span> <span class="cn">NA</span>,
-  B_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>,
-  B_FERT_NORM_FR <span class="op">=</span> <span class="fl">1</span>,
-  M_COMPOST <span class="op">=</span> <span class="cn">NA_real_</span>,
-  M_GREEN <span class="op">=</span> <span class="cn">NA</span>,
-  M_NONBARE <span class="op">=</span> <span class="cn">NA</span>,
-  M_EARLYCROP <span class="op">=</span> <span class="cn">NA</span>,
-  M_SLEEPHOSE <span class="op">=</span> <span class="cn">NA</span>,
-  M_DRAIN <span class="op">=</span> <span class="cn">NA</span>,
-  M_DITCH <span class="op">=</span> <span class="cn">NA</span>,
-  M_UNDERSEED <span class="op">=</span> <span class="cn">NA</span>,
-  M_LIME <span class="op">=</span> <span class="cn">NA</span>,
-  M_NONINVTILL <span class="op">=</span> <span class="cn">NA</span>,
-  M_SSPM <span class="op">=</span> <span class="cn">NA</span>,
-  M_SOLIDMANURE <span class="op">=</span> <span class="cn">NA</span>,
-  M_STRAWRESIDUE <span class="op">=</span> <span class="cn">NA</span>,
-  M_MECHWEEDS <span class="op">=</span> <span class="cn">NA</span>,
-  M_PESTICIDES_DST <span class="op">=</span> <span class="cn">NA</span>,
-  ID <span class="op">=</span> <span class="fl">1</span>,
-  output <span class="op">=</span> <span class="st">"all"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">obic_field</span><span class="op">(</span></span>
+<span>  <span class="va">B_SOILTYPE_AGR</span>,</span>
+<span>  <span class="va">B_GWL_CLASS</span>,</span>
+<span>  <span class="va">B_SC_WENR</span>,</span>
+<span>  <span class="va">B_HELP_WENR</span>,</span>
+<span>  <span class="va">B_AER_CBS</span>,</span>
+<span>  <span class="va">B_GWL_GLG</span>,</span>
+<span>  <span class="va">B_GWL_GHG</span>,</span>
+<span>  <span class="va">B_GWL_ZCRIT</span>,</span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">A_SOM_LOI</span>,</span>
+<span>  <span class="va">A_SAND_MI</span>,</span>
+<span>  <span class="va">A_SILT_MI</span>,</span>
+<span>  <span class="va">A_CLAY_MI</span>,</span>
+<span>  <span class="va">A_PH_CC</span>,</span>
+<span>  <span class="va">A_N_RT</span>,</span>
+<span>  <span class="va">A_CN_FR</span>,</span>
+<span>  <span class="va">A_S_RT</span>,</span>
+<span>  <span class="va">A_N_PMN</span>,</span>
+<span>  <span class="va">A_P_AL</span>,</span>
+<span>  <span class="va">A_P_CC</span>,</span>
+<span>  <span class="va">A_P_WA</span>,</span>
+<span>  <span class="va">A_CEC_CO</span>,</span>
+<span>  <span class="va">A_CA_CO_PO</span>,</span>
+<span>  <span class="va">A_MG_CO_PO</span>,</span>
+<span>  <span class="va">A_K_CO_PO</span>,</span>
+<span>  <span class="va">A_K_CC</span>,</span>
+<span>  <span class="va">A_MG_CC</span>,</span>
+<span>  <span class="va">A_MN_CC</span>,</span>
+<span>  <span class="va">A_ZN_CC</span>,</span>
+<span>  <span class="va">A_CU_CC</span>,</span>
+<span>  A_C_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_CC_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_GS_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_P_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_RD_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_EW_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_SS_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_RT_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  A_SC_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  B_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  B_FERT_NORM_FR <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  M_COMPOST <span class="op">=</span> <span class="cn">NA_real_</span>,</span>
+<span>  M_GREEN <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_NONBARE <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_EARLYCROP <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_SLEEPHOSE <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_DRAIN <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_DITCH <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_UNDERSEED <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_LIME <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_NONINVTILL <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_SSPM <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_SOLIDMANURE <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_STRAWRESIDUE <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_MECHWEEDS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_PESTICIDES_DST <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  ID <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  output <span class="op">=</span> <span class="st">"all"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The agricultural type of soil</p></dd>
+
+
 <dt>B_GWL_CLASS</dt>
 <dd><p>(character) The groundwater table class</p></dd>
+
+
 <dt>B_SC_WENR</dt>
 <dd><p>(character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006).</p></dd>
+
+
 <dt>B_HELP_WENR</dt>
 <dd><p>(character) The soil type abbreviation, derived from 1:50.000 soil map</p></dd>
+
+
 <dt>B_AER_CBS</dt>
 <dd><p>(character) The agricultural economic region in the Netherlands (CBS, 2016)</p></dd>
+
+
 <dt>B_GWL_GLG</dt>
 <dd><p>(numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level</p></dd>
+
+
 <dt>B_GWL_GHG</dt>
 <dd><p>(numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level</p></dd>
+
+
 <dt>B_GWL_ZCRIT</dt>
 <dd><p>(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)</p></dd>
+
+
 <dt>B_LU_BRP</dt>
 <dd><p>(numeric) a series with crop codes given the crop rotation plan (source: the BRP)</p></dd>
+
+
 <dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The percentage organic matter in the soil (%)</p></dd>
+
+
 <dt>A_SAND_MI</dt>
 <dd><p>(numeric) The sand content of the soil (%)</p></dd>
+
+
 <dt>A_SILT_MI</dt>
 <dd><p>(numeric) The silt content of the soil (%)</p></dd>
+
+
 <dt>A_CLAY_MI</dt>
 <dd><p>(numeric) The clay content of the soil (%)</p></dd>
+
+
 <dt>A_PH_CC</dt>
 <dd><p>(numeric) The acidity of the soil, measured in 0.01M CaCl2 (-)</p></dd>
+
+
 <dt>A_N_RT</dt>
 <dd><p>(numeric) The organic nitrogen content of the soil in mg N / kg</p></dd>
+
+
 <dt>A_CN_FR</dt>
 <dd><p>(numeric) The carbon to nitrogen ratio (-)</p></dd>
+
+
 <dt>A_S_RT</dt>
 <dd><p>(numeric) The total Sulfur content of the soil (in mg S per kg)</p></dd>
+
+
 <dt>A_N_PMN</dt>
 <dd><p>(numeric) The potentially mineralizable N pool (mg N / kg soil)</p></dd>
+
+
 <dt>A_P_AL</dt>
 <dd><p>(numeric) The P-AL content of the soil</p></dd>
+
+
 <dt>A_P_CC</dt>
 <dd><p>(numeric) The plant available P content, extracted with 0.01M CaCl2 (mg / kg)</p></dd>
+
+
 <dt>A_P_WA</dt>
 <dd><p>(numeric) The P-content of the soil extracted with water (mg P2O5 / 100 ml soil)</p></dd>
+
+
 <dt>A_CEC_CO</dt>
 <dd><p>(numeric) The cation exchange capacity of the soil (mmol+ / kg), analyzed via Cobalt-hexamine extraction</p></dd>
+
+
 <dt>A_CA_CO_PO</dt>
 <dd><p>(numeric) The The occupation of the CEC with Ca (%)</p></dd>
+
+
 <dt>A_MG_CO_PO</dt>
 <dd><p>(numeric) The The occupation of the CEC with Mg (%)</p></dd>
+
+
 <dt>A_K_CO_PO</dt>
 <dd><p>(numeric) The occupation of the CEC with K (%)</p></dd>
+
+
 <dt>A_K_CC</dt>
 <dd><p>(numeric) The plant available K content, extracted with 0.01M CaCl2 (mg / kg)</p></dd>
+
+
 <dt>A_MG_CC</dt>
 <dd><p>(numeric) The plant available Mg content, extracted with 0.01M CaCl2 (ug / kg)</p></dd>
+
+
 <dt>A_MN_CC</dt>
 <dd><p>(numeric) The plant available Mn content, extracted with 0.01M CaCl2 (ug / kg)</p></dd>
+
+
 <dt>A_ZN_CC</dt>
 <dd><p>(numeric) The plant available Zn content, extracted with 0.01M CaCl2 (ug / kg)</p></dd>
+
+
 <dt>A_CU_CC</dt>
 <dd><p>(numeric) The plant available Cu content, extracted with 0.01M CaCl2 (ug / kg)</p></dd>
+
+
 <dt>A_C_BCS</dt>
 <dd><p>(numeric) The presence of visible cracks in the top layer (optional, score 0-1-2)</p></dd>
+
+
 <dt>A_CC_BCS</dt>
 <dd><p>(integer) The crop cover on the surface (optional, score 0-1-2)</p></dd>
+
+
 <dt>A_GS_BCS</dt>
 <dd><p>(numeric) The presence of waterlogged conditions, gley spots (optional, score 0-1-2)</p></dd>
+
+
 <dt>A_P_BCS</dt>
 <dd><p>(numeric) The presence / occurrence of water puddles on the land, ponding (optional, score 0-1-2)</p></dd>
+
+
 <dt>A_RD_BCS</dt>
 <dd><p>(integer) The rooting depth (optional, score 0-1-2)</p></dd>
+
+
 <dt>A_EW_BCS</dt>
 <dd><p>(numeric) The presence of earth worms (optional, score 0-1-2)</p></dd>
+
+
 <dt>A_SS_BCS</dt>
 <dd><p>(integer) The soil structure (optional, score 0-1-2)</p></dd>
+
+
 <dt>A_RT_BCS</dt>
 <dd><p>(numeric) The presence of visible tracks / rutting or trampling on the land (optional, score 0-1-2)</p></dd>
+
+
 <dt>A_SC_BCS</dt>
 <dd><p>(numeric) The presence of compaction of subsoil (optional, score 0-1-2)</p></dd>
+
+
 <dt>B_DRAIN</dt>
 <dd><p>(boolean) Are drains installed to drain the field (options: yes or no)</p></dd>
+
+
 <dt>B_FERT_NORM_FR</dt>
 <dd><p>(numeric) The fraction of the application norm utilized</p></dd>
+
+
 <dt>M_COMPOST</dt>
 <dd><p>(numeric) The frequency that compost is applied (optional, every x years)</p></dd>
+
+
 <dt>M_GREEN</dt>
 <dd><p>(boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)</p></dd>
+
+
 <dt>M_NONBARE</dt>
 <dd><p>(boolean) A soil measure. Is parcel for 80 percent of the year cultivated and 'green' (optional, option: yes or no)</p></dd>
+
+
 <dt>M_EARLYCROP</dt>
 <dd><p>(boolean) A soil measure. Use of early crop varieties to avoid late harvesting (optional, option: yes or no)</p></dd>
+
+
 <dt>M_SLEEPHOSE</dt>
 <dd><p>(boolean) A soil measure. Is sleephose used for slurry application (optional, option: yes or no)</p></dd>
+
+
 <dt>M_DRAIN</dt>
 <dd><p>(boolean) A soil measure. Are under water drains installed in peaty soils (optional, option: yes or no)</p></dd>
+
+
 <dt>M_DITCH</dt>
 <dd><p>(boolean) A soil measure. Are ditched maintained carefully and slib applied on the land (optional, option: yes or no)</p></dd>
+
+
 <dt>M_UNDERSEED</dt>
 <dd><p>(boolean) A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no)</p></dd>
+
+
 <dt>M_LIME</dt>
 <dd><p>(boolean) measure. Has field been limed in last three years (option: yes or no)</p></dd>
+
+
 <dt>M_NONINVTILL</dt>
 <dd><p>(boolean) measure. Non inversion tillage (option: yes or no)</p></dd>
+
+
 <dt>M_SSPM</dt>
 <dd><p>(boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)</p></dd>
+
+
 <dt>M_SOLIDMANURE</dt>
 <dd><p>(boolean) measure. Use of solid manure (option: yes or no)</p></dd>
+
+
 <dt>M_STRAWRESIDUE</dt>
 <dd><p>(boolean) measure. Application of straw residues (option: yes or no)</p></dd>
+
+
 <dt>M_MECHWEEDS</dt>
 <dd><p>(boolean) measure. Use of mechanical weed protection (option: yes or no)</p></dd>
+
+
 <dt>M_PESTICIDES_DST</dt>
 <dd><p>(boolean) measure. Use of DST for pesticides (option: yes or no)</p></dd>
+
+
 <dt>ID</dt>
 <dd><p>(character) A field id</p></dd>
+
+
 <dt>output</dt>
 <dd><p>(character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The output of the Open Bodem Index Calculator for a specific agricultural field. 
+    
+
+<p>The output of the Open Bodem Index Calculator for a specific agricultural field. 
 Depending on the output type, different output objects can be returned.
 These include the estimated OBI scores (both total and aggregated subscores), the value of the underling indicators as well the possible recommendations to improve the soil quality.
 The output is always a data.table.</p>
@@ -267,22 +384,22 @@ The output is always a data.table.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">obic_field</span><span class="op">(</span> B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'rivierklei'</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">"II"</span>,B_GWL_GLG <span class="op">=</span> <span class="fl">75</span>,B_GWL_GHG <span class="op">=</span> <span class="fl">10</span>,</span>
-<span class="r-in">B_GWL_ZCRIT <span class="op">=</span> <span class="fl">50</span>,B_SC_WENR <span class="op">=</span> <span class="st">'2'</span>,B_HELP_WENR <span class="op">=</span> <span class="st">"MOb72"</span>,B_AER_CBS <span class="op">=</span> <span class="st">'LG01'</span>,</span>
-<span class="r-in">B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="fl">1010</span>, <span class="fl">1010</span>,<span class="fl">263</span>,<span class="fl">263</span>, <span class="fl">263</span>,<span class="fl">265</span>,<span class="fl">265</span>,<span class="fl">265</span><span class="op">)</span>,A_SOM_LOI <span class="op">=</span> <span class="fl">3.91</span>,A_SAND_MI <span class="op">=</span> <span class="fl">66.3</span>,</span>
-<span class="r-in">A_SILT_MI <span class="op">=</span> <span class="fl">22.8</span>,A_CLAY_MI <span class="op">=</span> <span class="fl">7.8</span>,A_PH_CC <span class="op">=</span> <span class="fl">5.4</span>,A_N_RT <span class="op">=</span> <span class="fl">1528.33</span>,A_CN_FR <span class="op">=</span> <span class="fl">13.02</span>,</span>
-<span class="r-in">A_S_RT <span class="op">=</span> <span class="fl">321.26</span>,A_N_PMN <span class="op">=</span> <span class="fl">63.3</span>,A_P_AL <span class="op">=</span> <span class="fl">50.2</span>,A_P_CC <span class="op">=</span> <span class="fl">2.9</span>,A_P_WA <span class="op">=</span> <span class="fl">50.5</span>,</span>
-<span class="r-in">A_CEC_CO <span class="op">=</span> <span class="fl">56.9</span>,A_CA_CO_PO <span class="op">=</span> <span class="fl">66.87</span>,A_MG_CO_PO <span class="op">=</span> <span class="fl">13.97</span>,A_K_CO_PO <span class="op">=</span> <span class="fl">3.06</span>,</span>
-<span class="r-in">A_K_CC <span class="op">=</span> <span class="fl">58.6</span>,A_MG_CC <span class="op">=</span> <span class="fl">77.53</span>,A_MN_CC <span class="op">=</span> <span class="fl">7586.61</span>,A_ZN_CC <span class="op">=</span> <span class="fl">726.2</span>,A_CU_CC <span class="op">=</span> <span class="fl">68.8</span>,</span>
-<span class="r-in">A_C_BCS <span class="op">=</span> <span class="fl">1</span>,A_CC_BCS <span class="op">=</span> <span class="fl">1</span>,A_GS_BCS <span class="op">=</span> <span class="fl">1</span>,A_P_BCS <span class="op">=</span> <span class="fl">1</span>,A_RD_BCS <span class="op">=</span> <span class="fl">1</span>,A_EW_BCS <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">A_SS_BCS <span class="op">=</span> <span class="fl">1</span>,A_RT_BCS <span class="op">=</span> <span class="fl">1</span>,A_SC_BCS <span class="op">=</span> <span class="fl">1</span>,M_COMPOST <span class="op">=</span> <span class="fl">0</span>,M_GREEN <span class="op">=</span> <span class="cn">FALSE</span>,M_NONBARE <span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span class="r-in">M_EARLYCROP <span class="op">=</span> <span class="cn">FALSE</span>,M_SLEEPHOSE <span class="op">=</span> <span class="cn">FALSE</span>,M_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>,M_DITCH <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">M_UNDERSEED <span class="op">=</span> <span class="cn">FALSE</span>,M_LIME <span class="op">=</span> <span class="cn">FALSE</span>,M_MECHWEEDS <span class="op">=</span> <span class="cn">FALSE</span>,M_NONINVTILL <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">M_PESTICIDES_DST <span class="op">=</span> <span class="cn">FALSE</span>,M_SOLIDMANURE <span class="op">=</span> <span class="cn">FALSE</span>,M_SSPM <span class="op">=</span> <span class="cn">FALSE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"> </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">obic_field</span><span class="op">(</span> B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'rivierklei'</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">"II"</span>,B_GWL_GLG <span class="op">=</span> <span class="fl">75</span>,B_GWL_GHG <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>B_GWL_ZCRIT <span class="op">=</span> <span class="fl">50</span>,B_SC_WENR <span class="op">=</span> <span class="st">'2'</span>,B_HELP_WENR <span class="op">=</span> <span class="st">"MOb72"</span>,B_AER_CBS <span class="op">=</span> <span class="st">'LG01'</span>,</span></span>
+<span class="r-in"><span>B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="fl">1010</span>, <span class="fl">1010</span>,<span class="fl">263</span>,<span class="fl">263</span>, <span class="fl">263</span>,<span class="fl">265</span>,<span class="fl">265</span>,<span class="fl">265</span><span class="op">)</span>,A_SOM_LOI <span class="op">=</span> <span class="fl">3.91</span>,A_SAND_MI <span class="op">=</span> <span class="fl">66.3</span>,</span></span>
+<span class="r-in"><span>A_SILT_MI <span class="op">=</span> <span class="fl">22.8</span>,A_CLAY_MI <span class="op">=</span> <span class="fl">7.8</span>,A_PH_CC <span class="op">=</span> <span class="fl">5.4</span>,A_N_RT <span class="op">=</span> <span class="fl">1528.33</span>,A_CN_FR <span class="op">=</span> <span class="fl">13.02</span>,</span></span>
+<span class="r-in"><span>A_S_RT <span class="op">=</span> <span class="fl">321.26</span>,A_N_PMN <span class="op">=</span> <span class="fl">63.3</span>,A_P_AL <span class="op">=</span> <span class="fl">50.2</span>,A_P_CC <span class="op">=</span> <span class="fl">2.9</span>,A_P_WA <span class="op">=</span> <span class="fl">50.5</span>,</span></span>
+<span class="r-in"><span>A_CEC_CO <span class="op">=</span> <span class="fl">56.9</span>,A_CA_CO_PO <span class="op">=</span> <span class="fl">66.87</span>,A_MG_CO_PO <span class="op">=</span> <span class="fl">13.97</span>,A_K_CO_PO <span class="op">=</span> <span class="fl">3.06</span>,</span></span>
+<span class="r-in"><span>A_K_CC <span class="op">=</span> <span class="fl">58.6</span>,A_MG_CC <span class="op">=</span> <span class="fl">77.53</span>,A_MN_CC <span class="op">=</span> <span class="fl">7586.61</span>,A_ZN_CC <span class="op">=</span> <span class="fl">726.2</span>,A_CU_CC <span class="op">=</span> <span class="fl">68.8</span>,</span></span>
+<span class="r-in"><span>A_C_BCS <span class="op">=</span> <span class="fl">1</span>,A_CC_BCS <span class="op">=</span> <span class="fl">1</span>,A_GS_BCS <span class="op">=</span> <span class="fl">1</span>,A_P_BCS <span class="op">=</span> <span class="fl">1</span>,A_RD_BCS <span class="op">=</span> <span class="fl">1</span>,A_EW_BCS <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>A_SS_BCS <span class="op">=</span> <span class="fl">1</span>,A_RT_BCS <span class="op">=</span> <span class="fl">1</span>,A_SC_BCS <span class="op">=</span> <span class="fl">1</span>,M_COMPOST <span class="op">=</span> <span class="fl">0</span>,M_GREEN <span class="op">=</span> <span class="cn">FALSE</span>,M_NONBARE <span class="op">=</span><span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>M_EARLYCROP <span class="op">=</span> <span class="cn">FALSE</span>,M_SLEEPHOSE <span class="op">=</span> <span class="cn">FALSE</span>,M_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>,M_DITCH <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>M_UNDERSEED <span class="op">=</span> <span class="cn">FALSE</span>,M_LIME <span class="op">=</span> <span class="cn">FALSE</span>,M_MECHWEEDS <span class="op">=</span> <span class="cn">FALSE</span>,M_NONINVTILL <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>M_PESTICIDES_DST <span class="op">=</span> <span class="cn">FALSE</span>,M_SOLIDMANURE <span class="op">=</span> <span class="cn">FALSE</span>,M_SSPM <span class="op">=</span> <span class="cn">FALSE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span> </span></span>
 </code></pre></div>
     </div>
   </div>
@@ -297,7 +414,7 @@ The output is always a data.table.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

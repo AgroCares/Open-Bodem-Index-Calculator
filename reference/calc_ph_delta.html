@@ -72,49 +72,72 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_ph_delta</span><span class="op">(</span>
-  <span class="va">B_LU_BRP</span>,
-  <span class="va">B_SOILTYPE_AGR</span>,
-  <span class="va">A_SOM_LOI</span>,
-  <span class="va">A_CLAY_MI</span>,
-  <span class="va">A_PH_CC</span>,
-  <span class="va">D_CP_STARCH</span>,
-  <span class="va">D_CP_POTATO</span>,
-  <span class="va">D_CP_SUGARBEET</span>,
-  <span class="va">D_CP_GRASS</span>,
-  <span class="va">D_CP_MAIS</span>,
-  <span class="va">D_CP_OTHER</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_ph_delta</span><span class="op">(</span></span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">B_SOILTYPE_AGR</span>,</span>
+<span>  <span class="va">A_SOM_LOI</span>,</span>
+<span>  <span class="va">A_CLAY_MI</span>,</span>
+<span>  <span class="va">A_PH_CC</span>,</span>
+<span>  <span class="va">D_CP_STARCH</span>,</span>
+<span>  <span class="va">D_CP_POTATO</span>,</span>
+<span>  <span class="va">D_CP_SUGARBEET</span>,</span>
+<span>  <span class="va">D_CP_GRASS</span>,</span>
+<span>  <span class="va">D_CP_MAIS</span>,</span>
+<span>  <span class="va">D_CP_OTHER</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code from the BRP</p></dd>
+
+
 <dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The agricultural type of soil</p></dd>
+
+
 <dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The organic matter content of soil in percentage</p></dd>
+
+
 <dt>A_CLAY_MI</dt>
 <dd><p>(numeric) The percentage A_CLAY_MI present in the soil</p></dd>
+
+
 <dt>A_PH_CC</dt>
 <dd><p>(numeric) The pH-CaCl2 of the soil</p></dd>
+
+
 <dt>D_CP_STARCH</dt>
 <dd><p>(numeric) The fraction of starch potatoes in the crop plan</p></dd>
+
+
 <dt>D_CP_POTATO</dt>
 <dd><p>(numeric) The fraction of potatoes (excluding starch potatoes) in the crop plan</p></dd>
+
+
 <dt>D_CP_SUGARBEET</dt>
 <dd><p>(numeric) The fraction of sugar beets in the crop plan</p></dd>
+
+
 <dt>D_CP_GRASS</dt>
 <dd><p>(numeric) The fraction of grass in the crop plan</p></dd>
+
+
 <dt>D_CP_MAIS</dt>
 <dd><p>(numeric) The fraction of mais in the crop plan</p></dd>
+
+
 <dt>D_CP_OTHER</dt>
 <dd><p>(numeric) The fraction of other crops in the crop plan</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The difference between the actual and desired optimum soil pH. A numeric value.</p>
+    
+
+<p>The difference between the actual and desired optimum soil pH. A numeric value.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -123,13 +146,13 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_ph_delta</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">"rivierklei"</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">5</span>,</span>
-<span class="r-in">A_CLAY_MI <span class="op">=</span> <span class="fl">20</span>,A_PH_CC <span class="op">=</span> <span class="fl">6</span>, D_CP_STARCH <span class="op">=</span> <span class="fl">0</span>,D_CP_POTATO <span class="op">=</span> <span class="fl">0.3</span>,D_CP_SUGARBEET <span class="op">=</span> <span class="fl">0.2</span>,</span>
-<span class="r-in">D_CP_GRASS <span class="op">=</span> <span class="fl">0</span>,D_CP_MAIS <span class="op">=</span> <span class="fl">0.2</span>,D_CP_OTHER <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_ph_delta</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">"rivierklei"</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>A_CLAY_MI <span class="op">=</span> <span class="fl">20</span>,A_PH_CC <span class="op">=</span> <span class="fl">6</span>, D_CP_STARCH <span class="op">=</span> <span class="fl">0</span>,D_CP_POTATO <span class="op">=</span> <span class="fl">0.3</span>,D_CP_SUGARBEET <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>D_CP_GRASS <span class="op">=</span> <span class="fl">0</span>,D_CP_MAIS <span class="op">=</span> <span class="fl">0.2</span>,D_CP_OTHER <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3</span>
-<span class="r-in"><span class="fu">calc_ph_delta</span><span class="op">(</span><span class="fl">265</span>, <span class="st">"rivierklei"</span>, <span class="fl">5</span>,<span class="fl">20</span>,<span class="fl">6</span>, <span class="fl">0</span>,<span class="fl">0.3</span>,<span class="fl">0.2</span>,<span class="fl">0</span>,<span class="fl">0.2</span>,<span class="fl">0.3</span><span class="op">)</span> </span>
+<span class="r-in"><span><span class="fu">calc_ph_delta</span><span class="op">(</span><span class="fl">265</span>, <span class="st">"rivierklei"</span>, <span class="fl">5</span>,<span class="fl">20</span>,<span class="fl">6</span>, <span class="fl">0</span>,<span class="fl">0.3</span>,<span class="fl">0.2</span>,<span class="fl">0</span>,<span class="fl">0.2</span>,<span class="fl">0.3</span><span class="op">)</span> </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -144,7 +167,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

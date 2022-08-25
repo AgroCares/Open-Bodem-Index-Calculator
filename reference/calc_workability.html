@@ -80,40 +80,57 @@ Based on Huinink (2018)</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_workability</span><span class="op">(</span>
-  <span class="va">A_CLAY_MI</span>,
-  <span class="va">A_SILT_MI</span>,
-  <span class="va">B_LU_BRP</span>,
-  <span class="va">B_SOILTYPE_AGR</span>,
-  <span class="va">B_GWL_GLG</span>,
-  <span class="va">B_GWL_GHG</span>,
-  <span class="va">B_GWL_ZCRIT</span>,
-  calcyieldloss <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_workability</span><span class="op">(</span></span>
+<span>  <span class="va">A_CLAY_MI</span>,</span>
+<span>  <span class="va">A_SILT_MI</span>,</span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">B_SOILTYPE_AGR</span>,</span>
+<span>  <span class="va">B_GWL_GLG</span>,</span>
+<span>  <span class="va">B_GWL_GHG</span>,</span>
+<span>  <span class="va">B_GWL_ZCRIT</span>,</span>
+<span>  calcyieldloss <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>A_CLAY_MI</dt>
 <dd><p>(numeric) The clay content of the soil (%)</p></dd>
+
+
 <dt>A_SILT_MI</dt>
 <dd><p>(numeric) The silt content of the soil (%)</p></dd>
+
+
 <dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code from the BRP</p></dd>
+
+
 <dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The agricultural type of soil</p></dd>
+
+
 <dt>B_GWL_GLG</dt>
 <dd><p>(numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level</p></dd>
+
+
 <dt>B_GWL_GHG</dt>
 <dd><p>(numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level</p></dd>
+
+
 <dt>B_GWL_ZCRIT</dt>
 <dd><p>(numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)</p></dd>
+
+
 <dt>calcyieldloss</dt>
 <dd><p>(boolean) whether the function includes yield loss, options: TRUE or FALSE (default).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The workability of a soil, expressed as a numeric value representing the relative season length that the soil can be managed by agricultural activities.</p>
+    
+
+<p>The workability of a soil, expressed as a numeric value representing the relative season length that the soil can be managed by agricultural activities.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -122,13 +139,13 @@ Based on Huinink (2018)</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_workability</span><span class="op">(</span>A_CLAY_MI <span class="op">=</span> <span class="fl">18</span>,A_SILT_MI <span class="op">=</span> <span class="fl">25</span>,B_LU_BRP <span class="op">=</span> <span class="fl">265</span>,</span>
-<span class="r-in">B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>,B_GWL_GLG <span class="op">=</span> <span class="fl">145</span>,B_GWL_GHG <span class="op">=</span> <span class="fl">85</span>,B_GWL_ZCRIT <span class="op">=</span> <span class="fl">400</span>,</span>
-<span class="r-in">calcyieldloss <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_workability</span><span class="op">(</span>A_CLAY_MI <span class="op">=</span> <span class="fl">18</span>,A_SILT_MI <span class="op">=</span> <span class="fl">25</span>,B_LU_BRP <span class="op">=</span> <span class="fl">265</span>,</span></span>
+<span class="r-in"><span>B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>,B_GWL_GLG <span class="op">=</span> <span class="fl">145</span>,B_GWL_GHG <span class="op">=</span> <span class="fl">85</span>,B_GWL_ZCRIT <span class="op">=</span> <span class="fl">400</span>,</span></span>
+<span class="r-in"><span>calcyieldloss <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-in"><span class="fu">calc_workability</span><span class="op">(</span><span class="fl">18</span>,<span class="fl">25</span>,<span class="fl">265</span>,<span class="st">'dekzand'</span>,<span class="fl">145</span>,<span class="fl">85</span>,<span class="fl">400</span>,<span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_workability</span><span class="op">(</span><span class="fl">18</span>,<span class="fl">25</span>,<span class="fl">265</span>,<span class="st">'dekzand'</span>,<span class="fl">145</span>,<span class="fl">85</span>,<span class="fl">400</span>,<span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -143,7 +160,7 @@ Based on Huinink (2018)</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

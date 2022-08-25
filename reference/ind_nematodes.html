@@ -74,193 +74,306 @@ If input values are not given, the number is assumed to be zero.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ind_nematodes</span><span class="op">(</span>
-  B_LU_BRP <span class="op">=</span> <span class="va">B_LU_BRP</span>,
-  A_RLN_PR_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_CREN <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_NEG <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_PEN <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_PRA <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_THO <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_FLA <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_FAL <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_PIN <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_PSE <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_VUL <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_DUN <span class="op">=</span> <span class="fl">0</span>,
-  A_RLN_PR_ZEA <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_HAP <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_CHIFAL <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_CHI <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_NAA <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_FAL <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_MIN <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_INC <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_JAV <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_ART <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_ARE <span class="op">=</span> <span class="fl">0</span>,
-  A_RKN_ME_ARD <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_TR_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_TR_SIM <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_TR_PRI <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_TR_VIR <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_TR_SPA <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_TR_CYL <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_TR_HOO <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_PA_TER <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_PA_PAC <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_PA_ANE <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_PA_NAN <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_TY_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_RO_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_XI_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_LO_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_HEM_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_DSN_HEL_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_SN_DI_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_SN_DI_DIP <span class="op">=</span> <span class="fl">0</span>,
-  A_SN_DI_DES <span class="op">=</span> <span class="fl">0</span>,
-  A_OPN_PA_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_OPN_PA_BUK <span class="op">=</span> <span class="fl">0</span>,
-  A_OPN_CY_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_OPN_AP_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_OPN_AP_FRA <span class="op">=</span> <span class="fl">0</span>,
-  A_OPN_AP_RIT <span class="op">=</span> <span class="fl">0</span>,
-  A_OPN_AP_SUB <span class="op">=</span> <span class="fl">0</span>,
-  A_OPN_CR_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_OPN_SU_TOT <span class="op">=</span> <span class="fl">0</span>,
-  A_NPN_SA_TOT <span class="op">=</span> <span class="fl">0</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ind_nematodes</span><span class="op">(</span></span>
+<span>  B_LU_BRP <span class="op">=</span> <span class="va">B_LU_BRP</span>,</span>
+<span>  A_RLN_PR_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_CREN <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_NEG <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_PEN <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_PRA <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_THO <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_FLA <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_FAL <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_PIN <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_PSE <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_VUL <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_DUN <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RLN_PR_ZEA <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_HAP <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_CHIFAL <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_CHI <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_NAA <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_FAL <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_MIN <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_INC <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_JAV <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_ART <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_ARE <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_RKN_ME_ARD <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_TR_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_TR_SIM <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_TR_PRI <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_TR_VIR <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_TR_SPA <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_TR_CYL <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_TR_HOO <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_PA_TER <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_PA_PAC <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_PA_ANE <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_PA_NAN <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_TY_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_RO_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_XI_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_LO_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_HEM_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_DSN_HEL_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_SN_DI_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_SN_DI_DIP <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_SN_DI_DES <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_OPN_PA_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_OPN_PA_BUK <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_OPN_CY_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_OPN_AP_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_OPN_AP_FRA <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_OPN_AP_RIT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_OPN_AP_SUB <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_OPN_CR_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_OPN_SU_TOT <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A_NPN_SA_TOT <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code (gewascode) from the BRP</p></dd>
+
+
 <dt>A_RLN_PR_TOT</dt>
 <dd><p>(numeric) Number of pratylenchus spp. (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_CREN</dt>
 <dd><p>(numeric) Number of pratylenchus crenatus (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_NEG</dt>
 <dd><p>(numeric) Number of pratylenchus neglectus (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_PEN</dt>
 <dd><p>(numeric) Number of pratylenchus penetrans (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_PRA</dt>
 <dd><p>(numeric) Number of pratylenchus pratensis (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_THO</dt>
 <dd><p>(numeric) Number of pratylenchus thornei (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_FLA</dt>
 <dd><p>(numeric) Number of pratylenchus flakkensis (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_FAL</dt>
 <dd><p>(numeric) Number of pratylenchus fallax (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_PIN</dt>
 <dd><p>(numeric) Number of pratylenchus pinguicaudatus (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_PSE</dt>
 <dd><p>(numeric) Number of pratylenchus pseudopratensis (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_VUL</dt>
 <dd><p>(numeric) Number of pratylenchus vulnus (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_DUN</dt>
 <dd><p>(numeric) Number of pratylenchus dunensis (n / 100g)</p></dd>
+
+
 <dt>A_RLN_PR_ZEA</dt>
 <dd><p>(numeric) Number of pratylenchus zeae (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_TOT</dt>
 <dd><p>(numeric) Number of meloidogyne spp. (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_HAP</dt>
 <dd><p>(numeric) Number of meloidogyne hapla (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_CHIFAL</dt>
 <dd><p>(numeric) Number of meloidogyne chitwoodi/fallax (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_CHI</dt>
 <dd><p>(numeric) Number of meloidogyne chitwoodi (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_NAA</dt>
 <dd><p>(numeric) Number of meloidogyne naasi (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_FAL</dt>
 <dd><p>(numeric) Number of meloidogyne fallax (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_MIN</dt>
 <dd><p>(numeric) Number of meloidogyne minor (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_INC</dt>
 <dd><p>(numeric) Number of meloidogyne incognita (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_JAV</dt>
 <dd><p>(numeric) Number of meloidogyne javanica (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_ART</dt>
 <dd><p>(numeric) Number of meloidogyne artiellia (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_ARE</dt>
 <dd><p>(numeric) Number of meloidogyne arenaria (n / 100g)</p></dd>
+
+
 <dt>A_RKN_ME_ARD</dt>
 <dd><p>(numeric) Number of meloidogyne ardenensis (n / 100g)</p></dd>
+
+
 <dt>A_DSN_TR_TOT</dt>
 <dd><p>(numeric) Number of trichodoridae spp. (n / 100g)</p></dd>
+
+
 <dt>A_DSN_TR_SIM</dt>
 <dd><p>(numeric) Number of trichodorus similis (n / 100g)</p></dd>
+
+
 <dt>A_DSN_TR_PRI</dt>
 <dd><p>(numeric) Number of trichodorus primitivus (n / 100g)</p></dd>
+
+
 <dt>A_DSN_TR_VIR</dt>
 <dd><p>(numeric) Number of trichodorus viruliferus (n / 100g)</p></dd>
+
+
 <dt>A_DSN_TR_SPA</dt>
 <dd><p>(numeric) Number of trichodorus sparsus (n / 100g)</p></dd>
+
+
 <dt>A_DSN_TR_CYL</dt>
 <dd><p>(numeric) Number of trichodorus cylindricus (n / 100g)</p></dd>
+
+
 <dt>A_DSN_TR_HOO</dt>
 <dd><p>(numeric) Number of trichodorus hooperi (n / 100g)</p></dd>
+
+
 <dt>A_DSN_PA_TER</dt>
 <dd><p>(numeric) Number of paratrichodorus teres (n / 100g)</p></dd>
+
+
 <dt>A_DSN_PA_PAC</dt>
 <dd><p>(numeric) Number of paratrichodorus pachydermus (n / 100g)</p></dd>
+
+
 <dt>A_DSN_PA_ANE</dt>
 <dd><p>(numeric) Number of paratrichodorus anemones (n / 100g)</p></dd>
+
+
 <dt>A_DSN_PA_NAN</dt>
 <dd><p>(numeric) Number of paratrichodorus nanus (n / 100g)</p></dd>
+
+
 <dt>A_DSN_TY_TOT</dt>
 <dd><p>(numeric) Number of tylenchorhynchus spp. (n / 100g)</p></dd>
+
+
 <dt>A_DSN_RO_TOT</dt>
 <dd><p>(numeric) Number of rotylenchus spp. (n / 100g)</p></dd>
+
+
 <dt>A_DSN_XI_TOT</dt>
 <dd><p>(numeric) Number of xiphinema spp. (n / 100g)</p></dd>
+
+
 <dt>A_DSN_LO_TOT</dt>
 <dd><p>(numeric) Number of longidorus spp. (n / 100g)</p></dd>
+
+
 <dt>A_DSN_HEM_TOT</dt>
 <dd><p>(numeric) Number of hemicycliophora spp. (n / 100g)</p></dd>
+
+
 <dt>A_DSN_HEL_TOT</dt>
 <dd><p>(numeric) Number of helicotylenchus spp. (n / 100g)</p></dd>
+
+
 <dt>A_SN_DI_TOT</dt>
 <dd><p>(numeric) Number of ditylenchus spp. (n / 100g)</p></dd>
+
+
 <dt>A_SN_DI_DIP</dt>
 <dd><p>(numeric) Number of ditylenchus dipsaci (n / 100g)</p></dd>
+
+
 <dt>A_SN_DI_DES</dt>
 <dd><p>(numeric) Number of ditylenchus destructor (n / 100g)</p></dd>
+
+
 <dt>A_OPN_PA_TOT</dt>
 <dd><p>(numeric) Number of paratylenchus spp. (n / 100g)</p></dd>
+
+
 <dt>A_OPN_PA_BUK</dt>
 <dd><p>(numeric) Number of paratylenchus bukowinensis (n / 100g)</p></dd>
+
+
 <dt>A_OPN_CY_TOT</dt>
 <dd><p>(numeric) Number of cysteaaltjes (n / 100g)</p></dd>
+
+
 <dt>A_OPN_AP_TOT</dt>
 <dd><p>(numeric) Number of aphelenchoides spp. (n / 100g)</p></dd>
+
+
 <dt>A_OPN_AP_FRA</dt>
 <dd><p>(numeric) Number of aphelenchoides fragariae (n / 100g)</p></dd>
+
+
 <dt>A_OPN_AP_RIT</dt>
 <dd><p>(numeric) Number of aphelenchoides ritzemabosi (n / 100g)</p></dd>
+
+
 <dt>A_OPN_AP_SUB</dt>
 <dd><p>(numeric) Number of aphelenchoides subtenuis (n / 100g)</p></dd>
+
+
 <dt>A_OPN_CR_TOT</dt>
 <dd><p>(numeric) Number of criconematidae spp. (n / 100g)</p></dd>
+
+
 <dt>A_OPN_SU_TOT</dt>
 <dd><p>(numeric) Number of subanguina spp. (n / 100g)</p></dd>
+
+
 <dt>A_NPN_SA_TOT</dt>
 <dd><p>(numeric) Number of saprofage en overige (n / 100g)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The evaluated score for the soil function for nematode community. A numeric value between 0 and 1.</p>
+    
+
+<p>The evaluated score for the soil function for nematode community. A numeric value between 0 and 1.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">ind_nematodes</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">1019</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">ind_nematodes</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">1019</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-in"><span class="fu">ind_nematodes</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,A_RLN_PR_TOT <span class="op">=</span> <span class="fl">250</span>,A_RLN_PR_ZEA <span class="op">=</span> <span class="fl">400</span>,A_SN_DI_DIP <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">ind_nematodes</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,A_RLN_PR_TOT <span class="op">=</span> <span class="fl">250</span>,A_RLN_PR_ZEA <span class="op">=</span> <span class="fl">400</span>,A_SN_DI_DIP <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -275,7 +388,7 @@ If input values are not given, the number is assumed to be zero.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

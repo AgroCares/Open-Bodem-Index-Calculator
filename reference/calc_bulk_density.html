@@ -72,32 +72,39 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_bulk_density</span><span class="op">(</span><span class="va">B_SOILTYPE_AGR</span>, <span class="va">A_SOM_LOI</span>, A_CLAY_MI <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_bulk_density</span><span class="op">(</span><span class="va">B_SOILTYPE_AGR</span>, <span class="va">A_SOM_LOI</span>, A_CLAY_MI <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The agricultural type of soil</p></dd>
+
+
 <dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The percentage organic matter in the soil (%)</p></dd>
+
+
 <dt>A_CLAY_MI</dt>
 <dd><p>(numeric) The clay content of the soil (%)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The bulk density of an arable soil (kg / m3). A numeric value.</p>
+    
+
+<p>The bulk density of an arable soil (kg / m3). A numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_bulk_density</span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'zeeklei'</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">6.5</span>, A_CLAY_MI <span class="op">=</span> <span class="fl">28</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_bulk_density</span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'zeeklei'</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">6.5</span>, A_CLAY_MI <span class="op">=</span> <span class="fl">28</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1059.516</span>
-<span class="r-in"><span class="fu">calc_bulk_density</span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_bulk_density</span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1346.847</span>
-<span class="r-in"><span class="fu">calc_bulk_density</span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="st">'rivierklei'</span><span class="op">)</span>, A_SOM_LOI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3.5</span>,<span class="fl">8.5</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_bulk_density</span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="st">'rivierklei'</span><span class="op">)</span>, A_SOM_LOI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3.5</span>,<span class="fl">8.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1346.847 1008.987</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -112,7 +119,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

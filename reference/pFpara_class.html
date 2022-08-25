@@ -72,23 +72,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pFpara_class</span><span class="op">(</span><span class="va">Pklei</span>, <span class="va">Pleem</span>, <span class="va">Psom</span>, <span class="va">M50</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pFpara_class</span><span class="op">(</span><span class="va">Pklei</span>, <span class="va">Pleem</span>, <span class="va">Psom</span>, <span class="va">M50</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>Pklei</dt>
 <dd><p>(numeric) The clay (&lt;2um) content of the soil (%)</p></dd>
+
+
 <dt>Pleem</dt>
 <dd><p>(numeric) The loam (&lt;50um) content of the soil (%) Pleem &gt; 0</p></dd>
+
+
 <dt>Psom</dt>
 <dd><p>(numeric) The organic matter content of the soil (%) Psom &gt; 0</p></dd>
+
+
 <dt>M50</dt>
 <dd><p>(numeric)size of  sand fraction (um)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a table with the following columns:
+    
+
+<p>a table with the following columns:
 ThetaR (numeric) residual water content (cm3/cm3)
 ThetaS (numeric) saturated water content (cm3/cm3)
 alfa (numeric)  related to the inverse of the air entry suction, alfa &gt; 0 (1/cm) 
@@ -98,13 +107,13 @@ ksat (numeric) saturated hydraulic conductivity (cm/d)</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">pFpara_class</span><span class="op">(</span>Pklei <span class="op">=</span> <span class="fl">25</span>, Pleem <span class="op">=</span> <span class="fl">15</span>, Psom <span class="op">=</span> <span class="fl">4.5</span>,M50 <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">pFpara_class</span><span class="op">(</span>Pklei <span class="op">=</span> <span class="fl">25</span>, Pleem <span class="op">=</span> <span class="fl">15</span>, Psom <span class="op">=</span> <span class="fl">4.5</span>,M50 <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ThetaR ThetaS   alfa    n ksat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:   0.01   0.43 0.0064 1.21  0.7</span>
-<span class="r-in"><span class="fu">pFpara_class</span><span class="op">(</span>Pklei <span class="op">=</span> <span class="fl">45</span>, Pleem <span class="op">=</span> <span class="fl">3</span>, Psom <span class="op">=</span> <span class="fl">4.5</span>,M50 <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">pFpara_class</span><span class="op">(</span>Pklei <span class="op">=</span> <span class="fl">45</span>, Pleem <span class="op">=</span> <span class="fl">3</span>, Psom <span class="op">=</span> <span class="fl">4.5</span>,M50 <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ThetaR ThetaS   alfa     n ksat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:   0.01   0.59 0.0195 1.109 4.53</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -119,7 +128,7 @@ ksat (numeric) saturated hydraulic conductivity (cm/d)</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

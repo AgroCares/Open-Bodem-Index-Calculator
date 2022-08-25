@@ -72,30 +72,37 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_crumbleability</span><span class="op">(</span><span class="va">A_SOM_LOI</span>, <span class="va">A_CLAY_MI</span>, <span class="va">A_PH_CC</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_crumbleability</span><span class="op">(</span><span class="va">A_SOM_LOI</span>, <span class="va">A_CLAY_MI</span>, <span class="va">A_PH_CC</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The organic matter content of soil (%)</p></dd>
+
+
 <dt>A_CLAY_MI</dt>
 <dd><p>(numeric) The clay content of the soil (%)</p></dd>
+
+
 <dt>A_PH_CC</dt>
 <dd><p>(numeric) The pH of the soil, measured in 0.01M CaCl2</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The crumbleability index of a soil, a measure for a physical soil property. A numeric value.</p>
+    
+
+<p>The crumbleability index of a soil, a measure for a physical soil property. A numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_crumbleability</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span>, A_CLAY_MI <span class="op">=</span> <span class="fl">12</span>, A_PH_CC <span class="op">=</span> <span class="fl">5.4</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_crumbleability</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fl">3.5</span>, A_CLAY_MI <span class="op">=</span> <span class="fl">12</span>, A_PH_CC <span class="op">=</span> <span class="fl">5.4</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.885714</span>
-<span class="r-in"><span class="fu">calc_crumbleability</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3.5</span>,<span class="fl">12</span><span class="op">)</span>, A_CLAY_MI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">12</span><span class="op">)</span>, A_PH_CC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5.4</span>, <span class="fl">7.1</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_crumbleability</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3.5</span>,<span class="fl">12</span><span class="op">)</span>, A_CLAY_MI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">12</span><span class="op">)</span>, A_PH_CC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5.4</span>, <span class="fl">7.1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10.000000  9.537143</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -110,7 +117,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

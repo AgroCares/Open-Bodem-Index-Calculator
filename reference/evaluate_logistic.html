@@ -72,25 +72,36 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">evaluate_logistic</span><span class="op">(</span><span class="va">x</span>, <span class="va">b</span>, <span class="va">x0</span>, <span class="va">v</span>, increasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">evaluate_logistic</span><span class="op">(</span><span class="va">x</span>, <span class="va">b</span>, <span class="va">x0</span>, <span class="va">v</span>, increasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>(numeric) The values of a calc function to be converted to an evaluation</p></dd>
+
+
 <dt>b</dt>
 <dd><p>(numeric) The growth rate</p></dd>
+
+
 <dt>x0</dt>
 <dd><p>(numeric) The offset of the x-axis</p></dd>
+
+
 <dt>v</dt>
 <dd><p>(numeric) Affects the growth rate near the maximum</p></dd>
+
+
 <dt>increasing</dt>
 <dd><p>(boolean) Should the evaluation increase (<code>TRUE</code>) with x or decrease (<code>FALSE</code>)?</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A transformed variable after applying a logistic evaluation function. A numeric value.</p>
+    
+
+<p>A transformed variable after applying a logistic evaluation function. A numeric value.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -99,11 +110,11 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">evaluate_logistic</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fl">2</span>, x0 <span class="op">=</span> <span class="fl">3</span>, v <span class="op">=</span> <span class="fl">2.6</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">evaluate_logistic</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fl">2</span>, x0 <span class="op">=</span> <span class="fl">3</span>, v <span class="op">=</span> <span class="fl">2.6</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9930436</span>
-<span class="r-in"><span class="fu">evaluate_logistic</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">0.5</span>,<span class="fl">1.5</span>,<span class="fl">3.5</span><span class="op">)</span>, b <span class="op">=</span> <span class="fl">2</span>, x0 <span class="op">=</span> <span class="fl">3</span>, v <span class="op">=</span> <span class="fl">2.6</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">evaluate_logistic</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">0.5</span>,<span class="fl">1.5</span>,<span class="fl">3.5</span><span class="op">)</span>, b <span class="op">=</span> <span class="fl">2</span>, x0 <span class="op">=</span> <span class="fl">3</span>, v <span class="op">=</span> <span class="fl">2.6</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1073209 0.1457795 0.3095816 0.8864902</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -118,7 +129,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

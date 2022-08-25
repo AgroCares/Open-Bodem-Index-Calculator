@@ -72,21 +72,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_cropclass</span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">nutrient</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_cropclass</span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">B_SOILTYPE_AGR</span>, <span class="va">nutrient</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code from the BRP</p></dd>
+
+
 <dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The agricultural type of soil</p></dd>
+
+
 <dt>nutrient</dt>
 <dd><p>(character) The nutrient for which crop classification is needed. Options include P, K and S.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The crop class representing its sensitivity for P, K or S deficiency. A character value.</p>
+    
+
+<p>The crop class representing its sensitivity for P, K or S deficiency. A character value.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -95,11 +102,11 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_cropclass</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">256</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, nutrient <span class="op">=</span> <span class="st">'P'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_cropclass</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">256</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span>, nutrient <span class="op">=</span> <span class="st">'P'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "class2"</span>
-<span class="r-in"><span class="fu">calc_cropclass</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">256</span>,<span class="fl">1027</span><span class="op">)</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="st">'rivierklei'</span><span class="op">)</span>,nutrient <span class="op">=</span> <span class="st">'P'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_cropclass</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">256</span>,<span class="fl">1027</span><span class="op">)</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="st">'rivierklei'</span><span class="op">)</span>,nutrient <span class="op">=</span> <span class="st">'P'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "class2" "bkw"   </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -114,7 +121,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -72,30 +72,37 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_organic_carbon</span><span class="op">(</span><span class="va">A_SOM_LOI</span>, <span class="va">D_BDS</span>, <span class="va">D_RD</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_organic_carbon</span><span class="op">(</span><span class="va">A_SOM_LOI</span>, <span class="va">D_BDS</span>, <span class="va">D_RD</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>A_SOM_LOI</dt>
 <dd><p>(numeric) The percentage organic matter in the soil</p></dd>
+
+
 <dt>D_BDS</dt>
 <dd><p>(numeric) The bulk density of the soil</p></dd>
+
+
 <dt>D_RD</dt>
 <dd><p>(numeric) The root depth of the crop</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The total amount of Carbon in the soil (kg C / ha). A numeric value.</p>
+    
+
+<p>The total amount of Carbon in the soil (kg C / ha). A numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_organic_carbon</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fl">4.3</span>, D_BDS <span class="op">=</span> <span class="fl">1100</span>, D_RD <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_organic_carbon</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fl">4.3</span>, D_BDS <span class="op">=</span> <span class="fl">1100</span>, D_RD <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 54868</span>
-<span class="r-in"><span class="fu">calc_organic_carbon</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">4.3</span><span class="op">)</span>, D_BDS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1100</span>,<span class="fl">1300</span><span class="op">)</span>, D_RD <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">0.6</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_organic_carbon</span><span class="op">(</span>A_SOM_LOI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">4.3</span><span class="op">)</span>, D_BDS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1100</span>,<span class="fl">1300</span><span class="op">)</span>, D_RD <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">0.6</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  12760 194532</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -110,7 +117,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

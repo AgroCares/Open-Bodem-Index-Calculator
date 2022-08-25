@@ -72,23 +72,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_waterstressindex</span><span class="op">(</span><span class="va">B_HELP_WENR</span>, <span class="va">B_LU_BRP</span>, <span class="va">B_GWL_CLASS</span>, WSI <span class="op">=</span> <span class="st">"waterstress"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_waterstressindex</span><span class="op">(</span><span class="va">B_HELP_WENR</span>, <span class="va">B_LU_BRP</span>, <span class="va">B_GWL_CLASS</span>, WSI <span class="op">=</span> <span class="st">"waterstress"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B_HELP_WENR</dt>
 <dd><p>(character) The soil type abbreviation, derived from 1:50.000 soil map</p></dd>
+
+
 <dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code (gewascode) from the BRP</p></dd>
+
+
 <dt>B_GWL_CLASS</dt>
 <dd><p>(character) The groundwater table class</p></dd>
+
+
 <dt>WSI</dt>
 <dd><p>(character) The type of Water Stress Index is required. Options: droughtstress, wetnessstress and the (combined) waterstress</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The yield depression (in %) through wetness or drought stress (depending on the WSI selected). Numeric value.</p>
+    
+
+<p>The yield depression (in %) through wetness or drought stress (depending on the WSI selected). Numeric value.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -97,14 +106,14 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'ABkt'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'ABkt'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
-<span class="r-in"><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'Mv61ClE'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">256</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIII'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'Mv61ClE'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">256</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIII'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-in"><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'ABkt'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span>, </span>
-<span class="r-in">WSI <span class="op">=</span> <span class="st">'droughtstress'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'ABkt'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span>, </span></span>
+<span class="r-in"><span>WSI <span class="op">=</span> <span class="st">'droughtstress'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -119,7 +128,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

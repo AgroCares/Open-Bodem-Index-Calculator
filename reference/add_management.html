@@ -72,83 +72,120 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">add_management</span><span class="op">(</span>
-  <span class="va">ID</span>,
-  <span class="va">B_LU_BRP</span>,
-  <span class="va">B_SOILTYPE_AGR</span>,
-  M_GREEN <span class="op">=</span> <span class="cn">NA</span>,
-  M_NONBARE <span class="op">=</span> <span class="cn">NA</span>,
-  M_EARLYCROP <span class="op">=</span> <span class="cn">NA</span>,
-  M_COMPOST <span class="op">=</span> <span class="cn">NA_real_</span>,
-  M_SLEEPHOSE <span class="op">=</span> <span class="cn">NA</span>,
-  M_DRAIN <span class="op">=</span> <span class="cn">NA</span>,
-  M_DITCH <span class="op">=</span> <span class="cn">NA</span>,
-  M_UNDERSEED <span class="op">=</span> <span class="cn">NA</span>,
-  M_LIME <span class="op">=</span> <span class="cn">NA</span>,
-  M_NONINVTILL <span class="op">=</span> <span class="cn">NA</span>,
-  M_SSPM <span class="op">=</span> <span class="cn">NA</span>,
-  M_SOLIDMANURE <span class="op">=</span> <span class="cn">NA</span>,
-  M_STRAWRESIDUE <span class="op">=</span> <span class="cn">NA</span>,
-  M_MECHWEEDS <span class="op">=</span> <span class="cn">NA</span>,
-  M_PESTICIDES_DST <span class="op">=</span> <span class="cn">NA</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_management</span><span class="op">(</span></span>
+<span>  <span class="va">ID</span>,</span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">B_SOILTYPE_AGR</span>,</span>
+<span>  M_GREEN <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_NONBARE <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_EARLYCROP <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_COMPOST <span class="op">=</span> <span class="cn">NA_real_</span>,</span>
+<span>  M_SLEEPHOSE <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_DRAIN <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_DITCH <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_UNDERSEED <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_LIME <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_NONINVTILL <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_SSPM <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_SOLIDMANURE <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_STRAWRESIDUE <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_MECHWEEDS <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  M_PESTICIDES_DST <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ID</dt>
 <dd><p>(character) A field id</p></dd>
+
+
 <dt>B_LU_BRP</dt>
 <dd><p>(numeric) The crop code from the BRP</p></dd>
+
+
 <dt>B_SOILTYPE_AGR</dt>
 <dd><p>(character) The agricultural type of soil</p></dd>
+
+
 <dt>M_GREEN</dt>
 <dd><p>(boolean) A soil measure. Are catch crops sown after main crop (optional, option: yes or no)</p></dd>
+
+
 <dt>M_NONBARE</dt>
 <dd><p>(boolean) A soil measure. Is parcel for 80 percent of the year cultivated and 'green' (optional, option: yes or no)</p></dd>
+
+
 <dt>M_EARLYCROP</dt>
 <dd><p>(boolean) A soil measure. Use of early crop varieties to avoid late harvesting (optional, option: yes or no)</p></dd>
+
+
 <dt>M_COMPOST</dt>
 <dd><p>(numeric) The frequency that compost is applied (optional, every x years)</p></dd>
+
+
 <dt>M_SLEEPHOSE</dt>
 <dd><p>(boolean) A soil measure. Is sleephose used for slurry application (optional, option: yes or no)</p></dd>
+
+
 <dt>M_DRAIN</dt>
 <dd><p>(boolean) A soil measure. Are under water drains installed in peaty soils (optional, option: yes or no)</p></dd>
+
+
 <dt>M_DITCH</dt>
 <dd><p>(boolean) A soil measure. Are ditched maintained carefully and slib applied on the land (optional, option: yes or no)</p></dd>
+
+
 <dt>M_UNDERSEED</dt>
 <dd><p>(boolean) A soil measure. Is grass used as second crop in between maize rows (optional, option: yes or no)</p></dd>
+
+
 <dt>M_LIME</dt>
 <dd><p>(boolean) measure. Has field been limed in last three years (option: yes or no)</p></dd>
+
+
 <dt>M_NONINVTILL</dt>
 <dd><p>(boolean) measure. Non inversion tillage (option: yes or no)</p></dd>
+
+
 <dt>M_SSPM</dt>
 <dd><p>(boolean) measure. Soil Structure Protection Measures, such as fixed driving lines, low pressure tires, and light weighted machinery (option: yes or no)</p></dd>
+
+
 <dt>M_SOLIDMANURE</dt>
 <dd><p>(boolean) measure. Use of solid manure (option: yes or no)</p></dd>
+
+
 <dt>M_STRAWRESIDUE</dt>
 <dd><p>(boolean) measure. Application of straw residues (option: yes or no)</p></dd>
+
+
 <dt>M_MECHWEEDS</dt>
 <dd><p>(boolean) measure. Use of mechanical weed protection (option: yes or no)</p></dd>
+
+
 <dt>M_PESTICIDES_DST</dt>
 <dd><p>(boolean) measure. Use of DST for pesticides (option: yes or no)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data.table with all default estimates for the management measures that are used for the Label Sustainable Soil Management.
+    
+
+<p>A data.table with all default estimates for the management measures that are used for the Label Sustainable Soil Management.
 For each B_LU_BRP 15 management measures are given, all as boolean variables except for M_COMPOST being a numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">add_management</span><span class="op">(</span>ID <span class="op">=</span> <span class="fl">1</span>, B_LU_BRP <span class="op">=</span> <span class="fl">256</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">add_management</span><span class="op">(</span>ID <span class="op">=</span> <span class="fl">1</span>, B_LU_BRP <span class="op">=</span> <span class="fl">256</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'dekzand'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    M_GREEN M_NONBARE M_EARLYCROP M_COMPOST M_SLEEPHOSE M_DRAIN M_DITCH</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:    TRUE     FALSE        TRUE         0       FALSE   FALSE    TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    M_UNDERSEED M_LIME M_NONINVTILL M_SSPM M_SOLIDMANURE M_STRAWRESIDUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:       FALSE   TRUE        FALSE  FALSE          TRUE           TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    M_MECHWEEDS M_PESTICIDES_DST</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:       FALSE            FALSE</span>
-<span class="r-in"><span class="fu">add_management</span><span class="op">(</span>ID <span class="op">=</span> <span class="fl">1</span>, B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">256</span>,<span class="fl">1019</span><span class="op">)</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">add_management</span><span class="op">(</span>ID <span class="op">=</span> <span class="fl">1</span>, B_LU_BRP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">256</span>,<span class="fl">1019</span><span class="op">)</span>, B_SOILTYPE_AGR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'dekzand'</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    M_GREEN M_NONBARE M_EARLYCROP M_COMPOST M_SLEEPHOSE M_DRAIN M_DITCH</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:    TRUE     FALSE        TRUE         0       FALSE   FALSE    TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:    TRUE     FALSE        TRUE         0       FALSE   FALSE    TRUE</span>
@@ -158,7 +195,7 @@ For each B_LU_BRP 15 management measures are given, all as boolean variables exc
 <span class="r-out co"><span class="r-pr">#&gt;</span>    M_MECHWEEDS M_PESTICIDES_DST</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:       FALSE            FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:       FALSE            FALSE</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -173,7 +210,7 @@ For each B_LU_BRP 15 management measures are given, all as boolean variables exc
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -72,35 +72,48 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pF_curve</span><span class="op">(</span><span class="va">head</span>, <span class="va">thetaR</span>, <span class="va">thetaS</span>, <span class="va">alfa</span>, <span class="va">n</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pF_curve</span><span class="op">(</span><span class="va">head</span>, <span class="va">thetaR</span>, <span class="va">thetaS</span>, <span class="va">alfa</span>, <span class="va">n</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>head</dt>
 <dd><p>(numeric)  suction pressure ([L] or cm of water)</p></dd>
+
+
 <dt>thetaR</dt>
 <dd><p>(numeric) residual water content (cm3/cm3)</p></dd>
+
+
 <dt>thetaS</dt>
 <dd><p>(numeric) saturated water content (cm3/cm3)</p></dd>
+
+
 <dt>alfa</dt>
 <dd><p>(numeric)  related to the inverse of the air entry suction, alfa &gt; 0 (1/cm)</p></dd>
+
+
 <dt>n</dt>
 <dd><p>(numeric)  a measure of the pore-size distribution, n&gt;1, dimensionless</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>theta (numeric) water content (cm3/cm3)
-The moisture content of a soil given a certain pressure head. A numeric value.</p>
+    
+
+<p>theta (numeric) water content (cm3/cm3)</p>
+
+
+<p>The moisture content of a soil given a certain pressure head. A numeric value.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">pF_curve</span><span class="op">(</span>head <span class="op">=</span> <span class="fl">2.2</span>, thetaR <span class="op">=</span> <span class="fl">0.01</span>, thetaS <span class="op">=</span> <span class="fl">0.35</span>, alfa <span class="op">=</span> <span class="fl">0.3</span>,n <span class="op">=</span> <span class="fl">1.6</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">pF_curve</span><span class="op">(</span>head <span class="op">=</span> <span class="fl">2.2</span>, thetaR <span class="op">=</span> <span class="fl">0.01</span>, thetaS <span class="op">=</span> <span class="fl">0.35</span>, alfa <span class="op">=</span> <span class="fl">0.3</span>,n <span class="op">=</span> <span class="fl">1.6</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3009997</span>
-<span class="r-in"><span class="fu">pF_curve</span><span class="op">(</span>head <span class="op">=</span> <span class="fl">4.2</span>, thetaR <span class="op">=</span> <span class="fl">0.01</span>, thetaS <span class="op">=</span> <span class="fl">0.35</span>, alfa <span class="op">=</span> <span class="fl">0.3</span>,n <span class="op">=</span> <span class="fl">1.6</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">pF_curve</span><span class="op">(</span>head <span class="op">=</span> <span class="fl">4.2</span>, thetaR <span class="op">=</span> <span class="fl">0.01</span>, thetaS <span class="op">=</span> <span class="fl">0.35</span>, alfa <span class="op">=</span> <span class="fl">0.3</span>,n <span class="op">=</span> <span class="fl">1.6</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2530601</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -115,7 +128,7 @@ The moisture content of a soil given a certain pressure head. A numeric value.</
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
