@@ -5,6 +5,7 @@
 ### Fixed
 * Fixes plotting of regime curve in workability vignette #149
 * Extremely high EOS values for some cultivations fixing #162 & #134
+* Updated bibliography of packages in vignettes
 
 ## Deprecated
 * Building and modifying crops.obic from a script in OBIC 
