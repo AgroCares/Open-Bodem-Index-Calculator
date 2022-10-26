@@ -47,11 +47,11 @@ dtn <- dcast(dtn, crop_code~soiltype.m, value.var = 'D_N_NORM')
 setcolorder(dtn, c('crop_code', 'nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf_loess', 'nf_peat'))
 
 # merge data
-crops_obic <- merge(dt, dtn, by = 'crop_code', all.x = TRUE)
+crops.obic <- merge(dt, dtn, by = 'crop_code', all.x = TRUE)
 
 # set column order
-setcolorder(crops_obic, names(crops.obic.legacy))
+setcolorder(crops.obic, names(crops.obic.legacy))
 
 # save data
-usethis::use_data(crops_obic, overwrite = TRUE)
-fwrite(crops_obic, 'data-raw/crops_obic/crops_obic.csv')
+write(crops.obic, file = 'data/crops_obic.RData')
+fwrite(crops.obic, 'data-raw/crops_obic/crops_obic.csv')
