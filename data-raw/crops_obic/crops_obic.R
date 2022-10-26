@@ -54,4 +54,4 @@ setcolorder(crops.obic, names(crops.obic.legacy))
 
 # save data
 usethis::use_data(crops.obic, overwrite = TRUE)
-fwrite(crops.obic, 'data-raw/crops_obic/crops.obic.csv')
+fwrite(crops.obic, 'data-raw/crops_obic/crops_obic.csv')
