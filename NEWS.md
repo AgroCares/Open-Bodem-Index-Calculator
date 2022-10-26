@@ -1,6 +1,13 @@
 # UNRELEASED
+## ADDED
+* To `crops.obic`, crop_codes: 6632 (zoete aardappelen), 6636 (naakte haver), 6660 (uien, gele, zaai), and 6664 (uien, rode, zaai) 
+
 ### Fixed
-* Fixes plotting of regime curve in workabilty vignette #149
+* Fixes plotting of regime curve in workability vignette #149
+* Extremely high EOS values for some cultivations fixing #162 & #134
+
+## Deprecated
+* Building and modifying crops.obic from a script in OBIC 
 
 # OBIC 2.0.1 2022-03-26
 ### Changed
