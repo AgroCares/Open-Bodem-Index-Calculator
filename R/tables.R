@@ -29,10 +29,6 @@
 #' @aliases crops.obic
 "crops.obic"
 
-#' alias of crops_obic
-#' @export
-crops.obic <- OBIC::crops_obic
-
 #' Linking table between soils and different functions in OBIC
 #' 
 #' This table helps to link the different crops in the OBIC functions with the crops selected by the user

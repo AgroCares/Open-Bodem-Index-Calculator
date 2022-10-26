@@ -6,12 +6,8 @@
 \title{Linking table between crops and different functions in OBIC}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 460 rows and 22 columns.
-
-An object of class \code{data.table} (inherits from \code{data.frame}) with 460 rows and 22 columns.
 }
 \usage{
-crops.obic
-
 crops.obic
 }
 \description{
