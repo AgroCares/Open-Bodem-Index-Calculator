@@ -2,7 +2,6 @@
 #' 
 #' This table helps to link the different crops in the OBIC functions with the crops selected by the user
 #' 
-#' @format A data.frame with 465 rows and 21 columns:
 #' \describe{
 #'   \item{crop_code}{The BRP gewascode of the crop}
 #'   \item{crop_name}{The name of the crop, in lower case}
@@ -25,6 +24,7 @@
 #'   \item{nf_peat}{Allowed effective N dose on peat soils}
 #'   \item{crop_name_scientific}{All-lower-case scientific name of the crop species. When crop is not species specific the genus of the crop is given}
 #'   \item{crop_season}{Crop category for length growing season}
+#'   \item{crop_makkink}{Crop category for makkink correction factors}
 #' }
 "crops.obic"
 
