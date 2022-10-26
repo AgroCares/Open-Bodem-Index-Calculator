@@ -27,7 +27,7 @@
 #'   \item{crop_makkink}{Crop category for makkink correction factors}
 #' }
 #' @aliases crops.obic
-"crops_obic"
+"crops.obic"
 
 #' alias of crops_obic
 #' @export

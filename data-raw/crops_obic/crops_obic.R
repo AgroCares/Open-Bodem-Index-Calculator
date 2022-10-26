@@ -53,5 +53,5 @@ crops.obic <- merge(dt, dtn, by = 'crop_code', all.x = TRUE)
 setcolorder(crops.obic, names(crops.obic.legacy))
 
 # save data
-write(crops.obic, file = 'data/crops_obic.RData')
+save(crops.obic, file = 'data/crops_obic.RData')
 fwrite(crops.obic, 'data-raw/crops_obic/crops_obic.csv')
