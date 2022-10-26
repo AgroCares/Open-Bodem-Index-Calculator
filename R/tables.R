@@ -26,7 +26,12 @@
 #'   \item{crop_season}{Crop category for length growing season}
 #'   \item{crop_makkink}{Crop category for makkink correction factors}
 #' }
-"crops.obic"
+#' @aliases crops.obic
+"crops_obic"
+
+#' alias of crops_obic
+#' @export
+crops.obic <- OBIC::crops_obic
 
 #' Linking table between soils and different functions in OBIC
 #' 
