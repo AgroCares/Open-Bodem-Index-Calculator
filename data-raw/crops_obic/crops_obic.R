@@ -5,6 +5,7 @@ library(data.table)
 # load data
 dt <- fread('data-raw/crops_obic/b_lu_brp.csv') # most cultivation data
 dtn <- fread('data-raw/crops_obic/d_n_norm.csv') # N-use norms
+load(file = 'data-raw/crops_obic/crops.obic.legacy.rda')
 
 # preprocessing =====
 # ppr dt
@@ -23,7 +24,7 @@ setnames(dt, names(dt), c('crop_code', 'crop_name', "crop_waterstress", "crop_in
 # add simple soiltypes
 dtn <- merge(dtn, soils.obic[,.(soiltype, soiltype.m)], by.x = 'B_SOILTYPE_AGR', by.y = 'soiltype')
 
-# select northern and southern province with relevent columns
+# select northern and southern province with relevant columns
 dtn <- unique(dtn[B_REGION_PV %in% c('PV20', 'PV30'),.(B_LU, B_REGION_PV, D_N_NORM, soiltype.m)]) # PV20 = Groningen, PV30 = Noord-Brabant
 
 # format soiltypes
