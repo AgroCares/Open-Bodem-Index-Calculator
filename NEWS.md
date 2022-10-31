@@ -1,6 +1,9 @@
 # UNRELEASED
-## ADDED
+## Added
 * To `crops.obic`, crop_codes: 6632 (zoete aardappelen), 6636 (naakte haver), 6660 (uien, gele, zaai), and 6664 (uien, rode, zaai) 
+
+## Changed
+* Updated N use norms for onions
 
 ### Fixed
 * Fixes plotting of regime curve in workability vignette #149
