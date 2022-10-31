@@ -53,6 +53,9 @@ setcolorder(dtn, c('crop_code', 'nf_clay', 'nf_sand.other', 'nf_sand.south', 'nf
 # merge data
 crops.obic <- merge(dt, dtn, by = 'crop_code', all.x = TRUE)
 
+# replace non ASCI characters
+crops.obic[, crop_name := gsub('ï', 'i', crop_name)]
+
 # set column order
 setcolorder(crops.obic, names(crops.obic.legacy))
 
