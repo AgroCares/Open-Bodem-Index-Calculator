@@ -22,8 +22,11 @@ setnames(dt, names(dt), c('crop_code', 'crop_name', "crop_waterstress", "crop_in
 
 # ppr dtn
 # add simple soiltypes
-dtn <- merge(dtn, soils.obic[,.(soiltype, soiltype.m)], by.x = 'B_SOILTYPE_AGR', by.y = 'soiltype')
+dtn <- merge(dtn, OBIC::soils.obic[,.(soiltype, soiltype.m)], by.x = 'B_SOILTYPE_AGR', by.y = 'soiltype')
 
+# Explanation:
+# On sandy soils different N-use norms are used in the south and the north of the
+# country. Groningen (PV20) is in the north and Noord-Brabant (PV30) is in the south.
 # select northern and southern province with relevant columns
 dtn <- unique(dtn[B_REGION_PV %in% c('PV20', 'PV30'),.(B_LU, B_REGION_PV, D_N_NORM, soiltype.m)]) # PV20 = Groningen, PV30 = Noord-Brabant
 
