@@ -9,6 +9,8 @@
 * Fixes plotting of regime curve in workability vignette #149
 * Extremely high EOS values for some cultivations fixing #162 & #134
 * Updated bibliography of packages in vignettes
+* N use norm for 1935 (maiskolfsilage)
+* N use norms of 1926 and 1927 (agrarisch natuurmengsel and overige akkerbouwgewassen), increased to match "Akkerbouwgewassen, overig" (RVO, 2022)
 
 ## Deprecated
 * Building and modifying crops.obic from a script in OBIC 
