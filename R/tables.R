@@ -19,7 +19,7 @@
 #'   \item{crop_measure}{The category for this crop for evaluating measures}
 #'   \item{nf_clay}{Allowed effective N dose on clay soils}
 #'   \item{nf_sand.other}{Allowed effective N dose on sandy soils}
-#'   \item{nf_sand.sout}{Allowed effective N dose on sandy soils sensitive to leaching}
+#'   \item{nf_sand.south}{Allowed effective N dose on sandy soils sensitive to leaching}
 #'   \item{nf_loess}{Allowed effective N dose on loess soils}
 #'   \item{nf_peat}{Allowed effective N dose on peat soils}
 #'   \item{crop_name_scientific}{All-lower-case scientific name of the crop species. When crop is not species specific the genus of the crop is given}
