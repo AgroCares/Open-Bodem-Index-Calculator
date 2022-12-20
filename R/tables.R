@@ -33,7 +33,6 @@
 #' 
 #' This table helps to link the different crops in the OBIC functions with the crops selected by the user
 #' 
-#' @format A data.frame with 7 rows and 2 columns:
 #' \describe{
 #'   \item{soiltype}{The name of the soil type}
 #'   \item{soiltype.ph}{The category for this soil at pH}
@@ -45,7 +44,6 @@
 #' 
 #' This table helps to link the different crops in the OBIC functions with the crops selected by the user
 #' 
-#' @format A data.frame with x rows and y columns:
 #' \describe{
 #'   \item{cropname}{The name of the crop}
 #'   \item{soilunit}{The category for this soil, derived from 1:50.000 soil map}
@@ -60,7 +58,6 @@
 #' 
 #' This table defines the weighting factors (ranging between 0 and 1) of indicator values to calculate integrated scores.
 #' 
-#' @format A data.frame with 20 rows and 2 columns:
 #' \describe{
 #'   \item{var}{The name of the weight}
 #'   \item{weight}{weighing factor}
@@ -71,7 +68,6 @@
 #' 
 #' This table defines the effects of 11 measures on soil indicators 
 #' 
-#' @format A data.frame with 7040 rows and 11 columns:
 #' \describe{
 #'   \item{m_nr}{The ID number of measure}
 #'   \item{m_description}{The description of measure}
@@ -91,7 +87,6 @@
 #' 
 #' This table defines the columns used in the OBIC and which unit is used
 #' 
-#' @format A data.frame with 230 rows and 6 columns:
 #' \describe{
 #'   \item{column}{The column name used in OBIC}
 #'   \item{type}{The type of column}
@@ -106,7 +101,6 @@
 #' 
 #' This table contains information uses for calculations on nematode species counts
 #' 
-#' @format A data.frame with 126 rows and 6 columns:
 #' \describe{
 #'   \item{geel}{The intermediate infestation severity count}
 #'   \item{rood}{The count at which a severe infestation is present}
@@ -121,7 +115,6 @@
 #' 
 #' This table gives the required number of days before and after August 15 required for optimal yield or usability and has categories to determine yield loss having a shorter workable growing season based on Tabel 2 and several formulas from Huinink (2018)
 #' 
-#' @format A data.table with 29 rows and 5 columns:
 #' \describe{
 #'   \item{landuse}{The name of the crop or landuse category, used to link to crops.obic$crop_season}
 #'   \item{req_days_pre_glg}{Required number of workable days before August 15 assuming this coincides with GLG, lowest groundwater}
@@ -135,7 +128,6 @@
 #' 
 #' This table contains a series of agricultural fields with soil properties needed for illustration OBIC.
 #' 
-#' @format A data.frame with 65 rows and 55 columns:
 #' \describe{
 #'    \item{ID}{A field id (numeric)}
 #'    \item{YEAR}{The year that the crop is grown (integer)}
@@ -200,7 +192,6 @@
 #' 
 #' This table assigns which measures positively contribute to the ecosystem services included
 #' 
-#' @format A data.table with 16 rows and 6 columns:
 #' \describe{
 #'   \item{measure}{The name of measure}
 #'   \item{I_M_SOILFERTILITY}{integrated soil management indicator for soil fertility}
@@ -214,7 +205,6 @@
 #' 
 #' This table includes information from aaltjesschema (April 2021), a website where information is collected on the vulnerability of crops to plant parasitic nematodes and diseases that use nematodes as vector.
 #' 
-#' @format A data.table with 7059 rows and 21 columns:
 #' \describe{
 #'   \item{crop}{crop as called in aaltjesschema}
 #'   \item{name_scientific}{scientific name of nematode}
@@ -246,7 +236,6 @@
 #'
 #' This table contains the climatic weather data of the Netherlands for the period 1990-2020
 #'
-#' @format A data.table with 12 rows and 4 columns:
 #' \describe{
 #'   \item{month}{Month of the year}
 #'   \item{A_TEMP_MEAN}{Mean monthly temperature}
@@ -260,7 +249,6 @@
 #'
 #' This table contains the makkink correction factors for evapo-transpiration per month
 #'
-#' @format A data.table with 12 rows and 4 columns:
 #' \describe{
 #'   \item{crop_makkink}{Makkink crop category}
 #'   \item{1}{Evapotranspiration correction factors for January}
@@ -282,7 +270,6 @@
 #' 
 #' This table contains the fractions of N overshot which runs off to groundwater / surface water, per soil type, crop type, and groundwater table
 #' 
-#' @format A data.frame with 198 rows and 11 columns:
 #' \describe{
 #'   \item{gewas}{crop type}
 #'   \item{bodem}{soil type}
@@ -300,7 +287,6 @@
 #' 
 #' This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'
 #' 
-#' @format A data.frame with 36 rows and 14 columns:
 #' \describe{
 #'   \item{bouwsteen}{soil type bouwsteen}
 #'   \item{omschrijving}{description of 'bouwsteen'}
@@ -323,7 +309,6 @@
 #' 
 #' This table contains the optimal pH for different crop plans and soil types
 #' 
-#' @format A data.frame with 136 rows and 10 columns:
 #' \describe{
 #'   \item{table}{The original table from Hanboek Bodem en Bemesting}
 #'   \item{lutum.low}{Lower value for A_CLAY_MI}
