@@ -5,6 +5,9 @@
 ## Changed
 * Updated N use norms for onions
 
+### Changed
+* Ipdate calc_nleach by soil and land use dependent default n supply, issue #154
+
 ### Fixed
 * Fixes plotting of regime curve in workability vignette #149
 * Extremely high EOS values for some cultivations fixing #162 & #134
@@ -43,6 +46,10 @@
 
 ### Deprecated
 * The function `ind_sulpher` is deprecated due to renaming
+
+# OBIC 2.0.1 2022-01-20
+## Changed
+
 
 # OBIC 2.0.0 2022-01-11
 ## Added
