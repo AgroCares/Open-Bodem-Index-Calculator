@@ -1,9 +1,20 @@
 # UNRELEASED
-### Changed
-* Ipdate calc_nleach by soil and land use dependent default n supply, issue #154
+## Added
+* To `crops.obic`, crop_codes: 6632 (zoete aardappelen), 6636 (naakte haver), 6660 (uien, gele, zaai), and 6664 (uien, rode, zaai) 
+
+## Changed
+* Updated N use norms for onions
+* Update calc_nleach by soil and land use dependent default n supply, issue #154
 
 ### Fixed
-* Fixes plotting of regime curve in workabilty vignette #149
+* Fixes plotting of regime curve in workability vignette #149
+* Extremely high EOS values for some cultivations fixing #162 & #134
+* Updated bibliography of packages in vignettes
+* N use norm for 1935 (maiskolfsilage)
+* N use norms of 1926 and 1927 (agrarisch natuurmengsel and overige akkerbouwgewassen), increased to match "Akkerbouwgewassen, overig" (RVO, 2022)
+
+## Deprecated
+* Building and modifying crops.obic from a script in OBIC 
 
 # OBIC 2.0.2 2023-01-11
 ### Changed

@@ -5,18 +5,20 @@
 \alias{weather.obic}
 \title{Weather table}
 \format{
-A data.table with 12 rows and 4 columns:
-\describe{
-  \item{month}{Month of the year}
-  \item{A_TEMP_MEAN}{Mean monthly temperature}
-  \item{A_PREC_MEAN}{Mean monthly precipitation}
-  \item{A_ET_MEAN}{Mean monthly evapo-transpiration}
-}
+An object of class \code{data.table} (inherits from \code{data.frame}) with 12 rows and 4 columns.
 }
 \usage{
 weather.obic
 }
 \description{
 This table contains the climatic weather data of the Netherlands for the period 1990-2020
+}
+\details{
+\describe{
+  \item{month}{Month of the year}
+  \item{A_TEMP_MEAN}{Mean monthly temperature}
+  \item{A_PREC_MEAN}{Mean monthly precipitation}
+  \item{A_ET_MEAN}{Mean monthly evapo-transpiration}
+}
 }
 \keyword{datasets}

@@ -5,7 +5,15 @@
 \alias{bouwsteen_tb}
 \title{Table with water retention properties of 'bouwstenen'}
 \format{
-A data.frame with 36 rows and 14 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 36 rows and 14 columns.
+}
+\usage{
+bouwsteen_tb
+}
+\description{
+This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'
+}
+\details{
 \describe{
   \item{bouwsteen}{soil type bouwsteen}
   \item{omschrijving}{description of 'bouwsteen'}
@@ -22,11 +30,5 @@ A data.frame with 36 rows and 14 columns:
   \item{bulkdensity}{soil bulk density (g/cm3). Middle value of Table 2 of Wosten 2001}
   \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}
 }
-}
-\usage{
-bouwsteen_tb
-}
-\description{
-This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'
 }
 \keyword{datasets}
