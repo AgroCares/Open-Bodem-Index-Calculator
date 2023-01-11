@@ -1,4 +1,4 @@
-# UNRELEASED
+# OBIC 2.0.4 2023-01-11
 ### Fixed
 * Fixes calculation of `field capacity` at `calc_waterretention`
 
