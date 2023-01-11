@@ -629,7 +629,7 @@ obic_field_dt <- function(dt,output = 'all') {
     M_STRAWRESIDUE = dt$M_STRAWRESIDUE,
     M_MECHWEEDS = dt$M_MECHWEEDS,
     M_PESTICIDES_DST = dt$M_PESTICIDES_DST,
-    ID = 1,
+    ID = dt$ID,
     output = output
   )
   

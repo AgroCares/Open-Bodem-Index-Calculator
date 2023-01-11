@@ -1,3 +1,7 @@
+# OBIC 2.0.3 2023-01-11
+### Fixed
+* Fixes plotting of regime curve in workabilty vignette #149
+
 # OBIC 2.0.2 2023-01-11
 ### Changed
 * Update the GitHub Actions to the most recent version
