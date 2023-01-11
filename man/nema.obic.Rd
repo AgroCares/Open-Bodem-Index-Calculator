@@ -5,7 +5,15 @@
 \alias{nema.obic}
 \title{Nematode table}
 \format{
-A data.frame with 126 rows and 6 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 78 rows and 7 columns.
+}
+\usage{
+nema.obic
+}
+\description{
+This table contains information uses for calculations on nematode species counts
+}
+\details{
 \describe{
   \item{geel}{The intermediate infestation severity count}
   \item{rood}{The count at which a severe infestation is present}
@@ -14,11 +22,5 @@ A data.frame with 126 rows and 6 columns:
   \item{b}{Growth rate (b) for the evaluate_logistics function}
   \item{v}{v for the evaluate_logistics function, affects the growth rate near the maximum}
 }
-}
-\usage{
-nema.obic
-}
-\description{
-This table contains information uses for calculations on nematode species counts
 }
 \keyword{datasets}

@@ -5,7 +5,15 @@
 \alias{season.obic}
 \title{Desired growing season period for maximum yield}
 \format{
-A data.table with 29 rows and 5 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 116 rows and 6 columns.
+}
+\usage{
+season.obic
+}
+\description{
+This table gives the required number of days before and after August 15 required for optimal yield or usability and has categories to determine yield loss having a shorter workable growing season based on Tabel 2 and several formulas from Huinink (2018)
+}
+\details{
 \describe{
   \item{landuse}{The name of the crop or landuse category, used to link to crops.obic$crop_season}
   \item{req_days_pre_glg}{Required number of workable days before August 15 assuming this coincides with GLG, lowest groundwater}
@@ -13,11 +21,5 @@ A data.table with 29 rows and 5 columns:
   \item{total_days}{Total number of days required for optimal growth or use}
   \item{derving}{Category to determine yield loss due to having a sub-optimal relative growing season length or RLG}
 }
-}
-\usage{
-season.obic
-}
-\description{
-This table gives the required number of days before and after August 15 required for optimal yield or usability and has categories to determine yield loss having a shorter workable growing season based on Tabel 2 and several formulas from Huinink (2018)
 }
 \keyword{datasets}

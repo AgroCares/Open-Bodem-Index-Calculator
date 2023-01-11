@@ -5,7 +5,15 @@
 \alias{column_description.obic}
 \title{Column description for the OBIC}
 \format{
-A data.frame with 230 rows and 6 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 216 rows and 6 columns.
+}
+\usage{
+column_description.obic
+}
+\description{
+This table defines the columns used in the OBIC and which unit is used
+}
+\details{
 \describe{
   \item{column}{The column name used in OBIC}
   \item{type}{The type of column}
@@ -14,11 +22,5 @@ A data.frame with 230 rows and 6 columns:
   \item{unit}{The unit used for this column}
   \item{method}{The method to measure/obtain the values for this column}
 }
-}
-\usage{
-column_description.obic
-}
-\description{
-This table defines the columns used in the OBIC and which unit is used
 }
 \keyword{datasets}

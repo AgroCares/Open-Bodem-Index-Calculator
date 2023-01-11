@@ -21,7 +21,7 @@
 #' @export
 calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to){
   
-  soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = B_GT = NULL
+  soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = B_GT = med_nlv = NULL
   nleach_table = bodem = gewas = nf = id = leaching_to_set = NULL
   n_eff = anr.cor = n_sp.nlv = n_sp.nfert = n_sp = NULL
   nf_sand.other = nf_sand.south = nf_clay = nf_peat = nf_loess = NULL
@@ -93,10 +93,23 @@ calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS,
   cols <- colnames(dt)[grepl('^nf_',colnames(dt))]
   dt[,(cols) := NULL]
   
-  # estimate N-efficiency of the fertilizer added (125 = default NLV and 25 = default deposition, used for N-gebruiksnorm)
+  # soil- and crop-specific median NLV
+  # median NLV values of all Dutch agricultural fields (N = 772574)
+  dt[soiltype.n == "klei" & crop_category == "grasland", med_nlv := 139]
+  dt[soiltype.n == "klei" & crop_category == "akkerbouw", med_nlv := 84]
+  dt[soiltype.n == "klei" & crop_category == "mais", med_nlv := 38]
+  dt[soiltype.n == "zand" & crop_category == "grasland", med_nlv := 139]
+  dt[soiltype.n == "zand" & crop_category == "akkerbouw", med_nlv := 50]
+  dt[soiltype.n == "zand" & crop_category == "mais", med_nlv := 18]
+  dt[soiltype.n == "veen" & crop_category == "grasland", med_nlv := 250]
+  dt[soiltype.n == "veen" & crop_category == "akkerbouw", med_nlv := 117]
+  dt[soiltype.n == "veen" & crop_category == "mais", med_nlv := 48]
+  dt[crop_category == "natuur", med_nlv := 250]
+
+  # estimate N-efficiency of the fertilizer added (25 = default deposition, used for N-gebruiksnorm)
   # by default 0.8 for fertilizers, 0.9 for mineralized N and decreasing to 0 at high N-availability levels
   # Nitrogen recovery
-  dt[, anr.cor := (D_NLV + n_eff)/(125 + n_eff + 25)]
+  dt[, anr.cor := (D_NLV + n_eff)/(med_nlv + n_eff + 25)]
   dt[, anr.cor := pmin(1, 0.8 * anr.cor^-5)]
   dt[, n_sp.nlv := (1 - anr.cor * 0.9) * D_NLV]
 

@@ -5,7 +5,15 @@
 \alias{binnenveld}
 \title{Example dataset for use in OBIC package}
 \format{
-A data.frame with 65 rows and 55 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 3251 rows and 55 columns.
+}
+\usage{
+binnenveld
+}
+\description{
+This table contains a series of agricultural fields with soil properties needed for illustration OBIC.
+}
+\details{
 \describe{
    \item{ID}{A field id (numeric)}
    \item{YEAR}{The year that the crop is grown (integer)}
@@ -63,11 +71,5 @@ A data.frame with 65 rows and 55 columns:
    \item{M_MECHWEEDS}{A soil measure. Use of mechanical weed protection (option: yes or no, boolean)}
    \item{M_PESTICIDES_DST}{A soil measure. Use of DST for pesticides (option: yes or no, boolean)}
 }
-}
-\usage{
-binnenveld
-}
-\description{
-This table contains a series of agricultural fields with soil properties needed for illustration OBIC.
 }
 \keyword{datasets}

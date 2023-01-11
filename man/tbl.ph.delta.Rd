@@ -5,7 +5,15 @@
 \alias{tbl.ph.delta}
 \title{Table with optimal pH for different crop plans}
 \format{
-A data.frame with 136 rows and 10 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 136 rows and 10 columns.
+}
+\usage{
+tbl.ph.delta
+}
+\description{
+This table contains the optimal pH for different crop plans and soil types
+}
+\details{
 \describe{
   \item{table}{The original table from Hanboek Bodem en Bemesting}
   \item{lutum.low}{Lower value for A_CLAY_MI}
@@ -20,11 +28,5 @@ A data.frame with 136 rows and 10 columns:
 }
 
 #' @references Handboek Bodem en Bemesting tabel 5.1, 5.2 en 5.3
-}
-\usage{
-tbl.ph.delta
-}
-\description{
-This table contains the optimal pH for different crop plans and soil types
 }
 \keyword{datasets}
