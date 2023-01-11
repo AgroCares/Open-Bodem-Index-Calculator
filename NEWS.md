@@ -2,6 +2,11 @@
 ### Fixed
 * Fixes plotting of regime curve in workabilty vignette #149
 
+# OBIC 2.0.2 2023-01-11
+### Changed
+* Update the GitHub Actions to the most recent version
+* Update `RoxygenNote` to v7.2.3
+
 # OBIC 2.0.1 2022-03-26
 ### Changed
 * The function `ind_sulpher` is renamed to `ind_sulfur` in documentation
