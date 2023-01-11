@@ -9,7 +9,7 @@ test_that("calc_nleach works", {
       B_AER_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
       leaching_to = "gw"
     ),
-    expected = c(0.41, 0.39, 0.90, 4.62),
+    expected = c(0.41, 0.39, 5.99, 15.64),
     tolerance = 0.001
   )
   
@@ -23,7 +23,7 @@ test_that("calc_nleach works", {
       B_AER_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
       leaching_to = "ow"
     ),
-    expected = c(0.095, 0.270, 0.700, 5.880),
+    expected = c(0.095, 0.270, 4.66, 19.9),
     tolerance = 0.001
   )
 })
