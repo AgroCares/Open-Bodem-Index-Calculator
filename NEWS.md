@@ -1,10 +1,14 @@
 # UNRELEASED
 ## Added
 * To `crops.obic`, crop_codes: 6632 (zoete aardappelen), 6636 (naakte haver), 6660 (uien, gele, zaai), and 6664 (uien, rode, zaai) 
+* Add `calc_permeability` for calculating top soil permeability 
+* Add `ind_permeability` for calculatin the index for top soil permeability
+* Add vignette `obic_water_functions`, describing the functions that evaluate the effect of soil quality on groundwater quality
 
 ## Changed
 * Updated N use norms for onions
 * Update calc_nleach by soil and land use dependent default n supply, issue #154
+* Update calculations in the functions `calc_pesticide_leaching`, `ind_pesticide_leaching`, `calc_psp`, `ind_psp`, `ind_gw_recharge`,`calc_n_efficiency` and `ind_n_efficiency`
 
 ### Fixed
 * Fixes plotting of regime curve in workability vignette #149
@@ -53,10 +57,6 @@
 
 ### Deprecated
 * The function `ind_sulpher` is deprecated due to renaming
-
-# OBIC 2.0.1 2022-01-20
-## Changed
-
 
 # OBIC 2.0.0 2022-01-11
 ## Added
