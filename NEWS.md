@@ -4,9 +4,7 @@
 
 ## Changed
 * Updated N use norms for onions
-
-### Changed
-* Ipdate calc_nleach by soil and land use dependent default n supply, issue #154
+* Update calc_nleach by soil and land use dependent default n supply, issue #154
 
 ### Fixed
 * Fixes plotting of regime curve in workability vignette #149
