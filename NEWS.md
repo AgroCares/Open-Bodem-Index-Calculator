@@ -1,3 +1,7 @@
+# UNRELEASED
+### Fixed
+* Fixes calculation of `field capacity` at `calc_waterretention`
+
 # OBIC 2.0.3 2023-01-11
 ### Fixed
 * Fixes plotting of regime curve in workabilty vignette #149
