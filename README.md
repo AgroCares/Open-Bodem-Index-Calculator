@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![R-CMD-check](https://github.com/AgroCares/Open-Bodem-Index-Calculator/workflows/R-CMD-check/badge.svg)](https://github.com/AgroCares/Open-Bodem-Index-Calculator/actions)
+[![R-CMD-check](https://github.com/AgroCares/Open-Bodem-Index-Calculator/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AgroCares/Open-Bodem-Index-Calculator/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/AgroCares/Open-Bodem-Index-Calculator/branch/master/graph/badge.svg)](https://codecov.io/gh/AgroCares/Open-Bodem-Index-Calculator?branch=master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/OBIC)](https://cran.r-project.org/package=OBIC)
 <!-- badges: end -->
