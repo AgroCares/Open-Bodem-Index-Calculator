@@ -9,7 +9,19 @@ ind_nematodes_list(A_NEMA)
 \arguments{
 \item{A_NEMA}{(data.table) Long data table with the counted nematodes of a parcel.}
 }
+\value{
+The evaluated score for the soil function for nematode community. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the presence of plant parasitic nematodes. All nematodes present in a sample are used.
 A subset of nematodes is weighted in the set regardless of their presence.
+}
+\examples{
+
+\dontrun{
+ind_nematodes_list(data.table(species = 'Cysteaaltjes',count = 200))
+ind_nematodes_list(data.table(species = c('Cysteaaltjes','Ditylenchus dipsaci'),
+count = c(200,7)))
+}
+
 }

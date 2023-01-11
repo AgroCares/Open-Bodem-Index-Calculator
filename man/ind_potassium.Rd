@@ -15,6 +15,14 @@ ind_potassium(D_K, B_LU_BRP, B_SOILTYPE_AGR, A_SOM_LOI)
 
 \item{A_SOM_LOI}{(numeric) The organic matter content of the soil (\%)}
 }
+\value{
+The evaluated score for the soil function to supply potassium for crop uptake. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the the Potassium Availability of the soil by using the K-availability calculated by \code{\link{calc_potassium_availability}}
+}
+\examples{
+ind_potassium(D_K = 4.5,B_LU_BRP = 256,B_SOILTYPE_AGR='dekzand',A_SOM_LOI=4)
+ind_potassium(c(2.5,3.5,6.5),c(256,1019,1019),rep('dekzand',3),c(3.5,4.5,7.5))
+ 
 }

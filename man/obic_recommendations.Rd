@@ -2,7 +2,7 @@
 % Please edit documentation in R/obic_recommendations.R
 \name{obic_recommendations}
 \alias{obic_recommendations}
-\title{Recommend measurements for better soil managment}
+\title{Recommend measurements for better soil management}
 \usage{
 obic_recommendations(dt.recom)
 }

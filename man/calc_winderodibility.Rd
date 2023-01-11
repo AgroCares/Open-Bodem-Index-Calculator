@@ -13,6 +13,14 @@ calc_winderodibility(B_LU_BRP, A_CLAY_MI, A_SILT_MI)
 
 \item{A_SILT_MI}{(numeric) The silt content of the soil (\%)}
 }
+\value{
+The vulnerability of the soil for wind erosion. A numeric value.
+}
 \description{
 This function calculates the risk for wind erodibility of soils, derived from Van Kerckhoven et al. (2009) and Ros & Bussink (2013)
+}
+\examples{
+calc_winderodibility(B_LU_BRP = 265, A_CLAY_MI = 4, A_SILT_MI = 15)
+calc_winderodibility(B_LU_BRP = c(265,1019), A_CLAY_MI = c(4,18), A_SILT_MI = c(15,65))
+
 }

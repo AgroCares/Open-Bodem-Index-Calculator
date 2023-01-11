@@ -9,7 +9,13 @@
 #' @param I_P_CO (numeric) The indicator value for occurrence of subsoil compaction
 #' @param B_DRAIN (boolean) Are drains installed to drain the field (options: yes or no)
 #' 
-#'         
+#' @examples 
+#' ind_gw_recharge(D_WRI_WHC = 0.6, D_PSP = 200, I_P_SE = 0.6, I_P_CO = 0.9)
+#' ind_gw_recharge(D_WRI_WHC = 0.8, D_PSP = 400, I_P_SE = 0.4, I_P_CO = 0.2)
+#'
+#' @return 
+#' The evaluated score for the soil function to improve groundwater recharge. A numeric value between 0 and 1.
+#'          
 #' @export
 ind_gw_recharge <- function(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN = FALSE){
   
@@ -17,8 +23,10 @@ ind_gw_recharge <- function(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN = FALSE){
   
   # Check inputs
   arg.length <- max(length(I_P_CO),length(B_DRAIN))
-  
-  checkmate::assert_numeric(I_P_CO, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_WRI_WHC, lower = 0, upper = 1000, any.missing = FALSE)
+  checkmate::assert_numeric(D_PSP, lower = 0, upper = 1000, any.missing = FALSE)
+  checkmate::assert_numeric(I_P_CO, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(I_P_SE, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(B_DRAIN, any.missing = FALSE, len = arg.length)
   
   # import data into table

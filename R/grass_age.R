@@ -7,6 +7,16 @@
 #' 
 #' @import data.table
 #' 
+#' @details 
+#' The function assumes that the order of crop codes are descending, so the latest year is on top.
+#' 
+#' @examples 
+#' calc_grass_age(ID = rep(1,5), B_LU_BRP = c(1091,265,256,256,1091))
+#' calc_grass_age(ID = rep(1,5), B_LU_BRP = c(265,265,265,265,1091))
+#' 
+#' @return 
+#' The age of the grassland within a crop rotation plan. A numeric value.
+#' 
 #' @export
 calc_grass_age <- function(ID, B_LU_BRP) {
   

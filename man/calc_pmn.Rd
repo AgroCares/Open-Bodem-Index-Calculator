@@ -13,6 +13,14 @@ calc_pmn(B_LU_BRP, B_SOILTYPE_AGR, A_N_PMN)
 
 \item{A_N_PMN}{(numeric) The potentially mineralizable N pool (mg N / kg soil)}
 }
+\value{
+the normalized potentially mineralizable Nitrogen pool (mg N / kg), a numeric value.
+}
 \description{
 This function assesses the microbial biological activity (of microbes and fungi) via the Potentially Mineralizable N pool, also called PMN (or SoilLife by Eurofins in the past).
+}
+\examples{
+calc_pmn(B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand', A_N_PMN = 125)
+calc_pmn(B_LU_BRP = c(256,1027), B_SOILTYPE_AGR = c('dekzand','rivierklei'), A_N_PMN = c(125,45))
+
 }

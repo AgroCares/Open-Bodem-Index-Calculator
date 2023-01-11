@@ -176,7 +176,15 @@ ind_nematodes(
 
 \item{A_NPN_SA_TOT}{(numeric) Number of saprofage en overige (n / 100g)}
 }
+\value{
+The evaluated score for the soil function for nematode community. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the presence of plant parasitic nematodes. 
 If input values are not given, the number is assumed to be zero.
+}
+\examples{
+ind_nematodes(B_LU_BRP = 1019)
+ind_nematodes(B_LU_BRP = 1019,A_RLN_PR_TOT = 250,A_RLN_PR_ZEA = 400,A_SN_DI_DIP = 5)
+
 }

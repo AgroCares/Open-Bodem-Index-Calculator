@@ -11,6 +11,14 @@ evaluate_parabolic(x, x.top)
 
 \item{x.top}{(numeric) The value at which x reaches the plateau}
 }
+\value{
+A transformed variable after applying a parabolic evaluation function. A numeric value.
+}
 \description{
 This function evaluates the calculated values from an indicator using a parabolic function. After the optimum is reached the it stays at its plateau.
+}
+\examples{
+evaluate_parabolic(x = 5, x.top = 8)
+evaluate_parabolic(x = c(0.1,0.5,1.5,3.5), x.top = 6.5)
+
 }

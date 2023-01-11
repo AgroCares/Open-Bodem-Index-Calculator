@@ -7,13 +7,24 @@
 #' @param A_SAND_MI (numeric) The sand content of the soil (\%)
 #' @param A_SILT_MI (numeric) The silt content of the soil (\%)
 #' @param A_SOM_LOI (numeric) The organic matter content of the soil (\%)
-#' @param type (character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
+#' @param type (character) The type of water retention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
 #' @param ptf (character) Pedotransfer functions to calculate van Genuchten parameters. Options include c('Wosten1999', 'Wosten2001', 'Klasse')
 #'
-#' @references Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulogic characteristics. Journal of Hydrology 251, p123.
+#' @references Wosten et al. (2001) Pedotransfer functions: bridging the gap between available basic soil data and missing hydraulic characteristics. Journal of Hydrology 251, p123.
 #'
 #' @import data.table  
 #'
+#' @examples 
+#' calc_waterretention(A_CLAY_MI = 20.5,A_SAND_MI = 65,A_SILT_MI = 14.5,A_SOM_LOI = 3.5)
+#' calc_waterretention(A_CLAY_MI = 5,A_SAND_MI = 15,A_SILT_MI = 80,A_SOM_LOI = 6.5)
+#' calc_waterretention(A_CLAY_MI = 5,A_SAND_MI = 15,A_SILT_MI = 80,A_SOM_LOI = 6.5, 
+#' type = 'water holding capacity')
+#' 
+#' @return 
+#' The function returns by default the amount of plant available water in the ploughing layer of the soil (in mm). A numeric value.
+#' If another type of output is selected, the function gives also the amount of water at 'wilting point' or 'field capacity' or 'water holding capacity'.
+#' Also the saturated permeability 'Ksat' can be selected. Units are always in mm, except for Water Holding Capacity (%) and Ksat.
+#' 
 #' @export
 calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,
                                 type = 'plant available water', ptf = 'Wosten1999') {
@@ -102,7 +113,16 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,
 #' These include : 'wilting point','field capacity','water holding capacity','plant available water' and 'Ksat'
 #'  
 #' @param D_P_WRI (numeric) The value for Water Retention index (WRI) as calculated by \code{\link{calc_waterretention}}
-#' @param type (character) The type of waterretention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
+#' @param type (character) The type of water retention index. Options include c('wilting point','field capacity','water holding capacity','plant available water','Ksat')
+#' 
+#' @examples 
+#' ind_waterretention(D_P_WRI = 75)
+#' ind_waterretention(D_P_WRI = c(15,50,75,150))
+#' ind_waterretention(D_P_WRI = c(0.1,0.2,0.5,0.8), type = 'water holding capacity')
+#' 
+#' @return 
+#' The evaluated score for the soil function to retain and buffer water. Depending on the "type" chosen, the soil is evaluated for 'wilting point','field capacity','water holding capacity','plant available water' or 'Ksat'.
+#' Output is a numeric value varying between 0 and 1.
 #' 
 #' @export
 ind_waterretention <- function(D_P_WRI,type ='plant available water') {
@@ -144,6 +164,13 @@ ind_waterretention <- function(D_P_WRI,type ='plant available water') {
 #' 
 #' @return theta (numeric) water content (cm3/cm3)
 #' 
+#' @examples 
+#' pF_curve(head = 2.2, thetaR = 0.01, thetaS = 0.35, alfa = 0.3,n = 1.6)
+#' pF_curve(head = 4.2, thetaR = 0.01, thetaS = 0.35, alfa = 0.3,n = 1.6)
+#' 
+#' @return 
+#' The moisture content of a soil given a certain pressure head. A numeric value.
+#' 
 #' @export 
 pF_curve <- function(head, thetaR, thetaS, alfa, n){
   
@@ -162,6 +189,10 @@ pF_curve <- function(head, thetaR, thetaS, alfa, n){
 #' @param Psilt (numeric) The silt content of the soil (\%) within soil mineral part. Psilt > 0 
 #' @param Psom (numeric) The organic matter content of the soil (\%). Psom > 0
 #' @param Bovengrond (boolean) whether topsoil (1) or not (0)
+#' 
+#' @examples 
+#' pFpara_ptf_Wosten1999(Pklei = 25, Psilt = 15, Psom = 4.5, Bovengrond = 1)
+#' pFpara_ptf_Wosten1999(Pklei = 45, Psilt = 3, Psom = 4.5, Bovengrond = 1)
 #' 
 #' @return a table with the following columns:
 #' 
@@ -247,6 +278,19 @@ pFpara_ptf_Wosten1999 <- function(Pklei, Psilt, Psom, Bovengrond){
 #' 
 #' @references Wösten, J. H. M., Veerman, G. ., de Groot, W. J., & Stolte, J. (2001). Waterretentie en doorlatendheidskarakteristieken van boven- en ondergronden in Nederland: de Staringreeks. Alterra Rapport, 153, 86. https://doi.org/153
 #'
+#' @examples 
+#' pFpara_ptf_Wosten2001(Pklei = 25, Pleem = 15, Psom = 4.5,M50 = 150, Bovengrond = 1)
+#' pFpara_ptf_Wosten2001(Pklei = 45, Pleem = 3, Psom = 4.5,M50 = 150,Bovengrond = 1)
+#' 
+#' @return a table with the following columns:
+#' Dichtheid (numeric) soil bulk density (g/cm3)
+#' ThetaR (numeric) residual water content (cm3/cm3)
+#' ThetaS (numeric) saturated water content (cm3/cm3)
+#' alfa (numeric)  related to the inverse of the air entry suction, alfa > 0 (1/cm) 
+#' n (numeric)  a measure of the pore-size distribution, n>1, dimensionless
+#' ksat (numeric) saturated hydraulic conductivity (cm/d)
+#' l (numeric) dimension parameter
+#' 
 #' @export 
 pFpara_ptf_Wosten2001 <- function(Pklei, Pleem, Psom, M50, Bovengrond){
   
@@ -313,7 +357,7 @@ pFpara_ptf_Wosten2001 <- function(Pklei, Pleem, Psom, M50, Bovengrond){
   # order dt
   setorder(dt, id)
 
-  return(dt[, list(Dichtheid, ThetaR,  ThetaS, alfa, n, Ksat, l)])
+  return(dt[, list(Dichtheid, ThetaR,  ThetaS, alfa, n, ksat = Ksat, l)])
 }
 
 #' Parameter estimation based on class of Staringreeks (Tabel 3, Wosten 2001)
@@ -322,6 +366,17 @@ pFpara_ptf_Wosten2001 <- function(Pklei, Pleem, Psom, M50, Bovengrond){
 #' @param Pleem (numeric) The loam (<50um) content of the soil (\%) Pleem > 0 
 #' @param Psom (numeric) The organic matter content of the soil (\%) Psom > 0
 #' @param M50 (numeric)size of  sand fraction (um)
+#'
+#' @examples 
+#' pFpara_class(Pklei = 25, Pleem = 15, Psom = 4.5,M50 = 150)
+#' pFpara_class(Pklei = 45, Pleem = 3, Psom = 4.5,M50 = 150)
+#' 
+#' @return a table with the following columns:
+#' ThetaR (numeric) residual water content (cm3/cm3)
+#' ThetaS (numeric) saturated water content (cm3/cm3)
+#' alfa (numeric)  related to the inverse of the air entry suction, alfa > 0 (1/cm) 
+#' n (numeric)  a measure of the pore-size distribution, n>1, dimensionless
+#' ksat (numeric) saturated hydraulic conductivity (cm/d)
 #' 
 #' @export
 pFpara_class <- function(Pklei, Pleem, Psom, M50){
@@ -378,29 +433,8 @@ pFpara_class <- function(Pklei, Pleem, Psom, M50){
   # order dt
   setorder(dt, id)
   
-  return(dt[, list(thres, thsat, alpha, n, Ks)])
+  return(dt[, list(ThetaR = thres, ThetaS = thsat, alfa = alpha, n, ksat = Ks)])
 }
 
 
-#' Table with water retention properties of 'bouwstenen'
-#' 
-#' This table contains water retention curve parameters and typical mineral composition of 18 'bouwstenen'
-#' 
-#' @format A data.frame with 36 rows and 14 columns:
-#' \describe{
-#'   \item{bouwsteen}{soil type bouwsteen}
-#'   \item{omschrijving}{description of 'bouwsteen'}
-#'   \item{thres}{residual water content (cm3/cm3). Table 3 of Wosten 2001}
-#'   \item{thsat}{water content at saturation (cm3/cm3). Table 3 of Wosten 2001}
-#'   \item{Ks}{saturated hydraulic conductivity (cm/d). Table 3 of Wosten 2001}
-#'   \item{alpha}{parameter alpha of pF curve (1/cm) Table 3 of Wosten 2001}
-#'   \item{l}{parameter l of pF curve (-). Table 3 of Wosten 2001}
-#'   \item{n}{parameter n of pF curve (-). Table 3 of Wosten 2001}
-#'   \item{sand\%}{sand content (\%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
-#'   \item{silt\%}{silt content (\%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
-#'   \item{clay\%}{clay content (\%) within soil mineral parts. Middle value of Table 1 of Wosten 2001}
-#'   \item{OM\%}{organic matter content (\%). Middle value of Table 1 of Wosten 2001}
-#'   \item{bulkdensity}{soil bulk density (g/cm3). Middle value of Table 2 of Wosten 2001}
-#'   \item{M50}{size of sand particles (um). Middle value of Table 2 of Wosten 2001}
-#' }
-"bouwsteen_tb"
+

@@ -6,7 +6,7 @@
 #' @param B_SOILTYPE_AGR (character) The type of soil
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
 #' @param A_SOM_LOI (numeric) The organic matter content of the soil (in percent)
-#' @param A_S_RT (numeric) The total Sulfur content of the soil (in mg S per kg)
+#' @param A_S_RT (numeric) The total Sulpher content of the soil (in mg S per kg)
 #' @param D_BDS (numeric) The bulk density of the soil (in kg per m3)
 #' 
 #' @import data.table
@@ -247,16 +247,16 @@ calc_sbal_arable <- function(D_SLV, B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS) {
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
 #' @param B_SOILTYPE_AGR (character) The type of soil
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
-#' 
+#'
 #' @examples 
-#' ind_sulpher(D_SLV = 15,B_LU_BRP = 256,B_SOILTYPE_AGR = 'dekzand',B_AER_CBS = 'Rivierengebied')
-#' ind_sulpher(c(10,15,35),c(256,1019,1019),rep('rivierklei',3),rep('Rivierengebied',3))
+#' ind_sulfur(D_SLV = 15,B_LU_BRP = 256,B_SOILTYPE_AGR = 'dekzand',B_AER_CBS = 'Rivierengebied')
+#' ind_sulfur(c(10,15,35),c(256,1019,1019),rep('rivierklei',3),rep('Rivierengebied',3))
 #'  
 #' @return 
 #' The evaluated score for the soil function to supply sulfur for crop uptake. A numeric value between 0 and 1.
 #' 
 #' @export
-ind_sulpher <- function(D_SLV,B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS) {
+ind_sulfur <- function(D_SLV,B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS) {
   
   id = crop_code = soiltype = soiltype.n = crop_category = sbal = NULL
   
@@ -316,3 +316,34 @@ ind_sulpher <- function(D_SLV,B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS) {
   # return output
   return(value)
 }
+
+#' Calculate the indicator for SLV (deprecated)
+#' 
+#' This function calculates the indicator for the the S-index by using the SLV calculated by \code{\link{calc_slv}}
+#' 
+#' @param D_SLV (numeric) The value of SLV  calculated by \code{\link{calc_slv}}
+#' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
+#' @param B_SOILTYPE_AGR (character) The type of soil
+#' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
+#' 
+#' @details Pl
+#' 
+#' @examples 
+#' ind_sulpher(D_SLV = 15,B_LU_BRP = 256,B_SOILTYPE_AGR = 'dekzand',
+#' B_AER_CBS = 'Rivierengebied')
+#' ind_sulpher(c(10,15,35),c(256,1019,1019),rep('rivierklei',3),rep('Rivierengebied',3))
+#'  
+#' @return 
+#' The evaluated score for the soil function to supply sulfur for crop uptake. A numeric value between 0 and 1.
+#' 
+#' @export
+ind_sulpher <- function(D_SLV,B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS) {
+  
+  warning('The function ind_sulpher is deprecated, please use ind_sulfur')
+  
+  value <- ind_sulfur(D_SLV,B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS)
+  
+  # return output
+  return(value)
+}
+

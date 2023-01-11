@@ -4,10 +4,21 @@
 #' 
 #' @param ID (numeric) The ID of the field
 #' @param B_LU_BRP (numeric) The crop code (gewascode) from the BRP
-#' @param crop (character) The crop to check for
+#' @param crop (character) The crop to check for. For relevant crop categories, see details.
 #' 
 #' @import data.table
+#'
+#' @details 
+#' This function calculates the fraction present in the crop rotation for specific crop categories. 
+#' These categories include "starch", "potato", "sugarbeet", "grass", "mais", "alfalfa","catchcrop","cereal","clover",'nature', rapeseed',"other","rustgewas",and "rustgewasdiep".
 #' 
+#' @examples 
+#' calc_rotation_fraction(ID = rep(1,4), B_LU_BRP = c(265,1910,1935,1033),crop = 'potato')
+#' calc_rotation_fraction(ID = rep(1,4), B_LU_BRP = c(265,1910,1935,1033),crop = 'grass')
+#'
+#' @return 
+#' The fraction of specific crop types within the crop rotation sequence. A numeric value.
+#'  
 #' @export
 calc_rotation_fraction <- function(ID, B_LU_BRP, crop) {
   

@@ -11,6 +11,14 @@ ind_nitrogen(D_NLV, B_LU_BRP)
 
 \item{B_LU_BRP}{(numeric) The crop code from the BRP}
 }
+\value{
+The evaluated score for the soil function to supply nitrogen for crop uptake. A numeric value between 0 and 1.
+}
 \description{
 This function calculates the indicator for the the nitrogen content of the soil by using the NLV calculated by \code{\link{calc_nlv}}
+}
+\examples{
+ind_nitrogen(D_NLV = 85,B_LU_BRP = 256)
+ind_nitrogen(D_NLV = c(150,65,35),B_LU_BRP = c(256,1019,1019))
+ 
 }
