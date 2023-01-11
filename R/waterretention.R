@@ -89,7 +89,7 @@ calc_waterretention <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI,
   
   # convert from % to mm (wp) and mm (fc)
   dt[,wp := wp * p.depth * 1000]
-  dt[,fc := wp * p.depth * 1000]
+  dt[,fc := fc * p.depth * 1000]
   
   # select Water Retention index
   if(type=='wilting point'){dt[,value := wp]}
