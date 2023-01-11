@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
       </span>
     </div>
 
@@ -84,12 +84,12 @@
 
       
 
-      </header><script src="description-of-the-columns_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Description of the columns for OBIC</h1>
             
-            <h4 data-toc-skip class="date">2022-08-25</h4>
+            <h4 data-toc-skip class="date">2023-01-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/HEAD/vignettes/description-of-the-columns.Rmd" class="external-link"><code>vignettes/description-of-the-columns.Rmd</code></a></small>
       <div class="hidden name"><code>description-of-the-columns.Rmd</code></div>
@@ -100,7 +100,13 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator" class="external-link">OBIC</a></span><span class="op">)</span></span></code></pre></div>
-<p>The main function of the package <code><a href="../reference/obic_field.html">obic_field()</a></code> requires as input a series of soil properties required to assess the soil quality. Alternatively, the function <code><a href="../reference/obic_field_dt.html">obic_field_dt()</a></code> can be used, requiring a <code>data.table</code> with specific columns as input. These required input columns are specified in <code><a href="../reference/column_description.obic.html">OBIC::column_description.obic</a></code> and can also be seen in the table below</p>
+<p>The main function of the package <code><a href="../reference/obic_field.html">obic_field()</a></code> requires
+as input a series of soil properties required to assess the soil
+quality. Alternatively, the function <code><a href="../reference/obic_field_dt.html">obic_field_dt()</a></code> can be
+used, requiring a <code>data.table</code> with specific columns as
+input. These required input columns are specified in
+<code><a href="../reference/column_description.obic.html">OBIC::column_description.obic</a></code> and can also be seen in the
+table below</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">desc</span> <span class="op">&lt;-</span> <span class="fu">OBIC</span><span class="fu">::</span><span class="va"><a href="../reference/column_description.obic.html">column_description.obic</a></span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">desc</span><span class="op">)</span></span></code></pre></div>
@@ -406,7 +412,8 @@
 <td align="left">B_GWL_GLG</td>
 <td align="left">measurement</td>
 <td align="left">Gemiddeld Laagste Grondwaterstand</td>
-<td align="left">The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level</td>
+<td align="left">The lowest groundwater level averaged over the most dry
+periods in 8 years in cm below ground level</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
@@ -414,7 +421,8 @@
 <td align="left">B_GWL_GHG</td>
 <td align="left">measurement</td>
 <td align="left">Gemiddeld Hoogste Grondwaterstand</td>
-<td align="left">The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level</td>
+<td align="left">The highest groundwater level averaged over the most
+wet periods in 8 years in cm below ground level</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
@@ -422,7 +430,9 @@
 <td align="left">B_Z_CRIT</td>
 <td align="left">measurement</td>
 <td align="left">NA</td>
-<td align="left">The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)</td>
+<td align="left">The distance between ground level and groundwater level
+at which the groundwater can supply the soil surface with 2mm water per
+day (in cm)</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
@@ -485,7 +495,8 @@
 <tr class="even">
 <td align="left">B_DRAINAGE</td>
 <td align="left">measurement</td>
-<td align="left">Wordt het perceAre drains installed to drain the fieldel gedraineerd</td>
+<td align="left">Wordt het perceAre drains installed to drain the
+fieldel gedraineerd</td>
 <td align="left">NA</td>
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
@@ -510,7 +521,8 @@
 <td align="left">D_RD</td>
 <td align="left">derivative</td>
 <td align="left">Bemonsteringsdiepte</td>
-<td align="left">The agronomic used sampling depth for soil analysis</td>
+<td align="left">The agronomic used sampling depth for soil
+analysis</td>
 <td align="left">m</td>
 <td align="left">NA</td>
 </tr>
@@ -590,7 +602,7 @@
 <td align="left">D_CP_RUST</td>
 <td align="left">derivative</td>
 <td align="left">Fractie rustgewassen</td>
-<td align="left">The fraction "“crops improving soil quality”"</td>
+<td align="left">The fraction ““crops improving soil quality””</td>
 <td align="left">-</td>
 <td align="left">NA</td>
 </tr>
@@ -789,7 +801,8 @@
 <tr class="even">
 <td align="left">D_PESTICIDE</td>
 <td align="left">derivative</td>
-<td align="left">Uitspoelingsrisiko gewasbestrijdingsmiddelen naar grondwater</td>
+<td align="left">Uitspoelingsrisiko gewasbestrijdingsmiddelen naar
+grondwater</td>
 <td align="left">Leaching risk of pesticides to groundwater</td>
 <td align="left">-</td>
 <td align="left">NA</td>
@@ -1014,7 +1027,8 @@
 <td align="left">I_M_SOILFERTILITY</td>
 <td align="left">indicator</td>
 <td align="left">bodemmanagementscore voor bodemvruchtbaarheid</td>
-<td align="left">integrated soil management indicator for soil fertility</td>
+<td align="left">integrated soil management indicator for soil
+fertility</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
@@ -1022,7 +1036,8 @@
 <td align="left">I_M_CLIMATE</td>
 <td align="left">indicator</td>
 <td align="left">bodemmanagementscore voor klimaatmitigatie</td>
-<td align="left">integrated soil management indicator for soil carbon sequestration</td>
+<td align="left">integrated soil management indicator for soil carbon
+sequestration</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
@@ -1030,7 +1045,8 @@
 <td align="left">I_M_WATERQUALITY</td>
 <td align="left">indicator</td>
 <td align="left">bodemmanagementscore voor waterkwaliteit</td>
-<td align="left">integrated soil management indicator for waterquality</td>
+<td align="left">integrated soil management indicator for
+waterquality</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
@@ -1038,7 +1054,8 @@
 <td align="left">I_M_BIODIVERSITY</td>
 <td align="left">indicator</td>
 <td align="left">bodemmanagementscore voor bodembiodiversiteit</td>
-<td align="left">integrated soil management indicator for soil biodiversity</td>
+<td align="left">integrated soil management indicator for soil
+biodiversity</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
@@ -1077,7 +1094,8 @@
 <tr class="even">
 <td align="left">M_EARLYCROP</td>
 <td align="left">measurement</td>
-<td align="left">wordt berijding in het najaar vermeden (vroege rassen)</td>
+<td align="left">wordt berijding in het najaar vermeden (vroege
+rassen)</td>
 <td align="left">Use of early crops</td>
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
@@ -1101,7 +1119,8 @@
 <tr class="odd">
 <td align="left">M_DITCH</td>
 <td align="left">measurement</td>
-<td align="left">worden sloten op diepte gehouden en het bagger benut</td>
+<td align="left">worden sloten op diepte gehouden en het bagger
+benut</td>
 <td align="left">Ditch is cleaned and sludge is applied</td>
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
@@ -1125,7 +1144,8 @@
 <tr class="even">
 <td align="left">M_SSPM</td>
 <td align="left">measurement</td>
-<td align="left">worden er bodemstructuur beschermende maatregelen genomen (vaste rijpaden, lage bandenspanning, lage wiellast)?</td>
+<td align="left">worden er bodemstructuur beschermende maatregelen
+genomen (vaste rijpaden, lage bandenspanning, lage wiellast)?</td>
 <td align="left">Soil Structure Protection Measures</td>
 <td align="left">ja/nee</td>
 <td align="left">NA</td>
@@ -1373,8 +1393,10 @@
 <tr class="odd">
 <td align="left">A_DSN_PA_PAC</td>
 <td align="left">measurement</td>
-<td align="left">Vrijlevende wortelaaltje, paratrichodorus pachydermus</td>
-<td align="left">Dwelling Stunt Nematode, paratrichodorus pachydermus</td>
+<td align="left">Vrijlevende wortelaaltje, paratrichodorus
+pachydermus</td>
+<td align="left">Dwelling Stunt Nematode, paratrichodorus
+pachydermus</td>
 <td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
@@ -1469,48 +1491,60 @@
 <tr class="odd">
 <td align="left">A_NPN_SA_TOT</td>
 <td align="left">measurement</td>
-<td align="left">Niet plantparasitaire aaltjes, saprofage en overige</td>
-<td align="left">Non Plant Pathogenic Nematode, saprofage en overige</td>
+<td align="left">Niet plantparasitaire aaltjes, saprofage en
+overige</td>
+<td align="left">Non Plant Pathogenic Nematode, saprofage en
+overige</td>
 <td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">A_OPN_AP_FRA</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, aphelenchoides fragariae</td>
-<td align="left">Other Plant Pathogenic Nematode, aphelenchoides fragariae</td>
+<td align="left">Overige plantparasitaire aaltje, aphelenchoides
+fragariae</td>
+<td align="left">Other Plant Pathogenic Nematode, aphelenchoides
+fragariae</td>
 <td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">A_OPN_AP_RIT</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, aphelenchoides ritzemabosi</td>
-<td align="left">Other Plant Pathogenic Nematode, aphelenchoides ritzemabosi</td>
+<td align="left">Overige plantparasitaire aaltje, aphelenchoides
+ritzemabosi</td>
+<td align="left">Other Plant Pathogenic Nematode, aphelenchoides
+ritzemabosi</td>
 <td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">A_OPN_AP_SUB</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, aphelenchoides subtenuis</td>
-<td align="left">Other Plant Pathogenic Nematode, aphelenchoides subtenuis</td>
+<td align="left">Overige plantparasitaire aaltje, aphelenchoides
+subtenuis</td>
+<td align="left">Other Plant Pathogenic Nematode, aphelenchoides
+subtenuis</td>
 <td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">A_OPN_AP_TOT</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, aphelenchoides spp.</td>
-<td align="left">Other Plant Pathogenic Nematode, aphelenchoides spp.</td>
+<td align="left">Overige plantparasitaire aaltje, aphelenchoides
+spp.</td>
+<td align="left">Other Plant Pathogenic Nematode, aphelenchoides
+spp.</td>
 <td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">A_OPN_CR_TOT</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, criconematidae spp.</td>
-<td align="left">Other Plant Pathogenic Nematode, criconematidae spp.</td>
+<td align="left">Overige plantparasitaire aaltje, criconematidae
+spp.</td>
+<td align="left">Other Plant Pathogenic Nematode, criconematidae
+spp.</td>
 <td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
@@ -1525,16 +1559,20 @@
 <tr class="even">
 <td align="left">A_OPN_CYA_CYS</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, aardappelcysteaaltjes</td>
-<td align="left">Other Plant Pathogenic Nematode, aardappelcysteaaltjes</td>
+<td align="left">Overige plantparasitaire aaltje,
+aardappelcysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode,
+aardappelcysteaaltjes</td>
 <td align="left">n/200cc</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">A_OPN_CYA_LLE</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, aardappelcysteaaltjes</td>
-<td align="left">Other Plant Pathogenic Nematode, aardappelcysteaaltjes</td>
+<td align="left">Overige plantparasitaire aaltje,
+aardappelcysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode,
+aardappelcysteaaltjes</td>
 <td align="left">n/200cc</td>
 <td align="left">NA</td>
 </tr>
@@ -1557,16 +1595,20 @@
 <tr class="even">
 <td align="left">A_OPN_CYB_CYS</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, bietencysteaaltjes</td>
-<td align="left">Other Plant Pathogenic Nematode, bietencysteaaltjes</td>
+<td align="left">Overige plantparasitaire aaltje,
+bietencysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode,
+bietencysteaaltjes</td>
 <td align="left">n/200cc</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">A_OPN_CYB_LLE</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, bietencysteaaltjes</td>
-<td align="left">Other Plant Pathogenic Nematode, bietencysteaaltjes</td>
+<td align="left">Overige plantparasitaire aaltje,
+bietencysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode,
+bietencysteaaltjes</td>
 <td align="left">n/200cc</td>
 <td align="left">NA</td>
 </tr>
@@ -1589,32 +1631,40 @@
 <tr class="even">
 <td align="left">A_OPN_CYO_CYS</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, overige cysteaaltjes</td>
-<td align="left">Other Plant Pathogenic Nematode, overige cysteaaltjes</td>
+<td align="left">Overige plantparasitaire aaltje, overige
+cysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, overige
+cysteaaltjes</td>
 <td align="left">n/200cc</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">A_OPN_CYO_LLE</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, overige cysteaaltjes</td>
-<td align="left">Other Plant Pathogenic Nematode, overige cysteaaltjes</td>
+<td align="left">Overige plantparasitaire aaltje, overige
+cysteaaltjes</td>
+<td align="left">Other Plant Pathogenic Nematode, overige
+cysteaaltjes</td>
 <td align="left">n/200cc</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">A_OPN_PA_BUK</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, paratylenchus bukowinensis</td>
-<td align="left">Other Plant Pathogenic Nematode, paratylenchus bukowinensis</td>
+<td align="left">Overige plantparasitaire aaltje, paratylenchus
+bukowinensis</td>
+<td align="left">Other Plant Pathogenic Nematode, paratylenchus
+bukowinensis</td>
 <td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">A_OPN_PA_TOT</td>
 <td align="left">measurement</td>
-<td align="left">Overige plantparasitaire aaltje, paratylenchus spp.</td>
-<td align="left">Other Plant Pathogenic Nematode, paratylenchus spp.</td>
+<td align="left">Overige plantparasitaire aaltje, paratylenchus
+spp.</td>
+<td align="left">Other Plant Pathogenic Nematode, paratylenchus
+spp.</td>
 <td align="left">n/100g</td>
 <td align="left">NA</td>
 </tr>
@@ -1869,7 +1919,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
