@@ -187,6 +187,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_PESTICIDES_DST = M_PESTICIDES_DST)
   
 
+  # Check B_LU_BRP
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  
   # Merge dt with crops.obic
   dt <- merge(dt,OBIC::crops.obic[,list(crop_code,crop_category)], by.x = 'B_LU_BRP', by.y = 'crop_code') 
   
