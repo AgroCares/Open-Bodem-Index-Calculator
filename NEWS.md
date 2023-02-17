@@ -1,3 +1,7 @@
+# OBIC 2.0.5 2023-02-17
+### Fixed
+* Fixes to generate clearer error message when incorrect B_LU_BRP is supplied.
+
 # OBIC 2.0.4 2023-01-11
 ### Fixed
 * Fixes calculation of `field capacity` at `calc_waterretention`
