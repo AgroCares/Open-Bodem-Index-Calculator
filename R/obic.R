@@ -778,13 +778,13 @@ obic_farm <- function(dt,
   checkmate::assert_numeric(th_obi_m, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
   
   # calculate obic score for all the fields
-  out <- obic_field_dt(dt = dt, output = 'all')
+  out <- obic_field_dt(dt = dt, output = c('scores','indicators'))
   
   # aggregate into a farm for indicators and scores, and melt
   dt.farm <- copy(out)
   dt.farm[, farmid := 1]
   cols <- colnames(dt.farm)[grepl('^RM_',colnames(dt.farm))]
-  dt.farm[,c(cols):=NULL]
+  if(length(cols)>0){dt.farm[,c(cols):=NULL]}
   dt.farm <- dt.farm[,lapply(.SD,as.numeric)]
   dt.farm <- melt(dt.farm,
                   id.vars = c('farmid','ID'), 

@@ -11,7 +11,7 @@ test_that("obic_farm works", {
   )
   expect_equal(
     length(out$field),
-    expected = 44,
+    expected = 35,
     tolerance = 0.01
   )
   expect_equal(
