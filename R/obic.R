@@ -124,7 +124,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   crop_code = weight = score.cf = . = out.ind = NULL
   weight_peat = weight_nonpeat = variable = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
-  var = cf = ncat = id = NULL
+  var = cf = ncat = id = S_T_OBI_A = NULL
   
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
@@ -460,32 +460,58 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.score[value== -999, value := NA]
     out.score <- dcast(out.score,ID~cat)
     
-    # get most occurring soil type and crop type
-    dt.sc <- dt[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), 
-                            .SDcols = c('B_LU_BRP','B_SOILTYPE_AGR'),by = ID]
-    dt.sc[, B_LU_BRP := as.integer(B_LU_BRP)]
+    if('recommendations' %in% output | 'all' %in% output){
+      
+      # get most occurring soil type and crop type
+      dt.sc <- dt[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), 
+                  .SDcols = c('B_LU_BRP','B_SOILTYPE_AGR'),by = ID]
+      dt.sc[, B_LU_BRP := as.integer(B_LU_BRP)]
+      
+      # combine indicators and score in one data.table
+      setkey(dt.sc, ID); setkey(out.ind, ID); setkey(out.score, ID)
+      dt.score <- data.table(dt.sc, out.ind[, -"ID"], out.score[, -"ID"])
+      
+      # evaluate measures
+      dt.measure <- obic_evalmeasure(dt.score, extensive = FALSE)
+      
+      # make recommendations of top 3 measures
+      out.recom <- obic_recommendations(dt.measure)
+      setkey(out.recom, ID)
+      
+    }
     
-    # combine indicators and score in one data.table
-    setkey(dt.sc, ID); setkey(out.ind, ID); setkey(out.score, ID)
-    dt.score <- data.table(dt.sc, out.ind[, -"ID"], out.score[, -"ID"])
-  
-    # evaluate measures
-    dt.measure <- obic_evalmeasure(dt.score, extensive = FALSE)
-    
-    # make recommendations of top 3 measures
-    out.recom <- obic_recommendations(dt.measure)
-    setkey(out.recom, ID)
     
   #  Step 6 Combine all outputs into one ------------------
  
     # combine both outputs
-    if(output == 'all'){out <- data.table(out.ind,out.score[, -"ID"],out.recom[, -"ID"])}
-    if(output == 'indicators'){out <- out.ind}
-    if(output == 'recommendations'){out <- out.recom}
-    if(output == 'scores'){out <- out.score}
-    if(output == 'obic_score'){out <- out.score[,'S_T_OBI_A']}
-    if(output == 'unaggregated'){out <- dt.melt}
-   
+    if('all' %in% output){
+      
+      # combine all output into one data.table
+      out <- data.table(out.ind,out.score[, -"ID"],out.recom[, -"ID"])
+      
+    } else if('unaggregated' %in% output){
+      
+      # add unaggregated input data before aggregation
+      out <- dt.melt
+      
+    } else {
+      
+      # make empty data.table
+      out <- data.table(ID = out.ind$ID)
+      
+      # add indicators when requested
+      if('indicators' %in% output){out <- merge(out,out.ind,by='ID')}
+        
+      # add scores when requested
+      if('scores' %in% output){out <- merge(out,out.score,by='ID')}
+      
+      # add only final score when requested
+      if('obic_score' %in% output & !'scores' %in% output){out <- merge(out,out.score[,.(ID,S_T_OBI_A)],by='ID')}
+     
+      # add recommendaitons when requested
+      if('recommendations' %in% output){out <- merge(out,out.recom,by='ID')}
+      
+    }
     
   # return output
   return(out)
@@ -774,6 +800,7 @@ obic_farm <- function(dt,
   dt.farm[grepl('^I_B|^S_B',indicator) & !grepl('^I_BCS',indicator),c(nclass) := as.list(th_obi_b)]
   dt.farm[grepl('^I_M|^S_M',indicator),c(nclass) := as.list(th_obi_m)]
   dt.farm[grepl('^I_E|^S_E',indicator),c(nclass) := as.list(th_obi_e)]
+  dt.farm[grepl('^S_T_OBI',indicator),c(nclass) := as.list((th_obi_c + th_obi_p + th_obi_b)/3)]
   
   # melt the threshold values in farm data.table
   dt.farm2 <- melt(dt.farm, 
@@ -781,7 +808,7 @@ obic_farm <- function(dt,
                    variable.name = 'threshold')
   
   # when score or indicator is NA, then not applicable, so then distance to target is zero (and score equal to one)
-  dt.farm2[is.na(value), value:= 1]
+  dt.farm2[is.na(obi_score), obi_score := 1]
   
   # count number of fields per indicator and score
   dt.farm2[, catvalue := fifelse(obi_score <= value, 1, 0)]
