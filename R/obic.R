@@ -691,7 +691,7 @@ obic_farm <- function(dt,
                       ) {
   
   # add visual binding
-  
+  farmid = indicator = value = catvalue = obi_score = NULL
   
   # make local copy
   dt <- copy(dt)
@@ -752,7 +752,7 @@ obic_farm <- function(dt,
   checkmate::assert_numeric(th_obi_m, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
   
   # calculate obic score for all the fields
-  out <- obic_field_dt(dt = dt, output = output)
+  out <- obic_field_dt(dt = dt, output = 'all')
   
   # aggregate into a farm for indicators and scores, and melt
   dt.farm <- copy(out)
@@ -769,11 +769,11 @@ obic_farm <- function(dt,
   nclass <- paste0('nclass_',1:nclass)
   
   # add thresholds
-  dt.farm[grepl('^I_C|^S_C',indicator),c(nclass) := as.list(th_chemical)]
-  dt.farm[grepl('^I_P|^S_P|^I_BCS',indicator),c(nclass) := as.list(th_physical)]
-  dt.farm[grepl('^I_B|^S_B',indicator) & !grepl('^I_BCS',indicator),c(nclass) := as.list(th_biological)]
-  dt.farm[grepl('^I_M|^S_M',indicator),c(nclass) := as.list(th_management)]
-  dt.farm[grepl('^I_E|^S_E',indicator),c(nclass) := as.list(th_environment)]
+  dt.farm[grepl('^I_C|^S_C',indicator),c(nclass) := as.list(th_obi_c)]
+  dt.farm[grepl('^I_P|^S_P|^I_BCS',indicator),c(nclass) := as.list(th_obi_p)]
+  dt.farm[grepl('^I_B|^S_B',indicator) & !grepl('^I_BCS',indicator),c(nclass) := as.list(th_obi_b)]
+  dt.farm[grepl('^I_M|^S_M',indicator),c(nclass) := as.list(th_obi_m)]
+  dt.farm[grepl('^I_E|^S_E',indicator),c(nclass) := as.list(th_obi_e)]
   
   # melt the threshold values in farm data.table
   dt.farm2 <- melt(dt.farm, 
@@ -793,6 +793,13 @@ obic_farm <- function(dt,
                     indicator ~ threshold, 
                     value.var = 'catvalue',
                     fun.aggregate = sum, na.rm=T)
+  
+  # change names
+  setnames(dt.farm2,gsub('nclass_','s_obi_farm_',colnames(dt.farm2)))
+  
+  # combine output in a list
+  out <- list(field = out, 
+              farm = dt.farm2)
   
   # return output
   return(out)
