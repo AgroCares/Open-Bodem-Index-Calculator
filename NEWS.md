@@ -1,7 +1,10 @@
-# OBIC unreleased
+# OBIC 2.1.0 2023-03-01
+
+### Changed
+* output handling in obic_field is updated to have more flexibility and avoid undesired calculations
 
 ### Added
-* add farm scale vectorised obi wrapper
+* add `obic_farm` to assess soil quality on farm level (plus unit tests)
 
 # OBIC 2.0.4 2023-01-11
 ### Fixed
