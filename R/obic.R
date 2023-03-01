@@ -644,14 +644,18 @@ obic_field_dt <- function(dt,output = 'all') {
 #' In contrast to obic_field, this wrapper uses a data.table as input.
 #' 
 #' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
-#' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
+#' @param th_obi_c (numeric) A vector with the threshold values for farm evaluation of the chemical soil functions, values between 0 and 1, and in increasing order. 
+#' @param th_obi_p (numeric) A vector with the threshold values for farm evaluation of the physical soil functions, values between 0 and 1, and in increasing order. 
+#' @param th_obi_b (numeric) A vector with the threshold values for farm evaluation of the biological soil functions, values between 0 and 1, and in increasing order. 
+#' @param th_obi_e (numeric) A vector with the threshold values for farm evaluation of the environmental soil functions, values between 0 and 1, and in increasing order. 
+#' @param th_obi_m (numeric) A vector with the threshold values for farm evaluation of the soil management functions, values between 0 and 1, and in increasing order. 
 #' 
 #' @import data.table
 #' 
 #' @examples 
 #'  
 #' \dontrun{
-#' obic_field_dt(data.table(B_SOILTYPE_AGR = 'rivierklei',B_GWL_CLASS = "II",
+#' obic_farm(dt = data.table(B_SOILTYPE_AGR = 'rivierklei',B_GWL_CLASS = "II",
 #' B_GWL_GLG = 75,B_GWL_GHG = 10,
 #' B_GWL_ZCRIT = 50,B_SC_WENR = '2',B_HELP_WENR = "MOb72",B_AER_CBS = 'LG01',
 #' B_LU_BRP = c( 1010, 1010,263,263, 263,265,265,265),A_SOM_LOI = 3.91,A_SAND_MI = 66.3,
@@ -665,7 +669,12 @@ obic_field_dt <- function(dt,output = 'all') {
 #' M_UNDERSEED = FALSE,M_LIME = FALSE,M_MECHWEEDS = FALSE,M_NONINVTILL = FALSE,
 #' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE))
 #'}
-#' 
+#'
+#' @details 
+#' The data.table should contain all required inputs for soil properties needed to calculate OBI score. Management information is optional as well as the observations from the visual soil assessment.
+#' The threshold values per category of soil functions need to have an equal length, with fractions defining the class boundaries in increasing order. 
+#' The lowest boundary value (zero) is not needed.
+#'  
 #' @return 
 #' The output of the Open Bodem Index Calculator for a series of agricultural fields belonging to a single farm. 
 #' Depending on the output type, different output objects can be returned.
@@ -673,7 +682,13 @@ obic_field_dt <- function(dt,output = 'all') {
 #' The output is a list with field properties as well as aggregated farm properties
 #' 
 #' @export
-obic_farm <- function(dt,output = 'all') {
+obic_farm <- function(dt,
+                      th_obi_c = c(0.4,0.8,1.0),
+                      th_obi_p = c(0.4,0.8,1.0),
+                      th_obi_b = c(0.4,0.8,1.0),
+                      th_obi_e = c(0.4,0.8,1.0),
+                      th_obi_m = c(0.4,0.8,1.0)
+                      ) {
   
   # add visual binding
   
@@ -684,7 +699,7 @@ obic_farm <- function(dt,output = 'all') {
   # Check inputs
   checkmate::assert_data_table(dt)
   
-  # mandatory column names 
+  # mandatory column names to calculate OBI scores 
   dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 
               'B_GWL_GLG', 'B_GWL_GHG', 'B_GWL_ZCRIT', 'B_LU_BRP', 
               'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC',
@@ -719,102 +734,66 @@ obic_farm <- function(dt,output = 'all') {
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
   
-  # calculate obic_field
-  out <- obic_field(B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
-                    B_GWL_CLASS = dt$B_GWL_CLASS,
-                    B_SC_WENR = dt$B_SC_WENR,
-                    B_HELP_WENR = dt$B_HELP_WENR,
-                    B_AER_CBS = dt$B_AER_CBS,
-                    B_GWL_GLG = dt$B_GWL_GLG,
-                    B_GWL_GHG = dt$B_GWL_GHG,
-                    B_GWL_ZCRIT = dt$B_GWL_ZCRIT,
-                    B_LU_BRP = dt$B_LU_BRP, 
-                    A_SOM_LOI = dt$A_SOM_LOI, 
-                    A_SAND_MI = dt$A_SAND_MI, 
-                    A_SILT_MI = dt$A_SILT_MI, 
-                    A_CLAY_MI = dt$A_CLAY_MI,
-                    A_PH_CC = dt$A_PH_CC,
-                    A_N_RT = dt$A_N_RT,
-                    A_CN_FR = dt$A_CN_FR, 
-                    A_S_RT = dt$A_S_RT,
-                    A_N_PMN = dt$A_N_PMN,
-                    A_P_AL= dt$A_P_AL, 
-                    A_P_CC = dt$A_P_CC, 
-                    A_P_WA = dt$A_P_WA,
-                    A_CEC_CO = dt$A_CEC_CO,
-                    A_CA_CO_PO = dt$A_CA_CO_PO, 
-                    A_MG_CO_PO = dt$A_MG_CO_PO, 
-                    A_K_CO_PO = dt$A_K_CO_PO,
-                    A_K_CC = dt$A_K_CC,
-                    A_MG_CC = dt$A_MG_CC, 
-                    A_MN_CC = dt$A_MN_CC, 
-                    A_ZN_CC = dt$A_ZN_CC, 
-                    A_CU_CC = dt$A_CU_CC,
-                    A_C_BCS = dt$A_C_BCS, 
-                    A_CC_BCS = dt$A_CC_BCS,
-                    A_GS_BCS = dt$A_GS_BCS,
-                    A_P_BCS = dt$A_P_BCS,
-                    A_RD_BCS = dt$A_RD_BCS,
-                    A_EW_BCS = dt$A_EW_BCS,
-                    A_SS_BCS = dt$A_SS_BCS,
-                    A_RT_BCS = dt$A_RT_BCS,
-                    A_SC_BCS = dt$A_SC_BCS,
-                    M_COMPOST = dt$M_COMPOST,
-                    M_GREEN = dt$M_GREEN, 
-                    M_NONBARE = dt$M_NONBARE, 
-                    M_EARLYCROP = dt$M_EARLYCROP, 
-                    M_SLEEPHOSE = dt$M_SLEEPHOSE,
-                    M_DRAIN = dt$M_DRAIN,
-                    M_DITCH = dt$M_DITCH,
-                    M_UNDERSEED = dt$M_UNDERSEED,
-                    M_LIME = dt$M_LIME,
-                    M_NONINVTILL = dt$M_NONINVTILL, 
-                    M_SSPM = dt$M_SSPM, 
-                    M_SOLIDMANURE = dt$M_SOLIDMANURE,
-                    M_STRAWRESIDUE = dt$M_STRAWRESIDUE,
-                    M_MECHWEEDS = dt$M_MECHWEEDS,
-                    M_PESTICIDES_DST = dt$M_PESTICIDES_DST,
-                    ID = dt$ID,
-                    output = output
-                  )
+  # check tresholds, remove values above 1 and the zero, and sort them from low to high
+  th_obi_c = sort(th_obi_c[th_obi_c > 0 & th_obi_c <= 1])
+  th_obi_p = sort(th_obi_p[th_obi_p > 0 & th_obi_p <= 1])
+  th_obi_b = sort(th_obi_b[th_obi_b > 0 & th_obi_b <= 1])
+  th_obi_e = sort(th_obi_e[th_obi_e > 0 & th_obi_e <= 1])
+  th_obi_m = sort(th_obi_m[th_obi_m > 0 & th_obi_m <= 1])
   
-  th_chemical = c(0.4,0.8,1.0)
-  th_physical = c(0.4,0.8,1.0)
-  th_biological = c(0.4,0.8,1.0)
-  th_environment = c(0.4,0.8,1.0)
-  th_management = c(0.4,0.8,1.0)
+  # the number of threshold classes required
+  nclass <- max(length(th_obi_c),length(th_obi_p),length(th_obi_b),length(th_obi_e),length(th_obi_m))
   
-  # estimate number of fields per class
-  dt.thresholds <- data.table(th_chemical = c(0.4,0.8,1.0),
-                              th_physical = c(0.4,0.8,1.0),
-                              th_biological = c(0.4,0.8,1.0),
-                              th_environment = c(0.4,0.8,1.0),
-                              th_management = c(0.4,0.8,1.0))
+  # add checkmate for thresholds
+  checkmate::assert_numeric(th_obi_c, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
+  checkmate::assert_numeric(th_obi_p, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
+  checkmate::assert_numeric(th_obi_b, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
+  checkmate::assert_numeric(th_obi_e, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
+  checkmate::assert_numeric(th_obi_m, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
   
+  # calculate obic score for all the fields
+  out <- obic_field_dt(dt = dt, output = output)
+  
+  # aggregate into a farm for indicators and scores, and melt
   dt.farm <- copy(out)
   dt.farm[, farmid := 1]
   cols <- colnames(dt.farm)[grepl('^RM_',colnames(dt.farm))]
   dt.farm[,c(cols):=NULL]
   dt.farm <- dt.farm[,lapply(.SD,as.numeric)]
-  dt.farm <- melt(dt.farm,id.vars = 'farmid', variable.name = 'indicator',value.name = 'obi_score')
-  
-  # the number of threshold classes required
-  nclass <- max(length(th_chemical),length(th_physical),length(th_biological),length(th_environment),length(th_management))
+  dt.farm <- melt(dt.farm,
+                  id.vars = c('farmid','ID'), 
+                  variable.name = 'indicator',
+                  value.name = 'obi_score')
   
   # add threshold columns
   nclass <- paste0('nclass_',1:nclass)
   
   # add thresholds
   dt.farm[grepl('^I_C|^S_C',indicator),c(nclass) := as.list(th_chemical)]
-  dt.farm[grepl('^I_P|^S_P',indicator),c(nclass) := as.list(th_physical)]
-  dt.farm[grepl('^I_B|^S_B',indicator),c(nclass) := as.list(th_biological)]
+  dt.farm[grepl('^I_P|^S_P|^I_BCS',indicator),c(nclass) := as.list(th_physical)]
+  dt.farm[grepl('^I_B|^S_B',indicator) & !grepl('^I_BCS',indicator),c(nclass) := as.list(th_biological)]
   dt.farm[grepl('^I_M|^S_M',indicator),c(nclass) := as.list(th_management)]
   dt.farm[grepl('^I_E|^S_E',indicator),c(nclass) := as.list(th_environment)]
   
-  # melt
-  dt.farm2 <- melt(dt.farm, id.vars = c('farmid','indicator','obi_score'), variable.name = 'threshold')
+  # melt the threshold values in farm data.table
+  dt.farm2 <- melt(dt.farm, 
+                   id.vars = c('farmid','ID','indicator','obi_score'), 
+                   variable.name = 'threshold')
+  
+  # when score or indicator is NA, then not applicable, so then distance to target is zero (and score equal to one)
+  dt.farm2[is.na(value), value:= 1]
+  
+  # count number of fields per indicator and score
   dt.farm2[, catvalue := fifelse(obi_score <= value, 1, 0)]
-  dt.farm2[,catvalue2 := ]
+  dt.farm2[, catvalue := cumsum(catvalue),by = c('ID','indicator')]
+  dt.farm2[catvalue > 1, catvalue := 0]
+  
+  # estimate the number of fields in a given class
+  dt.farm2 <- dcast(dt.farm2, 
+                    indicator ~ threshold, 
+                    value.var = 'catvalue',
+                    fun.aggregate = sum, na.rm=T)
+  
   # return output
   return(out)
   
