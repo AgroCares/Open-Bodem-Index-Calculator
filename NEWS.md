@@ -4,7 +4,7 @@
 * output handling in obic_field is updated to have more flexibility and avoid undesired calculations
 
 ### Added
-* add `obic_farm` to assess soil quality on farm level (plus unit tests)
+* add `obic_farm` to assess soil quality on farm level (plus unit tests), #OBI-8
 
 # OBIC 2.0.4 2023-01-11
 ### Fixed
