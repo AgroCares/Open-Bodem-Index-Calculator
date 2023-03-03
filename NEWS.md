@@ -5,6 +5,7 @@
 
 ### Added
 * add `obic_farm` to assess soil quality on farm level (plus unit tests), #OBI-8
+* total farm score `farm_obi_score` as output reflecting the percentage of fields in the highest class for the OBI score, #OBI-8
 
 # OBIC 2.0.4 2023-01-11
 ### Fixed

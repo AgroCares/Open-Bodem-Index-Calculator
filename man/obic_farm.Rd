@@ -4,27 +4,10 @@
 \alias{obic_farm}
 \title{Calculate the Open Bodem Index score for a series of fields belonging to a farm}
 \usage{
-obic_farm(
-  dt,
-  th_obi_c = c(0.4, 0.8, 1),
-  th_obi_p = c(0.4, 0.8, 1),
-  th_obi_b = c(0.4, 0.8, 1),
-  th_obi_e = c(0.4, 0.8, 1),
-  th_obi_m = c(0.4, 0.8, 1)
-)
+obic_farm(dt)
 }
 \arguments{
 \item{dt}{(data.table) A data.table containing the data of the fields to calculate the OBI}
-
-\item{th_obi_c}{(numeric) A vector with the threshold values for farm evaluation of the chemical soil functions, values between 0 and 1, and in increasing order.}
-
-\item{th_obi_p}{(numeric) A vector with the threshold values for farm evaluation of the physical soil functions, values between 0 and 1, and in increasing order.}
-
-\item{th_obi_b}{(numeric) A vector with the threshold values for farm evaluation of the biological soil functions, values between 0 and 1, and in increasing order.}
-
-\item{th_obi_e}{(numeric) A vector with the threshold values for farm evaluation of the environmental soil functions, values between 0 and 1, and in increasing order.}
-
-\item{th_obi_m}{(numeric) A vector with the threshold values for farm evaluation of the soil management functions, values between 0 and 1, and in increasing order.}
 }
 \value{
 The output of the Open Bodem Index Calculator for a series of agricultural fields belonging to a single farm. 

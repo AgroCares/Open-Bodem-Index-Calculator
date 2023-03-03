@@ -707,6 +707,7 @@ obic_farm <- function(dt) {
   
   # add visual binding
   farmid = indicator = value = catvalue = obi_score = NULL
+  S_OBI_N_HIGH = S_OBI_N_LOW = S_OBI_N_MEDIUM = NULL
   
   # make local copy
   dt <- copy(dt)
@@ -800,9 +801,13 @@ obic_farm <- function(dt) {
                     value.var = 'catvalue',
                     fun.aggregate = sum, na.rm=T)
   
+  # add total farm score as total number of fields in class HIGH
+  farm_obi_score <- dt.farm2[indicator == 'S_T_OBI_A',S_OBI_N_HIGH*100/(S_OBI_N_LOW + S_OBI_N_MEDIUM + S_OBI_N_HIGH)]
+  
   # combine output in a list
   out <- list(field = out, 
-              farm = dt.farm2)
+              farm = dt.farm2,
+              farm_obi_score = farm_obi_score)
   
   # return output
   return(out)
