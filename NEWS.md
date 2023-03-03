@@ -1,11 +1,14 @@
-# OBIC 2.1.0 2023-03-01
+# OBIC 2.1.0 2023-03-03
+### Added
+* add `obic_farm` to assess soil quality on farm level (plus unit tests), #OBI-8
+* total farm score `farm_obi_score` as output reflecting the percentage of fields in the highest class for the OBI score, #OBI-8
 
 ### Changed
 * output handling in obic_field is updated to have more flexibility and avoid undesired calculations
 
-### Added
-* add `obic_farm` to assess soil quality on farm level (plus unit tests), #OBI-8
-* total farm score `farm_obi_score` as output reflecting the percentage of fields in the highest class for the OBI score, #OBI-8
+# OBIC 2.0.5 2023-02-17
+### Fixed
+* Fixes to generate clearer error message when incorrect B_LU_BRP is supplied.
 
 # OBIC 2.0.4 2023-01-11
 ### Fixed
