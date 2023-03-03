@@ -670,11 +670,6 @@ obic_field_dt <- function(dt,output = 'all') {
 #' In contrast to obic_field, this wrapper uses a data.table as input.
 #' 
 #' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
-#' @param th_obi_c (numeric) A vector with the threshold values for farm evaluation of the chemical soil functions, values between 0 and 1, and in increasing order. 
-#' @param th_obi_p (numeric) A vector with the threshold values for farm evaluation of the physical soil functions, values between 0 and 1, and in increasing order. 
-#' @param th_obi_b (numeric) A vector with the threshold values for farm evaluation of the biological soil functions, values between 0 and 1, and in increasing order. 
-#' @param th_obi_e (numeric) A vector with the threshold values for farm evaluation of the environmental soil functions, values between 0 and 1, and in increasing order. 
-#' @param th_obi_m (numeric) A vector with the threshold values for farm evaluation of the soil management functions, values between 0 and 1, and in increasing order. 
 #' 
 #' @import data.table
 #' 
@@ -708,13 +703,7 @@ obic_field_dt <- function(dt,output = 'all') {
 #' The output is a list with field properties as well as aggregated farm properties
 #' 
 #' @export
-obic_farm <- function(dt,
-                      th_obi_c = c(0.4,0.8,1.0),
-                      th_obi_p = c(0.4,0.8,1.0),
-                      th_obi_b = c(0.4,0.8,1.0),
-                      th_obi_e = c(0.4,0.8,1.0),
-                      th_obi_m = c(0.4,0.8,1.0)
-                      ) {
+obic_farm <- function(dt) {
   
   # add visual binding
   farmid = indicator = value = catvalue = obi_score = NULL
@@ -760,22 +749,12 @@ obic_farm <- function(dt,
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
   
-  # check tresholds, remove values above 1 and the zero, and sort them from low to high
-  th_obi_c = c(sort(th_obi_c[th_obi_c > 0 & th_obi_c < 1]),1)
-  th_obi_p = c(sort(th_obi_p[th_obi_p > 0 & th_obi_p < 1]),1)
-  th_obi_b = c(sort(th_obi_b[th_obi_b > 0 & th_obi_b < 1]),1)
-  th_obi_e = c(sort(th_obi_e[th_obi_e > 0 & th_obi_e < 1]),1)
-  th_obi_m = c(sort(th_obi_m[th_obi_m > 0 & th_obi_m < 1]),1)
-  
-  # the number of threshold classes required
-  nclass <- max(length(th_obi_c),length(th_obi_p),length(th_obi_b),length(th_obi_e),length(th_obi_m))
-  
-  # add checkmate for thresholds
-  checkmate::assert_numeric(th_obi_c, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
-  checkmate::assert_numeric(th_obi_p, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
-  checkmate::assert_numeric(th_obi_b, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
-  checkmate::assert_numeric(th_obi_e, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
-  checkmate::assert_numeric(th_obi_m, lower = 0, upper = 1, any.missing = FALSE, len = nclass)
+  # set thresholds for number of fields per farm
+  th_obi_c = c(0.5,0.75,1.0)
+  th_obi_p = c(0.5,0.75,1.0)
+  th_obi_b = c(0.5,0.75,1.0)
+  th_obi_e = c(0.5,0.75,1.0)
+  th_obi_m = c(0.5,0.75,1.0)
   
   # calculate obic score for all the fields
   out <- obic_field_dt(dt = dt, output = c('scores','indicators'))
@@ -792,7 +771,7 @@ obic_farm <- function(dt,
                   value.name = 'obi_score')
   
   # add threshold columns
-  nclass <- paste0('nclass_',1:nclass)
+  nclass <- c('S_OBI_N_LOW','S_OBI_N_MEDIUM','S_OBI_N_HIGH')
   
   # add thresholds
   dt.farm[grepl('^I_C|^S_C',indicator),c(nclass) := as.list(th_obi_c)]
@@ -820,12 +799,6 @@ obic_farm <- function(dt,
                     indicator ~ threshold, 
                     value.var = 'catvalue',
                     fun.aggregate = sum, na.rm=T)
-  
-  # change names
-  setnames(dt.farm2,gsub('nclass_','s_obi_farm_',colnames(dt.farm2)))
-  
-  # change to upper case to be consistent with field data
-  setnames(dt.farm2,toupper(colnames(dt.farm2)))
   
   # combine output in a list
   out <- list(field = out, 
