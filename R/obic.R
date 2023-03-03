@@ -761,11 +761,11 @@ obic_farm <- function(dt,
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
   
   # check tresholds, remove values above 1 and the zero, and sort them from low to high
-  th_obi_c = sort(th_obi_c[th_obi_c > 0 & th_obi_c <= 1])
-  th_obi_p = sort(th_obi_p[th_obi_p > 0 & th_obi_p <= 1])
-  th_obi_b = sort(th_obi_b[th_obi_b > 0 & th_obi_b <= 1])
-  th_obi_e = sort(th_obi_e[th_obi_e > 0 & th_obi_e <= 1])
-  th_obi_m = sort(th_obi_m[th_obi_m > 0 & th_obi_m <= 1])
+  th_obi_c = c(sort(th_obi_c[th_obi_c > 0 & th_obi_c < 1]),1)
+  th_obi_p = c(sort(th_obi_p[th_obi_p > 0 & th_obi_p < 1]),1)
+  th_obi_b = c(sort(th_obi_b[th_obi_b > 0 & th_obi_b < 1]),1)
+  th_obi_e = c(sort(th_obi_e[th_obi_e > 0 & th_obi_e < 1]),1)
+  th_obi_m = c(sort(th_obi_m[th_obi_m > 0 & th_obi_m < 1]),1)
   
   # the number of threshold classes required
   nclass <- max(length(th_obi_c),length(th_obi_p),length(th_obi_b),length(th_obi_e),length(th_obi_m))
