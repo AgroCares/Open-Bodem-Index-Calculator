@@ -824,6 +824,9 @@ obic_farm <- function(dt,
   # change names
   setnames(dt.farm2,gsub('nclass_','s_obi_farm_',colnames(dt.farm2)))
   
+  # change to upper case to be consistent with field data
+  setnames(dt.farm2,toupper(colnames(dt.farm2)))
+  
   # combine output in a list
   out <- list(field = out, 
               farm = dt.farm2)
