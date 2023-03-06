@@ -711,7 +711,7 @@ obic_farm <- function(dt) {
   
   # add visual binding
   farmid = indicator = value = catvalue = obi_score = NULL
-  S_OBI_N_HIGH = S_OBI_N_LOW = S_OBI_N_MEDIUM = NULL
+  S_OBI_NFIELDS_HIGH = S_OBI_NFIELDS_LOW = S_OBI_NFIELDS_MEDIUM = NULL
   
   # make local copy
   dt <- copy(dt)
@@ -776,7 +776,7 @@ obic_farm <- function(dt) {
                   value.name = 'obi_score')
   
   # add threshold columns
-  nclass <- c('S_OBI_N_LOW','S_OBI_N_MEDIUM','S_OBI_N_HIGH')
+  nclass <- c('S_OBI_NFIELDS_LOW','S_OBI_NFIELDS_MEDIUM','S_OBI_NFIELDS_HIGH')
   
   # add thresholds
   dt.farm[grepl('^I_C|^S_C',indicator),c(nclass) := as.list(th_obi_c)]

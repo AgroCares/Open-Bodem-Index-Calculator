@@ -25,7 +25,7 @@ test_that("obic_farm works", {
     tolerance = 0.01
   )
   expect_equal(
-    unique(out$farm[,S_OBI_N_LOW + S_OBI_N_MEDIUM + S_OBI_N_HIGH]),
+    unique(out$farm[,S_OBI_NFIELDS_LOW + S_OBI_NFIELDS_MEDIUM + S_OBI_NFIELDS_HIGH]),
     expected = 5,
     tolerance = 0.01
   )
@@ -35,7 +35,7 @@ test_that("obic_farm works", {
     tolerance = 0.01
   )
   expect_equal(
-    c(sum(out$farm$S_OBI_N_LOW),sum(out$farm$S_OBI_N_HIGH)),
+    c(sum(out$farm$S_OBI_NFIELDS_LOW),sum(out$farm$S_OBI_NFIELDS_HIGH)),
     expected = c(43,89),
     tolerance = 0.01
   )
