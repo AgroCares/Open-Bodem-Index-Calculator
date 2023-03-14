@@ -6,7 +6,7 @@ out <- obic_farm(dt)
 test_that("obic_farm works", {
   expect_equal(
     names(out),
-    expected = c('field','farm','farm_obi_score'),
+    expected = c('fields','farm','farm_obi_score'),
     tolerance = 0.01
   )
   expect_equal(
