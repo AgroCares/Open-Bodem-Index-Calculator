@@ -806,10 +806,10 @@ obic_farm <- function(dt) {
                     fun.aggregate = sum, na.rm=T)
   
   # add total farm score as total number of fields in class HIGH
-  farm_obi_score <- dt.farm2[indicator == 'S_T_OBI_A',S_OBI_NFIELDS_HIGH*100/(S_OBI_NFIELDS_LOW + S_OBI_NFIELDS_MEDIUM + S_OBI_NFIELDS_HIGH)]
+  farm_obi_score <- round(dt.farm2[indicator == 'S_T_OBI_A',S_OBI_NFIELDS_HIGH*100/(S_OBI_NFIELDS_LOW + S_OBI_NFIELDS_MEDIUM + S_OBI_NFIELDS_HIGH)])
   
   # combine output in a list
-  out <- list(field = out, 
+  out <- list(fields = out, 
               farm = dt.farm2,
               farm_obi_score = farm_obi_score)
   
