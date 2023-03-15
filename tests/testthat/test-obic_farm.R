@@ -6,7 +6,7 @@ out <- obic_farm(dt)
 test_that("obic_farm works", {
   expect_equal(
     names(out),
-    expected = c('fields','farm','farm_obi_score'),
+    expected = c('fields','farm'),
     tolerance = 0.01
   )
   expect_equal(
@@ -15,17 +15,37 @@ test_that("obic_farm works", {
     tolerance = 0.01
   )
   expect_equal(
-    nrow(out$farm),
-    expected = 34,
+    length(out$farm),
+    expected = 2,
+    tolerance = 0.01
+  ) 
+  expect_equal(
+    nrow(out$farm$indicators),
+    expected = 28,
     tolerance = 0.01
   )
   expect_equal(
-    ncol(out$farm),
-    expected = 4,
+    nrow(out$farm$scores),
+    expected = 6,
     tolerance = 0.01
   )
   expect_equal(
-    unique(out$farm[,S_OBI_NFIELDS_LOW + S_OBI_NFIELDS_MEDIUM + S_OBI_NFIELDS_HIGH]),
+    ncol(out$farm$indicators),
+    expected = 5,
+    tolerance = 0.01
+  )
+  expect_equal(
+    ncol(out$farm$scores),
+    expected = 5,
+    tolerance = 0.01
+  )
+  expect_equal(
+    unique(out$farm$indicators[,S_OBI_NFIELDS_LOW + S_OBI_NFIELDS_MEDIUM + S_OBI_NFIELDS_HIGH]),
+    expected = 5,
+    tolerance = 0.01
+  )
+  expect_equal(
+    unique(out$farm$scores[,S_OBI_NFIELDS_LOW + S_OBI_NFIELDS_MEDIUM + S_OBI_NFIELDS_HIGH]),
     expected = 5,
     tolerance = 0.01
   )
@@ -35,8 +55,13 @@ test_that("obic_farm works", {
     tolerance = 0.01
   )
   expect_equal(
-    c(sum(out$farm$S_OBI_NFIELDS_LOW),sum(out$farm$S_OBI_NFIELDS_HIGH)),
-    expected = c(43,89),
+    c(sum(out$farm$indicators$S_OBI_NFIELDS_LOW),sum(out$farm$indicators$S_OBI_NFIELDS_HIGH)),
+    expected = c(34,76),
+    tolerance = 0.01
+  )
+  expect_equal(
+    c(sum(out$farm$scores$S_OBI_NFIELDS_LOW),sum(out$farm$scores$S_OBI_NFIELDS_HIGH)),
+    expected = c(9,13),
     tolerance = 0.01
   )
 })

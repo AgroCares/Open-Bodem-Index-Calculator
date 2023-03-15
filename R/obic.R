@@ -711,7 +711,7 @@ obic_farm <- function(dt) {
   
   # add visual binding
   farmid = indicator = value = catvalue = obi_score = NULL
-  S_OBI_NFIELDS_HIGH = S_OBI_NFIELDS_LOW = S_OBI_NFIELDS_MEDIUM = NULL
+  S_OBI_NFIELDS_HIGH = S_OBI_NFIELDS_LOW = S_OBI_NFIELDS_MEDIUM = S_OBI_NFIELDS = NULL
   
   # make local copy
   dt <- copy(dt)
@@ -818,7 +818,7 @@ obic_farm <- function(dt) {
   
   # combine output in a list
   out <- list(fields = out, 
-              farm = list(inidcators = dt.indicators,
+              farm = list(indicators = dt.indicators,
                           scores = dt.scores))
   
   # return output
