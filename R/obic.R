@@ -805,13 +805,21 @@ obic_farm <- function(dt) {
                     value.var = 'catvalue',
                     fun.aggregate = sum, na.rm=T)
   
-  # add total farm score as total number of fields in class HIGH
-  farm_obi_score <- round(dt.farm2[indicator == 'S_T_OBI_A',S_OBI_NFIELDS_HIGH*100/(S_OBI_NFIELDS_LOW + S_OBI_NFIELDS_MEDIUM + S_OBI_NFIELDS_HIGH)])
+  # reset column order
+  setcolorder(dt.farm2,c('indicator','S_OBI_NFIELDS_HIGH','S_OBI_NFIELDS_MEDIUM','S_OBI_NFIELDS_LOW'))
+  
+  # add combined character string of number of fields per class
+  dt.farm2[,S_OBI_NFIELDS := paste0(S_OBI_NFIELDS_HIGH,"/",S_OBI_NFIELDS_MEDIUM,"/",S_OBI_NFIELDS_LOW)]
+  
+  # make separate tables with inidcators scores
+  dt.indicators <- dt.farm2[grepl('^I_',indicator)]
+  dt.scores <- dt.farm2[grepl('^S_',indicator)]
+  setnames(dt.scores,'indicator','score')
   
   # combine output in a list
   out <- list(fields = out, 
-              farm = dt.farm2,
-              farm_obi_score = farm_obi_score)
+              farm = list(inidcators = dt.indicators,
+                          scores = dt.scores))
   
   # return output
   return(out)
