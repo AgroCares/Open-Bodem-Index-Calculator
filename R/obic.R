@@ -124,7 +124,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   crop_code = weight = score.cf = . = out.ind = NULL
   weight_peat = weight_nonpeat = variable = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
-  var = cf = ncat = id = NULL
+  var = cf = ncat = id = S_T_OBI_A = NULL
   
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
@@ -464,32 +464,58 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.score[value== -999, value := NA]
     out.score <- dcast(out.score,ID~cat)
     
-    # get most occurring soil type and crop type
-    dt.sc <- dt[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), 
-                            .SDcols = c('B_LU_BRP','B_SOILTYPE_AGR'),by = ID]
-    dt.sc[, B_LU_BRP := as.integer(B_LU_BRP)]
+    if('recommendations' %in% output | 'all' %in% output){
+      
+      # get most occurring soil type and crop type
+      dt.sc <- dt[, lapply(.SD, function (x) names(sort(table(x),decreasing = TRUE)[1])), 
+                  .SDcols = c('B_LU_BRP','B_SOILTYPE_AGR'),by = ID]
+      dt.sc[, B_LU_BRP := as.integer(B_LU_BRP)]
+      
+      # combine indicators and score in one data.table
+      setkey(dt.sc, ID); setkey(out.ind, ID); setkey(out.score, ID)
+      dt.score <- data.table(dt.sc, out.ind[, -"ID"], out.score[, -"ID"])
+      
+      # evaluate measures
+      dt.measure <- obic_evalmeasure(dt.score, extensive = FALSE)
+      
+      # make recommendations of top 3 measures
+      out.recom <- obic_recommendations(dt.measure)
+      setkey(out.recom, ID)
+      
+    }
     
-    # combine indicators and score in one data.table
-    setkey(dt.sc, ID); setkey(out.ind, ID); setkey(out.score, ID)
-    dt.score <- data.table(dt.sc, out.ind[, -"ID"], out.score[, -"ID"])
-  
-    # evaluate measures
-    dt.measure <- obic_evalmeasure(dt.score, extensive = FALSE)
-    
-    # make recommendations of top 3 measures
-    out.recom <- obic_recommendations(dt.measure)
-    setkey(out.recom, ID)
     
   #  Step 6 Combine all outputs into one ------------------
  
     # combine both outputs
-    if(output == 'all'){out <- data.table(out.ind,out.score[, -"ID"],out.recom[, -"ID"])}
-    if(output == 'indicators'){out <- out.ind}
-    if(output == 'recommendations'){out <- out.recom}
-    if(output == 'scores'){out <- out.score}
-    if(output == 'obic_score'){out <- out.score[,'S_T_OBI_A']}
-    if(output == 'unaggregated'){out <- dt.melt}
-   
+    if('all' %in% output){
+      
+      # combine all output into one data.table
+      out <- data.table(out.ind,out.score[, -"ID"],out.recom[, -"ID"])
+      
+    } else if('unaggregated' %in% output){
+      
+      # add unaggregated input data before aggregation
+      out <- dt.melt
+      
+    } else {
+      
+      # make empty data.table
+      out <- data.table(ID = out.ind$ID)
+      
+      # add indicators when requested
+      if('indicators' %in% output){out <- merge(out,out.ind,by='ID')}
+        
+      # add scores when requested
+      if('scores' %in% output){out <- merge(out,out.score,by='ID')}
+      
+      # add only final score when requested
+      if('obic_score' %in% output & !'scores' %in% output){out <- merge(out,out.score[,.(ID,S_T_OBI_A)],by='ID')}
+     
+      # add recommendaitons when requested
+      if('recommendations' %in% output){out <- merge(out,out.recom,by='ID')}
+      
+    }
     
   # return output
   return(out)
@@ -578,64 +604,222 @@ obic_field_dt <- function(dt,output = 'all') {
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
   
   # calculate obic_field
-  out <- obic_field(
-    B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
-    B_GWL_CLASS = dt$B_GWL_CLASS,
-    B_SC_WENR = dt$B_SC_WENR,
-    B_HELP_WENR = dt$B_HELP_WENR,
-    B_AER_CBS = dt$B_AER_CBS,
-    B_GWL_GLG = dt$B_GWL_GLG,
-    B_GWL_GHG = dt$B_GWL_GHG,
-    B_GWL_ZCRIT = dt$B_GWL_ZCRIT,
-    B_LU_BRP = dt$B_LU_BRP, 
-    A_SOM_LOI = dt$A_SOM_LOI, 
-    A_SAND_MI = dt$A_SAND_MI, 
-    A_SILT_MI = dt$A_SILT_MI, 
-    A_CLAY_MI = dt$A_CLAY_MI,
-    A_PH_CC = dt$A_PH_CC,
-    A_N_RT = dt$A_N_RT,
-    A_CN_FR = dt$A_CN_FR, 
-    A_S_RT = dt$A_S_RT,
-    A_N_PMN = dt$A_N_PMN,
-    A_P_AL= dt$A_P_AL, 
-    A_P_CC = dt$A_P_CC, 
-    A_P_WA = dt$A_P_WA,
-    A_CEC_CO = dt$A_CEC_CO,
-    A_CA_CO_PO = dt$A_CA_CO_PO, 
-    A_MG_CO_PO = dt$A_MG_CO_PO, 
-    A_K_CO_PO = dt$A_K_CO_PO,
-    A_K_CC = dt$A_K_CC,
-    A_MG_CC = dt$A_MG_CC, 
-    A_MN_CC = dt$A_MN_CC, 
-    A_ZN_CC = dt$A_ZN_CC, 
-    A_CU_CC = dt$A_CU_CC,
-    A_C_BCS = dt$A_C_BCS, 
-    A_CC_BCS = dt$A_CC_BCS,
-    A_GS_BCS = dt$A_GS_BCS,
-    A_P_BCS = dt$A_P_BCS,
-    A_RD_BCS = dt$A_RD_BCS,
-    A_EW_BCS = dt$A_EW_BCS,
-    A_SS_BCS = dt$A_SS_BCS,
-    A_RT_BCS = dt$A_RT_BCS,
-    A_SC_BCS = dt$A_SC_BCS,
-    M_COMPOST = dt$M_COMPOST,
-    M_GREEN = dt$M_GREEN, 
-    M_NONBARE = dt$M_NONBARE, 
-    M_EARLYCROP = dt$M_EARLYCROP, 
-    M_SLEEPHOSE = dt$M_SLEEPHOSE,
-    M_DRAIN = dt$M_DRAIN,
-    M_DITCH = dt$M_DITCH,
-    M_UNDERSEED = dt$M_UNDERSEED,
-    M_LIME = dt$M_LIME,
-    M_NONINVTILL = dt$M_NONINVTILL, 
-    M_SSPM = dt$M_SSPM, 
-    M_SOLIDMANURE = dt$M_SOLIDMANURE,
-    M_STRAWRESIDUE = dt$M_STRAWRESIDUE,
-    M_MECHWEEDS = dt$M_MECHWEEDS,
-    M_PESTICIDES_DST = dt$M_PESTICIDES_DST,
-    ID = dt$ID,
-    output = output
-  )
+  out <- obic_field(B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
+                    B_GWL_CLASS = dt$B_GWL_CLASS,
+                    B_SC_WENR = dt$B_SC_WENR,
+                    B_HELP_WENR = dt$B_HELP_WENR,
+                    B_AER_CBS = dt$B_AER_CBS,
+                    B_GWL_GLG = dt$B_GWL_GLG,
+                    B_GWL_GHG = dt$B_GWL_GHG,
+                    B_GWL_ZCRIT = dt$B_GWL_ZCRIT,
+                    B_LU_BRP = dt$B_LU_BRP, 
+                    A_SOM_LOI = dt$A_SOM_LOI, 
+                    A_SAND_MI = dt$A_SAND_MI, 
+                    A_SILT_MI = dt$A_SILT_MI, 
+                    A_CLAY_MI = dt$A_CLAY_MI,
+                    A_PH_CC = dt$A_PH_CC,
+                    A_N_RT = dt$A_N_RT,
+                    A_CN_FR = dt$A_CN_FR, 
+                    A_S_RT = dt$A_S_RT,
+                    A_N_PMN = dt$A_N_PMN,
+                    A_P_AL= dt$A_P_AL, 
+                    A_P_CC = dt$A_P_CC, 
+                    A_P_WA = dt$A_P_WA,
+                    A_CEC_CO = dt$A_CEC_CO,
+                    A_CA_CO_PO = dt$A_CA_CO_PO, 
+                    A_MG_CO_PO = dt$A_MG_CO_PO, 
+                    A_K_CO_PO = dt$A_K_CO_PO,
+                    A_K_CC = dt$A_K_CC,
+                    A_MG_CC = dt$A_MG_CC, 
+                    A_MN_CC = dt$A_MN_CC, 
+                    A_ZN_CC = dt$A_ZN_CC, 
+                    A_CU_CC = dt$A_CU_CC,
+                    A_C_BCS = dt$A_C_BCS, 
+                    A_CC_BCS = dt$A_CC_BCS,
+                    A_GS_BCS = dt$A_GS_BCS,
+                    A_P_BCS = dt$A_P_BCS,
+                    A_RD_BCS = dt$A_RD_BCS,
+                    A_EW_BCS = dt$A_EW_BCS,
+                    A_SS_BCS = dt$A_SS_BCS,
+                    A_RT_BCS = dt$A_RT_BCS,
+                    A_SC_BCS = dt$A_SC_BCS,
+                    M_COMPOST = dt$M_COMPOST,
+                    M_GREEN = dt$M_GREEN, 
+                    M_NONBARE = dt$M_NONBARE, 
+                    M_EARLYCROP = dt$M_EARLYCROP, 
+                    M_SLEEPHOSE = dt$M_SLEEPHOSE,
+                    M_DRAIN = dt$M_DRAIN,
+                    M_DITCH = dt$M_DITCH,
+                    M_UNDERSEED = dt$M_UNDERSEED,
+                    M_LIME = dt$M_LIME,
+                    M_NONINVTILL = dt$M_NONINVTILL, 
+                    M_SSPM = dt$M_SSPM, 
+                    M_SOLIDMANURE = dt$M_SOLIDMANURE,
+                    M_STRAWRESIDUE = dt$M_STRAWRESIDUE,
+                    M_MECHWEEDS = dt$M_MECHWEEDS,
+                    M_PESTICIDES_DST = dt$M_PESTICIDES_DST,
+                    ID = dt$ID,
+                    output = output
+                  )
+  
+  
+  # return output
+  return(out)
+  
+}
+
+#' Calculate the Open Bodem Index score for a series of fields belonging to a farm
+#' 
+#' This functions wraps the functions of the OBIC into one main function to calculate the score for Open Bodem Index (OBI).
+#' In contrast to obic_field, this wrapper uses a data.table as input.
+#' 
+#' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
+#' 
+#' @import data.table
+#' 
+#' @examples 
+#'  
+#' \dontrun{
+#' obic_farm(dt = data.table(B_SOILTYPE_AGR = 'rivierklei',B_GWL_CLASS = "II",
+#' B_GWL_GLG = 75,B_GWL_GHG = 10,
+#' B_GWL_ZCRIT = 50,B_SC_WENR = '2',B_HELP_WENR = "MOb72",B_AER_CBS = 'LG01',
+#' B_LU_BRP = c( 1010, 1010,263,263, 263,265,265,265),A_SOM_LOI = 3.91,A_SAND_MI = 66.3,
+#' A_SILT_MI = 22.8,A_CLAY_MI = 7.8,A_PH_CC = 5.4,A_N_RT = 1528.33,A_CN_FR = 13.02,
+#' A_S_RT = 321.26,A_N_PMN = 63.3,A_P_AL = 50.2,A_P_CC = 2.9,A_P_WA = 50.5,
+#' A_CEC_CO = 56.9,A_CA_CO_PO = 66.87,A_MG_CO_PO = 13.97,A_K_CO_PO = 3.06,
+#' A_K_CC = 58.6,A_MG_CC = 77.53,A_MN_CC = 7586.61,A_ZN_CC = 726.2,A_CU_CC = 68.8,
+#' A_C_BCS = 1,A_CC_BCS = 1,A_GS_BCS = 1,A_P_BCS = 1,A_RD_BCS = 1,A_EW_BCS = 1,
+#' A_SS_BCS = 1,A_RT_BCS = 1,A_SC_BCS = 1,M_COMPOST = 0,M_GREEN = FALSE,M_NONBARE =FALSE,
+#' M_EARLYCROP = FALSE,M_SLEEPHOSE = FALSE,M_DRAIN = FALSE,M_DITCH = FALSE,
+#' M_UNDERSEED = FALSE,M_LIME = FALSE,M_MECHWEEDS = FALSE,M_NONINVTILL = FALSE,
+#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE))
+#'}
+#'
+#' @details 
+#' The data.table should contain all required inputs for soil properties needed to calculate OBI score. Management information is optional as well as the observations from the visual soil assessment.
+#' The threshold values per category of soil functions need to have an equal length, with fractions defining the class boundaries in increasing order. 
+#' The lowest boundary value (zero) is not needed.
+#'  
+#' @return 
+#' The output of the Open Bodem Index Calculator for a series of agricultural fields belonging to a single farm. 
+#' Depending on the output type, different output objects can be returned.
+#' These include the estimated OBI scores (both total and aggregated subscores), the value of the underling indicators as well the possible recommendations to improve the soil quality.
+#' The output is a list with field properties as well as aggregated farm properties
+#' 
+#' @export
+obic_farm <- function(dt) {
+  
+  # add visual binding
+  farmid = indicator = value = catvalue = obi_score = NULL
+  S_OBI_NFIELDS_HIGH = S_OBI_NFIELDS_LOW = S_OBI_NFIELDS_MEDIUM = S_OBI_NFIELDS = NULL
+  
+  # make local copy
+  dt <- copy(dt)
+  
+  # Check inputs
+  checkmate::assert_data_table(dt)
+  
+  # mandatory column names to calculate OBI scores 
+  dt.req <- c('B_SOILTYPE_AGR','B_GWL_CLASS','B_SC_WENR','B_HELP_WENR','B_AER_CBS', 
+              'B_GWL_GLG', 'B_GWL_GHG', 'B_GWL_ZCRIT', 'B_LU_BRP', 
+              'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC',
+              'A_N_RT','A_CN_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
+              'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
+              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC','ID')
+  
+  # check presence of required columns
+  checkmate::assert_true(all(dt.req %in% colnames(dt)),
+                         .var.name = paste(c('Not all required columns are present in data.table, required columns are:',dt.req),collapse = ' '))
+  
+  # check which BodemConditieScore input is missing
+  bcs.all <- c('A_C_BCS', 'A_CC_BCS','A_GS_BCS','A_P_BCS','A_RD_BCS','A_EW_BCS','A_SS_BCS','A_RT_BCS','A_SC_BCS')
+  bcs.missing <- bcs.all[!bcs.all %in% colnames(dt)]
+  
+  # check which Soil Measures input is missing
+  sm.all <- c('M_GREEN', 'M_NONBARE', 'M_EARLYCROP','M_SLEEPHOSE','M_DRAIN','M_DITCH','M_UNDERSEED',
+              'M_LIME', 'M_NONINVTILL', 'M_SSPM', 'M_SOLIDMANURE','M_STRAWRESIDUE','M_MECHWEEDS','M_PESTICIDES_DST')
+  sm.missing <- sm.all[!sm.all %in% colnames(dt)]
+  
+  # check if compost measure is missing
+  smc.all <- 'M_COMPOST'
+  smc.missing <- smc.all[!smc.all %in% colnames(dt)]
+  
+  # check if no unexpected column names are present in dt
+  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
+  if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
+                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")]))}
+  
+  # extend dt with missing elements, so that these are replaced by default estimates
+  if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
+  if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
+  if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
+  
+  # set thresholds for number of fields per farm
+  th_obi_c = c(0.5,0.75,1.0)
+  th_obi_p = c(0.5,0.75,1.0)
+  th_obi_b = c(0.5,0.75,1.0)
+  th_obi_e = c(0.5,0.75,1.0)
+  th_obi_m = c(0.5,0.75,1.0)
+  
+  # calculate obic score for all the fields
+  out <- obic_field_dt(dt = dt, output = c('scores','indicators'))
+  
+  # aggregate into a farm for indicators and scores, and melt
+  dt.farm <- copy(out)
+  dt.farm[, farmid := 1]
+  cols <- colnames(dt.farm)[grepl('^RM_',colnames(dt.farm))]
+  if(length(cols)>0){dt.farm[,c(cols):=NULL]}
+  dt.farm <- dt.farm[,lapply(.SD,as.numeric)]
+  dt.farm <- melt(dt.farm,
+                  id.vars = c('farmid','ID'), 
+                  variable.name = 'indicator',
+                  value.name = 'obi_score')
+  
+  # add threshold columns
+  nclass <- c('S_OBI_NFIELDS_LOW','S_OBI_NFIELDS_MEDIUM','S_OBI_NFIELDS_HIGH')
+  
+  # add thresholds
+  dt.farm[grepl('^I_C|^S_C',indicator),c(nclass) := as.list(th_obi_c)]
+  dt.farm[grepl('^I_P|^S_P|^I_BCS',indicator),c(nclass) := as.list(th_obi_p)]
+  dt.farm[grepl('^I_B|^S_B',indicator) & !grepl('^I_BCS',indicator),c(nclass) := as.list(th_obi_b)]
+  dt.farm[grepl('^I_M|^S_M',indicator),c(nclass) := as.list(th_obi_m)]
+  dt.farm[grepl('^I_E|^S_E',indicator),c(nclass) := as.list(th_obi_e)]
+  dt.farm[grepl('^S_T_OBI',indicator),c(nclass) := as.list((th_obi_c + th_obi_p + th_obi_b)/3)]
+  
+  # melt the threshold values in farm data.table
+  dt.farm2 <- melt(dt.farm, 
+                   id.vars = c('farmid','ID','indicator','obi_score'), 
+                   variable.name = 'threshold')
+  
+  # when score or indicator is NA, then not applicable, so then distance to target is zero (and score equal to one)
+  dt.farm2[is.na(obi_score), obi_score := 1]
+  
+  # count number of fields per indicator and score
+  dt.farm2[, catvalue := fifelse(obi_score <= value, 1, 0)]
+  dt.farm2[, catvalue := cumsum(catvalue),by = c('ID','indicator')]
+  dt.farm2[catvalue > 1, catvalue := 0]
+  
+  # estimate the number of fields in a given class
+  dt.farm2 <- dcast(dt.farm2, 
+                    indicator ~ threshold, 
+                    value.var = 'catvalue',
+                    fun.aggregate = sum, na.rm=T)
+  
+  # reset column order
+  setcolorder(dt.farm2,c('indicator','S_OBI_NFIELDS_HIGH','S_OBI_NFIELDS_MEDIUM','S_OBI_NFIELDS_LOW'))
+  
+  # add combined character string of number of fields per class
+  dt.farm2[,S_OBI_NFIELDS := paste0(S_OBI_NFIELDS_HIGH,"/",S_OBI_NFIELDS_MEDIUM,"/",S_OBI_NFIELDS_LOW)]
+  
+  # make separate tables with inidcators scores
+  dt.indicators <- dt.farm2[grepl('^I_',indicator)]
+  dt.scores <- dt.farm2[grepl('^S_',indicator)]
+  setnames(dt.scores,'indicator','score')
+  
+  # combine output in a list
+  out <- list(fields = out, 
+              farm = list(indicators = dt.indicators,
+                          scores = dt.scores))
   
   # return output
   return(out)
