@@ -1,3 +1,7 @@
+# OBIC 2.1.1 2023-03-21
+### Fixed
+* Update `crops.obic` for missing `b_lu_brp` codes
+
 # OBIC 2.1.0 2023-03-03
 ### Added
 * add `obic_farm` to assess soil quality on farm level (plus unit tests), #OBI-8
