@@ -1,3 +1,7 @@
+# OBIC 2.1.2 2023-03-28
+### Fixed
+* Added missing values in `nf_` columns in `crops.obic`
+
 # OBIC 2.1.1 2023-03-21
 ### Fixed
 * Update `crops.obic` for missing `b_lu_brp` codes
