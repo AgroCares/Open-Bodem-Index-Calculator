@@ -17,3 +17,17 @@ citEntry(
 
   )
 )
+
+bibentry("Article",
+         title        = "An Open Soil Health Assessment Framework Facilitating Sustainable Soil Management",
+         author       = c(person("Gerard H", "Ros",
+                                 email = "gerard.ros@wur.nl",
+                                 comment = c(ORCID = "0000-0002-6062-9770")),
+                          person("Sven E", "Verweij"),
+                          person('Sander J C', "Janssen"),
+                          person("Janjo", "de Haan"),
+                          person("Yuki", "Fujita")),
+         journal      = "Environmental Science & Technology",
+         year         = "2022",
+         doi          = "10.1021/acs.est.2c04516",
+         lib.cat      = "ACS Publications")
