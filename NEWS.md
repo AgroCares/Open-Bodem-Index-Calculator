@@ -1,3 +1,7 @@
+# UNRELEASED
+### Fixed
+* Fix calculation of `slv` by removing the not applicable conversion from g S /kg to mg S /kg for A_S_RT [OBI-16]
+
 # OBIC 2.1.2 2023-03-28
 ### Fixed
 * Added missing values in `nf_` columns in `crops.obic`
