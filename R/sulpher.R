@@ -71,11 +71,11 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
   
   # Calculate SLV for grass (deze formule: Stot = g/kg en dichtheid in g/cm3)
   dt.grass <- dt[crop_category == "grasland"]
-  dt.grass[, value := 17.8 * A_S_RT * 0.001 * D_BDS * 0.001]
+  dt.grass[, value := 17.8 * A_S_RT * D_BDS * 0.001]
   
   # Calculate SLV for maize for 0-25 cm depth
   dt.maize <- dt[crop_category == "mais"]
-  dt.maize[, value := 41.2 * A_S_RT * 0.001 * D_BDS * 2.5 * 0.001]
+  dt.maize[, value := 41.2 * A_S_RT * D_BDS * 2.5 * 0.001]
   # correction for the length of growing season (43.5%) 
   # ref: NMI rapport 1252.N.07; den Boer et al. 2007 Zwavelvoorziening van snijmaïs
   dt.maize[, value := value * 0.435]
@@ -90,7 +90,7 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
   
     # calculate C-stock (kg/ ha) and CS ratio (sven: check unit)
     dt.arable[,D_OC := A_SOM_LOI * 100 * 100 * 0.3 * D_BDS * 0.01]
-    dt.arable[,A_CS_RAT := A_SOM_LOI * 10 / (A_S_RT * 0.001)]
+    dt.arable[,A_CS_RAT := A_SOM_LOI * 10 / (A_S_RT)]
   
     # calculate S-mineralization via MINIP (Postma & Bussink, 2004)
     dt.arable[, c.diss := D_OC * (1 - exp(4.7 * ((minip.a + param.b * param.t)^-0.6 - minip.a^-0.6)))]
@@ -100,7 +100,7 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
   
   # Calculate the SLV for nature land
   dt.nature <- dt[crop_category == "natuur"]
-  dt.nature[,value := 1.5 * A_S_RT * 0.001 * D_BDS * 0.001]
+  dt.nature[,value := 1.5 * A_S_RT * D_BDS * 0.001]
       
   # Combine both tables and extract values
   dt <- rbindlist(list(dt.grass, dt.maize,dt.arable,dt.nature), fill = TRUE)
