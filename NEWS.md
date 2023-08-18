@@ -1,3 +1,7 @@
+# OBIC 2.2.0 2023-08-21
+### Added
+* Adds function `obic_recommendations_bkp` for determining management recommendations to improve soil quality
+
 # OBIC 2.1.2 2023-03-28
 ### Fixed
 * Added missing values in `nf_` columns in `crops.obic`
