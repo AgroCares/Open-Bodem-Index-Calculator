@@ -1,3 +1,7 @@
+# OBIC 2.1.3 2023-08-22
+### Fixed
+* Fixes error in formatting of B_AER_CBS for LG01 and LG02 in format_aer [OBI-20]
+
 # OBIC 2.1.2 2023-03-28
 ### Fixed
 * Added missing values in `nf_` columns in `crops.obic`
