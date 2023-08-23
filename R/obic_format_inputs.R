@@ -122,7 +122,7 @@ format_aer <- function(B_AER_CBS) {
   
   # remove and overwrite Veenkoloni\xEBn en Oldambt
   aer.text <- aer.text[-13]
-  if(B_AER_CBS == 'Veenkoloni\xEBn en Oldambt') B_AER_CBS <- "Veenkolonien en Oldambt" 
+  B_AER_CBS[B_AER_CBS %in% 'Veenkoloni\xEBn en Oldambt'] <- "Veenkolonien en Oldambt" 
   
   # replace numeric values with strings
   B_AER_CBS[B_AER_CBS %in% aer.code] <- aer.text[var.sel]
