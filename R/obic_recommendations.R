@@ -312,7 +312,7 @@ obic_recommendations_bkp <- function(dt.score, B_LU_BRP, B_SOILTYPE_AGR) {
   # join measures and dt.score ------
   
   # join each parcel with possible measures (join by sector, soil type and indicator)
-  dt.recom2 <- mdb1[dt.recom,allow.cartesian=TRUE]
+  dt.recom2 <- mdb1[dt.recom,]
   
   # add parameter whether score is below threshold yes or no
   dt.recom2[, threshold := fifelse(score <= m_threshold & score >= 0,1,0)]

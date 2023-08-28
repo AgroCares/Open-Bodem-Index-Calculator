@@ -1,4 +1,4 @@
-maatregel_nr;omschrijving;Prio_M;Dremp_S;Order;m_soilfunction;OBICvariable;Ef_M;filter;melkveehouderij_alleen_gras;melkveehouderij_incl_mais_naast_gras;akkerbouw;groente;boomteelt;klei;veen;zand;loss
+maatregel_nr;omschrijving;Prio_M;Dremp_S;Order;m_soilfunction;OBICvariable;Ef_M;filter;melkveehouderij_alleen_gras;melkveehouderij_incl_mais_naast_gras;akkerbouw;groente;boomteelt;klei;veen;zand;loess
 12;Organische bemesting;1;0.6;12;koolstofvastlegging;S_M;+;1;1;1;1;1;1;0;0;1;0
 12;Organische bemesting;1;0.6;12;habitat en biodiversiteit;NA;+;0;1;1;1;1;1;0;0;1;0
 13;Groencompost;1;0.6;13;waterkwaliteit;I_E_NSW;--;1;1;1;1;1;1;0;0;1;0

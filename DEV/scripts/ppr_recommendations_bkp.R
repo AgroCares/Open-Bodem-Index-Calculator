@@ -73,7 +73,7 @@
                     by='maatregel_nr')
   
   # add missing columns with value 0, and a tresshold value of 0.5
-  cols <- colnames(m.maatregel)[grepl('melk|groente|akker|boom|klei|veen|zand|loss|Ef',colnames(m.maatregel))]
+  cols <- colnames(m.maatregel)[grepl('melk|groente|akker|boom|klei|veen|zand|loess|Ef',colnames(m.maatregel))]
   ind.add[,c(cols) := 0]
   ind.add[,Dremp_S := 0.5]
   
@@ -87,7 +87,7 @@
                       value.name = 'app1',variable.factor = FALSE)
   
   # reshape m.maatregel: soil type from columns to rows
-  cols_m <- colnames(m.maatregel)[grepl('klei|veen|zand|loss',colnames(m.maatregel))]
+  cols_m <- colnames(m.maatregel)[grepl('klei|veen|zand|loess',colnames(m.maatregel))]
   cols_i <- colnames(m.maatregel)[!colnames(m.maatregel) %in% cols_m]
   m.maatregel <- melt(m.maatregel,id.vars = cols_i, measure.vars = cols_m, variable.name = 'grondsoort',
                       value.name = 'app2',variable.factor = FALSE)
@@ -110,8 +110,6 @@
   setnames(m.maatregel,c('m_nr','m_description','m_prio','m_threshold','m_order','m_soilfunction','indicator','m_effect','m_sector','m_soiltype','m_applicability'))
   
   # adapt descriptions
-  m.maatregel[m_sector =='boomteelt',m_sector := 'boomteelt']
-  m.maatregel[m_sector =='akkerbouw',m_sector := 'akkerbouw']
   m.maatregel[m_sector =='groente',m_sector := 'groenteteelt']
   
   # setkey
