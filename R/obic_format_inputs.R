@@ -120,6 +120,10 @@ format_aer <- function(B_AER_CBS) {
   # which of the input values are database codes
   var.sel <- match(B_AER_CBS,aer.code,nomatch = 0)
   
+  # remove and overwrite Veenkoloni\xEBn en Oldambt
+  aer.text <- aer.text[-13]
+  B_AER_CBS[B_AER_CBS %in% 'Veenkoloni\xEBn en Oldambt'] <- "Veenkolonien en Oldambt" 
+  
   # replace numeric values with strings
   B_AER_CBS[B_AER_CBS %in% aer.code] <- aer.text[var.sel]
   
