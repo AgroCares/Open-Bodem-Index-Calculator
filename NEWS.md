@@ -1,4 +1,4 @@
-# OBIC 2.1.3 2023-08-22
+# OBIC 2.1.3 2023-08-29
 ### Fixed
 * Fixes error in formatting of B_AER_CBS for LG01 and LG02 in format_aer [OBI-20]
 
