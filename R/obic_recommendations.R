@@ -207,3 +207,161 @@ obic_recommendations <- function(dt.recom) {
 #' This table is used internally in \code{\link{obic_evalmeasure}}
 #' 
 "recom.obic"
+
+
+
+#' Recommend measurements for better soil management
+#' 
+#' This function returns a list of management recommendations based on OBI scores as part of BodemKwaliteitsPlan.
+#' 
+#' @param dt.score (data.table) containing all OBI indicators and scores of a single field
+#' @param B_LU_BRP (numeric) Cultivation code according to BRP
+#' @param B_SOILTYPE_AGR (character) Agricultural soil type
+#' 
+#'  
+#' 
+#' @import data.table
+#' 
+#' @export
+obic_recommendations_bkp <- function(dt.score, B_LU_BRP, B_SOILTYPE_AGR) {
+  
+  FS_M_S_T = FS_M_S_C = FS_M_S_B = FS_M_S_P = NULL
+  
+  # Check inputs
+  arg.length <- max(length(B_LU_BRP),length(B_SOILTYPE_AGR),nrow(dt.score))
+  checkmate::assert_data_table(dt.score, nrows = arg.length)
+  cols.r <- c("ID","I_B_DI","I_B_SF","I_C_CEC","I_C_CU", "I_C_K",
+              "I_C_MG","I_C_N","I_C_P","I_C_PH","I_C_S","I_C_ZN","I_E_NSW","I_P_CEC",
+              "I_P_CO","I_P_CR","I_P_DS","I_P_DU","I_P_SE","I_P_WO","I_P_WRI","I_P_WS")
+  cols <- colnames(dt.score)[colnames(dt.score) %in% cols.r ]
+  checkmate::assert_subset(cols, choices = cols.r )
+  checkmate::assert_integerish(B_LU_BRP, any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code))
+  checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(soils.obic$soiltype))
+  
+  
+  # set variables as NULL
+  soiltype = soiltype.m = crop_measure = crop_code = ID = m_sector = m_soiltype = NULL
+  indicator = var = score = m_threshold = m_applicability = NULL
+  m_effect = threshold = score.m = weight = grp = score.mp = m_prio = m.effect = FS = TH = NULL
+  cf = ncat = m_nr = m_description = m_order = NULL
+  
+  # make local copy of dt.score and add row ID
+  dt.score <- copy(dt.score)
+  dt.score[,ID := .I]
+  
+  # Add B_LU_BRP ad B_SOILTYPE_AGR to dt.score
+  dt.score[, B_LU_BRP := B_LU_BRP]
+  dt.score[, B_SOILTYPE_AGR := B_SOILTYPE_AGR]
+  
+  # add local databases for joining properties -----
+  
+  # load db for measures, crop and soil categories
+  m.obi_bkp <- OBIC::recom.obic_bkp
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  soils.obic <- as.data.table(OBIC::soils.obic)
+  
+  # merge dt.score with soils.obic and crops.obic
+  dt.score <- merge(dt.score, OBIC::soils.obic[, list(soiltype, soiltype.m)], by.x = "B_SOILTYPE_AGR", by.y = "soiltype")
+  dt.score <- merge(dt.score, OBIC::crops.obic[, list(crop_code, crop_measure)], by.x = "B_LU_BRP", by.y = "crop_code")
+  
+  # redesign measures db to make it suitable for joining -----
+  
+  # drop indicators from measure db that are not present in dt.score
+  mdb1 <- m.obi_bkp[indicator %in% colnames(dt.score)]
+  
+  # drop descriptive columns that are not needed
+  mdb1[,c('m_description','m_soilfunction') := NULL]
+  
+  # check if there is missing data for any indicator
+  cols <- colnames(dt.score)[grepl('^I_C_|^I_B_|^I_P_',colnames(dt.score))]
+  cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
+  cols <- cols[!cols %in% unique(mdb1$indicator)]
+  checkmate::assert_character(cols, len = 0)
+  
+  # setkeys
+  setkey(mdb1,indicator,m_sector,m_soiltype)
+  
+  # Make a new datatable to store the effects of measures -----
+  
+  # add local copy of the input
+  dt.recom <- copy(dt.score) 
+  
+  # melt the database
+  cols_m <- colnames(dt.recom)[grepl('^I_C_|^I_P_|^I_B_',colnames(dt.recom))]
+  cols_i <- colnames(dt.recom)[grepl('^B_|^ID$|soil|crop',colnames(dt.recom))]
+  dt.recom <- melt(dt.recom,id.vars = cols_i,measure.vars = cols_m,variable.name = 'indicator', value.name='score')
+  
+  # add weighing factor based on number of indicators
+  dt.recom[,cat := tstrsplit(indicator,'_',keep = 2)]
+  
+  # Determine amount of indicators per category
+  dt.recom.ncat <- dt.recom[,list(ncat = .N),by = list(ID, cat)]
+  
+  # add number of indicators per category
+  dt.recom <- merge(dt.recom,dt.recom.ncat,by=c("ID", "cat"),all.x = TRUE)
+  
+  # calculate weighing factor depending on number of indicators
+  dt.recom[,cf := log(ncat + 1)]
+  
+  # reset names and set key
+  setnames(dt.recom,c('crop_measure','soiltype.m'),c('m_sector','m_soiltype'))
+  setkey(dt.recom,indicator,m_sector,m_soiltype)
+  
+  # join measures and dt.score ------
+  
+  # join each parcel with possible measures (join by sector, soil type and indicator)
+  dt.recom2 <- mdb1[dt.recom,]
+  
+  # add parameter whether score is below threshold yes or no
+  dt.recom2[, threshold := fifelse(score <= m_threshold & score >= 0,1,0)]
+  
+  # calculate the score of the measure for each indicator
+  dt.recom2[, score.m := cf * m_applicability * (pmax(0,m_effect) * threshold + pmin(0,m_effect))]
+  
+  # add three groups of soil functions
+  dt.recom2[grepl('^I_C_',indicator), grp := 'M_S_C']
+  dt.recom2[grepl('^I_B_',indicator), grp := 'M_S_B']
+  dt.recom2[grepl('^I_P_',indicator), grp := 'M_S_P']
+  
+  # add priority to the score, just before calculating score per group
+  dt.recom2[,score.mp := m_prio * score.m]
+  
+  # # add field
+  # dt.recom2[,ID := 1]
+  
+  # extract relevant columns and dcast effect of measures on indices per parcel
+  cols <- c('ID','m_nr','indicator','score.m')
+  dt.meas.ind <- dt.recom2[,mget(cols)]
+  dt.meas.ind[, m.effect := gsub('I_','M_',indicator)]
+  dt.meas.ind[, score.m := round(score.m,2)]
+  dt.meas.ind <- dcast(dt.meas.ind,ID + m_nr ~ m.effect, value.var = 'score.m')
+  
+  # calculate the total score for each measure, and count the number of indices exceeding thresshold
+  dt.meas.tot <- dt.recom2[,lapply(.SD,sum, na.rm=T),.SDcols = c('score.mp','threshold'),by=c('ID','m_nr','grp')]
+  setnames(dt.meas.tot,c('ID','m_nr','grp','FS','TH'))
+  dt.meas.tot <- dcast(dt.meas.tot,ID + m_nr ~ grp, value.var = c('FS','TH'))
+  
+  # combine total score and individual scores per measure and parcel
+  dt.final <- merge(dt.meas.ind,dt.meas.tot,by=c('ID','m_nr'))
+  
+  # Calculated combined score of groups
+  dt.final[, FS_M_S_T := FS_M_S_C + FS_M_S_B + FS_M_S_P]
+  
+  # add priority for those situations that measures have equal score
+  dt.final <- merge(dt.final,unique(mdb1[,c('m_nr','m_order')]),by='m_nr')
+  
+  # Select top 5 recommendations and combine
+  dt.final <- merge(dt.final,unique(OBIC::recom.obic_bkp[,list(m_nr,m_description)]), by = 'm_nr')
+  setorder(dt.final,'ID',-'FS_M_S_T','m_order')
+  dt.final[,order := 1:.N, by = 'ID']
+  
+  recommendation <- dt.final[order <= 5, list(ID,order,recommendation = m_description)]
+  
+  # return list of recommendations
+  return(recommendation)
+  
+  
+}
+

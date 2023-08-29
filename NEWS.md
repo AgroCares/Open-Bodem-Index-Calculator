@@ -1,3 +1,7 @@
+# OBIC 2.2.0 2023-08-29
+### Added
+* Adds function `obic_recommendations_bkp` for determining management recommendations to improve soil quality
+
 # OBIC 2.1.3 2023-08-29
 ### Fixed
 * Fixes error in formatting of B_AER_CBS for LG01 and LG02 in format_aer [OBI-20]
