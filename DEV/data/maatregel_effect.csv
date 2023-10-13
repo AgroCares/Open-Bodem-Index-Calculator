@@ -1,4 +1,4 @@
-maatregel_nr,omschrijving,Prio_M,Dremp_S,Order,Bodemfunctie / indicator,OBICvariable,Ef_M_pre,Ef_M,filter,melkveehouderij_alleen_gras,melkveehouderij_incl_mais_naast_gras,akkerbouw,groente,boomteelt,klei,veen,zand,loss
+maatregel_nr,omschrijving,Prio_M,Dremp_S,Order,Bodemfunctie / indicator,OBICvariable,Ef_M_pre,Ef_M,filter,melkveehouderij_alleen_gras,melkveehouderij_incl_mais_naast_gras,akkerbouw,groente,boomteelt,klei,veen,zand,loess
 1,bodem bekalken tot advies-pH,1,NA,1,chemie algemeen,S_C,++,++,2,1,1,1,1,1,1,1,1,1
 1,bodem bekalken tot advies-pH,1,NA,1,biologie algemeen,S_B,+,+,2,1,1,1,1,1,1,1,1,1
 1,bodem bekalken tot advies-pH,1,NA,1,structuur algemeen,S_P,+,+,2,1,1,1,1,1,1,0,0,0
