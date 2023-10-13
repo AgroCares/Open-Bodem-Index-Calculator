@@ -11,9 +11,9 @@ citEntry(
                person(family = 'Nutrienten management instituut BV', role = 'cph')),
   year     = 2023,
   url      = 'https://github.com/AgroCares/Open-Bodem-Index-Calculator',
-  textVersion = paste("Verweij, S.;Ros,G.;Fujita, Y.;Riechelman, W. OBIC: Calculate the Open Bodem Index (OBI) Score. RPackage, version ",
+  textVersion = paste0("Verweij, S.;Ros,G.;Fujita, Y.;Riechelman, W. OBIC: Calculate the Open Bodem Index (OBI) Score. RPackage, version ",
   utils::packageVersion('OBIC'),
-  ". https:// github.com/AgroCares/Open-Bodem-Index-Calculator."
+  ", https:// github.com/AgroCares/Open-Bodem-Index-Calculator."
 
   )
 )
