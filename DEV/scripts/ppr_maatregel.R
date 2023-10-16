@@ -56,7 +56,7 @@
                       by='maatregel_nr')
     
     # add missing columns with value 0, and a tresshold value of 0.5
-    cols <- colnames(m.obic)[grepl('melk|groente|akker|boom|klei|veen|zand|loss|Ef',colnames(m.obic))]
+    cols <- colnames(m.obic)[grepl('melk|groente|akker|boom|klei|veen|zand|loess|Ef',colnames(m.obic))]
     ind.add[,c(cols) := 0]
     ind.add[,Dremp_S := 0.5]
     
@@ -70,7 +70,7 @@
                  value.name = 'app1',variable.factor = FALSE)
     
     # reshape m.obic: soil type from columns to rows
-    cols_m <- colnames(m.obic)[grepl('klei|veen|zand|loss',colnames(m.obic))]
+    cols_m <- colnames(m.obic)[grepl('klei|veen|zand|loess',colnames(m.obic))]
     cols_i <- colnames(m.obic)[!colnames(m.obic) %in% cols_m]
     m.obic <- melt(m.obic,id.vars = cols_i, measure.vars = cols_m, variable.name = 'grondsoort',
                  value.name = 'app2',variable.factor = FALSE)
@@ -83,9 +83,6 @@
     m.obic <- m.obic[sector != 'melkveehouderij_incl_mais_naast_gras']
     m.obic[grepl('melkv',sector),sector := 'veeteelt']
     
-    # adjust soil type loss
-    m.obic[grondsoort == 'loss', grondsoort := 'loess']
-    
     # delete categorial effect
     m.obic[,Ef_M := NULL]
     
@@ -93,8 +90,6 @@
     setnames(m.obic,c('m_nr','m_description','m_prio','m_threshold','m_order','m_soilfunction','indicator','m_effect','m_sector','m_soiltype','m_applicability'))
     
     # adapt descriptions
-    m.obic[m_sector =='boomteelt',m_sector := 'boomteelt']
-    m.obic[m_sector =='akkerbouw',m_sector := 'akkerbouw']
     m.obic[m_sector =='groente',m_sector := 'groenteteelt']
     
     # setkey

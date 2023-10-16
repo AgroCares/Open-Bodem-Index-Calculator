@@ -1,6 +1,7 @@
-# UNRELEASED
+# OBIC 2.3.0 2023-10-16
+
 ## Added
-* To `crops.obic`, crop_codes: 6632 (zoete aardappelen), 6636 (naakte haver), 6660 (uien, gele, zaai), and 6664 (uien, rode, zaai) 
+* To `crops.obic`, crop_codes: 6632 (zoete aardappelen), 6636 (naakte haver), 6660 (uien, gele, zaai), and 6664 (uien, rode, zaai)
 * Add `calc_permeability` for calculating top soil permeability 
 * Add `ind_permeability` for calculatin the index for top soil permeability
 * Add vignette `obic_water_functions`, describing the functions that evaluate the effect of soil quality on groundwater quality
@@ -17,8 +18,41 @@
 * N use norm for 1935 (maiskolfsilage)
 * N use norms of 1926 and 1927 (agrarisch natuurmengsel and overige akkerbouwgewassen), increased to match "Akkerbouwgewassen, overig" (RVO, 2022)
 
-## Deprecated
-* Building and modifying crops.obic from a script in OBIC 
+# OBIC 2.2.0 2023-08-29
+### Added
+* Adds function `obic_recommendations_bkp` for determining management recommendations to improve soil quality
+
+# OBIC 2.1.3 2023-08-29
+### Fixed
+* Fixes error in formatting of B_AER_CBS for LG01 and LG02 in format_aer [OBI-20]
+
+# OBIC 2.1.2 2023-03-28
+### Fixed
+* Added missing values in `nf_` columns in `crops.obic`
+
+# OBIC 2.1.1 2023-03-21
+### Fixed
+* Update `crops.obic` for missing `b_lu_brp` codes
+
+# OBIC 2.1.0 2023-03-03
+### Added
+* add `obic_farm` to assess soil quality on farm level (plus unit tests), #OBI-8
+* total farm score `farm_obi_score` as output reflecting the percentage of fields in the highest class for the OBI score, #OBI-8
+
+### Changed
+* output handling in obic_field is updated to have more flexibility and avoid undesired calculations
+
+# OBIC 2.0.5 2023-02-17
+### Fixed
+* Fixes to generate clearer error message when incorrect B_LU_BRP is supplied.
+
+# OBIC 2.0.4 2023-01-11
+### Fixed
+* Fixes calculation of `field capacity` at `calc_waterretention`
+
+# OBIC 2.0.3 2023-01-11
+### Fixed
+* Fixes plotting of regime curve in workabilty vignette #149
 
 # OBIC 2.0.2 2023-01-11
 ### Changed
