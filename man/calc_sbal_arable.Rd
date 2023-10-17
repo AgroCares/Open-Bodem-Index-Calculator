@@ -30,8 +30,6 @@ This function calculates the change in S-balance compared to averaged S-supply a
 \examples{
 calc_sbal_arable(D_SLV = 65, B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand', 
 B_AER_CBS = 'Rivierengebied')
-calc_sbal_arable(65, 1019, 'dekzand', 'Rivierengebied')
-calc_sbal_arable(c(65,125), c(265,1019), rep('dekzand',2), rep('Rivierengebied',2))
 
 calc_sbal_arable(D_SLV = 65, B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand', 
 B_AER_CBS = 'Rivierengebied')
