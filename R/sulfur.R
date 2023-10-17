@@ -125,8 +125,6 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
 #' @examples 
 #' calc_sbal_arable(D_SLV = 65, B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand', 
 #' B_AER_CBS = 'Rivierengebied')
-#' calc_sbal_arable(65, 1019, 'dekzand', 'Rivierengebied')
-#' calc_sbal_arable(c(65,125), c(265,1019), rep('dekzand',2), rep('Rivierengebied',2))
 #' 
 #' @return 
 #' Estimated contribution of the soil to the S balance of arable fields. A numeric value.
