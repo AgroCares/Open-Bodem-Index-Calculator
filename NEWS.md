@@ -22,6 +22,10 @@
 ### Deprecated
 * building and modifying crops.obic from a script in OBIC
 
+# OBIC 2.2.1 2023-10-16
+### Added
+* CITATION file and additional author data in the package DESCRIPTION
+
 # OBIC 2.2.0 2023-08-29
 ### Added
 * Adds function `obic_recommendations_bkp` for determining management recommendations to improve soil quality
