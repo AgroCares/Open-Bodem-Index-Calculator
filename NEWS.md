@@ -18,6 +18,9 @@
 * N use norm for 1935 (maiskolfsilage)
 * N use norms of 1926 and 1927 (agrarisch natuurmengsel and overige akkerbouwgewassen), increased to match "Akkerbouwgewassen, overig" (RVO, 2022)
 
+### Deprecated
+* building and modifying crops.obic from a script in OBIC
+
 # OBIC 2.2.0 2023-08-29
 ### Added
 * Adds function `obic_recommendations_bkp` for determining management recommendations to improve soil quality
