@@ -1,6 +1,5 @@
 # OBIC 3.0.0 2023-10-16
 ## Added
-* To `crops.obic`, crop_codes: 6632 (zoete aardappelen), 6636 (naakte haver), 6660 (uien, gele, zaai), and 6664 (uien, rode, zaai)
 * Add `calc_permeability` for calculating top soil permeability 
 * Add `ind_permeability` for calculating the index for top soil permeability
 * Add variable `leach_to` to `calc_n_efficiency` and `ind_n_efficiency` to calculate and evaluate leaching to ground water and surface water
@@ -20,9 +19,6 @@
 * Updated bibliography of packages in vignettes
 * N use norm for 1935 (maiskolfsilage)
 * N use norms of 1926 and 1927 (agrarisch natuurmengsel and overige akkerbouwgewassen), increased to match "Akkerbouwgewassen, overig" (RVO, 2022)
-
-## Deprecated
-* Building and modifying crops.obic from a script in OBIC
 
 # OBIC 2.2.1 2023-10-16
 ## Added
