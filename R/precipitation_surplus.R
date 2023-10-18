@@ -145,19 +145,10 @@ ind_psp <- function(D_PSP,B_LU_BRP){
   dt <- data.table(D_PSP,
                    B_LU_BRP)
   
-  # Separate evaluation for grassland if sep_eval = TRUE
-  sep_eval <- FALSE
-  
-  if(sep_eval){
-    dt[,I_PSP := fifelse(B_LU_BRP %in% OBIC::crops.obic[grepl("gras",crop_name),crop_code],
-                                    evaluate_logistic(D_PSP,0.04,180,2),
-                                    evaluate_logistic(D_PSP,0.05,300,2.5))]
-    
-  }else{
-    dt[,I_PSP := evaluate_logistic(D_PSP,0.05,300,2.5)]  
-    
-    }
-    
+  # Separate evaluation for grassland
+  dt[,I_PSP := fifelse(B_LU_BRP %in% OBIC::crops.obic[grepl("gras",crop_name),crop_code],
+                       evaluate_logistic(D_PSP,0.04,180,2),
+                       evaluate_logistic(D_PSP,0.05,300,2.5))]
   
   # Format output
   out <- dt[,I_PSP]
