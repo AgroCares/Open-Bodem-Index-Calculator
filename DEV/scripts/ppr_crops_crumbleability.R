@@ -1,7 +1,7 @@
 # ppr_eval_crumbleability
 
 # read in csv file
-eval.crumbleability <- fread('dev/data/crumbleability.csv',sep=';')
+eval_crumbleability <- fread('dev/data/crumbleability.csv',sep=';')
 
 # save file
-save(eval.crumbleability, file = 'data/eval_crumbleability.RData')
+usethis::use_data(eval_crumbleability, version = 3, overwrite = TRUE, compress = 'xz')

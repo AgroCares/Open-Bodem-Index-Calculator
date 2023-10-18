@@ -8,6 +8,6 @@
   
   # update the csv and Rdata file
   crops.obic <- copy(cr)
-  save(crops.obic, file = 'data/crops_obic.RData')
+  usethis::use_data(crops.obic,version = 3, overwrite = TRUE, compress = 'xz')
   
   
