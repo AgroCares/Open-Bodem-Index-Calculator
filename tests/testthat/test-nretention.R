@@ -13,6 +13,20 @@ test_that("calc_nleach works", {
     tolerance = 0.001
   )
   
+  # add check for groundwater leaching
+  expect_equal(
+    calc_nleach(
+      B_SOILTYPE_AGR = 'dekzand',
+      B_LU_BRP = 265, 
+      B_GWL_CLASS = 'VII',
+      D_NLV = 135,
+      B_AER_CBS = 'Centraal Veehouderijgebied',
+      leaching_to = "gw"
+    ),
+    expected = 11.88,
+    tolerance = 0.001
+  )
+  
   # surfacewater run-off
   expect_equal(
     calc_nleach(
