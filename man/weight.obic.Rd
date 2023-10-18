@@ -5,7 +5,7 @@
 \alias{weight.obic}
 \title{Weight of indicators to calculate integrated scores}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 180 rows and 5 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 196 rows and 5 columns.
 }
 \usage{
 weight.obic
