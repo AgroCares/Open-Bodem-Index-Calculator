@@ -10,6 +10,7 @@
 * Updated N use norms for onions
 * Update calc_nleach by soil and land use dependent default n supply, issue #154
 * Update calculations in the functions `calc_pesticide_leaching`, `ind_pesticide_leaching`, `calc_psp`, `ind_psp`, `ind_gw_recharge`,`calc_n_efficiency` and `ind_n_efficiency`
+* add soil type and land use dependent NLV estimate in calc_nleach
 
 ### Fixed
 * Fixes plotting of regime curve in workability vignette #149
