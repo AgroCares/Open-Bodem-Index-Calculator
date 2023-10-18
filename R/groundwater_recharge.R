@@ -113,7 +113,7 @@ calc_permeability <- function(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI){
   # Calculate unsaturated permeability
   dt[,  c("Dichtheid", "thetaR", "thetaS", "alfa", "n", "ksat", "l") := pFpara_ptf_Wosten2001(A_CLAY_MI, Pleem, A_SOM_LOI, 150, 1)]
   
-  # Calculate permeabilty
+  # Calculate permeabilty, based on Wosten et al., 2001
   dt[,D_WRI_K := ksat * (((1 + alfa * thetaR^n)^(1 - 1/n) - alfa * thetaR^(n - 1))^2) / ((1 + alfa * thetaR^n)^((1 - 1/n) * (l + 2)))]
   
   # output
