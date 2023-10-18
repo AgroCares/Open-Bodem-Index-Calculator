@@ -344,7 +344,7 @@
 #' 
 #' @format A data.frame with 136 rows and 10 columns:
 #' \describe{
-#'   \item{table}{The original table from Hanboek Bodem en Bemesting}
+#'   \item{table}{The original table from Handboek Bodem en Bemesting}
 #'   \item{lutum.low}{Lower value for A_CLAY_MI}
 #'   \item{lutum.high}{Upper value for A_CLAY_MI}
 #'   \item{om.low}{Lower value for organic matter}
