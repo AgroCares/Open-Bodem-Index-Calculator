@@ -154,27 +154,27 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
 #' This function gives an indicator value for nitrogen use efficiency calculated by \code{\link{calc_n_efficiency}}, this function makes use of \code{\link{ind_nretention}}
 #' 
 #' @param D_NLEACH (numeric) The value of N leaching calculated by \code{\link{calc_n_efficiency}}
-#' @param leaching_to (character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("ow")
+#' @param leaching_to (character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("sw")
 #' 
 #' @examples 
 #' ind_n_efficiency(D_NLEACH = 50, leaching_to = 'gw')
-#' ind_n_efficiency(D_NLEACH = c(5,15,25,75), leaching_to = 'ow')
+#' ind_n_efficiency(D_NLEACH = c(5,15,25,75), leaching_to = 'sw')
 #'  
 #' @return 
 #' The evaluated score for the soil function to enhance the nitrogen use efficiency. A numeric value between 0 and 1.
 #'         
 #' @export
-ind_n_efficiency <- function(D_NLEACH,leaching_to){
+ind_n_efficiency <- function(D_NLEACH,leaching_to = 'gw'){
   
     # Check inputs
     checkmate::assert_numeric(D_NLEACH, lower = 0 , upper = 250, any.missing = FALSE)
-    checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)
+    checkmate::assert_choice(leaching_to, choices = c("gw", "sw"), null.ok = FALSE)
     
     if (leaching_to == "gw") {
       # Evaluate the N retention for groundwater 
       value <- OBIC::evaluate_logistic(x = D_NLEACH, 0.2, x0 = 25, v = 0.98, increasing = FALSE) 
       
-    } else if (leaching_to == "ow") {
+    } else if (leaching_to == "sw") {
       # Evaluate the N retention for surfacewater
       value <- OBIC::evaluate_logistic(x = D_NLEACH, b = 0.54, x0 = 10, v = 0.9, increasing = FALSE)
     }
