@@ -1,15 +1,18 @@
-# OBIC 2.3.0 2023-10-16
+# OBIC 3.0.0 2023-10-16
 ## Added
 * To `crops.obic`, crop_codes: 6632 (zoete aardappelen), 6636 (naakte haver), 6660 (uien, gele, zaai), and 6664 (uien, rode, zaai)
 * Add `calc_permeability` for calculating top soil permeability 
-* Add `ind_permeability` for calculation the index for top soil permeability
-* Add vignette `obic_water_functions`, describing the functions that evaluate the effect of soil quality on groundwater quality
+* Add `ind_permeability` for calculating the index for top soil permeability
+* Add variable `leach_to` to `calc_n_efficiency` and `ind_n_efficiency` to calculate and evaluate leaching to ground water and surface water
+* Add vignette `obic_water_functions`, describing the functions that evaluates the effect of soil quality on groundwater quality
 
 ## Changed
 * Updated N use norms for onions
 * Update calc_nleach by soil and land use dependent default n supply, issue #154
 * Update calculations in the functions `calc_pesticide_leaching`, `ind_pesticide_leaching`, `calc_psp`, `ind_psp`, `ind_gw_recharge`,`calc_n_efficiency` and `ind_n_efficiency`
-* Add soil type and land use dependent NLV estimate in calc_nleach
+* Add soil type and land use dependent NLV estimate in `calc_nleach`
+* In the input for `ind_gw_recharge` the variables `B_LU_BRP`, `D_WRI_K`, and `B_GWL_CLASS` are added, and `D_WRI_WHC` is removed
+* In `calc_n_efficiency`, `D_NLV` is removed from the input variables
 
 ## Fixed
 * Fixes plotting of regime curve in workability vignette #149
