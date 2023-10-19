@@ -5,7 +5,15 @@
 \alias{nema.crop.rot.obic}
 \title{Damage and reproduction of soil-borne pathogens and pests on crops}
 \format{
-A data.table with 7059 rows and 21 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 7059 rows and 21 columns.
+}
+\usage{
+nema.crop.rot.obic
+}
+\description{
+This table includes information from aaltjesschema (April 2021), a website where information is collected on the vulnerability of crops to plant parasitic nematodes and diseases that use nematodes as vector.
+}
+\details{
 \describe{
   \item{crop}{crop as called in aaltjesschema}
   \item{name_scientific}{scientific name of nematode}
@@ -29,11 +37,5 @@ A data.table with 7059 rows and 21 columns:
   \item{groen_st}{boolean indicating that the crop is a green manure as drifting deck}
   \item{crop_name_scientific}{string, scientific name of crop species or genus}
 }
-}
-\usage{
-nema.crop.rot.obic
-}
-\description{
-This table includes information from aaltjesschema (April 2021), a website where information is collected on the vulnerability of crops to plant parasitic nematodes and diseases that use nematodes as vector.
 }
 \keyword{datasets}

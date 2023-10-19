@@ -57,7 +57,7 @@ tdt <- data.table(
   key = 'ID'
 )
 
-test_that("obic_field_dt works", {
+test_that("obic_field works", {
   expect_equal(
     obic_field_dt(tdt),
     expected = data.table(
@@ -76,6 +76,10 @@ test_that("obic_field_dt works", {
       I_C_ZN = 0.561,
       I_E_NGW = 0.988,
       I_E_NSW = 0.969,
+      #I_H_GWR = 0.626,
+      #I_H_NGW = 0.99,
+      #I_H_NSW = 0.989,
+      #I_H_PEST = 0.083,
       I_M = 0.069,
       I_M_BIODIVERSITY = 0.144,
       I_M_CLIMATE = 0.113,
@@ -122,7 +126,7 @@ req.cols <- c('B_SOILTYPE_AGR', 'B_GWL_CLASS', 'B_SC_WENR', 'B_HELP_WENR', 'B_AE
 # take subset of tdt
 stdt <- tdt[,..req.cols]
 
-test_that('obic_field_dt() works with just required columns', {
+test_that('obic_field() works with just required columns', {
   expect_equal(
     obic_field_dt(stdt, output = "scores"),
     expected = 

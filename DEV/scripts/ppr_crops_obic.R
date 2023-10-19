@@ -2,11 +2,11 @@
 
   # load package
   library(data.table)
-  
+
   # Load crops.obic (copied csv from pandex)
   cr <- fread('DEV/data/crops_obic.csv')
-  
-  # update the csv and Rdata file
+
+  # update the Rdata file
   crops.obic <- copy(cr)
   usethis::use_data(crops.obic,version = 3, overwrite = TRUE, compress = 'xz')
   

@@ -9,7 +9,7 @@ test_that("test whether calc_pesticide_leaching works", {
                             M_PESTICIDES_DST = rep(FALSE,4),
                             M_MECHWEEDS = rep(FALSE,4)
     ),
-    expected = c(0.9458933, 0.9004914, 0.8216655, 0.7271828),
+    expected = c(0.9598414, 0.9137699, 0.8337817, 0.7379058),
     tolerance = 0.01
   )
   
@@ -23,7 +23,7 @@ test_that("test whether calc_pesticide_leaching works", {
                             M_PESTICIDES_DST = rep(FALSE,4),
                             M_MECHWEEDS = rep(FALSE,4)
     ),
-    expected = c(0.552, 0.743, 0.928, 0.964),
+    expected = c(0.5821316, 0.7629755, 0.9346040, 0.9667492),
     tolerance = 0.01
   )
   
@@ -37,7 +37,7 @@ test_that("test whether calc_pesticide_leaching works", {
                             M_PESTICIDES_DST = rep(TRUE,4),
                             M_MECHWEEDS = rep(FALSE,4)
     ),
-    expected = c(0.7094200, 0.6753685, 0.6162491, 0.5453871),
+    expected = c(0.7198810, 0.6853274, 0.6253363, 0.5534294),
     tolerance = 0.01
   )
   

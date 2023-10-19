@@ -5,7 +5,15 @@
 \alias{management.obic}
 \title{Relational table linking soil management measures to ecosystem services}
 \format{
-A data.table with 16 rows and 6 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 15 rows and 6 columns.
+}
+\usage{
+management.obic
+}
+\description{
+This table assigns which measures positively contribute to the ecosystem services included
+}
+\details{
 \describe{
   \item{measure}{The name of measure}
   \item{I_M_SOILFERTILITY}{integrated soil management indicator for soil fertility}
@@ -13,11 +21,5 @@ A data.table with 16 rows and 6 columns:
   \item{I_M_WATERQUALITY}{integrated soil management indicator for water quality}
   \item{I_M_BIODIVERSITY}{Integrated soil management indicator for soil biodiversity}
 }
-}
-\usage{
-management.obic
-}
-\description{
-This table assigns which measures positively contribute to the ecosystem services included
 }
 \keyword{datasets}

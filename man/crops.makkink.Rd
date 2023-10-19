@@ -5,7 +5,15 @@
 \alias{crops.makkink}
 \title{Makkink correction factor table}
 \format{
-A data.table with 12 rows and 4 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 24 rows and 13 columns.
+}
+\usage{
+crops.makkink
+}
+\description{
+This table contains the makkink correction factors for evapo-transpiration per month
+}
+\details{
 \describe{
   \item{crop_makkink}{Makkink crop category}
   \item{1}{Evapotranspiration correction factors for January}
@@ -21,11 +29,5 @@ A data.table with 12 rows and 4 columns:
   \item{11}{Evapotranspiration correction factors for November}
   \item{12}{Evapotranspiration correction factors for December}
 }
-}
-\usage{
-crops.makkink
-}
-\description{
-This table contains the makkink correction factors for evapo-transpiration per month
 }
 \keyword{datasets}

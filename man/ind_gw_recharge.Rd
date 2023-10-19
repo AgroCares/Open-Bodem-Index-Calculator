@@ -4,27 +4,33 @@
 \alias{ind_gw_recharge}
 \title{Calculate groundwater recharge of a soil}
 \usage{
-ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN = FALSE)
+ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)
 }
 \arguments{
-\item{D_WRI_WHC}{(numeric) The value for Water Retention index (WRI) for WHC as calculated by \code{\link{calc_waterretention}}}
+\item{B_LU_BRP}{(numeric) The crop code from the BRP}
 
 \item{D_PSP}{(numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}}
+
+\item{D_WRI_K}{(numeric) The value for top soil permeability (cm/d) as calculated by \code{\link{calc_permeability}}}
 
 \item{I_P_SE}{(numeric) The indicator value for soil sealing}
 
 \item{I_P_CO}{(numeric) The indicator value for occurrence of subsoil compaction}
 
 \item{B_DRAIN}{(boolean) Are drains installed to drain the field (options: yes or no)}
+
+\item{B_GWL_CLASS}{(character) The groundwater table class}
 }
 \value{
 The evaluated score for the soil function to improve groundwater recharge. A numeric value between 0 and 1.
 }
 \description{
-This function calculates an index score for groundwater storage based on WHC, sealing risk, drainage and subsoil compaction
+This function calculates an index score for groundwater storage based on precipitation surplus, infiltration at saturation, sealing risk, drainage and subsoil compaction
 }
 \examples{
-ind_gw_recharge(D_WRI_WHC = 0.6, D_PSP = 200, I_P_SE = 0.6, I_P_CO = 0.9)
-ind_gw_recharge(D_WRI_WHC = 0.8, D_PSP = 400, I_P_SE = 0.4, I_P_CO = 0.2)
+ind_gw_recharge(B_LU_BRP = 265,D_PSP = 200, D_WRI_K = 10, I_P_SE = 0.6, I_P_CO = 0.9, 
+B_DRAIN = FALSE, B_GWL_CLASS = 'GtV')
+ind_gw_recharge(B_LU_BRP = 233, D_PSP = 400, D_WRI_K = 10, I_P_SE = 0.4, I_P_CO = 0.2, 
+B_DRAIN = TRUE, B_GWL_CLASS = 'GtII')
 
 }

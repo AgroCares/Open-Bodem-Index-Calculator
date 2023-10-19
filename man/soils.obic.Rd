@@ -5,17 +5,19 @@
 \alias{soils.obic}
 \title{Linking table between soils and different functions in OBIC}
 \format{
-A data.frame with 7 rows and 2 columns:
-\describe{
-  \item{soiltype}{The name of the soil type}
-  \item{soiltype.ph}{The category for this soil at pH}
-  \item{soiltype.n}{The category for this soil at nitrogen}
-}
+An object of class \code{data.table} (inherits from \code{data.frame}) with 9 rows and 4 columns.
 }
 \usage{
 soils.obic
 }
 \description{
 This table helps to link the different crops in the OBIC functions with the crops selected by the user
+}
+\details{
+\describe{
+  \item{soiltype}{The name of the soil type}
+  \item{soiltype.ph}{The category for this soil at pH}
+  \item{soiltype.n}{The category for this soil at nitrogen}
+}
 }
 \keyword{datasets}
