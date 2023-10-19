@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.0</span>
       </span>
     </div>
 
@@ -39,6 +39,9 @@
     </li>
     <li>
       <a href="../articles/obic_score_aggregation.html">Note on OBI score aggregation</a>
+    </li>
+    <li>
+      <a href="../articles/obic_water_functions.html">Description of the OBI-water functions</a>
     </li>
     <li>
       <a href="../articles/obic_workability.html">Workability illustration</a>
@@ -77,7 +80,12 @@
 
     <div id="format">
     <h2>Format</h2>
-    <p>A data.frame with 465 rows and 21 columns:</p><dl><dt>crop_code</dt>
+    <p>An object of class <code>data.table</code> (inherits from <code>data.frame</code>) with 460 rows and 22 columns.</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    
+<dl><dt>crop_code</dt>
 <dd><p>The BRP gewascode of the crop</p></dd>
 
   <dt>crop_name</dt>
@@ -125,7 +133,7 @@
   <dt>nf_sand.other</dt>
 <dd><p>Allowed effective N dose on sandy soils</p></dd>
 
-  <dt>nf_sand.sout</dt>
+  <dt>nf_sand.south</dt>
 <dd><p>Allowed effective N dose on sandy soils sensitive to leaching</p></dd>
 
   <dt>nf_loess</dt>
@@ -139,6 +147,9 @@
 
   <dt>crop_season</dt>
 <dd><p>Crop category for length growing season</p></dd>
+
+  <dt>crop_makkink</dt>
+<dd><p>Crop category for makkink correction factors</p></dd>
 
 
 </dl></div>

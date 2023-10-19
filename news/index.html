@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.0</span>
       </span>
     </div>
 
@@ -39,6 +39,9 @@
     </li>
     <li>
       <a href="../articles/obic_score_aggregation.html">Note on OBI score aggregation</a>
+    </li>
+    <li>
+      <a href="../articles/obic_water_functions.html">Description of the OBI-water functions</a>
     </li>
     <li>
       <a href="../articles/obic_workability.html">Workability illustration</a>
@@ -67,100 +70,129 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="3.0.0" id="obic-300-2023-10-16">OBIC 3.0.0 2023-10-16<a class="anchor" aria-label="anchor" href="#obic-300-2023-10-16"></a></h2>
+<div class="section level3">
+<h3 id="added-3-0-0">Added<a class="anchor" aria-label="anchor" href="#added-3-0-0"></a></h3>
+<ul><li>Add <code>calc_permeability</code> for calculating top soil permeability</li>
+<li>Add <code>ind_permeability</code> for calculating the index for top soil permeability</li>
+<li>Add variable <code>leach_to</code> to <code>calc_n_efficiency</code> and <code>ind_n_efficiency</code> to calculate and evaluate leaching to ground water and surface water</li>
+<li>Add vignette <code>obic_water_functions</code>, describing the functions that evaluates the effect of soil quality on groundwater quality</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changed-3-0-0">Changed<a class="anchor" aria-label="anchor" href="#changed-3-0-0"></a></h3>
+<ul><li>Updated N use norms for onions</li>
+<li>Update calc_nleach by soil and land use dependent default n supply, issue <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/issues/154" class="external-link">#154</a></li>
+<li>Update calculations in the functions <code>calc_pesticide_leaching</code>, <code>ind_pesticide_leaching</code>, <code>calc_psp</code>, <code>ind_psp</code>, <code>ind_gw_recharge</code>,<code>calc_n_efficiency</code> and <code>ind_n_efficiency</code>
+</li>
+<li>Add soil type and land use dependent NLV estimate in <code>calc_nleach</code>
+</li>
+<li>In the input for <code>ind_gw_recharge</code> the variables <code>B_LU_BRP</code>, <code>D_WRI_K</code>, and <code>B_GWL_CLASS</code> are added, and <code>D_WRI_WHC</code> is removed</li>
+<li>In <code>calc_n_efficiency</code>, <code>D_NLV</code> is removed from the input variables</li>
+</ul></div>
+<div class="section level3">
+<h3 id="fixed-3-0-0">Fixed<a class="anchor" aria-label="anchor" href="#fixed-3-0-0"></a></h3>
+<ul><li>Fixes plotting of regime curve in workability vignette <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/issues/149" class="external-link">#149</a></li>
+<li>Extremely high EOS values for some cultivations fixing <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/issues/162" class="external-link">#162</a> &amp; <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/issues/134" class="external-link">#134</a></li>
+<li>Updated bibliography of packages in vignettes</li>
+<li>N use norm for 1935 (maiskolfsilage)</li>
+<li>N use norms of 1926 and 1927 (agrarisch natuurmengsel and overige akkerbouwgewassen), increased to match “Akkerbouwgewassen, overig” (RVO, 2022)</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="2.2.1" id="obic-221-2023-10-16">OBIC 2.2.1 2023-10-16<a class="anchor" aria-label="anchor" href="#obic-221-2023-10-16"></a></h2>
-<div class="section level4">
-<h4 id="added-2-2-1">Added<a class="anchor" aria-label="anchor" href="#added-2-2-1"></a></h4>
+<div class="section level3">
+<h3 id="added-2-2-1">Added<a class="anchor" aria-label="anchor" href="#added-2-2-1"></a></h3>
 <ul><li>CITATION file and additional author data in the package DESCRIPTION</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.2.0" id="obic-220-2023-08-29">OBIC 2.2.0 2023-08-29<a class="anchor" aria-label="anchor" href="#obic-220-2023-08-29"></a></h2>
-<div class="section level4">
-<h4 id="added-2-2-0">Added<a class="anchor" aria-label="anchor" href="#added-2-2-0"></a></h4>
+<div class="section level3">
+<h3 id="added-2-2-0">Added<a class="anchor" aria-label="anchor" href="#added-2-2-0"></a></h3>
 <ul><li>Adds function <code>obic_recommendations_bkp</code> for determining management recommendations to improve soil quality</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.1.3" id="obic-213-2023-08-29">OBIC 2.1.3 2023-08-29<a class="anchor" aria-label="anchor" href="#obic-213-2023-08-29"></a></h2>
-<div class="section level4">
-<h4 id="fixed-2-1-3">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-1-3"></a></h4>
+<div class="section level3">
+<h3 id="fixed-2-1-3">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-1-3"></a></h3>
 <ul><li>Fixes error in formatting of B_AER_CBS for LG01 and LG02 in format_aer [OBI-20]</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.1.2" id="obic-212-2023-03-28">OBIC 2.1.2 2023-03-28<a class="anchor" aria-label="anchor" href="#obic-212-2023-03-28"></a></h2>
-<div class="section level4">
-<h4 id="fixed-2-1-2">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-1-2"></a></h4>
+<div class="section level3">
+<h3 id="fixed-2-1-2">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-1-2"></a></h3>
 <ul><li>Added missing values in <code>nf_</code> columns in <code>crops.obic</code>
 </li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.1.1" id="obic-211-2023-03-21">OBIC 2.1.1 2023-03-21<a class="anchor" aria-label="anchor" href="#obic-211-2023-03-21"></a></h2>
-<div class="section level4">
-<h4 id="fixed-2-1-1">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-1-1"></a></h4>
+<div class="section level3">
+<h3 id="fixed-2-1-1">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-1-1"></a></h3>
 <ul><li>Update <code>crops.obic</code> for missing <code>b_lu_brp</code> codes</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.1.0" id="obic-210-2023-03-03">OBIC 2.1.0 2023-03-03<a class="anchor" aria-label="anchor" href="#obic-210-2023-03-03"></a></h2>
-<div class="section level4">
-<h4 id="added-2-1-0">Added<a class="anchor" aria-label="anchor" href="#added-2-1-0"></a></h4>
+<div class="section level3">
+<h3 id="added-2-1-0">Added<a class="anchor" aria-label="anchor" href="#added-2-1-0"></a></h3>
 <ul><li>add <code>obic_farm</code> to assess soil quality on farm level (plus unit tests), #OBI-8</li>
 <li>total farm score <code>farm_obi_score</code> as output reflecting the percentage of fields in the highest class for the OBI score, #OBI-8</li>
 </ul></div>
-<div class="section level4">
-<h4 id="changed-2-1-0">Changed<a class="anchor" aria-label="anchor" href="#changed-2-1-0"></a></h4>
+<div class="section level3">
+<h3 id="changed-2-1-0">Changed<a class="anchor" aria-label="anchor" href="#changed-2-1-0"></a></h3>
 <ul><li>output handling in obic_field is updated to have more flexibility and avoid undesired calculations</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.0.5" id="obic-205-2023-02-17">OBIC 2.0.5 2023-02-17<a class="anchor" aria-label="anchor" href="#obic-205-2023-02-17"></a></h2>
-<div class="section level4">
-<h4 id="fixed-2-0-5">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-0-5"></a></h4>
+<div class="section level3">
+<h3 id="fixed-2-0-5">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-0-5"></a></h3>
 <ul><li>Fixes to generate clearer error message when incorrect B_LU_BRP is supplied.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.0.4" id="obic-204-2023-01-11">OBIC 2.0.4 2023-01-11<a class="anchor" aria-label="anchor" href="#obic-204-2023-01-11"></a></h2>
-<div class="section level4">
-<h4 id="fixed-2-0-4">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-0-4"></a></h4>
+<div class="section level3">
+<h3 id="fixed-2-0-4">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-0-4"></a></h3>
 <ul><li>Fixes calculation of <code>field capacity</code> at <code>calc_waterretention</code>
 </li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.0.3" id="obic-203-2023-01-11">OBIC 2.0.3 2023-01-11<a class="anchor" aria-label="anchor" href="#obic-203-2023-01-11"></a></h2>
-<div class="section level4">
-<h4 id="fixed-2-0-3">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-0-3"></a></h4>
+<div class="section level3">
+<h3 id="fixed-2-0-3">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-0-3"></a></h3>
 <ul><li>Fixes plotting of regime curve in workabilty vignette <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/issues/149" class="external-link">#149</a></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.0.2" id="obic-202-2023-01-11">OBIC 2.0.2 2023-01-11<a class="anchor" aria-label="anchor" href="#obic-202-2023-01-11"></a></h2>
-<div class="section level4">
-<h4 id="changed-2-0-2">Changed<a class="anchor" aria-label="anchor" href="#changed-2-0-2"></a></h4>
+<div class="section level3">
+<h3 id="changed-2-0-2">Changed<a class="anchor" aria-label="anchor" href="#changed-2-0-2"></a></h3>
 <ul><li>Update the GitHub Actions to the most recent version</li>
 <li>Update <code>RoxygenNote</code> to v7.2.3</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.0.1" id="obic-201-2022-03-26">OBIC 2.0.1 2022-03-26<small>2022-04-05</small><a class="anchor" aria-label="anchor" href="#obic-201-2022-03-26"></a></h2>
-<div class="section level4">
-<h4 id="changed-2-0-1">Changed<a class="anchor" aria-label="anchor" href="#changed-2-0-1"></a></h4>
+<div class="section level3">
+<h3 id="changed-2-0-1">Changed<a class="anchor" aria-label="anchor" href="#changed-2-0-1"></a></h3>
 <ul><li>The function <code>ind_sulpher</code> is renamed to <code>ind_sulfur</code> in documentation</li>
 </ul></div>
-<div class="section level4">
-<h4 id="added-2-0-1">Added<a class="anchor" aria-label="anchor" href="#added-2-0-1"></a></h4>
+<div class="section level3">
+<h3 id="added-2-0-1">Added<a class="anchor" aria-label="anchor" href="#added-2-0-1"></a></h3>
 <ul><li>all functions are extended with <code>examples</code> and <code>return</code>
 </li>
 </ul></div>
-<div class="section level4">
-<h4 id="changed-2-0-1-1">Changed<a class="anchor" aria-label="anchor" href="#changed-2-0-1-1"></a></h4>
+<div class="section level3">
+<h3 id="changed-2-0-1-1">Changed<a class="anchor" aria-label="anchor" href="#changed-2-0-1-1"></a></h3>
 <ul><li>standardize output variables of pedotransfer parameters Wosten</li>
 </ul></div>
-<div class="section level4">
-<h4 id="fixed-2-0-1">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-0-1"></a></h4>
+<div class="section level3">
+<h3 id="fixed-2-0-1">Fixed<a class="anchor" aria-label="anchor" href="#fixed-2-0-1"></a></h3>
 <ul><li>Fixes many spelling errors in the documentation</li>
 <li>Set title in <code>decription</code> to title case</li>
 <li>Fix links to external websites</li>
@@ -168,12 +200,12 @@
 <li>Fix setorder after merge in calc_n_effieciency</li>
 <li>Fix setorder after merge in calc_som_balance</li>
 </ul></div>
-<div class="section level4">
-<h4 id="removed-2-0-1">Removed<a class="anchor" aria-label="anchor" href="#removed-2-0-1"></a></h4>
+<div class="section level3">
+<h3 id="removed-2-0-1">Removed<a class="anchor" aria-label="anchor" href="#removed-2-0-1"></a></h3>
 <ul><li>Removes <code>/docs</code> as the documentation website is now automatically generated by GitHub Actions</li>
 </ul></div>
-<div class="section level4">
-<h4 id="deprecated-2-0-1">Deprecated<a class="anchor" aria-label="anchor" href="#deprecated-2-0-1"></a></h4>
+<div class="section level3">
+<h3 id="deprecated-2-0-1">Deprecated<a class="anchor" aria-label="anchor" href="#deprecated-2-0-1"></a></h3>
 <ul><li>The function <code>ind_sulpher</code> is deprecated due to renaming</li>
 </ul></div>
 </div>

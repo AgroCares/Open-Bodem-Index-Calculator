@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.0</span>
       </span>
     </div>
 
@@ -57,6 +57,9 @@
     </li>
     <li>
       <a href="../articles/obic_score_aggregation.html">Note on OBI score aggregation</a>
+    </li>
+    <li>
+      <a href="../articles/obic_water_functions.html">Description of the OBI-water functions</a>
     </li>
     <li>
       <a href="../articles/obic_workability.html">Workability illustration</a>
@@ -91,7 +94,7 @@
                         <h4 data-toc-skip class="author">Gerard Ros,
 Brent Riechelman</h4>
             
-            <h4 data-toc-skip class="date">2023-10-16</h4>
+            <h4 data-toc-skip class="date">2023-10-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/HEAD/vignettes/obic_introduction.Rmd" class="external-link"><code>vignettes/obic_introduction.Rmd</code></a></small>
       <div class="hidden name"><code>obic_introduction.Rmd</code></div>
@@ -335,7 +338,7 @@ that need to be solved.</p>
 <span>  <span class="fu"><a href="../reference/obic_field.html">obic_field</a></span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span>  <span class="va">dt</span><span class="op">$</span><span class="va">B_SOILTYPE_AGR</span>, B_GWL_CLASS <span class="op">=</span>  <span class="va">dt</span><span class="op">$</span><span class="va">B_GWL_CLASS</span>,</span>
 <span>             B_SC_WENR <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">B_SC_WENR</span>, B_HELP_WENR <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">B_HELP_WENR</span>, B_AER_CBS <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">B_AER_CBS</span>,</span>
 <span>             B_GWL_GLG <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">B_GWL_GLG</span>, B_GWL_GHG <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">B_GWL_GHG</span>, B_GWL_ZCRIT <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">B_GWL_ZCRIT</span>,</span>
-<span>             B_DRAIN <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">B_DRAIN</span>, B_FERT_NORM_FR <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">B_FERT_NORM_FR</span>,</span>
+<span>             B_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>, B_FERT_NORM_FR <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>             B_LU_BRP <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">B_LU_BRP</span>, A_SOM_LOI <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_SOM_LOI</span>, A_SAND_MI <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_SAND_MI</span>,</span>
 <span>             A_SILT_MI <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_SILT_MI</span>, A_CLAY_MI <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_CLAY_MI</span>, A_PH_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_PH_CC</span>,</span>
 <span>             A_N_RT <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_N_RT</span>, A_CN_FR <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_CN_FR</span>,</span>
@@ -345,12 +348,12 @@ that need to be solved.</p>
 <span>             A_K_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_K_CC</span>, A_MG_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_MG_CC</span>, A_MN_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_MN_CC</span>,</span>
 <span>             A_ZN_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_ZN_CC</span>, A_CU_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_CU_CC</span>, output <span class="op">=</span> <span class="st">'obic_score'</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    ID S_T_OBI_A</span></span>
-<span><span class="co">#&gt; 1:  1     0.779</span></span>
+<span><span class="co">#&gt; 1:  1     0.783</span></span>
 <span>  </span>
 <span>  <span class="co"># test the obic field function via obic_field_dt and give only the final score</span></span>
 <span>  <span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">dt</span>,output <span class="op">=</span> <span class="st">'obic_score'</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    ID S_T_OBI_A</span></span>
-<span><span class="co">#&gt; 1:  1     0.779</span></span></code></pre></div>
+<span><span class="co">#&gt; 1:  1     0.783</span></span></code></pre></div>
 <p>When interested in the averaged indicator value or the averaged
 aggregated soil indicators, one can adjust the output argument of the
 wrapper functions.</p>
@@ -1643,9 +1646,9 @@ soil function.</p>
 <span>  <span class="fu">OBIC</span><span class="fu">::</span><span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">binnenveld</span><span class="op">[</span><span class="va">ID</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span>, output <span class="op">=</span> <span class="st">'obic_score'</span><span class="op">)</span></span></code></pre></div>
 <p>Will give:</p>
 <pre><code><span><span class="co">#&gt;    ID S_B_OBI_A S_C_OBI_A S_E_OBI_A S_M_OBI_A S_P_OBI_A S_T_OBI_A</span></span>
-<span><span class="co">#&gt; 1:  1     0.998      0.86     0.938     0.586     0.216     0.668</span></span>
+<span><span class="co">#&gt; 1:  1     0.998      0.86     0.965     0.586     0.216     0.672</span></span>
 <span><span class="co">#&gt;    ID S_T_OBI_A</span></span>
-<span><span class="co">#&gt; 1:  1     0.668</span></span></code></pre>
+<span><span class="co">#&gt; 1:  1     0.672</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">

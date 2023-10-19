@@ -19,6 +19,9 @@
     <loc>/articles/obic_score_aggregation.html</loc>
   </url>
   <url>
+    <loc>/articles/obic_water_functions.html</loc>
+  </url>
+  <url>
     <loc>/articles/obic_workability.html</loc>
   </url>
   <url>
@@ -86,6 +89,9 @@
   </url>
   <url>
     <loc>/reference/calc_organic_carbon.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_permeability.html</loc>
   </url>
   <url>
     <loc>/reference/calc_pesticide_leaching.html</loc>
@@ -214,6 +220,9 @@
     <loc>/reference/ind_nretention.html</loc>
   </url>
   <url>
+    <loc>/reference/ind_permeability.html</loc>
+  </url>
+  <url>
     <loc>/reference/ind_pesticide_leaching.html</loc>
   </url>
   <url>
@@ -227,6 +236,9 @@
   </url>
   <url>
     <loc>/reference/ind_potassium.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ind_psp.html</loc>
   </url>
   <url>
     <loc>/reference/ind_resistance.html</loc>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.0</span>
       </span>
     </div>
 
@@ -39,6 +39,9 @@
     </li>
     <li>
       <a href="../articles/obic_score_aggregation.html">Note on OBI score aggregation</a>
+    </li>
+    <li>
+      <a href="../articles/obic_water_functions.html">Description of the OBI-water functions</a>
     </li>
     <li>
       <a href="../articles/obic_workability.html">Workability illustration</a>
@@ -130,11 +133,11 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_pesticide_leaching</span><span class="op">(</span>B_SOILTYPE_AGR <span class="op">=</span> <span class="st">'rivierklei'</span>, A_SOM_LOI <span class="op">=</span> <span class="fl">4</span>, </span></span>
 <span class="r-in"><span>A_CLAY_MI <span class="op">=</span> <span class="fl">20</span>, A_SAND_MI <span class="op">=</span> <span class="fl">45</span>, A_SILT_MI <span class="op">=</span> <span class="fl">35</span>, </span></span>
 <span class="r-in"><span>D_PSP <span class="op">=</span> <span class="fl">225</span>, M_PESTICIDES_DST <span class="op">=</span> <span class="cn">TRUE</span>,M_MECHWEEDS <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6216702</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6321355</span>
 <span class="r-in"><span><span class="fu">calc_pesticide_leaching</span><span class="op">(</span><span class="st">'rivierklei'</span>, <span class="fl">4</span>, <span class="fl">20</span>, <span class="fl">45</span>, <span class="fl">35</span>, <span class="fl">225</span>, <span class="cn">TRUE</span>,<span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6216702</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6321355</span>
 <span class="r-in"><span><span class="fu">calc_pesticide_leaching</span><span class="op">(</span><span class="st">'dekzand'</span>, <span class="fl">4.8</span>, <span class="fl">4.2</span>, <span class="fl">85</span>, <span class="fl">10.8</span>, <span class="fl">225</span>, <span class="cn">TRUE</span>,<span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5929354</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5993204</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

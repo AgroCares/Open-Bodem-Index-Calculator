@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.0</span>
       </span>
     </div>
 
@@ -39,6 +39,9 @@
     </li>
     <li>
       <a href="../articles/obic_score_aggregation.html">Note on OBI score aggregation</a>
+    </li>
+    <li>
+      <a href="../articles/obic_water_functions.html">Description of the OBI-water functions</a>
     </li>
     <li>
       <a href="../articles/obic_workability.html">Workability illustration</a>
@@ -72,13 +75,17 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ind_n_efficiency</span><span class="op">(</span><span class="va">D_NLEACH</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ind_n_efficiency</span><span class="op">(</span><span class="va">D_NLEACH</span>, leaching_to <span class="op">=</span> <span class="st">"gw"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>D_NLEACH</dt>
 <dd><p>(numeric) The value of N leaching calculated by <code><a href="calc_n_efficiency.html">calc_n_efficiency</a></code></p></dd>
+
+
+<dt>leaching_to</dt>
+<dd><p>(character) whether it evaluates N leaching to groundwater ("gw") or to surface water ("sw")</p></dd>
 
 </dl></div>
     <div id="value">
@@ -90,10 +97,10 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">ind_n_efficiency</span><span class="op">(</span>D_NLEACH <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.192833e-06</span>
-<span class="r-in"><span><span class="fu">ind_n_efficiency</span><span class="op">(</span>D_NLEACH <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">15</span>,<span class="fl">25</span>,<span class="fl">75</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.331705e-01 2.625446e-01 9.574937e-03 1.472076e-10</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">ind_n_efficiency</span><span class="op">(</span>D_NLEACH <span class="op">=</span> <span class="fl">50</span>, leaching_to <span class="op">=</span> <span class="st">'gw'</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.006828972</span>
+<span class="r-in"><span><span class="fu">ind_n_efficiency</span><span class="op">(</span>D_NLEACH <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">15</span>,<span class="fl">25</span>,<span class="fl">75</span><span class="op">)</span>, leaching_to <span class="op">=</span> <span class="st">'sw'</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.536841e-01 6.972089e-02 3.371577e-04 6.661338e-16</span>
 <span class="r-in"><span> </span></span>
 </code></pre></div>
     </div>

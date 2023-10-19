@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.0</span>
       </span>
     </div>
 
@@ -39,6 +39,9 @@
     </li>
     <li>
       <a href="../articles/obic_score_aggregation.html">Note on OBI score aggregation</a>
+    </li>
+    <li>
+      <a href="../articles/obic_water_functions.html">Description of the OBI-water functions</a>
     </li>
     <li>
       <a href="../articles/obic_workability.html">Workability illustration</a>
@@ -82,7 +85,7 @@
 <span>  <span class="va">D_PBI</span>,</span>
 <span>  <span class="va">D_K</span>,</span>
 <span>  <span class="va">D_PH_DELTA</span>,</span>
-<span>  <span class="va">D_NLV</span>,</span>
+<span>  <span class="va">leaching_to</span>,</span>
 <span>  M_GREEN <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  B_FERT_NORM_FR <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -126,8 +129,8 @@
 <dd><p>(numeric) The pH difference with the optimal pH.</p></dd>
 
 
-<dt>D_NLV</dt>
-<dd><p>(numeric) The value of NLV  calculated by <code><a href="calc_nlv.html">calc_nlv</a></code></p></dd>
+<dt>leaching_to</dt>
+<dd><p>(character) whether it computes N leaching to groundwater ("gw") or to surface water ("ow")</p></dd>
 
 
 <dt>M_GREEN</dt>
@@ -148,9 +151,9 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_n_efficiency</span><span class="op">(</span><span class="fl">1019</span>,<span class="st">'dekzand'</span>,<span class="st">'GtIV'</span>,<span class="st">'Zuidwest-Brabant'</span>,<span class="fl">4.5</span>,<span class="fl">3.5</span>,<span class="fl">0.8</span>,<span class="fl">0.6</span>,<span class="fl">0.2</span>,<span class="fl">78</span>,<span class="cn">FALSE</span>,<span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 36.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 <span class="r-in"><span><span class="fu">calc_n_efficiency</span><span class="op">(</span><span class="fl">256</span>,<span class="st">'veen'</span>,<span class="st">'GtII'</span>,<span class="st">'Centraal Veehouderijgebied'</span>,<span class="fl">4.5</span>,<span class="fl">3.5</span>,<span class="fl">0.8</span>,<span class="fl">0.6</span>,<span class="fl">0.2</span>,<span class="fl">250</span>,<span class="cn">FALSE</span>,<span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
