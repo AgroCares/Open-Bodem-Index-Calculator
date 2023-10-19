@@ -93,7 +93,7 @@ nleach_gw_table <- interpolate_nleach_table("gw", "Y", 'filled') # with prescrib
 # remove unnecessary columns
 nleach_gw_table[, c('filled', 'pred', 'nloss', 'nloss2', 'orifill', 'gt', 'lognloss') := NULL]
 # save as RData
-usethis::use_data(nleach_gw_table, version = 3, overwrite = TRUE, compress = 'xz')
+# usethis::use_data(nleach_gw_table, version = 3, overwrite = TRUE, compress = 'xz')
 
 ## surface water
 nleach_ow_table <- interpolate_nleach_table("ow", "N", 'filled') # without prescribed values for GT1
