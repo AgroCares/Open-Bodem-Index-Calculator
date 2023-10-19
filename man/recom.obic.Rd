@@ -7,7 +7,20 @@
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 4048 rows and 11 columns.
 
-A data.frame with 7040 rows and 11 columns:
+An object of class \code{data.table} (inherits from \code{data.frame}) with 4048 rows and 11 columns.
+}
+\usage{
+recom.obic
+
+recom.obic
+}
+\description{
+This table defines the effects of 11 measures on soil indicators. 
+This table is used internally in \code{\link{obic_evalmeasure}}
+
+This table defines the effects of 11 measures on soil indicators
+}
+\details{
 \describe{
   \item{m_nr}{The ID number of measure}
   \item{m_description}{The description of measure}
@@ -21,16 +34,5 @@ A data.frame with 7040 rows and 11 columns:
   \item{m_soiltype}{type of soil: sand/clay/peat/loess (in dutch)}
   \item{m_applicability}{is the measure applicable for combination of sector and soil (1/0)}
 }
-}
-\usage{
-recom.obic
-
-recom.obic
-}
-\description{
-This table defines the effects of 11 measures on soil indicators. 
-This table is used internally in \code{\link{obic_evalmeasure}}
-
-This table defines the effects of 11 measures on soil indicators
 }
 \keyword{datasets}

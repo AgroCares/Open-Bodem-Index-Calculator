@@ -113,6 +113,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_WE = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
   D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = NULL
   D_WRI_WHC = D_PSP = D_NLEACH = D_PESTICIDE = I_W_GWR = I_W_GWS = I_W_NGW = I_W_PEST = NULL
+  D_WRI_K = D_NLEACH_GW = D_NLEACH_OW = I_H_GWR = I_H_NGW = I_H_NOW = I_H_PEST = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
@@ -291,10 +292,13 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 
     # Calculate the water function
     # dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
-    # dt[, D_NLEACH := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
-    #                                   D_PBI,D_K,D_PH_DELTA,D_NLV,M_GREEN,B_FERT_NORM_FR)]
+    # dt[, D_WRI_K := calc_permeability(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI)]
+    # dt[, D_NLEACH_GW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
+    #                                      D_PBI,D_K,D_PH_DELTA,leaching_to = 'gw', M_GREEN,B_FERT_NORM_FR)]
+    # dt[, D_NLEACH_SW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
+    #                                      D_PBI,D_K,D_PH_DELTA,leaching_to = 'sw', M_GREEN,B_FERT_NORM_FR)]
     # dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
-    #                                             A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
+    #                                            A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
     
     
     # Calculate the score of the BodemConditieScore
@@ -331,9 +335,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
     # Calculate indicators for groundwater functions
-    # dt[, I_W_GWR := ind_gw_recharge(D_WRI_WHC, D_PSP, I_P_SE, I_P_CO, B_DRAIN)]
-    # dt[, I_W_NGW := ind_n_efficiency(D_NLEACH)]
-    # dt[, I_W_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+    # dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
+    # dt[, I_H_NGW := ind_n_efficiency(D_NLEACH_GW,'gw')]
+    # dt[, I_H_NSW := ind_n_efficiency(D_NLEACH_GW,'sw')]
+    # dt[, I_H_PEST := ind_pesticide_leaching(D_PESTICIDE)]
     
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
@@ -366,11 +371,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # load weights.obic (set indicator to zero when not applicable)
     w <- as.data.table(OBIC::weight.obic)
     
+    # switch water functions indicators off
+    w <- w[!variable %in% c('I_H_GWR','I_H_NGW','I_H_NOW','I_H_PEST')]
+    
     # Add years per field
     dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT|^ID',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_H|year|crop_cat|SOILT|^ID',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
@@ -419,13 +427,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # non relevant indicators, set to -999
     out.ind[is.na(value), value := -999]
     
+    
   # Step 5 Add scores ------------------
     
     # subset dt.melt for relevant columns only
     out.score <-  dt.melt[,list(ID, cat, year, cf, value = value.w)]
-  
+    
     # remove indicator categories that are not used for scoring
-    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS', 'H')]
     
     # calculate weighted average per indicator category
     out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), 
@@ -445,7 +454,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
       # calculate weighing factor depending on number of indicators
       out.score[,cf := log(ncat + 1)]
-  
+      
+      
     # calculated final obi score
     out.score <- rbind(out.score[,list(ID, cat,value)],
                        out.score[,list(cat = "T",value = sum(value * cf / sum(cf))), by = ID])

@@ -9,7 +9,21 @@ test_that("calc_nleach works", {
       B_AER_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
       leaching_to = "gw"
     ),
-    expected = c(0.41, 0.39, 0.90, 4.62),
+    expected = c(0.41, 0.39, 5.99, 15.64),
+    tolerance = 0.001
+  )
+  
+  # add check for groundwater leaching
+  expect_equal(
+    calc_nleach(
+      B_SOILTYPE_AGR = 'dekzand',
+      B_LU_BRP = 265, 
+      B_GWL_CLASS = 'VII',
+      D_NLV = 135,
+      B_AER_CBS = 'Centraal Veehouderijgebied',
+      leaching_to = "gw"
+    ),
+    expected = 11.88,
     tolerance = 0.001
   )
   
@@ -23,7 +37,7 @@ test_that("calc_nleach works", {
       B_AER_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
       leaching_to = "ow"
     ),
-    expected = c(0.095, 0.270, 0.700, 5.880),
+    expected = c(0.095, 0.270, 4.66, 19.9),
     tolerance = 0.001
   )
 })

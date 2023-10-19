@@ -75,7 +75,7 @@ calc_pesticide_leaching <- function(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI, A_SAND
   dt[,B_WATER_FLUX_MIN := D_PSP / 365 / vfw_min / 100]
   
   # Calculate pesticide leaching fraction
-  dt[,pest_leach_min := exp((-0.34/60 * (vfw_min + BD_MIN * 1/100 * 10)/B_WATER_FLUX_MIN))]
+  dt[,pest_leach_min := exp((-0.34/60 * (vfw_min + BD_MIN * SOM_MIN/100 * 10)/B_WATER_FLUX_MIN))]
   
   
   ## Current situation

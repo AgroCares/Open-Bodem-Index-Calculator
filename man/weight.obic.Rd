@@ -5,16 +5,18 @@
 \alias{weight.obic}
 \title{Weight of indicators to calculate integrated scores}
 \format{
-A data.frame with 20 rows and 2 columns:
-\describe{
-  \item{var}{The name of the weight}
-  \item{weight}{weighing factor}
-}
+An object of class \code{data.table} (inherits from \code{data.frame}) with 196 rows and 5 columns.
 }
 \usage{
 weight.obic
 }
 \description{
 This table defines the weighting factors (ranging between 0 and 1) of indicator values to calculate integrated scores.
+}
+\details{
+\describe{
+  \item{var}{The name of the weight}
+  \item{weight}{weighing factor}
+}
 }
 \keyword{datasets}

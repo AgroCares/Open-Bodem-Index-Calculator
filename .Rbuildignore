@@ -5,6 +5,7 @@
 ^Meta$
 ^dev$
 ^DEV$
+^data-raw$
 ^\.github$
 ^codecov\.yml$
 ^LICENSE

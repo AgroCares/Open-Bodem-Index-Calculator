@@ -1,7 +1,7 @@
 Package: OBIC
 Type: Package
 Title: Calculate the Open Bodem Index (OBI) Score
-Version: 2.2.1
+Version: 3.0.0
 Authors@R: c(
     person(given = "Sven", 
            family = "Verweij",
@@ -26,7 +26,8 @@ Authors@R: c(
     person(given = "Kees",
            family = "van den Dool",
            email = 'kees.vandendool@nmi-agro.nl',
-           role = "aut"),
+           role = "aut",
+           comment = c(ORCHID = '0009-0003-8963-2556')),
     person(given = "Job", 
            family = "de Pater",
            email = "job.depater@nmi-agro.nl",

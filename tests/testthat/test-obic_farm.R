@@ -56,12 +56,12 @@ test_that("obic_farm works", {
   )
   expect_equal(
     c(sum(out$farm$indicators$S_OBI_NFIELDS_LOW),sum(out$farm$indicators$S_OBI_NFIELDS_HIGH)),
-    expected = c(34,76),
+    expected = c(34,75),
     tolerance = 0.01
   )
   expect_equal(
     c(sum(out$farm$scores$S_OBI_NFIELDS_LOW),sum(out$farm$scores$S_OBI_NFIELDS_HIGH)),
-    expected = c(9,13),
+    expected = c(8,13),
     tolerance = 0.01
   )
 })
