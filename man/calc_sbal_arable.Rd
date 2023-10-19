@@ -28,11 +28,11 @@ This function calculates the change in S-balance compared to averaged S-supply a
 This function calculates the change in S-balance compared to averaged S-supply as given in fertilizer recommendation systems.
 }
 \examples{
-setDTthreads(1)
+\dontshow{data.table::setDTthreads(1)} 
 calc_sbal_arable(D_SLV = 65, B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand', 
 B_AER_CBS = 'Rivierengebied')
 
-setDTthreads(1)
+\dontshow{data.table::setDTthreads(1)} 
 calc_sbal_arable(D_SLV = 65, B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand', 
 B_AER_CBS = 'Rivierengebied')
 calc_sbal_arable(65, 1019, 'dekzand', 'Rivierengebied')

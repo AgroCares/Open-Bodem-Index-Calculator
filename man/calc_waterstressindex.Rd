@@ -22,7 +22,7 @@ The yield depression (in \%) through wetness or drought stress (depending on the
 This function calculates the Water Stress Index (estimating the yield depression as a function of water deficiency or surplus)
 }
 \examples{
-setDTthreads(1)
+\dontshow{data.table::setDTthreads(1)} 
 calc_waterstressindex(B_HELP_WENR = 'ABkt',B_LU_BRP = 1019,B_GWL_CLASS = 'GtIV'
 , WSI = 'droughtstress')
 

@@ -123,7 +123,7 @@ calc_slv <- function(B_LU_BRP, B_SOILTYPE_AGR, B_AER_CBS,A_SOM_LOI,A_S_RT, D_BDS
 #' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
 #' 
 #' @examples 
-#' setDTthreads(1)
+#' \dontshow{data.table::setDTthreads(1)} 
 #' calc_sbal_arable(D_SLV = 65, B_LU_BRP = 1019, B_SOILTYPE_AGR = 'dekzand', 
 #' B_AER_CBS = 'Rivierengebied')
 #' calc_sbal_arable(65, 1019, 'dekzand', 'Rivierengebied')
