@@ -12,6 +12,7 @@
 #' @import data.table
 #' 
 #' @examples 
+#' setDTthreads(1)
 #' calc_waterstressindex(B_HELP_WENR = 'ABkt',B_LU_BRP = 1019,B_GWL_CLASS = 'GtIV'
 #' , WSI = 'droughtstress')
 #' 

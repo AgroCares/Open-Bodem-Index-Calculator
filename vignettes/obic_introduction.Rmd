@@ -23,6 +23,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 ```{r setup, include = FALSE}
   # load packages
   library(OBIC); library(data.table); library(ggplot2);require(patchwork)
+  setDTthreads(1)
 
   # load binnenveld data.table
   binnenveld <- as.data.table(OBIC::binnenveld)
