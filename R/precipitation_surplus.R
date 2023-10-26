@@ -22,7 +22,7 @@ calc_psp <- function(B_LU_BRP, M_GREEN){
   
   # check inputs
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length)
   
   
@@ -80,11 +80,12 @@ calc_psp <- function(B_LU_BRP, M_GREEN){
   year_cc <- year_cc[!year_cc %in% (year_wc - 1)]
   
   # Add catch crop for last year in rotation
-  if(year_cc[length(year_cc)] == arg.length){
+  if(length(year_cc) != 0){
+    if(year_cc[length(year_cc)] == arg.length){
     
     dt[year == arg.length & month %in% 10:12, c("crop_name","mcf"):=list("catch crop",c(0.74,0.64,0.6))]
     year_cc <- year_cc[! year_cc %in% arg.length]
-    
+    }
   }
   
   # Add catch crops to other years
@@ -120,3 +121,36 @@ calc_psp <- function(B_LU_BRP, M_GREEN){
   
 }
 
+
+
+#' Calculate indicator for precipitation surplus
+#' 
+#' This function calculates the indicator value for precipitation surplus
+#' 
+#' @param D_PSP (numeric) The precipitation surplus per crop  calculated by \code{\link{calc_psp}}
+#' @param B_LU_BRP (numeric) The crop code from the BRP 
+#'     
+#' @export
+ind_psp <- function(D_PSP,B_LU_BRP){
+  
+  crops.obic = crop_name = crop_code = I_PSP = NULL
+  
+  # Check input
+  arg.length <- max(length(D_PSP), length(B_LU_BRP))
+  
+  checkmate::assert_numeric(D_PSP, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
+
+  dt <- data.table(D_PSP,
+                   B_LU_BRP)
+  
+  # Calculate indicator score
+  dt[,I_PSP := evaluate_logistic(D_PSP,0.05,300,2.5)]
+  
+  # Format output
+  out <- dt[,I_PSP]
+
+  return(out)
+
+}
