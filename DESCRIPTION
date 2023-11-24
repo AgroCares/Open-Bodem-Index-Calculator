@@ -27,7 +27,7 @@ Authors@R: c(
            family = "van den Dool",
            email = 'kees.vandendool@nmi-agro.nl',
            role = "aut",
-           comment = c(ORCHID = '0009-0003-8963-2556')),
+           comment = c(ORCID = '0009-0003-8963-2556')),
     person(given = "Job", 
            family = "de Pater",
            email = "job.depater@nmi-agro.nl",
