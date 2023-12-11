@@ -32,7 +32,7 @@
 calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, 
                              B_GWL_GLG, B_GWL_GHG, B_GWL_ZCRIT,
                              calcyieldloss = FALSE) {
-  
+  # Test for Leannah
   # define variables used within the function
   id =crop_code = soiltype = landuse = crop_waterstress = crop_season = NULL
   soiltype.m = spring_depth =  gws_sub_workingdepth = NULL
