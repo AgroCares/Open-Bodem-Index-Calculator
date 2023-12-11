@@ -114,7 +114,7 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
   dt[, rdh_fall := gws_sub_workingdepth]
   
   # test 2: At what groundwater level is  capillary rise lower than evaporation (<2mm/d), required depth capilairy abbreviated as rdc
-  dt[, rdc := B_GWL_ZCRIT]
+  dt[, rdc := B_GWL_ZCRIT+spring_depth]
 
   # Choose lowest required depth as required depth
   dt[,rd_spring := fifelse(rdh_spring <= rdc, rdh_spring,rdc)]
