@@ -109,12 +109,9 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'ABkt'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
-<span class="r-in"><span><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'Mv61ClE'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">256</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIII'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-in"><span><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'ABkt'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span>, </span></span>
-<span class="r-in"><span>WSI <span class="op">=</span> <span class="st">'droughtstress'</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/openmp-utils.html" class="external-link">setDTthreads</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="fu">calc_waterstressindex</span><span class="op">(</span>B_HELP_WENR <span class="op">=</span> <span class="st">'ABkt'</span>,B_LU_BRP <span class="op">=</span> <span class="fl">1019</span>,B_GWL_CLASS <span class="op">=</span> <span class="st">'GtIV'</span></span></span>
+<span class="r-in"><span>, WSI <span class="op">=</span> <span class="st">'droughtstress'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
