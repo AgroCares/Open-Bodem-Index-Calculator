@@ -5,4 +5,4 @@ dt <- fread('DEV/data/weather.csv')
 
 # write file to data
 weather.obic <- copy(dt)
-save(weather.obic, file = 'data/weather_obic.RData')
+usethis::use_data(weather.obic, version = 3, overwrite = TRUE, compress = 'xz')

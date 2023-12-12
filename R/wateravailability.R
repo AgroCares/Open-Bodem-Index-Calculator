@@ -12,10 +12,9 @@
 #' @import data.table
 #' 
 #' @examples 
-#' calc_waterstressindex(B_HELP_WENR = 'ABkt',B_LU_BRP = 1019,B_GWL_CLASS = 'GtIV')
-#' calc_waterstressindex(B_HELP_WENR = 'Mv61ClE',B_LU_BRP = 256,B_GWL_CLASS = 'GtIII')
-#' calc_waterstressindex(B_HELP_WENR = 'ABkt',B_LU_BRP = 1019,B_GWL_CLASS = 'GtIV', 
-#' WSI = 'droughtstress')
+#' \dontshow{data.table::setDTthreads(1)} 
+#' calc_waterstressindex(B_HELP_WENR = 'ABkt',B_LU_BRP = 1019,B_GWL_CLASS = 'GtIV'
+#' , WSI = 'droughtstress')
 #' 
 #' @return 
 #' The yield depression (in \%) through wetness or drought stress (depending on the WSI selected). Numeric value.
