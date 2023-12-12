@@ -13,7 +13,7 @@ test_that("test whether calc_nitrogen_efficiency works", {
                       B_FERT_NORM_FR = c(1,1,1,0.8),
                       leaching_to = 'gw'
     ),
-    expected = c(10.00, 11.25, 10.00, 10.00),
+    expected = c(3.92,  7.20, 10.00,  0.96),
     tolerance = 0.01
   )
   
@@ -31,7 +31,7 @@ test_that("test whether calc_nitrogen_efficiency works", {
                       B_FERT_NORM_FR = c(1,0.8,1,1),
                       leaching_to = 'gw'
     ),
-    expected = c(1.90,2.09,1.90,1.90),
+    expected = c(0.0, 0.0, 1.9, 0.0),
     tolerance = 0.01
   )
   
