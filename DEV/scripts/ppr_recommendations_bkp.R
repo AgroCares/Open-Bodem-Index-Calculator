@@ -150,6 +150,6 @@
   # rename to recom.maatregel
   recom.obic_bkp <- m.maatregel
 
-usethis::use_data(recom.obic_bkp,overwrite = TRUE)
+usethis::use_data(recom.obic_bkp, version = 3, overwrite = TRUE, compress = 'xz')
 devtools::document()
   

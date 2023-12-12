@@ -11,7 +11,7 @@
   column_description.obic <- na.omit(column_description.obic, cols = "column")
 
   # save as Rdata file for the package
-  save(column_description.obic, file = "data/column_description_obic.RData", compress = "xz")
+  usethis::use_data(column_description.obic, version = 3, overwrite = TRUE, compress = 'xz')
 
   # save as temporary file in dev/data
   saveRDS(column_description.obic,file='dev/data/column_description_obic.rds')

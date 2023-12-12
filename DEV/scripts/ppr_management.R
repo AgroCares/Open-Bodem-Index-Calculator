@@ -10,5 +10,5 @@
   management.obic <- copy(d1)
   
   # save file as RData-object
-  save(management.obic, file = "data/management_obic.RData")
+  usethis::use_data(management.obic, version = 3, overwrite = TRUE, compress = 'xz')
   
