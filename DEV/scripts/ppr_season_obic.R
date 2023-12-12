@@ -36,7 +36,7 @@
                              total_days := req_days_post_glg+req_days_pre_glg]
   
   # save table
-  usethis::use_data(name = season.obic, overwrite = TRUE)
+  usethis::use_data(name = season.obic, version = 3, overwrite = TRUE, compress = 'xz')
   
   # save as csv for tracking
   write.csv(season.obic, 'DEV/data/season.obic.csv')
