@@ -69,4 +69,4 @@
   # save files
   nema.obic <- obic.nema
   # save(nema.obic, file= 'data/nema_obic.RData')
-  usethis::use_data(nema.obic)
+  usethis::use_data(nema.obic, version = 3, overwrite = TRUE, compress = 'xz')

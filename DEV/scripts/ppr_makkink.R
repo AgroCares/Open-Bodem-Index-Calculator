@@ -11,5 +11,5 @@
   
   # write file to data
   crops.makkink <- copy(dt)
-  save(crops.makkink, file = 'data/crops_makkink.RData')
+  usethis::use_data(crops.makkink,version = 3, overwrite = TRUE, compress = 'xz')
     

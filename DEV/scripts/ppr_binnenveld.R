@@ -9,5 +9,5 @@
   binnenveld <- fread('dev/data/binnenveld.csv')
 
   # save file
-  usethis::use_data(binnenveld)
+  usethis::use_data(binnenveld, version = 3, overwrite = TRUE, compress = 'xz')
   

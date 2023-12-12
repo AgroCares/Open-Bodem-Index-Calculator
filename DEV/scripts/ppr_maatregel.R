@@ -125,4 +125,4 @@
   recom.obic <- m.obic
   
   
-save(recom.obic, file = "data/recom_obic.RData")
+usethis::use_data(recom.obic, version = 3, overwrite = TRUE, compress = 'xz')

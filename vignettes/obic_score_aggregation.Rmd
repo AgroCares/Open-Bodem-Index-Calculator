@@ -37,6 +37,7 @@ Demonstration of aggregation will be performed using  the dataset `binnenveld`. 
 
   # load packages
   library(OBIC); library(data.table); library(ggplot2); library(patchwork)
+  setDTthreads(1)
 
   # load data
   dt <- OBIC::binnenveld[ID==1]
