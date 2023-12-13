@@ -132,7 +132,7 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   dt[,catchcrop := fifelse(M_GREEN, 75,0)]
   
   # Calculate deviation from N surplus
-  dt[,n_sp := max(0,((1 - NUE * cf_pkph) * n_app) - catchcrop)]
+  dt[,n_sp := pmax(0,((1 - NUE * cf_pkph) * n_app) - catchcrop)]
   
   # compute (potential and soil derived) N leaching to groundwater D_NGW (mg NO3/L) 
   dt[, D_NLEACH := nf * n_sp]

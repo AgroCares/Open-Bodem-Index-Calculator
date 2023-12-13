@@ -1,3 +1,7 @@
+# OBIC 3.0.1 2023-11-24
+## Fixed
+* Fixes calculation of N surplus used for I_H_NGW and I_H_NSW
+
 # OBIC 3.0.0 2023-10-16
 ## Added
 * Add `calc_permeability` for calculating top soil permeability 
