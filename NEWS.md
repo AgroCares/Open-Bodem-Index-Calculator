@@ -1,3 +1,8 @@
+# OBIC 3.x.x. xxxx-xx-xx
+## Fixed
+* In calculating the groundwater level at which capillary rise < 2mm/d and soil becomes workable, a correction was included for the fact that B_GWL_ZCRIT is the distance between groundwater and rooting zone (defined as 30 cm below soil surface), this 30 is substracted from the required depth, resulting in higher I_P_WO values in some cases.
+* The spring working depth is added to the above mentioned required water level, as the profile that is worked (e.g. ploughed) must be dry. This results in lower I_P_WO values. Overall, the first fix seems to have a larger effect than the second one.
+
 # OBIC 3.0.1 2023-11-24
 ## Fixed
 * Fixes calculation of N surplus used for I_H_NGW and I_H_NSW
