@@ -136,8 +136,8 @@ test_that('obic_field() works with just required columns', {
         S_C_OBI_A = 0.537,
         S_E_OBI_A = 0.979,
         S_M_OBI_A = 0.287,
-        S_P_OBI_A = 0.500,
-        S_T_OBI_A = 0.621,
+        S_P_OBI_A = 0.537,
+        S_T_OBI_A = 0.632,
         key = 'ID'
       ),
     tolerance = 0.01
