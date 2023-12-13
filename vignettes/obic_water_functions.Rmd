@@ -22,6 +22,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 ```{r setup}
 library(OBIC);library(ggplot2);library(data.table)
+setDTthreads(1)
 ```
 
 ---

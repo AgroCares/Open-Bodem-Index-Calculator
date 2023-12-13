@@ -174,6 +174,6 @@ nema.crop.rot.obic <- nema.crop.rot.obic[,name_scientific := gsub('ï', "i", nam
 
 # Write to OBIC
 write.csv(nema.crop.rot.obic, 'DEV/data/aaltjes_gewas_schema.csv')
-usethis::use_data(names = nema.crop.rot.obic, overwrite = TRUE)
+usethis::use_data(names = nema.crop.rot.obic, version = 3, overwrite = TRUE, compress = 'xz')
 
 

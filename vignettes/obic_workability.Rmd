@@ -19,6 +19,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       collapse = TRUE,
                       comment = "#>")
 options(rmarkdown.html_vignette.check_title = FALSE)
+setDTthreads(1)
 ```
 
 
