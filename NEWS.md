@@ -1,3 +1,7 @@
+# OBIC 3.0.2 2024-02-09
+## Fixed
+* Fixes error in validation of B_LU_BRP by updating `crops.obic` [OBI-28]
+
 # OBIC 3.0.1 2023-11-24
 ## Fixed
 * Fixes calculation of N surplus used for I_H_NGW and I_H_NSW
