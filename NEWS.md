@@ -1,3 +1,11 @@
+# OBIC 3.0.2 2024-02-09
+## Fixed
+* Fixes error in validation of B_LU_BRP by enabling calculations with brp codes of 2023 [OBI-28]
+* Fixes classification of grasland met/zonder herinzaai in `crops.obic`
+
+## Changed
+* `B_LU_WATERSTRESS_OBIC` of 265 (grasland blijvend), 331, and 3718 from 'grasland met herinzaai' to 'grasland zonder herinzaai' in `crops.obic`
+
 # OBIC 3.0.1 2023-11-24
 ## Fixed
 * Fixes calculation of N surplus used for I_H_NGW and I_H_NSW
