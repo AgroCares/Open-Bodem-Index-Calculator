@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.2</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@
                         <h4 data-toc-skip class="author">Gerard Ros,
 Brent Riechelman</h4>
             
-            <h4 data-toc-skip class="date">2023-12-12</h4>
+            <h4 data-toc-skip class="date">2024-02-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/HEAD/vignettes/obic_introduction.Rmd" class="external-link"><code>vignettes/obic_introduction.Rmd</code></a></small>
       <div class="hidden name"><code>obic_introduction.Rmd</code></div>
@@ -233,20 +233,28 @@ with “M_”)</li>
 <span><span class="co">#&gt; [1] 3251   55</span></span>
 <span>  <span class="va">binnenveld</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="co">#&gt;    A_CLAY_MI  A_N_PMN   A_N_RT A_SOM_LOI   A_P_CC  A_P_AL   A_P_WA  A_PH_CC</span></span>
+<span><span class="co">#&gt;        &lt;num&gt;    &lt;num&gt;    &lt;num&gt;     &lt;num&gt;    &lt;num&gt;   &lt;num&gt;    &lt;num&gt;    &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:  27.33814 96.78448 3447.026  7.065548 1.452009 36.9823 28.34038 6.314309</span></span>
 <span><span class="co">#&gt;    A_CEC_CO A_K_CC A_SAND_MI A_SILT_MI A_S_RT A_MG_CC B_SOILTYPE_AGR A_CU_CC</span></span>
+<span><span class="co">#&gt;       &lt;num&gt;  &lt;num&gt;     &lt;num&gt;     &lt;num&gt;  &lt;num&gt;   &lt;num&gt;         &lt;char&gt;   &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:   172.96     82      19.2     40.23 751.14  346.89     rivierklei   16.19</span></span>
 <span><span class="co">#&gt;    A_MN_CC A_ZN_CC A_CN_FR A_CA_CO_PO A_MG_CO_PO A_K_CO_PO      B_AER_CBS</span></span>
+<span><span class="co">#&gt;      &lt;int&gt;   &lt;num&gt;   &lt;num&gt;      &lt;num&gt;      &lt;num&gt;     &lt;num&gt;         &lt;char&gt;</span></span>
 <span><span class="co">#&gt; 1:     810  561.33       9     114.61     28.099      2.66 Rivierengebied</span></span>
-<span><span class="co">#&gt;    B_HELP_WENR B_GWL_CLASS B_SC_WENR B_LU_BRP ID B_GWL_GLG B_GWL_GHG</span></span>
-<span><span class="co">#&gt; 1:       Rd10A          VI       901      265  1   1.41177  0.557041</span></span>
+<span><span class="co">#&gt;    B_HELP_WENR B_GWL_CLASS B_SC_WENR B_LU_BRP    ID B_GWL_GLG B_GWL_GHG</span></span>
+<span><span class="co">#&gt;         &lt;char&gt;      &lt;char&gt;     &lt;int&gt;    &lt;int&gt; &lt;int&gt;     &lt;num&gt;     &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:       Rd10A          VI       901      265     1   1.41177  0.557041</span></span>
 <span><span class="co">#&gt;    B_GWL_ZCRIT M_GREEN M_NONBARE M_EARLYCROP M_SLEEPHOSE M_DRAIN M_DITCH</span></span>
+<span><span class="co">#&gt;          &lt;num&gt;  &lt;lgcl&gt;    &lt;lgcl&gt;      &lt;lgcl&gt;      &lt;lgcl&gt;  &lt;lgcl&gt;  &lt;lgcl&gt;</span></span>
 <span><span class="co">#&gt; 1:    37.39224   FALSE     FALSE       FALSE       FALSE   FALSE   FALSE</span></span>
 <span><span class="co">#&gt;    M_UNDERSEED M_LIME M_NONINVTILL M_SSPM M_SOLIDMANURE M_STRAWRESIDUE</span></span>
+<span><span class="co">#&gt;         &lt;lgcl&gt; &lt;lgcl&gt;       &lt;lgcl&gt; &lt;lgcl&gt;        &lt;lgcl&gt;         &lt;lgcl&gt;</span></span>
 <span><span class="co">#&gt; 1:       FALSE  FALSE        FALSE  FALSE         FALSE          FALSE</span></span>
 <span><span class="co">#&gt;    M_MECHWEEDS M_PESTICIDES_DST M_COMPOST A_EW_BCS A_SC_BCS A_GS_BCS A_P_BCS</span></span>
+<span><span class="co">#&gt;         &lt;lgcl&gt;           &lt;lgcl&gt;     &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;int&gt;</span></span>
 <span><span class="co">#&gt; 1:       FALSE            FALSE         0        0        0        0       0</span></span>
 <span><span class="co">#&gt;    A_C_BCS A_RT_BCS A_RD_BCS A_SS_BCS A_CC_BCS</span></span>
+<span><span class="co">#&gt;      &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;</span></span>
 <span><span class="co">#&gt; 1:       0        0        0        0        0</span></span></code></pre></div>
 <p>In this example all optional input variables are set to the lowest
 score (for visuals soil assessment) or to false (for soil management
@@ -347,13 +355,17 @@ that need to be solved.</p>
 <span>             A_CA_CO_PO <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_CA_CO_PO</span>, A_MG_CO_PO <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_MG_CO_PO</span>, A_K_CO_PO <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_K_CO_PO</span>,</span>
 <span>             A_K_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_K_CC</span>, A_MG_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_MG_CC</span>, A_MN_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_MN_CC</span>,</span>
 <span>             A_ZN_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_ZN_CC</span>, A_CU_CC <span class="op">=</span> <span class="va">dt</span><span class="op">$</span><span class="va">A_CU_CC</span>, output <span class="op">=</span> <span class="st">'obic_score'</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    ID S_T_OBI_A</span></span>
-<span><span class="co">#&gt; 1:  1     0.783</span></span>
+<span><span class="co">#&gt; Key: &lt;ID&gt;</span></span>
+<span><span class="co">#&gt;       ID S_T_OBI_A</span></span>
+<span><span class="co">#&gt;    &lt;num&gt;     &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:     1     0.783</span></span>
 <span>  </span>
 <span>  <span class="co"># test the obic field function via obic_field_dt and give only the final score</span></span>
 <span>  <span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">dt</span>,output <span class="op">=</span> <span class="st">'obic_score'</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    ID S_T_OBI_A</span></span>
-<span><span class="co">#&gt; 1:  1     0.783</span></span></code></pre></div>
+<span><span class="co">#&gt; Key: &lt;ID&gt;</span></span>
+<span><span class="co">#&gt;       ID S_T_OBI_A</span></span>
+<span><span class="co">#&gt;    &lt;int&gt;     &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:     1     0.783</span></span></code></pre></div>
 <p>When interested in the averaged indicator value or the averaged
 aggregated soil indicators, one can adjust the output argument of the
 wrapper functions.</p>
@@ -1645,10 +1657,14 @@ soil function.</p>
 <span></span>
 <span>  <span class="fu">OBIC</span><span class="fu">::</span><span class="fu"><a href="../reference/obic_field_dt.html">obic_field_dt</a></span><span class="op">(</span><span class="va">binnenveld</span><span class="op">[</span><span class="va">ID</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span>, output <span class="op">=</span> <span class="st">'obic_score'</span><span class="op">)</span></span></code></pre></div>
 <p>Will give:</p>
-<pre><code><span><span class="co">#&gt;    ID S_B_OBI_A S_C_OBI_A S_E_OBI_A S_M_OBI_A S_P_OBI_A S_T_OBI_A</span></span>
-<span><span class="co">#&gt; 1:  1     0.998      0.86     0.965     0.586     0.216     0.672</span></span>
-<span><span class="co">#&gt;    ID S_T_OBI_A</span></span>
-<span><span class="co">#&gt; 1:  1     0.672</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; Key: &lt;ID&gt;</span></span>
+<span><span class="co">#&gt;       ID S_B_OBI_A S_C_OBI_A S_E_OBI_A S_M_OBI_A S_P_OBI_A S_T_OBI_A</span></span>
+<span><span class="co">#&gt;    &lt;int&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:     1     0.998      0.86     0.965     0.586     0.216     0.672</span></span>
+<span><span class="co">#&gt; Key: &lt;ID&gt;</span></span>
+<span><span class="co">#&gt;       ID S_T_OBI_A</span></span>
+<span><span class="co">#&gt;    &lt;int&gt;     &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:     1     0.672</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
