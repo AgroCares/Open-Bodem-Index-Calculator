@@ -6,6 +6,9 @@
 ## Changed
 * `B_LU_WATERSTRESS_OBIC` of 265 (grasland blijvend), 331, and 3718 from 'grasland met herinzaai' to 'grasland zonder herinzaai' in `crops.obic`
 
+## Removed
+* Removes urls to bodemconsult.nl due to invalid SSL certificate, which is not accepted by CRAN
+
 # OBIC 3.0.1 2023-11-24
 ## Fixed
 * Fixes calculation of N surplus used for I_H_NGW and I_H_NSW
