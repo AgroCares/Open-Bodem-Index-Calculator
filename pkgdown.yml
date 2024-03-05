@@ -1,4 +1,4 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
@@ -7,5 +7,5 @@ articles:
   obic_score_aggregation: obic_score_aggregation.html
   obic_water_functions: obic_water_functions.html
   obic_workability: obic_workability.html
-last_built: 2024-02-12T14:53Z
+last_built: 2024-03-05T12:55Z
 
