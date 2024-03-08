@@ -12,7 +12,7 @@
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' @param B_GWL_GLG (numeric) The lowest groundwater level averaged over the most dry periods in 8 years in cm below ground level
 #' @param B_GWL_GHG (numeric) The highest groundwater level averaged over the most wet periods in 8 years in cm below ground level
-#' @param B_GWL_ZCRIT  (numeric) The distance between ground level and groundwater level at which the groundwater can supply the soil surface with 2mm water per day (in cm)
+#' @param B_GWL_ZCRIT  (numeric) Distance between groundwater table and root zone (30 cm -mv) for delivering 2 mm/day.
 #' @param calcyieldloss (boolean) whether the function includes yield loss, options: TRUE or FALSE (default).
 #' 
 #' @import data.table
@@ -32,7 +32,6 @@
 calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR, 
                              B_GWL_GLG, B_GWL_GHG, B_GWL_ZCRIT,
                              calcyieldloss = FALSE) {
-  
   # define variables used within the function
   id =crop_code = soiltype = landuse = crop_waterstress = crop_season = NULL
   soiltype.m = spring_depth =  gws_sub_workingdepth = NULL
@@ -113,8 +112,8 @@ calc_workability <- function(A_CLAY_MI, A_SILT_MI, B_LU_BRP, B_SOILTYPE_AGR,
   dt[, rdh_spring := gws_sub_workingdepth+spring_depth]
   dt[, rdh_fall := gws_sub_workingdepth]
   
-  # test 2: At what groundwater level is  capillary rise lower than evaporation (<2mm/d), required depth capilairy abbreviated as rdc
-  dt[, rdc := B_GWL_ZCRIT]
+  # test 2: At what groundwater level is  capillary rise to spring depth lower than evaporation (<2mm/d), required depth capilairy abbreviated as rdc
+  dt[, rdc := B_GWL_ZCRIT+spring_depth-30]
 
   # Choose lowest required depth as required depth
   dt[,rd_spring := fifelse(rdh_spring <= rdc, rdh_spring,rdc)]

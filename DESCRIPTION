@@ -32,6 +32,10 @@ Authors@R: c(
            family = "de Pater",
            email = "job.depater@nmi-agro.nl",
            role = "ctb"),
+    person(given = "Leannah",
+           family = "Sies",
+           email = 'leannah.sies@nmi-agro.nl',
+           role = "ctb"),
     person(given = "Nutriënten Managment Instituut",
            email = "nmi@nmi-agro.nl",
            role = "cph"))
