@@ -7,7 +7,7 @@
   cr <- fread('DEV/data/crops_obic.csv')
 
   # update the Rdata file
-  crops.obic <- copy(cr)
+  crops.obic <- copy(cr[, 2:ncol(cr)])
   usethis::use_data(crops.obic,version = 3, overwrite = TRUE, compress = 'xz')
-  
+  devtools::document()
   
