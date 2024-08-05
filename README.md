@@ -5,6 +5,7 @@
 [![R-CMD-check](https://github.com/AgroCares/Open-Bodem-Index-Calculator/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/AgroCares/Open-Bodem-Index-Calculator/actions/workflows/check-standard.yaml)
 [![Codecov test coverage](https://codecov.io/gh/AgroCares/Open-Bodem-Index-Calculator/branch/master/graph/badge.svg)](https://app.codecov.io/gh/AgroCares/Open-Bodem-Index-Calculator?branch=master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/OBIC)](https://cran.r-project.org/package=OBIC)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/OBIC)](https://cran.r-project.org/package=OBIC)
 <!-- badges: end -->
 
 This R package can be used to calculate the Open Bodem Index (OBI). 
@@ -13,7 +14,6 @@ These four criteria consist of more than 21 indicators to get a comprehensive pi
 More information about the Open Bodem Index can be found at [Open Bodem Index](https://openbodemindex.nl).
 
 ## Installation
-
 ```R
 # Install from latest stable version from CRAN
 install.packages("OBIC")
