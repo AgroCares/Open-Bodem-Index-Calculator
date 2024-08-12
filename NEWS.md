@@ -1,4 +1,4 @@
-# UNRELEASED
+# OBIC 3.0.3 2024-08-12s
 ## Added
 * Adds the new cultivations from 2024 [PL-33]
 
