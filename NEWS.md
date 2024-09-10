@@ -1,3 +1,7 @@
+# OBIC 3.0.3 2024-08-12s
+## Added
+* Adds the new cultivations from 2024 [PL-33]
+
 # OBIC 3.0.2 2024-02-09
 ## Fixed
 * Fixes error in validation of B_LU_BRP by enabling calculations with brp codes of 2023 [OBI-28]
