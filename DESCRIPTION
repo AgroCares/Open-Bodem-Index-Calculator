@@ -57,5 +57,6 @@ Suggests:
     rmarkdown,
     ggplot2,
     patchwork,
-    covr
+    covr,
+    roxygen2
 VignetteBuilder: knitr
