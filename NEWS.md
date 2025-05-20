@@ -1,4 +1,8 @@
-# OBIC 3.0.3 2024-08-12s
+# OBIC 3.0.4 2025-05-20
+## Fixed
+* Fixes missing nf_* values in `crops.obic` [OBI-31]
+
+# OBIC 3.0.3 2024-08-12
 ## Added
 * Adds the new cultivations from 2024 [PL-33]
 
