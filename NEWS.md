@@ -1,3 +1,17 @@
+# OBIC 3.1.0
+## Changed
+* the format of groundwater class values (B_GWL_CLASS) that are accepted by OBIC 
+functions and recorded in OBIC tables. Acceptable input values for B_GWL_CLASS are now:
+"II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
+    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", and "IIIa".
+* Function `format_gwt()` no longer removes suffixes and prefixes of the groundwater table classes above.
+It only assigns a groundwater class to the values "-", by default this is "III".
+This function gained an additional argument B_AER_CBS, if this is "LG14" or "Zuid-Limburg", "-" is
+overwritten as "VIII"
+* In the table nleach_table, column B_GT is renamed B_GWL_CLASS for consistency. 
+The values in this column have also been modified to no longer have the prefix "Gt"
+to align with the rest of the package.
+
 # OBIC 3.0.4 2025-05-20
 ## Fixed
 * Fixes missing nf_* values in `crops.obic` [OBI-31]
