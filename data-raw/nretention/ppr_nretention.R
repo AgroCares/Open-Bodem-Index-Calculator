@@ -74,7 +74,7 @@ interpolate_nleach_table <- function(wb, gt1man, val2u){
   
   ## change naming of grondwatertrap
   dtcon <- data.table(gt = c( "GT1", "GT2", "GT2b","GT3", "GT3b","GT4", "GT5","GT5b", "GT6", "GT7", "GT7b"),
-                      B_GT = c("GtI", "GtII", "GtIIb","GtIII", "GtIIIb","GtIV", "GtV", "GtVb", "GtVI", "GtVII", "GtVIII"))
+                      B_GWL_CLASS = c("I", "II", "IIb","III", "IIIb","IV", "V", "Vb", "VI", "VII", "VIII"))
   d3 <- merge(d3, dtcon, by = "gt")
   
   # Assign a set of value for the fraction of N retention (nf)
