@@ -30,16 +30,13 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wat
   setkey(crops.obic, crop_code)
   waterstress.obic <- as.data.table(OBIC::waterstress.obic)
   setkey(waterstress.obic, cropname, soilunit)
-  
-  # update B_GWL_CLASS to more generic ones
-  B_GWL_CLASS.wi <- gsub("b$","", B_GWL_CLASS)
-  
+
   # Check input
   arg.length <- max(length(B_HELP_WENR), length(B_LU_BRP), length(B_GWL_CLASS))
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
-  checkmate::assert_character(B_GWL_CLASS.wi,any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_GWL_CLASS.wi, choices = c('-',unique(waterstress.obic$gt)), empty.ok = FALSE)
+  checkmate::assert_character(B_GWL_CLASS,any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(B_GWL_CLASS, choices = c('-',unique(waterstress.obic$B_GWL_CLASS)), empty.ok = FALSE)
   checkmate::assert_character(B_HELP_WENR, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_HELP_WENR, choices = c('unknown',unique(waterstress.obic$soilunit)), empty.ok = FALSE)
   checkmate::assert_character(WSI, any.missing = FALSE, min.len = 1, len = 1)
@@ -50,14 +47,14 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wat
     id = 1:arg.length,
     B_HELP_WENR = B_HELP_WENR,
     B_LU_BRP = B_LU_BRP,
-    B_GWL_CLASS = B_GWL_CLASS.wi
+    B_GWL_CLASS = B_GWL_CLASS
   )
   
   # merge with crop and waterstress tables
   dt <- merge(dt, crops.obic[, list(crop_code, crop_waterstress )], by.x = "B_LU_BRP", by.y = "crop_code")
   dt <- merge(dt, waterstress.obic,
               by.x = c('B_HELP_WENR','crop_waterstress','B_GWL_CLASS'), 
-              by.y = c('soilunit','cropname','gt'),
+              by.y = c('soilunit','cropname','B_GWL_CLASS'),
               all.x = TRUE)
   
   # water stress risks included
