@@ -13,9 +13,9 @@
 #' 
 #' @examples 
 #' ind_gw_recharge(B_LU_BRP = 265,D_PSP = 200, D_WRI_K = 10, I_P_SE = 0.6, I_P_CO = 0.9, 
-#' B_DRAIN = FALSE, B_GWL_CLASS = 'GtV')
+#' B_DRAIN = FALSE, B_GWL_CLASS = 'V')
 #' ind_gw_recharge(B_LU_BRP = 233, D_PSP = 400, D_WRI_K = 10, I_P_SE = 0.4, I_P_CO = 0.2, 
-#' B_DRAIN = TRUE, B_GWL_CLASS = 'GtII')
+#' B_DRAIN = TRUE, B_GWL_CLASS = 'II')
 #'
 #' @return 
 #' The evaluated score for the soil function to improve groundwater recharge. A numeric value between 0 and 1.
@@ -36,8 +36,10 @@ ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B
   checkmate::assert_numeric(I_P_SE, any.missing = FALSE, len = arg.length)
   checkmate::assert_numeric(I_P_CO, any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(B_DRAIN, any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_GWL_CLASS, choices = c('GtI','GtII','GtIII','GtIV','GtV','GtVI','GtVII','GtVIII',
-                                                    'GtIIb','GtIIIb','GtVb'), empty.ok = FALSE)
+  checkmate::assert_subset(B_GWL_CLASS, choices = c(
+    "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
+    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
+  ), empty.ok = FALSE)
   
   # import data into table
   dt <- data.table(B_LU_BRP = B_LU_BRP,
@@ -55,8 +57,8 @@ ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B
   dt[,D_I_PSP := ind_psp(D_PSP,B_LU_BRP)]
   
   # Correct for subsoil compaction or drainage
-  dt[B_DRAIN == TRUE & B_GWL_CLASS %in% c('GtIIIb','GtIV'), c('cf_drain','cf_compaction') := list(0.6,1)]
-  dt[B_DRAIN == FALSE | B_GWL_CLASS %in% c('GtI','GtII','GtIII','GtV','GtVI','GtVII','GtVIII','GtIIb','GtVb'),
+  dt[B_DRAIN == TRUE & B_GWL_CLASS %in% c('IIIb','IV'), c('cf_drain','cf_compaction') := list(0.6,1)]
+  dt[B_DRAIN == FALSE | !B_GWL_CLASS %in% c('IIIb','IV'),
      c('cf_drain','cf_compaction') := list(1,fifelse(I_P_CO < 0.5,0.8,1))]
   
   # Calculate aggregated score
