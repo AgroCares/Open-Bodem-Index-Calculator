@@ -40,7 +40,7 @@ format_gwt <- function(B_GWL_CLASS, B_AER_CBS = "LG12") {
        fifelse(B_AER_CBS %in% c('LG14', 'Zuid-Limburg'), 'VIII', 'III')]
   
   # Return grondwater table class
-  return(B_GWL_CLASS)
+  return(dt$B_GWL_CLASS)
 }
 
 #' Convert possible B_SC_WENR values to standardized values
