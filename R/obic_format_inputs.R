@@ -16,7 +16,7 @@
 #' A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
 #' 
 #' @export
-format_gwt <- function(B_GWL_CLASS, B_AER_CBS) {
+format_gwt <- function(B_GWL_CLASS, B_AER_CBS = "LG12") {
   
   checkmate::assert_subset(B_GWL_CLASS, choices = c(
     "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
