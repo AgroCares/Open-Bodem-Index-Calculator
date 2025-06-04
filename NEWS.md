@@ -11,6 +11,9 @@ overwritten as "VIII"
 * In the table nleach_table, column B_GT is renamed B_GWL_CLASS for consistency. 
 The values in this column have also been modified to no longer have the prefix "Gt"
 to align with the rest of the package.
+* In the table waterstress.obic, column gt is renamed B_GWL_CLASS for consistency.
+The values in this column have also been modified to no longer have the prefix "Gt"
+to align with the rest of the package.
 
 # OBIC 3.0.4 2025-05-20
 ## Fixed
