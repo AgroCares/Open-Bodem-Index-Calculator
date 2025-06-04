@@ -33,7 +33,7 @@ The potential nitrogen leaching from the soil originating from soil nitrogen min
 This function calculates the potential N leaching of a soil.
 }
 \examples{
-calc_nleach('dekzand',265,'GtIII',145,'Zuidwest-Brabant','gw')
-calc_nleach('rivierklei',1019,'GtIV',145,'Rivierengebied','ow')
+calc_nleach('dekzand',265,'III',145,'Zuidwest-Brabant','gw')
+calc_nleach('rivierklei',1019,'IV',145,'Rivierengebied','ow')
 
 }
