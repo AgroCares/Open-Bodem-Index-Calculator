@@ -14,10 +14,10 @@ interpolate_nleach_table <- function(wb, gt1man, val2u){
   
   # read csv file
   if(wb == "gw"){
-    d1 <- fread('DEV/data/nretention_groenendijk_gw.csv', na.strings = '')
+    d1 <- fread('data-raw/nretention/nretention_groenendijk_gw.csv', na.strings = '')
   }
   if(wb == "ow"){
-    d1 <- fread('DEV/data/nretention_groenendijk_ow.csv', na.strings = 'NA')
+    d1 <- fread('data-raw/nretention/nretention_groenendijk_ow.csv', na.strings = 'NA')
   }
   
   d1 <- as.data.table(d1)
