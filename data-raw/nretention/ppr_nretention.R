@@ -14,10 +14,10 @@ interpolate_nleach_table <- function(wb, gt1man, val2u){
   
   # read csv file
   if(wb == "gw"){
-    d1 <- fread('DEV/data/nretention_groenendijk_gw.csv', na.strings = '')
+    d1 <- fread('data-raw/nretention/nretention_groenendijk_gw.csv', na.strings = '')
   }
   if(wb == "ow"){
-    d1 <- fread('DEV/data/nretention_groenendijk_ow.csv', na.strings = 'NA')
+    d1 <- fread('data-raw/nretention/nretention_groenendijk_ow.csv', na.strings = 'NA')
   }
   
   d1 <- as.data.table(d1)
@@ -74,7 +74,7 @@ interpolate_nleach_table <- function(wb, gt1man, val2u){
   
   ## change naming of grondwatertrap
   dtcon <- data.table(gt = c( "GT1", "GT2", "GT2b","GT3", "GT3b","GT4", "GT5","GT5b", "GT6", "GT7", "GT7b"),
-                      B_GT = c("GtI", "GtII", "GtIIb","GtIII", "GtIIIb","GtIV", "GtV", "GtVb", "GtVI", "GtVII", "GtVIII"))
+                      B_GT = c("I", "II", "IIb","III", "IIIb","IV", "V", "Vb", "VI", "VII", "VIII"))
   d3 <- merge(d3, dtcon, by = "gt")
   
   # Assign a set of value for the fraction of N retention (nf)
@@ -110,6 +110,7 @@ nleach_table <- rbindlist(list(nleach_gw_table, nleach_ow_table))
 nleach_table[, gewas := as.character(gewas)]
 nleach_table[, bodem := tolower(as.character(bodem))]
 usethis::use_data(nleach_table, version = 3, overwrite = TRUE, compress = 'xz')
+
 
 #------------------
 # info output table
