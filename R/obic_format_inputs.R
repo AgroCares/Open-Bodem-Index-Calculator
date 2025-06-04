@@ -1,37 +1,43 @@
 #' Convert possible B_GWL_CLASS values to standardized values
 #' 
-#' This function formats ground water table information so it can be understood by other OBIC functions
+#' This function assigns a groundwater class if this is unknown (i.e. the value = '-').
+#' If B_AER_CBS is Zuid-Limburg or the corresponding code LG14, '-' becomes 'VIII',
+#' else it becomes 'III'.
 #' 
 #' @param B_GWL_CLASS (character) Ground water table classes
+#' @param B_AER_CBS (character) The agricultural economic region in the Netherlands (CBS, 2016)
 #' 
 #' @import data.table
 #' 
 #' @examples 
-#' format_gwt(c('sVII', 'sVI'))
-#' format_gwt(c('sVII', 'sVI','GtII', 'GtI'))
+#' format_gwt(c('sVII', 'sVI', 'IIIb', '-'))
 #' 
 #' @return 
 #' A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
 #' 
 #' @export
-format_gwt <- function(B_GWL_CLASS) {
+format_gwt <- function(B_GWL_CLASS, B_AER_CBS) {
   
-  # options for B_GWL_CLASS
-  bgwlclass <- c('sVb', 'sVa', 'sVII', 'sVI', 'sV', 'bVII', 'bVI', 'Vb', 'Va', 'VIII', 'VII', 'VI',
-    'V', 'IVu', 'IV', 'IIb', 'IIIb', 'IIIa', 'III', 'II', 'I', '-',
-    'GtsVb', 'GtsVa', 'GtsVII', 'GtsVI', 'GtsV', 'GtbVII', 'GtbVI', 'GtVb', 'GtVa', 'GtVIII', 'GtVII', 'GtVI',
-    'GtV', 'GtIVu', 'GtIV', 'GtIIb', 'GtIIIb', 'GtIIIa', 'GtIII', 'GtII', 'GtI')
+  checkmate::assert_subset(B_GWL_CLASS, choices = c(
+    "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
+    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
+  ), empty.ok = FALSE)
+  checkmate::assert_subset(B_AER_CBS,
+                           choices = c(
+                            'Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
+                            'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',
+                            'Waterland en Droogmakerijen','Westelijk Holland','IJsselmeerpolders',
+                            'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
+                            'Veenkoloni\u00EBn en Oldambt','Veenkolonien en Oldambt','Bouwhoek en Hogeland',
+                            "LG14", "LG13", "LG12", "LG11", "LG10", "LG09",
+                            "LG08", "LG07", "LG06", "LG05", "LG04", "LG03",
+                            "LG02", "LG01"))
   
-  # Check if B_GT values are appropriate
-  checkmate::assert_subset(B_GWL_CLASS, empty.ok = FALSE, choices = bgwlclass)
+  dt <- data.table(B_GWL_CLASS = B_GWL_CLASS,
+                   B_AER_CBS = B_AER_CBS)
   
-  # Remove prefixes and suffixes
-  B_GWL_CLASS <- gsub("a|b|s|u", "", B_GWL_CLASS)
-  
-  # if value starts with I or V, add prefix Gt to it.
-  B_GWL_CLASS <- gsub("^I", "GtI", B_GWL_CLASS)
-  B_GWL_CLASS <- gsub("^V", "GtV", B_GWL_CLASS)
-  B_GWL_CLASS <- gsub("-", "GtIII", B_GWL_CLASS)
+  dt[B_GWL_CLASS == '-', B_GWL_CLASS := 
+       fifelse(B_AER_CBS %in% c('LG14', 'Zuid-Limburg'), 'VIII', 'III')]
   
   # Return B_GT
   return(B_GWL_CLASS)

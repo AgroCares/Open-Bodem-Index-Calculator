@@ -4,19 +4,22 @@
 \alias{format_gwt}
 \title{Convert possible B_GWL_CLASS values to standardized values}
 \usage{
-format_gwt(B_GWL_CLASS)
+format_gwt(B_GWL_CLASS, B_AER_CBS)
 }
 \arguments{
 \item{B_GWL_CLASS}{(character) Ground water table classes}
+
+\item{B_AER_CBS}{(character) The agricultural economic region in the Netherlands (CBS, 2016)}
 }
 \value{
 A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
 }
 \description{
-This function formats ground water table information so it can be understood by other OBIC functions
+This function assigns a groundwater class if this is unknown (i.e. the value = '-').
+If B_AER_CBS is Zuid-Limburg or the corresponding code LG14, '-' becomes 'VIII',
+else it becomes 'III'.
 }
 \examples{
-format_gwt(c('sVII', 'sVI'))
-format_gwt(c('sVII', 'sVI','GtII', 'GtI'))
+format_gwt(c('sVII', 'sVI', 'IIIb', '-'))
 
 }
