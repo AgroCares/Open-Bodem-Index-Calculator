@@ -27,7 +27,7 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
                               D_PBI, D_K, D_PH_DELTA, leaching_to, M_GREEN = FALSE, B_FERT_NORM_FR = 1){
   
   # add visual bindings
-  id = crops.obic = soils.obic = leaching_to_set = crop_catergory = bodem = gewas = B_GT = NULL
+  id = crops.obic = soils.obic = leaching_to_set = crop_catergory = bodem = gewas = NULL
   nf = n_eff = nf_sand.other = nf_sand.south = nf_clay = nf_peat = nf_loess = NUE = NULL
   soiltype = soiltype.n = croptype.nleach = crop_category = deposition = crop_waterstress = NULL
   I_P = I_K = I_PH = cf_pkph = decomposition = n_app = catchcrop = n_sp = D_NLEACH = NULL
@@ -92,9 +92,9 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   dt[crop_category == "grasland" , croptype.nleach := "gras"]
   
   # merge fraction of N leaching into 'dt', based on soil type x crop type x grondwatertrap
-  dt <- merge(dt, nleach_table[, list(bodem, gewas, B_GT, nf)], 
+  dt <- merge(dt, nleach_table[, list(bodem, gewas, B_GWL_CLASS, nf)], 
               by.x = c("soiltype.n", "croptype.nleach", "B_GWL_CLASS"), 
-              by.y = c("bodem", "gewas", "B_GT"), sort = FALSE, all.x = TRUE)
+              by.y = c("bodem", "gewas", "B_GWL_CLASS"), sort = FALSE, all.x = TRUE)
   
   # select the allowed effective N dose (in Dutch: N-gebruiksnorm), being dependent on soil type and region
   sand.south <- c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant')

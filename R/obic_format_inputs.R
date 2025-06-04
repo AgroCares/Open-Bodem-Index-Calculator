@@ -39,7 +39,7 @@ format_gwt <- function(B_GWL_CLASS, B_AER_CBS = "LG12") {
   dt[B_GWL_CLASS == '-', B_GWL_CLASS := 
        fifelse(B_AER_CBS %in% c('LG14', 'Zuid-Limburg'), 'VIII', 'III')]
   
-  # Return B_GT
+  # Return grondwater table class
   return(B_GWL_CLASS)
 }
 
@@ -120,7 +120,7 @@ format_aer <- function(B_AER_CBS) {
   # all input options
   aer.all <- c(aer.text,aer.code)
   
-  # Check if B_GT values are appropriate
+  # Check if AER_CBS values are appropriate
   checkmate::assert_subset(B_AER_CBS, empty.ok = FALSE, choices = aer.all)
   
   # which of the input values are database codes

@@ -295,7 +295,7 @@
 #'   \item{bodem}{soil type}
 #'   \item{ghg}{Lower value for groundwater table (cm-mv)}
 #'   \item{glg}{Upper value for groundwater table (cm-mv)}
-#'   \item{B_GT}{grondwatertrap}
+#'   \item{B_GWL_CLASS}{grondwatertrap}
 #'   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year) or groundwater (mg NO3/L per kg N overschot/ha/year)}
 #'   \item{leaching_to-set}{Tells if leaching to ground water or surface water)}
 #' }

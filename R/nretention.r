@@ -21,7 +21,7 @@
 #' @export
 calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS, leaching_to){
   
-  soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = B_GT = med_nlv = NULL
+  soiltype = crop_code = crop_category = soiltype.n = croptype.nleach = med_nlv = NULL
   nleach_table = bodem = gewas = nf = id = leaching_to_set = NULL
   n_eff = anr.cor = n_sp.nlv = n_sp.nfert = n_sp = NULL
   nf_sand.other = nf_sand.south = nf_clay = nf_peat = nf_loess = NULL
@@ -81,9 +81,9 @@ calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS,
   dt[,B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
   
   # merge fraction of N leaching into 'dt', based on soil type x crop type x grondwatertrap
-  dt <- merge(dt, nleach_table[, list(bodem, gewas, B_GT, nf)], 
+  dt <- merge(dt, nleach_table[, list(bodem, gewas, B_GWL_CLASS, nf)], 
               by.x = c("soiltype.n", "croptype.nleach", "B_GWL_CLASS"), 
-              by.y = c("bodem", "gewas", "B_GT"), sort =FALSE, all.x = TRUE)
+              by.y = c("bodem", "gewas", "B_GWL_CLASS"), sort =FALSE, all.x = TRUE)
   
   # select the allowed effective N dose (in Dutch: N-gebruiksnorm), being dependent on soil type and region
   sand.south <- c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant')

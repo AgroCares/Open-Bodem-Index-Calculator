@@ -4,7 +4,7 @@
 \alias{format_gwt}
 \title{Convert possible B_GWL_CLASS values to standardized values}
 \usage{
-format_gwt(B_GWL_CLASS, B_AER_CBS)
+format_gwt(B_GWL_CLASS, B_AER_CBS = "LG12")
 }
 \arguments{
 \item{B_GWL_CLASS}{(character) Ground water table classes}
