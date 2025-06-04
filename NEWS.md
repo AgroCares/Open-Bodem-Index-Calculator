@@ -15,6 +15,13 @@ to align with the rest of the package.
 The values in this column have also been modified to no longer have the prefix "Gt"
 to align with the rest of the package.
 
+## Added
+* The table waterstress.obic now supports more groundwaterclasses. Classes such as
+IIIb are now included in waterstress.obic$B_GWL_CLASS. The new classes with 
+prefixes and suffixes have the same values as rows with the same roman numeral. 
+So, with the same cropname and soilunit, III and IIIb have the same values for
+the different stresses.
+
 # OBIC 3.0.4 2025-05-20
 ## Fixed
 * Fixes missing nf_* values in `crops.obic` [OBI-31]

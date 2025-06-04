@@ -5,7 +5,7 @@
 \alias{waterstress.obic}
 \title{Linking table between crops, soils, groundwater tables and water induced stresses in OBIC}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 393680 rows and 6 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 984200 rows and 6 columns.
 }
 \usage{
 waterstress.obic

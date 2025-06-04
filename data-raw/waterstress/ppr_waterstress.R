@@ -115,6 +115,23 @@ checkmate::assert_subset(waterstress.obic$B_GWL_CLASS,
                            "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
                          ))
 
+# extend waterstress.obic with extended groundwaterclasses
+dt <- data.table(
+  gwl.extra = c("IIIb", "Vb", "Va", "sVI", "IIb", "sVII", "IVu", "bVII", "sV",
+                "sVb", "bVI", "IIIa"),
+  B_GWL_CLASS = c('III', 'V', 'V', 'VI', 'II', 'VII', 'IV', 'VII', 'V',
+                  'V', 'VI', 'III')
+)
+dtm <- merge(waterstress.obic, dt, by = 'B_GWL_CLASS',
+                         all = TRUE, sort = FALSE, allow.cartesian = TRUE)
+dtm[is.na(gwl.extra), gwl.extra := B_GWL_CLASS]
+dtm[,B_GWL_CLASS := gwl.extra]
+dtm[, gwl.extra := NULL]
+setcolorder(dtm, names(waterstress.obic))
+dtr <- rbindlist(list(waterstress.obic, dtm))
+dtr <- dtr[!duplicated(dtr)]
+waterstress.obic <- copy(dtr)
+
 # save the file
 usethis::use_data(waterstress.obic, version = 3, overwrite = TRUE, compress = 'xz')
 fwrite(waterstress.obic, 'data-raw/waterstress/waterstress_obic.csv')
