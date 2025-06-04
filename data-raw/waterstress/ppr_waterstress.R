@@ -6,7 +6,7 @@ require(XML)
 library(httr)
 
 # load in soil database
-soils <- fread('data/internal_data/raw/bodemopties_helptabel.csv')
+soils <- fread('data-raw/waterstress/bodemopties_helptabel.csv')
 
 # load crop_id
 crops <- data.table(gewasnr = sort(rep(1:14,12)))
@@ -14,8 +14,8 @@ crops <- data.table(gewasnr = sort(rep(1:14,12)))
 # groundwater table, input definition
 gt <- data.table(ghg <- c(20,20,20,20,35,35,60,60,60,100,100,150),
                  glg <- c(45,60,100,150,100,150,100,150,200,150,200,200),
-                 gt <- c('GtI','GtII','GtIII','GtV','GtIII','GtV','GtIV','GtVI','GtVI','GtVII','GtVII','GtVIII'),
-                 gto <-c('GtI','GtIIa','GtIIIa','GtVa','GtIIIb','GtVo','GtIVu','GtVIo','GtVId','GtVIIo','GtVIId','GtVIIId'))
+                 gt <- c('I','II','III','V','III','V','IV','VI','VI','VII','VII','VIII'),
+                 gto <-c('I','IIa','IIIa','Va','IIIb','Vo','IVu','VIo','VId','VIIo','VIId','VIIId'))
 
 # make database
 db <- cbind(crops,gt)
@@ -108,6 +108,7 @@ waterstress.obic <- db
 
 # save the file
 usethis::use_data(waterstress.obic, version = 3, overwrite = TRUE, compress = 'xz')
+fwrite(waterstress.obic, 'data-raw/waterstress/waterstress_obic.csv')
 
 
 
