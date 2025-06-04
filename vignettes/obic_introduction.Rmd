@@ -862,10 +862,10 @@ An example of this function is illustrated below for both an sandy and a clay so
         ggtitle('Soil water stress index')
      
   
-  # estimate moisture stress with variable Gt for an arable field
+  # estimate moisture stress with variable  for an arable field
   dt.test2 <- dt.test[ID==11][1]
   dt.test2 <- dt.test2[rep(1,4)]
-  dt.test2[,B_GWL_CLASS := c('GtIII','GtIV','GtV','GtVI')]
+  dt.test2[,B_GWL_CLASS := c('III','IV','V','VI')]
   
   # update WSI
   dt.test2[, D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]
@@ -1403,7 +1403,7 @@ Examples of this function are given for five parcels with different attributes, 
   
   # Make example with different gwt's
   dt.test2 <- binnenveld[c(1,1,1,1,1)]
-  dt.test2 <- dt.test2[,B_GWL_CLASS := c('GtIII','GtIV', 'GtV', 'GtVI', 'GtVII')]
+  dt.test2 <- dt.test2[,B_GWL_CLASS := c('III','IV', 'V', 'VI', 'VII')]
 
   # estimate default properties needed to estimate NLV
   dt.test2[, D_BDS := calc_bulk_density(B_SOILTYPE_AGR, A_SOM_LOI, A_CLAY_MI)]

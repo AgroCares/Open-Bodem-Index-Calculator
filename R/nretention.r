@@ -12,8 +12,8 @@
 #' @import data.table
 #' 
 #' @examples
-#' calc_nleach('dekzand',265,'GtIII',145,'Zuidwest-Brabant','gw')
-#' calc_nleach('rivierklei',1019,'GtIV',145,'Rivierengebied','ow')
+#' calc_nleach('dekzand',265,'III',145,'Zuidwest-Brabant','gw')
+#' calc_nleach('rivierklei',1019,'IV',145,'Rivierengebied','ow')
 #' 
 #' @return 
 #' The potential nitrogen leaching from the soil originating from soil nitrogen mineralization processes. A numeric value.
@@ -43,6 +43,10 @@ calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS,
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_GWL_CLASS,any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(B_GWL_CLASS, choices = c(
+    "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
+    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
+  ), empty.ok = FALSE)
   checkmate::assert_numeric(D_NLV, lower = -30, upper = 250, len = arg.length) 
   checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)
   checkmate::assert_character(B_AER_CBS, any.missing = FALSE, min.len = 1, len = arg.length)

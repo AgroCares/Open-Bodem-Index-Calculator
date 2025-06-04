@@ -4,7 +4,7 @@ test_that("calc_nleach works", {
     calc_nleach(
       B_SOILTYPE_AGR = c('dekzand','zeeklei','rivierklei','loess'),
       B_LU_BRP = c(265, 2014, 259, 259), # grasland, bouwland, mais, mais
-      B_GWL_CLASS = c('GtIV','GtV','GtIII','GtII'),
+      B_GWL_CLASS = c('IV','V','III','II'),
       D_NLV = c(5, 30, 100, 150),
       B_AER_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
       leaching_to = "gw"
@@ -32,7 +32,7 @@ test_that("calc_nleach works", {
     calc_nleach(
       B_SOILTYPE_AGR = c('dekzand','zeeklei','rivierklei','loess'),
       B_LU_BRP = c(265, 2014, 259, 259), # grasland, bouwland, mais, mais
-      B_GWL_CLASS = c('GtIV','GtV','GtIII','GtII'),
+      B_GWL_CLASS = c('IV','V','III','II'),
       D_NLV = c(5, 30, 100, 150),
       B_AER_CBS = c('Rivierengebied', 'Rivierengebied', 'Centraal Veehouderijgebied', 'Centraal Veehouderijgebied'),
       leaching_to = "ow"

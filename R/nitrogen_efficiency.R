@@ -16,8 +16,8 @@
 #' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
 #' 
 #' @examples 
-#' calc_n_efficiency(1019,'dekzand','GtIV','Zuidwest-Brabant',4.5,3.5,0.8,0.6,0.2,78,FALSE,1)
-#' calc_n_efficiency(256,'veen','GtII','Centraal Veehouderijgebied',4.5,3.5,0.8,0.6,0.2,250,FALSE,1)
+#' calc_n_efficiency(1019,'dekzand','IV','Zuidwest-Brabant',4.5,3.5,0.8,0.6,0.2,78,FALSE,1)
+#' calc_n_efficiency(256,'veen','II','Centraal Veehouderijgebied',4.5,3.5,0.8,0.6,0.2,250,FALSE,1)
 #'
 #' @return 
 #' The estimated index for the nitrogen use efficiency, as being affected by soil properties. A numeric value.
@@ -42,8 +42,10 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(OBIC::soils.obic$soiltype))
   checkmate::assert_character(B_GWL_CLASS,any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_GWL_CLASS, choices = c('GtI','GtII','GtIII','GtIV','GtV','GtVI','GtVII','GtVIII',
-                                                  'GtIIb','GtIIIb','GtVb'), empty.ok = FALSE)
+  checkmate::assert_subset(B_GWL_CLASS, choices = c(
+    "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
+    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
+  ), empty.ok = FALSE)
   checkmate::assert_character(B_AER_CBS, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_AER_CBS, choices = c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
                                                   'Zuidwestelijk Akkerbouwgebied','Rivierengebied','Hollands/Utrechts Weidegebied',

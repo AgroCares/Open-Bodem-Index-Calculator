@@ -2,7 +2,7 @@ test_that("test whether calc_nitrogen_efficiency works", {
   expect_equal(
     calc_n_efficiency(B_LU_BRP = c(233,259,2014,308),
                       B_SOILTYPE_AGR = rep('rivierklei',4),
-                      B_GWL_CLASS = rep('GtIII',4),
+                      B_GWL_CLASS = rep('III',4),
                       B_AER_CBS = rep('IJsselmeerpolders',4),
                       A_SOM_LOI = rep(3,4),
                       A_CLAY_MI = rep(20,4),
@@ -20,7 +20,7 @@ test_that("test whether calc_nitrogen_efficiency works", {
   expect_equal(
     calc_n_efficiency(B_LU_BRP = c(233,259,2014,308),
                       B_SOILTYPE_AGR = rep('dekzand',4),
-                      B_GWL_CLASS = rep('GtII',4),
+                      B_GWL_CLASS = rep('II',4),
                       B_AER_CBS = rep('Zuidwest-Brabant',4),
                       A_SOM_LOI = rep(3,4),
                       A_CLAY_MI = rep(15,4),

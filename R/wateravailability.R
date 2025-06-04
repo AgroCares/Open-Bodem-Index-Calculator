@@ -13,7 +13,7 @@
 #' 
 #' @examples 
 #' \dontshow{data.table::setDTthreads(1)} 
-#' calc_waterstressindex(B_HELP_WENR = 'ABkt',B_LU_BRP = 1019,B_GWL_CLASS = 'GtIV'
+#' calc_waterstressindex(B_HELP_WENR = 'ABkt',B_LU_BRP = 1019,B_GWL_CLASS = 'IV'
 #' , WSI = 'droughtstress')
 #' 
 #' @return 
