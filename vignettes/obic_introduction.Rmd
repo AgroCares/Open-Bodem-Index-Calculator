@@ -839,7 +839,7 @@ An example of this function is illustrated below for both an sandy and a clay so
   dt.test[,pID := .GRP, by = ID]
   
   # reformat GWL_CLASS
-  dt.test[, B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
+  dt.test[B_GWL_CLASS == '-', B_GWL_CLASS := 'II']
   
   # estimate delta-pH
   dt.test[, D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress'),by=ID]
