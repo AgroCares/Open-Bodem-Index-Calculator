@@ -86,7 +86,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   checkmate::assert_logical(M_PESTICIDES_DST,any.missing = FALSE, len = arg.length)
   
   # Settings if needed
-  gt_wet <- c('I','II','IIb','III','IIIb') # wet soils with undeep groundwater table
+  gt_wet <- c('I','II','IIb','III','IIIb', 'IIIa') # wet soils with undeep groundwater table
   
   # Collect data in a table
   dt <- data.table(
