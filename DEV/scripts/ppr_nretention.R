@@ -111,6 +111,8 @@ nleach_table[, gewas := as.character(gewas)]
 nleach_table[, bodem := tolower(as.character(bodem))]
 usethis::use_data(nleach_table, version = 3, overwrite = TRUE, compress = 'xz')
 
+fwrite(nleach_table, 'data-raw/nretention/nleach_table.csv', encoding = 'UTF-8')
+
 #------------------
 # info output table
 #------------------
