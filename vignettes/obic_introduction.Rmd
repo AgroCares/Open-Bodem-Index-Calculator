@@ -818,7 +818,7 @@ For more details, see `?calc_waterstressindex`.
 
 ```{r, results = FALSE, eval = FALSE}
   # reformat GWL_CLASS
-  dt[, B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
+  dt[B_GWL_CLASS == '-', B_GWL_CLASS := 'I']
 
   # estimate risk on yield reduction to drought stress or wetness stress
   dt[, D_WSI_DS := calc_waterstressindex(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'droughtstress')]

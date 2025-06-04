@@ -127,6 +127,11 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
   var = cf = ncat = id = S_T_OBI_A = NULL
   
+  checkmate::assert_subset(B_GWL_CLASS, choices = c(
+    "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
+    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
+  ))
+  
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
   dt <- data.table(ID = ID,
@@ -197,10 +202,9 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   
   # Step 1 Pre-processing ------------------
   
-    # check format B_SC_WENR and B_GWL_CLASS
+    # check format B_SC_WENR
     dt[, B_SC_WENR := format_soilcompaction(B_SC_WENR)]
-    dt[, B_GWL_CLASS := format_gwt(B_GWL_CLASS)]
-  
+
     # check format B_AER_CBS
     dt[, B_AER_CBS := format_aer(B_AER_CBS)]
     
