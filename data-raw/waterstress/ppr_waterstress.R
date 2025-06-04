@@ -106,6 +106,15 @@ db[,(cols) := lapply(.SD,function(x) fifelse(!is.finite(x),NA,x)),.SDcols=cols]
 # make new table
 waterstress.obic <- db
 
+# reformat gt
+waterstress.obic[, gt := gsub("^Gt", "", gt)]
+setnames(waterstress.obic, 'gt', 'B_GWL_CLASS')
+checkmate::assert_subset(waterstress.obic$B_GWL_CLASS, 
+                         choices = c(
+                           "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
+                           "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
+                         ))
+
 # save the file
 usethis::use_data(waterstress.obic, version = 3, overwrite = TRUE, compress = 'xz')
 fwrite(waterstress.obic, 'data-raw/waterstress/waterstress_obic.csv')
