@@ -1,42 +1,3 @@
-#' Convert possible B_GWL_CLASS values to standardized values
-#' 
-#' This function formats ground water table information so it can be understood by other OBIC functions
-#' 
-#' @param B_GWL_CLASS (character) Ground water table classes
-#' 
-#' @import data.table
-#' 
-#' @examples 
-#' format_gwt(c('sVII', 'sVI'))
-#' format_gwt(c('sVII', 'sVI','GtII', 'GtI'))
-#' 
-#' @return 
-#' A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
-#' 
-#' @export
-format_gwt <- function(B_GWL_CLASS) {
-  
-  # options for B_GWL_CLASS
-  bgwlclass <- c('sVb', 'sVa', 'sVII', 'sVI', 'sV', 'bVII', 'bVI', 'Vb', 'Va', 'VIII', 'VII', 'VI',
-    'V', 'IVu', 'IV', 'IIb', 'IIIb', 'IIIa', 'III', 'II', 'I', '-',
-    'GtsVb', 'GtsVa', 'GtsVII', 'GtsVI', 'GtsV', 'GtbVII', 'GtbVI', 'GtVb', 'GtVa', 'GtVIII', 'GtVII', 'GtVI',
-    'GtV', 'GtIVu', 'GtIV', 'GtIIb', 'GtIIIb', 'GtIIIa', 'GtIII', 'GtII', 'GtI')
-  
-  # Check if B_GT values are appropriate
-  checkmate::assert_subset(B_GWL_CLASS, empty.ok = FALSE, choices = bgwlclass)
-  
-  # Remove prefixes and suffixes
-  B_GWL_CLASS <- gsub("a|b|s|u", "", B_GWL_CLASS)
-  
-  # if value starts with I or V, add prefix Gt to it.
-  B_GWL_CLASS <- gsub("^I", "GtI", B_GWL_CLASS)
-  B_GWL_CLASS <- gsub("^V", "GtV", B_GWL_CLASS)
-  B_GWL_CLASS <- gsub("-", "GtIII", B_GWL_CLASS)
-  
-  # Return B_GT
-  return(B_GWL_CLASS)
-}
-
 #' Convert possible B_SC_WENR values to standardized values
 #' 
 #' This function converts numeric values for B_SC_WENR to values used by other OBIC functions if numeric values are entered.
@@ -114,7 +75,7 @@ format_aer <- function(B_AER_CBS) {
   # all input options
   aer.all <- c(aer.text,aer.code)
   
-  # Check if B_GT values are appropriate
+  # Check if AER_CBS values are appropriate
   checkmate::assert_subset(B_AER_CBS, empty.ok = FALSE, choices = aer.all)
   
   # which of the input values are database codes
