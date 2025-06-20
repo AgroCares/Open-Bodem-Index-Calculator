@@ -117,9 +117,11 @@ checkmate::assert_subset(waterstress.obic$B_GWL_CLASS,
 
 # extend waterstress.obic with extended groundwaterclasses
 dt <- data.table(
-  gwl.extra = c("IIIb", "Vb", "Va", "sVI", "IIb", "sVII", "IVu", "bVII", "sV",
+  gwl.extra = c("Ia", "Ic", "IIa", "IIc", "IVc", "Vao", "Vad", "Vbo", "Vbd", "VIo", "VId", "VIIo", "VIId", "VIIIo", "VIIId",
+    "IIIb", "Vb", "Va", "sVI", "IIb", "sVII", "IVu", "bVII", "sV",
                 "sVb", "bVI", "IIIa"),
-  B_GWL_CLASS = c('III', 'V', 'V', 'VI', 'II', 'VII', 'IV', 'VII', 'V',
+  B_GWL_CLASS = c('I', 'I', 'II', 'II', 'IV', 'V', 'V', 'V', 'V', 'VI', 'VI', 'VII', 'VII', 'VIII', 'VIII',
+    'III', 'V', 'V', 'VI', 'II', 'VII', 'IV', 'VII', 'V',
                   'V', 'VI', 'III')
 )
 dtm <- merge(waterstress.obic, dt, by = 'B_GWL_CLASS',
