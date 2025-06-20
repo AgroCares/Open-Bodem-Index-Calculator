@@ -37,8 +37,9 @@ ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B
   checkmate::assert_numeric(I_P_CO, any.missing = FALSE, len = arg.length)
   checkmate::assert_logical(B_DRAIN, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_GWL_CLASS, choices = c(
-    "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
-    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
+    "I", "Ia", "Ic", "II", "IIa", "IIb", "IIc", "III", "IIIa", "IIIb", "IV",
+    "IVc", "IVu", "sV", "sVb", "V", "Va", "Vad", "Vao", "Vb", "Vbd", "Vbo", "VI", 
+    "VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo"
   ), empty.ok = FALSE)
   
   # import data into table

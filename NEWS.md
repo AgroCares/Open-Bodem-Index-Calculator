@@ -2,8 +2,13 @@
 ## Changed
 * the format of groundwater class values (B_GWL_CLASS) that are accepted by OBIC 
 functions and recorded in OBIC tables. Acceptable input values for B_GWL_CLASS are now:
-"II", "IV", "IIIb", "V", "VI", "VII", "Vb", "Va", "III", "VIII", "sVI",
-    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", and "IIIa".
+"I", "Ia", "Ic", "II", "IIa", "IIb", "IIc", "III", "IIIa", "IIIb", "IV",
+"IVc", "IVu", "sV", "sVb", "V", "Va", "Vad", "Vao", "Vb", "Vbd", "Vbo", "VI", 
+"VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo".
+* OBIC no longer supports B_GWL_CLASS value "-". For fields with groundwater class "-", the user is advised to use expert judgment on
+what the most suitable groundwater class is. Fields with "-" are typically found 
+in locations with very variable or very deep groundwater levels such as flood plains
+or hills.
 * In the table nleach_table, column B_GT is renamed B_GWL_CLASS for consistency. 
 The values in this column have also been modified to no longer have the prefix "Gt"
 to align with the rest of the package.

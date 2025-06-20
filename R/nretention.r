@@ -44,8 +44,9 @@ calc_nleach <- function(B_SOILTYPE_AGR, B_LU_BRP, B_GWL_CLASS, D_NLV, B_AER_CBS,
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_GWL_CLASS,any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_GWL_CLASS, choices = c(
-    "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
-    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
+    "I", "Ia", "Ic", "II", "IIa", "IIb", "IIc", "III", "IIIa", "IIIb", "IV",
+    "IVc", "IVu", "sV", "sVb", "V", "Va", "Vad", "Vao", "Vb", "Vbd", "Vbo", "VI", 
+    "VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo"
   ), empty.ok = FALSE)
   checkmate::assert_numeric(D_NLV, lower = -30, upper = 250, len = arg.length) 
   checkmate::assert_choice(leaching_to, choices = c("gw", "ow"), null.ok = FALSE)

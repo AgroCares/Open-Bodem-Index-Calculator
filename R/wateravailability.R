@@ -36,7 +36,11 @@ calc_waterstressindex <- function(B_HELP_WENR, B_LU_BRP, B_GWL_CLASS, WSI = 'wat
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_character(B_GWL_CLASS,any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_GWL_CLASS, choices = c('-',unique(waterstress.obic$B_GWL_CLASS)), empty.ok = FALSE)
+  checkmate::assert_subset(B_GWL_CLASS, choices = c(
+    "I", "Ia", "Ic", "II", "IIa", "IIb", "IIc", "III", "IIIa", "IIIb", "IV",
+    "IVc", "IVu", "sV", "sVb", "V", "Va", "Vad", "Vao", "Vb", "Vbd", "Vbo", "VI", 
+    "VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo"
+  ), empty.ok = FALSE)
   checkmate::assert_character(B_HELP_WENR, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_HELP_WENR, choices = c('unknown',unique(waterstress.obic$soilunit)), empty.ok = FALSE)
   checkmate::assert_character(WSI, any.missing = FALSE, min.len = 1, len = 1)

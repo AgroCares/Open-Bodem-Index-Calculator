@@ -42,9 +42,10 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(OBIC::soils.obic$soiltype))
   checkmate::assert_character(B_GWL_CLASS,any.missing = FALSE, len = arg.length)
-  checkmate::assert_subset(B_GWL_CLASS, choices = c(
-    "II", "IV", "IIIb", "V", "VI", "VII", "Vb", "-", "Va", "III", "VIII", "sVI",
-    "I", "IIb", "sVII", "IVu", "bVII", "sV", "sVb", "bVI", "IIIa"
+  checkmate::assert_subset(B_GWL_CLASS, choices =c(
+    "I", "Ia", "Ic", "II", "IIa", "IIb", "IIc", "III", "IIIa", "IIIb", "IV",
+    "IVc", "IVu", "sV", "sVb", "V", "Va", "Vad", "Vao", "Vb", "Vbd", "Vbo", "VI", 
+    "VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo"
   ), empty.ok = FALSE)
   checkmate::assert_character(B_AER_CBS, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_AER_CBS, choices = c('Zuid-Limburg','Zuidelijk Veehouderijgebied','Zuidwest-Brabant',
