@@ -129,6 +129,7 @@ interpolate_nleach_table <- function(wb, gt1man, val2u){
 #-----------------
 # make tables with interpolated data, and save as RData
 #-----------------
+library(data.table)
 ## Groundwater
 nleach_gw_table <- interpolate_nleach_table("gw", "Y", 'filled') # with prescribed values for GT1
 
