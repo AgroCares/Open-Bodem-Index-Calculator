@@ -5,6 +5,7 @@ library(data.table)
 #-----------------
 # The original table (STONE model output) is provided by Piet Groenendijk in nov. 2019.
 # Upper and lower groundwaterlevel is filled by Gerard Ros. 
+# gwlc classes added by Brent Riechelman
 
 interpolate_nleach_table <- function(wb, gt1man, val2u){
   # Input
@@ -29,10 +30,50 @@ interpolate_nleach_table <- function(wb, gt1man, val2u){
   g1[,ghg := as.numeric(ghg)]
   g1[,glg := as.numeric(glg)]
   
+  # add additional B_GWL_CLASS
+  gwlc <- data.table(variable = 
+                       factor(c(
+                         "Ia", "Ic",
+                         "IIa", "IIc",
+                         "IIIa",
+                         "IVu", "IVc",
+                         "Va", "Vao", "Vad", "Vbo", "Vbd", "sV", "sVb",
+                         "VIo", "VId",
+                         "VIIo", "VIId",
+                         "VIIIo", "VIIId")),
+                     ghg =       # GLG and GHG from https://edepot.wur.nl/465988
+                       c(10, 25, # interpret <25 as 10 conform GT1
+                         20, 60, # interpret <25 as 20 conform GT2
+                         20,     # interpret <25 as 20 conform GT2
+                         60, 100,# average range 40-80 conform GT4, add 20 to interpret >80
+                         20, 20, 20, 32.5, 32.5, 32.5, 32.5, # interpret <25 as 20 conform GT2, average range 25-40 conform GT2b
+                         60, 60, # average range 40-80 conform GT4
+                         110, 110,# average range 80-140, seemingly different from GT7
+                         140, 140),# interpret >140 as 140 conform GTVIIb (GT8)
+                     glg = 
+                       c(50, 50, # interpret <50 as 50 conform GT1
+                         65, 65, # interpret range 50-80 as average conform GT2b
+                         100, # interpret range 80-120 as average conform GT3b
+                         100, 100,# interpret range 80-120 as average conform GT3b
+                         120, 150, 180, 150, 180, 120, 120, # interpret >120 as 120 conform GT5, range 120-180 as average, consider sV and sVb as GT5 and GT5b, prefixes means 'schijnspiegel' in 1988 bodemkaart (https://edepot.wur.nl/21850 tabel 1)
+                         150, 180,
+                         150, 180,
+                         150, 180
+                       )
+            )
+  gwlc2 <- CJ(Gewas = c('akkerbouw', 'gras', 'mais'),
+            bodem = c('Klei', 'Zand', 'Veen'),
+            variable = gwlc$variable)
+  gwlc2 <- merge(gwlc2, gwlc, by = 'variable')
+  
   # reshape database so that nloss is one column
   d2 <- melt(d1,id.vars=c('Gewas','bodem'))
   d3 <- d2[bodem!='all',]
   d3 <- merge(d3,g1,by='variable')
+  
+  # add additional classes
+  d3 <- rbindlist(list(d3, gwlc2), fill = TRUE, use.names = TRUE)
+  
   setnames(d3,c('gt','gewas','bodem','nloss','ghg','glg'))
   
   d3[,nloss :=as.numeric(nloss)]
@@ -75,7 +116,8 @@ interpolate_nleach_table <- function(wb, gt1man, val2u){
   ## change naming of grondwatertrap
   dtcon <- data.table(gt = c( "GT1", "GT2", "GT2b","GT3", "GT3b","GT4", "GT5","GT5b", "GT6", "GT7", "GT7b"),
                       B_GWL_CLASS = c("I", "II", "IIb","III", "IIIb","IV", "V", "Vb", "VI", "VII", "VIII"))
-  d3 <- merge(d3, dtcon, by = "gt")
+  d3 <- merge(d3, dtcon, by = "gt", all.x = TRUE)
+  d3[is.na(B_GWL_CLASS), B_GWL_CLASS := gt]
   
   # Assign a set of value for the fraction of N retention (nf)
   d3[, nf:= get(val2u)]
