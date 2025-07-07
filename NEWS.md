@@ -22,6 +22,8 @@ IIIb are now included in waterstress.obic$B_GWL_CLASS. The new classes with
 prefixes and suffixes have the same values as rows with the same roman numeral. 
 So, with the same cropname and soilunit, III and IIIb have the same values for
 the different stresses.
+* additional B_GWL_CLASS values to `nleach_table` ("Ia", "Ic", "IIa", "IIc", "IIIa",
+"IVu", "IVc", "Va", "Vao", "Vad", "Vbo", "Vbd", "sV", "sVb", "VIo", "VId", "VIIo", "VIId", "VIIIo", "VIIId")
 
 ## Removed
 * function `format_gwt()`. OBIC now supports groundwater classes with prefixes and suffixes.
