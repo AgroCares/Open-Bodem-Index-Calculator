@@ -58,5 +58,6 @@ Suggests:
     ggplot2,
     patchwork,
     covr,
-    roxygen2
+    roxygen2,
+    glue
 VignetteBuilder: knitr
