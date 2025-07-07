@@ -134,6 +134,9 @@ dtr <- rbindlist(list(waterstress.obic, dtm))
 dtr <- dtr[!duplicated(dtr)]
 waterstress.obic <- copy(dtr)
 
+# remove invalid classes
+waterstress.obic <- waterstress.obic[!B_GWL_CLASS %in% c("sVI", "bVI", "sVII", "bVII")]
+
 # save the file
 usethis::use_data(waterstress.obic, version = 3, overwrite = TRUE, compress = 'xz')
 fwrite(waterstress.obic, 'data-raw/waterstress/waterstress_obic.csv')
