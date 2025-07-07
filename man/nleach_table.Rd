@@ -5,7 +5,7 @@
 \alias{nleach_table}
 \title{Table with fractions of excess N which runs off to groundwater and surface water}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 198 rows and 7 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 558 rows and 7 columns.
 }
 \usage{
 nleach_table
