@@ -32,7 +32,7 @@
 #' 
 #' @examples 
 #' calc_management(A_SOM_LOI = 4.5,B_LU_BRP = 3732, B_SOILTYPE_AGR = 'dekzand',
-#' B_GWL_CLASS = 'GtIV',D_SOM_BAL = 1115,D_CP_GRASS = 0.2,D_CP_POTATO = 0.5,
+#' B_GWL_CLASS = 'IV',D_SOM_BAL = 1115,D_CP_GRASS = 0.2,D_CP_POTATO = 0.5,
 #' D_CP_RUST = 0.3,D_CP_RUSTDEEP = 0.2,D_GA = 0,M_COMPOST = rep(25,1),
 #' M_GREEN = TRUE, M_NONBARE = TRUE, M_EARLYCROP = TRUE, M_SLEEPHOSE = TRUE, 
 #' M_DRAIN = TRUE, M_DITCH = TRUE, M_UNDERSEED = TRUE,M_LIME = TRUE, 
@@ -86,7 +86,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   checkmate::assert_logical(M_PESTICIDES_DST,any.missing = FALSE, len = arg.length)
   
   # Settings if needed
-  gt_wet <- c('GtI','GtII','GtIIb','GtIII','GtIIIb') # wet soils with undeep groundwater table
+  gt_wet <- c('I','II','IIb','III','IIIb', 'IIIa') # wet soils with undeep groundwater table
   
   # Collect data in a table
   dt <- data.table(
@@ -232,7 +232,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
     # measure 2. is clover used in grassland
     dt.grass[soiltype.n !='veen' & grepl('klaver',crop_name), value := value +1]
    
-    # measure 3. permanent grass for GtI, GtII and GtIII
+    # measure 3. permanent grass for I, II and III
     dt.grass[D_GA > 8 & B_GWL_CLASS %in% gt_wet, value := value + 5]
     dt.grass[D_GA > 8 & B_GWL_CLASS %in% gt_wet & soiltype.n =='veen', value := value + 3]
     
@@ -312,7 +312,7 @@ calc_management <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
 #' 
 #' @examples 
 #' calc_man_ess(A_SOM_LOI = 4.5,B_LU_BRP = 3732, B_SOILTYPE_AGR = 'dekzand',
-#' B_GWL_CLASS = 'GtIV',D_SOM_BAL = 1115,D_CP_GRASS = 0.2,D_CP_POTATO = 0.5,
+#' B_GWL_CLASS = 'IV',D_SOM_BAL = 1115,D_CP_GRASS = 0.2,D_CP_POTATO = 0.5,
 #' D_CP_RUST = 0.3,D_CP_RUSTDEEP = 0.2,D_GA = 0,M_COMPOST = rep(25,1),
 #' M_GREEN = TRUE, M_NONBARE = TRUE, M_EARLYCROP = TRUE, M_SLEEPHOSE = TRUE, 
 #' M_DRAIN = TRUE, M_DITCH = TRUE, M_UNDERSEED = TRUE,M_LIME = TRUE, 
@@ -370,7 +370,7 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
   checkmate::assert_subset(type,c('I_M_SOILFERTILITY','I_M_CLIMATE','I_M_WATERQUALITY','I_M_BIODIVERSITY'))
   
   # Settings if needed
-  gt_wet <- c('GtI','GtII','GtIIb','GtIII','GtIIIb') # wet soils with undeep groundwater table
+  gt_wet <- c('I','II','IIb','III','IIIb') # wet soils with undeep groundwater table
   
   # Collect data in a table
   dt <- data.table(
@@ -631,7 +631,7 @@ calc_man_ess <- function(A_SOM_LOI,B_LU_BRP, B_SOILTYPE_AGR,B_GWL_CLASS,
       # measure 2. is clover used in grassland
       dt.grass[soiltype.n !='veen' & grepl('klaver',crop_name), value := value +1]
       
-      # measure 3. permanent grass for GtI, GtII and GtIII
+      # measure 3. permanent grass for I, II and III
       dt.grass[(D_GA > 8 | D_CP_GRASS == 1) & B_GWL_CLASS %in% gt_wet, value := value + 5]
       dt.grass[(D_GA > 8 | D_CP_GRASS == 1) & B_GWL_CLASS %in% gt_wet & soiltype.n =='veen', value := value + 3]
     

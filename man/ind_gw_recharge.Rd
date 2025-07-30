@@ -29,8 +29,8 @@ This function calculates an index score for groundwater storage based on precipi
 }
 \examples{
 ind_gw_recharge(B_LU_BRP = 265,D_PSP = 200, D_WRI_K = 10, I_P_SE = 0.6, I_P_CO = 0.9, 
-B_DRAIN = FALSE, B_GWL_CLASS = 'GtV')
+B_DRAIN = FALSE, B_GWL_CLASS = 'V')
 ind_gw_recharge(B_LU_BRP = 233, D_PSP = 400, D_WRI_K = 10, I_P_SE = 0.4, I_P_CO = 0.2, 
-B_DRAIN = TRUE, B_GWL_CLASS = 'GtII')
+B_DRAIN = TRUE, B_GWL_CLASS = 'II')
 
 }

@@ -5,7 +5,7 @@
 \alias{waterstress.obic}
 \title{Linking table between crops, soils, groundwater tables and water induced stresses in OBIC}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 393680 rows and 6 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 1525510 rows and 6 columns.
 }
 \usage{
 waterstress.obic
@@ -17,7 +17,7 @@ This table helps to link the different crops in the OBIC functions with the crop
 \describe{
   \item{cropname}{The name of the crop}
   \item{soilunit}{The category for this soil, derived from 1:50.000 soil map}
-  \item{gt}{The class describing mean highest and lowest groundwater table, derived from 1:50.000 soil map}
+  \item{B_GWL_CLASS}{The class describing mean highest and lowest groundwater table, derived from 1:50.000 soil map}
   \item{droughtstress}{The mean yield reduction due to drought (in percentage)}
   \item{wetnessstress}{The mean yield reduction due to water surplus (in percentage)}
   \item{waterstress}{The mean combined effect water stress (due to deficiency or excess of water)}

@@ -47,7 +47,7 @@
 #' \describe{
 #'   \item{cropname}{The name of the crop}
 #'   \item{soilunit}{The category for this soil, derived from 1:50.000 soil map}
-#'   \item{gt}{The class describing mean highest and lowest groundwater table, derived from 1:50.000 soil map}
+#'   \item{B_GWL_CLASS}{The class describing mean highest and lowest groundwater table, derived from 1:50.000 soil map}
 #'   \item{droughtstress}{The mean yield reduction due to drought (in percentage)}
 #'   \item{wetnessstress}{The mean yield reduction due to water surplus (in percentage)}
 #'   \item{waterstress}{The mean combined effect water stress (due to deficiency or excess of water)}
@@ -295,7 +295,7 @@
 #'   \item{bodem}{soil type}
 #'   \item{ghg}{Lower value for groundwater table (cm-mv)}
 #'   \item{glg}{Upper value for groundwater table (cm-mv)}
-#'   \item{B_GT}{grondwatertrap}
+#'   \item{B_GWL_CLASS}{grondwatertrap}
 #'   \item{nf}{Original values of N run-off fraction to surface water (kg N drain/ha/year per kg N overschot/ha/year) or groundwater (mg NO3/L per kg N overschot/ha/year)}
 #'   \item{leaching_to-set}{Tells if leaching to ground water or surface water)}
 #' }

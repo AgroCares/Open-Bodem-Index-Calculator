@@ -1,3 +1,37 @@
+# OBIC 4.0.0 2025-07-30
+## Changed
+* the format of groundwater class values (B_GWL_CLASS) that are accepted by OBIC 
+functions and recorded in OBIC tables. Acceptable input values for B_GWL_CLASS are now:
+"I", "Ia", "Ic", "II", "IIa", "IIb", "IIc", "III", "IIIa", "IIIb", "IV",
+"IVc", "IVu", "sV", "sVb", "V", "Va", "Vad", "Vao", "Vb", "Vbd", "Vbo", "VI", 
+"VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo".
+* OBIC no longer supports B_GWL_CLASS value "-". For fields with groundwater class "-", the user is advised to use expert judgment on
+what the most suitable groundwater class is. Fields with "-" are typically found 
+in locations with very variable or very deep groundwater levels such as flood plains
+or hills.
+* In the table nleach_table, column B_GT is renamed B_GWL_CLASS for consistency. 
+The values in this column have also been modified to no longer have the prefix "Gt"
+to align with the rest of the package.
+* In the table waterstress.obic, column gt is renamed B_GWL_CLASS for consistency.
+The values in this column have also been modified to no longer have the prefix "Gt"
+to align with the rest of the package.
+
+## Added
+* The table waterstress.obic now supports more groundwaterclasses. Classes such as
+IIIb are now included in waterstress.obic$B_GWL_CLASS. The new classes with 
+prefixes and suffixes have the same values as rows with the same roman numeral. 
+So, with the same cropname and soilunit, III and IIIb have the same values for
+the different stresses.
+* additional B_GWL_CLASS values to `nleach_table` ("Ia", "Ic", "IIa", "IIc", "IIIa",
+"IVu", "IVc", "Va", "Vao", "Vad", "Vbo", "Vbd", "sV", "sVb", "VIo", "VId", "VIIo", "VIId", "VIIIo", "VIIId")
+
+## Removed
+* function `format_gwt()`. OBIC now supports groundwater classes with prefixes and suffixes.
+For fields with groundwater class "-", the user is advised to use expert judgment on
+what the most suitable groundwater class is. Fields with "-" are typically found 
+in locations with very variable or very deep groundwater levels such as flood plains
+or hills.
+
 # OBIC 3.0.4 2025-05-20
 ## Fixed
 * Fixes missing nf_* values in `crops.obic` [OBI-31]
