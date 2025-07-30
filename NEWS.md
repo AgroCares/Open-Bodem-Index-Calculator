@@ -1,4 +1,4 @@
-# OBIC 4.0.0
+# OBIC 4.0.0 2025-07-30
 ## Changed
 * the format of groundwater class values (B_GWL_CLASS) that are accepted by OBIC 
 functions and recorded in OBIC tables. Acceptable input values for B_GWL_CLASS are now:
