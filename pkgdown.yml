@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.2
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   description-of-the-columns: description-of-the-columns.html
@@ -7,4 +7,4 @@ articles:
   obic_score_aggregation: obic_score_aggregation.html
   obic_water_functions: obic_water_functions.html
   obic_workability: obic_workability.html
-last_built: 2025-05-20T09:07Z
+last_built: 2025-07-30T08:35Z

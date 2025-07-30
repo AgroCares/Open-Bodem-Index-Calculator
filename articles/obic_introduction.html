@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.0.0</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
                         <h4 data-toc-skip class="author">Gerard Ros,
 Brent Riechelman</h4>
             
-            <h4 data-toc-skip class="date">2025-05-20</h4>
+            <h4 data-toc-skip class="date">2025-07-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/vignettes/obic_introduction.Rmd" class="external-link"><code>vignettes/obic_introduction.Rmd</code></a></small>
       <div class="hidden name"><code>obic_introduction.Rmd</code></div>
@@ -837,7 +837,7 @@ level.</p>
 <p>For more details, see <code><a href="../reference/calc_waterstressindex.html">?calc_waterstressindex</a></code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="co"># reformat GWL_CLASS</span></span>
-<span>  <span class="va">dt</span><span class="op">[</span>, <span class="va">B_GWL_CLASS</span> <span class="op">:=</span> <span class="fu"><a href="../reference/format_gwt.html">format_gwt</a></span><span class="op">(</span><span class="va">B_GWL_CLASS</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">dt</span><span class="op">[</span><span class="va">B_GWL_CLASS</span> <span class="op">==</span> <span class="st">'-'</span>, <span class="va">B_GWL_CLASS</span> <span class="op">:=</span> <span class="st">'I'</span><span class="op">]</span></span>
 <span></span>
 <span>  <span class="co"># estimate risk on yield reduction to drought stress or wetness stress</span></span>
 <span>  <span class="va">dt</span><span class="op">[</span>, <span class="va">D_WSI_DS</span> <span class="op">:=</span> <span class="fu"><a href="../reference/calc_waterstressindex.html">calc_waterstressindex</a></span><span class="op">(</span><span class="va">B_HELP_WENR</span>, <span class="va">B_LU_BRP</span>, <span class="va">B_GWL_CLASS</span>, WSI <span class="op">=</span> <span class="st">'droughtstress'</span><span class="op">)</span><span class="op">]</span></span>
@@ -1212,7 +1212,7 @@ runoff</caption>
 <td align="right">1</td>
 <td align="left">rivierklei</td>
 <td align="right">265</td>
-<td align="left">GtIII</td>
+<td align="left">III</td>
 <td align="right">141</td>
 <td align="left">Rivierengebied</td>
 </tr>
@@ -1220,7 +1220,7 @@ runoff</caption>
 <td align="right">1</td>
 <td align="left">rivierklei</td>
 <td align="right">265</td>
-<td align="left">GtIV</td>
+<td align="left">IV</td>
 <td align="right">141</td>
 <td align="left">Rivierengebied</td>
 </tr>
@@ -1228,7 +1228,7 @@ runoff</caption>
 <td align="right">1</td>
 <td align="left">rivierklei</td>
 <td align="right">265</td>
-<td align="left">GtV</td>
+<td align="left">V</td>
 <td align="right">150</td>
 <td align="left">Rivierengebied</td>
 </tr>
@@ -1236,7 +1236,7 @@ runoff</caption>
 <td align="right">1</td>
 <td align="left">rivierklei</td>
 <td align="right">265</td>
-<td align="left">GtVI</td>
+<td align="left">VI</td>
 <td align="right">150</td>
 <td align="left">Rivierengebied</td>
 </tr>
@@ -1244,7 +1244,7 @@ runoff</caption>
 <td align="right">1</td>
 <td align="left">rivierklei</td>
 <td align="right">265</td>
-<td align="left">GtVII</td>
+<td align="left">VII</td>
 <td align="right">150</td>
 <td align="left">Rivierengebied</td>
 </tr>
@@ -1788,7 +1788,7 @@ Staringreeks</span>.”</span> Wageningen: Alterra. <a href="https://edepot.wur.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer>
