@@ -1,3 +1,7 @@
+# OBIC 4.1.0 2025-08-04
+## Added
+* BRP crop codes for 2025: 7137, 7138, 7135, 7134
+
 # OBIC 4.0.0 2025-07-30
 ## Changed
 * the format of groundwater class values (B_GWL_CLASS) that are accepted by OBIC 
