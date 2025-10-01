@@ -11,7 +11,7 @@ test_that("obic_farm works", {
   )
   expect_equal(
     length(out$field),
-    expected = 35,
+    expected = 39,
     tolerance = 0.01
   )
   expect_equal(
@@ -21,7 +21,7 @@ test_that("obic_farm works", {
   ) 
   expect_equal(
     nrow(out$farm$indicators),
-    expected = 28,
+    expected = 32,
     tolerance = 0.01
   )
   expect_equal(
@@ -56,7 +56,7 @@ test_that("obic_farm works", {
   )
   expect_equal(
     c(sum(out$farm$indicators$S_OBI_NFIELDS_LOW),sum(out$farm$indicators$S_OBI_NFIELDS_HIGH)),
-    expected = c(34,77),
+    expected = c(42,85),
     tolerance = 0.01
   )
   expect_equal(

@@ -776,6 +776,7 @@ obic_farm <- function(dt) {
   th_obi_b = c(0.5,0.75,1.0)
   th_obi_e = c(0.5,0.75,1.0)
   th_obi_m = c(0.5,0.75,1.0)
+  th_obi_h = c(0.5,0.75,1.0)
   
   # calculate obic score for all the fields
   out <- obic_field_dt(dt = dt, output = c('scores','indicators'))
@@ -799,6 +800,7 @@ obic_farm <- function(dt) {
   dt.farm[grepl('^I_P|^S_P|^I_BCS',indicator),c(nclass) := as.list(th_obi_p)]
   dt.farm[grepl('^I_B|^S_B',indicator) & !grepl('^I_BCS',indicator),c(nclass) := as.list(th_obi_b)]
   dt.farm[grepl('^I_M|^S_M',indicator),c(nclass) := as.list(th_obi_m)]
+  dt.farm[grepl('^I_H|^S_H',indicator),c(nclass) := as.list(th_obi_h)]
   dt.farm[grepl('^I_E|^S_E',indicator),c(nclass) := as.list(th_obi_e)]
   dt.farm[grepl('^S_T_OBI',indicator),c(nclass) := as.list((th_obi_c + th_obi_p + th_obi_b)/3)]
   
@@ -827,7 +829,7 @@ obic_farm <- function(dt) {
   # add combined character string of number of fields per class
   dt.farm2[,S_OBI_NFIELDS := paste0(S_OBI_NFIELDS_HIGH,"/",S_OBI_NFIELDS_MEDIUM,"/",S_OBI_NFIELDS_LOW)]
   
-  # make separate tables with inidcators scores
+  # make separate tables with indicators scores
   dt.indicators <- dt.farm2[grepl('^I_',indicator)]
   dt.scores <- dt.farm2[grepl('^S_',indicator)]
   setnames(dt.scores,'indicator','score')
