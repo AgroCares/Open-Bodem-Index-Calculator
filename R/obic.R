@@ -296,14 +296,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
 
     # Calculate the water function
-    # dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
-    # dt[, D_WRI_K := calc_permeability(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI)]
-    # dt[, D_NLEACH_GW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
-    #                                      D_PBI,D_K,D_PH_DELTA,leaching_to = 'gw', M_GREEN,B_FERT_NORM_FR)]
-    # dt[, D_NLEACH_SW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
-    #                                      D_PBI,D_K,D_PH_DELTA,leaching_to = 'sw', M_GREEN,B_FERT_NORM_FR)]
-    # dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
-    #                                            A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
+    dt[, D_PSP := calc_psp(B_LU_BRP, M_GREEN)]
+    dt[, D_WRI_K := calc_permeability(A_CLAY_MI, A_SAND_MI, A_SILT_MI, A_SOM_LOI)]
+    dt[, D_NLEACH_GW := calc_n_efficiency(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, A_SOM_LOI, A_CLAY_MI,
+                                         D_PBI, D_K,D_PH_DELTA, leaching_to = 'gw', M_GREEN, B_FERT_NORM_FR)]
+    dt[, D_NLEACH_SW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
+                                         D_PBI,D_K,D_PH_DELTA,leaching_to = 'sw', M_GREEN,B_FERT_NORM_FR)]
+    dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
+                                               A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
     
     
     # Calculate the score of the BodemConditieScore
@@ -340,10 +340,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_B_SF := ind_pmn(D_PMN)]
   
     # Calculate indicators for groundwater functions
-    # dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
-    # dt[, I_H_NGW := ind_n_efficiency(D_NLEACH_GW,'gw')]
-    # dt[, I_H_NSW := ind_n_efficiency(D_NLEACH_GW,'sw')]
-    # dt[, I_H_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+    dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
+    dt[, I_H_NGW := ind_n_efficiency(D_NLEACH_GW,'gw')]
+    dt[, I_H_NSW := ind_n_efficiency(D_NLEACH_GW,'sw')]
+    dt[, I_H_PEST := ind_pesticide_leaching(D_PESTICIDE)]
     
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
