@@ -397,17 +397,19 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.melt <- dt.melt[!is.na(value)]
     
     # add categories relevant for aggregating
-    # C = chemical, P = physics, B = biological, BCS = visual soil assessment
+    # C = chemical, P = physics, B = biological, BCS = visual soil assessment, E = environmental
     # indicators not used for integrating: IBCS and IM
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
     #dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
+    dt.melt[cat == 'H', cat := 'E'] # include water functions indicators in environmental
     
-    # Determine amount of indicators per category
+    # Determine number of indicators per category
     dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by = .(ID, cat)]
  
     # add weighing factor to indicator values
-    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator = variable,weight_nonpeat,weight_peat)], 
+    dt.melt <- merge(dt.melt,
+                     w[,list(crop_category, indicator = variable, weight_nonpeat, weight_peat)], 
                      by = c('crop_category','indicator'), all.x = TRUE)
     
     # calculate correction factor for indicator values (low values have more impact than high values, a factor 5)

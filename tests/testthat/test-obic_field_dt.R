@@ -1,3 +1,4 @@
+# make input data table
 tdt <- data.table(
   B_SOILTYPE_AGR = 'rivierklei',
   B_GWL_CLASS = "II",
@@ -57,9 +58,10 @@ tdt <- data.table(
   key = 'ID'
 )
 
-test_that("obic_field_dt works", {
+test_that("obic_field_dt works with classic OBI", {
+  # test classic obi
   expect_equal(
-    obic_field_dt(tdt),
+    obic_field_dt(tdt, useClassicOBI = TRUE),
     expected = data.table(
       ID = 1,
       I_BCS = 0.369,
@@ -76,10 +78,6 @@ test_that("obic_field_dt works", {
       I_C_ZN = 0.561,
       I_E_NGW = 0.988,
       I_E_NSW = 0.969,
-      I_H_GWR = 0.626,
-      I_H_NGW = 0.99,
-      I_H_NSW = 0.989,
-      I_H_PEST = 0.083,
       I_M = 0.069,
       I_M_BIODIVERSITY = 0.144,
       I_M_CLIMATE = 0.113,
@@ -113,6 +111,66 @@ test_that("obic_field_dt works", {
     ),
     tolerance = 0.01
   )
+})
+
+test_that('obic_field_dt works with extended OBI', {
+  # test extended obi
+  expect_equal(
+    obic_field_dt(tdt, useClassicOBI = FALSE),
+    expected = data.table(
+      ID = 1,
+      I_BCS = 0.369,
+      I_B_DI = 0.843,
+      I_B_SF = 0.965,
+      I_C_CEC = 0.569,
+      I_C_CU = 1,
+      I_C_K = 0.988,
+      I_C_MG = 0.991,
+      I_C_N = 0.836,
+      I_C_P = 0.961,
+      I_C_PH = 0.15,
+      I_C_S = 0.26,
+      I_C_ZN = 0.561,
+      I_E_NGW = 0.988,
+      I_E_NSW = 0.969,
+      I_H_GWR = 0.529,
+      I_H_NGW = 0.99,
+      I_H_NSW = 0.992,
+      I_H_PEST = 0.023,
+      I_M = 0.069,
+      I_M_BIODIVERSITY = 0.144,
+      I_M_CLIMATE = 0.113,
+      I_M_SOILFERTILITY = 0.144,
+      I_M_WATERQUALITY = 0.126,
+      I_P_CEC = 0.417,
+      I_P_CO = 0.333,
+      I_P_CR = 1,
+      I_P_DS = 0.99,
+      I_P_DU = 0.652,
+      I_P_SE = 0.93,
+      I_P_WO = 0.7,
+      I_P_WRI = 0.835,
+      I_P_WS = 0.11,
+      S_B_OBI_A = 0.9,
+      S_C_OBI_A = 0.537,
+      S_E_OBI_A = 0.518,
+      S_M_OBI_A = 0.069,
+      S_P_OBI_A = 0.474,
+      S_T_OBI_A = 0.524,
+      RM_C_1 = "M8",
+      RM_C_2 = "M1",
+      RM_C_3 = "M2",
+      RM_P_1 = "M6",
+      RM_P_2 = "M3",
+      RM_P_3 = "M1",
+      RM_B_1 = "M0",
+      RM_B_2 = "M0",
+      RM_B_3 = "M0",
+      key = "ID"
+    ),
+    tolerance = 0.01
+  )
+  
 })
 
 # get required column names, should be equal to dt.req in obic_field_dt()
