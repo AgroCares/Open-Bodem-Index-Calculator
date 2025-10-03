@@ -62,7 +62,8 @@ obic_field(
   M_MECHWEEDS = NA,
   M_PESTICIDES_DST = NA,
   ID = 1,
-  output = "all"
+  output = "all",
+  useClassicOBI = TRUE
 )
 }
 \arguments{

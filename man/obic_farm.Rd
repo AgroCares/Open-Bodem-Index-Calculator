@@ -4,10 +4,15 @@
 \alias{obic_farm}
 \title{Calculate the Open Bodem Index score for a series of fields belonging to a farm}
 \usage{
-obic_farm(dt)
+obic_farm(dt, useClassicOBI = TRUE)
 }
 \arguments{
 \item{dt}{(data.table) A data.table containing the data of the fields to calculate the OBI}
+
+\item{useClassicOBI}{(boolean) Whether you want to only include agronomic
+indicators and scores as intended by the OBI framework or whether you want
+to include environmental indicators in your score aggegation, more akin to BLN 2.0.
+Defaults to TRUE.}
 }
 \value{
 The output of the Open Bodem Index Calculator for a series of agricultural fields belonging to a single farm. 

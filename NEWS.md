@@ -2,6 +2,10 @@
 ## Changed
 * In table weight.obic, peat and non-peat weight for indicator I_H_GWR are now
 set to 1 for all landuses. So, this indicator is weighted for each landuse-soiltype combination.
+* Argument useClassicOBI is added to obi_field(), obi_field_dt(), and obi_farm().
+This argument defaults to TRUE, when TRUE, only agronomic indicators are calculated
+and aggregated. When FALSE, indicators for water quality are calculated and aggregated
+in the environmental score and total score.
 
 # OBIC 4.1.0 2025-08-04
 ## Added

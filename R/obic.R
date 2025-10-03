@@ -60,6 +60,7 @@
 #' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
 #' @param ID (character) A field id
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
+
 #' 
 #' @details 
 #' It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
@@ -105,7 +106,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
-                       ID = 1, output = 'all') {
+                       ID = 1, output = 'all', useClassicOBI = TRUE) {
   
   # define variables used within the function
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
@@ -132,6 +133,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     "IVc", "IVu", "sV", "sVb", "V", "Va", "Vad", "Vao", "Vb", "Vbd", "Vbo", "VI", 
     "VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo"
   ))
+  checkmate::assert_logical(useClassicOBI, len = 1, any.missing = FALSE)
   
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
@@ -338,12 +340,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # Calculate indicators for soil biological functions
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     dt[, I_B_SF := ind_pmn(D_PMN)]
-  
-    # Calculate indicators for groundwater functions
-    dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
-    dt[, I_H_NGW := ind_n_efficiency(D_NLEACH_GW,'gw')]
-    dt[, I_H_NSW := ind_n_efficiency(D_NLEACH_GW,'sw')]
-    dt[, I_H_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+    
+    if(useClassicOBI == FALSE){
+      # Calculate indicators for groundwater functions
+      dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
+      dt[, I_H_NGW := ind_n_efficiency(D_NLEACH_GW,'gw')]
+      dt[, I_H_NSW := ind_n_efficiency(D_NLEACH_GW,'sw')]
+      dt[, I_H_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+    }
     
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
@@ -375,9 +379,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
     # load weights.obic (set indicator to zero when not applicable)
     w <- as.data.table(OBIC::weight.obic)
-    
-    # switch water functions indicators off
-    w <- w[!variable %in% c('I_H_GWR','I_H_NGW','I_H_NOW','I_H_PEST')]
     
     # Add years per field
     dt[,year := 1:.N, by = ID]
@@ -439,7 +440,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.score <-  dt.melt[,list(ID, cat, year, cf, value = value.w)]
     
     # remove indicator categories that are not used for scoring
-    out.score <- out.score[!cat %in% c('IBCS','IM','BCS', 'H')]
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
     
     # calculate weighted average per indicator category
     out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), 
@@ -544,6 +545,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' 
 #' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
+#' @param useClassicOBI (boolean) Whether you want to only include agronomic
+#'  indicators and scores as intended by the OBI framework or whether you want
+#'  to include environmental indicators in your score aggegation, more akin to BLN 2.0.
+#'  Defaults to TRUE.
 #' 
 #' @import data.table
 #' 
@@ -572,7 +577,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' The output is always a data.table.
 #' 
 #' @export
-obic_field_dt <- function(dt,output = 'all') {
+obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
  
   # add visual binding
   
@@ -674,7 +679,8 @@ obic_field_dt <- function(dt,output = 'all') {
                     M_MECHWEEDS = dt$M_MECHWEEDS,
                     M_PESTICIDES_DST = dt$M_PESTICIDES_DST,
                     ID = dt$ID,
-                    output = output
+                    output = output,
+                    useClassicOBI = useClassicOBI
                   )
   
   
@@ -689,6 +695,10 @@ obic_field_dt <- function(dt,output = 'all') {
 #' In contrast to obic_field, this wrapper uses a data.table as input.
 #' 
 #' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
+#' @param useClassicOBI (boolean) Whether you want to only include agronomic
+#'  indicators and scores as intended by the OBI framework or whether you want
+#'  to include environmental indicators in your score aggegation, more akin to BLN 2.0.
+#'  Defaults to TRUE.
 #' 
 #' @import data.table
 #' 
@@ -723,7 +733,7 @@ obic_field_dt <- function(dt,output = 'all') {
 #' The output is a list with field properties as well as aggregated farm properties
 #' 
 #' @export
-obic_farm <- function(dt) {
+obic_farm <- function(dt, useClassicOBI = TRUE) {
   
   # add visual binding
   farmid = indicator = value = catvalue = obi_score = NULL
@@ -779,7 +789,7 @@ obic_farm <- function(dt) {
   th_obi_h = c(0.5,0.75,1.0)
   
   # calculate obic score for all the fields
-  out <- obic_field_dt(dt = dt, output = c('scores','indicators'))
+  out <- obic_field_dt(dt = dt, output = c('scores','indicators'), useClassicOBI = useClassicOBI)
   
   # aggregate into a farm for indicators and scores, and melt
   dt.farm <- copy(out)
