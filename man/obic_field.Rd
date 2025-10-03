@@ -182,6 +182,11 @@ obic_field(
 \item{ID}{(character) A field id}
 
 \item{output}{(character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)}
+
+\item{useClassicOBI}{(boolean) Whether you want to only include agronomic
+indicators and scores as intended by the OBI framework or whether you want
+to include environmental indicators in your score aggregation, more akin to BLN 2.0.
+Defaults to TRUE.}
 }
 \value{
 The output of the Open Bodem Index Calculator for a specific agricultural field. 

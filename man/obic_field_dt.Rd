@@ -13,7 +13,7 @@ obic_field_dt(dt, output = "all", useClassicOBI = TRUE)
 
 \item{useClassicOBI}{(boolean) Whether you want to only include agronomic
 indicators and scores as intended by the OBI framework or whether you want
-to include environmental indicators in your score aggegation, more akin to BLN 2.0.
+to include environmental indicators in your score aggregation, more akin to BLN 2.0.
 Defaults to TRUE.}
 }
 \value{

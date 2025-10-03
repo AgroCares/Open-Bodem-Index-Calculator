@@ -60,7 +60,10 @@
 #' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
 #' @param ID (character) A field id
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
-
+#' @param useClassicOBI (boolean) Whether you want to only include agronomic
+#'  indicators and scores as intended by the OBI framework or whether you want
+#'  to include environmental indicators in your score aggregation, more akin to BLN 2.0.
+#'  Defaults to TRUE.
 #' 
 #' @details 
 #' It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
@@ -114,7 +117,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_WE = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
   D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = NULL
   D_WRI_WHC = D_PSP = D_NLEACH = D_PESTICIDE = NULL
-  D_WRI_K = D_NLEACH_GW = D_NLEACH_OW = I_H_GWR = I_H_NGW = I_H_NOW = I_H_PEST = NULL
+  D_WRI_K = D_NLEACH_GW = D_NLEACH_OW = I_H_GWR = I_H_NGW = I_H_NOW = I_H_PEST = D_NLEACH_SW = I_H_NSW = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
@@ -549,7 +552,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
 #' @param useClassicOBI (boolean) Whether you want to only include agronomic
 #'  indicators and scores as intended by the OBI framework or whether you want
-#'  to include environmental indicators in your score aggegation, more akin to BLN 2.0.
+#'  to include environmental indicators in your score aggregation, more akin to BLN 2.0.
 #'  Defaults to TRUE.
 #' 
 #' @import data.table
@@ -699,7 +702,7 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
 #' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
 #' @param useClassicOBI (boolean) Whether you want to only include agronomic
 #'  indicators and scores as intended by the OBI framework or whether you want
-#'  to include environmental indicators in your score aggegation, more akin to BLN 2.0.
+#'  to include environmental indicators in your score aggregation, more akin to BLN 2.0.
 #'  Defaults to TRUE.
 #' 
 #' @import data.table
