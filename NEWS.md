@@ -1,4 +1,8 @@
 # OBIC 4.2.0 2025-xx-xx
+## Added
+* Function ind_gwr_target() to modify I_H_GWR with a correction factor based on
+soiltype and groundwaterclass.
+
 ## Changed
 * In table weight.obic, peat and non-peat weight for indicator I_H_GWR are now
 set to 1 for all landuses. So, this indicator is weighted for each landuse-soiltype combination.

@@ -39,3 +39,31 @@ test_that("B_DRAIN affects scores output for IIIb and IV", {
     )
   )
 })
+
+test_that("Groundwater recharge is correctly modified with a target by ind_gw_target", {
+  dt <- data.table(
+    I_H_GWR = c(0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7),
+    B_SOILTYPE_AGR = c('veen',
+                       'zeeklei', 'zeeklei', 'zeeklei', 'zeeklei',
+                       'loess', 'loess'),
+    B_GWL_CLASS = c('IIa',
+                    'IIa', 'Va', 'Vb', 'IVu',
+                    'IIa', 'VIIIo')
+  )
+  
+  dt[,S_H_GWR := ind_gw_target(I_H_GWR, B_SOILTYPE_AGR, B_GWL_CLASS)]
+  
+  expect_gt(dt[B_SOILTYPE_AGR == 'veen' & B_GWL_CLASS == 'IIa', S_H_GWR], 
+            dt[B_SOILTYPE_AGR == 'zeeklei' & B_GWL_CLASS == 'IIa', S_H_GWR])
+  expect_gt(dt[B_SOILTYPE_AGR == 'zeeklei' & B_GWL_CLASS == 'IIa', S_H_GWR], 
+            dt[B_SOILTYPE_AGR == 'zeeklei' & B_GWL_CLASS == 'Va', S_H_GWR])
+  expect_gt(dt[B_SOILTYPE_AGR == 'zeeklei' & B_GWL_CLASS == 'Va', S_H_GWR], 
+            dt[B_SOILTYPE_AGR == 'zeeklei' & B_GWL_CLASS == 'Vb', S_H_GWR])
+  expect_gt(dt[B_SOILTYPE_AGR == 'zeeklei' & B_GWL_CLASS == 'Vb', S_H_GWR], 
+            dt[B_SOILTYPE_AGR == 'zeeklei' & B_GWL_CLASS == 'IVu', S_H_GWR])
+  expect_gt(dt[B_SOILTYPE_AGR == 'zeeklei' & B_GWL_CLASS == 'IIa', S_H_GWR], 
+            dt[B_SOILTYPE_AGR == 'loess' & B_GWL_CLASS == 'IIa', S_H_GWR])
+  expect_gt(dt[B_SOILTYPE_AGR == 'loess' & B_GWL_CLASS == 'IIa', S_H_GWR], 
+            dt[B_SOILTYPE_AGR == 'loess' & B_GWL_CLASS == 'VIIIo', S_H_GWR])
+
+})

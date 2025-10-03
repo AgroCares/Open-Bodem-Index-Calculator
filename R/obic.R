@@ -346,10 +346,16 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
     if(useClassicOBI == FALSE){
       # Calculate indicators for groundwater functions
-      dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
       dt[, I_H_NGW := ind_n_efficiency(D_NLEACH_GW,'gw')]
       dt[, I_H_NSW := ind_n_efficiency(D_NLEACH_GW,'sw')]
       dt[, I_H_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+      
+      dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
+      
+      # modify groundwater recharge indicator with soil specific target
+      dt[, I_H_GWR := ind_gw_target(I_H_GWR = I_H_GWR,
+                                    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
+                                    B_GWL_CLASS = B_GWL_CLASS)]
     }
     
     # overwrite soil physical functions for compaction when BCS is available
