@@ -36,8 +36,14 @@
   } else {
       print(paste0('some indicators are in weights.obic but do not have a column description: ', paste0(unique(cols.super), collapse= ', ')))
   }
+  
+  OPI_GW <- data.table(
+    variable = rep('D_OPI_GW', 4),
+    type = 'indicator',
+    crop_category = unique(weight.obic$crop_category))
+  weight.obic <- rbind(weight.obic, OPI_GW, fill = TRUE, use.names = TRUE)
 
-  # set groundwaterrechare weight to 1 for all landuse
+  # set groundwater rechare weight to 1 for all landuse
   weight.obic[variable %in% c('I_H_GWR', 'D_OPI_GW'), c('weight_nonpeat', 'weight_peat') := 1]
     
 usethis::use_data(weight.obic, version = 3, overwrite = TRUE, compress = 'xz')

@@ -1,4 +1,4 @@
-﻿variable;type;crop_category;weight_nonpeat;weight_peat
+variable;type;crop_category;weight_nonpeat;weight_peat
 I_C_N;indicator;akkerbouw;1;1
 I_C_P;indicator;akkerbouw;1;1
 I_C_K;indicator;akkerbouw;1;1
@@ -31,7 +31,7 @@ I_M_BIODIVERSITY;indicator;akkerbouw;1;1
 I_BCS;indicator;akkerbouw;1;1
 I_H_GWR;indicator;akkerbouw;1;1
 I_H_NGW;indicator;akkerbouw;1;1
-I_H_NOW;indicator;akkerbouw;1;1
+I_H_NSW;indicator;akkerbouw;1;1
 I_H_PEST;indicator;akkerbouw;1;1
 M_GREEN;measurement;akkerbouw;1;1
 M_COMPOST;measurement;akkerbouw;1;1
@@ -80,7 +80,7 @@ I_M_BIODIVERSITY;indicator;mais;1;1
 I_BCS;indicator;mais;1;1
 I_H_GWR;indicator;mais;1;1
 I_H_NGW;indicator;mais;1;1
-I_H_NOW;indicator;mais;1;1
+I_H_NSW;indicator;mais;1;1
 I_H_PEST;indicator;mais;1;1
 M_GREEN;measurement;mais;1;1
 M_COMPOST;measurement;mais;1;1
@@ -129,7 +129,7 @@ I_M_BIODIVERSITY;indicator;grasland;1;1
 I_BCS;indicator;grasland;1;1
 I_H_GWR;indicator;grasland;1;1
 I_H_NGW;indicator;grasland;1;1
-I_H_NOW;indicator;grasland;1;1
+I_H_NSW;indicator;grasland;1;1
 I_H_PEST;indicator;grasland;-1;-1
 M_GREEN;measurement;grasland;-1;-1
 M_COMPOST;measurement;grasland;1;1
@@ -176,10 +176,10 @@ I_M_CLIMATE;indicator;natuur;1;1
 I_M_WATERQUALITY;indicator;natuur;1;1
 I_M_BIODIVERSITY;indicator;natuur;1;1
 I_BCS;indicator;natuur;1;1
-I_H_GWR;indicator;grasland;-1;-1
-I_H_NGW;indicator;grasland;-1;-1
-I_H_NOW;indicator;grasland;-1;-1
-I_H_PEST;indicator;grasland;-1;-1
+I_H_GWR;indicator;natuur;-1;-1
+I_H_NGW;indicator;natuur;-1;-1
+I_H_NSW;indicator;natuur;-1;-1
+I_H_PEST;indicator;natuur;-1;-1
 M_GREEN;measurement;natuur;-1;-1
 M_COMPOST;measurement;natuur;1;1
 M_NONBARE;measurement;natuur;1;1

@@ -107,7 +107,7 @@ I_B_DI;indicator;Ziektewerendheid;Disease / pest resistance;-;
 I_B_SF;indicator;Activiteit bodemleven;Soil life activity;-;
 I_H_GWR;indicator;Doorlatendheid voor water;Unsaturated permeability;-;
 I_H_NGW;indicator;Efficientie van stikstofmeststoffen in relatie tot kwaliteit grondwater;Nitrogen efficiency for ground water;-;
-I_H_NOW;indicator;Efficientie van stikstofmeststoffen in relatie tot kwaliteit oppervlaktewater;Nitrogen efficiency for surface water;-;
+I_H_NSW;indicator;Efficientie van stikstofmeststoffen in relatie tot kwaliteit oppervlaktewater;Nitrogen efficiency for surface water;-;
 I_H_PEST;indicator;Uitspoelingsrisico gewasbestrijdingsmiddelen naar grondwater;Leaching risk of pesticides to groundwater;-;
 I_B_NEM;indicator;Plant parasitaire nematoden;Plant parasitic nematodes;;
 I_E_NGW;indicator;N  vasthoudend vermogen voor grondwater;Nitrogen retention for ground water;;
