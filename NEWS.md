@@ -1,15 +1,21 @@
 # OBIC 4.2.0 2025-xx-xx
 ## Added
-* Function ind_gwr_target() to modify I_H_GWR with a correction factor based on
-soiltype and groundwaterclass.
+* Function ind_gw_target() to modify I_H_GWR with a correction factor based on
+soiltype and groundwaterclass akin to the groundwaterrecharge score from BBWPC.
+* D_OPI_GW to weight.obic
 
 ## Changed
 * In table weight.obic, peat and non-peat weight for indicator I_H_GWR are now
-set to 1 for all landuses. So, this indicator is weighted for each landuse-soiltype combination.
+set to -1 for all landuses. This indicator is replaced in calculating scores by
+D_OPI_GW to get the same scores as would be obtained by BBWPC. D_OPI_GW applies
+to all soil types.
 * Argument useClassicOBI is added to obi_field(), obi_field_dt(), and obi_farm().
 This argument defaults to TRUE, when TRUE, only agronomic indicators are calculated
 and aggregated. When FALSE, indicators for water quality are calculated and aggregated
 in the environmental score and total score.
+* When useClassicOBI = FALSE, water indicators (I_H_x) are included in the 
+calculation of S_E_OBI_A. I_H_GWR isn't included in this aggregation, this indicator
+is replaced by D_OPI_GW.
 
 # OBIC 4.1.0 2025-08-04
 ## Added

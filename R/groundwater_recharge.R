@@ -151,24 +151,27 @@ ind_permeability <- function(D_WRI_K){
 #' factor based on the soiltype and groundwaterclass. Wetter groundwaterclasses
 #' give higher values, peat gives higher values than clay, and clay higher than sand.
 #' 
-#' @param I_H_GWR (numeric) Evaluation of groundwaterrecharge
+#' @param D_RISK_GWR (numeric) Groundwater recharge risk (distance to target, i.e. the 1 - I_H_GWR)
 #' @param B_GWL_CLASS (character) The groundwater table class
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' 
 #' @examples
 #' ind_gw_target(0.5, 'zeeklei', 'VIu')
 #' 
-#' 
+#' @returns D_OPI_GW (numeric) The opportunity index for groundwater recharge. 
+#' This is the groundwater recharge indicator score modified by a target (nl: opgave).
+#' This target is a measure for how relevant this soil function is given, in this
+#' case, the soiltype and groundwaterclass.
 #' @export
-ind_gw_target <- function(I_H_GWR, B_SOILTYPE_AGR, B_GWL_CLASS){
+ind_gw_target <- function(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS){
   
   # add visual binding
-  cfgw = NULL
+  cfgw = D_OPI_GW = NULL
   
   # check inputs
-  arg.length <- max(length(I_H_GWR), length(B_SOILTYPE_AGR), length(B_GWL_CLASS))
+  arg.length <- max(length(D_RISK_GWR), length(B_SOILTYPE_AGR), length(B_GWL_CLASS))
   
-  checkmate::assert_numeric(I_H_GWR, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_numeric(D_RISK_GWR, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
   
   checkmate::assert_character(B_SOILTYPE_AGR, any.missing = FALSE, len = arg.length)
   checkmate::assert_subset(B_SOILTYPE_AGR, choices = unique(OBIC::soils.obic$soiltype))
@@ -182,7 +185,7 @@ ind_gw_target <- function(I_H_GWR, B_SOILTYPE_AGR, B_GWL_CLASS){
   
   # gather as data.table
   dt <- data.table(
-    I_H_GWR = I_H_GWR,
+    D_RISK_GWR = D_RISK_GWR,
     B_SOILTYPE_AGR = B_SOILTYPE_AGR,
     B_GWL_CLASS = B_GWL_CLASS
   )
@@ -200,13 +203,13 @@ ind_gw_target <- function(I_H_GWR, B_SOILTYPE_AGR, B_GWL_CLASS){
        c('Va', 'Vao', 'Vad'), cfgw := 0.5] # very high GWL in winter, low in summer
   dt[is.na(cfgw) & B_GWL_CLASS %in% 
        c('Vb', 'Vbo', 'Vbd'), cfgw := 0.75] # high GWL in winter, low in summer
-  dt[B_SOILTYPE_AGR %in% c('dekzand', 'dalgrond', 'loess', 'duinzand'), cfgw := pmin(cfgw*2, 1)] # double cf if in drought area
+  dt[B_SOILTYPE_AGR %in% c('dekzand', 'dalgrond', 'loess', 'duinzand'), cfgw := pmin(cfgw*2, 1)] # double cf if in drought area, here drought sensitive area is assumed to be on sandy or loess soils.
   dt[is.na(cfgw), cfgw := 1]
   
-  dt[,I_H_GWR := (0.1 + cfgw/(1/0.9)) * OBIC::evaluate_logistic(I_H_GWR, b=6, x0=0.4, v=.7)]
+  dt[, D_OPI_GW := (0.1 + cfgw/(1/0.9)) * OBIC::evaluate_logistic(D_RISK_GWR, b=6, x0=0.4, v=.7)]
   
   # calculate groundwater recharge score modified by target
-  dt[,S_H_GWR := 1-(I_H_GWR * cfgw)]
+  dt[,D_OPI_GW := 1-(D_OPI_GW * cfgw)]
   
-  return(dt$S_H_GWR)
+  return(dt$D_OPI_GW)
 }

@@ -4,14 +4,20 @@
 \alias{ind_gw_target}
 \title{Modify a groundwater recharge indicator with a target}
 \usage{
-ind_gw_target(I_H_GWR, B_SOILTYPE_AGR, B_GWL_CLASS)
+ind_gw_target(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS)
 }
 \arguments{
-\item{I_H_GWR}{(numeric) Evaluation of groundwaterrecharge}
+\item{D_RISK_GWR}{(numeric) Groundwater recharge risk (distance to target, i.e. the 1 - I_H_GWR)}
 
 \item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
 \item{B_GWL_CLASS}{(character) The groundwater table class}
+}
+\value{
+D_OPI_GW (numeric) The opportunity index for groundwater recharge. 
+This is the groundwater recharge indicator score modified by a target (nl: opgave).
+This target is a measure for how relevant this soil function is given, in this
+case, the soiltype and groundwaterclass.
 }
 \description{
 This function modifiers the groundwater recharge indicator with a correction
@@ -20,6 +26,5 @@ give higher values, peat gives higher values than clay, and clay higher than san
 }
 \examples{
 ind_gw_target(0.5, 'zeeklei', 'VIu')
-
 
 }

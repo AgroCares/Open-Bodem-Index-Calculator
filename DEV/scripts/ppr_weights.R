@@ -38,6 +38,6 @@
   }
 
   # set groundwaterrechare weight to 1 for all landuse
-  weight.obic[variable == 'I_H_GWR', c('weight_nonpeat', 'weight_peat') := 1]
+  weight.obic[variable %in% c('I_H_GWR', 'D_OPI_GW'), c('weight_nonpeat', 'weight_peat') := 1]
     
 usethis::use_data(weight.obic, version = 3, overwrite = TRUE, compress = 'xz')

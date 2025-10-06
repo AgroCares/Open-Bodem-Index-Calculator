@@ -130,6 +130,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   weight_peat = weight_nonpeat = variable = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
   var = cf = ncat = id = S_T_OBI_A = NULL
+  D_RISK_GWR = D_OPI_GW = NULL
   
   checkmate::assert_subset(B_GWL_CLASS, choices = c(
     "I", "Ia", "Ic", "II", "IIa", "IIb", "IIc", "III", "IIIa", "IIIb", "IV",
@@ -352,8 +353,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
       
       dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
       
+      dt[, D_RISK_GWR := 1 - I_H_GWR]
+      
       # modify groundwater recharge indicator with soil specific target
-      dt[, I_H_GWR := ind_gw_target(I_H_GWR = I_H_GWR,
+      dt[, D_OPI_GW := ind_gw_target(D_RISK_GWR = D_RISK_GWR,
                                     B_SOILTYPE_AGR = B_SOILTYPE_AGR,
                                     B_GWL_CLASS = B_GWL_CLASS)]
     }
@@ -393,7 +396,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_H|year|crop_cat|SOILT|^ID',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_H|year|crop_cat|SOILT|^ID|D_OPI_GW',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
@@ -411,7 +414,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
     #dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
-    dt.melt[cat == 'H', cat := 'E'] # include water functions indicators in environmental
+    dt.melt[cat %in% c('H', 'OPI') &!indicator == 'I_H_GWR', cat := 'E'] # include water functions indicators in environmental score. D_OPI_GW replaces I_H_GWR
     
     # Determine number of indicators per category
     dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by = .(ID, cat)]
@@ -442,7 +445,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        by = .(indicator, ID)]
        
     # non relevant indicators, set to -999
-    out.ind[is.na(value), value := -999]
+    out.ind[is.na(value), value := -999] 
     
     
   # Step 5 Add scores ------------------
