@@ -11,7 +11,7 @@ test_that("obic_farm works with extra indicators", {
   )
   expect_equal(
     length(out$field),
-    expected = 39,
+    expected = 40,
     tolerance = 0.01
   )
   expect_equal(

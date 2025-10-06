@@ -454,7 +454,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     out.score <-  dt.melt[,list(ID, cat, year, cf, value = value.w)]
     
     # remove indicator categories that are not used for scoring
-    out.score <- out.score[!cat %in% c('IBCS','IM','BCS')]
+    out.score <- out.score[!cat %in% c('IBCS','IM','BCS', 'H')]
     
     # calculate weighted average per indicator category
     out.score <- out.score[,list(value = sum(cf * pmax(0,value) / sum(cf[value >= 0]))), 
