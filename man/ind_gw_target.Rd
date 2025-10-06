@@ -25,6 +25,6 @@ factor based on the soiltype and groundwaterclass. Wetter groundwaterclasses
 give higher values, peat gives higher values than clay, and clay higher than sand.
 }
 \examples{
-ind_gw_target(0.5, 'zeeklei', 'VIu')
+ind_gw_target(0.5, 'zeeklei', 'IVu')
 
 }

@@ -156,7 +156,7 @@ ind_permeability <- function(D_WRI_K){
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' 
 #' @examples
-#' ind_gw_target(0.5, 'zeeklei', 'VIu')
+#' ind_gw_target(0.5, 'zeeklei', 'IVu')
 #' 
 #' @returns D_OPI_GW (numeric) The opportunity index for groundwater recharge. 
 #' This is the groundwater recharge indicator score modified by a target (nl: opgave).
