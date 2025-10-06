@@ -824,7 +824,7 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
   dt.farm[grepl('^I_P|^S_P|^I_BCS',indicator),c(nclass) := as.list(th_obi_p)]
   dt.farm[grepl('^I_B|^S_B',indicator) & !grepl('^I_BCS',indicator),c(nclass) := as.list(th_obi_b)]
   dt.farm[grepl('^I_M|^S_M',indicator),c(nclass) := as.list(th_obi_m)]
-  dt.farm[grepl('^I_H|^S_H',indicator),c(nclass) := as.list(th_obi_h)]
+  dt.farm[grepl('^I_H|^S_H|D_OPI_GW',indicator),c(nclass) := as.list(th_obi_h)]
   dt.farm[grepl('^I_E|^S_E',indicator),c(nclass) := as.list(th_obi_e)]
   dt.farm[grepl('^S_T_OBI',indicator),c(nclass) := as.list((th_obi_c + th_obi_p + th_obi_b)/3)]
   
@@ -854,7 +854,7 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
   dt.farm2[,S_OBI_NFIELDS := paste0(S_OBI_NFIELDS_HIGH,"/",S_OBI_NFIELDS_MEDIUM,"/",S_OBI_NFIELDS_LOW)]
   
   # make separate tables with indicators scores
-  dt.indicators <- dt.farm2[grepl('^I_',indicator)]
+  dt.indicators <- dt.farm2[grepl('^I_|^D_OPI',indicator)]
   dt.scores <- dt.farm2[grepl('^S_',indicator)]
   setnames(dt.scores,'indicator','score')
   

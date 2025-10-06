@@ -157,7 +157,7 @@ test_that('obic_field_dt works with extended OBI', {
       S_E_OBI_A = 0.669,
       S_M_OBI_A = 0.069,
       S_P_OBI_A = 0.474,
-      S_T_OBI_A = 0.559,
+      S_T_OBI_A = 0.5,
       RM_C_1 = "M8",
       RM_C_2 = "M1",
       RM_C_3 = "M2",
