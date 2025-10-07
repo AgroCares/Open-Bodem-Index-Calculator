@@ -1,7 +1,7 @@
 # make an example set for five fields
 dt <- OBIC::binnenveld[ID <=5]
 
-test_that("obic_farm works with extra indicators", {
+test_that("obic_farm works with extra indicators when not using classic obi", {
   out <- obic_farm(dt, useClassicOBI = FALSE)
   
   expect_equal(
@@ -67,7 +67,7 @@ test_that("obic_farm works with extra indicators", {
   )
 })
 
-test_that("obic_farm works with extra indicators", {
+test_that("obic_farm works with classic setting", {
   out <- obic_farm(dt, useClassicOBI = TRUE)
   
   expect_equal(
