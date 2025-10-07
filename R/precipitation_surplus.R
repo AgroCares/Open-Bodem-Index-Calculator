@@ -69,12 +69,7 @@ calc_psp <- function(B_LU_BRP, M_GREEN){
          year == i-1 & month == 12, c("crop_name","crop_cover","mcf") := list("winter cereal", 1, c(0.5,0.6,0.6))]
     
   }
-  
-  
-  # Set M_GREEN to TRUE for maize and potato cultivation
-  dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
-  
-  
+
   ## Select years with catch crops and remove years before winter cereal cultivation -> winter cereal is the catch crop
   year_cc <- unique(dt[M_GREEN == TRUE, year])
   year_cc <- year_cc[!year_cc %in% (year_wc - 1)]

@@ -2,7 +2,7 @@ test_that("calc_psp works", {
   expect_equal(
     calc_psp(c(233,256,266,259,2014),rep(FALSE,5)
     ),
-    expected = c(417.695, 413.397, 209.475, 354.146, 387.193),
+    expected = c(417.695, 413.397, 209.475, 375, 430),
     tolerance = 0.01
   )
   
