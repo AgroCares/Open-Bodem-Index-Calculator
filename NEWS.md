@@ -16,6 +16,9 @@ in the environmental score and total score.
 * When useClassicOBI = FALSE, water indicators (I_H_x) are included in the 
 calculation of S_E_OBI_A. I_H_GWR isn't included in this aggregation, this indicator
 is replaced by D_OPI_GW.
+* M_GREEN is no longer set to TRUE for potato and maize when calculating
+precipitation surplus with `calc_psp()`. Make sure to provide an accurate value
+for M_GREEN
 
 # OBIC 4.1.0 2025-08-04
 ## Added
