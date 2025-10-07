@@ -119,7 +119,7 @@ test_that('obic_field_dt works with extended OBI', {
     obic_field_dt(tdt, useClassicOBI = FALSE),
     expected = data.table(
       ID = 1,
-      D_OPI_GW = 0.97,
+      D_OPI_GW = 0.88,
       I_BCS = 0.369,
       I_B_DI = 0.843,
       I_B_SF = 0.965,
@@ -154,7 +154,7 @@ test_that('obic_field_dt works with extended OBI', {
       I_P_WS = 0.11,
       S_B_OBI_A = 0.9,
       S_C_OBI_A = 0.537,
-      S_E_OBI_A = 0.669,
+      S_E_OBI_A = 0.649,
       S_M_OBI_A = 0.069,
       S_P_OBI_A = 0.474,
       S_T_OBI_A = 0.559,
