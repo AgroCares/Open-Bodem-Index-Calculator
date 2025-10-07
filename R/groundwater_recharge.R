@@ -209,7 +209,8 @@ ind_gw_target <- function(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS){
   dt[, D_OPI_GW := (0.1 + cfgw/(1/0.9)) * OBIC::evaluate_logistic(D_RISK_GWR, b=6, x0=0.4, v=.7)]
   
   # calculate groundwater recharge score modified by target
-  dt[,D_OPI_GW := 1-(D_OPI_GW * cfgw)]
+  dt[,D_OPI_GW := 1-D_OPI_GW]
+  
   
   return(dt$D_OPI_GW)
 }
