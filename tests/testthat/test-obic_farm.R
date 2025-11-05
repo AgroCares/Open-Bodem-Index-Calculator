@@ -1,7 +1,9 @@
 # make an example set for five fields
 dt <- OBIC::binnenveld[ID <=5]
+dt[,B_DRAIN := FALSE]
 
 test_that("obic_farm works with extra indicators when not using classic obi", {
+  expect_no_condition(obic_farm(dt, useClassicOBI = FALSE))
   out <- obic_farm(dt, useClassicOBI = FALSE)
   
   expect_equal(
@@ -68,7 +70,9 @@ test_that("obic_farm works with extra indicators when not using classic obi", {
 })
 
 test_that("obic_farm works with classic setting", {
-  out <- obic_farm(dt, useClassicOBI = TRUE)
+  dtclassic <- copy(dt)
+  dtclassic[,B_DRAIN := NULL]
+  out <- obic_farm(dtclassic, useClassicOBI = TRUE)
   
   expect_equal(
     names(out),
@@ -130,4 +134,16 @@ test_that("obic_farm works with classic setting", {
     expected = c(8,14),
     tolerance = 0.01
   )
+})
+
+test_that('obic_farm is sensitive to changing B_FERT_NORM when useClassicOBI == FALSE',{
+  dt.fnorm1 <- copy(dt)
+  dt.fnorm1[,B_FERT_NORM_FR := 1]
+  dt.fnorm05 <- copy(dt)
+  dt.fnorm05[,B_FERT_NORM_FR := 0.5]
+  
+  out.fnorm1 <- obic_farm(dt.fnorm1, useClassicOBI = FALSE)
+  out.fnorm05 <- obic_farm(dt.fnorm05, useClassicOBI = FALSE)
+  
+  expect_false(all(out.fnorm1$fields$I_H_NGW == out.fnorm05$fields$I_H_NGW))
 })

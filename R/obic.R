@@ -617,7 +617,10 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
   
   # check presence of required columns
   checkmate::assert_true(all(dt.req %in% colnames(dt)),
-                         .var.name = paste(c('Not all required columns are present in data.table, required columns are:',dt.req),collapse = ' '))
+                         .var.name = paste(c('Not all required columns are present in data.table, required columns are:',
+                                             dt.req,
+                                             'you are missing:',
+                                             dt.req[!dt.req %in% colnames(dt)]),collapse = ' '))
   
   # check which BodemConditieScore input is missing
   bcs.all <- c('A_C_BCS', 'A_CC_BCS','A_GS_BCS','A_P_BCS','A_RD_BCS','A_EW_BCS','A_SS_BCS','A_RT_BCS','A_SC_BCS')
@@ -778,6 +781,8 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
               'A_N_RT','A_CN_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC','ID')
+  # add B_DRAIN as requirement when not using classic OBI
+  if(!useClassicOBI){dt.req <- c(dt.req, 'B_DRAIN')}
   
   # check presence of required columns
   checkmate::assert_true(all(dt.req %in% colnames(dt)),
@@ -796,15 +801,20 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
   smc.all <- 'M_COMPOST'
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
+  # check if fertiliser norm is missing
+  fert.all <- 'B_FERT_NORM_FR'
+  fert.missing <- fert.all[!fert.all %in% colnames(dt)]
+  
   # check if no unexpected column names are present in dt
-  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
+  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, fert.all, "ID"))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
-                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")]))}
+                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, fert.all, "ID")]))}
   
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
+  if(length(fert.missing)>0){dt[,c(fert.missing) := 1]}
   
   # set thresholds for number of fields per farm
   th_obi_c = c(0.5,0.75,1.0)
