@@ -16,8 +16,8 @@
 #' @param B_FERT_NORM_FR (numeric) The fraction of the application norm utilized
 #' 
 #' @examples 
-#' calc_n_efficiency(1019,'dekzand','IV','Zuidwest-Brabant',4.5,3.5,0.8,0.6,0.2,78,FALSE,1)
-#' calc_n_efficiency(256,'veen','II','Centraal Veehouderijgebied',4.5,3.5,0.8,0.6,0.2,250,FALSE,1)
+#' calc_n_efficiency(1019,'dekzand','IV','Zuidwest-Brabant',4.5,3.5,0.8,0.6,0.2,'ow',FALSE,1)
+#' calc_n_efficiency(256,'veen','II','Centraal Veehouderijgebied',4.5,3.5,0.8,0.6,0.2,'gw',FALSE,1)
 #'
 #' @return 
 #' The estimated index for the nitrogen use efficiency, as being affected by soil properties. A numeric value.
@@ -54,6 +54,7 @@ calc_n_efficiency <- function(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, 
                                                   'Centraal Veehouderijgebied','Oostelijk Veehouderijgebied','Noordelijk Weidegebied',
                                                   'Veenkoloni\u00EBn en Oldambt','Veenkolonien en Oldambt','Bouwhoek en Hogeland'), empty.ok = FALSE)
   checkmate::assert_numeric(B_FERT_NORM_FR, lower = 0, upper = 1, any.missing = FALSE, len = arg.length)
+  checkmate::assert_subset(leaching_to, choices = c('gw', 'ow'))
   
   # Check SOM and CLAY
   checkmate::assert_numeric(A_SOM_LOI, lower = 0.5, upper = 75, any.missing = FALSE, len = arg.length)
