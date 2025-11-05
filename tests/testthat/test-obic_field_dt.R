@@ -230,5 +230,6 @@ test_that('B_FERT_NORM_FR can be changed in obic_field_dt',{
   fnorm05 <- copy(tdt)
   fnorm05[,B_FERT_NORM_FR := 0.5]
   
-  expect_false(obic_field_dt(fnorm1) == obic_field_dt(fnorm05))
+  expect_false(all(obic_field_dt(fnorm1, useClassicOBI = FALSE) == 
+                 obic_field_dt(fnorm05, useClassicOBI = FALSE)))
 })

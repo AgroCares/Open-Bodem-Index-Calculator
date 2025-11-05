@@ -310,7 +310,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, D_NLEACH_GW := calc_n_efficiency(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, A_SOM_LOI, A_CLAY_MI,
                                          D_PBI, D_K,D_PH_DELTA, leaching_to = 'gw', M_GREEN, B_FERT_NORM_FR)]
     dt[, D_NLEACH_SW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
-                                         D_PBI,D_K,D_PH_DELTA,leaching_to = 'sw', M_GREEN,B_FERT_NORM_FR)]
+                                         D_PBI,D_K,D_PH_DELTA,leaching_to = 'ow', M_GREEN,B_FERT_NORM_FR)]
     dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
                                                A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
     
@@ -637,7 +637,7 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
   fert.missing <- fert.all[!fert.all %in% colnames(dt)]
   
   # check if no unexpected column names are present in dt
-  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
+  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, fert.all,"ID"))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
                            colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, fert.all, "B_DRAIN", "ID")]))}
   
@@ -645,7 +645,7 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
-  if(length(fert.missing)>0){dt[,c(fert.missing) := NA_real_]}
+  if(length(fert.missing)>0){dt[,c(fert.missing) := 1]}
   
   # calculate obic_field
   out <- obic_field(B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
@@ -688,6 +688,7 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
                     A_RT_BCS = dt$A_RT_BCS,
                     A_SC_BCS = dt$A_SC_BCS,
                     B_DRAIN = dt$B_DRAIN,
+                    B_FERT_NORM_FR = dt$B_FERT_NORM_FR,
                     M_COMPOST = dt$M_COMPOST,
                     M_GREEN = dt$M_GREEN, 
                     M_NONBARE = dt$M_NONBARE, 
