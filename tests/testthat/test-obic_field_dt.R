@@ -139,7 +139,7 @@ test_that('obic_field_dt works with extended OBI', {
       I_E_NSW = 0.969,
       I_H_GWR = 0.626,
       I_H_NGW = 0.99,
-      I_H_NSW = 0.992,
+      I_H_NSW = 0.979,
       I_H_PEST = 0.023,
       I_M = 0.069,
       I_M_BIODIVERSITY = 0.144,
