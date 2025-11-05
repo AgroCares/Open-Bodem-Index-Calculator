@@ -115,6 +115,9 @@ test_that("obic_field_dt works with classic OBI", {
 
 test_that('obic_field_dt works with extended OBI', {
   # test extended obi
+  expect_error(obic_field(tdt, useClassicOBI = FALSE)) # B_DRAIN is missing
+  
+  tdt[, B_DRAIN := FALSE]
   expect_equal(
     obic_field_dt(tdt, useClassicOBI = FALSE),
     expected = data.table(
@@ -174,20 +177,20 @@ test_that('obic_field_dt works with extended OBI', {
   
 })
 
-# get required column names, should be equal to dt.req in obic_field_dt()
-req.cols <- c('B_SOILTYPE_AGR', 'B_GWL_CLASS', 'B_SC_WENR', 'B_HELP_WENR', 'B_AER_CBS', 
-              'B_GWL_GLG', 'B_GWL_GHG', 'B_GWL_ZCRIT', 'B_LU_BRP', 'B_LU_BRP', 
-              'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI', 'A_PH_CC',
-              'A_N_RT', 'A_CN_FR', 'A_S_RT', 'A_N_PMN', 'A_P_AL', 'A_P_CC', 'A_P_WA',
-              'A_CEC_CO', 'A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
-              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID')
-
-# take subset of tdt
-stdt <- tdt[,..req.cols]
-
 test_that('obic_field_dt() works with just required columns', {
+  # get required column names, should be equal to dt.req in obic_field_dt()
+  req.cols <- c('B_SOILTYPE_AGR', 'B_GWL_CLASS', 'B_SC_WENR', 'B_HELP_WENR', 'B_AER_CBS', 
+                'B_GWL_GLG', 'B_GWL_GHG', 'B_GWL_ZCRIT', 'B_LU_BRP', 'B_LU_BRP', 
+                'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI', 'A_PH_CC',
+                'A_N_RT', 'A_CN_FR', 'A_S_RT', 'A_N_PMN', 'A_P_AL', 'A_P_CC', 'A_P_WA',
+                'A_CEC_CO', 'A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
+                'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID')
+  
+  # take subset of tdt
+  stdt <- tdt[,..req.cols]
+  
   expect_equal(
-    obic_field_dt(stdt, output = "scores"),
+    obic_field_dt(stdt, output = "scores", useClassicOBI = TRUE),
     expected = 
       data.table(
         ID = 1,
@@ -201,4 +204,31 @@ test_that('obic_field_dt() works with just required columns', {
       ),
     tolerance = 0.01
   )
+  
+  stdt[, B_DRAIN := TRUE]
+  expect_equal(
+    object = obic_field_dt(stdt, output = "scores", useClassicOBI = FALSE),
+    expected = 
+      data.table(
+        ID = 1,
+        S_B_OBI_A = 0.900,
+        S_C_OBI_A = 0.537,
+        S_E_OBI_A = 0.658,
+        S_M_OBI_A = 0.287,
+        S_P_OBI_A = 0.571,
+        S_T_OBI_A = 0.602,
+        key = 'ID'
+      ),
+    tolerance = 0.01
+  )
+  
+})
+
+test_that('B_FERT_NORM_FR can be changed in obic_field_dt',{
+  fnorm1 <- copy(tdt)
+  fnorm1[,B_FERT_NORM_FR := 1]
+  fnorm05 <- copy(tdt)
+  fnorm05[,B_FERT_NORM_FR := 0.5]
+  
+  expect_false(obic_field_dt(fnorm1) == obic_field_dt(fnorm05))
 })

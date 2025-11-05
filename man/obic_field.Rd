@@ -44,7 +44,7 @@ obic_field(
   A_SS_BCS = NA,
   A_RT_BCS = NA,
   A_SC_BCS = NA,
-  B_DRAIN = FALSE,
+  B_DRAIN = NA,
   B_FERT_NORM_FR = 1,
   M_COMPOST = NA_real_,
   M_GREEN = NA,

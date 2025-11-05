@@ -104,7 +104,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
                        A_C_BCS = NA, A_CC_BCS = NA,A_GS_BCS = NA,A_P_BCS = NA,A_RD_BCS = NA,
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
-                       B_DRAIN = FALSE, B_FERT_NORM_FR = 1,
+                       B_DRAIN = NA, B_FERT_NORM_FR = 1,
                        M_COMPOST  = NA_real_,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
@@ -138,6 +138,9 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     "VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo"
   ))
   checkmate::assert_logical(useClassicOBI, len = 1, any.missing = FALSE)
+  if(!useClassicOBI){
+    checkmate::assert_logical(B_DRAIN, any.missing = FALSE)
+  }
   
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
@@ -609,6 +612,8 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
               'A_N_RT','A_CN_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
+  # add B_DRAIN as requirement when not using classic OBI
+  if(!useClassicOBI){dt.req <- c(dt.req, 'B_DRAIN')}
   
   # check presence of required columns
   checkmate::assert_true(all(dt.req %in% colnames(dt)),
@@ -627,15 +632,20 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
   smc.all <- 'M_COMPOST'
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
+  # check if fertiliser norm is missing
+  fert.all <- 'B_FERT_NORM_FR'
+  fert.missing <- fert.all[!fert.all %in% colnames(dt)]
+  
   # check if no unexpected column names are present in dt
   check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
-                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")]))}
+                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, fert.all, "B_DRAIN", "ID")]))}
   
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
+  if(length(fert.missing)>0){dt[,c(fert.missing) := NA_real_]}
   
   # calculate obic_field
   out <- obic_field(B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
@@ -677,6 +687,7 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
                     A_SS_BCS = dt$A_SS_BCS,
                     A_RT_BCS = dt$A_RT_BCS,
                     A_SC_BCS = dt$A_SC_BCS,
+                    B_DRAIN = dt$B_DRAIN,
                     M_COMPOST = dt$M_COMPOST,
                     M_GREEN = dt$M_GREEN, 
                     M_NONBARE = dt$M_NONBARE, 
