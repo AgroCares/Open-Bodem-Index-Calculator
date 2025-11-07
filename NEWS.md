@@ -1,4 +1,4 @@
-# OBIC 4.2.0 2025-xx-xx
+# OBIC 5.0.0 2025-xx-xx
 ## Added
 * Function ind_gw_target() to modify I_H_GWR with a correction factor based on
 soiltype and groundwaterclass akin to the groundwaterrecharge score from BBWPC.
@@ -17,9 +17,16 @@ in the environmental score and total score.
 calculation of S_E_OBI_A. I_H_GWR isn't included in this aggregation, this indicator
 is replaced by D_OPI_GW.
 * B_DRAIN no longer has a default value and must be supplied when useClassicOBI = FALSE
+* B_FERT_NORM_FR now must be in the data.table supplied to `obic_field_dt()` or 
+`obic_farm()`, failing to do so will return an error. This is a breaking change for
+users of these functions.
 * M_GREEN is no longer set to TRUE for potato and maize when calculating
 precipitation surplus with `calc_psp()`. Make sure to provide an accurate value
 for M_GREEN
+
+## Fixed
+* B_FERT_NORM_FR and B_DRAIN can now be supplied when using `obic_field_dt()` or
+`obic_farm()`.
 
 # OBIC 4.1.0 2025-08-04
 ## Added

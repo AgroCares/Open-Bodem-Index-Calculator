@@ -1,6 +1,7 @@
 # make an example set for five fields
 dt <- OBIC::binnenveld[ID <=5]
 dt[,B_DRAIN := FALSE]
+dt[,B_FERT_NORM_FR := 1]
 
 test_that("obic_farm works with extra indicators when not using classic obi", {
   expect_no_condition(obic_farm(dt, useClassicOBI = FALSE))
@@ -138,7 +139,6 @@ test_that("obic_farm works with classic setting", {
 
 test_that('obic_farm is sensitive to changing B_FERT_NORM when useClassicOBI == FALSE',{
   dt.fnorm1 <- copy(dt)
-  dt.fnorm1[,B_FERT_NORM_FR := 1]
   dt.fnorm05 <- copy(dt)
   dt.fnorm05[,B_FERT_NORM_FR := 0.5]
   

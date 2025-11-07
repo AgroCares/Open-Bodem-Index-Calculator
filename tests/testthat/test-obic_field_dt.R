@@ -55,7 +55,8 @@ tdt <- data.table(
   M_SSPM = FALSE,
   M_STRAWRESIDUE = FALSE,
   ID = 1,
-  key = 'ID'
+  key = 'ID',
+  B_FERT_NORM_FR = 1
 )
 
 test_that("obic_field_dt works with classic OBI", {
@@ -184,7 +185,8 @@ test_that('obic_field_dt() works with just required columns', {
                 'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI', 'A_PH_CC',
                 'A_N_RT', 'A_CN_FR', 'A_S_RT', 'A_N_PMN', 'A_P_AL', 'A_P_CC', 'A_P_WA',
                 'A_CEC_CO', 'A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
-                'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID')
+                'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC', 'ID',
+                'B_FERT_NORM_FR')
   
   # take subset of tdt
   stdt <- tdt[,..req.cols]
@@ -225,8 +227,8 @@ test_that('obic_field_dt() works with just required columns', {
 })
 
 test_that('B_FERT_NORM_FR can be changed in obic_field_dt',{
+  tdt[, B_DRAIN := FALSE]
   fnorm1 <- copy(tdt)
-  fnorm1[,B_FERT_NORM_FR := 1]
   fnorm05 <- copy(tdt)
   fnorm05[,B_FERT_NORM_FR := 0.5]
   
