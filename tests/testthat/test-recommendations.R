@@ -4,7 +4,6 @@ test_that("obic_recommendations_bkp works", {
   dt <- OBIC::binnenveld[ID <=5]
   B_LU_BRP <- c(233,266,2014,256,308)
   B_SOILTYPE_AGR <- c("dekzand","rivierklei","dekzand","rivierklei","dekzand")
-  dt[, B_FERT_NORM_FR := 1]
   
   dt.obi <- obic_farm(dt)
   dt.score <- dt.obi$fields

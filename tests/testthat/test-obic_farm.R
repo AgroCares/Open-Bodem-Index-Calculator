@@ -1,7 +1,6 @@
 # make an example set for five fields
 dt <- OBIC::binnenveld[ID <=5]
 dt[,B_DRAIN := FALSE]
-dt[,B_FERT_NORM_FR := 1]
 
 test_that("obic_farm works with extra indicators when not using classic obi", {
   expect_no_condition(obic_farm(dt, useClassicOBI = FALSE))

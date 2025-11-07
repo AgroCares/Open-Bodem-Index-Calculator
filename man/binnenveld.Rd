@@ -5,7 +5,7 @@
 \alias{binnenveld}
 \title{Example dataset for use in OBIC package}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 3251 rows and 55 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 3251 rows and 56 columns.
 }
 \usage{
 binnenveld
