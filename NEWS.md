@@ -1,4 +1,4 @@
-# OBIC 5.0.0 2025-xx-xx
+# OBIC 5.0.0 2025-11-13
 ## Added
 * Function ind_gw_target() to modify I_H_GWR with a correction factor based on
 soiltype and groundwaterclass akin to the groundwaterrecharge score from BBWPC.
