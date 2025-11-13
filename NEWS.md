@@ -20,9 +20,9 @@ is replaced by D_OPI_GW.
 * B_FERT_NORM_FR now must be in the data.table supplied to `obic_field_dt()` or 
 `obic_farm()`, failing to do so will return an error. This is a breaking change for
 users of these functions.
-* M_GREEN is no longer set to TRUE for potato and maize when calculating
-precipitation surplus with `calc_psp()`. Make sure to provide an accurate value
-for M_GREEN
+* M_GREEN is longer set to TRUE for potato and maize by `add_management()`. This
+means that M_GREEN is overwritten for such cultivations when using one of the wrapper
+functions.
 
 ## Fixed
 * B_FERT_NORM_FR and B_DRAIN can now be supplied when using `obic_field_dt()` or

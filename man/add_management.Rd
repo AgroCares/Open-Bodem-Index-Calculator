@@ -69,6 +69,10 @@ For each B_LU_BRP 15 management measures are given, all as boolean variables exc
 \description{
 This function adds default management input variables given soil type and land use
 }
+\details{
+Potato and maize cultivations on sandy soil will always have M_GREEN = TRUE,
+in line with Dutch legislation.
+}
 \examples{
 add_management(ID = 1, B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand')
 add_management(ID = 1, B_LU_BRP = c(256,1019), B_SOILTYPE_AGR = rep('dekzand',2))

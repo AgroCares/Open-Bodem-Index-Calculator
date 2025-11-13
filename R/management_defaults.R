@@ -23,6 +23,11 @@
 #'  
 #' @import data.table
 #' 
+#' @details
+#' Potato and maize cultivations on sandy soil will always have M_GREEN = TRUE,
+#' in line with Dutch legislation.
+#' 
+#' 
 #' @examples 
 #' add_management(ID = 1, B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand')
 #' add_management(ID = 1, B_LU_BRP = c(256,1019), B_SOILTYPE_AGR = rep('dekzand',2))
@@ -73,7 +78,7 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
 
   # add categories for crop type
   crops.obic <- as.data.table(OBIC::crops.obic)
-  dt <- merge(dt, crops.obic[, .(crop_code, crop_category)],by.x = "B_LU_BRP", by.y = "crop_code",all.x=TRUE)
+  dt <- merge(dt, crops.obic[, .(crop_code, crop_category, crop_name_scientific)],by.x = "B_LU_BRP", by.y = "crop_code",all.x=TRUE)
   
   # add rougher categories of soil type
   soils.obic <- as.data.table(OBIC::soils.obic)
@@ -106,6 +111,11 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
     # is there green manure used and soil non-bare
     dt[is.na(M_GREEN), M_GREEN := TRUE]
     dt[is.na(M_NONBARE), M_NONBARE := FALSE]
+    
+    # force green manure for potato and maize cultivations on sand
+    dt[soiltype.n == 'zand' & 
+         crop_name_scientific %in% c('solanum tuberosum', 'zea mays'),
+       M_GREEN := TRUE]
     
     # is the soil limed in last three years
     dt[is.na(M_LIME), M_LIME := TRUE]
