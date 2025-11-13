@@ -303,3 +303,41 @@ test_that("ind_man_ess works", {
   )  
   
 })
+
+test_that('add_management enforces the use of green manure when growing maize or potato on sand', {
+  maize_potato_codes <- c(259, 316, 317, 814, 859, 1909, 1910, 1911, 1912, 1928,
+                          1929, 1935, 2014:2017, 2025, 2032, 2951, 3730:3732, 3792)
+  expect_equal(
+    object = add_management(
+      ID = rep(1, length(maize_potato_codes)),
+      B_LU_BRP = maize_potato_codes,
+      M_GREEN = FALSE,
+      B_SOILTYPE_AGR = rep('dekzand', length(maize_potato_codes))
+    ),
+    expected = add_management(
+      ID = rep(1, length(maize_potato_codes)),
+      B_LU_BRP = maize_potato_codes,
+      M_GREEN = TRUE,
+      B_SOILTYPE_AGR = rep('dekzand', length(maize_potato_codes))
+    )
+  )
+  
+  expect_equal(
+    object = add_management(
+      ID = rep(1, length(maize_potato_codes)),
+      B_LU_BRP = maize_potato_codes,
+      M_GREEN = FALSE,
+      B_SOILTYPE_AGR = rep('dekzand', length(maize_potato_codes))
+    )$M_GREEN,
+    expected = rep(TRUE, length(maize_potato_codes))
+  )
+  
+  expect_true(
+    add_management(
+      ID = 1,
+      B_LU_BRP = 2014,
+      M_GREEN = FALSE,
+      B_SOILTYPE_AGR = 'zeeklei'
+    )$M_GREEN == FALSE
+  )
+})
