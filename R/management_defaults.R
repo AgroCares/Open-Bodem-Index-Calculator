@@ -78,7 +78,7 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
 
   # add categories for crop type
   crops.obic <- as.data.table(OBIC::crops.obic)
-  dt <- merge(dt, crops.obic[, .(crop_code, crop_category, crop_name_scientific)],by.x = "B_LU_BRP", by.y = "crop_code",all.x=TRUE)
+  dt <- merge(dt, crops.obic[, .(crop_code, crop_category)],by.x = "B_LU_BRP", by.y = "crop_code",all.x=TRUE)
   
   # add rougher categories of soil type
   soils.obic <- as.data.table(OBIC::soils.obic)
@@ -114,7 +114,8 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
     
     # force green manure for potato and maize cultivations on sand
     dt[soiltype.n == 'zand' & 
-         crop_name_scientific %in% c('solanum tuberosum', 'zea mays'),
+         B_LU_BRP %in% c(259, 316, 317, 814, 859, 1909, 1910, 1911, 1912, 1928, 1929, 1935,
+                          2014, 2015, 2016, 2017, 2025, 2032, 2951, 3730, 3731, 3732, 3792),
        M_GREEN := TRUE]
     
     # is the soil limed in last three years
