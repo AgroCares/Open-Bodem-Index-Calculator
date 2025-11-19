@@ -239,7 +239,7 @@ std <- 0.2
 # make indicator
 inds <- c('I_C_CEC', 'I_C_CU', 'I_C_K', 'I_C_MG', 'I_C_N', 'I_C_P', 'I_C_PH', 'I_C_S', 'I_C_ZN',
           'I_B_DI', 'I_B_SF', 
-          'I_E_NGW', 'I_E_NSW',
+          'I_E_GW_NRET', 'I_E_NSW',
           'I_M',
           'I_P_CEC', 'I_P_CO', 'I_P_CR', 'I_P_DS', 'I_P_DU', 'I_P_SE', 'I_P_WRI', 'I_P_WS')
 
@@ -695,7 +695,7 @@ ggplot(dt.out[cat == 'total'], aes(x = value, y = cf_method)) +
 # dta <- dta[, cat := factor(cat, levels = c('C', 'P', 'B', 'E'))]
 # dta <- dta[, indicator := factor(indicator, levels = c("I_C_CEC","I_C_CU", "I_C_K",  "I_C_MG", "I_C_N",  "I_C_P",  "I_C_PH", "I_C_S",  "I_C_ZN", 
 #                                                        "I_P_CR", "I_P_DS", "I_P_DU", "I_P_SE", "I_P_WRI", "I_P_WS","I_P_CEC","I_P_CO", 
-#                                                        "I_B_DI", "I_B_SF", "I_E_NGW","I_E_NSW"))]
+#                                                        "I_B_DI", "I_B_SF", "I_E_GW_NRET","I_E_NSW"))]
 # 
 # # plot
 # ggplot(dta, aes(x = value, y = indicator, color = cat))+

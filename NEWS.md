@@ -23,6 +23,12 @@ users of these functions.
 * M_GREEN is longer set to TRUE for potato and maize by `add_management()`. This
 means that M_GREEN is overwritten for such cultivations when using one of the wrapper
 functions.
+* renamed I_H_NGW to I_H_NGW 
+* renamed I_H_NSW to I_E_SW_NLEA 
+* renamed I_H_PEST to I_E_PEST 
+* renamed I_H_GWR to I_E_GWR 
+* renamed I_E_NGW to I_E_GW_NRET
+* renamed I_E_NSW to I_E_SW_NRET 
 
 ## Fixed
 * B_FERT_NORM_FR and B_DRAIN can now be supplied when using `obic_field_dt()` or

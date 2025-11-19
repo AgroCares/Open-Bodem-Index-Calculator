@@ -117,11 +117,11 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_WE = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
   D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = NULL
   D_WRI_WHC = D_PSP = D_NLEACH = D_PESTICIDE = NULL
-  D_WRI_K = D_NLEACH_GW = D_NLEACH_OW = I_H_GWR = I_H_NGW = I_H_NSW = I_H_PEST = D_NLEACH_SW = I_H_NSW = NULL
+  D_WRI_K = D_NLEACH_GW = D_NLEACH_OW = I_E_GWR = I_E_GW_NLEA = I_E_SW_NLEA = I_E_PEST = D_NLEACH_SW = I_E_SW_NLEA = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
-  I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_NGW = I_E_NSW = NULL
+  I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_GW_NRET = I_E_SW_NRET = NULL
   D_M_SOILFERTILITY = D_M_CLIMATE = D_M_WATERQUALITY = D_M_BIODIVERSITY = NULL
   I_M_SOILFERTILITY = I_M_CLIMATE = I_M_WATERQUALITY = I_M_BIODIVERSITY = NULL
   crop_category = leaching_to = NULL
@@ -350,13 +350,13 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
     if(useClassicOBI == FALSE){
       # Calculate indicators for groundwater functions
-      dt[, I_H_NGW := ind_n_efficiency(D_NLEACH_GW,'gw')]
-      dt[, I_H_NSW := ind_n_efficiency(D_NLEACH_SW,'sw')]
-      dt[, I_H_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+      dt[, I_E_GW_NLEA := ind_n_efficiency(D_NLEACH_GW,'gw')]
+      dt[, I_E_SW_NLEA := ind_n_efficiency(D_NLEACH_SW,'sw')]
+      dt[, I_E_PEST := ind_pesticide_leaching(D_PESTICIDE)]
       
-      dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
+      dt[, I_E_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
       
-      dt[, D_RISK_GWR := 1 - I_H_GWR]
+      dt[, D_RISK_GWR := 1 - I_E_GWR]
       
       # modify groundwater recharge indicator with soil specific target
       dt[, D_OPI_GW := ind_gw_target(D_RISK_GWR = D_RISK_GWR,
@@ -387,8 +387,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_M_BIODIVERSITY := ind_man_ess(D_M_BIODIVERSITY, B_LU_BRP, B_SOILTYPE_AGR,type = 'I_M_BIODIVERSITY')]
     
     # Calculate indicators for environment
-    dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
-    dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
+    dt[, I_E_GW_NRET := ind_nretention(D_NGW, leaching_to = "gw")]
+    dt[, I_E_SW_NRET := ind_nretention(D_NSW, leaching_to = "ow")]
 
   # Step 3 Reformat dt given weighing per indicator and prepare for aggregation  ------------------
     
@@ -417,7 +417,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
     #dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
-    dt.melt[cat %in% c('H', 'OPI') &!indicator == 'I_H_GWR', cat := 'E'] # include water functions indicators in environmental score. D_OPI_GW replaces I_H_GWR
+    dt.melt[cat %in% c('H', 'OPI') &!indicator == 'I_E_GWR', cat := 'E'] # include water functions indicators in environmental score. D_OPI_GW replaces I_E_GWR
     
     # Determine number of indicators per category
     dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by = .(ID, cat)]

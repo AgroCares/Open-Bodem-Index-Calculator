@@ -144,5 +144,5 @@ test_that('obic_farm is sensitive to changing B_FERT_NORM when useClassicOBI == 
   out.fnorm1 <- obic_farm(dt.fnorm1, useClassicOBI = FALSE)
   out.fnorm05 <- obic_farm(dt.fnorm05, useClassicOBI = FALSE)
   
-  expect_false(all(out.fnorm1$fields$I_H_NGW == out.fnorm05$fields$I_H_NGW))
+  expect_false(all(out.fnorm1$fields$I_E_GW_NLEA == out.fnorm05$fields$I_E_GW_NLEA))
 })

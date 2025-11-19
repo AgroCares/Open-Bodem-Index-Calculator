@@ -1674,7 +1674,7 @@ The OBIC package has functions that transform the value of a soil function into 
   dt[, I_B_SF := ind_pmn(D_PMN)]
   
   # Calculate indicators for environment
-  dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
+  dt[, I_E_GW_NRET := ind_nretention(D_NGW, leaching_to = "gw")]
   dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
 ```
 
@@ -1735,7 +1735,7 @@ Some of these indicator functions internally use an evaluation function such as 
   dt[, I_B_SF := ind_pmn(D_PMN)]
     
   # Calculate indicators for environment
-  dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
+  dt[, I_E_GW_NRET := ind_nretention(D_NGW, leaching_to = "gw")]
   dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
     
   indcols <- colnames(dt)[grep('^I_',colnames(dt))]
@@ -1764,7 +1764,7 @@ Some of these indicator functions internally use an evaluation function such as 
                         (funct == 'D_WRI'& indicator == 'I_P_WRI')|
                         (funct == 'D_CEC'& indicator == 'I_P_CEC')|
                         (funct == 'D_PMN'& indicator == 'I_B_SF')|
-                        (funct == 'D_NGW'& indicator == 'I_E_NGW')|
+                        (funct == 'D_NGW'& indicator == 'I_E_GW_NRET')|
                         (funct == 'D_NSW'& indicator == 'I_E_NSW')|
                         (funct == 'D_CR'& indicator == 'I_P_CR')|
                         (funct == 'D_SE'& indicator == 'I_P_SE')|

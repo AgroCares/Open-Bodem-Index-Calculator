@@ -7,7 +7,7 @@
 ind_gw_target(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS)
 }
 \arguments{
-\item{D_RISK_GWR}{(numeric) Groundwater recharge risk (distance to target, i.e. the 1 - I_H_GWR)}
+\item{D_RISK_GWR}{(numeric) Groundwater recharge risk (distance to target, i.e. the 1 - I_E_GWR)}
 
 \item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 

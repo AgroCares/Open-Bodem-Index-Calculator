@@ -23,7 +23,7 @@
 #' @export
 ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS){
   
-  I_H_GWR = D_I_WRI_K = cf_compaction = cf_drain = D_I_PSP = NULL
+  I_E_GWR = D_I_WRI_K = cf_compaction = cf_drain = D_I_PSP = NULL
   
   # Check inputs
   arg.length <- max(length(B_LU_BRP),length(D_WRI_K),length(D_PSP),length(I_P_SE),length(I_P_CO),length(B_DRAIN))
@@ -63,10 +63,10 @@ ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B
      c('cf_drain','cf_compaction') := list(1,fifelse(I_P_CO < 0.5,0.8,1))]
   
   # Calculate aggregated score
-  dt[,I_H_GWR := (0.7 * D_I_PSP + 0.15 * D_I_WRI_K + 0.15 * I_P_SE) * cf_compaction * cf_drain]
+  dt[,I_E_GWR := (0.7 * D_I_PSP + 0.15 * D_I_WRI_K + 0.15 * I_P_SE) * cf_compaction * cf_drain]
   
   # Calculate mean
-  out <- dt[,I_H_GWR]
+  out <- dt[,I_E_GWR]
   
   return(out)
 }
@@ -151,7 +151,7 @@ ind_permeability <- function(D_WRI_K){
 #' factor based on the soiltype and groundwaterclass. Wetter groundwaterclasses
 #' give higher values, peat gives higher values than clay, and clay higher than sand.
 #' 
-#' @param D_RISK_GWR (numeric) Groundwater recharge risk (distance to target, i.e. the 1 - I_H_GWR)
+#' @param D_RISK_GWR (numeric) Groundwater recharge risk (distance to target, i.e. the 1 - I_E_GWR)
 #' @param B_GWL_CLASS (character) The groundwater table class
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
 #' 
