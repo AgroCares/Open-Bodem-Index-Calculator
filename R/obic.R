@@ -130,7 +130,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   weight_peat = weight_nonpeat = variable = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
   var = cf = ncat = id = S_T_OBI_A = NULL
-  D_RISK_GWR = D_OPI_GW = NULL
+  D_RISK_GWR = NULL
   
   checkmate::assert_subset(B_GWL_CLASS, choices = c(
     "I", "Ia", "Ic", "II", "IIa", "IIb", "IIc", "III", "IIIa", "IIIb", "IV",
@@ -354,12 +354,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
       dt[, I_E_SW_NLEA := ind_n_efficiency(D_NLEACH_SW,'sw')]
       dt[, I_E_PEST := ind_pesticide_leaching(D_PESTICIDE)]
       
-      dt[, I_E_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
-      
-      dt[, D_RISK_GWR := 1 - I_E_GWR]
-      
+      dt[, D_RISK_GWR := 1 - ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
+
       # modify groundwater recharge indicator with soil specific target
-      dt[, D_OPI_GW := ind_gw_target(D_RISK_GWR = D_RISK_GWR,
+      dt[, I_E_GWR := ind_gw_target(D_RISK_GWR = D_RISK_GWR,
                                     B_SOILTYPE_AGR = B_SOILTYPE_AGR,
                                     B_GWL_CLASS = B_GWL_CLASS)]
     }
@@ -399,7 +397,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_H|year|crop_cat|SOILT|^ID|D_OPI_GW',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT|^ID',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
@@ -417,7 +415,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
     #dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
-    dt.melt[cat %in% c('H', 'OPI') &!indicator == 'I_E_GWR', cat := 'E'] # include water functions indicators in environmental score. D_OPI_GW replaces I_E_GWR
     
     # Determine number of indicators per category
     dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by = .(ID, cat)]
@@ -843,7 +840,6 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
   dt.farm[grepl('^I_P|^S_P|^I_BCS',indicator),c(nclass) := as.list(th_obi_p)]
   dt.farm[grepl('^I_B|^S_B',indicator) & !grepl('^I_BCS',indicator),c(nclass) := as.list(th_obi_b)]
   dt.farm[grepl('^I_M|^S_M',indicator),c(nclass) := as.list(th_obi_m)]
-  dt.farm[grepl('^I_H|^S_H|D_OPI_GW',indicator),c(nclass) := as.list(th_obi_h)]
   dt.farm[grepl('^I_E|^S_E',indicator),c(nclass) := as.list(th_obi_e)]
   dt.farm[grepl('^S_T_OBI',indicator),c(nclass) := as.list((th_obi_c + th_obi_p + th_obi_b)/3)]
   

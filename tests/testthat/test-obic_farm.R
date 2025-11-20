@@ -13,7 +13,7 @@ test_that("obic_farm works with extra indicators when not using classic obi", {
   )
   expect_equal(
     length(out$field),
-    expected = 40,
+    expected = 39,
     tolerance = 0.01
   )
   expect_equal(
@@ -23,7 +23,7 @@ test_that("obic_farm works with extra indicators when not using classic obi", {
   ) 
   expect_equal(
     nrow(out$farm$indicators),
-    expected = 33,
+    expected = 32,
     tolerance = 0.01
   )
   expect_equal(
@@ -59,12 +59,12 @@ test_that("obic_farm works with extra indicators when not using classic obi", {
   expect_equal(
     c(sum(out$farm$indicators$S_OBI_NFIELDS_LOW),
       sum(out$farm$indicators$S_OBI_NFIELDS_HIGH)),
-    expected = c(45, 89),
+    expected = c(39, 88),
     tolerance = 0.01
   )
   expect_equal(
     c(sum(out$farm$scores$S_OBI_NFIELDS_LOW),sum(out$farm$scores$S_OBI_NFIELDS_HIGH)),
-    expected = c(9, 10),
+    expected = c(9, 11),
     tolerance = 0.01
   )
 })
