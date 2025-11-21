@@ -176,7 +176,7 @@ I_M_CLIMATE;indicator;natuur;1;1
 I_M_WATERQUALITY;indicator;natuur;1;1
 I_M_BIODIVERSITY;indicator;natuur;1;1
 I_BCS;indicator;natuur;1;1
-I_E_GWR;indicator;natuur;-1;-1
+I_E_GWR;indicator;natuur;1;1
 I_E_GW_NLEA;indicator;natuur;-1;-1
 I_E_SW_NLEA;indicator;natuur;-1;-1
 I_E_PEST;indicator;natuur;-1;-1
