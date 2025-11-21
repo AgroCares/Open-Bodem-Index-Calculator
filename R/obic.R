@@ -354,7 +354,13 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
       dt[, I_E_SW_NLEA := ind_n_efficiency(D_NLEACH_SW,'sw')]
       dt[, I_E_PEST := ind_pesticide_leaching(D_PESTICIDE)]
       
-      dt[, D_RISK_GWR := 1 - ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
+      dt[, D_RISK_GWR := 1 - ind_gw_recharge(B_LU_BRP = B_LU_BRP,
+                                             D_PSP = D_PSP,
+                                             D_WRI_K = D_WRI_K, 
+                                             B_DRAIN = B_DRAIN,
+                                             B_GWL_CLASS = B_GWL_CLASS,
+                                             D_SE = D_SE,
+                                             B_SC_WENR = B_SC_WENR)]
 
       # modify groundwater recharge indicator with soil specific target
       dt[, I_E_GWR := ind_gw_target(D_RISK_GWR = D_RISK_GWR,
