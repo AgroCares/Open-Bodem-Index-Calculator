@@ -347,7 +347,20 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # Calculate indicators for soil biological functions
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     dt[, I_B_SF := ind_pmn(D_PMN)]
+
+    # overwrite soil physical functions for compaction when BCS is available
+    dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
+    dt[,D_P_CO := pmax(0, D_P_CO)]
+    dt[,I_P_CO := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
     
+    # overwrite soil physical functions for aggregate stability when BCS is available
+    dt[,D_P_CEC := (3 * A_EW_BCS + 3 * A_SS_BCS - A_C_BCS)/12]
+    dt[,D_P_CEC := pmax(0, D_P_CEC)]
+    dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
+    
+    # Calculate Visual Soil Assessment Indicator
+    dt[, I_BCS := ind_bcs(D_BCS)]
+        
     if(useClassicOBI == FALSE){
       # Calculate indicators for groundwater functions
       dt[, I_E_GW_NLEA := ind_n_efficiency(D_NLEACH_GW,'gw')]
@@ -360,27 +373,15 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                                              B_DRAIN = B_DRAIN,
                                              B_GWL_CLASS = B_GWL_CLASS,
                                              D_SE = D_SE,
-                                             B_SC_WENR = B_SC_WENR)]
+                                             B_SC_WENR = B_SC_WENR,
+                                             D_P_CO = D_P_CO)]
 
       # modify groundwater recharge indicator with soil specific target
       dt[, I_E_GWR := ind_gw_target(D_RISK_GWR = D_RISK_GWR,
                                     B_SOILTYPE_AGR = B_SOILTYPE_AGR,
                                     B_GWL_CLASS = B_GWL_CLASS)]
     }
-    
-    # overwrite soil physical functions for compaction when BCS is available
-    dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
-    dt[,D_P_CO := pmax(0, D_P_CO)]
-    dt[,I_P_CO := fifelse(is.na(D_P_CO),I_P_CO,D_P_CO)]
-    
-    # overwrite soil physical functions for aggregate stability when BCS is available
-    dt[,D_P_CEC := (3 * A_EW_BCS + 3 * A_SS_BCS - A_C_BCS)/12]
-    dt[,D_P_CEC := pmax(0, D_P_CEC)]
-    dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
-  
-    # Calculate Visual Soil Assessment Indicator
-    dt[, I_BCS := ind_bcs(D_BCS)]
-    
+
     # Calculate integrated management indicator
     dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
   

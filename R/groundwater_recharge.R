@@ -12,32 +12,67 @@
 #' @param B_GWL_CLASS (character) The groundwater table class
 #' @param D_SE (numeric) The value of soil sealing calculated by \code{\link{calc_sealing_risk}}
 #' @param B_SC_WENR (character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)
+#' @param D_P_CO (numeric) Compaction value based on visual soil assessment (see Details)
 #' 
 #' @examples 
 #' ind_gw_recharge(B_LU_BRP = 265,D_PSP = 200, D_WRI_K = 10, I_P_SE = 0.6, I_P_CO = 0.9, 
 #' B_DRAIN = FALSE, B_GWL_CLASS = 'V')
 #' ind_gw_recharge(B_LU_BRP = 233, D_PSP = 400, D_WRI_K = 10, I_P_SE = 0.4, I_P_CO = 0.2, 
 #' B_DRAIN = TRUE, B_GWL_CLASS = 'II')
+#' 
+#' @details
+#' Soil compaction risk can be assessed either with the soilcompaction risk map 
+#' (B_SC_WENR) or visual soil assessment (VSA) (D_P_CO). D_P_CO itself is calculated 
+#' from the VSA scoring of earthworms, compaction, rooting depth, and puddling:
+#' D_P_CO = (3 x A_EW_BCS + 3 x A_SC_BCS + 3 x A_RD_BCS  - 2 x A_P_BCS - A_RT_BCS)/18 where
+#' the .*_BCS variables have the values 0, 1, or 2. When both B_SC_WENR and D_P_CO
+#' are provided, D_P_CO is used as it is considered more accurate determination of compaction.
+#' 
 #'
 #' @return 
 #' The evaluated score for the soil function to improve groundwater recharge. A numeric value between 0 and 1.
 #'          
 #' @export
-ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE = NULL, I_P_CO = NULL, B_DRAIN, B_GWL_CLASS, D_SE = NULL, B_SC_WENR = NULL){
+ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE = NULL, I_P_CO = NULL,
+                            B_DRAIN, B_GWL_CLASS, D_SE = NULL, B_SC_WENR = NULL,
+                            D_P_CO = NULL){
   
   I_E_GWR = D_I_WRI_K = cf_compaction = cf_drain = D_I_PSP = NULL
   
   # Check inputs
   arg.length <- max(length(B_LU_BRP),length(D_WRI_K),length(D_PSP),length(I_P_SE),length(I_P_CO),length(B_DRAIN), length(D_SE), length(B_SC_WENR))
   
-  if(!is.null(I_P_SE)){
-    warning('Use of I_P_SE in function ind_gw_recharge() is deprecated, provide D_SE instead.')
-    checkmate::assert_numeric(I_P_SE, any.missing = FALSE, len = arg.length)
+  if(is.null(D_SE)){
+    if(is.null(I_P_SE)){
+      # if both the SEALING arguments are missing, throw an error indicating D_SE should be provided
+      checkmate::assert_numeric(D_SE, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
+    } else{
+      warning('Use of I_P_SE in function ind_gw_recharge() is deprecated, provide D_SE instead.')
+      checkmate::assert_numeric(I_P_SE, any.missing = FALSE, len = arg.length)
+    }
+  } else{
+    checkmate::assert_numeric(D_SE, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
+    if(!is.null(I_P_SE)){
+      warning('You have provided both D_SE and the deprecated I_P_SE to ind_gw_regarchge(), only D_SE will be used.')
+    }
   }
+  
   if(!is.null(I_P_CO)){
     warning('Use of I_P_CO in function ind_gw_recharge() is deprecated, provide B_SC_WENR instead.')
     checkmate::assert_numeric(I_P_CO, any.missing = FALSE, len = arg.length)
+  } else {# check that either B_SC_WENR or D_P_CO, or both is provided
+      if(is.null(D_P_CO)) {
+        checkmate::assert_character(B_SC_WENR, any.missing = FALSE, len = arg.length)
+        checkmate::assert_subset(B_SC_WENR, choices = c("Bebouwing en infrastructuur","Groot","Zeer groot","Matig","Water",
+                                                        "Glastuinbouw, niet beoordeeld","Beperkt door veenlagen","Van nature dicht" ,
+                                                        "Beperkt", "Zeer beperkt"),
+                                 empty.ok = FALSE)
+      } else {
+        checkmate::assert_numeric(D_P_CO, lower = 0, upper = 1, any.missing = FALSE,
+                                  len = arg.length)
+      }
   }
+  
   
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
@@ -50,20 +85,7 @@ ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE = NULL, I_P_CO = NU
     "VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo"
   ), empty.ok = FALSE)
   
-  if(!is.null(D_SE)){
-    checkmate::assert_numeric(D_SE, lower = 0, upper = 50, any.missing = FALSE, len = arg.length)
-    # don't allow deprecated argument if correct argument has been provided
-    checkmate::assert_null(I_P_SE)
-  }
-  if(!is.null(B_SC_WENR)){
-    checkmate::assert_character(B_SC_WENR, any.missing = FALSE, min.len = 1)
-    checkmate::assert_subset(B_SC_WENR, choices = c("Bebouwing en infrastructuur","Groot","Zeer groot","Matig","Water",
-                                                    "Glastuinbouw, niet beoordeeld","Beperkt door veenlagen","Van nature dicht" ,
-                                                    "Beperkt", "Zeer beperkt"), empty.ok = FALSE)
-    # don't allow deprecated argument if correct argument has been provided
-    checkmate::assert_null(I_P_CO)
-  }
-  
+
   # import data into table
   dt <- data.table(B_LU_BRP = B_LU_BRP,
                    D_PSP = D_PSP,
@@ -87,9 +109,13 @@ ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE = NULL, I_P_CO = NU
   }
   
   # calculate soil compaction risk score
-  if(!is.null(B_SC_WENR)){
-    dt[, I_P_CO := ind_compaction(B_SC_WENR)]
-  }
+  if(!is.null(D_P_CO)){
+    dt[,I_P_CO := D_P_CO]
+  } else{
+    if(!is.null(B_SC_WENR)){
+      dt[, I_P_CO := ind_compaction(B_SC_WENR)]
+    }
+  } 
   
   # Correct for subsoil compaction or drainage
   dt[B_DRAIN == TRUE & B_GWL_CLASS %in% c('IIIb','IV'), c('cf_drain','cf_compaction') := list(0.6,1)]

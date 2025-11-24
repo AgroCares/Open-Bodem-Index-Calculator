@@ -66,7 +66,7 @@ test_that("Groundwater recharge is correctly modified with a target by ind_gw_ta
 
 })
 
-test_that('Appropriate warnings are given for deprecated arguments',{
+test_that('A warning is thrown when deprecated argument I_P_SE is used in ind_gw_recharge',{
   expect_warning(
     ind_gw_recharge(
       B_LU_BRP = 265,
@@ -78,7 +78,9 @@ test_that('Appropriate warnings are given for deprecated arguments',{
       B_SC_WENR = 'Matig'
     )
   )
-  
+})
+
+test_that('A warning is thrown when deprecated argument I_P_CO is used in ind_gw_recharge',{
   expect_warning(
     ind_gw_recharge(
       B_LU_BRP = 265,
@@ -90,34 +92,116 @@ test_that('Appropriate warnings are given for deprecated arguments',{
       D_SE = 25
     )
   )
+})
 
-  expect_error(
-    expect_warning(
-      ind_gw_recharge(
-        B_LU_BRP = 265,
-        D_PSP = 400,
-        D_WRI_K = 50,
-        B_DRAIN = TRUE,
-        I_P_SE = 0.8,
-        B_GWL_CLASS = 'IIIb',
-        B_SC_WENR = 'Matig',
-        D_SE = 25
-      )
-    ) 
+test_that('A warning is thrown when both D_SE and I_P_SE are supplied to ind_gw_recharge',{
+  expect_warning(
+    ind_gw_recharge(
+      B_LU_BRP = 265,
+      D_PSP = 400,
+      D_WRI_K = 50,
+      B_DRAIN = TRUE,
+      I_P_SE = 0.8,
+      B_GWL_CLASS = 'IIIb',
+      B_SC_WENR = 'Matig',
+      D_SE = 25
+    )
+  )
+})
+
+test_that('A warning is thrown when both I_P_CO and B_SC_WENR or D_P_CO are suppolied to ind_gw_recharge',{
+  expect_warning(
+    ind_gw_recharge(
+      B_LU_BRP = 265,
+      D_PSP = 400,
+      D_WRI_K = 50,
+      B_DRAIN = TRUE,
+      I_P_CO = 0.1,
+      B_GWL_CLASS = 'IIIb',
+      B_SC_WENR = 'Matig',
+      D_SE = 25
+    )
   )
   
-  expect_error(
-    expect_warning(
+  expect_warning(
+    ind_gw_recharge(
+      B_LU_BRP = 265,
+      D_PSP = 400,
+      D_WRI_K = 50,
+      B_DRAIN = TRUE,
+      I_P_CO = 0.1,
+      B_GWL_CLASS = 'IIIb',
+      D_SE = 25,
+      D_P_CO = 0.5
+    )
+  )
+})
+
+
+test_that('D_P_CO is favoured over B_SC_WENR',{
+  expect_gt(
+    object = 
       ind_gw_recharge(
-        B_LU_BRP = 265,
+        B_LU_BRP = 2014,
         D_PSP = 400,
         D_WRI_K = 50,
         B_DRAIN = TRUE,
-        I_P_CO = 0.1,
-        B_GWL_CLASS = 'IIIb',
-        B_SC_WENR = 'Matig',
+        B_GWL_CLASS = 'VI',
+        B_SC_WENR = 'Groot',
+        D_SE = 25,
+        D_P_CO = 1 # this should be used instead of B_SC_WENR
+      ),
+    expected = 
+      ind_gw_recharge(
+        B_LU_BRP = 2014,
+        D_PSP = 400,
+        D_WRI_K = 50,
+        B_DRAIN = TRUE,
+        B_GWL_CLASS = 'VI',
+        B_SC_WENR = 'Groot',
         D_SE = 25
       )
-    ) 
+  )
+})
+
+test_that('D_SE is used instead of I_P_SE when both are provided and a warning is given',{
+  expect_warning(
+    ind_gw_recharge(
+      B_LU_BRP = 2014,
+      D_PSP = 400,
+      D_WRI_K = 50,
+      B_DRAIN = TRUE,
+      B_GWL_CLASS = 'VI',
+      B_SC_WENR = 'Groot',
+      D_SE = 5,
+      I_P_SE = 0.95
+    )
+  )
+  
+  suppressWarnings(
+  expect_gt(
+    object = 
+      ind_gw_recharge(
+        B_LU_BRP = 2014,
+        D_PSP = 400,
+        D_WRI_K = 50,
+        B_DRAIN = TRUE,
+        B_GWL_CLASS = 'VI',
+        B_SC_WENR = 'Groot',
+        D_SE = 25,
+        I_P_SE = 0.15
+      ),
+    expected = 
+      ind_gw_recharge(
+        B_LU_BRP = 2014,
+        D_PSP = 400,
+        D_WRI_K = 50,
+        B_DRAIN = TRUE,
+        B_GWL_CLASS = 'VI',
+        B_SC_WENR = 'Groot',
+        D_SE = 2,
+        I_P_SE = 0.95
+      )
+  )
   )
 })
