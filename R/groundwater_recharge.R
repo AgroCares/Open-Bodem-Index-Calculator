@@ -61,7 +61,7 @@ ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE = NULL, I_P_CO = NU
     warning('Use of I_P_CO in function ind_gw_recharge() is deprecated, provide B_SC_WENR instead.')
     checkmate::assert_numeric(I_P_CO, any.missing = FALSE, len = arg.length)
   } else {# check that either B_SC_WENR or D_P_CO, or both is provided
-      if(is.null(D_P_CO)) {
+      if(all(is.null(D_P_CO) | is.na(D_P_CO))) {
         checkmate::assert_character(B_SC_WENR, any.missing = FALSE, len = arg.length)
         checkmate::assert_subset(B_SC_WENR, choices = c("Bebouwing en infrastructuur","Groot","Zeer groot","Matig","Water",
                                                         "Glastuinbouw, niet beoordeeld","Beperkt door veenlagen","Van nature dicht" ,
@@ -109,7 +109,7 @@ ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE = NULL, I_P_CO = NU
   }
   
   # calculate soil compaction risk score
-  if(!is.null(D_P_CO)){
+  if(!all(is.null(dt$D_P_CO)| is.na(dt$D_P_CO))){
     dt[,I_P_CO := D_P_CO]
   } else{
     if(!is.null(B_SC_WENR)){
