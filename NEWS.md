@@ -1,29 +1,24 @@
-# OBIC 5.0.0 2025-11-13
+# OBIC 5.0.0 2025-11-26
 ## Added
 * Function ind_gw_target() to modify I_H_GWR with a correction factor based on
 soiltype and groundwaterclass akin to the groundwaterrecharge score from BBWPC.
-* D_OPI_GW to weight.obic
 
 ## Changed
-* In table weight.obic, peat and non-peat weight for indicator I_H_GWR are now
-set to -1 for all landuses. This indicator is replaced in calculating scores by
-D_OPI_GW to get the same scores as would be obtained by BBWPC. D_OPI_GW applies
-to all soil types.
-* Argument useClassicOBI is added to obi_field(), obi_field_dt(), and obi_farm().
-This argument defaults to TRUE, when TRUE, only agronomic indicators are calculated
-and aggregated. When FALSE, indicators for water quality are calculated and aggregated
-in the environmental score and total score.
-* When useClassicOBI = FALSE, water indicators (I_H_x) are included in the 
-calculation of S_E_OBI_A. I_H_GWR isn't included in this aggregation, this indicator
-is replaced by D_OPI_GW.
-* B_DRAIN no longer has a default value and must be supplied when useClassicOBI = FALSE
-* B_FERT_NORM_FR now must be in the data.table supplied to `obic_field_dt()` or 
+* [BREAKING CHANGE] B_FERT_NORM_FR now must be in the data.table supplied to `obic_field_dt()` or 
 `obic_farm()`, failing to do so will return an error. This is a breaking change for
 users of these functions.
-* M_GREEN is longer set to TRUE for potato and maize by `add_management()`. This
+* Argument useClassicOBI is added to obi_field(), obi_field_dt(), and obi_farm().
+This argument defaults to TRUE, when TRUE, only agronomic indicators are calculated
+and aggregated. When FALSE, only the N-retention indicators are calculated and aggregated
+in the environmental score and subsequently in the total score.
+* When useClassicOBI = FALSE, indicators for water quality and quantity (
+I_E_GW_NLEA, I_E_SW_NLEA, I_E_PEST, and I_E_GWR) are included in the 
+calculation of S_E_OBI_A.
+* B_DRAIN no longer has a default value and must be supplied when useClassicOBI = FALSE
+* M_GREEN is set to TRUE for potato and maize on sandy soils by `add_management()`. This
 means that M_GREEN is overwritten for such cultivations when using one of the wrapper
 functions.
-* renamed I_H_NGW to I_H_NGW 
+* renamed I_H_NGW to I_E_GW_NLEA
 * renamed I_H_NSW to I_E_SW_NLEA 
 * renamed I_H_PEST to I_E_PEST 
 * renamed I_H_GWR to I_E_GWR 
