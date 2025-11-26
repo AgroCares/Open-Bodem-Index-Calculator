@@ -95,7 +95,8 @@ ind_gw_recharge <- function(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE = NULL, I_P_CO = NU
                    B_DRAIN = B_DRAIN,
                    B_GWL_CLASS = B_GWL_CLASS,
                    D_SE = D_SE,
-                   B_SC_WENR = B_SC_WENR)
+                   B_SC_WENR = B_SC_WENR,
+                   D_P_CO = D_P_CO)
   
   # Calculate the indicator value for water holding capacity
   dt[,D_I_WRI_K := ind_permeability(D_WRI_K)]
