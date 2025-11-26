@@ -20,7 +20,15 @@ functions.
 * renamed I_H_PEST to I_E_PEST 
 * renamed I_H_GWR to I_E_GWR 
 * renamed I_E_NGW to I_E_GW_NRET
-* renamed I_E_NSW to I_E_SW_NRET 
+* renamed I_E_NSW to I_E_SW_NRET
+* `calc_psp()` no longer changes makkink factors for specific months in a rotation.
+Instead, makkinks factors are adjusted within a single year. For example, if in 2015
+potato is grown followed by a green manure and grassland in 2016, the makink factors
+in 2015 for months 1,2 3, 10, 11, and 12 are set to 0.6 (even tough the green manure
+partially grows in 2016). One can now indicate in which months a green manure is
+grown, default is from 10 up to and including 3. Lastly, the makkink factor for green
+manure is only set to 0.6, and only when this is higher than the non-green manure 
+factor. The makkink factor for month 10 used to be 0.74
 
 ## Fixed
 * B_FERT_NORM_FR and B_DRAIN can now be supplied when using `obic_field_dt()` or
