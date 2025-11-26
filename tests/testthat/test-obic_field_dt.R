@@ -234,3 +234,12 @@ test_that('B_FERT_NORM_FR can be changed in obic_field_dt',{
   expect_false(all(obic_field_dt(fnorm1, useClassicOBI = FALSE) == 
                  obic_field_dt(fnorm05, useClassicOBI = FALSE)))
 })
+
+test_that('When missing, B_FERT_NORM_FR is set to 1 in obic_field_dt',{
+  fnorm0 <- copy(tdt)
+  fnorm0[,B_FERT_NORM_FR := NULL]
+  expect_equal(
+    object = obic_field_dt(fnorm0, useClassicOBI = FALSE),
+    expected = obic_field_dt(tdt, useClassicOBI = FALSE)
+  )
+})

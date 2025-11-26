@@ -616,8 +616,7 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
               'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC',
               'A_N_RT','A_CN_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
-              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC',
-              'B_FERT_NORM_FR')
+              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
   # add B_DRAIN as requirement when not using classic OBI
   if(!useClassicOBI){dt.req <- c(dt.req, 'B_DRAIN')}
   
@@ -642,14 +641,15 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
   # check if no unexpected column names are present in dt
-  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID"))
+  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID", 'B_FERT_NORM_FR'))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
-                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "B_DRAIN", "ID")]))}
+                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "B_DRAIN", "ID", 'B_FERT_NORM_FR')]))}
   
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
+  if(!'B_FERT_NORM_FR' %in% names(dt)){dt[,B_FERT_NORM_FR := 1]}
   
   # calculate obic_field
   out <- obic_field(B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,

@@ -1,12 +1,9 @@
-# OBIC 5.0.0 2025-11-26
+# OBIC 4.2.0 2025-11-26
 ## Added
 * Function ind_gw_target() to modify I_H_GWR with a correction factor based on
 soiltype and groundwaterclass akin to the groundwaterrecharge score from BBWPC.
 
 ## Changed
-* [BREAKING CHANGE] B_FERT_NORM_FR now must be in the data.table supplied to `obic_field_dt()` or 
-`obic_farm()`, failing to do so will return an error. This is a breaking change for
-users of these functions.
 * Argument useClassicOBI is added to obi_field(), obi_field_dt(), and obi_farm().
 This argument defaults to TRUE, when TRUE, only agronomic indicators are calculated
 and aggregated. When FALSE, only the N-retention indicators are calculated and aggregated
@@ -27,7 +24,7 @@ functions.
 
 ## Fixed
 * B_FERT_NORM_FR and B_DRAIN can now be supplied when using `obic_field_dt()` or
-`obic_farm()`.
+`obic_farm()`. The value is set to 1 when not supplied.
 
 # OBIC 4.1.0 2025-08-04
 ## Added
