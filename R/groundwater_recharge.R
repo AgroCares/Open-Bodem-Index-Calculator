@@ -15,10 +15,10 @@
 #' @param D_P_CO (numeric) Compaction value based on visual soil assessment (see Details)
 #' 
 #' @examples 
-#' ind_gw_recharge(B_LU_BRP = 265,D_PSP = 200, D_WRI_K = 10, I_P_SE = 0.6, I_P_CO = 0.9, 
-#' B_DRAIN = FALSE, B_GWL_CLASS = 'V')
-#' ind_gw_recharge(B_LU_BRP = 233, D_PSP = 400, D_WRI_K = 10, I_P_SE = 0.4, I_P_CO = 0.2, 
-#' B_DRAIN = TRUE, B_GWL_CLASS = 'II')
+#' ind_gw_recharge(B_LU_BRP = 265, D_PSP = 200, D_WRI_K = 10, B_DRAIN = FALSE,
+#'  B_GWL_CLASS = 'V', D_SE = 2, B_SC_WENR = 'Groot')
+#' ind_gw_recharge(B_LU_BRP = 233, D_PSP = 400, D_WRI_K = 10, B_DRAIN = TRUE,
+#'  B_GWL_CLASS = 'II', D_SE = 5, D_P_CO = 0.2)
 #' 
 #' @details
 #' Soil compaction risk can be assessed either with the soilcompaction risk map 

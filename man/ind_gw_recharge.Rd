@@ -4,7 +4,18 @@
 \alias{ind_gw_recharge}
 \title{Calculate groundwater recharge of a soil}
 \usage{
-ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)
+ind_gw_recharge(
+  B_LU_BRP,
+  D_PSP,
+  D_WRI_K,
+  I_P_SE = NULL,
+  I_P_CO = NULL,
+  B_DRAIN,
+  B_GWL_CLASS,
+  D_SE = NULL,
+  B_SC_WENR = NULL,
+  D_P_CO = NULL
+)
 }
 \arguments{
 \item{B_LU_BRP}{(numeric) The crop code from the BRP}
@@ -13,13 +24,19 @@ ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)
 
 \item{D_WRI_K}{(numeric) The value for top soil permeability (cm/d) as calculated by \code{\link{calc_permeability}}}
 
-\item{I_P_SE}{(numeric) The indicator value for soil sealing}
+\item{I_P_SE}{(numeric) The indicator value for soil sealing (deprecated)}
 
-\item{I_P_CO}{(numeric) The indicator value for occurrence of subsoil compaction}
+\item{I_P_CO}{(numeric) The indicator value for occurrence of subsoil compaction (deprecated)}
 
 \item{B_DRAIN}{(boolean) Are drains installed to drain the field (options: yes or no)}
 
 \item{B_GWL_CLASS}{(character) The groundwater table class}
+
+\item{D_SE}{(numeric) The value of soil sealing calculated by \code{\link{calc_sealing_risk}}}
+
+\item{B_SC_WENR}{(character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)}
+
+\item{D_P_CO}{(numeric) Compaction value based on visual soil assessment (see Details)}
 }
 \value{
 The evaluated score for the soil function to improve groundwater recharge. A numeric value between 0 and 1.
@@ -27,10 +44,18 @@ The evaluated score for the soil function to improve groundwater recharge. A num
 \description{
 This function calculates an index score for groundwater storage based on precipitation surplus, infiltration at saturation, sealing risk, drainage and subsoil compaction
 }
+\details{
+Soil compaction risk can be assessed either with the soilcompaction risk map 
+(B_SC_WENR) or visual soil assessment (VSA) (D_P_CO). D_P_CO itself is calculated 
+from the VSA scoring of earthworms, compaction, rooting depth, and puddling:
+D_P_CO = (3 x A_EW_BCS + 3 x A_SC_BCS + 3 x A_RD_BCS  - 2 x A_P_BCS - A_RT_BCS)/18 where
+the .*_BCS variables have the values 0, 1, or 2. When both B_SC_WENR and D_P_CO
+are provided, D_P_CO is used as it is considered more accurate determination of compaction.
+}
 \examples{
-ind_gw_recharge(B_LU_BRP = 265,D_PSP = 200, D_WRI_K = 10, I_P_SE = 0.6, I_P_CO = 0.9, 
-B_DRAIN = FALSE, B_GWL_CLASS = 'V')
-ind_gw_recharge(B_LU_BRP = 233, D_PSP = 400, D_WRI_K = 10, I_P_SE = 0.4, I_P_CO = 0.2, 
-B_DRAIN = TRUE, B_GWL_CLASS = 'II')
+ind_gw_recharge(B_LU_BRP = 265, D_PSP = 200, D_WRI_K = 10, B_DRAIN = FALSE,
+ B_GWL_CLASS = 'V', D_SE = 2, B_SC_WENR = 'Groot')
+ind_gw_recharge(B_LU_BRP = 233, D_PSP = 400, D_WRI_K = 10, B_DRAIN = TRUE,
+ B_GWL_CLASS = 'II', D_SE = 5, D_P_CO = 0.2)
 
 }
