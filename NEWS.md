@@ -29,6 +29,11 @@ partially grows in 2016). One can now indicate in which months a green manure is
 grown, default is from 10 up to and including 3. Lastly, the makkink factor for green
 manure is only set to 0.6, and only when this is higher than the non-green manure 
 factor. The makkink factor for month 10 used to be 0.74
+* Introduced argument B_AREA_DROUGHT for `obic_field()` and as possible column in
+`obic_field_dt()` and `obic_farm()`. This argument is passed on to `ind_gw_recharge()`
+which is only called when useClassicOBI == FALSE. When B_AREA_DROUGHT is missing
+but required, it is assigned a value in by `obic_field()` based on B_SOILTYPE_AGR 
+and B_AER_CBS whilst raising a warning.
 
 ## Fixed
 * B_FERT_NORM_FR and B_DRAIN can now be supplied when using `obic_field_dt()` or
