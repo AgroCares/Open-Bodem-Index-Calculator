@@ -43,16 +43,16 @@ calc_psp <- function(B_LU_BRP, M_GREEN, M_GREEN_START = 10L, M_GREEN_TERMINATE =
   
   # check inputs
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
-  checkmate::assert_subset(B_LU_BRP, choices = unique(crops.obic$crop_code), empty.ok = FALSE)
+  checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length)
   checkmate::assert_integer(M_GREEN_START, lower = 8, upper = 12)
   checkmate::assert_integer(M_GREEN_TERMINATE)
   checkmate::assert_subset(M_GREEN_TERMINATE, choices = c(10L, 11L, 12L, 1L, 2L, 3L, 4L))
   
   # Load in the datasets
-  dt.weather <- weather.obic
-  crops.obic <- as.data.table(crops.obic)
-  crops.makkink <- as.data.table(crops.makkink)
+  dt.weather <- OBIC::weather.obic
+  crops.obic <- as.data.table(OBIC::crops.obic)
+  crops.makkink <- as.data.table(OBIC::crops.makkink)
   setnames(crops.makkink,old = c('crop_makkink',1:12),new=c('crop_makkink',paste0('m',1:12)))
   
   # Collect input data in a table
