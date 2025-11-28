@@ -115,7 +115,8 @@ test_that('B_FERT_NORM_FR can be changed in obic_field',{
                M_PESTICIDES_DST = FALSE,
                M_SOLIDMANURE = FALSE,
                M_SSPM = FALSE,
-               M_STRAWRESIDUE = FALSE)
+               M_STRAWRESIDUE = FALSE,
+               B_AREA_DROUGHT = FALSE)
    ==
     obic_field(B_FERT_NORM = 0.5,
                useClassicOBI = FALSE,
@@ -173,6 +174,7 @@ test_that('B_FERT_NORM_FR can be changed in obic_field',{
                M_PESTICIDES_DST = FALSE,
                M_SOLIDMANURE = FALSE,
                M_SSPM = FALSE,
-               M_STRAWRESIDUE = FALSE)
+               M_STRAWRESIDUE = FALSE,
+               B_AREA_DROUGHT = FALSE)
   ))
 })

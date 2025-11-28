@@ -116,9 +116,11 @@ test_that("obic_field_dt works with classic OBI", {
 
 test_that('obic_field_dt works with extended OBI', {
   # test extended obi
-  expect_error(obic_field(tdt, useClassicOBI = FALSE)) # B_DRAIN is missing
-  
+  expect_error(obic_field_dt(tdt, useClassicOBI = FALSE)) # B_DRAIN is missing
   tdt[, B_DRAIN := FALSE]
+  
+  expect_warning(obic_field_dt(tdt, useClassicOBI = FALSE)) # B_AREA_DROUGHT is missing and set by defaults
+  tdt[, B_AREA_DROUGHT := FALSE]
   expect_equal(
     obic_field_dt(tdt, useClassicOBI = FALSE),
     expected = data.table(
@@ -207,6 +209,7 @@ test_that('obic_field_dt() works with just required columns', {
   )
   
   stdt[, B_DRAIN := TRUE]
+  stdt[, B_AREA_DROUGHT := FALSE]
   expect_equal(
     object = obic_field_dt(stdt, output = "scores", useClassicOBI = FALSE),
     expected = 

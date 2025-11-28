@@ -142,6 +142,9 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   checkmate::assert_logical(useClassicOBI, len = 1, any.missing = FALSE)
   if(!useClassicOBI){
     checkmate::assert_logical(B_DRAIN, any.missing = FALSE)
+    checkmate::assert_logical(B_AREA_DROUGHT, any.missing = TRUE)
+    
+    
   }
   
   # combine input into one data.table
@@ -205,7 +208,6 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_PESTICIDES_DST = M_PESTICIDES_DST)
   
   # add B_AREA_DROUGHT
-  checkmate::assert_logical(B_AREA_DROUGHT, any.missing = TRUE)
   dt$B_AREA_DROUGHT <- B_AREA_DROUGHT
   if(any(is.na(B_AREA_DROUGHT) & useClassicOBI == FALSE)){
     dt[is.na(B_AREA_DROUGHT), B_AREA_DROUGHT := fifelse(B_SOILTYPE_AGR %in% c('dekzand', 'dalgrond', 'loess', 'duinzand') & 
@@ -653,18 +655,18 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
   # check if no unexpected column names are present in dt
-  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID", 'B_FERT_NORM_FR'))
+  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID", 'B_FERT_NORM_FR', 'B_AREA_DROUGHT'))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
-                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "B_DRAIN", "ID", 'B_FERT_NORM_FR')]))}
+                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "B_DRAIN", "ID", 'B_FERT_NORM_FR', 'B_AREA_DROUGHT')]))}
   
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
   if(!'B_FERT_NORM_FR' %in% names(dt)){dt[,B_FERT_NORM_FR := 1]}
-  if(!'B_AREA_DROUGHT' %in% names(dt) & useClassicOBI == FALSE){
-    warning('B_AREA_DROUGHT is not present in the input data.table, a default value based on soil type will be used.')
+  if(!'B_AREA_DROUGHT' %in% names(dt)){
     dt[,B_AREA_DROUGHT := NA]
+    if(useClassicOBI == FALSE){warning('B_AREA_DROUGHT is not present in the input data.table, a default value based on soil type will be used.')}
   }
   
   # calculate obic_field

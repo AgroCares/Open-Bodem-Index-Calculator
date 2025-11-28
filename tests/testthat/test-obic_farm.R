@@ -1,6 +1,7 @@
 # make an example set for five fields
 dt <- OBIC::binnenveld[ID <=5]
 dt[,B_DRAIN := FALSE]
+dt[,B_AREA_DROUGHT := FALSE]
 
 test_that("obic_farm works with extra indicators when not using classic obi", {
   expect_no_condition(obic_farm(dt, useClassicOBI = FALSE))
@@ -72,6 +73,7 @@ test_that("obic_farm works with extra indicators when not using classic obi", {
 test_that("obic_farm works with classic setting", {
   dtclassic <- copy(dt)
   dtclassic[,B_DRAIN := NULL]
+  dtclassic[,B_AREA_DROUGHT := NULL]
   out <- obic_farm(dtclassic, useClassicOBI = TRUE)
   
   expect_equal(
