@@ -4,7 +4,7 @@
 \alias{ind_gw_target}
 \title{Modify a groundwater recharge indicator with a target}
 \usage{
-ind_gw_target(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS)
+ind_gw_target(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS, B_AREA_DROUGHT = FALSE)
 }
 \arguments{
 \item{D_RISK_GWR}{(numeric) Groundwater recharge risk (distance to target, i.e. the 1 - I_E_GWR)}
@@ -12,6 +12,8 @@ ind_gw_target(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS)
 \item{B_SOILTYPE_AGR}{(character) The agricultural type of soil}
 
 \item{B_GWL_CLASS}{(character) The groundwater table class}
+
+\item{B_AREA_DROUGHT}{(boolean) is the field located in an area with high risks for water deficiencies (options: TRUE or FALSE)}
 }
 \value{
 D_OPI_GW (numeric) The opportunity index for groundwater recharge. 
@@ -25,6 +27,6 @@ factor based on the soiltype and groundwaterclass. Wetter groundwaterclasses
 give higher values, peat gives higher values than clay, and clay higher than sand.
 }
 \examples{
-ind_gw_target(0.5, 'zeeklei', 'IVu')
+ind_gw_target(0.5, 'zeeklei', 'IVu', FALSE)
 
 }

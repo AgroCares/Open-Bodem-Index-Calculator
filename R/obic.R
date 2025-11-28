@@ -64,6 +64,7 @@
 #'  indicators and scores as intended by the OBI framework or whether you want
 #'  to include environmental indicators in your score aggregation, more akin to BLN 2.0.
 #'  Defaults to TRUE.
+#' @param B_AREA_DROUGHT (boolean) is the field located in an area with high risks for water deficiencies (options: TRUE or FALSE)
 #' 
 #' @details 
 #' It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
@@ -84,7 +85,8 @@
 #' A_SS_BCS = 1,A_RT_BCS = 1,A_SC_BCS = 1,M_COMPOST = 0,M_GREEN = FALSE,M_NONBARE =FALSE,
 #' M_EARLYCROP = FALSE,M_SLEEPHOSE = FALSE,M_DRAIN = FALSE,M_DITCH = FALSE,
 #' M_UNDERSEED = FALSE,M_LIME = FALSE,M_MECHWEEDS = FALSE,M_NONINVTILL = FALSE,
-#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE)
+#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE,
+#' B_AREA_DROUGHT = FALSE)
 #'}
 #'  
 #' @return 
@@ -109,7 +111,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
-                       ID = 1, output = 'all', useClassicOBI = TRUE) {
+                       ID = 1, output = 'all', useClassicOBI = TRUE, B_AREA_DROUGHT = NA) {
   
   # define variables used within the function
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
@@ -202,6 +204,15 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_MECHWEEDS = M_MECHWEEDS,
                    M_PESTICIDES_DST = M_PESTICIDES_DST)
   
+  # add B_AREA_DROUGHT
+  checkmate::assert_logical(B_AREA_DROUGHT, any.missing = TRUE)
+  dt$B_AREA_DROUGHT <- B_AREA_DROUGHT
+  if(any(is.na(B_AREA_DROUGHT) & useClassicOBI == FALSE)){
+    dt[is.na(B_AREA_DROUGHT), B_AREA_DROUGHT := fifelse(B_SOILTYPE_AGR %in% c('dekzand', 'dalgrond', 'loess', 'duinzand') & 
+                                                          B_AER_CBS %in% c('LG14', 'Zuid-Limburg', 'LG13', 'Zuidelijk Veehouderijgebied', 'LG12', 'Zuidwest-Brabant'),
+                                                        TRUE, FALSE)]
+    warning('B_AREA_DROUGHT has missing values, a default value based on soil type will be used.')
+  }
 
   # Check B_LU_BRP
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1)
@@ -379,7 +390,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
       # modify groundwater recharge indicator with soil specific target
       dt[, I_E_GWR := ind_gw_target(D_RISK_GWR = D_RISK_GWR,
                                     B_SOILTYPE_AGR = B_SOILTYPE_AGR,
-                                    B_GWL_CLASS = B_GWL_CLASS)]
+                                    B_GWL_CLASS = B_GWL_CLASS,
+                                    B_AREA_DROUGHT = B_AREA_DROUGHT)]
     }
 
     # Calculate integrated management indicator
@@ -650,6 +662,10 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
   if(!'B_FERT_NORM_FR' %in% names(dt)){dt[,B_FERT_NORM_FR := 1]}
+  if(!'B_AREA_DROUGHT' %in% names(dt) & useClassicOBI == FALSE){
+    warning('B_AREA_DROUGHT is not present in the input data.table, a default value based on soil type will be used.')
+    dt[,B_AREA_DROUGHT := NA]
+  }
   
   # calculate obic_field
   out <- obic_field(B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
@@ -693,6 +709,7 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
                     A_SC_BCS = dt$A_SC_BCS,
                     B_DRAIN = dt$B_DRAIN,
                     B_FERT_NORM_FR = dt$B_FERT_NORM_FR,
+                    B_AREA_DROUGHT = dt$B_AREA_DROUGHT,
                     M_COMPOST = dt$M_COMPOST,
                     M_GREEN = dt$M_GREEN, 
                     M_NONBARE = dt$M_NONBARE, 
@@ -784,7 +801,14 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC','ID',
               'B_FERT_NORM_FR')
   # add B_DRAIN as requirement when not using classic OBI
-  if(!useClassicOBI){dt.req <- c(dt.req, 'B_DRAIN')}
+  if(!useClassicOBI){
+    dt.req <- c(dt.req, 'B_DRAIN')
+    if(!'B_AREA_DROUGHT' %in% names(dt)){
+      warning('B_AREA_DROUGHT is not present in the input data.table, a default value based on soil type will be used.')
+      dt[,B_AREA_DROUGHT := NA]
+    }
+    dt.req <- c(dt.req, 'B_AREA_DROUGHT')
+  }
   
   # check presence of required columns
   checkmate::assert_true(all(dt.req %in% colnames(dt)),

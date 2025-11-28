@@ -215,16 +215,17 @@ ind_permeability <- function(D_WRI_K){
 #' @param D_RISK_GWR (numeric) Groundwater recharge risk (distance to target, i.e. the 1 - I_E_GWR)
 #' @param B_GWL_CLASS (character) The groundwater table class
 #' @param B_SOILTYPE_AGR (character) The agricultural type of soil
+#' @param B_AREA_DROUGHT (boolean) is the field located in an area with high risks for water deficiencies (options: TRUE or FALSE)
 #' 
 #' @examples
-#' ind_gw_target(0.5, 'zeeklei', 'IVu')
+#' ind_gw_target(0.5, 'zeeklei', 'IVu', FALSE)
 #' 
 #' @returns D_OPI_GW (numeric) The opportunity index for groundwater recharge. 
 #' This is the groundwater recharge indicator score modified by a target (nl: opgave).
 #' This target is a measure for how relevant this soil function is given, in this
 #' case, the soiltype and groundwaterclass.
 #' @export
-ind_gw_target <- function(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS){
+ind_gw_target <- function(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS, B_AREA_DROUGHT = FALSE){
   
   # add visual binding
   cfgw = D_OPI_GW = NULL
@@ -243,12 +244,14 @@ ind_gw_target <- function(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS){
     "IVc", "IVu", "sV", "sVb", "V", "Va", "Vad", "Vao", "Vb", "Vbd", "Vbo", "VI", 
     "VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo"
   ), empty.ok = FALSE)
+  checkmate::assert_logical(B_AREA_DROUGHT, any.missing = FALSE)
   
   # gather as data.table
   dt <- data.table(
     D_RISK_GWR = D_RISK_GWR,
     B_SOILTYPE_AGR = B_SOILTYPE_AGR,
-    B_GWL_CLASS = B_GWL_CLASS
+    B_GWL_CLASS = B_GWL_CLASS,
+    B_AREA_DROUGHT = B_AREA_DROUGHT
   )
   
   # determine correction factor (high correction factor is higher target for groundwater recharge risk)
@@ -264,7 +267,7 @@ ind_gw_target <- function(D_RISK_GWR, B_SOILTYPE_AGR, B_GWL_CLASS){
        c('Va', 'Vao', 'Vad'), cfgw := 0.5] # very high GWL in winter, low in summer
   dt[is.na(cfgw) & B_GWL_CLASS %in% 
        c('Vb', 'Vbo', 'Vbd'), cfgw := 0.75] # high GWL in winter, low in summer
-  dt[B_SOILTYPE_AGR %in% c('dekzand', 'dalgrond', 'loess', 'duinzand'), cfgw := pmin(cfgw*2, 1)] # double cf if in drought area, here drought sensitive area is assumed to be on sandy or loess soils.
+  dt[B_AREA_DROUGHT == TRUE, cfgw := pmin(cfgw*2, 1)] # double cf if in drought area
   dt[is.na(cfgw), cfgw := 1]
   
   dt[, D_OPI_GW := (0.1 + cfgw/(1/0.9)) * OBIC::evaluate_logistic(D_RISK_GWR, b=6, x0=0.4, v=.7)]
