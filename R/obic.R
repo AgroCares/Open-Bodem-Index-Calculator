@@ -616,7 +616,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
  
   # add visual binding
-  
+  B_AREA_DROUGHT = B_FERT_NORM_FR = NULL
   
   # make local copy
   dt <- copy(dt)
@@ -787,6 +787,7 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
   # add visual binding
   farmid = indicator = value = catvalue = obi_score = NULL
   S_OBI_NFIELDS_HIGH = S_OBI_NFIELDS_LOW = S_OBI_NFIELDS_MEDIUM = S_OBI_NFIELDS = NULL
+  B_AREA_DROUGHT = NULL
   
   # make local copy
   dt <- copy(dt)
