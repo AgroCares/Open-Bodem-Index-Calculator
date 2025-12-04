@@ -24,8 +24,8 @@ functions.
 * renamed I_E_NGW to I_E_GW_NRET
 * renamed I_E_NSW to I_E_SW_NRET
 * `calc_psp()` no longer changes makkink factors for specific months in a rotation.
-Instead, makkinks factors are adjusted within a single year. For example, if in 2015
-potato is grown followed by a green manure and grassland in 2016, the makink factors
+Instead, makkink factors are adjusted within a single year. For example, if in 2015
+potato is grown followed by a green manure and grassland in 2016, the makkink factors
 in 2015 for months 1,2 3, 10, 11, and 12 are set to 0.6 (even tough the green manure
 partially grows in 2016). One can now indicate in which months a green manure is
 grown, default is from 10 up to and including 3. Lastly, the makkink factor for green
