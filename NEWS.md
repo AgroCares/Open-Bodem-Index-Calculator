@@ -6,8 +6,10 @@ soiltype and groundwaterclass akin to the groundwaterrecharge score from BBWPC.
 ## Changed
 * Argument useClassicOBI is added to obi_field(), obi_field_dt(), and obi_farm().
 This argument defaults to TRUE, when TRUE, only agronomic indicators are calculated
-and aggregated. When FALSE, only the N-retention indicators are calculated and aggregated
-in the environmental score and subsequently in the total score.
+and aggregated. When FALSE, water-related indicators (groundwater recharge,
+pesticide leaching, and nitrogen use efficiency in relation to groundwater
+and surface water) are included in the environmental score and subsequently in
+the total score.
 * When useClassicOBI = FALSE, indicators for water quality and quantity (
 I_E_GW_NLEA, I_E_SW_NLEA, I_E_PEST, and I_E_GWR) are included in the 
 calculation of S_E_OBI_A.
