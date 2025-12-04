@@ -142,9 +142,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   checkmate::assert_logical(useClassicOBI, len = 1, any.missing = FALSE)
   if(!useClassicOBI){
     checkmate::assert_logical(B_DRAIN, any.missing = FALSE)
-    checkmate::assert_logical(B_AREA_DROUGHT, any.missing = TRUE)
-    
-    
+    checkmate::assert_logical(B_AREA_DROUGHT, any.missing = FALSE)
   }
   
   # combine input into one data.table
@@ -205,16 +203,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_SOLIDMANURE = M_SOLIDMANURE,
                    M_STRAWRESIDUE = M_STRAWRESIDUE,
                    M_MECHWEEDS = M_MECHWEEDS,
-                   M_PESTICIDES_DST = M_PESTICIDES_DST)
-  
-  # add B_AREA_DROUGHT
-  dt$B_AREA_DROUGHT <- B_AREA_DROUGHT
-  if(any(is.na(B_AREA_DROUGHT) & useClassicOBI == FALSE)){
-    dt[is.na(B_AREA_DROUGHT), B_AREA_DROUGHT := fifelse(B_SOILTYPE_AGR %in% c('dekzand', 'dalgrond', 'loess', 'duinzand') & 
-                                                          B_AER_CBS %in% c('LG14', 'Zuid-Limburg', 'LG13', 'Zuidelijk Veehouderijgebied', 'LG12', 'Zuidwest-Brabant'),
-                                                        TRUE, FALSE)]
-    warning('B_AREA_DROUGHT has missing values, a default value based on soil type will be used.')
-  }
+                   M_PESTICIDES_DST = M_PESTICIDES_DST,
+                   B_AREA_DROUGHT = B_AREA_DROUGHT)
 
   # Check B_LU_BRP
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1)
@@ -632,7 +622,7 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
   # add B_DRAIN as requirement when not using classic OBI
-  if(!useClassicOBI){dt.req <- c(dt.req, 'B_DRAIN')}
+  if(!useClassicOBI){dt.req <- c(dt.req, 'B_DRAIN', 'B_AREA_DROUGHT')}
   
   # check presence of required columns
   checkmate::assert_true(all(dt.req %in% colnames(dt)),
@@ -664,10 +654,7 @@ obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
   if(!'B_FERT_NORM_FR' %in% names(dt)){dt[,B_FERT_NORM_FR := 1]}
-  if(!'B_AREA_DROUGHT' %in% names(dt)){
-    dt[,B_AREA_DROUGHT := NA]
-    if(useClassicOBI == FALSE){warning('B_AREA_DROUGHT is not present in the input data.table, a default value based on soil type will be used.')}
-  }
+  if(!'B_AREA_DROUGHT' %in% names(dt)){dt[,B_AREA_DROUGHT := NA]}
   
   # calculate obic_field
   out <- obic_field(B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
@@ -805,13 +792,7 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
               'B_FERT_NORM_FR')
   # add B_DRAIN as requirement when not using classic OBI
   if(!useClassicOBI){
-    dt.req <- c(dt.req, 'B_DRAIN')
-    if(!'B_AREA_DROUGHT' %in% names(dt)){
-      warning('B_AREA_DROUGHT is not present in the input data.table, a default value based on soil type will be used.')
-      dt[,B_AREA_DROUGHT := NA]
-    }
-    dt.req <- c(dt.req, 'B_AREA_DROUGHT')
-  }
+    dt.req <- c(dt.req, 'B_DRAIN', 'B_AREA_DROUGHT')}
   
   # check presence of required columns
   checkmate::assert_true(all(dt.req %in% colnames(dt)),

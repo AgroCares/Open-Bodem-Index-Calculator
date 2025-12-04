@@ -119,7 +119,6 @@ test_that('obic_field_dt works with extended OBI', {
   expect_error(obic_field_dt(tdt, useClassicOBI = FALSE)) # B_DRAIN is missing
   tdt[, B_DRAIN := FALSE]
   
-  expect_warning(obic_field_dt(tdt, useClassicOBI = FALSE)) # B_AREA_DROUGHT is missing and set by defaults
   tdt[, B_AREA_DROUGHT := FALSE]
   expect_equal(
     obic_field_dt(tdt, useClassicOBI = FALSE),
