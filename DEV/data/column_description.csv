@@ -44,7 +44,7 @@ B_AER_CBS;measurement;Landbouweconomisch kerngebied 2016;Key agricultural area 2
 B_SC_WENR;measurement;Risico op ondergrondverdichting;Risk of soil compaction;-;WENR
 B_HELP_WENR;measurement;Grondsoortcode HELP-tabel;Ground type code HELP table;-;WENR
 B_COMPACTION;measurement;Is de ondergrond verdicht;Is the subsoil compacted;ja/nee;
-B_DRAINAGE;measurement;Wordt het perceAre drains installed to drain the fieldel gedraineerd;;ja/nee;
+B_DRAIN;measurement;Wordt het perceel gedraineerd;Are drains installed to drain the field;ja/nee;
 B_FERT_NORM_FR;measurement;Fractie van de gebruiksnorm toegepast;The fraction of the application norm utilized;-;
 D_BDS;derivative;Dichtheid;The bulk density of the soil;kg / m3;
 D_RD;derivative;Bemonsteringsdiepte;The agronomic used sampling depth for soil analysis;m;
@@ -68,12 +68,14 @@ D_K;derivative;Kaliumlevering;potassium availability;index;
 D_MG;derivative;Magnesiumbuffering;Magnesium;index;
 D_CU;derivative;Koperbeschikbaarheid;Copper;index;
 D_ZN;derivative;Zinkbeschikbaarheid;Zinc;index;
+D_P_CO;derivative;Verdichtingsbeoordeling obv de bodemconditiescore;Visual soil assessment compaction score;-;
 D_PMN;derivative;Activiteit bodemleven;Soil life activity;mg N/kg;
 D_SE;derivative;Versplemping;The risk of soil sealing;-;
 D_CR;derivative;Verkruimelbaarheid;The crumbleability of the soil;-;
 D_WE;derivative;Verstuivingsrisico;Wind erodibility;-;
 D_AS;derivative;Aggregaatstabiliteit;Aggregate stability;-;
 D_WSI_DS;derivative;Droogteschade;Drougthstress;%;
+D_WSI_K;derivative;Onverzadigde doorlatendheid;Unsaturated topsoil permeability;cm/d;
 D_WSI_WS;derivative;Natschade;Wetnessstress;%;
 D_WRI;derivative;Plant beschikbaar water;Water retention;mm;
 D_WO;derivative;Bewerkbaarheid;Workability;-;
@@ -105,7 +107,7 @@ I_P_CEC;indicator;Aggregaatstabiliteit;Aggregate stability;-;
 I_P_WO;indicator;Bewerkbaarheid;Workability;-;
 I_B_DI;indicator;Ziektewerendheid;Disease / pest resistance;-;
 I_B_SF;indicator;Activiteit bodemleven;Soil life activity;-;
-I_E_GWR;indicator;Doorlatendheid voor water;Unsaturated permeability;-;
+I_E_GWR;indicator;Grondwater aanvulling;Groundwater recharge;-;
 I_E_GW_NLEA;indicator;Efficientie van stikstofmeststoffen in relatie tot kwaliteit grondwater;Nitrogen efficiency for ground water;-;
 I_E_SW_NLEA;indicator;Efficientie van stikstofmeststoffen in relatie tot kwaliteit oppervlaktewater;Nitrogen efficiency for surface water;-;
 I_E_PEST;indicator;Uitspoelingsrisico gewasbestrijdingsmiddelen naar grondwater;Leaching risk of pesticides to groundwater;-;
