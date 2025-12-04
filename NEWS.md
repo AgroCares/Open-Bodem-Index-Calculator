@@ -21,8 +21,10 @@ functions.
 * renamed I_H_NSW to I_E_SW_NLEA 
 * renamed I_H_PEST to I_E_PEST 
 * renamed I_H_GWR to I_E_GWR 
-* renamed I_E_NGW to I_E_GW_NRET
-* renamed I_E_NSW to I_E_SW_NRET
+* renamed I_E_NGW to I_E_GW_NRET, I_E_NGW is still part of the obic_field() output
+but its use is deprecated, switch over to I_E_GW_NRET
+* renamed I_E_NSW to I_E_SW_NRET, I_E_NSW is still part of the obic_field() output
+but its use is deprecated, switch over to I_E_SW_NRET
 * `calc_psp()` no longer changes makkink factors for specific months in a rotation.
 Instead, makkink factors are adjusted within a single year. For example, if in 2015
 potato is grown followed by a green manure and grassland in 2016, the makkink factors

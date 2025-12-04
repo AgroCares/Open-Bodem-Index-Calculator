@@ -77,8 +77,8 @@ test_that("obic_field_dt works with classic OBI", {
       I_C_PH = 0.15,
       I_C_S = 0.26,
       I_C_ZN = 0.561,
-      I_E_GW_NRET = 0.988,
-      I_E_SW_NRET  = 0.969,
+      I_E_NGW = 0.988,
+      I_E_NSW  = 0.969,
       I_M = 0.069,
       I_M_BIODIVERSITY = 0.144,
       I_M_CLIMATE = 0.113,
@@ -108,6 +108,8 @@ test_that("obic_field_dt works with classic OBI", {
       RM_B_1 = "M0",
       RM_B_2 = "M0",
       RM_B_3 = "M0",
+      I_E_GW_NRET = 0.988,
+      I_E_SW_NRET  = 0.969,
       key = "ID"
     ),
     tolerance = 0.01

@@ -558,6 +558,16 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
       
     }
     
+    
+    if(useClassicOBI == TRUE & ('indicators' %in% output | 'all' %in% output)){
+      # restore legacy variable names in output
+      setnames(out, old = c('I_E_GW_NRET', 'I_E_SW_NRET'), new = c('I_E_NGW', 'I_E_NSW'))
+      
+      # add columns with new names to users can adjust to using the new column names
+      out[,I_E_GW_NRET := I_E_NGW]
+      out[,I_E_SW_NRET := I_E_NSW]
+    }
+    
   # return output
   return(out)
 }
@@ -836,6 +846,9 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
   # calculate obic score for all the fields
   out <- obic_field_dt(dt = dt, output = c('scores','indicators'), useClassicOBI = useClassicOBI)
   
+  # remove deprecated colums
+  if(useClassicOBI == TRUE){out[, c("I_E_NGW", "I_E_NSW") := NULL]}
+  
   # aggregate into a farm for indicators and scores, and melt
   dt.farm <- copy(out)
   dt.farm[, farmid := 1]
@@ -892,7 +905,7 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
   out <- list(fields = out, 
               farm = list(indicators = dt.indicators,
                           scores = dt.scores))
-  
+
   # return output
   return(out)
   
