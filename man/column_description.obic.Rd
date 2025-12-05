@@ -5,7 +5,7 @@
 \alias{column_description.obic}
 \title{Column description for the OBIC}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 220 rows and 6 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 222 rows and 6 columns.
 }
 \usage{
 column_description.obic
