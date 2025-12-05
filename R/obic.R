@@ -846,9 +846,6 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
   # calculate obic score for all the fields
   out <- obic_field_dt(dt = dt, output = c('scores','indicators'), useClassicOBI = useClassicOBI)
   
-  # remove deprecated colums
-  if(useClassicOBI == TRUE){out[, c("I_E_NGW", "I_E_NSW") := NULL]}
-  
   # aggregate into a farm for indicators and scores, and melt
   dt.farm <- copy(out)
   dt.farm[, farmid := 1]

@@ -81,8 +81,9 @@ test_that("obic_farm works with classic setting", {
     expected = c('fields','farm'),
     tolerance = 0.01
   )
+  not.deprecated.columns <- names(out$fields)[!names(out$fields) %in% c('I_E_NGW', 'I_E_NSW')]
   expect_equal(
-    length(out$field),
+    ncol(out$field[,..not.deprecated.columns]),
     expected = 35,
     tolerance = 0.01
   )
@@ -92,7 +93,7 @@ test_that("obic_farm works with classic setting", {
     tolerance = 0.01
   ) 
   expect_equal(
-    nrow(out$farm$indicators),
+    nrow(out$farm$indicators[indicator %in% not.deprecated.columns]),
     expected = 28,
     tolerance = 0.01
   )
@@ -127,7 +128,7 @@ test_that("obic_farm works with classic setting", {
     tolerance = 0.01
   )
   expect_equal(
-    c(sum(out$farm$indicators$S_OBI_NFIELDS_LOW),sum(out$farm$indicators$S_OBI_NFIELDS_HIGH)),
+    c(sum(out$farm$indicators[indicator %in% not.deprecated.columns, S_OBI_NFIELDS_LOW]),sum(out$farm$indicators[indicator %in% not.deprecated.columns, S_OBI_NFIELDS_HIGH])),
     expected = c(34, 77),
     tolerance = 0.01
   )
