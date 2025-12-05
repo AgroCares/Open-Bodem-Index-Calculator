@@ -799,8 +799,7 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
               'A_SOM_LOI', 'A_SAND_MI', 'A_SILT_MI', 'A_CLAY_MI','A_PH_CC',
               'A_N_RT','A_CN_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
-              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC','ID',
-              'B_FERT_NORM_FR')
+              'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC','ID')
   # add B_DRAIN as requirement when not using classic OBI
   if(!useClassicOBI){
     dt.req <- c(dt.req, 'B_DRAIN', 'B_AREA_DROUGHT')}
