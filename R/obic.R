@@ -826,7 +826,7 @@ obic_farm <- function(dt, useClassicOBI = TRUE) {
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
   # check if no unexpected column names are present in dt
-  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID"))
+  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID", 'B_FERT_NORM_FR'))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
                            colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID")]))}
   
