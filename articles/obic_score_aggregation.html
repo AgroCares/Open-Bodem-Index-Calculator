@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.2.0</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
                         <h4 data-toc-skip class="author">Brent
 Riechelman, Yuki Fujita</h4>
             
-            <h4 data-toc-skip class="date">2025-08-04</h4>
+            <h4 data-toc-skip class="date">2025-12-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/vignettes/obic_score_aggregation.Rmd" class="external-link"><code>vignettes/obic_score_aggregation.Rmd</code></a></small>
       <div class="hidden name"><code>obic_score_aggregation.Rmd</code></div>
@@ -111,7 +111,7 @@ expressing the soil quality of that field. To take this multitude of
 measured, modeled and calculated values to a single value between 0 and
 1, three aggregation steps take place as illustrated below.</p>
 <div class="figure">
-<img src="../articles/OBIC_score_integratie_2.png" alt="Figure 1. Graphic representation of how measured soil properties are aggregated to scores." width="85%" height="85%"><p class="caption">
+<img src="../articles/OBIC_score_integratie_2.png" class="r-plt" alt="Figure 1. Graphic representation of how measured soil properties are aggregated to scores." width="85%" height="85%"><p class="caption">
 Figure 1. Graphic representation of how measured soil properties are
 aggregated to scores.
 </p>
@@ -390,7 +390,7 @@ randomly drawn from a distribution with a standard deviation of
 approximately 0.2. The mean of the distributions depends on the
 scenario. All values are in the 0 to 1 range.</p>
 <div class="figure">
-<img src="obic_score_aggregation_files/figure-html/plot%20orignal%20values%20histogram-1.png" alt="Figure 5. Distribution of indicator values per scenario as histogram" width="672"><p class="caption">
+<img src="obic_score_aggregation_files/figure-html/plot%20orignal%20values%20histogram-1.png" class="r-plt" alt="Figure 5. Distribution of indicator values per scenario as histogram" width="672"><p class="caption">
 Figure 5. Distribution of indicator values per scenario as histogram
 </p>
 </div>
@@ -488,7 +488,7 @@ another slope could be chosen for linear aggregation. The no correction
 method is not presented in Figure 2 as it would be a horizontal line
 with an arbitrary value.</p>
 <div class="figure">
-<img src="obic_score_aggregation_files/figure-html/plot%20mock%20cf-1.png" alt="Figure 2. Correction factors calculated with linear or logarithmic methods per aggregation step." width="672"><p class="caption">
+<img src="obic_score_aggregation_files/figure-html/plot%20mock%20cf-1.png" class="r-plt" alt="Figure 2. Correction factors calculated with linear or logarithmic methods per aggregation step." width="672"><p class="caption">
 Figure 2. Correction factors calculated with linear or logarithmic
 methods per aggregation step.
 </p>
@@ -501,7 +501,7 @@ methods per aggregation step.
 in the box plot. Red dashed lines show arithmetic means of all 22
 indicators.</p>
 <div class="figure">
-<img src="obic_score_aggregation_files/figure-html/plot%20baselines%20scores-1.png" alt="Figure 3. Total OBI score boxplots per aggregation method for each scenario." width="672"><p class="caption">
+<img src="obic_score_aggregation_files/figure-html/plot%20baselines%20scores-1.png" class="r-plt" alt="Figure 3. Total OBI score boxplots per aggregation method for each scenario." width="672"><p class="caption">
 Figure 3. Total OBI score boxplots per aggregation method for each
 scenario.
 </p>
@@ -787,7 +787,7 @@ methods in category aggregation, both of which give smaller weights to
 categories with a few indicators, this impact is diluted, and therefore
 the increase in variation becomes limited.</p>
 <div class="figure">
-<img src="obic_score_aggregation_files/figure-html/plot%20baselines%20scores%20zoomed%20in-1.png" alt="Figure 4. Total OBI score per aggregation method for baseline sceinario." width="672"><p class="caption">
+<img src="obic_score_aggregation_files/figure-html/plot%20baselines%20scores%20zoomed%20in-1.png" class="r-plt" alt="Figure 4. Total OBI score per aggregation method for baseline sceinario." width="672"><p class="caption">
 Figure 4. Total OBI score per aggregation method for baseline sceinario.
 </p>
 </div>
@@ -895,7 +895,7 @@ steps. In this light, computing category scores before aggregating to a
 total score is a nice way to provide disentangled insights to the users,
 allowing them to interpret different aspects of soils separately.</p>
 <div class="figure">
-<img src="obic_score_aggregation_files/figure-html/plot%20scores%20with%20and%20without%20cat-1.png" alt="Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A)." width="672"><p class="caption">
+<img src="obic_score_aggregation_files/figure-html/plot%20scores%20with%20and%20without%20cat-1.png" class="r-plt" alt="Figure 5. Scores when categories are ignored during aggregation (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A)." width="672"><p class="caption">
 Figure 5. Scores when categories are ignored during aggregation
 (S_Tnocat_OBI_A) and regular aggregation (S_T_OBI_A).
 </p>
@@ -910,7 +910,7 @@ not be representative of actual fields in the Netherlands. Therefore we
 will explore the aggregation methods described above using indicator
 values of fields in the <code>binnenveld</code> dataset.</p>
 <div class="figure">
-<img src="obic_score_aggregation_files/figure-html/plot%20binnenveld%20scores-1.png" alt="Figure 6. Total and category OBI scores of binnenveld fields aggregated with 'log', 'lin' or 'non' method, as well as total scores when disregarding categories in aggregating scores." width="768"><p class="caption">
+<img src="obic_score_aggregation_files/figure-html/plot%20binnenveld%20scores-1.png" class="r-plt" alt="Figure 6. Total and category OBI scores of binnenveld fields aggregated with 'log', 'lin' or 'non' method, as well as total scores when disregarding categories in aggregating scores." width="768"><p class="caption">
 Figure 6. Total and category OBI scores of binnenveld fields aggregated
 with ‘log’, ‘lin’ or ‘non’ method, as well as total scores when
 disregarding categories in aggregating scores.
@@ -1045,7 +1045,7 @@ parameters FMA, had a much larger impact on the EPX than the others.
 Values of FMA within the 5<sup>th</sup> and 95<sup>th</sup> percentile
 ranged from 14 to 3960, while pH for example, ranged from 7.3 to 7.7</p>
 <div class="figure">
-<img src="obic_score_aggregation_files/figure-html/graphical%20representation%20of%20EPX%20-1.png" alt="NAC scores where one variable varies and the others are set to Maximum ecological potential (MEP), variable values range from 5th percentile to 95th percentile reported by Rutgers (2008). Type indicates whether standard calculation (i) is used or not(j) where j improves on the NAC." width="700"><p class="caption">
+<img src="obic_score_aggregation_files/figure-html/graphical%20representation%20of%20EPX%20-1.png" class="r-plt" alt="NAC scores where one variable varies and the others are set to Maximum ecological potential (MEP), variable values range from 5th percentile to 95th percentile reported by Rutgers (2008). Type indicates whether standard calculation (i) is used or not(j) where j improves on the NAC." width="700"><p class="caption">
 NAC scores where one variable varies and the others are set to Maximum
 ecological potential (MEP), variable values range from 5th percentile to
 95th percentile reported by Rutgers (2008). Type indicates whether
@@ -1098,7 +1098,7 @@ Environment</em> 415: 49–55. https://doi.org/<a href="https://doi.org/10.1016/
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

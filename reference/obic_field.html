@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.2.0</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@
 <span>  A_SS_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  A_RT_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  A_SC_BCS <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  B_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  B_DRAIN <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  B_FERT_NORM_FR <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  M_COMPOST <span class="op">=</span> <span class="cn">NA_real_</span>,</span>
 <span>  M_GREEN <span class="op">=</span> <span class="cn">NA</span>,</span>
@@ -133,7 +133,9 @@
 <span>  M_MECHWEEDS <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  M_PESTICIDES_DST <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  ID <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  output <span class="op">=</span> <span class="st">"all"</span></span>
+<span>  output <span class="op">=</span> <span class="st">"all"</span>,</span>
+<span>  useClassicOBI <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  B_AREA_DROUGHT <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -372,6 +374,17 @@
 <dt id="arg-output">output<a class="anchor" aria-label="anchor" href="#arg-output"></a></dt>
 <dd><p>(character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)</p></dd>
 
+
+<dt id="arg-useclassicobi">useClassicOBI<a class="anchor" aria-label="anchor" href="#arg-useclassicobi"></a></dt>
+<dd><p>(boolean) Whether you want to only include agronomic
+indicators and scores as intended by the OBI framework or whether you want
+to include environmental indicators in your score aggregation, more akin to BLN 2.0.
+Defaults to TRUE.</p></dd>
+
+
+<dt id="arg-b-area-drought">B_AREA_DROUGHT<a class="anchor" aria-label="anchor" href="#arg-b-area-drought"></a></dt>
+<dd><p>(boolean) is the field located in an area with high risks for water deficiencies (options: TRUE or FALSE)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -400,7 +413,8 @@ The output is always a data.table.</p>
 <span class="r-in"><span>A_SS_BCS <span class="op">=</span> <span class="fl">1</span>,A_RT_BCS <span class="op">=</span> <span class="fl">1</span>,A_SC_BCS <span class="op">=</span> <span class="fl">1</span>,M_COMPOST <span class="op">=</span> <span class="fl">0</span>,M_GREEN <span class="op">=</span> <span class="cn">FALSE</span>,M_NONBARE <span class="op">=</span><span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>M_EARLYCROP <span class="op">=</span> <span class="cn">FALSE</span>,M_SLEEPHOSE <span class="op">=</span> <span class="cn">FALSE</span>,M_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>,M_DITCH <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>M_UNDERSEED <span class="op">=</span> <span class="cn">FALSE</span>,M_LIME <span class="op">=</span> <span class="cn">FALSE</span>,M_MECHWEEDS <span class="op">=</span> <span class="cn">FALSE</span>,M_NONINVTILL <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>M_PESTICIDES_DST <span class="op">=</span> <span class="cn">FALSE</span>,M_SOLIDMANURE <span class="op">=</span> <span class="cn">FALSE</span>,M_SSPM <span class="op">=</span> <span class="cn">FALSE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>M_PESTICIDES_DST <span class="op">=</span> <span class="cn">FALSE</span>,M_SOLIDMANURE <span class="op">=</span> <span class="cn">FALSE</span>,M_SSPM <span class="op">=</span> <span class="cn">FALSE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>B_AREA_DROUGHT <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span> </span></span>
 </code></pre></div>
@@ -417,7 +431,7 @@ The output is always a data.table.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

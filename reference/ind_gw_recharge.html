@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.2.0</span>
       </span>
     </div>
 
@@ -75,7 +75,18 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ind_gw_recharge</span><span class="op">(</span><span class="va">B_LU_BRP</span>, <span class="va">D_PSP</span>, <span class="va">D_WRI_K</span>, <span class="va">I_P_SE</span>, <span class="va">I_P_CO</span>, <span class="va">B_DRAIN</span>, <span class="va">B_GWL_CLASS</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ind_gw_recharge</span><span class="op">(</span></span>
+<span>  <span class="va">B_LU_BRP</span>,</span>
+<span>  <span class="va">D_PSP</span>,</span>
+<span>  <span class="va">D_WRI_K</span>,</span>
+<span>  I_P_SE <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  I_P_CO <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">B_DRAIN</span>,</span>
+<span>  <span class="va">B_GWL_CLASS</span>,</span>
+<span>  D_SE <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  B_SC_WENR <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  D_P_CO <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -95,11 +106,11 @@
 
 
 <dt id="arg-i-p-se">I_P_SE<a class="anchor" aria-label="anchor" href="#arg-i-p-se"></a></dt>
-<dd><p>(numeric) The indicator value for soil sealing</p></dd>
+<dd><p>(numeric) The indicator value for soil sealing (deprecated)</p></dd>
 
 
 <dt id="arg-i-p-co">I_P_CO<a class="anchor" aria-label="anchor" href="#arg-i-p-co"></a></dt>
-<dd><p>(numeric) The indicator value for occurrence of subsoil compaction</p></dd>
+<dd><p>(numeric) The indicator value for occurrence of subsoil compaction (deprecated)</p></dd>
 
 
 <dt id="arg-b-drain">B_DRAIN<a class="anchor" aria-label="anchor" href="#arg-b-drain"></a></dt>
@@ -109,20 +120,41 @@
 <dt id="arg-b-gwl-class">B_GWL_CLASS<a class="anchor" aria-label="anchor" href="#arg-b-gwl-class"></a></dt>
 <dd><p>(character) The groundwater table class</p></dd>
 
+
+<dt id="arg-d-se">D_SE<a class="anchor" aria-label="anchor" href="#arg-d-se"></a></dt>
+<dd><p>(numeric) The value of soil sealing calculated by <code><a href="calc_sealing_risk.html">calc_sealing_risk</a></code></p></dd>
+
+
+<dt id="arg-b-sc-wenr">B_SC_WENR<a class="anchor" aria-label="anchor" href="#arg-b-sc-wenr"></a></dt>
+<dd><p>(character) The risk for subsoil compaction as derived from risk assessment study of Van den Akker (2006)</p></dd>
+
+
+<dt id="arg-d-p-co">D_P_CO<a class="anchor" aria-label="anchor" href="#arg-d-p-co"></a></dt>
+<dd><p>(numeric) Compaction value based on visual soil assessment (see Details)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>The evaluated score for the soil function to improve groundwater recharge. A numeric value between 0 and 1.</p>
     </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>Soil compaction risk can be assessed either with the soilcompaction risk map
+(B_SC_WENR) or visual soil assessment (VSA) (D_P_CO). D_P_CO itself is calculated
+from the VSA scoring of earthworms, compaction, rooting depth, and puddling:
+D_P_CO = (3 x A_EW_BCS + 3 x A_SC_BCS + 3 x A_RD_BCS  - 2 x A_P_BCS - A_RT_BCS)/18 where
+the .*_BCS variables have the values 0, 1, or 2. When both B_SC_WENR and D_P_CO
+are provided, D_P_CO is used as it is considered more accurate determination of compaction.</p>
+    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">ind_gw_recharge</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>,D_PSP <span class="op">=</span> <span class="fl">200</span>, D_WRI_K <span class="op">=</span> <span class="fl">10</span>, I_P_SE <span class="op">=</span> <span class="fl">0.6</span>, I_P_CO <span class="op">=</span> <span class="fl">0.9</span>, </span></span>
-<span class="r-in"><span>B_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>, B_GWL_CLASS <span class="op">=</span> <span class="st">'V'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1845261</span>
-<span class="r-in"><span><span class="fu">ind_gw_recharge</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">233</span>, D_PSP <span class="op">=</span> <span class="fl">400</span>, D_WRI_K <span class="op">=</span> <span class="fl">10</span>, I_P_SE <span class="op">=</span> <span class="fl">0.4</span>, I_P_CO <span class="op">=</span> <span class="fl">0.2</span>, </span></span>
-<span class="r-in"><span>B_DRAIN <span class="op">=</span> <span class="cn">TRUE</span>, B_GWL_CLASS <span class="op">=</span> <span class="st">'II'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6065342</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">ind_gw_recharge</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">265</span>, D_PSP <span class="op">=</span> <span class="fl">200</span>, D_WRI_K <span class="op">=</span> <span class="fl">10</span>, B_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> B_GWL_CLASS <span class="op">=</span> <span class="st">'V'</span>, D_SE <span class="op">=</span> <span class="fl">2</span>, B_SC_WENR <span class="op">=</span> <span class="st">'Groot'</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1956209</span>
+<span class="r-in"><span><span class="fu">ind_gw_recharge</span><span class="op">(</span>B_LU_BRP <span class="op">=</span> <span class="fl">233</span>, D_PSP <span class="op">=</span> <span class="fl">400</span>, D_WRI_K <span class="op">=</span> <span class="fl">10</span>, B_DRAIN <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> B_GWL_CLASS <span class="op">=</span> <span class="st">'II'</span>, D_SE <span class="op">=</span> <span class="fl">5</span>, D_P_CO <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.636955</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -138,7 +170,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

@@ -19,7 +19,7 @@ Multiple sites (distinguished in the column 'ID') can be simulated simultaneousl
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.2.0</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@ Multiple sites (distinguished in the column 'ID') can be simulated simultaneousl
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">obic_field_dt</span><span class="op">(</span><span class="va">dt</span>, output <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">obic_field_dt</span><span class="op">(</span><span class="va">dt</span>, output <span class="op">=</span> <span class="st">"all"</span>, useClassicOBI <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -92,6 +92,13 @@ Multiple sites (distinguished in the column 'ID') can be simulated simultaneousl
 
 <dt id="arg-output">output<a class="anchor" aria-label="anchor" href="#arg-output"></a></dt>
 <dd><p>(character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)</p></dd>
+
+
+<dt id="arg-useclassicobi">useClassicOBI<a class="anchor" aria-label="anchor" href="#arg-useclassicobi"></a></dt>
+<dd><p>(boolean) Whether you want to only include agronomic
+indicators and scores as intended by the OBI framework or whether you want
+to include environmental indicators in your score aggregation, more akin to BLN 2.0.
+Defaults to TRUE.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -118,7 +125,8 @@ The output is always a data.table.</p>
 <span class="r-in"><span>A_SS_BCS <span class="op">=</span> <span class="fl">1</span>,A_RT_BCS <span class="op">=</span> <span class="fl">1</span>,A_SC_BCS <span class="op">=</span> <span class="fl">1</span>,M_COMPOST <span class="op">=</span> <span class="fl">0</span>,M_GREEN <span class="op">=</span> <span class="cn">FALSE</span>,M_NONBARE <span class="op">=</span><span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>M_EARLYCROP <span class="op">=</span> <span class="cn">FALSE</span>,M_SLEEPHOSE <span class="op">=</span> <span class="cn">FALSE</span>,M_DRAIN <span class="op">=</span> <span class="cn">FALSE</span>,M_DITCH <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>M_UNDERSEED <span class="op">=</span> <span class="cn">FALSE</span>,M_LIME <span class="op">=</span> <span class="cn">FALSE</span>,M_MECHWEEDS <span class="op">=</span> <span class="cn">FALSE</span>,M_NONINVTILL <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>M_PESTICIDES_DST <span class="op">=</span> <span class="cn">FALSE</span>,M_SOLIDMANURE <span class="op">=</span> <span class="cn">FALSE</span>,M_SSPM <span class="op">=</span> <span class="cn">FALSE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>M_PESTICIDES_DST <span class="op">=</span> <span class="cn">FALSE</span>,M_SOLIDMANURE <span class="op">=</span> <span class="cn">FALSE</span>,M_SSPM <span class="op">=</span> <span class="cn">FALSE</span>,M_STRAWRESIDUE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>B_FERT_NORM_FR <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -135,7 +143,7 @@ The output is always a data.table.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

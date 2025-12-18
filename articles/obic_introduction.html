@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.2.0</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
                         <h4 data-toc-skip class="author">Gerard Ros,
 Brent Riechelman</h4>
             
-            <h4 data-toc-skip class="date">2025-08-04</h4>
+            <h4 data-toc-skip class="date">2025-12-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/vignettes/obic_introduction.Rmd" class="external-link"><code>vignettes/obic_introduction.Rmd</code></a></small>
       <div class="hidden name"><code>obic_introduction.Rmd</code></div>
@@ -229,7 +229,7 @@ with “M_”)</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">binnenveld</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 3251   55</span></span>
+<span><span class="co">#&gt; [1] 3251   56</span></span>
 <span>  <span class="va">binnenveld</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="co">#&gt;    A_CLAY_MI  A_N_PMN   A_N_RT A_SOM_LOI   A_P_CC  A_P_AL   A_P_WA  A_PH_CC</span></span>
 <span><span class="co">#&gt;        &lt;num&gt;    &lt;num&gt;    &lt;num&gt;     &lt;num&gt;    &lt;num&gt;   &lt;num&gt;    &lt;num&gt;    &lt;num&gt;</span></span>
@@ -252,9 +252,9 @@ with “M_”)</li>
 <span><span class="co">#&gt;    M_MECHWEEDS M_PESTICIDES_DST M_COMPOST A_EW_BCS A_SC_BCS A_GS_BCS A_P_BCS</span></span>
 <span><span class="co">#&gt;         &lt;lgcl&gt;           &lt;lgcl&gt;     &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;int&gt;</span></span>
 <span><span class="co">#&gt; 1:       FALSE            FALSE         0        0        0        0       0</span></span>
-<span><span class="co">#&gt;    A_C_BCS A_RT_BCS A_RD_BCS A_SS_BCS A_CC_BCS</span></span>
-<span><span class="co">#&gt;      &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1:       0        0        0        0        0</span></span></code></pre></div>
+<span><span class="co">#&gt;    A_C_BCS A_RT_BCS A_RD_BCS A_SS_BCS A_CC_BCS B_FERT_NORM_FR</span></span>
+<span><span class="co">#&gt;      &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;          &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:       0        0        0        0        0              1</span></span></code></pre></div>
 <p>In this example all optional input variables are set to the lowest
 score (for visuals soil assessment) or to false (for soil management
 measures). Since soil quality can only be evaluated given its use, the
@@ -262,8 +262,8 @@ crop rotation plan determines also which soil properties and which soil
 functions are relevant and how they are evaluated given a desired
 threshold value.</p>
 <p>Note that <code>binnenveld</code> is a data.table, a modern and fast
-variant of a data frame <span class="citation">(Dowle and Srinivasan
-2023)</span>. It’s particularly useful for large datasets because it
+variant of a data frame <span class="citation">(Barrett et al.
+2025)</span>. It’s particularly useful for large datasets because it
 only prints a selection of the dataset and calculations done on a
 data.table are extremely fast. You can learn more about data.tables at
 <a href="https://CRAN.R-project.org/package=data.table/vignettes/datatable-intro.html" class="external-link">this
@@ -320,7 +320,7 @@ quality (absolute)</li>
 agronomic soil quality is visualized in Figure 1.</p>
 <p><br></p>
 <div class="figure">
-<img src="../articles/OBIC_score_integratie_2.png" alt="Figure 1. Graphic representation of how measured soil properties are aggregated to scores." width="85%" height="85%"><p class="caption">
+<img src="../articles/OBIC_score_integratie_2.png" class="r-plt" alt="Figure 1. Graphic representation of how measured soil properties are aggregated to scores." width="85%" height="85%"><p class="caption">
 Figure 1. Graphic representation of how measured soil properties are
 aggregated to scores.
 </p>
@@ -409,7 +409,7 @@ details see <code><a href="../reference/calc_bulk_density.html">?calc_bulk_densi
 declines with the soil organic matter level in the soil and is higher in
 sandy soils compared to clayey soils.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="estimate-other-general-properties">Estimate other general properties<a class="anchor" aria-label="anchor" href="#estimate-other-general-properties"></a>
@@ -489,7 +489,7 @@ and a grassland field (left figure) as well for the relationship between
 total N and NLV for a grassland soil. In summary, the N supplying
 capacity of a soil increases with the total N present in the soil.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="672"></p>
 <p>The total N supply is evaluated via a parabolic scoring function with
 an optimum of 100 kg N / ha in arable fields and 140 kg N / ha in
 grassland fields. The conversion from N supply to an index representing
@@ -544,7 +544,7 @@ P-CaCl2 and D_PBI for a grassland soil. In this case the P capacity is
 left constant (so, A_P_AL is not changing) whereas the bio-available P
 pool is increasing from 0.5 to 10 mg P / kg.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="potassium-supply">Potassium supply<a class="anchor" aria-label="anchor" href="#potassium-supply"></a>
@@ -589,7 +589,7 @@ K-CaCl2 and D_K for a grassland soil. In this case the occupation of the
 CEC with K is left constant (so, A_K_CO_PO is not changing) whereas the
 bio-available K pool is increasing from 5 to 500 mg K / kg.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="sulfur-supply">Sulfur supply<a class="anchor" aria-label="anchor" href="#sulfur-supply"></a>
@@ -627,7 +627,7 @@ total S and D_SLV for a grassland soil. In this case all soil properties
 driving S supplying capacity are left constant whereas the total S pool
 is increasing from 500 to 5000 mg S / kg.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="magnesium-supply">Magnesium supply<a class="anchor" aria-label="anchor" href="#magnesium-supply"></a>
@@ -660,7 +660,7 @@ Mg-CaCl2 and D_MG for a grassland soil. In this case all soil properties
 driving Mg availability in soil are left constant whereas the
 bio-available Mg pool is increasing from 5 to 500 mg Mg / kg.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="copper-supply">Copper supply<a class="anchor" aria-label="anchor" href="#copper-supply"></a>
@@ -702,7 +702,7 @@ Cu-CaCl2 and D_CU for a grassland soil. In this case all soil properties
 driving Cu availability in soil are left constant whereas the
 bio-available Cu pool is increasing from 5 to 500 ug Cu / kg.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="zinc-supply">Zinc supply<a class="anchor" aria-label="anchor" href="#zinc-supply"></a>
@@ -741,7 +741,7 @@ Zn-CaCl2 and D_ZN for a grassland soil. In this case all soil properties
 driving Zn availability in soil are left constant whereas the
 bio-available Zn pool is increasing from 50 to 5000 ug Zn / kg.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-20-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="soil-acidity">Soil Acidity<a class="anchor" aria-label="anchor" href="#soil-acidity"></a>
@@ -778,7 +778,7 @@ the initial and desired pH change for a grassland soil. In this case all
 soil properties driving pH in soil are left constant whereas the initial
 pH is increasing from 3 to 10.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-22-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="soil-cation-buffering">Soil Cation Buffering<a class="anchor" aria-label="anchor" href="#soil-cation-buffering"></a>
@@ -849,7 +849,7 @@ stress (D_WSI_WS, green) are estimated for five fields with different
 soil types and crops. In the right figure the impact of variable
 groundwater dynamics are estimated for a single field.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-26-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-26-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="sealing-soil-surface-and-wind-erodibility">Sealing Soil Surface and Wind Erodibility<a class="anchor" aria-label="anchor" href="#sealing-soil-surface-and-wind-erodibility"></a>
@@ -900,7 +900,7 @@ indicator function (explained and illustrated later) given the land use
 present. The wind erodibility is declining with the clay content and is
 not relevant for grassland due to the permanent crop cover.</p>
 <p><br></p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-28-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-28-1.png" class="r-plt" width="672"></p>
 </div>
 </div>
 <div class="section level4">
@@ -942,7 +942,7 @@ a soil where 100% of the CEC is occupied with a variable contribution of
 the three cations. The highest aggregate stability is found when the
 distance to the optimum is the lowest, being around a Ca occupation of
 about 85% of the CEC.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-30-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-30-1.png" class="r-plt" width="672"></p>
 <div class="section level5">
 <h5 id="subsoil-compaction">Subsoil compaction<a class="anchor" aria-label="anchor" href="#subsoil-compaction"></a>
 </h5>
@@ -1021,7 +1021,7 @@ stability index is corrected to the maximum index a soil can retrieve
 (the value 1). In contrast, when field observations support the
 conclusion of serious bottlenecks for aggregate stability, then the
 index declines to almost zero.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-32-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-32-1.png" class="r-plt" width="672"></p>
 <div class="section level5">
 <h5 id="water-retention-in-topsoil">Water retention in topsoil<a class="anchor" aria-label="anchor" href="#water-retention-in-topsoil"></a>
 </h5>
@@ -1088,7 +1088,7 @@ the pF-curve. Other options are also possible.</p>
 changes with clay content, sand content, silt content and soil organic
 matter content. All other soil properties are assumed to be
 constant.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-34-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-34-1.png" class="r-plt" width="672"></p>
 </div>
 </div>
 <div class="section level4">
@@ -1120,7 +1120,7 @@ matter, are decomposed by anaerobic soil microbes.</p>
 overestimated. Therefore, a land-use dependent correction factor is
 used. The PMN index is capped at 500. Below an example of this function
 is given.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-36-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-36-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="disease-resistance">Disease resistance<a class="anchor" aria-label="anchor" href="#disease-resistance"></a>
@@ -1150,7 +1150,7 @@ resistance.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="co"># Calculate disease resistance</span></span>
 <span>  <span class="va">dt</span><span class="op">[</span>, <span class="va">I_B_DI</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_resistance.html">ind_resistance</a></span><span class="op">(</span><span class="va">A_SOM_LOI</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-38-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-38-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="earthworm-density">Earthworm density<a class="anchor" aria-label="anchor" href="#earthworm-density"></a>
@@ -1192,7 +1192,7 @@ with the groundwater depth (derived from the groundwater table,
 B_GWL_CLASS). Be aware, since these derivative scores on the y-axis are
 not yet scaled as distance to target, both scores for leaching and
 runoff cannot be compared directly.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-41-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-41-1.png" class="r-plt" width="672"></p>
 <p><br></p>
 <p>The properties of the five fields used to illustrate the functions
 for N leaching and runoff are summarized in the table below.</p>
@@ -1255,7 +1255,7 @@ related to the potential N leaching? Below the relation is illustrated
 for the indicator value for one soil showing that the distance to target
 (a lower value) increases (whereas the indicator value declines) with
 the potential N leaching up to 20 mg N per liter.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-43-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-43-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level5">
 <h5 id="n-retention-preventing-n-runoff">N retention preventing N runoff<a class="anchor" aria-label="anchor" href="#n-retention-preventing-n-runoff"></a>
@@ -1272,7 +1272,7 @@ Be aware, since these derivative scores on the y-axis are not yet scaled
 as distance to target, both scores for leaching and runoff cannot be
 compared directly, but the relative differences among fields are
 possible to compare.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-44-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-44-1.png" class="r-plt" width="672"></p>
 </div>
 </div>
 <div class="section level4">
@@ -1366,7 +1366,7 @@ calculated by <code>calc_rotation_fraction</code> and
 <span>                                  <span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <p>Example of the soil organic matter balance and management on five
 fields from the Binnenveld dataset.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-46-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-46-1.png" class="r-plt" width="672"></p>
 </div>
 </div>
 <div class="section level4">
@@ -1513,8 +1513,8 @@ evaluation for specific soil types or crops rotation schemes.</p>
 <span>  <span class="va">dt</span><span class="op">[</span>, <span class="va">I_B_SF</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_pmn.html">ind_pmn</a></span><span class="op">(</span><span class="va">D_PMN</span><span class="op">)</span><span class="op">]</span></span>
 <span>  </span>
 <span>  <span class="co"># Calculate indicators for environment</span></span>
-<span>  <span class="va">dt</span><span class="op">[</span>, <span class="va">I_E_NGW</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_nretention.html">ind_nretention</a></span><span class="op">(</span><span class="va">D_NGW</span>, leaching_to <span class="op">=</span> <span class="st">"gw"</span><span class="op">)</span><span class="op">]</span></span>
-<span>  <span class="va">dt</span><span class="op">[</span>, <span class="va">I_E_NSW</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_nretention.html">ind_nretention</a></span><span class="op">(</span><span class="va">D_NSW</span>, leaching_to <span class="op">=</span> <span class="st">"ow"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<span>  <span class="va">dt</span><span class="op">[</span>, <span class="va">I_E_GW_NRET</span> <span class="op">:=</span> <span class="fu"><a href="../reference/ind_nretention.html">ind_nretention</a></span><span class="op">(</span><span class="va">D_NGW</span>, leaching_to <span class="op">=</span> <span class="st">"gw"</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">dt</span><span class="op">[</span>, <span class="va">I_E_SW_NRET</span>  <span class="op">:=</span> <span class="fu"><a href="../reference/ind_nretention.html">ind_nretention</a></span><span class="op">(</span><span class="va">D_NSW</span>, leaching_to <span class="op">=</span> <span class="st">"ow"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <p>Some of these indicator functions internally use an evaluation
 function such as <code><a href="../reference/evaluate_logistic.html">evaluate_logistic()</a></code> and
 <code><a href="../reference/evaluate_parabolic.html">evaluate_parabolic()</a></code>. For more information on these
@@ -1528,11 +1528,11 @@ scores. In other words, poor performance is evaluated more stringent
 than good performance. Below, the relation between a soil function
 values and their scores (index values) is given. An example of logistic
 evaluation can be found in I_P_WS (water stress)</p>
-<p><img src="obic_introduction_files/figure-html/plot%20relation%20function%20and%20index%20values-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/plot%20relation%20function%20and%20index%20values-1.png" class="r-plt" width="672"></p>
 <p>The indicator for management based on the point system of the label
 sustainable soil management has a linear relation between the number of
 points and the indicator score.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-49-1.png" width="672"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-49-1.png" class="r-plt" width="672"></p>
 </div>
 </div>
 <div class="section level4">
@@ -1671,7 +1671,7 @@ soil function.</p>
 </h3>
 <p>Below OBI scores are presented for the Binnenveld dataset per major
 soil function.</p>
-<p><img src="obic_introduction_files/figure-html/unnamed-chunk-54-1.png" width="652.8"></p>
+<p><img src="obic_introduction_files/figure-html/unnamed-chunk-54-1.png" class="r-plt" width="652.8"></p>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -1681,6 +1681,11 @@ soil function.</p>
 Andrews, Susan S, and C Ronald Carroll. 2001. <span>“<span class="nocase">Designing a soil quality assessment tool for sustainable
 agroecosystem management</span>.”</span> <em>Ecological
 Applications</em> 11 (6): 1573–85.
+</div>
+<div id="ref-R-data.table" class="csl-entry">
+Barrett, Tyson, Matt Dowle, Arun Srinivasan, Jan Gorecki, Michael
+Chirico, Toby Hocking, Benjamin Schwendinger, and Ivan Krylov. 2025.
+<em>Data.table: Extension of ‘Data.frame‘</em>. <a href="https://r-datatable.com" class="external-link">https://r-datatable.com</a>.
 </div>
 <div id="ref-Bunemann2016" class="csl-entry">
 Bünemann, E K, P Mäder, J Wohlfahrt, L Brussaard, G Bongiorno, R De
@@ -1695,10 +1700,6 @@ Gerlinde De Deyn, Ron de Goede, Luuk Fleskens, Violette Geissen, Thom W
 Kuyper, and Paul Mäder. 2018. <span>“<span class="nocase">Soil quality–A
 critical review</span>.”</span> <em>Soil Biology and Biochemistry</em>
 120: 105–25.
-</div>
-<div id="ref-R-data.table" class="csl-entry">
-Dowle, Matt, and Arun Srinivasan. 2023. <em>Data.table: Extension of
-‘Data.frame‘</em>. <a href="https://CRAN.R-project.org/package=data.table" class="external-link">https://CRAN.R-project.org/package=data.table</a>.
 </div>
 <div id="ref-Heeres1999" class="csl-entry">
 Heeres, E, and P J van Erp. 1999. <span>“<span class="nocase">Organic
@@ -1721,11 +1722,11 @@ Locher, W P, and H De Bakker. 1990. <em><span class="nocase">Bodemkunde
 van Nederland, deel 1: Algemene bodemkunde</span></em>.
 </div>
 <div id="ref-R-patchwork" class="csl-entry">
-Pedersen, Thomas Lin. 2022. <em>Patchwork: The Composer of Plots</em>.
-<a href="https://CRAN.R-project.org/package=patchwork" class="external-link">https://CRAN.R-project.org/package=patchwork</a>.
+Pedersen, Thomas Lin. 2025. <em>Patchwork: The Composer of Plots</em>.
+<a href="https://patchwork.data-imaginist.com" class="external-link">https://patchwork.data-imaginist.com</a>.
 </div>
 <div id="ref-R-base" class="csl-entry">
-R Core Team. 2023. <em>R: A Language and Environment for Statistical
+R Core Team. 2025. <em>R: A Language and Environment for Statistical
 Computing</em>. Vienna, Austria: R Foundation for Statistical Computing.
 <a href="https://www.R-project.org/" class="external-link">https://www.R-project.org/</a>.
 </div>
@@ -1742,15 +1743,15 @@ technique at site and farm level</span>.”</span> <em>Soil Use and
 Management</em> 30 (2): 263–71.
 </div>
 <div id="ref-R-OBIC" class="csl-entry">
-Verweij, Sven, Gerard Ros, Yuki Fujita, Brent Riechelman, and Kees van
-den Dool. 2023. <em>OBIC: Calculate the Open Bodem Index (OBI)
+Verweij, Sven, Gerard Ros, Yuki Fujita, Wilbrand Hendrik Riechelman, and
+Kees van den Dool. 2025. <em>OBIC: Calculate the Open Bodem Index (OBI)
 Score</em>. <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator" class="external-link">https://github.com/AgroCares/Open-Bodem-Index-Calculator</a>.
 </div>
 <div id="ref-R-ggplot2" class="csl-entry">
 Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen,
-Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, and Dewey
-Dunnington. 2023. <em>Ggplot2: Create Elegant Data Visualisations Using
-the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link">https://CRAN.R-project.org/package=ggplot2</a>.
+Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, Dewey
+Dunnington, and Teun van den Brand. 2025. <em>Ggplot2: Create Elegant
+Data Visualisations Using the Grammar of Graphics</em>. <a href="https://ggplot2.tidyverse.org" class="external-link">https://ggplot2.tidyverse.org</a>.
 </div>
 <div id="ref-Wienhold2004" class="csl-entry">
 Wienhold, Brian J, S S Andrews, and D L Karlen. 2004. <span>“<span class="nocase">Soil quality: a review of the science and experiences in
@@ -1788,7 +1789,7 @@ Staringreeks</span>.”</span> Wageningen: Alterra. <a href="https://edepot.wur.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

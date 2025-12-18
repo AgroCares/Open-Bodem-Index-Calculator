@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OBIC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.2.0</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
                         <h4 data-toc-skip class="author">Brent
 Riechelman</h4>
             
-            <h4 data-toc-skip class="date">2025-08-04</h4>
+            <h4 data-toc-skip class="date">2025-12-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AgroCares/Open-Bodem-Index-Calculator/blob/master/vignettes/obic_workability.Rmd" class="external-link"><code>vignettes/obic_workability.Rmd</code></a></small>
       <div class="hidden name"><code>obic_workability.Rmd</code></div>
@@ -267,12 +267,12 @@ in summer. When comparing fields 1 and 2, we see that field 1 is drier
 in summer but more wet in winter. Lets plot the relative season length
 and indicator score for workability of these fields.</p>
 <div class="figure">
-<img src="obic_workability_files/figure-html/plot%20regime%20curve-1.png" alt="Regime curve of groundwater level throughout the year. The blue line is at the GHG on day 46, the red line is at GLG on day 227" width="672"><p class="caption">
+<img src="obic_workability_files/figure-html/plot%20regime%20curve-1.png" class="r-plt" alt="Regime curve of groundwater level throughout the year. The blue line is at the GHG on day 46, the red line is at GLG on day 227" width="672"><p class="caption">
 Regime curve of groundwater level throughout the year. The blue line is
 at the GHG on day 46, the red line is at GLG on day 227
 </p>
 </div>
-<p><img src="obic_workability_files/figure-html/plot%20baseline-1.png" width="672"></p>
+<p><img src="obic_workability_files/figure-html/plot%20baseline-1.png" class="r-plt" width="672"></p>
 <p>Both among the grassland and the arable fields, we find a poorly
 performing and a reasonable performing field. If you look closely, you
 can see that field 1 scores much lower than field 4, despite having a
@@ -285,7 +285,7 @@ well as the growing season and soil working depth requirements of the
 crop. By choosing a crop with a shorter growing season and or more
 shallow soil working depth, the score can be improved. Lets see how
 these parcels perform when we cultivate peas.</p>
-<p><img src="obic_workability_files/figure-html/scoring%20with%20peas-1.png" width="672"></p>
+<p><img src="obic_workability_files/figure-html/scoring%20with%20peas-1.png" class="r-plt" width="672"></p>
 It worked! Or at least it did for the arable fields, the fields that
 used to have grass perform much worse now. So what happend? For the
 arable fields, the required number of days decreased.
@@ -529,7 +529,7 @@ score. Ground water levels are really what determines when the land can
 be worked. Lets see what would happen to our fields if they become drier
 by increasing both their lowest and highest water level by 30
 percent.</p>
-<p><img src="obic_workability_files/figure-html/show%20lower%20water%20-1.png" width="672"></p>
+<p><img src="obic_workability_files/figure-html/show%20lower%20water%20-1.png" class="r-plt" width="672"></p>
 <p>As you may have suspected, lower water levels resulted in higher
 relative growing seasons and workability scores. Note that for the
 function ‘workability’ lower ground water is always positive until the
@@ -547,7 +547,7 @@ day. In our example data, B_GWL_ZCRIT was set to 400 meaning that over a
 distance of 400 cm between the groundwater table and the soil surface,
 the soil is able to supply at least 2 mm of water per day. Lets set
 B_GWL_ZCRIT to 50 and see what happens to our scores.</p>
-<p><img src="obic_workability_files/figure-html/plot%20with%20low%20zcrit%20-1.png" width="672"></p>
+<p><img src="obic_workability_files/figure-html/plot%20with%20low%20zcrit%20-1.png" class="r-plt" width="672"></p>
 <p>The scores improved for all fields! Decreasing B_GWL_ZCRIT to 50
 means that the soils dry up much faster because evaporation on the soil
 surface is higher than capillary rise once the groundwater table falls
@@ -583,7 +583,7 @@ the art 2018</span>.”</span> BodemConsult-Arnhem.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
