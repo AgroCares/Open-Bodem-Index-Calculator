@@ -1,3 +1,48 @@
+# OBIC 4.2.0 2025-12-18
+## Added
+* Function ind_gw_target() to modify I_H_GWR (renamed to I_E_GWR) with a correction factor based on
+soiltype and groundwaterclass akin to the groundwaterrecharge score from BBWPC.
+
+## Changed
+* Argument useClassicOBI is added to obi_field(), obi_field_dt(), and obi_farm().
+This argument defaults to TRUE, when TRUE, only agronomic indicators are calculated
+and aggregated. When FALSE, water-related indicators (groundwater recharge,
+pesticide leaching, and nitrogen use efficiency in relation to groundwater
+and surface water) are included in the environmental score and subsequently in
+the total score.
+* When useClassicOBI = FALSE, indicators for water quality and quantity (
+I_E_GW_NLEA, I_E_SW_NLEA, I_E_PEST, and I_E_GWR) are included in the 
+calculation of S_E_OBI_A.
+* B_DRAIN no longer has a default value and must be supplied when useClassicOBI = FALSE
+* M_GREEN is set to TRUE for potato and maize on sandy soils by `add_management()`. This
+means that M_GREEN is overwritten for such cultivations when using one of the wrapper
+functions.
+* renamed I_H_NGW to I_E_GW_NLEA
+* renamed I_H_NSW to I_E_SW_NLEA 
+* renamed I_H_PEST to I_E_PEST 
+* renamed I_H_GWR to I_E_GWR 
+* renamed I_E_NGW to I_E_GW_NRET, I_E_NGW is still part of the obic_field() and
+obic_farm() outputs but its use is deprecated, switch over to I_E_GW_NRET
+* renamed I_E_NSW to I_E_SW_NRET, I_E_NSW is still part of the obic_field() and 
+obic_farm() outputs but its use is deprecated, switch over to I_E_SW_NRET
+* `calc_psp()` no longer changes makkink factors for specific months in a rotation.
+Instead, makkink factors are adjusted within a single year. For example, if in 2015
+potato is grown followed by a green manure and grassland in 2016, the makkink factors
+in 2015 for months 1,2 3, 10, 11, and 12 are set to 0.6 (even tough the green manure
+partially grows in 2016). One can now indicate in which months a green manure is
+grown, default is from 10 up to and including 3. Lastly, the makkink factor for green
+manure is only set to 0.6, and only when this is higher than the non-green manure 
+factor. The makkink factor for month 10 used to be 0.74
+* Introduced argument B_AREA_DROUGHT for `obic_field()` and as possible column in
+`obic_field_dt()` and `obic_farm()`. This argument is passed on to `ind_gw_recharge()`
+which is only called when useClassicOBI == FALSE. When B_AREA_DROUGHT is missing
+but required, it is assigned a value in by `obic_field()` based on B_SOILTYPE_AGR 
+and B_AER_CBS whilst raising a warning.
+
+## Fixed
+* B_FERT_NORM_FR and B_DRAIN can now be supplied when using `obic_field_dt()` or
+`obic_farm()`. The value is set to 1 when not supplied.
+
 # OBIC 4.1.0 2025-08-04
 ## Added
 * BRP crop codes for 2025: 7137, 7138, 7135, 7134

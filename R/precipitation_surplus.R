@@ -1,127 +1,113 @@
 #' Calculate the precipitation surplus
-#' 
+#'
 #' This function calculates the precipitation surplus (in mm / ha) given the crop rotation plan.
-#' 
+#' For the months with green manure (M_GREEN_START to and including M_GREEN_TERMINATE),
+#' the makkink correction factor is increased to 0.6. If the value is already higher
+#' than 0.6, no change is made to the makkink factor. For most cultivations, including
+#' green manure decreases the precipitation suprlus by increasing the evapotranspiration.
+#'
 #' @param B_LU_BRP (numeric) The crop code from the BRP
 #' @param M_GREEN (boolean) A soil measure. Are catch crops sown after main crop (optional, options: TRUE, FALSE)
+#' @param M_GREEN_START (integer) Month in which the green manure is sown
+#' @param M_GREEN_TERMINATE (integer) Month in which the green manure is terminated, this month is included as month with green manure
+#' 
+#' @details
+#' This function is calculates a precipitation surplus over 12 months taking green
+#' manures into account. The function does not take crop rotations or successive
+#' years into account. As such, including a winter cereal, which modifies
+#' evapotranspiration from January to August, does not alter the autumn 
+#' evapotranspiration. If for example, a crop rotation includes potato followed by
+#' winter wheat, the year with potato cultivation should have M_GREEN = TRUE.
+#' The winter wheat acts as a green manure/catch crop for the potato's year.
+#' 
 #'
 #' @examples
 #' calc_psp(B_LU_BRP = 265, M_GREEN = TRUE)
 #' calc_psp(B_LU_BRP = c(265,1019,265,1019), M_GREEN = rep(TRUE,4))
-#' 
-#' @return 
+#' calc_psp(B_LU_BRP = c(2014, 2767), M_GREEN = rep(TRUE,2),
+#'              M_GREEN_START = c(10L, 11L), M_GREEN_TERMINATE = c(12L, 3L))
+#'
+#' @return
 #' The estimated precipitation surplus (in mm / ha) depending on averaged precipitation and evaporation. A numeric value.
-#' 
+#'
 #' @export
-calc_psp <- function(B_LU_BRP, M_GREEN){
+calc_psp <- function(B_LU_BRP, M_GREEN, M_GREEN_START = 10L, M_GREEN_TERMINATE = 3L){
   
-  crop_code = crop_name = crop_makkink = psp = A_PREC_MEAN = A_ET_MEAN = mcf = NULL
+  # set visual bindings
+  crop_code = crop_name = crop_makkink = psp = A_PREC_MEAN = A_ET_MEAN = mcf = . = NULL
+  year_wc = year_wc2 = oid = NULL
   
   # Check input
-  arg.length <- max(length(B_LU_BRP), length(M_GREEN))
+  arg.length <- max(length(B_LU_BRP), length(M_GREEN),
+                    length(M_GREEN_START), length(M_GREEN_TERMINATE))
   
   # check inputs
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1, len = arg.length)
   checkmate::assert_subset(B_LU_BRP, choices = unique(OBIC::crops.obic$crop_code), empty.ok = FALSE)
   checkmate::assert_logical(M_GREEN,any.missing = FALSE, len = arg.length)
-  
+  checkmate::assert_integer(M_GREEN_START, lower = 8, upper = 12)
+  checkmate::assert_integer(M_GREEN_TERMINATE)
+  checkmate::assert_subset(M_GREEN_TERMINATE, choices = c(10L, 11L, 12L, 1L, 2L, 3L, 4L))
   
   # Load in the datasets
+  dt.weather <- OBIC::weather.obic
   crops.obic <- as.data.table(OBIC::crops.obic)
   crops.makkink <- as.data.table(OBIC::crops.makkink)
-  
-  # melt makkink
-  dt.mak <- melt.data.table(crops.makkink,id.vars = 'crop_makkink', variable.name = 'month',value.name = "mcf")
-  dt.mak[,month := as.integer(month)]
-  
+  setnames(crops.makkink,old = c('crop_makkink',1:12),new=c('crop_makkink',paste0('m',1:12)))
   
   # Collect input data in a table
-  dt <- data.table(year = 1:arg.length,
-                   B_LU_BRP = B_LU_BRP,
-                   M_GREEN = M_GREEN
-  )
+  dt <- data.table(B_LU_BRP = B_LU_BRP,M_GREEN = M_GREEN,oid = 1:arg.length,
+                   M_GREEN_START, M_GREEN_TERMINATE)
   
   # merge with obic crop
   dt <- merge(dt, crops.obic[, list(crop_code, crop_name, crop_makkink)], by.x = "B_LU_BRP", by.y = "crop_code")
   
-  # extend data.table for 12 months
-  dt.gws <- CJ(year = dt$year,month = 1:12)
+  # merge with makkink fractions
+  dt <- merge(dt, crops.makkink, by = "crop_makkink")
   
-  # Merge tables
-  dt <- merge(dt, dt.gws, by = "year")
-  
-  
-  # merge makkink data by month and crop_cat
-  # be aware: some crops grow from summer up to spring next year
-  dt <- merge(dt,dt.mak, by = c("crop_makkink", "month"), all.x = TRUE)
+  # add year
+  dt[,year:= 1:.N]
   
   # Order by year
-  dt <- setorder(dt,year)
+  setorder(dt, year)
   
+  # reshape
+  dtm <- melt(dt, measure.vars = paste0('m',1:12),
+              variable.name = 'month', value.name = 'mcf')
+  setorder(dtm, oid, month)
+  dtm[, month := as.numeric(gsub('m', '', month))]
   
-  # Select years with wintercereals
-  year_wc <- unique(dt[B_LU_BRP == 233|B_LU_BRP == 235, year])
+  # change makking factor for green manure months end of the year
+  dtm[M_GREEN == TRUE & mcf < 0.6 & # only overwrite makkink if there is no regular crop expected here
+        month >= M_GREEN_START & # select months after start
+        (!month == M_GREEN_TERMINATE| (month > M_GREEN_TERMINATE & month > M_GREEN_START)),# do not select months of termination of after termination and before new year
+      mcf := 0.6]
   
-  for(i in year_wc){
-    
-    dt[year == i-1 & month == 10|
-         year == i-1 & month == 11|
-         year == i-1 & month == 12, c("crop_name","crop_cover","mcf") := list("winter cereal", 1, c(0.5,0.6,0.6))]
-    
-  }
+  # change makking factor for green manure months beginning of the year
+  dtm[M_GREEN == TRUE & mcf < 0.6 &
+        M_GREEN_START > M_GREEN_TERMINATE & # if TERMINATE is smaller than START, TERMINATION happens in the new year
+        month <= M_GREEN_TERMINATE,
+      mcf := 0.6]
   
-  
-  # Set M_GREEN to TRUE for maize and potato cultivation
-  dt[grepl('mais|aardappel',crop_name), M_GREEN := TRUE]
-  
-  
-  ## Select years with catch crops and remove years before winter cereal cultivation -> winter cereal is the catch crop
-  year_cc <- unique(dt[M_GREEN == TRUE, year])
-  year_cc <- year_cc[!year_cc %in% (year_wc - 1)]
-  
-  # Add catch crop for last year in rotation
-  if(length(year_cc) != 0){
-    if(year_cc[length(year_cc)] == arg.length){
-    
-    dt[year == arg.length & month %in% 10:12, c("crop_name","mcf"):=list("catch crop",c(0.74,0.64,0.6))]
-    year_cc <- year_cc[! year_cc %in% arg.length]
-    }
-  }
-  
-  # Add catch crops to other years
-  for(i in year_cc){
-    
-    dt[year == i & month == 10|
-         year == i & month == 11|
-         year == i & month == 12|
-         year == i+1 & month == 1|
-         year == i+1 & month == 2|
-         year == i+1 & month == 3, c("crop_name","mcf"):=list("catch crop",c(0.74,0.64,0.6,0.6,0.6,0.6))]
-  }
-  
-  
-  # Load weather data
-  dt.weather <- OBIC::weather.obic
-  
-  # merge dt with weather data using month
-  dt <- merge(dt,dt.weather, by = 'month')
+  # merge with weather
+  dtm <- merge(dtm, dt.weather, by='month')
   
   # calculate precipitation surplus
-  dt[, psp := A_PREC_MEAN - A_ET_MEAN * mcf]
-  
+  dtm[, psp := A_PREC_MEAN - A_ET_MEAN * mcf]
   
   # calculate the precipitation surplus per year
-  out <- dt[,list(psp = sum(psp)),by = "year"]
+  out <- dtm[,list(psp = sum(psp)),by = c("oid")]
+  
+  # reset order to input order
+  setorder(out,oid)
   
   # return value
   D_PSP <- out[,psp]
   
-  # return 
+  # return
   return(D_PSP)
   
 }
-
-
 
 #' Calculate indicator for precipitation surplus
 #' 

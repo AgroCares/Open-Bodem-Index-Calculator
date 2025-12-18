@@ -36,5 +36,5 @@
   } else {
       print(paste0('some indicators are in weights.obic but do not have a column description: ', paste0(unique(cols.super), collapse= ', ')))
   }
-  
+
 usethis::use_data(weight.obic, version = 3, overwrite = TRUE, compress = 'xz')

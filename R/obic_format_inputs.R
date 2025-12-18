@@ -11,7 +11,7 @@
 #' format_soilcompaction(c('2', '3',"Matig", "Groot"))
 #' 
 #' @return 
-#' A standardized B_GWL_CLASS value as required for the OBIC functions. A character string.
+#' A standardized B_SC_WENR value as required for the OBIC functions. A character string.
 #' 
 #' @export
 format_soilcompaction <- function(B_SC_WENR) {

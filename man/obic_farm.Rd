@@ -4,10 +4,15 @@
 \alias{obic_farm}
 \title{Calculate the Open Bodem Index score for a series of fields belonging to a farm}
 \usage{
-obic_farm(dt)
+obic_farm(dt, useClassicOBI = TRUE)
 }
 \arguments{
 \item{dt}{(data.table) A data.table containing the data of the fields to calculate the OBI}
+
+\item{useClassicOBI}{(boolean) Whether you want to only include agronomic
+indicators and scores as intended by the OBI framework or whether you want
+to include environmental indicators in your score aggregation, more akin to BLN 2.0.
+Defaults to TRUE.}
 }
 \value{
 The output of the Open Bodem Index Calculator for a series of agricultural fields belonging to a single farm. 
@@ -39,7 +44,8 @@ A_C_BCS = 1,A_CC_BCS = 1,A_GS_BCS = 1,A_P_BCS = 1,A_RD_BCS = 1,A_EW_BCS = 1,
 A_SS_BCS = 1,A_RT_BCS = 1,A_SC_BCS = 1,M_COMPOST = 0,M_GREEN = FALSE,M_NONBARE =FALSE,
 M_EARLYCROP = FALSE,M_SLEEPHOSE = FALSE,M_DRAIN = FALSE,M_DITCH = FALSE,
 M_UNDERSEED = FALSE,M_LIME = FALSE,M_MECHWEEDS = FALSE,M_NONINVTILL = FALSE,
-M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE))
+M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE,
+ID = 'a farm ID', B_FERT_NORM_FR = 1))
 }
 
 }

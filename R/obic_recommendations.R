@@ -231,7 +231,7 @@ obic_recommendations_bkp <- function(dt.score, B_LU_BRP, B_SOILTYPE_AGR) {
   arg.length <- max(length(B_LU_BRP),length(B_SOILTYPE_AGR),nrow(dt.score))
   checkmate::assert_data_table(dt.score, nrows = arg.length)
   cols.r <- c("ID","I_B_DI","I_B_SF","I_C_CEC","I_C_CU", "I_C_K",
-              "I_C_MG","I_C_N","I_C_P","I_C_PH","I_C_S","I_C_ZN","I_E_NSW","I_P_CEC",
+              "I_C_MG","I_C_N","I_C_P","I_C_PH","I_C_S","I_C_ZN","I_E_SW_NRET","I_P_CEC",
               "I_P_CO","I_P_CR","I_P_DS","I_P_DU","I_P_SE","I_P_WO","I_P_WRI","I_P_WS")
   cols <- colnames(dt.score)[colnames(dt.score) %in% cols.r ]
   checkmate::assert_subset(cols, choices = cols.r )

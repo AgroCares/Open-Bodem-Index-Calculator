@@ -1674,8 +1674,8 @@ The OBIC package has functions that transform the value of a soil function into 
   dt[, I_B_SF := ind_pmn(D_PMN)]
   
   # Calculate indicators for environment
-  dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
-  dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
+  dt[, I_E_GW_NRET := ind_nretention(D_NGW, leaching_to = "gw")]
+  dt[, I_E_SW_NRET  := ind_nretention(D_NSW, leaching_to = "ow")]
 ```
 
 Some of these indicator functions internally use an evaluation function such as `evaluate_logistic()` and `evaluate_parabolic()`. For more information on these functions or logistic functions in general see `?evaluate_logistic()`, `?evaluate_parabolic()`, or [link to Wikipedia](https://en.wikipedia.org/wiki/Generalised_logistic_function). When logistic evaluation is used, there is no linear relation between the an indicators value and its score. Often the evaluation is set up so that lower values gain increasingly lower scores. In other words, poor performance is evaluated more stringent than good performance. Below, the relation between a soil function values and their scores (index values) is given. An example of logistic evaluation can be found in I_P_WS (water stress)
@@ -1735,8 +1735,8 @@ Some of these indicator functions internally use an evaluation function such as 
   dt[, I_B_SF := ind_pmn(D_PMN)]
     
   # Calculate indicators for environment
-  dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
-  dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
+  dt[, I_E_GW_NRET := ind_nretention(D_NGW, leaching_to = "gw")]
+  dt[, I_E_SW_NRET  := ind_nretention(D_NSW, leaching_to = "ow")]
     
   indcols <- colnames(dt)[grep('^I_',colnames(dt))]
   cols <- colnames(dt)[grep('^I_|^B_|^A_|^id$',colnames(dt))]
@@ -1764,8 +1764,8 @@ Some of these indicator functions internally use an evaluation function such as 
                         (funct == 'D_WRI'& indicator == 'I_P_WRI')|
                         (funct == 'D_CEC'& indicator == 'I_P_CEC')|
                         (funct == 'D_PMN'& indicator == 'I_B_SF')|
-                        (funct == 'D_NGW'& indicator == 'I_E_NGW')|
-                        (funct == 'D_NSW'& indicator == 'I_E_NSW')|
+                        (funct == 'D_NGW'& indicator == 'I_E_GW_NRET')|
+                        (funct == 'D_NSW'& indicator == 'I_E_SW_NRET ')|
                         (funct == 'D_CR'& indicator == 'I_P_CR')|
                         (funct == 'D_SE'& indicator == 'I_P_SE')|
                         (funct == 'D_WE'& indicator == 'I_P_DU')|

@@ -23,6 +23,11 @@
 #'  
 #' @import data.table
 #' 
+#' @details
+#' Potato and maize cultivations on sandy soil will always have M_GREEN = TRUE,
+#' in line with Dutch legislation.
+#' 
+#' 
 #' @examples 
 #' add_management(ID = 1, B_LU_BRP = 256, B_SOILTYPE_AGR = 'dekzand')
 #' add_management(ID = 1, B_LU_BRP = c(256,1019), B_SOILTYPE_AGR = rep('dekzand',2))
@@ -106,6 +111,12 @@ add_management <- function(ID,B_LU_BRP, B_SOILTYPE_AGR,
     # is there green manure used and soil non-bare
     dt[is.na(M_GREEN), M_GREEN := TRUE]
     dt[is.na(M_NONBARE), M_NONBARE := FALSE]
+    
+    # force green manure for potato and maize cultivations on sand
+    dt[soiltype.n == 'zand' & 
+         B_LU_BRP %in% c(259, 316, 317, 814, 859, 1909, 1910, 1911, 1912, 1928, 1929, 1935,
+                          2014, 2015, 2016, 2017, 2025, 2032, 2951, 3730, 3731, 3732, 3792),
+       M_GREEN := TRUE]
     
     # is the soil limed in last three years
     dt[is.na(M_LIME), M_LIME := TRUE]

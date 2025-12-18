@@ -1,26 +1,26 @@
 maatregel_nr;omschrijving;Prio_M;Dremp_S;Order;m_soilfunction;OBICvariable;Ef_M;filter;melkveehouderij_alleen_gras;melkveehouderij_incl_mais_naast_gras;akkerbouw;groente;boomteelt;klei;veen;zand;loess
 12;Organische bemesting;1;0.6;12;koolstofvastlegging;S_M;+;1;1;1;1;1;1;0;0;1;0
 12;Organische bemesting;1;0.6;12;habitat en biodiversiteit;NA;+;0;1;1;1;1;1;0;0;1;0
-13;Groencompost;1;0.6;13;waterkwaliteit;I_E_NSW;--;1;1;1;1;1;1;0;0;1;0
+13;Groencompost;1;0.6;13;waterkwaliteit;I_E_SW_NRET;--;1;1;1;1;1;1;0;0;1;0
 13;Groencompost;1;0.6;13;recyclen nutrienten;NA;-;0;1;1;1;1;1;1;0;1;0
 13;Groencompost;1;0.56;13;koolstofvastlegging;S_M;+;1;1;1;1;1;1;1;0;1;0
-14;Biofumigatie;1;0.6;14;waterkwaliteit;I_E_NSW;+;1;0;0;1;1;0;0;0;1;0
+14;Biofumigatie;1;0.6;14;waterkwaliteit;I_E_SW_NRET;+;1;0;0;1;1;0;0;0;1;0
 14;Biofumigatie;1;0.6;14;habitat en biodiversiteit;NA;+;0;0;0;1;1;0;0;0;1;0
-15;Grasklaver;1;0.6;15;waterkwaliteit;I_E_NSW;+;1;0;0;1;1;0;0;0;1;0
+15;Grasklaver;1;0.6;15;waterkwaliteit;I_E_SW_NRET;+;1;0;0;1;1;0;0;0;1;0
 15;Grasklaver;1;0.6;15;habitat en biodiversiteit;;+;0;0;0;1;1;0;0;0;1;0
-16;afrikaantjes (tagetes) verbouwen;1;0.6;16;waterkwaliteit;I_E_NSW;+;1;0;0;1;1;0;0;0;1;0
+16;afrikaantjes (tagetes) verbouwen;1;0.6;16;waterkwaliteit;I_E_SW_NRET;+;1;0;0;1;1;0;0;0;1;0
 16;afrikaantjes (tagetes) verbouwen;1;0.6;16;habitat en biodiversiteit;NA;+;0;0;0;1;1;0;0;0;1;0
 17;Groenbemestermengsel;1;0.6;17;habitat en biodiversiteit;NA;+;0;0;0;1;1;0;0;0;1;0
-17;Groenbemestermengsel;1;0.6;17;waterkwaliteit;I_E_NSW;+;1;0;0;1;1;0;0;0;1;0
+17;Groenbemestermengsel;1;0.6;17;waterkwaliteit;I_E_SW_NRET;+;1;0;0;1;1;0;0;0;1;0
 18;Combinatie - ASD, compst en haarmeel;1;0.6;18;habitat en biodiversiteit;NA;++;0;0;0;1;1;0;0;0;1;0
-18;Combinatie - ASD, compst en haarmeel;1;0.6;18;waterkwaliteit;I_E_NSW;-;1;0;0;1;1;0;0;0;1;0
+18;Combinatie - ASD, compst en haarmeel;1;0.6;18;waterkwaliteit;I_E_SW_NRET;-;1;0;0;1;1;0;0;0;1;0
 18;Combinatie - ASD, compst en haarmeel;1;0.6;18;recyclen nutrienten;NA;-;0;0;0;1;1;0;1;0;1;0
 19;NKG en groencompost;1;0.6;19;habitat en biodiversiteit;;+;0;0;0;1;1;0;1;0;1;0
 19;NKG en groencompost;1;0.6;19;waterregulatie;I_P_WRI;-;1;0;0;1;1;0;1;0;0;0
-20;Groenbemster telen;1;0.6;20;waterkwaliteit;I_E_NSW;+;1;0;0;1;1;0;1;0;0;0
+20;Groenbemster telen;1;0.6;20;waterkwaliteit;I_E_SW_NRET;+;1;0;0;1;1;0;1;0;0;0
 20;Groenbemster telen;1;0.6;20;habitat en biodiversiteit;NA;+;0;0;0;1;1;0;1;0;0;0
 21;NKG en groenbemester;1;0.6;21;waterregulatie;I_P_WRI;+;1;0;0;1;1;0;1;0;0;0
-21;NKG en groenbemester;1;0.6;21;waterkwaliteit;I_E_NSW;+;1;0;0;1;1;0;1;0;0;0
+21;NKG en groenbemester;1;0.6;21;waterkwaliteit;I_E_SW_NRET;+;1;0;0;1;1;0;1;0;0;0
 21;NKG en groenbemester;1;0.6;21;habitat en biodiversiteit;NA;+;0;0;0;1;1;0;1;0;0;0
 22;NGK en maaimeststof;1;0.6;22;habitat en biodiversiteit;NA;+;0;0;0;1;1;0;1;0;0;0
 22;NGK en maaimeststof;1;0.6;22;waterregulatie;I_P_WRI;+;1;0;0;1;1;0;1;0;0;0

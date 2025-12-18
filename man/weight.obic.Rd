@@ -11,12 +11,17 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 196 
 weight.obic
 }
 \description{
-This table defines the weighting factors (ranging between 0 and 1) of indicator values to calculate integrated scores.
+This table defines the weighting factors (-1 or 1) of indicator values to
+ calculate integrated scores. Essentially, when a variable has a weighting
+ factor of -1, it is not relevant to that landuse-soiltype combination.
 }
 \details{
 \describe{
-  \item{var}{The name of the weight}
-  \item{weight}{weighing factor}
+  \item{variable}{Name of a indicator or measure variable}
+  \item{type}{Whether the variable is an indicator or a measure(measurement)}
+  \item{crop_category}{Differentiates between akkerbouw, mais, grasland, and natuur}
+  \item{weight_nonpeat}{The variables' weight for soils other than peat soils}
+  \item{weight_peat}{The variables weight for peat soils}
 }
 }
 \keyword{datasets}

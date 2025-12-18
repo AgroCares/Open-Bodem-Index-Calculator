@@ -51,7 +51,7 @@ The estimated index for the nitrogen use efficiency, as being affected by soil p
 This function gives an indication of the nitrogen use efficiency, the function calculates the N surplus and the resulting N leaching
 }
 \examples{
-calc_n_efficiency(1019,'dekzand','IV','Zuidwest-Brabant',4.5,3.5,0.8,0.6,0.2,78,FALSE,1)
-calc_n_efficiency(256,'veen','II','Centraal Veehouderijgebied',4.5,3.5,0.8,0.6,0.2,250,FALSE,1)
+calc_n_efficiency(1019,'dekzand','IV','Zuidwest-Brabant',4.5,3.5,0.8,0.6,0.2,'ow',FALSE,1)
+calc_n_efficiency(256,'veen','II','Centraal Veehouderijgebied',4.5,3.5,0.8,0.6,0.2,'gw',FALSE,1)
 
 }

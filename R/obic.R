@@ -60,6 +60,11 @@
 #' @param M_PESTICIDES_DST (boolean) measure. Use of DST for pesticides (option: yes or no)
 #' @param ID (character) A field id
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
+#' @param useClassicOBI (boolean) Whether you want to only include agronomic
+#'  indicators and scores as intended by the OBI framework or whether you want
+#'  to include environmental indicators in your score aggregation, more akin to BLN 2.0.
+#'  Defaults to TRUE.
+#' @param B_AREA_DROUGHT (boolean) is the field located in an area with high risks for water deficiencies (options: TRUE or FALSE)
 #' 
 #' @details 
 #' It is assumed that the crop series is a continuous series in decreasing order of years. So most recent year first, oldest year last.
@@ -80,7 +85,8 @@
 #' A_SS_BCS = 1,A_RT_BCS = 1,A_SC_BCS = 1,M_COMPOST = 0,M_GREEN = FALSE,M_NONBARE =FALSE,
 #' M_EARLYCROP = FALSE,M_SLEEPHOSE = FALSE,M_DRAIN = FALSE,M_DITCH = FALSE,
 #' M_UNDERSEED = FALSE,M_LIME = FALSE,M_MECHWEEDS = FALSE,M_NONINVTILL = FALSE,
-#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE)
+#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE,
+#' B_AREA_DROUGHT = FALSE)
 #'}
 #'  
 #' @return 
@@ -100,12 +106,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        A_K_CC, A_MG_CC, A_MN_CC, A_ZN_CC, A_CU_CC,
                        A_C_BCS = NA, A_CC_BCS = NA,A_GS_BCS = NA,A_P_BCS = NA,A_RD_BCS = NA,
                        A_EW_BCS = NA,A_SS_BCS = NA,A_RT_BCS = NA,A_SC_BCS = NA,
-                       B_DRAIN = FALSE, B_FERT_NORM_FR = 1,
+                       B_DRAIN = NA, B_FERT_NORM_FR = 1,
                        M_COMPOST  = NA_real_,M_GREEN = NA, M_NONBARE = NA, M_EARLYCROP = NA, 
                        M_SLEEPHOSE = NA,M_DRAIN = NA,M_DITCH = NA,M_UNDERSEED = NA,
                        M_LIME = NA, M_NONINVTILL = NA, M_SSPM = NA, M_SOLIDMANURE = NA,
                        M_STRAWRESIDUE = NA,M_MECHWEEDS = NA,M_PESTICIDES_DST = NA,
-                       ID = 1, output = 'all') {
+                       ID = 1, output = 'all', useClassicOBI = TRUE, B_AREA_DROUGHT = NA) {
   
   # define variables used within the function
   D_SE = D_CR = D_BDS = D_RD = D_OC = D_OS_BAL = D_GA = D_NL = D_K = D_PBI = NULL
@@ -113,11 +119,12 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   D_NLV = D_PH_DELTA = D_MAN = D_SOM_BAL = D_WE = D_SLV = D_MG = D_CU = D_ZN = D_PMN = D_CEC = NULL
   D_AS =  D_BCS = D_WRI = D_WSI_DS = D_WSI_WS = D_NGW = D_NSW = D_WO = NULL
   D_WRI_WHC = D_PSP = D_NLEACH = D_PESTICIDE = NULL
-  D_WRI_K = D_NLEACH_GW = D_NLEACH_OW = I_H_GWR = I_H_NGW = I_H_NOW = I_H_PEST = NULL
+  D_WRI_K = D_NLEACH_GW = D_NLEACH_OW = I_E_GWR = I_E_GW_NLEA = I_E_SW_NLEA = I_E_PEST = D_NLEACH_SW = I_E_SW_NLEA = NULL
+  I_E_NGW = I_E_NSW = NULL
   
   I_C_N = I_C_P = I_C_K = I_C_MG = I_C_S = I_C_PH = I_C_CEC = I_C_CU = I_C_ZN = I_P_WRI = I_BCS = NULL
   I_P_CR = I_P_SE = I_P_MS = I_P_BC = I_P_DU = I_P_CO = D_P_CO = I_B_DI = I_B_SF = I_B_SB = I_M = NULL
-  I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_NGW = I_E_NSW = NULL
+  I_P_DS = I_P_WS = I_P_CEC = D_P_CEC= I_P_WO = I_E_GW_NRET = I_E_SW_NRET = NULL
   D_M_SOILFERTILITY = D_M_CLIMATE = D_M_WATERQUALITY = D_M_BIODIVERSITY = NULL
   I_M_SOILFERTILITY = I_M_CLIMATE = I_M_WATERQUALITY = I_M_BIODIVERSITY = NULL
   crop_category = leaching_to = NULL
@@ -126,12 +133,18 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
   weight_peat = weight_nonpeat = variable = NULL
   indicator = ind.n = value = value.w = value.cf = year.cf = value.group = value.year = NULL
   var = cf = ncat = id = S_T_OBI_A = NULL
+  D_RISK_GWR = NULL
   
   checkmate::assert_subset(B_GWL_CLASS, choices = c(
     "I", "Ia", "Ic", "II", "IIa", "IIb", "IIc", "III", "IIIa", "IIIb", "IV",
     "IVc", "IVu", "sV", "sVb", "V", "Va", "Vad", "Vao", "Vb", "Vbd", "Vbo", "VI", 
     "VId", "VII", "VIId", "VIII", "VIIId", "VIIIo", "VIIo", "VIo"
   ))
+  checkmate::assert_logical(useClassicOBI, len = 1, any.missing = FALSE)
+  if(!useClassicOBI){
+    checkmate::assert_logical(B_DRAIN, any.missing = FALSE)
+    checkmate::assert_logical(B_AREA_DROUGHT, any.missing = FALSE)
+  }
   
   # combine input into one data.table
   # field properties start with B, soil analysis with A, Soil Visual Assessment ends with BCS and management starts with M
@@ -191,8 +204,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                    M_SOLIDMANURE = M_SOLIDMANURE,
                    M_STRAWRESIDUE = M_STRAWRESIDUE,
                    M_MECHWEEDS = M_MECHWEEDS,
-                   M_PESTICIDES_DST = M_PESTICIDES_DST)
-  
+                   M_PESTICIDES_DST = M_PESTICIDES_DST,
+                   B_AREA_DROUGHT = B_AREA_DROUGHT)
 
   # Check B_LU_BRP
   checkmate::assert_numeric(B_LU_BRP, any.missing = FALSE, min.len = 1)
@@ -296,14 +309,14 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     
 
     # Calculate the water function
-    # dt[, D_PSP := calc_psp(B_LU_BRP,M_GREEN)]
-    # dt[, D_WRI_K := calc_permeability(A_CLAY_MI,A_SAND_MI,A_SILT_MI,A_SOM_LOI)]
-    # dt[, D_NLEACH_GW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
-    #                                      D_PBI,D_K,D_PH_DELTA,leaching_to = 'gw', M_GREEN,B_FERT_NORM_FR)]
-    # dt[, D_NLEACH_SW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
-    #                                      D_PBI,D_K,D_PH_DELTA,leaching_to = 'sw', M_GREEN,B_FERT_NORM_FR)]
-    # dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
-    #                                            A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
+    dt[, D_PSP := calc_psp(B_LU_BRP, M_GREEN)]
+    dt[, D_WRI_K := calc_permeability(A_CLAY_MI, A_SAND_MI, A_SILT_MI, A_SOM_LOI)]
+    dt[, D_NLEACH_GW := calc_n_efficiency(B_LU_BRP, B_SOILTYPE_AGR, B_GWL_CLASS, B_AER_CBS, A_SOM_LOI, A_CLAY_MI,
+                                         D_PBI, D_K,D_PH_DELTA, leaching_to = 'gw', M_GREEN, B_FERT_NORM_FR)]
+    dt[, D_NLEACH_SW := calc_n_efficiency(B_LU_BRP,B_SOILTYPE_AGR,B_GWL_CLASS,B_AER_CBS,A_SOM_LOI,A_CLAY_MI,
+                                         D_PBI,D_K,D_PH_DELTA,leaching_to = 'ow', M_GREEN,B_FERT_NORM_FR)]
+    dt[, D_PESTICIDE := calc_pesticide_leaching(B_SOILTYPE_AGR,A_SOM_LOI,A_CLAY_MI,A_SAND_MI,
+                                               A_SILT_MI,D_PSP,M_PESTICIDES_DST,M_MECHWEEDS)]
     
     
     # Calculate the score of the BodemConditieScore
@@ -338,13 +351,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     # Calculate indicators for soil biological functions
     dt[, I_B_DI := ind_resistance(A_SOM_LOI)]
     dt[, I_B_SF := ind_pmn(D_PMN)]
-  
-    # Calculate indicators for groundwater functions
-    # dt[, I_H_GWR := ind_gw_recharge(B_LU_BRP, D_PSP, D_WRI_K, I_P_SE, I_P_CO, B_DRAIN, B_GWL_CLASS)]
-    # dt[, I_H_NGW := ind_n_efficiency(D_NLEACH_GW,'gw')]
-    # dt[, I_H_NSW := ind_n_efficiency(D_NLEACH_GW,'sw')]
-    # dt[, I_H_PEST := ind_pesticide_leaching(D_PESTICIDE)]
-    
+
     # overwrite soil physical functions for compaction when BCS is available
     dt[,D_P_CO := (3 * A_EW_BCS + 3 * A_SC_BCS + 3 * A_RD_BCS  - 2 * A_P_BCS - A_RT_BCS)/18]
     dt[,D_P_CO := pmax(0, D_P_CO)]
@@ -354,10 +361,32 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[,D_P_CEC := (3 * A_EW_BCS + 3 * A_SS_BCS - A_C_BCS)/12]
     dt[,D_P_CEC := pmax(0, D_P_CEC)]
     dt[,I_P_CEC := fifelse(is.na(D_P_CEC),I_P_CEC,D_P_CEC)]  
-  
+    
     # Calculate Visual Soil Assessment Indicator
     dt[, I_BCS := ind_bcs(D_BCS)]
-    
+        
+    if(useClassicOBI == FALSE){
+      # Calculate indicators for groundwater functions
+      dt[, I_E_GW_NLEA := ind_n_efficiency(D_NLEACH_GW,'gw')]
+      dt[, I_E_SW_NLEA := ind_n_efficiency(D_NLEACH_SW,'sw')]
+      dt[, I_E_PEST := ind_pesticide_leaching(D_PESTICIDE)]
+      
+      dt[, D_RISK_GWR := 1 - ind_gw_recharge(B_LU_BRP = B_LU_BRP,
+                                             D_PSP = D_PSP,
+                                             D_WRI_K = D_WRI_K, 
+                                             B_DRAIN = B_DRAIN,
+                                             B_GWL_CLASS = B_GWL_CLASS,
+                                             D_SE = D_SE,
+                                             B_SC_WENR = B_SC_WENR,
+                                             D_P_CO = D_P_CO)]
+
+      # modify groundwater recharge indicator with soil specific target
+      dt[, I_E_GWR := ind_gw_target(D_RISK_GWR = D_RISK_GWR,
+                                    B_SOILTYPE_AGR = B_SOILTYPE_AGR,
+                                    B_GWL_CLASS = B_GWL_CLASS,
+                                    B_AREA_DROUGHT = B_AREA_DROUGHT)]
+    }
+
     # Calculate integrated management indicator
     dt[, I_M := ind_management(D_MAN, B_LU_BRP, B_SOILTYPE_AGR)]
   
@@ -368,22 +397,19 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt[, I_M_BIODIVERSITY := ind_man_ess(D_M_BIODIVERSITY, B_LU_BRP, B_SOILTYPE_AGR,type = 'I_M_BIODIVERSITY')]
     
     # Calculate indicators for environment
-    dt[, I_E_NGW := ind_nretention(D_NGW, leaching_to = "gw")]
-    dt[, I_E_NSW := ind_nretention(D_NSW, leaching_to = "ow")]
+    dt[, I_E_GW_NRET := ind_nretention(D_NGW, leaching_to = "gw")]
+    dt[, I_E_SW_NRET := ind_nretention(D_NSW, leaching_to = "ow")]
 
   # Step 3 Reformat dt given weighing per indicator and prepare for aggregation  ------------------
     
     # load weights.obic (set indicator to zero when not applicable)
     w <- as.data.table(OBIC::weight.obic)
     
-    # switch water functions indicators off
-    w <- w[!variable %in% c('I_H_GWR','I_H_NGW','I_H_NOW','I_H_PEST')]
-    
     # Add years per field
     dt[,year := 1:.N, by = ID]
     
     # Select all indicators used for scoring
-    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|I_H|year|crop_cat|SOILT|^ID',colnames(dt))]
+    cols <- colnames(dt)[grepl('I_C|I_B|I_P|I_E|I_M|year|crop_cat|SOILT|^ID',colnames(dt))]
     #cols <- cols[!(grepl('^I_P|^I_B',cols) & grepl('_BCS$',cols))]
     #cols <- cols[!grepl('^I_M_',cols)]
     
@@ -396,17 +422,18 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
     dt.melt <- dt.melt[!is.na(value)]
     
     # add categories relevant for aggregating
-    # C = chemical, P = physics, B = biological, BCS = visual soil assessment
+    # C = chemical, P = physics, B = biological, BCS = visual soil assessment, E = environmental
     # indicators not used for integrating: IBCS and IM
     dt.melt[,cat := tstrsplit(indicator,'_',keep = 2)]
     #dt.melt[grepl('_BCS$',indicator) & indicator != 'I_BCS', cat := 'IBCS']
     dt.melt[grepl('^I_M_',indicator), cat := 'IM']
     
-    # Determine amount of indicators per category
+    # Determine number of indicators per category
     dt.melt.ncat <- dt.melt[year==1 & !cat %in% c('IM')][,list(ncat = .N),by = .(ID, cat)]
  
     # add weighing factor to indicator values
-    dt.melt <- merge(dt.melt,w[,list(crop_category,indicator = variable,weight_nonpeat,weight_peat)], 
+    dt.melt <- merge(dt.melt,
+                     w[,list(crop_category, indicator = variable, weight_nonpeat, weight_peat)], 
                      by = c('crop_category','indicator'), all.x = TRUE)
     
     # calculate correction factor for indicator values (low values have more impact than high values, a factor 5)
@@ -430,7 +457,7 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
                        by = .(indicator, ID)]
        
     # non relevant indicators, set to -999
-    out.ind[is.na(value), value := -999]
+    out.ind[is.na(value), value := -999] 
     
     
   # Step 5 Add scores ------------------
@@ -532,6 +559,16 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
       
     }
     
+    
+    if(useClassicOBI == TRUE & ('indicators' %in% output | 'all' %in% output)){
+      # restore legacy variable names in output
+      setnames(out, old = c('I_E_GW_NRET', 'I_E_SW_NRET'), new = c('I_E_NGW', 'I_E_NSW'))
+      
+      # add columns with new names to users can adjust to using the new column names
+      out[,I_E_GW_NRET := I_E_NGW]
+      out[,I_E_SW_NRET := I_E_NSW]
+    }
+    
   # return output
   return(out)
 }
@@ -544,6 +581,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' 
 #' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
 #' @param output (character) An optional argument to select output: obic_score, scores, indicators, recommendations, or all. (default = all)
+#' @param useClassicOBI (boolean) Whether you want to only include agronomic
+#'  indicators and scores as intended by the OBI framework or whether you want
+#'  to include environmental indicators in your score aggregation, more akin to BLN 2.0.
+#'  Defaults to TRUE.
 #' 
 #' @import data.table
 #' 
@@ -562,7 +603,8 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' A_SS_BCS = 1,A_RT_BCS = 1,A_SC_BCS = 1,M_COMPOST = 0,M_GREEN = FALSE,M_NONBARE =FALSE,
 #' M_EARLYCROP = FALSE,M_SLEEPHOSE = FALSE,M_DRAIN = FALSE,M_DITCH = FALSE,
 #' M_UNDERSEED = FALSE,M_LIME = FALSE,M_MECHWEEDS = FALSE,M_NONINVTILL = FALSE,
-#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE))
+#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE),
+#' B_FERT_NORM_FR = 1)
 #'}
 #' 
 #' @return 
@@ -572,10 +614,10 @@ obic_field <- function(B_SOILTYPE_AGR,B_GWL_CLASS,B_SC_WENR,B_HELP_WENR,B_AER_CB
 #' The output is always a data.table.
 #' 
 #' @export
-obic_field_dt <- function(dt,output = 'all') {
+obic_field_dt <- function(dt,output = 'all', useClassicOBI = TRUE) {
  
   # add visual binding
-  
+  B_AREA_DROUGHT = B_FERT_NORM_FR = NULL
   
   # make local copy
   dt <- copy(dt)
@@ -590,10 +632,15 @@ obic_field_dt <- function(dt,output = 'all') {
               'A_N_RT','A_CN_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC')
+  # add B_DRAIN as requirement when not using classic OBI
+  if(!useClassicOBI){dt.req <- c(dt.req, 'B_DRAIN', 'B_AREA_DROUGHT')}
   
   # check presence of required columns
   checkmate::assert_true(all(dt.req %in% colnames(dt)),
-                         .var.name = paste(c('Not all required columns are present in data.table, required columns are:',dt.req),collapse = ' '))
+                         .var.name = paste(c('Not all required columns are present in data.table, required columns are:',
+                                             dt.req,
+                                             'you are missing:',
+                                             dt.req[!dt.req %in% colnames(dt)]),collapse = ' '))
   
   # check which BodemConditieScore input is missing
   bcs.all <- c('A_C_BCS', 'A_CC_BCS','A_GS_BCS','A_P_BCS','A_RD_BCS','A_EW_BCS','A_SS_BCS','A_RT_BCS','A_SC_BCS')
@@ -609,14 +656,16 @@ obic_field_dt <- function(dt,output = 'all') {
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
   # check if no unexpected column names are present in dt
-  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
+  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID", 'B_FERT_NORM_FR', 'B_AREA_DROUGHT'))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
-                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")]))}
+                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "B_DRAIN", "ID", 'B_FERT_NORM_FR', 'B_AREA_DROUGHT')]))}
   
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
   if(length(sm.missing)>0){dt[,c(sm.missing) := NA]}
   if(length(smc.missing)>0){dt[,c(smc.missing) := NA_real_]}
+  if(!'B_FERT_NORM_FR' %in% names(dt)){dt[,B_FERT_NORM_FR := 1]}
+  if(!'B_AREA_DROUGHT' %in% names(dt)){dt[,B_AREA_DROUGHT := NA]}
   
   # calculate obic_field
   out <- obic_field(B_SOILTYPE_AGR = dt$B_SOILTYPE_AGR,
@@ -658,6 +707,9 @@ obic_field_dt <- function(dt,output = 'all') {
                     A_SS_BCS = dt$A_SS_BCS,
                     A_RT_BCS = dt$A_RT_BCS,
                     A_SC_BCS = dt$A_SC_BCS,
+                    B_DRAIN = dt$B_DRAIN,
+                    B_FERT_NORM_FR = dt$B_FERT_NORM_FR,
+                    B_AREA_DROUGHT = dt$B_AREA_DROUGHT,
                     M_COMPOST = dt$M_COMPOST,
                     M_GREEN = dt$M_GREEN, 
                     M_NONBARE = dt$M_NONBARE, 
@@ -674,7 +726,8 @@ obic_field_dt <- function(dt,output = 'all') {
                     M_MECHWEEDS = dt$M_MECHWEEDS,
                     M_PESTICIDES_DST = dt$M_PESTICIDES_DST,
                     ID = dt$ID,
-                    output = output
+                    output = output,
+                    useClassicOBI = useClassicOBI
                   )
   
   
@@ -689,6 +742,10 @@ obic_field_dt <- function(dt,output = 'all') {
 #' In contrast to obic_field, this wrapper uses a data.table as input.
 #' 
 #' @param dt (data.table) A data.table containing the data of the fields to calculate the OBI
+#' @param useClassicOBI (boolean) Whether you want to only include agronomic
+#'  indicators and scores as intended by the OBI framework or whether you want
+#'  to include environmental indicators in your score aggregation, more akin to BLN 2.0.
+#'  Defaults to TRUE.
 #' 
 #' @import data.table
 #' 
@@ -707,7 +764,8 @@ obic_field_dt <- function(dt,output = 'all') {
 #' A_SS_BCS = 1,A_RT_BCS = 1,A_SC_BCS = 1,M_COMPOST = 0,M_GREEN = FALSE,M_NONBARE =FALSE,
 #' M_EARLYCROP = FALSE,M_SLEEPHOSE = FALSE,M_DRAIN = FALSE,M_DITCH = FALSE,
 #' M_UNDERSEED = FALSE,M_LIME = FALSE,M_MECHWEEDS = FALSE,M_NONINVTILL = FALSE,
-#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE))
+#' M_PESTICIDES_DST = FALSE,M_SOLIDMANURE = FALSE,M_SSPM = FALSE,M_STRAWRESIDUE = FALSE,
+#' ID = 'a farm ID', B_FERT_NORM_FR = 1))
 #'}
 #'
 #' @details 
@@ -722,11 +780,12 @@ obic_field_dt <- function(dt,output = 'all') {
 #' The output is a list with field properties as well as aggregated farm properties
 #' 
 #' @export
-obic_farm <- function(dt) {
+obic_farm <- function(dt, useClassicOBI = TRUE) {
   
   # add visual binding
   farmid = indicator = value = catvalue = obi_score = NULL
   S_OBI_NFIELDS_HIGH = S_OBI_NFIELDS_LOW = S_OBI_NFIELDS_MEDIUM = S_OBI_NFIELDS = NULL
+  B_AREA_DROUGHT = NULL
   
   # make local copy
   dt <- copy(dt)
@@ -741,11 +800,18 @@ obic_farm <- function(dt) {
               'A_N_RT','A_CN_FR', 'A_S_RT','A_N_PMN','A_P_AL', 'A_P_CC', 'A_P_WA',
               'A_CEC_CO','A_CA_CO_PO', 'A_MG_CO_PO', 'A_K_CO_PO',
               'A_K_CC', 'A_MG_CC', 'A_MN_CC', 'A_ZN_CC', 'A_CU_CC','ID')
+  # add B_DRAIN as requirement when not using classic OBI
+  if(!useClassicOBI){
+    dt.req <- c(dt.req, 'B_DRAIN', 'B_AREA_DROUGHT')}
   
   # check presence of required columns
   checkmate::assert_true(all(dt.req %in% colnames(dt)),
-                         .var.name = paste(c('Not all required columns are present in data.table, required columns are:',dt.req),collapse = ' '))
-  
+                         .var.name = paste(c('Not all required columns are present in data.table, required columns are:',
+                                             dt.req,
+                                             'you are missing:',
+                                             dt.req[!dt.req %in% colnames(dt)]),
+                                           collapse = ' '))
+
   # check which BodemConditieScore input is missing
   bcs.all <- c('A_C_BCS', 'A_CC_BCS','A_GS_BCS','A_P_BCS','A_RD_BCS','A_EW_BCS','A_SS_BCS','A_RT_BCS','A_SC_BCS')
   bcs.missing <- bcs.all[!bcs.all %in% colnames(dt)]
@@ -760,9 +826,9 @@ obic_farm <- function(dt) {
   smc.missing <- smc.all[!smc.all %in% colnames(dt)]
   
   # check if no unexpected column names are present in dt
-  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID"))
+  check <- any(! colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID", 'B_FERT_NORM_FR'))
   if(check){warning(paste0('There are input variables present in input datatable given that are not required for the OBI. Please check if the column names is misspelled. These are: ',
-                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all,"ID")]))}
+                           colnames(dt)[!colnames(dt) %in% c(dt.req,bcs.all,sm.all, smc.all, "ID")]))}
   
   # extend dt with missing elements, so that these are replaced by default estimates
   if(length(bcs.missing)>0){dt[,c(bcs.missing) := NA]}
@@ -775,9 +841,10 @@ obic_farm <- function(dt) {
   th_obi_b = c(0.5,0.75,1.0)
   th_obi_e = c(0.5,0.75,1.0)
   th_obi_m = c(0.5,0.75,1.0)
+  th_obi_h = c(0.5,0.75,1.0)
   
   # calculate obic score for all the fields
-  out <- obic_field_dt(dt = dt, output = c('scores','indicators'))
+  out <- obic_field_dt(dt = dt, output = c('scores','indicators'), useClassicOBI = useClassicOBI)
   
   # aggregate into a farm for indicators and scores, and melt
   dt.farm <- copy(out)
@@ -826,8 +893,8 @@ obic_farm <- function(dt) {
   # add combined character string of number of fields per class
   dt.farm2[,S_OBI_NFIELDS := paste0(S_OBI_NFIELDS_HIGH,"/",S_OBI_NFIELDS_MEDIUM,"/",S_OBI_NFIELDS_LOW)]
   
-  # make separate tables with inidcators scores
-  dt.indicators <- dt.farm2[grepl('^I_',indicator)]
+  # make separate tables with indicators scores
+  dt.indicators <- dt.farm2[grepl('^I_|^D_OPI',indicator)]
   dt.scores <- dt.farm2[grepl('^S_',indicator)]
   setnames(dt.scores,'indicator','score')
   
@@ -835,7 +902,7 @@ obic_farm <- function(dt) {
   out <- list(fields = out, 
               farm = list(indicators = dt.indicators,
                           scores = dt.scores))
-  
+
   # return output
   return(out)
   

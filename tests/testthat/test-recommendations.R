@@ -1,13 +1,12 @@
-# Load data
-dt <- OBIC::binnenveld[ID <=5]
-B_LU_BRP <- c(233,266,2014,256,308)
-B_SOILTYPE_AGR <- c("dekzand","rivierklei","dekzand","rivierklei","dekzand")
-
-dt.obi <- obic_farm(dt)
-dt.score <- dt.obi$fields
-
 # Check wrapper function
 test_that("obic_recommendations_bkp works", {
+  # Load data
+  dt <- OBIC::binnenveld[ID <=5]
+  B_LU_BRP <- c(233,266,2014,256,308)
+  B_SOILTYPE_AGR <- c("dekzand","rivierklei","dekzand","rivierklei","dekzand")
+  
+  dt.obi <- obic_farm(dt)
+  dt.score <- dt.obi$fields
   
   dt.score <- dt.score[,mget(colnames(dt.score)[!grepl('^RM',colnames(dt.score))])]
   
