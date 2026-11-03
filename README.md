@@ -33,4 +33,4 @@ Documentation of the R functions in the OBIC package can be found [here](https:/
 The [Open Bodem Index](https://openbodemindex.nl) (OBI) is a collaboration between Wageningen UR, NMI and FarmHack in collaboration with agricultural experts. 
 The Open Bodem Index Calculator is a tool used by the OBI and developed by [NMI](https://www.nmi-agro.nl/).
 
-![Logo of NMI](https://media.licdn.com/dms/image/C560BAQEYGcm4HjNnxA/company-logo_200_200/0?e=2159024400&v=beta&t=u40rJ7bixPWB2SAqaj3KCKzJRoKcqf0wUXCdmsTDQvw)
+<img src="https://github.com/user-attachments/assets/fc56e7ac-e72a-44a3-a83a-c0b38a3001eb" alt="NMI Logo" height="250px">
