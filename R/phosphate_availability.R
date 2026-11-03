@@ -58,7 +58,7 @@ calc_phosphate_availability <- function(B_LU_BRP, A_P_AL = NULL, A_P_CC = NULL, 
   setorder(dt, id)
   
   # Calculate the phosphate availability for grass (PBI)
-  dt[crop_phosphate == "gras", value := log(A_P_CC) * (-0.0114 * A_P_AL + 2.5) + 0.0251 * A_P_CC + 2]
+  dt[crop_phosphate == "gras", value := log(A_P_CC) * (-0.0114 * A_P_AL + 2.5) + 0.0251 * A_P_AL + 2]
   
   # force negative values to be 0 (negative values occur when PAL is large relative to P-CaCl2)
   dt[crop_phosphate == "gras" & value  < 0, value := 0] 
