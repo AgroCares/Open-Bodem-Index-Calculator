@@ -54,13 +54,13 @@ test_that("obic_farm works with extra indicators when not using classic obi", {
   )
   expect_equal(
     out$field$S_C_OBI_A,
-    expected = c(0.86,0.833,0.825,0.897,0.764),
+    expected = c(0.886,0.833,0.846,0.897,0.764),
     tolerance = 0.01
   )
   expect_equal(
     c(sum(out$farm$indicators$S_OBI_NFIELDS_LOW),
       sum(out$farm$indicators$S_OBI_NFIELDS_HIGH)),
-    expected = c(40, 89),
+    expected = c(40, 91),
     tolerance = 0.01
   )
   expect_equal(
@@ -124,12 +124,12 @@ test_that("obic_farm works with classic setting", {
   )
   expect_equal(
     out$field$S_C_OBI_A,
-    expected = c(0.86,0.833,0.825,0.897,0.764),
+    expected = c(0.886,0.833,0.846,0.897,0.764),
     tolerance = 0.01
   )
   expect_equal(
     c(sum(out$farm$indicators[indicator %in% not.deprecated.columns, S_OBI_NFIELDS_LOW]),sum(out$farm$indicators[indicator %in% not.deprecated.columns, S_OBI_NFIELDS_HIGH])),
-    expected = c(34, 77),
+    expected = c(34, 79),
     tolerance = 0.01
   )
   expect_equal(

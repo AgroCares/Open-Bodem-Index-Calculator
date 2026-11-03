@@ -1,3 +1,9 @@
+# OBIC 4.4.2 2026-11-03
+## Fixed
+* Replaced a A_P_CC term with A_P_AL in the calculation of D_C_P (PBI) for
+grassland, resolves [#298](https://github.com/nmi-agro/Open-Bodem-Index-Calculator/issues/219),
+reported by maarvd
+
 # OBIC 4.4.1 2026-10-20
 ## Fixed
 * `calc_management()` and `calc_man_ess()` only credited compost on grassland when
